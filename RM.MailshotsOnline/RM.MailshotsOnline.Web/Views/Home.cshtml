@@ -1,10 +1,9 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+﻿@inherits Glass.Mapper.Umb.Web.Ui.GlassViewPage<RM.MailshotsOnline.Entities.PageModels.Home>
 @{
-    Layout = null;
+    Layout = "Master.cshtml";
 }
 
-<html>
-<body>
-    <h1>Woohoo!  A site!</h1>
-</body>
-</html>
+<div>
+    <h1>@Model.Name</h1>
+    @Html.Raw(Model.MainContent)
+</div>
