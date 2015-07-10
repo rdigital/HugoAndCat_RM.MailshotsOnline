@@ -9,17 +9,7 @@ namespace RM.MailshotsOnline.PCL.Models
     {
         Guid ContactId { get; set; }
 
-        string Name { get; set; }
-
-        string Address1 { get; set; }
-
-        string Address2 { get; set; }
-
-        string Address3 { get; set; }
-
-        string Postcode { get; set; }
-
-        string Country { get; set; }
+        string SerialisedData { get; set; }
 
         Guid DistributionListId { get; set; }
 

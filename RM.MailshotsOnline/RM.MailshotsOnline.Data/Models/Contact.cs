@@ -21,17 +21,7 @@ namespace RM.MailshotsOnline.Data.Models
         [ForeignKey("DistributionListId")]
         public virtual DistributionList DistributionList { get; set; }
 
-        public string Name { get; set; }
-
-        public string Address1 { get; set; }
-
-        public string Address2 { get; set; }
-
-        public string Address3 { get; set; }
-
-        public string Postcode { get; set; }
-
-        public string Country { get; set; }
+        public string SerialisedData { get; set; }
 
         [Required, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime CreatedUtc { get; private set; }

@@ -14,12 +14,16 @@ namespace RM.MailshotsOnline.Web.App_Start
         /// <summary>
         /// Runs immediately after the Application Start for Umbraco.  Register new events here
         /// </summary>
+        /// <see cref="https://our.umbraco.org/Documentation/Reference/Events-v6/Application-Startup"/>
         protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
             ContentService.Created += ContentService_Created;
             ContentService.Saving += ContentService_Saving;
         }
 
+        /// <summary>
+        /// Run before the content service saves items
+        /// </summary>
         void ContentService_Saving(IContentService sender, Umbraco.Core.Events.SaveEventArgs<IContent> e)
         {
             foreach (var item in e.SavedEntities)
@@ -27,12 +31,15 @@ namespace RM.MailshotsOnline.Web.App_Start
                 // If the item doesn't have an identity, it's new
                 if (!item.HasIdentity)
                 {
-                    SetDefaultString(item, "metaPageTitle", item.Name);
-                    SetDefaultString(item, "navigationTitle", item.Name);
+                    SetStringIfEmpty(item, "metaPageTitle", item.Name);
+                    SetStringIfEmpty(item, "navigationTitle", item.Name);
                 }
             }
         }
 
+        /// <summary>
+        /// Run after the content service has created an item
+        /// </summary>
         void ContentService_Created(IContentService sender, Umbraco.Core.Events.NewEventArgs<IContent> e)
         {
             var item = e.Entity;
@@ -40,39 +47,32 @@ namespace RM.MailshotsOnline.Web.App_Start
             // If the item doesn't have an identity, it's new
             if (!item.HasIdentity)
             {
-                SetDefaultBool(item, "displayInNavigation", true);
+                SetPropertyValue(item, "displayInNavigation", true);
             }
         }
 
         /// <summary>
-        /// Sets a default string for an item
+        /// Sets a string value for an item if it hasn't already been set
         /// </summary>
-        private void SetDefaultString(IContent item, string propertyName, string value)
+        private void SetStringIfEmpty(IContent item, string propertyName, string value)
         {
-            if (item.Properties.Contains(propertyName))
+            if (item.HasProperty(propertyName))
             {
-                if (item.Properties[propertyName].Value == null)
+                if (string.IsNullOrEmpty(item.GetValue<string>(propertyName)))
                 {
-                    item.Properties[propertyName].Value = value;
-                }
-                else if (string.IsNullOrEmpty(item.Properties[propertyName].Value.ToString()))
-                {
-                    item.Properties[propertyName].Value = value;
+                    item.SetValue(propertyName, value);
                 }
             }
         }
 
         /// <summary>
-        /// Sets a default bool value for an item
+        /// Sets a property value for an item
         /// </summary>
-        /// <param name="item"></param>
-        /// <param name="propertyName"></param>
-        /// <param name="value"></param>
-        private void SetDefaultBool(IContent item, string propertyName, bool value)
+        private void SetPropertyValue(IContent item, string propertyName, object value)
         {
-            if (item.Properties.Contains(propertyName))
+            if (item.HasProperty(propertyName))
             {
-                item.Properties[propertyName].Value = value;
+                item.SetValue(propertyName, value);
             }
         }
     }
