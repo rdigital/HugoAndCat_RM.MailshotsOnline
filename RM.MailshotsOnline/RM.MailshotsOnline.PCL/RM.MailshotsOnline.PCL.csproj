@@ -41,6 +41,8 @@
     <Compile Include="Models\ICampaign.cs" />
     <Compile Include="Models\IContact.cs" />
     <Compile Include="Models\IDistributionList.cs" />
+    <Compile Include="Models\IMailshot.cs" />
+    <Compile Include="Models\IMailshotContent.cs" />
     <Compile Include="Models\IOrder.cs" />
     <Compile Include="Models\IPostalOption.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

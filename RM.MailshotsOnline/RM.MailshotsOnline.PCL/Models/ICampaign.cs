@@ -20,5 +20,7 @@ namespace RM.MailshotsOnline.PCL.Models
         DateTime CreatedDate { get; }
 
         Enums.CampaignStatus Status { get; set; }
+
+        Guid MailshotId { get; set; }
     }
 }

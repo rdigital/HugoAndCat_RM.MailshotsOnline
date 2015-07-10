@@ -30,5 +30,10 @@ namespace RM.MailshotsOnline.Data.Models
         public DateTime CreatedUtc { get; private set; }
 
         public PCL.Enums.CampaignStatus Status { get; set; }
+
+        public Guid MailshotId { get; set; }
+
+        [ForeignKey("MailshotId")]
+        public virtual Mailshot Mailshot { get; set; }
     }
 }

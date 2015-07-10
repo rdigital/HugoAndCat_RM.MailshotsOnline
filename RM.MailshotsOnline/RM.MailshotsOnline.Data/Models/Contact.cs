@@ -21,6 +21,7 @@ namespace RM.MailshotsOnline.Data.Models
         [ForeignKey("DistributionListId")]
         public virtual DistributionList DistributionList { get; set; }
 
+        [Column(TypeName = "text")]
         public string SerialisedData { get; set; }
 
         [Required, DatabaseGenerated(DatabaseGeneratedOption.Computed)]

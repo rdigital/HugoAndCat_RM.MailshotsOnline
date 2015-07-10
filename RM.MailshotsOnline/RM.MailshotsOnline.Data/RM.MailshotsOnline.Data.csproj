@@ -60,10 +60,20 @@
     <Compile Include="Migrations\201507081026138_UpdateIds.Designer.cs">
       <DependentUpon>201507081026138_UpdateIds.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507101354027_ContactUpdate.cs" />
+    <Compile Include="Migrations\201507101354027_ContactUpdate.Designer.cs">
+      <DependentUpon>201507101354027_ContactUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507101409164_AddMailshots.cs" />
+    <Compile Include="Migrations\201507101409164_AddMailshots.Designer.cs">
+      <DependentUpon>201507101409164_AddMailshots.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Campaign.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\DistributionList.cs" />
+    <Compile Include="Models\Mailshot.cs" />
+    <Compile Include="Models\MailshotContent.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\PostalOption.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -87,6 +97,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507081026138_UpdateIds.resx">
       <DependentUpon>201507081026138_UpdateIds.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507101354027_ContactUpdate.resx">
+      <DependentUpon>201507101354027_ContactUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507101409164_AddMailshots.resx">
+      <DependentUpon>201507101409164_AddMailshots.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

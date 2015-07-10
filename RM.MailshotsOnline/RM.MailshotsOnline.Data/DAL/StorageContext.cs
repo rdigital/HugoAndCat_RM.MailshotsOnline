@@ -26,6 +26,8 @@ namespace RM.MailshotsOnline.Data.DAL
         public DbSet<DistributionList> DistributionLists { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<PostalOption> PostalOptions { get; set; }
+        public DbSet<Mailshot> Mailshots { get; set; }
+        public DbSet<MailshotContent> MailshotContents { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
