@@ -1,6 +1,5 @@
 namespace RM.MailshotsOnline.Data.Migrations
 {
-    using RM.MailshotsOnline.Data.Models;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;

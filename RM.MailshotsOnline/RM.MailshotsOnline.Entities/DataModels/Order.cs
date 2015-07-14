@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RM.MailshotsOnline.Data.Models
+namespace RM.MailshotsOnline.Entities.DataModels
 {
     [Table("Order")]
     public class Order : IOrder

@@ -33,6 +33,12 @@
     <Reference Include="Castle.Core">
       <HintPath>..\packages\Castle.Core.3.2.0\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Glass.Mapper">
       <HintPath>..\packages\Glass.Mapper.3.0.9.21\lib\net45\Glass.Mapper.dll</HintPath>
     </Reference>
@@ -40,6 +46,7 @@
       <HintPath>..\packages\Glass.Mapper.Umb.3.0.6.9\lib\net45\Glass.Mapper.Umb.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -48,13 +55,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataModels\Campaign.cs" />
+    <Compile Include="DataModels\Contact.cs" />
+    <Compile Include="DataModels\DistributionList.cs" />
+    <Compile Include="DataModels\Mailshot.cs" />
+    <Compile Include="DataModels\MailshotContent.cs" />
+    <Compile Include="DataModels\Order.cs" />
+    <Compile Include="DataModels\PostalOption.cs" />
     <Compile Include="PageModels\BasePage.cs" />
+    <Compile Include="PageModels\ContentPage.cs" />
     <Compile Include="PageModels\Home.cs" />
     <Compile Include="PageModels\Item.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RM.MailshotsOnline.PCL\RM.MailshotsOnline.PCL.csproj">
+      <Project>{bb08379a-7cb5-4142-ba89-3b3e2356b354}</Project>
+      <Name>RM.MailshotsOnline.PCL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,4 +1,4 @@
-﻿using RM.MailshotsOnline.Data.Models;
+﻿using RM.MailshotsOnline.Entities.DataModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

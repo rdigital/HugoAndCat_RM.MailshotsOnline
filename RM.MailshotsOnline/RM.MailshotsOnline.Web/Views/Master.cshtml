@@ -11,9 +11,15 @@
     <title>@Model.Name</title>
     <meta name="description" content="@Model.MetaDescription" />
     <meta name="keywords" content="@Model.MetaKeywords" />
+    <link href="~/css/temp.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
-    <div> 
+    <div class="wrapper"> 
+        <header>
+            <nav class="main-nav">
+                @Umbraco.RenderMacro("MainNavigation")
+            </nav>
+        </header>
         @RenderBody()
     </div>
 </body>

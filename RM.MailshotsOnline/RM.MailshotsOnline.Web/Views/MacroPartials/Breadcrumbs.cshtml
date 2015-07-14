@@ -1,0 +1,24 @@
+﻿@inherits Umbraco.Web.Macros.PartialViewMacroPage
+
+<ul>
+    @RenderPreviousLinks(Umbraco.TypedContent(Model.Content.Parent.Id))
+    <li>@CurrentPage.Name</li>
+    @CurrentPage.Path
+</ul>
+
+@helper RenderPreviousLinks(Umbraco.Core.Models.IPublishedContent parent)
+{
+    if (parent != null)
+    {
+        try
+        {
+            RenderPreviousLinks(Umbraco.TypedContent(parent.Parent.Id));
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        
+        <li><a href="@UmbracoContext.UrlProvider.GetUrl(parent.Id)">@parent.Name</a></li>
+    }
+}

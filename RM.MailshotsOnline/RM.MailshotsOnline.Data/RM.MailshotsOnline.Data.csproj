@@ -69,20 +69,18 @@
       <DependentUpon>201507101409164_AddMailshots.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Campaign.cs" />
-    <Compile Include="Models\Contact.cs" />
-    <Compile Include="Models\DistributionList.cs" />
-    <Compile Include="Models\Mailshot.cs" />
-    <Compile Include="Models\MailshotContent.cs" />
-    <Compile Include="Models\Order.cs" />
-    <Compile Include="Models\PostalOption.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\MailshotsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\RM.MailshotsOnline.Entities\RM.MailshotsOnline.Entities.csproj">
+      <Project>{1d34baad-7432-4d2b-9af8-7e211ea44a94}</Project>
+      <Name>RM.MailshotsOnline.Entities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RM.MailshotsOnline.PCL\RM.MailshotsOnline.PCL.csproj">
       <Project>{bb08379a-7cb5-4142-ba89-3b3e2356b354}</Project>
       <Name>RM.MailshotsOnline.PCL</Name>

@@ -266,6 +266,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\grid.editors.config.js" />
+    <Content Include="css\temp.css" />
     <Content Include="default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Web.config">
@@ -281,6 +282,7 @@
     </Compile>
     <Compile Include="App_Start\RegisterIoCEvents.cs" />
     <Compile Include="App_Start\RegisterPageEvents.cs" />
+    <Compile Include="Controllers\ContentPageController.cs" />
     <Compile Include="Controllers\GlassController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -324,6 +326,8 @@
     <Content Include="Views\Master.cshtml" />
     <Content Include="Views\ContentPage.cshtml" />
     <Content Include="Config\uSyncSettings.config" />
+    <Content Include="Views\MacroPartials\MainNavigaton.cshtml" />
+    <Content Include="Views\MacroPartials\Breadcrumbs.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -346,9 +350,7 @@
       <Name>RM.MailshotsOnline.PCL</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\MacroPartials\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

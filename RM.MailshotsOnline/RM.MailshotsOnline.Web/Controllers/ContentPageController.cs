@@ -9,19 +9,19 @@ using Umbraco.Web.Models;
 
 namespace RM.MailshotsOnline.Web.Controllers
 {
-    public class HomeController : GlassController
+    public class ContentPageController : GlassController
     {
-        public HomeController(IUmbracoService umbracoService) 
+        public ContentPageController(IUmbracoService umbracoService)
             : base(umbracoService)
         {
         }
 
-        // GET: Home
-        public override ActionResult Index(RenderModel model)
+        // GET: ContentPage
+        public ActionResult Index(RenderModel model)
         {
             // Fetch the Glass model of the home page
-            var homepageModel = GetModel<Home>();
-            return View("~/Views/Home.cshtml", homepageModel);
+            var contentPageModel = GetModel<ContentPage>();
+            return View("~/Views/ContentPage.cshtml", contentPageModel);
         }
     }
 }

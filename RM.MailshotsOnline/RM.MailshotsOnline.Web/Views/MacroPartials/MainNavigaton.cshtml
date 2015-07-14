@@ -1,0 +1,12 @@
+﻿@inherits Umbraco.Web.Macros.PartialViewMacroPage
+@{ var home = CurrentPage.Site(); }
+
+@if (home.Children.Any())
+{
+    <ul>
+        @foreach (var child in home.Children)
+        {
+            <li class="@(child.IsAncestorOrSelf(CurrentPage) ? "selected" : null)"><a href="@child.Url">@child.Name</a></li>
+        }
+    </ul>
+}
