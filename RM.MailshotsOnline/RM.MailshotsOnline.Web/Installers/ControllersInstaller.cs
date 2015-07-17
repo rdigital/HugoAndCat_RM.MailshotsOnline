@@ -24,9 +24,10 @@ namespace RM.MailshotsOnline.Web.Installers
         {
             // Register filtered controllers only (stops Umbraco from breaking)
             // See: http://stackoverflow.com/questions/21835555/umbraco-mvc-with-castle-windsor
-            // Also register Glass Mapper items
+            // Also register Glass Mapper items and DAL Services
             container.Register(
                 Classes.FromAssemblyInDirectory(new AssemblyFilter(AssemblyDirectory)).BasedOn<IController>().LifestyleTransient(),
+                Classes.FromAssemblyInDirectory(new AssemblyFilter(AssemblyDirectory)).BasedOn<IHttpController>().LifestyleTransient(),
                 Component.For<IUmbracoService>().ImplementedBy<UmbracoService>().LifestyleTransient(),
                 Component.For<IContentService>().ImplementedBy<ContentService>().LifestyleTransient(),
                 Component.For<IMailshotsService>().ImplementedBy<MailshotsService>().LifestyleTransient(),

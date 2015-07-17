@@ -13,7 +13,7 @@ namespace RM.MailshotsOnline.Data.DAL
     [DbConfigurationType(typeof(AzureConfiguration))]
     public class StorageContext : DbContext
     {
-        public StorageContext() : this("StorageContextEF")
+        public StorageContext() : this(CloudConfigurationManager.GetSetting("StorageContextEF") ?? "StorageConextEF")
         { }
 
         public StorageContext(string nameOrConnectionString) : base(nameOrConnectionString)
