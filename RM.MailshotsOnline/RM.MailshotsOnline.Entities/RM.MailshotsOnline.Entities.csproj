@@ -62,6 +62,7 @@
     <Compile Include="DataModels\MailshotContent.cs" />
     <Compile Include="DataModels\Order.cs" />
     <Compile Include="DataModels\PostalOption.cs" />
+    <Compile Include="MemberModels\Member.cs" />
     <Compile Include="PageModels\BasePage.cs" />
     <Compile Include="PageModels\ContentPage.cs" />
     <Compile Include="PageModels\Home.cs" />

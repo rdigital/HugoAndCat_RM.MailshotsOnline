@@ -6,13 +6,14 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Azure;
 
 namespace RM.MailshotsOnline.Data.DAL
 {
     [DbConfigurationType(typeof(AzureConfiguration))]
     public class StorageContext : DbContext
     {
-        public StorageContext() : this("StorageContext")
+        public StorageContext() : this("StorageContextEF")
         { }
 
         public StorageContext(string nameOrConnectionString) : base(nameOrConnectionString)

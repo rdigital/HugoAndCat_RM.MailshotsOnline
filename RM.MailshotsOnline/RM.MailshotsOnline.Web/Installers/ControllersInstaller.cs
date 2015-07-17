@@ -29,7 +29,9 @@ namespace RM.MailshotsOnline.Web.Installers
                 Classes.FromAssemblyInDirectory(new AssemblyFilter(AssemblyDirectory)).BasedOn<IController>().LifestyleTransient(),
                 Component.For<IUmbracoService>().ImplementedBy<UmbracoService>().LifestyleTransient(),
                 Component.For<IContentService>().ImplementedBy<ContentService>().LifestyleTransient(),
-                Component.For<IMailshotsService>().ImplementedBy<MailshotsService>().LifestyleTransient());
+                Component.For<IMailshotsService>().ImplementedBy<MailshotsService>().LifestyleTransient(),
+                Component.For<IMembershipService>().ImplementedBy<MembershipService>().LifestyleTransient(),
+                Component.For<IPricingService>().ImplementedBy<PricingService>().LifestyleTransient());
         }
 
         static public string AssemblyDirectory

@@ -1,5 +1,6 @@
 namespace RM.MailshotsOnline.Data.Migrations
 {
+    using RM.MailshotsOnline.Entities.DataModels;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
@@ -18,18 +19,13 @@ namespace RM.MailshotsOnline.Data.Migrations
 
         protected override void Seed(RM.MailshotsOnline.Data.DAL.StorageContext context)
         {
-            //  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+            context.PostalOptions.AddOrUpdate(
+                o => new { o.Name, o.FormatId },
+                new PostalOption { Name = "First class", FormatId = 1, Currency = "GBP", PricePerUnit = 0.63m, Tax = 0.12m, TaxCode = "V" },
+                new PostalOption { Name = "Second class", FormatId = 1, Currency = "GBP", PricePerUnit = 0.54m, Tax = 0.10m, TaxCode = "V" },
+                new PostalOption { Name = "First class", FormatId = 2, Currency = "GBP", PricePerUnit = 0.70m, Tax = 0.14m, TaxCode = "V" },
+                new PostalOption { Name = "Second class", FormatId = 2, Currency = "GBP", PricePerUnit = 0.60m, Tax = 0.12m, TaxCode = "V" }
+                );
         }
 
         /// <summary>
