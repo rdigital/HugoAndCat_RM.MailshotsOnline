@@ -15,13 +15,14 @@
     <RootNamespace>RM.MailshotsOnline.Web</RootNamespace>
     <AssemblyName>RM.MailshotsOnline.Web</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <NuGetPackageImportStamp>1548f07a</NuGetPackageImportStamp>
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -288,6 +289,8 @@
     <Compile Include="Controllers\ContentPageController.cs" />
     <Compile Include="Controllers\GlassController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\SurfaceControllers\LoginSurfaceController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -334,6 +337,8 @@
     <Content Include="Config\uSyncSettings.config" />
     <Content Include="Views\MacroPartials\MainNavigaton.cshtml" />
     <Content Include="Views\MacroPartials\Breadcrumbs.cshtml" />
+    <Content Include="Views\Login.cshtml" />
+    <Content Include="Views\Partials\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -357,6 +362,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Views\LoginSurface\" />
+    <Folder Include="Views\Login\" />
     <Folder Include="Views\Mailshot\" />
     <Folder Include="Views\Postage\" />
   </ItemGroup>
@@ -375,7 +382,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>51354</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:53845/</IISUrl>
+          <IISUrl>http://rm-msol/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

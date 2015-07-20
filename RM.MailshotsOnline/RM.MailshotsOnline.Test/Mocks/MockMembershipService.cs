@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RM.MailshotsOnline.PCL.Models;
 
 namespace RM.MailshotsOnline.Test.Mocks
 {
@@ -22,6 +23,11 @@ namespace RM.MailshotsOnline.Test.Mocks
                 IsApproved = true,
                 IsLockedOut = false
             };
+        }
+
+        public IMember CreateMember(IMember member, string password)
+        {
+            throw new NotImplementedException();
         }
     }
 }

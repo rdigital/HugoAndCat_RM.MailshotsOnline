@@ -6,7 +6,10 @@
     <ul>
         @foreach (var child in home.Children)
         {
-            <li class="@(child.IsAncestorOrSelf(CurrentPage) ? "selected" : null)"><a href="@child.Url">@child.Name</a></li>
+            if (child.DisplayInNavigation)
+            {
+                <li class="@(child.IsAncestorOrSelf(CurrentPage) ? "selected" : null)"><a href="@child.Url">@child.Name</a></li>
+            }
         }
     </ul>
 }

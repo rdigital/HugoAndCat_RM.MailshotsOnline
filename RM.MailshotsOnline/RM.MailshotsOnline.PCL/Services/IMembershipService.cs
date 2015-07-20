@@ -9,5 +9,7 @@ namespace RM.MailshotsOnline.PCL.Services
     public interface IMembershipService
     {
         IMember GetCurrentMember();
+
+        IMember CreateMember(IMember member, string password);
     }
 }
