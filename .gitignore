@@ -187,14 +187,8 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
-RM.MailshotsOnline/RM.MailshotsOnline.Web/App_Data/
 RM.MailshotsOnline/RM.MailshotsOnline.Web/App_Data/umbraco.config
-RM.MailshotsOnline/RM.MailshotsOnline.Web/App_Data/TEMP/*
-RM.MailshotsOnline/RM.MailshotsOnline.Web/App_Data/TEMP/*
-RM.MailshotsOnline/RM.MailshotsOnline.Web/App_Data/TEMP/ExamineIndexes/*
-RM.MailshotsOnline/RM.MailshotsOnline.Web/App_Data/TEMP/ExamineIndexes/External/Index/segments.gen
-RM.MailshotsOnline/RM.MailshotsOnline.Web/App_Data/TEMP/ExamineIndexes/Internal/Index/segments.gen
-RM.MailshotsOnline/RM.MailshotsOnline.Web/App_Data/TEMP/PluginCache/umbraco-plugins.HC-156.hash
-RM.MailshotsOnline/RM.MailshotsOnline.Web/App_Data/TEMP/PluginCache/umbraco-plugins.HC-156.list
+RM.MailshotsOnline/RM.MailshotsOnline.Web/App_Data/TEMP/
 RM.MailshotsOnline/RM.MailshotsOnline.Web/uSync.Archive/
-RM.MailshotsOnline/RM.MailshotsOnline.Web/App_Data/Logs/UmbracoTraceLog.txt
+RM.MailshotsOnline/RM.MailshotsOnline.Web/App_Data/Logs/
+RM.MailshotsOnline/RM.MailshotsOnline.Web/App_Data/preview/
