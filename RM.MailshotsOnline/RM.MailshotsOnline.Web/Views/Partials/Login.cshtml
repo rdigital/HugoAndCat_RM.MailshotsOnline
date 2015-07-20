@@ -1,0 +1,21 @@
+﻿@model RM.MailshotsOnline.Entities.ViewModels.LoginViewModel
+
+@using (Html.BeginUmbracoForm("LoginForm", "LoginSurface"))
+{
+    foreach (ModelState modelState in ViewData.ModelState.Values)
+    {
+        foreach (ModelError error in modelState.Errors)
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    }
+    <div>
+        <label for="Email">@Model.PageModel.EmailLabel</label>
+        @Html.EditorFor(m => m.Email)
+    </div>
+    <div>
+        <label for="Password">@Model.PageModel.PasswordLabel</label>
+        @Html.PasswordFor(m => m.Password)
+    </div>
+    <input type="submit" />
+}
