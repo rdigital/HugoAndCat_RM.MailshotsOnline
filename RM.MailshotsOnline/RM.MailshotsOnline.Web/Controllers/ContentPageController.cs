@@ -17,7 +17,7 @@ namespace RM.MailshotsOnline.Web.Controllers
         }
 
         // GET: ContentPage
-        public ActionResult Index(RenderModel model)
+        public override ActionResult Index(RenderModel model)
         {
             // Fetch the Glass model of the home page
             var contentPageModel = GetModel<ContentPage>();
