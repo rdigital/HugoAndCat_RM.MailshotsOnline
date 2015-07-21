@@ -11,7 +11,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 {
     public class RegisterSurfaceController : SurfaceController
     {
-        // GET: Login
+        // GET: Register
         [ChildActionOnly]
         public ActionResult ShowRegisterForm(Register model)
         {
