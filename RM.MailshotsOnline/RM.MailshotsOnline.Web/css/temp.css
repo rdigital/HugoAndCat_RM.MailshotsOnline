@@ -44,3 +44,16 @@ header nav.main-nav li.selected a {
     text-decoration: underline;
 }
 
+label {
+    min-width: 200px;
+    display: inline-block;
+}
+
+.validation-summary-errors, .input-validation-error {
+    border: 1px solid rgb(237, 84, 29);
+    background-color: rgb(254, 245, 241);
+}
+
+.validation-summary-errors, .field-validation-error {
+    color: rgb(140, 46, 11);
+}

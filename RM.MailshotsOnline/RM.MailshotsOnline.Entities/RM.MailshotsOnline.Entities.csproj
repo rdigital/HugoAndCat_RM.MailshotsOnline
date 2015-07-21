@@ -62,14 +62,17 @@
     <Compile Include="DataModels\MailshotContent.cs" />
     <Compile Include="DataModels\Order.cs" />
     <Compile Include="DataModels\PostalOption.cs" />
+    <Compile Include="MemberModels\ContactPreferences.cs" />
     <Compile Include="MemberModels\Member.cs" />
     <Compile Include="PageModels\BasePage.cs" />
     <Compile Include="PageModels\ContentPage.cs" />
     <Compile Include="PageModels\Home.cs" />
     <Compile Include="PageModels\Item.cs" />
     <Compile Include="PageModels\Login.cs" />
+    <Compile Include="PageModels\Register.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\RegisterViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
