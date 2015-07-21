@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
 	<metadata>
-		<id>RM.MailshotsOnline.Service</id>
+		<id>RM.MailshotsOnline.CloudService</id>
 		<version>1.0.0</version>
 		<authors>Hugo &amp; Cat</authors>
 		<owners>Hugo &amp; Cat</owners>
