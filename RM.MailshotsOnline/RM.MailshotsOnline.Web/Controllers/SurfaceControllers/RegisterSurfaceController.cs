@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using RM.MailshotsOnline.Data.Services;
+using RM.MailshotsOnline.Entities.MemberModels;
 using RM.MailshotsOnline.Entities.PageModels;
 using RM.MailshotsOnline.Entities.ViewModels;
 using Umbraco.Web.Mvc;
@@ -11,6 +13,8 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 {
     public class RegisterSurfaceController : SurfaceController
     {
+        MembershipService _membershipService = new MembershipService();
+
         // GET: Register
         [ChildActionOnly]
         public ActionResult ShowRegisterForm(Register model)
@@ -29,6 +33,19 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             {
                 ModelState.AddModelError("Something", "Something went wrong in RegisterForm() (oh dear!)");
                 return CurrentUmbracoPage();
+            }
+
+            if (Members.GetByEmail(model.Email) != null)
+            {
+                _membershipService.CreateMember(new Member()
+                {
+                    EmailAddress = model.Email,
+                    Title = model.Title,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    IsApproved = false,
+                    IsLockedOut = false,
+                }, model.Password);
             }
 
             return Redirect("/?registered=true");

@@ -2,44 +2,43 @@
 
 @using (Html.BeginUmbracoForm("RegisterForm", "RegisterSurface"))
 {
-    foreach (ModelState modelState in ViewData.ModelState.Values)
-    {
-        foreach (ModelError error in modelState.Errors)
-        {
-            <p>@error.ErrorMessage</p>
-        }
-    }
+
+    @Html.ValidationSummary();
+
     <div>
-        <label for="Email">@Model.PageModel.EmailLabel</label>
+        @Html.ValidationMessageFor(m => m.Email)
+        @Html.LabelFor(m => m.Email, "Your email address")
         @Html.EditorFor(m => m.Email)
     </div>
     <div>
-        <label for="ConfirmEmail">@Model.PageModel.ConfirmEmailLabel</label>
+        @Html.ValidationMessageFor(m => m.ConfirmEmail)
+        @Html.LabelFor(m => m.ConfirmEmail, "Confirm Email")
         @Html.EditorFor(m => m.ConfirmEmail)
     </div>
     <div>
-        <label for="FirstName">@Model.PageModel.FirstNameLabel</label>
+        @Html.ValidationMessageFor(m => m.FirstName)
+        @Html.LabelFor(m => m.FirstName, "First name")
         @Html.EditorFor(m => m.FirstName)
     </div>
     <div>
-        <label for="LastName">@Model.PageModel.LastNameLabel</label>
+        @Html.ValidationMessageFor(m => m.LastName)
+        @Html.LabelFor(m => m.LastName, "Last name")
         @Html.EditorFor(m => m.LastName)
     </div>
     <div>
-        <label for="Title">@Model.PageModel.TitleLabel</label>
+        @Html.ValidationMessageFor(m => m.Title)
+        @Html.LabelFor(m => m.Title, "Your title")
         @Html.EditorFor(m => m.Title)
     </div>
     <div>
-        <label for="Password">@Model.PageModel.PasswordLabel</label>
+        @Html.ValidationMessageFor(m => m.Password)
+        @Html.LabelFor(m => m.Password, "Enter a password")
         @Html.PasswordFor(m => m.Password)
     </div>
     <div>
-        <label for="ConfirmPassword">@Model.PageModel.ConfirmPasswordLabel</label>
+        @Html.ValidationMessageFor(m => m.ConfirmPassword)
+        @Html.LabelFor(m => m.ConfirmPassword, "Confirm password")
         @Html.PasswordFor(m => m.ConfirmPassword)
-    </div>
-    <div>
-        <label for="PasswordReminder">@Model.PageModel.PasswordReminderLabel</label>
-        @Html.EditorFor(m => m.PasswordReminder)
     </div>
     <div>
         <span for="RoyalMailContactOptions">@Model.PageModel.RoyalMailContactOptionsDisclaimer</span>
@@ -56,7 +55,8 @@
         @Html.EditorFor(m => m.ThirdPartyContactOptions)
     </div>
     <div>
-        <label for="AgreeToTermsAndConditions">@Model.PageModel.AgreeToTermsAndConditionsLabel</label>
+        @Html.ValidationMessageFor(m => m.AgreeToTermsAndConditions)
+        @Html.LabelFor(m => m.AgreeToTermsAndConditions, "I agree to the full Terms and Conditions")
         @Html.EditorFor(m => m.AgreeToTermsAndConditions)
     </div>
     <input type="submit" />

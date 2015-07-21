@@ -5,52 +5,43 @@ using System.Linq;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
+using RM.MailshotsOnline.Entities.MemberModels;
 
 namespace RM.MailshotsOnline.Entities.ViewModels
 {
     public class RegisterViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Please enter a valid email address")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please re-enter a valid email address")]
+        [Compare("Email", ErrorMessage = "The email addresses entered do not match. Please check and try again")]
         public string ConfirmEmail { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select your title")]
         public string Title { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter your first name")]
         public string FirstName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter your last name")]
         public string LastName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter an alphanumeric password of eight characters or more")]
         public string Password { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please re-type your password.")]
+        [Compare("Password", ErrorMessage = "The passwords entered do not match. Please check and try again")]
         public string ConfirmPassword { get; set; }
 
-        [Required]
-        public string PasswordReminder { get; set; }
+        public ContactPreferences RoyalMailContactOptions { get; set; }
 
+        public ContactPreferences ThirdPartyContactOptions { get; set; }
+        
         [Required]
-        public ContactOptions RoyalMailContactOptions { get; set; }
-
-        [Required]
-        public ContactOptions ThirdPartyContactOptions { get; set; }
-
-        [Required]
+        [Range(typeof(bool), "true", "true", ErrorMessage = "Please accept T&C agreement")]
         public bool AgreeToTermsAndConditions { get; set; }
 
         public PageModels.Register PageModel { get; set; }
-    }
-
-    public class ContactOptions
-    {
-        public bool Post { get; set; }
-        public bool Email { get; set; }
-        public bool Telephone { get; set; }
-        public bool SmsAndOther { get; set; }
     }
 }

@@ -36,6 +36,6 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         public string ThirdPartyContactOptionsLabel { get; set; }
 
-        public bool AgreeToTermsAndConditionsLabel { get; set; }
+        public string AgreeToTermsAndConditionsLabel { get; set; }
     }
 }

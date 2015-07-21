@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using RM.MailshotsOnline.Data.Services;
 using RM.MailshotsOnline.Entities.PageModels;
 using RM.MailshotsOnline.Entities.ViewModels;
 using Umbraco.Web.Mvc;
@@ -25,11 +26,20 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         {
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("Something","Something went wrong in LoginForm() (oh dear!)");
+                ModelState.AddModelError("Something", "Something went wrong in LoginForm() (oh dear!)");
                 return CurrentUmbracoPage();
             }
 
-            return Redirect("/?loggedin=true");
+            var membershipService = new MembershipService();
+            if (Members.Login(model.Email, model.Password))
+            {
+                // we're logged in
+
+                TempData["LoggedIn"] = true;
+                return Redirect("/?loggedin=true");
+            }
+
+            return RedirectToCurrentUmbracoPage();
         }
     }
 }

@@ -38,17 +38,23 @@ namespace RM.MailshotsOnline.Data.Services
 
         public IMember CreateMember(IMember member, string password)
         {
-            //TODO: Confirm that a user with the given email doesn't already exist
             //TODO: Encrypt data!
-            var umbracoMember = Umbraco.Core.ApplicationContext.Current.Services.MemberService.CreateMemberWithIdentity(member.EmailAddress,
-                member.EmailAddress, member.EmailAddress, "Member");
+
+            var membershipService = Umbraco.Core.ApplicationContext.Current.Services.MemberService;
+
+            if (membershipService.Exists(member.EmailAddress))
+            {
+                return null;
+            }
+
+            var umbracoMember = membershipService.CreateMemberWithIdentity(member.EmailAddress, member.EmailAddress,
+                member.EmailAddress, "Member");
 
             umbracoMember.SetValue("title", member.Title);
             umbracoMember.SetValue("firstName", member.FirstName);
             umbracoMember.SetValue("lastName", member.LastName);
 
             Umbraco.Core.ApplicationContext.Current.Services.MemberService.Save(umbracoMember);
-
             Umbraco.Core.ApplicationContext.Current.Services.MemberService.SavePassword(umbracoMember, password);
 
             member.Id = umbracoMember.Id;
