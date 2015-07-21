@@ -25,7 +25,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         {
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("Something","Something went wrong (oh dear!)");
+                ModelState.AddModelError("Something","Something went wrong in LoginForm() (oh dear!)");
                 return CurrentUmbracoPage();
             }
 

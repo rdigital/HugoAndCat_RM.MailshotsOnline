@@ -1,0 +1,63 @@
+﻿@model RM.MailshotsOnline.Entities.ViewModels.RegisterViewModel
+
+@using (Html.BeginUmbracoForm("RegisterForm", "RegisterSurface"))
+{
+    foreach (ModelState modelState in ViewData.ModelState.Values)
+    {
+        foreach (ModelError error in modelState.Errors)
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    }
+    <div>
+        <label for="Email">@Model.PageModel.EmailLabel</label>
+        @Html.EditorFor(m => m.Email)
+    </div>
+    <div>
+        <label for="ConfirmEmail">@Model.PageModel.ConfirmEmailLabel</label>
+        @Html.EditorFor(m => m.ConfirmEmail)
+    </div>
+    <div>
+        <label for="FirstName">@Model.PageModel.FirstNameLabel</label>
+        @Html.EditorFor(m => m.FirstName)
+    </div>
+    <div>
+        <label for="LastName">@Model.PageModel.LastNameLabel</label>
+        @Html.EditorFor(m => m.LastName)
+    </div>
+    <div>
+        <label for="Title">@Model.PageModel.TitleLabel</label>
+        @Html.EditorFor(m => m.Title)
+    </div>
+    <div>
+        <label for="Password">@Model.PageModel.PasswordLabel</label>
+        @Html.PasswordFor(m => m.Password)
+    </div>
+    <div>
+        <label for="ConfirmPassword">@Model.PageModel.ConfirmPasswordLabel</label>
+        @Html.PasswordFor(m => m.ConfirmPassword)
+    </div>
+    <div>
+        <label for="PasswordReminder">@Model.PageModel.PasswordReminderLabel</label>
+        @Html.EditorFor(m => m.PasswordReminder)
+    </div>
+    <div>
+        <span for="RoyalMailContactOptions">@Model.PageModel.RoyalMailContactOptionsDisclaimer</span>
+    </div>
+    <div>
+        <label for="RoyalMailContactOptions">@Model.PageModel.RoyalMailContactOptionsLabel</label>
+        @Html.EditorFor(m => m.RoyalMailContactOptions)
+    </div>
+    <div>
+        <span for="ThirdPartyContactOptionsDisclaimer">@Model.PageModel.ThirdPartyContactOptionsDisclaimer</span>
+    </div>
+    <div>
+        <label for="ThirdPartyContactOptions">@Model.PageModel.ThirdPartyContactOptionsLabel</label>
+        @Html.EditorFor(m => m.ThirdPartyContactOptions)
+    </div>
+    <div>
+        <label for="AgreeToTermsAndConditions">@Model.PageModel.AgreeToTermsAndConditionsLabel</label>
+        @Html.EditorFor(m => m.AgreeToTermsAndConditions)
+    </div>
+    <input type="submit" />
+}
