@@ -12,6 +12,8 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 {
     public class LoginSurfaceController : SurfaceController
     {
+        private MembershipService _membershipService = new MembershipService();
+
         // GET: Login
         [ChildActionOnly]
         public ActionResult ShowLoginForm(Login model)
@@ -26,11 +28,9 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         {
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("Something", "Something went wrong in LoginForm() (oh dear!)");
                 return CurrentUmbracoPage();
             }
 
-            var membershipService = new MembershipService();
             if (Members.Login(model.Email, model.Password))
             {
                 // we're logged in
@@ -39,7 +39,9 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return Redirect("/?loggedin=true");
             }
 
-            return RedirectToCurrentUmbracoPage();
+            ModelState.AddModelError("BadLogin",
+                "Your login has not been recognised. Please check that you have entered your details correctly");
+            return CurrentUmbracoPage();
         }
     }
 }

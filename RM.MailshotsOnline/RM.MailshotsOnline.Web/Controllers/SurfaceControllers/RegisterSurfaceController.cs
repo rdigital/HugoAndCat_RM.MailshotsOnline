@@ -31,11 +31,10 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         {
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("Something", "Something went wrong in RegisterForm() (oh dear!)");
                 return CurrentUmbracoPage();
             }
 
-            if (Members.GetByEmail(model.Email) != null)
+            if (Members.GetByEmail(model.Email) == null)
             {
                 _membershipService.CreateMember(new Member()
                 {
@@ -46,9 +45,11 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                     IsApproved = false,
                     IsLockedOut = false,
                 }, model.Password);
+
+                return Redirect("/?registered=true");
             }
 
-            return Redirect("/?registered=true");
+            return RedirectToCurrentUmbracoPage();
         }
     }
 }

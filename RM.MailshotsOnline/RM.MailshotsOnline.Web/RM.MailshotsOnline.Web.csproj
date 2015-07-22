@@ -2813,13 +2813,7 @@
     </Content>
     <Content Include="Config\Dashboard.config" />
     <Content Include="Config\ClientDependency.config" />
-    <Content Include="Views\Home.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Views\Master.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\ContentPage.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Config\uSyncSettings.config" />
@@ -2830,9 +2824,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Login.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Partials\Login.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="App_Data\packages\created\createdPackages.config">
@@ -3005,12 +2996,8 @@
     <Content Include="Config\applications.config" />
     <Content Include="Config\404handlers.config" />
     <Content Include="Views\Home.cshtml" />
-    <Content Include="Views\Master.cshtml" />
     <Content Include="Views\ContentPage.cshtml" />
     <Content Include="Config\uSyncSettings.config" />
-    <Content Include="Views\MacroPartials\MainNavigaton.cshtml" />
-    <Content Include="Views\MacroPartials\Breadcrumbs.cshtml" />
-    <Content Include="Views\Login.cshtml" />
     <Content Include="Views\Partials\Login.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />

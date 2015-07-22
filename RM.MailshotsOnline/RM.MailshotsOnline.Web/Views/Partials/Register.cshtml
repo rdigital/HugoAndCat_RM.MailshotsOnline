@@ -7,36 +7,50 @@
 
     <div>
         @Html.ValidationMessageFor(m => m.Email)
+    </div>
+    <div>
         @Html.LabelFor(m => m.Email, "Your email address")
         @Html.EditorFor(m => m.Email)
     </div>
     <div>
         @Html.ValidationMessageFor(m => m.ConfirmEmail)
+    </div>
+    <div>
         @Html.LabelFor(m => m.ConfirmEmail, "Confirm Email")
         @Html.EditorFor(m => m.ConfirmEmail)
     </div>
     <div>
         @Html.ValidationMessageFor(m => m.FirstName)
+    </div>
+    <div>
         @Html.LabelFor(m => m.FirstName, "First name")
         @Html.EditorFor(m => m.FirstName)
     </div>
     <div>
         @Html.ValidationMessageFor(m => m.LastName)
+    </div>
+    <div>
         @Html.LabelFor(m => m.LastName, "Last name")
         @Html.EditorFor(m => m.LastName)
     </div>
     <div>
         @Html.ValidationMessageFor(m => m.Title)
+    </div>
+    <div>
         @Html.LabelFor(m => m.Title, "Your title")
         @Html.EditorFor(m => m.Title)
     </div>
     <div>
         @Html.ValidationMessageFor(m => m.Password)
+    </div>
+    <div>
         @Html.LabelFor(m => m.Password, "Enter a password")
         @Html.PasswordFor(m => m.Password)
     </div>
     <div>
         @Html.ValidationMessageFor(m => m.ConfirmPassword)
+    </div>
+    <div>
         @Html.LabelFor(m => m.ConfirmPassword, "Confirm password")
         @Html.PasswordFor(m => m.ConfirmPassword)
     </div>
@@ -56,6 +70,8 @@
     </div>
     <div>
         @Html.ValidationMessageFor(m => m.AgreeToTermsAndConditions)
+    </div>
+    <div>
         @Html.LabelFor(m => m.AgreeToTermsAndConditions, "I agree to the full Terms and Conditions")
         @Html.EditorFor(m => m.AgreeToTermsAndConditions)
     </div>
