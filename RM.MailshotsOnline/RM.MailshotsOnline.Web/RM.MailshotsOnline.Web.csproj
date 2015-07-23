@@ -2823,7 +2823,7 @@
     <Content Include="Views\MacroPartials\Breadcrumbs.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Login.cshtml">
+    <Content Include="Views\Login\Login.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="App_Data\packages\created\createdPackages.config">
@@ -3001,7 +3001,7 @@
     <Content Include="Views\Partials\Login.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Register.cshtml" />
+    <Content Include="Views\Register\Register.cshtml" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
@@ -3031,11 +3031,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\LoginSurface\" />
-    <Folder Include="Views\Login\" />
     <Folder Include="Views\Mailshot\" />
     <Folder Include="Views\Postage\" />
     <Folder Include="Views\RegisterSurface\" />
-    <Folder Include="Views\Register\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -3052,7 +3050,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>51354</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://rm-msol/</IISUrl>
+          <IISUrl>http://localhost/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

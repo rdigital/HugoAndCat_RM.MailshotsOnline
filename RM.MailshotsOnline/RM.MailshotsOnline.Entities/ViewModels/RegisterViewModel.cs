@@ -6,6 +6,7 @@ using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using RM.MailshotsOnline.Entities.MemberModels;
+using RM.MailshotsOnline.Web.Attributes;
 
 namespace RM.MailshotsOnline.Entities.ViewModels
 {
@@ -41,6 +42,9 @@ namespace RM.MailshotsOnline.Entities.ViewModels
         [Required]
         [Range(typeof(bool), "true", "true", ErrorMessage = "Please accept T&C agreement")]
         public bool AgreeToTermsAndConditions { get; set; }
+
+        [Recaptcha]
+        public bool IsRecaptchaValidated { get; set; }
 
         public PageModels.Register PageModel { get; set; }
     }

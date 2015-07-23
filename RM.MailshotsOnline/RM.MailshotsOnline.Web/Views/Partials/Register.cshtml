@@ -1,4 +1,8 @@
-﻿@model RM.MailshotsOnline.Entities.ViewModels.RegisterViewModel
+﻿@using Castle.Windsor.Installer
+@using System.Configuration;
+@model RM.MailshotsOnline.Entities.ViewModels.RegisterViewModel
+
+<script src='https://www.google.com/recaptcha/api.js'></script>
 
 @using (Html.BeginUmbracoForm("RegisterForm", "RegisterSurface"))
 {
@@ -74,6 +78,10 @@
     <div>
         @Html.LabelFor(m => m.AgreeToTermsAndConditions, "I agree to the full Terms and Conditions")
         @Html.EditorFor(m => m.AgreeToTermsAndConditions)
+    </div>
+    <div>
+        @Html.HiddenFor(m => m.IsRecaptchaValidated)
+        <div class="g-recaptcha" data-sitekey="@ConfigurationManager.AppSettings["RecaptchaSiteKey"]"></div>
     </div>
     <input type="submit" />
 }

@@ -22,7 +22,7 @@ namespace RM.MailshotsOnline.Web.Controllers
         {
             var loginPageModel = GetModel<Login>();
 
-            return View("~/Views/Login.cshtml", loginPageModel);
+            return View("~/Views/Login/Login.cshtml", loginPageModel);
         }
     }
 }

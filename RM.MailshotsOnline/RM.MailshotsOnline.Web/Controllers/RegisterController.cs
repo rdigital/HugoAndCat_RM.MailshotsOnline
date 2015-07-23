@@ -22,7 +22,7 @@ namespace RM.MailshotsOnline.Web.Controllers
         {
             var registerPageModel = GetModel<Register>();
 
-            return View("~/Views/Register.cshtml", registerPageModel);
+            return View("~/Views/Register/Register.cshtml", registerPageModel);
         }
     }
 }

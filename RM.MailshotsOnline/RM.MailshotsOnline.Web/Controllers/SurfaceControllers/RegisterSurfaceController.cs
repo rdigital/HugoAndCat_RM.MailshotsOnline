@@ -1,8 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Configuration;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
+using System.Web.UI.WebControls;
+using Newtonsoft.Json;
 using RM.MailshotsOnline.Data.Services;
 using RM.MailshotsOnline.Entities.MemberModels;
 using RM.MailshotsOnline.Entities.PageModels;
@@ -13,7 +21,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 {
     public class RegisterSurfaceController : SurfaceController
     {
-        MembershipService _membershipService = new MembershipService();
+        private MembershipService _membershipService = new MembershipService();
 
         // GET: Register
         [ChildActionOnly]
@@ -21,7 +29,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         {
             // todo: get valid titles.
 
-            var viewModel = new RegisterViewModel() { PageModel = model };
+            var viewModel = new RegisterViewModel() {PageModel = model};
 
             return PartialView("~/Views/Partials/Register.cshtml", viewModel);
         }
@@ -36,6 +44,8 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             if (Members.GetByEmail(model.Email) == null)
             {
+                //todo: check password meets requirements
+
                 _membershipService.CreateMember(new Member()
                 {
                     EmailAddress = model.Email,
