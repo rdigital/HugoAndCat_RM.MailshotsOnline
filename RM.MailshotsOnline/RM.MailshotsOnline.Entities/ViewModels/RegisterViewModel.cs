@@ -12,6 +12,8 @@ namespace RM.MailshotsOnline.Entities.ViewModels
 {
     public class RegisterViewModel
     {
+        public int Page { get; set; }
+
         [Required(ErrorMessage = "Please enter a valid email address")]
         public string Email { get; set; }
 

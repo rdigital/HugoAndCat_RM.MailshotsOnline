@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -66,6 +67,7 @@
     <Compile Include="DataModels\Order.cs" />
     <Compile Include="DataModels\PostalOption.cs" />
     <Compile Include="MemberModels\ContactPreferences.cs" />
+    <Compile Include="MemberModels\IContactable.cs" />
     <Compile Include="MemberModels\Member.cs" />
     <Compile Include="PageModels\BasePage.cs" />
     <Compile Include="PageModels\ContentPage.cs" />

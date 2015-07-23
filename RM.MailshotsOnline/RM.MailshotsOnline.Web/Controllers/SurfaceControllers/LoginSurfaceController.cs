@@ -20,7 +20,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         {
             var viewModel = new LoginViewModel() {PageModel = model};
 
-            return PartialView("~/Views/Partials/Login.cshtml", viewModel);
+            return PartialView("~/Views/Login/Partials/Login.cshtml", viewModel);
         }
 
         [HttpPost]

@@ -32,7 +32,8 @@ namespace RM.MailshotsOnline.Data.Services
                 IsLockedOut = umbracoMember.IsLockedOut,
                 Title = umbracoMember.GetValue<string>("title"),
                 FirstName = umbracoMember.GetValue<string>("firstName"),
-                LastName = umbracoMember.GetValue<string>("lastName")
+                LastName = umbracoMember.GetValue<string>("lastName"),
+                RoyalMailMarketingPreferences = new ContactPreferences() { }
             };
         }
 

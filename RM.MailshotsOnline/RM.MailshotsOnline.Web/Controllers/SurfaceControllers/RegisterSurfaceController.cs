@@ -29,9 +29,9 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         {
             // todo: get valid titles.
 
-            var viewModel = new RegisterViewModel() {PageModel = model};
+            var viewModel = new RegisterViewModel() {Page = 1, PageModel = model};
 
-            return PartialView("~/Views/Partials/Register.cshtml", viewModel);
+            return PartialView("~/Views/Register/Partials/Register.cshtml", viewModel);
         }
 
         [HttpPost]
@@ -54,6 +54,20 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                     LastName = model.LastName,
                     IsApproved = false,
                     IsLockedOut = false,
+                    RoyalMailMarketingPreferences = new ContactPreferences()
+                    {
+                        Email = model.RoyalMailContactOptions.Email,
+                        Post = model.RoyalMailContactOptions.Post,
+                        Telephone = model.RoyalMailContactOptions.Telephone,
+                        SmsAndOther = model.RoyalMailContactOptions.SmsAndOther
+                    },
+                    ThirdPartyMarketingPreferencess = new ContactPreferences()
+                    {
+                        Email = model.ThirdPartyContactOptions.Email,
+                        Post = model.ThirdPartyContactOptions.Post,
+                        Telephone = model.ThirdPartyContactOptions.Telephone,
+                        SmsAndOther = model.ThirdPartyContactOptions.SmsAndOther
+                    }
                 }, model.Password);
 
                 return Redirect("/?registered=true");

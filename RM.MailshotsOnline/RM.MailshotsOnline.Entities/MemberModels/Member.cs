@@ -8,7 +8,7 @@ using RM.MailshotsOnline.Entities.ViewModels;
 
 namespace RM.MailshotsOnline.Entities.MemberModels
 {
-    public class Member : IMember
+    public class Member : IMember, IContactable
     {
         public int Id { get; set; }
 
@@ -24,8 +24,8 @@ namespace RM.MailshotsOnline.Entities.MemberModels
 
         public bool IsLockedOut { get; set; }
 
-        public ContactPreferences RoyalMailContactPreferences { get; set; }
+        public ContactPreferences RoyalMailMarketingPreferences { get; set; }
 
-        public ContactPreferences ThirdPartyContactPreferences { get; set; }
+        public ContactPreferences ThirdPartyMarketingPreferencess { get; set; }
     }
 }
