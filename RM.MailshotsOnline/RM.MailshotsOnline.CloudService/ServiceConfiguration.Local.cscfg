@@ -10,7 +10,7 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
       <Setting name="StorageConnectionString" value="UseDevelopmentStorage=true" />
       <Setting name="AppInsightsKey" value="f4926bc4-a07f-420c-89f1-40e38682d0c6" />
-      <Setting name="StorageContextEF" value="Data Source=.\;Initial Catalog=mrhcrmmsol-sql;Integrated Security=SSPI" />
+      <Setting name="StorageContextEF" value="Server=tcp:gpxfbusuk8.database.windows.net,1433;Database=mrhcrmmsol-sql;User ID=rmphoto@gpxfbusuk8;Password=ZA8X461t7yQwdTDUZDTl;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
     </ConfigurationSettings>
     <Certificates>
