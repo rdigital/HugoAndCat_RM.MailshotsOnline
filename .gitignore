@@ -139,6 +139,7 @@ packages/*
 # This line needs to be after the ignore of the build folder
 # (and the packages folder if the line above has been uncommented)
 !packages/build/
+!RM.MailshotsOnline/packages/*/build/
 
 # Windows Azure Build Output
 csx/
