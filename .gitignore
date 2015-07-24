@@ -129,7 +129,7 @@ publish/
 #*.pubxml
 
 # NuGet Packages Directory
-packages/*
+**/packages/*
 ## TODO: If the tool you use requires repositories.config
 ## uncomment the next line
 #!packages/repositories.config
@@ -138,8 +138,7 @@ packages/*
 # NuGet packages use it for MSBuild targets.
 # This line needs to be after the ignore of the build folder
 # (and the packages folder if the line above has been uncommented)
-!packages/build/
-!RM.MailshotsOnline/packages/*/build/
+!**/packages/build/
 
 # Windows Azure Build Output
 csx/
@@ -188,9 +187,6 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
-RM.MailshotsOnline/RM.MailshotsOnline.Web/App_Data/umbraco.config
-RM.MailshotsOnline/RM.MailshotsOnline.Web/App_Data/TEMP/
-RM.MailshotsOnline/RM.MailshotsOnline.Web/uSync.Archive/
-RM.MailshotsOnline/RM.MailshotsOnline.Web/App_Data/Logs/
-RM.MailshotsOnline/RM.MailshotsOnline.Web/App_Data/preview/
-RM.MailshotsOnline/RM.MailshotsOnline.Web/App_Data/NuGetBackup
+**/App_Data
+!**/App_Data/packages
+**/uSync.Archive/
