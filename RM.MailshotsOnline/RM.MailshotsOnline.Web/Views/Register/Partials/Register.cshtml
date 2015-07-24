@@ -1,0 +1,21 @@
+﻿@using Castle.Windsor.Installer
+@using System.Configuration;
+@model RM.MailshotsOnline.Entities.ViewModels.RegisterViewModel
+
+@Html.HiddenFor(m => m.Page)
+
+@{
+    switch (Model.Page)
+    {
+        case 1:
+            Html.RenderPartial("~/Views/Register/Partials/RegisterPersonalDetails.cshtml", Model);
+            break;
+        case 2:
+            Html.RenderPartial("~/Views/Register/Partials/RegisterOrganisationDetails.cshtml", Model);
+            break;
+        case 3:
+            Html.RenderPartial("~/Views/Register/Partials/RegisterConfirm.cshtml", Model);
+            break;
+    }
+}
+

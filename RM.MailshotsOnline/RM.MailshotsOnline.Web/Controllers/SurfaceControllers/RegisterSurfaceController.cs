@@ -9,6 +9,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using System.Web.Security;
 using System.Web.UI.WebControls;
 using Newtonsoft.Json;
 using RM.MailshotsOnline.Data.Services;
@@ -21,7 +22,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 {
     public class RegisterSurfaceController : SurfaceController
     {
-        private MembershipService _membershipService = new MembershipService();
+        private readonly MembershipService _membershipService = new MembershipService();
 
         // GET: Register
         [ChildActionOnly]
@@ -29,9 +30,9 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         {
             // todo: get valid titles.
 
-            var viewModel = new RegisterViewModel() {PageModel = model};
+            var viewModel = new RegisterViewModel() { Page = 1, PageModel = model };
 
-            return PartialView("~/Views/Partials/Register.cshtml", viewModel);
+            return PartialView("~/Views/Register/Partials/Register.cshtml", viewModel);
         }
 
         [HttpPost]
@@ -42,24 +43,46 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return CurrentUmbracoPage();
             }
 
-            if (Members.GetByEmail(model.Email) == null)
+            if (Members.GetByEmail(model.Email) != null)
             {
-                //todo: check password meets requirements
-
-                _membershipService.CreateMember(new Member()
-                {
-                    EmailAddress = model.Email,
-                    Title = model.Title,
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    IsApproved = false,
-                    IsLockedOut = false,
-                }, model.Password);
-
-                return Redirect("/?registered=true");
+                ModelState.AddModelError("AlreadyRegistered",
+                    "You already appear to be registered with us. Please use the login page instead.");
+                return CurrentUmbracoPage();
             }
 
-            return RedirectToCurrentUmbracoPage();
+            try
+            {
+                CreateMember(model);
+            }
+            catch (MembershipPasswordException)
+            {
+                ModelState.AddModelError("PasswordError",
+                    "Your password does not meet the minimum requirements. Please use 6 alphanumeric characters.");
+                return CurrentUmbracoPage();
+            }
+
+            return Redirect("/?registered=true");
+        }
+
+        private void CreateMember(RegisterViewModel model)
+        {
+            _membershipService.CreateMember(new Member()
+            {
+                EmailAddress = model.Email,
+                Title = model.Title,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                IsApproved = false,
+                IsLockedOut = false,
+                CanWeContactByPost = model.RoyalMailContactOptions.Post,
+                CanWeContactByEmail = model.RoyalMailContactOptions.Email,
+                CanWeContactByPhone = model.RoyalMailContactOptions.Phone,
+                CanWeContactBySmsAndOther = model.RoyalMailContactOptions.SmsAndOther,
+                CanThirdPatiesContactByPost = model.ThirdPartyContactOptions.Post,
+                CanThirdPatiesContactByEmail = model.ThirdPartyContactOptions.Email,
+                CanThirdPatiesContactByPhone = model.ThirdPartyContactOptions.Phone,
+                CanThirdPatiesContactBySmsAndOther = model.ThirdPartyContactOptions.SmsAndOther
+            }, model.Password);
         }
     }
 }

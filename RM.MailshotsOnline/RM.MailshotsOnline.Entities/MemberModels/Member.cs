@@ -24,8 +24,20 @@ namespace RM.MailshotsOnline.Entities.MemberModels
 
         public bool IsLockedOut { get; set; }
 
-        public ContactPreferences RoyalMailContactPreferences { get; set; }
+        public bool CanWeContactByPost { get; set; }
 
-        public ContactPreferences ThirdPartyContactPreferences { get; set; }
+        public bool CanWeContactByEmail { get; set; }
+
+        public bool CanWeContactByPhone { get; set; }
+
+        public bool CanWeContactBySmsAndOther { get; set; }
+
+        public bool CanThirdPatiesContactByPost { get; set; }
+
+        public bool CanThirdPatiesContactByEmail { get; set; }
+
+        public bool CanThirdPatiesContactByPhone { get; set; }
+
+        public bool CanThirdPatiesContactBySmsAndOther { get; set; }
     }
 }
