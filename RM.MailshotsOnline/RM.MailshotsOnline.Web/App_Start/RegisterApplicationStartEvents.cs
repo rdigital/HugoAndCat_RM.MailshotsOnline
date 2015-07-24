@@ -1,6 +1,4 @@
-﻿using Microsoft.ApplicationInsights.Extensibility;
-using Microsoft.Azure;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -11,10 +9,10 @@ namespace RM.MailshotsOnline.Web.App_Start
 {
     public class RegisterApplicationStartEvents : ApplicationEventHandler
     {
-        protected override void ApplicationStarting(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
-        {
-            base.ApplicationStarting(umbracoApplication, applicationContext);
-            TelemetryConfiguration.Active.InstrumentationKey = CloudConfigurationManager.GetSetting("AppInsightsKey") ?? ConfigurationManager.AppSettings["AppInsightsKey"];
-        }
+        // Uncomment the method below to add application events
+        //protected override void ApplicationStarting(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
+        //{
+            
+        //}
     }
 }
