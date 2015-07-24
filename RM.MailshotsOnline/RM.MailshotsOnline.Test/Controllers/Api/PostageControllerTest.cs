@@ -29,7 +29,7 @@ namespace RM.MailshotsOnline.Test.Controllers.Api
         {
             var umbracoHelper = new Helpers.UmbracoHelper();
             _membershipService = new MockMembershipService();
-            _pricingService = new PricingService();
+            _pricingService = new PricingService("StorageContextEF");
             _umbracoContext = umbracoHelper.GetMockContext();
             _controller = new PostageController(_membershipService, _pricingService, _umbracoContext);
         }
