@@ -9,6 +9,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using System.Web.Security;
 using System.Web.UI.WebControls;
 using Newtonsoft.Json;
 using RM.MailshotsOnline.Data.Services;
@@ -21,7 +22,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 {
     public class RegisterSurfaceController : SurfaceController
     {
-        private MembershipService _membershipService = new MembershipService();
+        private readonly MembershipService _membershipService = new MembershipService();
 
         // GET: Register
         [ChildActionOnly]
@@ -44,36 +45,48 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             if (Members.GetByEmail(model.Email) == null)
             {
-                //todo: check password meets requirements
-
-                _membershipService.CreateMember(new Member()
+                try
                 {
-                    EmailAddress = model.Email,
-                    Title = model.Title,
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    IsApproved = false,
-                    IsLockedOut = false,
-                    RoyalMailMarketingPreferences = new ContactPreferences()
-                    {
-                        Email = model.RoyalMailContactOptions.Email,
-                        Post = model.RoyalMailContactOptions.Post,
-                        Telephone = model.RoyalMailContactOptions.Telephone,
-                        SmsAndOther = model.RoyalMailContactOptions.SmsAndOther
-                    },
-                    ThirdPartyMarketingPreferencess = new ContactPreferences()
-                    {
-                        Email = model.ThirdPartyContactOptions.Email,
-                        Post = model.ThirdPartyContactOptions.Post,
-                        Telephone = model.ThirdPartyContactOptions.Telephone,
-                        SmsAndOther = model.ThirdPartyContactOptions.SmsAndOther
-                    }
-                }, model.Password);
+                    CreateMember(model);
+                }
+                catch (MembershipPasswordException)
+                {
+                    ModelState.AddModelError("PasswordError",
+                        "Your password does not meet the minimum requirements, which is 6 alphanumeric characters.");
+                    return CurrentUmbracoPage();
+                }
 
                 return Redirect("/?registered=true");
             }
 
             return RedirectToCurrentUmbracoPage();
+        }
+
+        private void CreateMember(RegisterViewModel model)
+        {
+            _membershipService.CreateMember(new Member()
+            {
+                EmailAddress = model.Email,
+                Title = model.Title,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                IsApproved = false,
+                IsLockedOut = false,
+                RoyalMailMarketingPreferences = new ContactPreferences()
+                {
+                    Email = model.RoyalMailContactOptions.Email,
+                    Post = model.RoyalMailContactOptions.Post,
+                    Phone = model.RoyalMailContactOptions.Phone,
+                    SmsAndOther = model.RoyalMailContactOptions.SmsAndOther
+                },
+                ThirdPartyMarketingPreferencess = new ContactPreferences()
+                {
+                    Email = model.ThirdPartyContactOptions.Email,
+                    Post = model.ThirdPartyContactOptions.Post,
+                    Phone = model.ThirdPartyContactOptions.Phone,
+                    SmsAndOther = model.ThirdPartyContactOptions.SmsAndOther
+                }
+            }, model.Password);
         }
     }
 }

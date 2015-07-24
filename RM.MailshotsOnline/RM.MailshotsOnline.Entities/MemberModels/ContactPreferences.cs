@@ -10,7 +10,7 @@ namespace RM.MailshotsOnline.Entities.MemberModels
     {
         public bool Post { get; set; }
         public bool Email { get; set; }
-        public bool Telephone { get; set; }
+        public bool Phone { get; set; }
         public bool SmsAndOther { get; set; }
     }
 }

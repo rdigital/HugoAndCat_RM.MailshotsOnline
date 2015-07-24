@@ -33,7 +33,14 @@ namespace RM.MailshotsOnline.Data.Services
                 Title = umbracoMember.GetValue<string>("title"),
                 FirstName = umbracoMember.GetValue<string>("firstName"),
                 LastName = umbracoMember.GetValue<string>("lastName"),
-                RoyalMailMarketingPreferences = new ContactPreferences() { }
+                CanWeContactByPost = umbracoMember.GetValue<bool>("rmPost"),
+                CanWeContactByEmail = umbracoMember.GetValue<bool>("rmEmail"),
+                CanWeContactByPhone = umbracoMember.GetValue<bool>("rmPhone"),
+                CanWeContactBySmsAndOther = umbracoMember.GetValue<bool>("rmSmsAndOther"),
+                CanThirdPatiesContactByPost = umbracoMember.GetValue<bool>("thirdPartyPost"),
+                CanThirdPatiesContactByEmail = umbracoMember.GetValue<bool>("thirdPartyEmail"),
+                CanThirdPatiesContactByPhone = umbracoMember.GetValue<bool>("thirdPartyPhone"),
+                CanThirdPatiesContactBySmsAndOther = umbracoMember.GetValue<bool>("thirdPartySmsAndOther")
             };
         }
 
@@ -54,6 +61,14 @@ namespace RM.MailshotsOnline.Data.Services
             umbracoMember.SetValue("title", member.Title);
             umbracoMember.SetValue("firstName", member.FirstName);
             umbracoMember.SetValue("lastName", member.LastName);
+            umbracoMember.SetValue("rmPost", member.CanWeContactByPost);
+            umbracoMember.SetValue("rmEmail", member.CanWeContactByEmail);
+            umbracoMember.SetValue("rmPhone", member.CanWeContactByPhone);
+            umbracoMember.SetValue("rmSmsAndOther", member.CanWeContactBySmsAndOther);
+            umbracoMember.SetValue("thirdPartyPost", member.CanThirdPatiesContactByPost);
+            umbracoMember.SetValue("thirdPartyEmail", member.CanThirdPatiesContactByEmail);
+            umbracoMember.SetValue("thirdPartyPhone", member.CanThirdPatiesContactByPhone);
+            umbracoMember.SetValue("thirdPartySmsAndOther", member.CanThirdPatiesContactBySmsAndOther);
 
             Umbraco.Core.ApplicationContext.Current.Services.MemberService.Save(umbracoMember);
             Umbraco.Core.ApplicationContext.Current.Services.MemberService.SavePassword(umbracoMember, password);

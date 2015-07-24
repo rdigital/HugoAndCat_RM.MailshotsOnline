@@ -20,5 +20,22 @@ namespace RM.MailshotsOnline.PCL.Models
         bool IsApproved { get; set; }
 
         bool IsLockedOut { get; set; }
+
+        bool CanWeContactByPost { get; set; }
+
+        bool CanWeContactByEmail { get; set; }
+
+        bool CanWeContactByPhone { get; set; }
+
+        bool CanWeContactBySmsAndOther { get; set; }
+
+        bool CanThirdPatiesContactByPost { get; set; }
+
+        bool CanThirdPatiesContactByEmail { get; set; }
+
+        bool CanThirdPatiesContactByPhone { get; set; }
+
+        bool CanThirdPatiesContactBySmsAndOther { get; set; }
+
     }
 }
