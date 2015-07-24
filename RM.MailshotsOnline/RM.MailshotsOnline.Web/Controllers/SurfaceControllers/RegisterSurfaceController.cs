@@ -30,20 +30,20 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         {
             // todo: get valid titles.
 
-            var viewModel = new RegisterViewModel() { Page = 1, PageModel = model };
+            model.ViewModel = new RegisterViewModel();
 
-            return PartialView("~/Views/Register/Partials/Register.cshtml", viewModel);
+            return PartialView("~/Views/Register/Partials/Register.cshtml", model);
         }
 
         [HttpPost]
-        public ActionResult RegisterForm(RegisterViewModel model)
+        public ActionResult RegisterForm(Register model)
         {
             if (!ModelState.IsValid)
             {
                 return CurrentUmbracoPage();
             }
 
-            if (Members.GetByEmail(model.Email) != null)
+            if (Members.GetByEmail(model.ViewModel.Email) != null)
             {
                 ModelState.AddModelError("AlreadyRegistered",
                     "You already appear to be registered with us. Please use the login page instead.");
@@ -52,7 +52,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             try
             {
-                CreateMember(model);
+                //CreateMember(model.RegisterPartOne, model.RegisterPartTwo);
             }
             catch (MembershipPasswordException)
             {
@@ -61,7 +61,12 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return CurrentUmbracoPage();
             }
 
-            return Redirect("/?registered=true");
+            return Complete();
+        }
+
+        public ActionResult Complete()
+        {
+            return PartialView("~/Views/Register/Partials/RegisterComplete.cshtml");
         }
 
         private void CreateMember(RegisterViewModel model)
