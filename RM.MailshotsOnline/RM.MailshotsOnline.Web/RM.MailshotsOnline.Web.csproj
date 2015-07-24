@@ -2830,7 +2830,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\AppInsightsExceptionLogger.cs" />
     <Compile Include="App_Start\GlassMapperUmb.cs">
       <SubType>Code</SubType>
     </Compile>
