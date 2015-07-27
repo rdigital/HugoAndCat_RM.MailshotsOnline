@@ -2841,7 +2841,7 @@
     <Compile Include="App_Start\RegisterPageEvents.cs" />
     <Compile Include="App_Start\TelemetryConfig.cs" />
     <Compile Include="Controllers\Api\ApiBaseController.cs" />
-    <Compile Include="Controllers\Api\MailshotController.cs" />
+    <Compile Include="Controllers\Api\MailshotsController.cs" />
     <Compile Include="Controllers\Api\PostageController.cs" />
     <Compile Include="Controllers\ContentPageController.cs" />
     <Compile Include="Controllers\GlassController.cs" />

@@ -12,6 +12,8 @@ namespace RM.MailshotsOnline.PCL.Services
 
         IEnumerable<IMailshot> GetUsersMailshots(int userId, bool draftOnly = false);
 
+        IMailshot GetMailshot(Guid mailshotId);
+
         void SaveMailshot(IMailshot mailshot);
     }
 }

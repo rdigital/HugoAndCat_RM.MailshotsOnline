@@ -82,6 +82,14 @@
     <Compile Include="Migrations\201507101409164_AddMailshots.Designer.cs">
       <DependentUpon>201507101409164_AddMailshots.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507271255024_ModelUpdates.cs" />
+    <Compile Include="Migrations\201507271255024_ModelUpdates.Designer.cs">
+      <DependentUpon>201507271255024_ModelUpdates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507271300411_IdentityUpdates.cs" />
+    <Compile Include="Migrations\201507271300411_IdentityUpdates.Designer.cs">
+      <DependentUpon>201507271300411_IdentityUpdates.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\MailshotsService.cs" />
@@ -117,6 +125,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507101409164_AddMailshots.resx">
       <DependentUpon>201507101409164_AddMailshots.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507271255024_ModelUpdates.resx">
+      <DependentUpon>201507271255024_ModelUpdates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507271300411_IdentityUpdates.resx">
+      <DependentUpon>201507271300411_IdentityUpdates.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

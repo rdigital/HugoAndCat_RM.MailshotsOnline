@@ -11,13 +11,20 @@ namespace RM.MailshotsOnline.Entities.DataModels
 {
     public class Mailshot : IMailshot
     {
+        private MailshotContent _content;
+
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid MailshotId { get; set; }
 
         public Guid MailshotContentId { get; set; }
 
         [ForeignKey("MailshotContentId")]
-        public virtual MailshotContent Content { get; set; }
+        public virtual MailshotContent Content
+        {
+            get { return _content; }
+            set { _content = value; }
+        }
 
         public int UserId { get; set; }
 
@@ -31,5 +38,15 @@ namespace RM.MailshotsOnline.Entities.DataModels
         public DateTime CreatedUtc { get; private set; }
 
         public bool Draft { get; set; }
+
+        #region Explicit Interface Implementations
+        
+        IMailshotContent IMailshot.Content
+        {
+            get { return _content; }
+            set { _content = (MailshotContent)value; }
+        }
+
+        #endregion 
     }
 }

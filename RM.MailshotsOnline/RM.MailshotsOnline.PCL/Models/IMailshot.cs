@@ -11,6 +11,8 @@ namespace RM.MailshotsOnline.PCL.Models
 
         Guid MailshotContentId { get; set; }
 
+        IMailshotContent Content { get; set; }
+
         int UserId { get; set; }
 
         string Name { get; set; }
