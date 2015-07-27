@@ -13,6 +13,7 @@ namespace RM.MailshotsOnline.Entities.DataModels
     public class MailshotContent : IMailshotContent
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid MailshotContentId { get; set; }
 
         [Column(TypeName = "text")]

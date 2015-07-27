@@ -24,6 +24,11 @@ namespace RM.MailshotsOnline.Data.Services
             return _context.Mailshots.AsEnumerable();
         }
 
+        public IMailshot GetMailshot(Guid mailshotId)
+        {
+            return _context.Mailshots.Include("Content").FirstOrDefault(m => m.MailshotId == mailshotId);
+        }
+
         public IEnumerable<IMailshot> GetUsersMailshots(int userId, bool draftOnly = false)
         {
             if (!draftOnly)
