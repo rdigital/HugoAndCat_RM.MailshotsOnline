@@ -223,8 +223,9 @@
       <HintPath>..\packages\UmbracoCms.Core.7.2.8\lib\umbraco.providers.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Umbraco.Tests">
-      <HintPath>..\packages\UmbracoTests\Umbraco.Tests.dll</HintPath>
+    <Reference Include="Umbraco.Tests, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\references\Umbraco.Tests\Umbraco.Tests.dll</HintPath>
     </Reference>
     <Reference Include="Umbraco.Web.UI, Version=1.0.5675.23473, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\UmbracoCms.Core.7.2.8\lib\Umbraco.Web.UI.dll</HintPath>
@@ -265,6 +266,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <None Include="Umbraco.Tests.dll.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RM.MailshotsOnline.Data\RM.MailshotsOnline.Data.csproj">
