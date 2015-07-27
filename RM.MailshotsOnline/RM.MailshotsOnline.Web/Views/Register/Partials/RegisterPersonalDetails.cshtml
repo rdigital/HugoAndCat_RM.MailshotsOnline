@@ -89,15 +89,15 @@
     </div>
 
     <div class="validation-summary-errors">
-        @Html.ValidationMessageFor(m => m.ViewModel.PostCode)
+        @Html.ValidationMessageFor(m => m.ViewModel.Postcode)
     </div>
 
     <div>
-        @Html.ValidationMessageFor(m => m.ViewModel.PostCode)
+        @Html.ValidationMessageFor(m => m.ViewModel.Postcode)
     </div>
     <div>
-        @Html.LabelFor(m => m.ViewModel.PostCode, Model.PostcodeLabel)
-        @Html.EditorFor(m => m.ViewModel.PostCode)
+        @Html.LabelFor(m => m.ViewModel.Postcode, Model.PostcodeLabel)
+        @Html.EditorFor(m => m.ViewModel.Postcode)
     </div>
     <div>
         @Html.HiddenFor(m => m.ViewModel.IsRecaptchaValidated)

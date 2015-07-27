@@ -39,5 +39,30 @@ namespace RM.MailshotsOnline.Entities.MemberModels
         public bool CanThirdPatiesContactByPhone { get; set; }
 
         public bool CanThirdPatiesContactBySmsAndOther { get; set; }
+
+        public string Postcode { get; set; }
+
+        public string OrganisationName { get; set; }
+
+        public string JobTitle { get; set; }
+
+        public string FlatNumber { get; set; }
+
+        public string BuildingNumber { get; set; }
+
+        public string BuildingName { get; set; }
+
+        public string Address1 { get; set; }
+
+        public string Address2 { get; set; }
+
+        public string City { get; set; }
+
+        public string Country { get; set; }
+
+        public string WorkPhoneNumber { get; set; }
+
+        public string MobilePhoneNumber { get; set; }
+
     }
 }

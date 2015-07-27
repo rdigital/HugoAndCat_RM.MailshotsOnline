@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Configuration;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Web;
+﻿using System.Runtime.InteropServices;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 using System.Web.Security;
-using System.Web.UI.WebControls;
-using Glass.Mapper;
-using Newtonsoft.Json;
 using RM.MailshotsOnline.Data.Services;
 using RM.MailshotsOnline.Entities.MemberModels;
 using RM.MailshotsOnline.Entities.PageModels;
@@ -52,14 +40,14 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             if (Members.GetByEmail(model.ViewModel.Email) != null)
             {
-                ModelState.AddModelError("AlreadyRegistered",
+                ModelState.AddModelError("ViewModel.Email",
                     "You already appear to be registered with us. Please use the login page instead.");
                 return CurrentUmbracoPage();
             }
 
             try
             {
-                //CreateMember(model.RegisterPartOne, model.RegisterPartTwo);
+                CreateMember(model.ViewModel);
             }
             catch (MembershipPasswordException)
             {
@@ -95,7 +83,19 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 CanThirdPatiesContactByPost = model.ThirdPartyContactOptions.Post,
                 CanThirdPatiesContactByEmail = model.ThirdPartyContactOptions.Email,
                 CanThirdPatiesContactByPhone = model.ThirdPartyContactOptions.Phone,
-                CanThirdPatiesContactBySmsAndOther = model.ThirdPartyContactOptions.SmsAndOther
+                CanThirdPatiesContactBySmsAndOther = model.ThirdPartyContactOptions.SmsAndOther,
+                Postcode = model.Postcode,
+                OrganisationName = model.OrganisationName,
+                JobTitle = model.JobTitle,
+                FlatNumber = model.FlatNumber,
+                BuildingNumber = model.BuildingNumber,
+                BuildingName = model.BuildingName,
+                Address1 = model.Address1,
+                Address2 = model.Address2,
+                City = model.City,
+                Country = model.Country,
+                WorkPhoneNumber = model.WorkPhoneNumber,
+                MobilePhoneNumber = model.MobilePhoneNumber
             }, model.Password);
         }
     }
