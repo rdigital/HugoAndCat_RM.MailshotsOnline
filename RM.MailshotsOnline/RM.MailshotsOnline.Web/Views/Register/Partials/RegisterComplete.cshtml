@@ -1,3 +1,9 @@
-﻿
+﻿@model RM.MailshotsOnline.Entities.PageModels.Register
 
-<p><strong>Hooray! You've registered.</strong></p>
+
+<div>
+    <h2>
+        @Html.DisplayFor(m=>m.ThankYouLabel)
+    </h2>
+    <p>@Html.DisplayFor(m => m.MyAccountCtaText)</p>
+</div>

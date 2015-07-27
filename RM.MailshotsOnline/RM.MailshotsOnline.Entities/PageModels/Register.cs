@@ -58,9 +58,13 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         public string CountryLabel { get; set; }
 
-        public string WorkPhoneNnumberLabel { get; set; }
+        public string WorkPhoneNumberLabel { get; set; }
 
         public string MobilePhoneNumberLabel { get; set; }
+
+        public string ThankYouLabel { get; set; }
+
+        public string MyAccountCtaText { get; set; }
 
         public RegisterViewModel ViewModel { get; set; }
     }

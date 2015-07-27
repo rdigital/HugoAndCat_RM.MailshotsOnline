@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using System.Web.Security;
 using System.Web.UI.WebControls;
+using Glass.Mapper;
 using Newtonsoft.Json;
 using RM.MailshotsOnline.Data.Services;
 using RM.MailshotsOnline.Entities.MemberModels;
@@ -24,11 +25,17 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
     {
         private readonly MembershipService _membershipService = new MembershipService();
 
+        private const string CompletedFlag = "RegistrationComplete";
+
         // GET: Register
         [ChildActionOnly]
         public ActionResult ShowRegisterForm(Register model)
         {
             // todo: get valid titles.
+            if (TempData[CompletedFlag] != null && (bool) TempData[CompletedFlag])
+            {
+                return Complete(model);
+            }
 
             model.ViewModel = new RegisterViewModel();
 
@@ -61,12 +68,14 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return CurrentUmbracoPage();
             }
 
-            return Complete();
+            TempData[CompletedFlag] = true;
+
+            return CurrentUmbracoPage();
         }
 
-        public ActionResult Complete()
+        public ActionResult Complete(Register model)
         {
-            return PartialView("~/Views/Register/Partials/RegisterComplete.cshtml");
+            return PartialView("~/Views/Register/Partials/RegisterComplete.cshtml", model);
         }
 
         private void CreateMember(RegisterViewModel model)

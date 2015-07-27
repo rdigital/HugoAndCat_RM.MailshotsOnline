@@ -52,13 +52,13 @@ namespace RM.MailshotsOnline.Entities.ViewModels
 
         #region Part two
 
-        [Required]
+        [Required(ErrorMessage = "Please enter your postcode")]
         public string PostCode { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter your organisation name")]
         public string OrganisationName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter your job title")]
         public string JobTitle { get; set; }
 
         public string FlatNumber { get; set; }
@@ -67,18 +67,18 @@ namespace RM.MailshotsOnline.Entities.ViewModels
 
         public string BuildingName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter your street address")]
         public string Address1 { get; set; }
 
         public string Address2 { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter your city")]
         public string City { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter your country")]
         public string Country { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter your work phone number")]
         public string WorkPhoneNumber { get; set; }
 
         public string MobilePhoneNumber { get; set; }
