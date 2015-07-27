@@ -24,6 +24,7 @@ namespace RM.MailshotsOnline.Data.Services
             var umbracoMember = Umbraco.Core.ApplicationContext.Current.Services.MemberService.GetByProviderKey(securityMember.ProviderUserKey);
 
             // TODO: Encrypt / Decrypt these
+
             return new Member()
             {
                 Id = umbracoMember.Id,
@@ -40,20 +41,32 @@ namespace RM.MailshotsOnline.Data.Services
                 CanThirdPatiesContactByPost = umbracoMember.GetValue<bool>("thirdPartyPost"),
                 CanThirdPatiesContactByEmail = umbracoMember.GetValue<bool>("thirdPartyEmail"),
                 CanThirdPatiesContactByPhone = umbracoMember.GetValue<bool>("thirdPartyPhone"),
-                CanThirdPatiesContactBySmsAndOther = umbracoMember.GetValue<bool>("thirdPartySmsAndOther")
+                CanThirdPatiesContactBySmsAndOther = umbracoMember.GetValue<bool>("thirdPartySmsAndOther"),
+                Postcode = umbracoMember.GetValue<string>("postcode"),
+                OrganisationName = umbracoMember.GetValue<string>("organisationName"),
+                JobTitle = umbracoMember.GetValue<string>("jobTitle"),
+                FlatNumber = umbracoMember.GetValue<string>("flatNumber"),
+                BuildingNumber = umbracoMember.GetValue<string>("buildingNumber"),
+                BuildingName = umbracoMember.GetValue<string>("buildingName"),
+                Address1 = umbracoMember.GetValue<string>("address1"),
+                Address2 = umbracoMember.GetValue<string>("address2"),
+                City = umbracoMember.GetValue<string>("city"),
+                Country = umbracoMember.GetValue<string>("country"),
+                WorkPhoneNumber = umbracoMember.GetValue<string>("workPhoneNumber"),
+                MobilePhoneNumber = umbracoMember.GetValue<string>("mobilePhoneNumber")
             };
         }
 
         public IMember CreateMember(IMember member, string password)
         {
-            //TODO: Encrypt data!
-
             var membershipService = Umbraco.Core.ApplicationContext.Current.Services.MemberService;
 
             if (membershipService.Exists(member.EmailAddress))
             {
                 return null;
             }
+
+            //TODO: Encrypt data!
 
             var umbracoMember = membershipService.CreateMemberWithIdentity(member.EmailAddress, member.EmailAddress,
                 member.EmailAddress, "Member");
@@ -69,6 +82,17 @@ namespace RM.MailshotsOnline.Data.Services
             umbracoMember.SetValue("thirdPartyEmail", member.CanThirdPatiesContactByEmail);
             umbracoMember.SetValue("thirdPartyPhone", member.CanThirdPatiesContactByPhone);
             umbracoMember.SetValue("thirdPartySmsAndOther", member.CanThirdPatiesContactBySmsAndOther);
+            umbracoMember.SetValue("postcode", member.Postcode);
+            umbracoMember.SetValue("organisationName", member.OrganisationName);
+            umbracoMember.SetValue("jobTitle", member.JobTitle);
+            umbracoMember.SetValue("flatNumber", member.FlatNumber);
+            umbracoMember.SetValue("buildingNumber", member.BuildingName);
+            umbracoMember.SetValue("address1", member.Address1);
+            umbracoMember.SetValue("address2", member.Address2);
+            umbracoMember.SetValue("city", member.City);
+            umbracoMember.SetValue("country", member.Country);
+            umbracoMember.SetValue("workPhoneNumber", member.WorkPhoneNumber);
+            umbracoMember.SetValue("mobilePhoneNumber", member.MobilePhoneNumber);
 
             Umbraco.Core.ApplicationContext.Current.Services.MemberService.Save(umbracoMember);
             Umbraco.Core.ApplicationContext.Current.Services.MemberService.SavePassword(umbracoMember, password);

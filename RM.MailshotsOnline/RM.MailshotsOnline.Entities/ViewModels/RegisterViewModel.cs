@@ -53,7 +53,7 @@ namespace RM.MailshotsOnline.Entities.ViewModels
         #region Part two
 
         [Required(ErrorMessage = "Please enter your postcode")]
-        public string PostCode { get; set; }
+        public string Postcode { get; set; }
 
         [Required(ErrorMessage = "Please enter your organisation name")]
         public string OrganisationName { get; set; }
