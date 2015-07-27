@@ -89,8 +89,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
         }
 
-        [HttpPost]
-        public HttpResponseMessage Update(Guid mailshotId, MailshotViewModel mailshot)
+        [HttpPut]
+        public HttpResponseMessage Update(Guid id, MailshotViewModel mailshot)
         {
             Authenticate();
 
@@ -99,7 +99,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Please provide mailshot data to send.");
             }
 
-            var mailshotData = _mailshotsService.GetMailshot(mailshotId);
+            var mailshotData = _mailshotsService.GetMailshot(id);
             if (mailshotData == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "No mailshot found with that ID");

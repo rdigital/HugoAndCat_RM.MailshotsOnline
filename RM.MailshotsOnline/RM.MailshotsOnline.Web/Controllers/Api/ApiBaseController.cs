@@ -4,6 +4,7 @@ using RM.MailshotsOnline.PCL.Services;
 using RM.MailshotsOnline.Web.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using Umbraco.Web;
@@ -13,7 +14,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 {
     public abstract class ApiBaseController : UmbracoApiController
     {
-        internal IMember loggedInMember;
+        internal IMember _loggedInMember;
 
         internal IMembershipService _membershipService;
 
@@ -31,12 +32,27 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
         internal void Authenticate()
         {
-            if (!HttpContext.Current.User.Identity.IsAuthenticated)
+            if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["SpoofUser"]))
             {
-                throw new HttpException(401, "You must be logged in.");
+                int userId = int.Parse(ConfigurationManager.AppSettings["SpoofUser"]);
+                _loggedInMember = new Member()
+                {
+                    Id = userId,
+                    FirstName = "Test",
+                    LastName = "User",
+                    EmailAddress = "ext-mradford@hugoandcat.com",
+                    Title = "Mr"
+                };
             }
+            else
+            {
+                if (!HttpContext.Current.User.Identity.IsAuthenticated)
+                {
+                    throw new HttpException(401, "You must be logged in.");
+                }
 
-            loggedInMember = _membershipService.GetCurrentMember();
+                _loggedInMember = _membershipService.GetCurrentMember();
+            }
         }
     }
 }
