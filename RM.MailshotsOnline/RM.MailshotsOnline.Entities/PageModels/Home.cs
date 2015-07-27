@@ -24,5 +24,7 @@ namespace RM.MailshotsOnline.Entities.PageModels
         /// The banner image
         /// </summary>
         public virtual Image BannerImage { get; set; }
+
+        public virtual Login LoginPage { get; set; }
     }
 }

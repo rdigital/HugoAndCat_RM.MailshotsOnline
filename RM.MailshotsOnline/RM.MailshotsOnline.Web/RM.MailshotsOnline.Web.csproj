@@ -2847,8 +2847,10 @@
     <Compile Include="Controllers\GlassController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\LogoutController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\SurfaceControllers\LoginSurfaceController.cs" />
+    <Compile Include="Controllers\SurfaceControllers\LogoutSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\RegisterSurfaceController.cs" />
     <Compile Include="Helpers\ControllersHelper.cs" />
     <Compile Include="Helpers\MembershipHelper.cs" />
@@ -3069,6 +3071,8 @@
     <Content Include="Views\Register\Partials\Register.cshtml" />
     <Content Include="Views\Register\Partials\RegisterPersonalDetails.cshtml" />
     <Content Include="Views\Register\Partials\RegisterComplete.cshtml" />
+    <Content Include="Views\Logout\Logout.cshtml" />
+    <Content Include="Views\Logout\Partials\Logout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -3095,7 +3099,6 @@
     <Folder Include="Views\LoginSurface\" />
     <Folder Include="Views\Mailshot\" />
     <Folder Include="Views\Postage\" />
-    <Folder Include="Views\RegisterSurface\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

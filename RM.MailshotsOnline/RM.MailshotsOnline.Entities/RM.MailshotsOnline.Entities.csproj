@@ -73,6 +73,7 @@
     <Compile Include="PageModels\Home.cs" />
     <Compile Include="PageModels\Item.cs" />
     <Compile Include="PageModels\Login.cs" />
+    <Compile Include="PageModels\Logout.cs" />
     <Compile Include="PageModels\Register.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
