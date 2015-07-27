@@ -12,6 +12,8 @@ namespace RM.MailshotsOnline.Entities.PageModels
     [UmbracoType(AutoMap = true)]
     public class Register : BasePage
     {
+        public int  Page { get; set; }
+
         public string EmailLabel { get; set; }
 
         public string ConfirmEmailLabel { get; set; }
@@ -26,8 +28,6 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         public string ConfirmPasswordLabel { get; set; }
 
-        public string PasswordReminderLabel { get; set; }
-
         public string RoyalMailContactOptionsDisclaimer { get; set; }
 
         public string RoyalMailContactOptionsLabel { get; set; }
@@ -37,5 +37,35 @@ namespace RM.MailshotsOnline.Entities.PageModels
         public string ThirdPartyContactOptionsLabel { get; set; }
 
         public string AgreeToTermsAndConditionsLabel { get; set; }
+
+        public string PostcodeLabel { get; set; }
+
+        public string OrganisationNameLabel { get; set; }
+
+        public string JobTitleLabel { get; set; }
+
+        public string FlatNumberLabel { get; set; }
+
+        public string BuildingNumberLabel { get; set; }
+
+        public string BuildingNameLabel { get; set; }
+
+        public string Address1Label { get; set; }
+
+        public string Address2Label { get; set; }
+
+        public string CityLabel { get; set; }
+
+        public string CountryLabel { get; set; }
+
+        public string WorkPhoneNumberLabel { get; set; }
+
+        public string MobilePhoneNumberLabel { get; set; }
+
+        public string ThankYouLabel { get; set; }
+
+        public string MyAccountCtaText { get; set; }
+
+        public RegisterViewModel ViewModel { get; set; }
     }
 }

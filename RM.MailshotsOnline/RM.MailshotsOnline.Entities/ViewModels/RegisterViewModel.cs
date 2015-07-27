@@ -12,7 +12,7 @@ namespace RM.MailshotsOnline.Entities.ViewModels
 {
     public class RegisterViewModel
     {
-        public int Page { get; set; }
+        #region Part one
 
         [Required(ErrorMessage = "Please enter a valid email address")]
         public string Email { get; set; }
@@ -48,6 +48,42 @@ namespace RM.MailshotsOnline.Entities.ViewModels
         [Recaptcha]
         public bool IsRecaptchaValidated { get; set; }
 
-        public PageModels.Register PageModel { get; set; }
+        #endregion
+
+        #region Part two
+
+        [Required(ErrorMessage = "Please enter your postcode")]
+        public string PostCode { get; set; }
+
+        [Required(ErrorMessage = "Please enter your organisation name")]
+        public string OrganisationName { get; set; }
+
+        [Required(ErrorMessage = "Please enter your job title")]
+        public string JobTitle { get; set; }
+
+        public string FlatNumber { get; set; }
+
+        public string BuildingNumber { get; set; }
+
+        public string BuildingName { get; set; }
+
+        [Required(ErrorMessage = "Please enter your street address")]
+        public string Address1 { get; set; }
+
+        public string Address2 { get; set; }
+
+        [Required(ErrorMessage = "Please enter your city")]
+        public string City { get; set; }
+
+        [Required(ErrorMessage = "Please enter your country")]
+        public string Country { get; set; }
+
+        [Required(ErrorMessage = "Please enter your work phone number")]
+        public string WorkPhoneNumber { get; set; }
+
+        public string MobilePhoneNumber { get; set; }
+
+
+        #endregion
     }
 }

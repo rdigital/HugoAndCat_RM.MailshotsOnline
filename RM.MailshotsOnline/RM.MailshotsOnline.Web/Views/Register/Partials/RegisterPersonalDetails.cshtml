@@ -1,87 +1,108 @@
 ﻿@using System.Configuration;
 
-@model RM.MailshotsOnline.Entities.ViewModels.RegisterViewModel
+@model RM.MailshotsOnline.Entities.PageModels.Register
 
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
 @using (Html.BeginUmbracoForm("RegisterForm", "RegisterSurface"))
 {
+    <div class="validation-summary-errors">
+        @Html.ValidationMessageFor(m => m.ViewModel.Email)
+        @Html.ValidationMessageFor(m => m.ViewModel.ConfirmEmail)
+        @Html.ValidationMessageFor(m => m.ViewModel.FirstName)
+        @Html.ValidationMessageFor(m => m.ViewModel.LastName)
+        @Html.ValidationMessageFor(m => m.ViewModel.Title)
+        @Html.ValidationMessageFor(m => m.ViewModel.Password)
+        @Html.ValidationMessageFor(m => m.ViewModel.ConfirmPassword)
+        @Html.ValidationMessageFor(m => m.ViewModel.AgreeToTermsAndConditions)
+    </div>
 
-    @Html.ValidationSummary();
+    <div>
+        @Html.ValidationMessageFor(m => m.ViewModel.Email)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.ViewModel.Email, Model.EmailLabel)
+        @Html.EditorFor(m => m.ViewModel.Email)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.ViewModel.ConfirmEmail)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.ViewModel.ConfirmEmail, Model.ConfirmEmailLabel)
+        @Html.EditorFor(m => m.ViewModel.ConfirmEmail)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.ViewModel.FirstName)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.ViewModel.FirstName, Model.FirstNameLabel)
+        @Html.EditorFor(m => m.ViewModel.FirstName)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.ViewModel.LastName)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.ViewModel.LastName, Model.LastNameLabel)
+        @Html.EditorFor(m => m.ViewModel.LastName)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.ViewModel.Title)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.ViewModel.Title, Model.TitleLabel)
+        @Html.EditorFor(m => m.ViewModel.Title)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.ViewModel.Password)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.ViewModel.Password, Model.PasswordLabel)
+        @Html.PasswordFor(m => m.ViewModel.Password)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.ViewModel.ConfirmPassword)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.ViewModel.ConfirmPassword, "Confirm password")
+        @Html.PasswordFor(m => m.ViewModel.ConfirmPassword)
+    </div>
+    <div>
+        <span for="RoyalMailContactOptions">@Model.RoyalMailContactOptionsDisclaimer</span>
+    </div>
+    <div>
+        <label for="RoyalMailContactOptions">@Model.RoyalMailContactOptionsLabel</label>
+        @Html.EditorFor(m => m.ViewModel.RoyalMailContactOptions)
+    </div>
+    <div>
+        <span for="ThirdPartyContactOptionsDisclaimer">@Model.ThirdPartyContactOptionsDisclaimer</span>
+    </div>
+    <div>
+        <label for="ThirdPartyContactOptions">@Model.ThirdPartyContactOptionsLabel</label>
+        @Html.EditorFor(m => m.ViewModel.ThirdPartyContactOptions)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.ViewModel.AgreeToTermsAndConditions)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.ViewModel.AgreeToTermsAndConditions, "I agree to the full Terms and Conditions")
+        @Html.EditorFor(m => m.ViewModel.AgreeToTermsAndConditions)
+    </div>
+
+    <div class="validation-summary-errors">
+        @Html.ValidationMessageFor(m => m.ViewModel.PostCode)
+    </div>
 
     <div>
-        @Html.ValidationMessageFor(m => m.Email)
+        @Html.ValidationMessageFor(m => m.ViewModel.PostCode)
     </div>
     <div>
-        @Html.LabelFor(m => m.Email, "Your email address")
-        @Html.EditorFor(m => m.Email)
+        @Html.LabelFor(m => m.ViewModel.PostCode, Model.PostcodeLabel)
+        @Html.EditorFor(m => m.ViewModel.PostCode)
     </div>
     <div>
-        @Html.ValidationMessageFor(m => m.ConfirmEmail)
-    </div>
-    <div>
-        @Html.LabelFor(m => m.ConfirmEmail, "Confirm Email")
-        @Html.EditorFor(m => m.ConfirmEmail)
-    </div>
-    <div>
-        @Html.ValidationMessageFor(m => m.FirstName)
-    </div>
-    <div>
-        @Html.LabelFor(m => m.FirstName, "First name")
-        @Html.EditorFor(m => m.FirstName)
-    </div>
-    <div>
-        @Html.ValidationMessageFor(m => m.LastName)
-    </div>
-    <div>
-        @Html.LabelFor(m => m.LastName, "Last name")
-        @Html.EditorFor(m => m.LastName)
-    </div>
-    <div>
-        @Html.ValidationMessageFor(m => m.Title)
-    </div>
-    <div>
-        @Html.LabelFor(m => m.Title, "Your title")
-        @Html.EditorFor(m => m.Title)
-    </div>
-    <div>
-        @Html.ValidationMessageFor(m => m.Password)
-    </div>
-    <div>
-        @Html.LabelFor(m => m.Password, "Enter a password")
-        @Html.PasswordFor(m => m.Password)
-    </div>
-    <div>
-        @Html.ValidationMessageFor(m => m.ConfirmPassword)
-    </div>
-    <div>
-        @Html.LabelFor(m => m.ConfirmPassword, "Confirm password")
-        @Html.PasswordFor(m => m.ConfirmPassword)
-    </div>
-    <div>
-        <span for="RoyalMailContactOptions">@Model.PageModel.RoyalMailContactOptionsDisclaimer</span>
-    </div>
-    <div>
-        <label for="RoyalMailContactOptions">@Model.PageModel.RoyalMailContactOptionsLabel</label>
-        @Html.EditorFor(m => m.RoyalMailContactOptions)
-    </div>
-    <div>
-        <span for="ThirdPartyContactOptionsDisclaimer">@Model.PageModel.ThirdPartyContactOptionsDisclaimer</span>
-    </div>
-    <div>
-        <label for="ThirdPartyContactOptions">@Model.PageModel.ThirdPartyContactOptionsLabel</label>
-        @Html.EditorFor(m => m.ThirdPartyContactOptions)
-    </div>
-    <div>
-        @Html.ValidationMessageFor(m => m.AgreeToTermsAndConditions)
-    </div>
-    <div>
-        @Html.LabelFor(m => m.AgreeToTermsAndConditions, "I agree to the full Terms and Conditions")
-        @Html.EditorFor(m => m.AgreeToTermsAndConditions)
-    </div>
-    <div>
-        @Html.HiddenFor(m => m.IsRecaptchaValidated)
+        @Html.HiddenFor(m => m.ViewModel.IsRecaptchaValidated)
         <div class="g-recaptcha" data-sitekey="@ConfigurationManager.AppSettings["RecaptchaSiteKey"]"></div>
     </div>
+
     <input type="submit" />
 }

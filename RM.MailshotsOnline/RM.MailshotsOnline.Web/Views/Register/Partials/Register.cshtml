@@ -1,21 +1,185 @@
-﻿@using Castle.Windsor.Installer
-@using System.Configuration;
-@model RM.MailshotsOnline.Entities.ViewModels.RegisterViewModel
+﻿@using System.Configuration;
 
-@Html.HiddenFor(m => m.Page)
+@model RM.MailshotsOnline.Entities.PageModels.Register
 
-@{
-    switch (Model.Page)
-    {
-        case 1:
-            Html.RenderPartial("~/Views/Register/Partials/RegisterPersonalDetails.cshtml", Model);
-            break;
-        case 2:
-            Html.RenderPartial("~/Views/Register/Partials/RegisterOrganisationDetails.cshtml", Model);
-            break;
-        case 3:
-            Html.RenderPartial("~/Views/Register/Partials/RegisterConfirm.cshtml", Model);
-            break;
-    }
+<script src='https://www.google.com/recaptcha/api.js'></script>
+
+@using (Html.BeginUmbracoForm("RegisterForm", "RegisterSurface"))
+{
+    <section>
+        <div>
+            @Html.ValidationMessageFor(m => m.ViewModel.Email)
+            @Html.ValidationMessageFor(m => m.ViewModel.ConfirmEmail)
+            @Html.ValidationMessageFor(m => m.ViewModel.FirstName)
+            @Html.ValidationMessageFor(m => m.ViewModel.LastName)
+            @Html.ValidationMessageFor(m => m.ViewModel.Title)
+            @Html.ValidationMessageFor(m => m.ViewModel.Password)
+            @Html.ValidationMessageFor(m => m.ViewModel.ConfirmPassword)
+            @Html.ValidationMessageFor(m => m.ViewModel.AgreeToTermsAndConditions)
+        </div>
+
+        <div>
+            @Html.ValidationMessageFor(m => m.ViewModel.Email)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.ViewModel.Email, Model.EmailLabel)
+            @Html.EditorFor(m => m.ViewModel.Email)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(m => m.ViewModel.ConfirmEmail)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.ViewModel.ConfirmEmail, Model.ConfirmEmailLabel)
+            @Html.EditorFor(m => m.ViewModel.ConfirmEmail)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(m => m.ViewModel.FirstName)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.ViewModel.FirstName, Model.FirstNameLabel)
+            @Html.EditorFor(m => m.ViewModel.FirstName)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(m => m.ViewModel.LastName)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.ViewModel.LastName, Model.LastNameLabel)
+            @Html.EditorFor(m => m.ViewModel.LastName)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(m => m.ViewModel.Title)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.ViewModel.Title, Model.TitleLabel)
+            @Html.EditorFor(m => m.ViewModel.Title)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(m => m.ViewModel.Password)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.ViewModel.Password, Model.PasswordLabel)
+            @Html.PasswordFor(m => m.ViewModel.Password)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(m => m.ViewModel.ConfirmPassword)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.ViewModel.ConfirmPassword, Model.ConfirmPasswordLabel)
+            @Html.PasswordFor(m => m.ViewModel.ConfirmPassword)
+        </div>
+        <div>
+            <span for="RoyalMailContactOptions">@Model.RoyalMailContactOptionsDisclaimer</span>
+        </div>
+        <div>
+            <label for="RoyalMailContactOptions">@Model.RoyalMailContactOptionsLabel</label>
+            @Html.EditorFor(m => m.ViewModel.RoyalMailContactOptions)
+        </div>
+        <div>
+            <span for="ThirdPartyContactOptionsDisclaimer">@Model.ThirdPartyContactOptionsDisclaimer</span>
+        </div>
+        <div>
+            <label for="ThirdPartyContactOptions">@Model.ThirdPartyContactOptionsLabel</label>
+            @Html.EditorFor(m => m.ViewModel.ThirdPartyContactOptions)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(m => m.ViewModel.AgreeToTermsAndConditions)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.ViewModel.AgreeToTermsAndConditions, Model.AgreeToTermsAndConditionsLabel)
+            @Html.EditorFor(m => m.ViewModel.AgreeToTermsAndConditions)
+        </div>
+    </section>
+
+    <section>
+        <div>
+            @Html.ValidationMessageFor(m => m.ViewModel.PostCode)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.ViewModel.PostCode, Model.PostcodeLabel)
+            @Html.EditorFor(m => m.ViewModel.PostCode)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationName)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.ViewModel.OrganisationName, Model.OrganisationNameLabel)
+            @Html.EditorFor(m => m.ViewModel.OrganisationName)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(m => m.ViewModel.JobTitle)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.ViewModel.JobTitle, Model.JobTitleLabel)
+            @Html.EditorFor(m => m.ViewModel.JobTitle)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(m => m.ViewModel.FlatNumber)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.ViewModel.FlatNumber, Model.FlatNumberLabel)
+            @Html.EditorFor(m => m.ViewModel.FlatNumber)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(m => m.ViewModel.BuildingNumber)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.ViewModel.BuildingNumber, Model.BuildingNumberLabel)
+            @Html.EditorFor(m => m.ViewModel.BuildingNumber)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(m => m.ViewModel.BuildingName)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.ViewModel.BuildingName, Model.BuildingNameLabel)
+            @Html.EditorFor(m => m.ViewModel.BuildingName)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(m => m.ViewModel.Address1)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.ViewModel.Address1, Model.Address1Label)
+            @Html.EditorFor(m => m.ViewModel.Address1)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(m => m.ViewModel.Address2)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.ViewModel.Address2, Model.Address2Label)
+            @Html.EditorFor(m => m.ViewModel.Address2)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(m => m.ViewModel.City)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.ViewModel.City, Model.CityLabel)
+            @Html.EditorFor(m => m.ViewModel.City)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(m => m.ViewModel.Country)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.ViewModel.Country, Model.CountryLabel)
+            @Html.EditorFor(m => m.ViewModel.Country)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(m => m.ViewModel.WorkPhoneNumber)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.ViewModel.WorkPhoneNumber, Model.WorkPhoneNumberLabel)
+            @Html.EditorFor(m => m.ViewModel.WorkPhoneNumber)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(m => m.ViewModel.MobilePhoneNumber)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.ViewModel.MobilePhoneNumber, Model.MobilePhoneNumberLabel)
+            @Html.EditorFor(m => m.ViewModel.MobilePhoneNumber)
+        </div>
+        <div>
+            @Html.HiddenFor(m => m.ViewModel.IsRecaptchaValidated)
+            <div class="g-recaptcha" data-sitekey="@ConfigurationManager.AppSettings["RecaptchaSiteKey"]"></div>
+        </div>
+    </section>
+
+    <input type="submit" />
 }
-
