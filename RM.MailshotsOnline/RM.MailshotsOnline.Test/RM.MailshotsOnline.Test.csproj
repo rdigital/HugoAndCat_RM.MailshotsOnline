@@ -256,6 +256,7 @@
     <Compile Include="Controllers\Api\PostageControllerTest.cs" />
     <Compile Include="Helpers\UmbracoHelper.cs" />
     <Compile Include="Mocks\MockMembershipService.cs" />
+    <Compile Include="Mocks\MockPricingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
