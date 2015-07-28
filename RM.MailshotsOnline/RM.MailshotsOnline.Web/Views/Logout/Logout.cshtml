@@ -1,0 +1,12 @@
+﻿@inherits Glass.Mapper.Umb.Web.Ui.GlassViewPage<RM.MailshotsOnline.Entities.PageModels.Logout>
+@{
+    Layout = "~/Views/Master.cshtml";
+}
+
+<div class="content">
+    <h1>@Model.Name</h1>
+    @Umbraco.RenderMacro("Breadcrumbs")
+    <div class="logout">
+        @Html.Action("Index", "LogoutSurface", new { model = Model })
+    </div>
+</div>
