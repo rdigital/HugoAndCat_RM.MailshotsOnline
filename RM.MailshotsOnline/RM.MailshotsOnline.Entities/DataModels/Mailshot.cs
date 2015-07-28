@@ -1,4 +1,5 @@
-﻿using RM.MailshotsOnline.PCL.Models;
+﻿using Newtonsoft.Json;
+using RM.MailshotsOnline.PCL.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -17,8 +18,10 @@ namespace RM.MailshotsOnline.Entities.DataModels
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid MailshotId { get; set; }
 
+        [JsonIgnore]
         public Guid MailshotContentId { get; set; }
 
+        [JsonIgnore]
         [ForeignKey("MailshotContentId")]
         public virtual MailshotContent Content
         {
@@ -26,27 +29,43 @@ namespace RM.MailshotsOnline.Entities.DataModels
             set { _content = value; }
         }
 
+        [NotMapped]
+        public string ContentText { get; set; }
+
+        [Required]
         public int UserId { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
         public DateTime UpdatedDate { get; set; }
 
         public DateTime CreatedDate { get { return CreatedUtc; } }
 
+        [JsonIgnore]
         [Required, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime CreatedUtc { get; private set; }
 
         public bool Draft { get; set; }
 
+        [Required]
+        public int FormatId { get; set; }
+
+        [Required]
+        public int TemplateId { get; set; }
+
+        [Required]
+        public int ThemeId { get; set; }
+
         #region Explicit Interface Implementations
-        
+
+        [JsonIgnore]
         IMailshotContent IMailshot.Content
         {
             get { return _content; }
             set { _content = (MailshotContent)value; }
         }
 
-        #endregion 
+        #endregion
     }
 }

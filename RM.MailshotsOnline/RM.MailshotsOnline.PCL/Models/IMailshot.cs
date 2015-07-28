@@ -22,5 +22,11 @@ namespace RM.MailshotsOnline.PCL.Models
         DateTime CreatedDate { get; }
 
         bool Draft { get; set; }
+
+        int FormatId { get; set; }
+
+        int TemplateId { get; set; }
+
+        int ThemeId { get; set; }
     }
 }
