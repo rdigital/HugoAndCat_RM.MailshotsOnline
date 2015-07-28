@@ -265,6 +265,21 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Configurations\DashboardSettings\Dashboard.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Configurations\DashboardSettings\web.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Configurations\UmbracoSettings\umbracoSettings.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Configurations\UmbracoSettings\umbracoSettings.minimal.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Configurations\UmbracoSettings\web.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Umbraco.Tests.dll.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
