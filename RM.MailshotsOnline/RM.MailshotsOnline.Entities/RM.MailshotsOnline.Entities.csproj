@@ -66,6 +66,7 @@
     <Compile Include="DataModels\MailshotContent.cs" />
     <Compile Include="DataModels\Order.cs" />
     <Compile Include="DataModels\PostalOption.cs" />
+    <Compile Include="Extensions\MailshotExtensions.cs" />
     <Compile Include="MemberModels\ContactPreferences.cs" />
     <Compile Include="MemberModels\Member.cs" />
     <Compile Include="PageModels\BasePage.cs" />
