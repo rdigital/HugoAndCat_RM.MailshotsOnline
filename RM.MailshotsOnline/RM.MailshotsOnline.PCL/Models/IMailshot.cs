@@ -28,5 +28,11 @@ namespace RM.MailshotsOnline.PCL.Models
         int TemplateId { get; set; }
 
         int ThemeId { get; set; }
+
+        string ProofPdfBlobId { get; set; }
+
+        string ProofPdfUrl { get; set; }
+
+        Enums.PdfRenderStatus ProofPdfStatus { get; set; }
     }
 }

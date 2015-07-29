@@ -112,7 +112,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             _mailshotsService.SaveMailshot(mailshotData);
 
-            return Request.CreateResponse(HttpStatusCode.OK, mailshotData.MailshotId);
+            return Request.CreateResponse(HttpStatusCode.Created, mailshotData.MailshotId);
         }
 
         /// <summary>

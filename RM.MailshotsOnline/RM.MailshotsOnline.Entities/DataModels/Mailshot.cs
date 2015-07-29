@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using RM.MailshotsOnline.PCL;
 using RM.MailshotsOnline.PCL.Models;
 using System;
 using System.Collections.Generic;
@@ -56,6 +57,15 @@ namespace RM.MailshotsOnline.Entities.DataModels
 
         [Required]
         public int ThemeId { get; set; }
+
+        [JsonIgnore]
+        public string ProofPdfBlobId { get; set; }
+
+        [JsonIgnore]
+        public string ProofPdfUrl { get; set; }
+
+        [JsonIgnore]
+        public Enums.PdfRenderStatus ProofPdfStatus { get; set; }
 
         #region Explicit Interface Implementations
 

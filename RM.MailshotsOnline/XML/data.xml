@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="Formats/A4Page.xsl"?>
+<ticket>
+	<front>
+		<header_text>Front page</header_text>
+		
+		<main_copy_text>Aliquam, aptent elementum etiam a magnis cubilia elementum elit praesent elit. Cum vitae suspendisse a ante bibendum dui massa facilisis porta natoque rutrum. Habitant interdum tempor viverra quisque fermentum! Senectus ridiculus est tortor himenaeos pretium himenaeos proin eget gravida, gravida fusce. Mollis potenti senectus lobortis nisi. Ornare phasellus interdum suscipit.
+		
+		Est in nullam vitae. Vulputate posuere curabitur tempor tellus feugiat vestibulum ultrices facilisis? Lacinia torquent, mus cum. Potenti curae; convallis sit torquent, consequat hac. Tristique etiam consequat accumsan neque malesuada nibh? Semper taciti adipiscing et laoreet semper, facilisi dui. Fringilla sem vitae nisl tristique fringilla cras orci facilisis. Integer viverra urna etiam? Adipiscing nisi aptent rhoncus inceptos neque mauris sem ad. Dui molestie aliquam gravida diam. Dictum mus praesent rutrum consectetur. Risus luctus odio ligula ullamcorper varius tempor pulvinar senectus dictum eros vulputate. Adipiscing quis non quisque imperdiet. Elit.
+		</main_copy_text>
+		
+		<!--When this field changes, the graphic on the page changes (rules for this in common/modules.xsl)-->
+		<!--Possible values: 'clays', 'connectedthinking', 'occam', 'sims' ,'spgroup', 'stivesgroup' or empty-->
+		<graphic>spgroup</graphic>
+		
+		<!--This would be used to decide which template to select.-->
+		<!--This decision making could be handled within the XSL or externally to select the correct file to send to SparQ (probably more efficient?)-->
+		<template_type>A4</template_type>
+	</front>
+	<back>
+		<header_text>Back page</header_text>
+		
+		<main_copy_text>Aliquam, aptent elementum etiam a magnis cubilia elementum elit praesent elit. Cum vitae suspendisse a ante bibendum dui massa facilisis porta natoque rutrum. Habitant interdum tempor viverra quisque fermentum! Senectus ridiculus est tortor himenaeos pretium himenaeos proin eget gravida, gravida fusce. Mollis potenti senectus lobortis nisi. Ornare phasellus interdum suscipit.
+		
+		Est in nullam vitae. Vulputate posuere curabitur tempor tellus feugiat vestibulum ultrices facilisis? Lacinia torquent, mus cum. Potenti curae; convallis sit torquent, consequat hac. Tristique etiam consequat accumsan neque malesuada nibh? Semper taciti adipiscing et laoreet semper, facilisi dui. Fringilla sem vitae nisl tristique fringilla cras orci facilisis. Integer viverra urna etiam? Adipiscing nisi aptent rhoncus inceptos neque mauris sem ad. Dui molestie aliquam gravida diam. Dictum mus praesent rutrum consectetur. Risus luctus odio ligula ullamcorper varius tempor pulvinar senectus dictum eros vulputate. Adipiscing quis non quisque imperdiet. Elit.
+		</main_copy_text>
+		
+		<!--When this field changes, the graphic on the page changes (rules for this in common/modules.xsl)-->
+		<!--Possible values: 'clays', 'connectedthinking', 'occam', 'sims' ,'spgroup', 'stivesgroup' or empty-->
+		<graphic>spgroup</graphic>
+		
+		<!--This would be used to decide which template to select.-->
+		<!--This decision making could be handled within the XSL or externally to select the correct file to send to SparQ (probably more efficient?)-->
+		<template_type>A4</template_type>
+	</back>
+	
+</ticket>

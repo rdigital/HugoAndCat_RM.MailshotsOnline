@@ -15,13 +15,28 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RM.MailshotsOnline.Entities
 EndProject
 Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "RM.MailshotsOnline.CloudService", "RM.MailshotsOnline.CloudService\RM.MailshotsOnline.CloudService.ccproj", "{EE0A9F51-0110-4D16-99B9-A96C6D19C95F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Xml", "Xml", "{362865FB-3DC6-40D7-860E-37FE875F0B32}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RM.MailshotsOnline.Business", "RM.MailshotsOnline.Business\RM.MailshotsOnline.Business.csproj", "{DCC80DB8-069C-4B0B-A955-B8486D795F6D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XML", "XML", "{61BD6155-3F8A-4194-B3D0-A8B420375301}"
 	ProjectSection(SolutionItems) = preProject
-		A4Page.xsl = A4Page.xsl
-		PostcardFormat.xsl = PostcardFormat.xsl
+		XML\data.xml = XML\data.xml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RM.MailshotsOnline.Business", "RM.MailshotsOnline.Business\RM.MailshotsOnline.Business.csproj", "{DCC80DB8-069C-4B0B-A955-B8486D795F6D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Formats", "Formats", "{2867E7DB-2EB7-402B-BE27-1FFD3298E4AA}"
+	ProjectSection(SolutionItems) = preProject
+		XML\Formats\A4Page.xsl = XML\Formats\A4Page.xsl
+		XML\Formats\PostcardFormat.xsl = XML\Formats\PostcardFormat.xsl
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{37C4DF1C-32F8-49BD-8DC7-0723D52779D1}"
+	ProjectSection(SolutionItems) = preProject
+		XML\Templates\A4Page-Demo-Template.xsl = XML\Templates\A4Page-Demo-Template.xsl
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{C1FE6952-7E6B-4ED0-8F25-C37D979ED1E6}"
+	ProjectSection(SolutionItems) = preProject
+		XML\Common\modules.xsl = XML\Common\modules.xsl
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,5 +90,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2867E7DB-2EB7-402B-BE27-1FFD3298E4AA} = {61BD6155-3F8A-4194-B3D0-A8B420375301}
+		{37C4DF1C-32F8-49BD-8DC7-0723D52779D1} = {61BD6155-3F8A-4194-B3D0-A8B420375301}
+		{C1FE6952-7E6B-4ED0-8F25-C37D979ED1E6} = {61BD6155-3F8A-4194-B3D0-A8B420375301}
 	EndGlobalSection
 EndGlobal

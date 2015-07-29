@@ -103,6 +103,7 @@
     <Compile Include="Services\MailshotsService.cs" />
     <Compile Include="Services\MembershipService.cs" />
     <Compile Include="Services\PricingService.cs" />
+    <Compile Include="Services\SparqQueueService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

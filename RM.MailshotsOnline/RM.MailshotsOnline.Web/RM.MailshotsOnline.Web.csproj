@@ -2844,6 +2844,7 @@
     <Compile Include="Controllers\Api\ApiBaseController.cs" />
     <Compile Include="Controllers\Api\MailshotsController.cs" />
     <Compile Include="Controllers\Api\PostageController.cs" />
+    <Compile Include="Controllers\Api\ProofPdfController.cs" />
     <Compile Include="Controllers\ContentPageController.cs" />
     <Compile Include="Controllers\GlassController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -3111,6 +3112,7 @@
     <Folder Include="Views\LoginSurface\" />
     <Folder Include="Views\Mailshot\" />
     <Folder Include="Views\Postage\" />
+    <Folder Include="Views\ProofPdf\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
