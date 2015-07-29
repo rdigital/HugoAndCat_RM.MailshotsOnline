@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using Umbraco.Core.Persistence.Querying;
 
 namespace RM.MailshotsOnline.Data.Services
 {
@@ -100,6 +101,43 @@ namespace RM.MailshotsOnline.Data.Services
             member.Id = umbracoMember.Id;
 
             return member;
+        }
+
+        public Guid? RequestPasswordReset(string email)
+        {
+            var membershipService = Umbraco.Core.ApplicationContext.Current.Services.MemberService;
+
+            var member = membershipService.GetByEmail(email);
+
+            if (member != null)
+            {
+                var token = Guid.NewGuid();
+
+                member.SetValue("passwordResetToken", token.ToString());
+                Umbraco.Core.ApplicationContext.Current.Services.MemberService.Save(member);
+
+                return token;
+            }
+
+            return null;
+        }
+
+        public Umbraco.Core.Models.IMember GetMemberByPasswordResetToken(string token)
+        {
+            var membershipService = Umbraco.Core.ApplicationContext.Current.Services.MemberService;
+
+            var member = membershipService.GetMembersByPropertyValue("passwordResetToken", token).FirstOrDefault();
+
+            return member;
+        }
+
+        public void SetNewPassword(IMember member, string password)
+        {
+            var membershipService = Umbraco.Core.ApplicationContext.Current.Services.MemberService;
+
+            var umbracoMember = membershipService.GetByEmail(member.EmailAddress);
+
+            membershipService.SavePassword(umbracoMember, password);
         }
     }
 }

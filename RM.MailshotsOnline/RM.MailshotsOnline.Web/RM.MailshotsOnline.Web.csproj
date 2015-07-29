@@ -2840,6 +2840,7 @@
     <Compile Include="App_Start\RegisterIoCEvents.cs" />
     <Compile Include="App_Start\RegisterPageEvents.cs" />
     <Compile Include="App_Start\TelemetryConfig.cs" />
+    <Compile Include="Constants\ContentConstants.cs" />
     <Compile Include="Controllers\Api\ApiBaseController.cs" />
     <Compile Include="Controllers\Api\MailshotsController.cs" />
     <Compile Include="Controllers\Api\PostageController.cs" />
@@ -2849,9 +2850,11 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LogoutController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
+    <Compile Include="Controllers\ResetPasswordController.cs" />
     <Compile Include="Controllers\SurfaceControllers\LoginSurfaceController.cs" />
-    <Compile Include="Controllers\SurfaceControllers\LogoutSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\RegisterSurfaceController.cs" />
+    <Compile Include="Controllers\SurfaceControllers\ResetPasswordSurfaceController.cs" />
+    <Compile Include="Extensions\BasePageExtensions.cs" />
     <Compile Include="Helpers\ControllersHelper.cs" />
     <Compile Include="Helpers\MembershipHelper.cs" />
     <Compile Include="Installers\ControllersInstaller.cs" />
@@ -3060,7 +3063,7 @@
     <Content Include="Views\Home.cshtml" />
     <Content Include="Views\ContentPage.cshtml" />
     <Content Include="Config\uSyncSettings.config" />
-    <Content Include="Views\Login\Partials\Login.cshtml" />
+    <Content Include="Views\Login\Partials\ShowLoginForm.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Register\Register.cshtml" />
@@ -3068,11 +3071,16 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\Register\Partials\Register.cshtml" />
-    <Content Include="Views\Register\Partials\RegisterPersonalDetails.cshtml" />
+    <Content Include="Views\Register\Partials\ShowRegisterForm.cshtml" />
     <Content Include="Views\Register\Partials\RegisterComplete.cshtml" />
     <Content Include="Views\Logout\Logout.cshtml" />
-    <Content Include="Views\Logout\Partials\Logout.cshtml" />
+    <Content Include="Views\MacroPartials\HeaderNavigation.cshtml" />
+    <Content Include="Views\ResetPassword\RequestResetPassword.cshtml" />
+    <Content Include="Views\ResetPassword\Partials\ShowRequestResetForm.cshtml" />
+    <Content Include="Views\ResetPassword\Partials\RequestComplete.cshtml" />
+    <Content Include="Views\ResetPassword\ResetPassword.cshtml" />
+    <Content Include="Views\ResetPassword\Partials\ShowResetForm.cshtml" />
+    <Content Include="Views\ResetPassword\Partials\ResetComplete.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -3099,6 +3107,7 @@
     <Folder Include="Views\LoginSurface\" />
     <Folder Include="Views\Mailshot\" />
     <Folder Include="Views\Postage\" />
+    <Folder Include="Views\ResetPasswordSurface\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

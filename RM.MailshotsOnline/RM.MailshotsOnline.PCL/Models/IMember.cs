@@ -61,5 +61,7 @@ namespace RM.MailshotsOnline.PCL.Models
 
         string MobilePhoneNumber { get; set; }
 
+        Guid PasswordResetToken { get; set; }
+
     }
 }

@@ -14,5 +14,9 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         public string PasswordLabel { get; set; }
 
+        public string LoginCtaText { get; set; }
+
+        public BasePage PasswordResetPage { get; set; }
+
     }
 }

@@ -21,14 +21,32 @@ body {
      z-index:100;
 }
 
+header .header-navigation {
+    display: inline;
+    float: right;
+    color: black;
+}
+
+.header-navigation a {
+    color: black !important;
+}
+
+
 header nav.main-nav {
      border: 1px solid black;
+    background-color: #dc3232;
+    color: #eee;
+}
+
+header nav.main-nav a {
+   color: #eee;
 }
 
 header nav.main-nav ul {
      list-style: none;
      margin:10px;
      padding: 0;
+    display: inline-block;
 }
 
 header nav.main-nav ul li {

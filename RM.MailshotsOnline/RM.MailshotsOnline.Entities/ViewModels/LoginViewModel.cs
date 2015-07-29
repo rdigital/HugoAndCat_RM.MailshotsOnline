@@ -16,5 +16,7 @@ namespace RM.MailshotsOnline.Entities.ViewModels
         public string Password { get; set; }
 
         public PageModels.Login PageModel { get; set; }
+
+        public string ResetPasswordUrl { get; set; }
     }
 }

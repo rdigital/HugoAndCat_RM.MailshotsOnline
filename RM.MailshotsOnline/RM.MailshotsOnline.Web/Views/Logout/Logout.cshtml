@@ -7,6 +7,11 @@
     <h1>@Model.Name</h1>
     @Umbraco.RenderMacro("Breadcrumbs")
     <div class="logout">
-        @Html.Action("Index", "LogoutSurface", new { model = Model })
+        <div>
+            <h1>@Model.ThankYouLabel</h1>
+            <span>@Model.MainBody</span>
+            @Html.ActionLink(Model.LoginCtaText, "Index", "Login")
+            @Html.ActionLink(Model.HomepageCtaText, "Index", "Home")
+        </div>
     </div>
 </div>

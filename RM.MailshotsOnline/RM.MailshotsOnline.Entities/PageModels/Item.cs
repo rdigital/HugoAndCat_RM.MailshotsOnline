@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RM.MailshotsOnline.PCL.Models;
 
 namespace RM.MailshotsOnline.Entities.PageModels
 {
@@ -12,7 +13,7 @@ namespace RM.MailshotsOnline.Entities.PageModels
     /// Base Umbraco content item
     /// </summary>
     [UmbracoType(AutoMap = true)]
-    public class Item
+    public class Item : IItem
     {
         /// <summary>
         /// Page ID
@@ -54,6 +55,7 @@ namespace RM.MailshotsOnline.Entities.PageModels
         /// Collection of child items
         /// </summary>
         [UmbracoChildren(InferType = true)]
-        public virtual IEnumerable<Item> Children { get; set; }
+        public virtual IEnumerable<IItem> Children { get; set; }
+
     }
 }

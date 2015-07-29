@@ -64,5 +64,6 @@ namespace RM.MailshotsOnline.Entities.MemberModels
 
         public string MobilePhoneNumber { get; set; }
 
+        public Guid PasswordResetToken { get; set; }
     }
 }

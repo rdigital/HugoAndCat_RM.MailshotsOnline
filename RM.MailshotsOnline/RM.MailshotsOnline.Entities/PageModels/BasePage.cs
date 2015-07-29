@@ -42,5 +42,7 @@ namespace RM.MailshotsOnline.Entities.PageModels
         /// </summary>
         [UmbracoPropertyValue("navigationTitle", "")]
         public virtual string NavigationTitle { get; set; }
+
+        public virtual string Url { get; set; }
     }
 }

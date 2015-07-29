@@ -27,7 +27,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             model.ViewModel = new RegisterViewModel();
 
-            return PartialView("~/Views/Register/Partials/Register.cshtml", model);
+            return PartialView("~/Views/Register/Partials/ShowRegisterForm.cshtml", model);
         }
 
         [HttpPost]
