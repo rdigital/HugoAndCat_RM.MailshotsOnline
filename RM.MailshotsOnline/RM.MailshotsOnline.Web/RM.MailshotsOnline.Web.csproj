@@ -3060,6 +3060,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ApplicationInsights.config" />
+    <Content Include="ApplicationInsights.QA.config">
+      <DependentUpon>ApplicationInsights.config</DependentUpon>
+    </Content>
     <Content Include="Views\Home.cshtml" />
     <Content Include="Views\ContentPage.cshtml" />
     <Content Include="Config\uSyncSettings.config" />
