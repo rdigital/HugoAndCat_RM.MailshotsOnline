@@ -1169,6 +1169,7 @@
     <Content Include="umbraco\lib\angular\1.1.5\i18n\angular-locale_zu.js" />
     <Content Include="umbraco\lib\angular\angular-ui-sortable.js" />
     <Content Include="umbraco\lib\blueimp-load-image\load-image.all.min.js" />
+    <Content Include="umbraco\lib\bootstrap-tabdrop\bootstrap-tabdrop.min.js" />
     <Content Include="umbraco\lib\bootstrap\css\bootstrap-responsive.css" />
     <Content Include="umbraco\lib\bootstrap\css\bootstrap-responsive.min.css" />
     <Content Include="umbraco\lib\bootstrap\css\bootstrap.cosmo.min.css" />
@@ -3042,9 +3043,9 @@
     <Content Include="Config\metablogConfig.config" />
     <Content Include="Config\log4net.config" />
     <Content Include="Config\FileSystemProviders.config" />
-	<Content Include="Config\FileSystemProviders.QA.config">
-		<DependentUpon>Config\FileSystemProviders.config</DependentUpon>
-	</Content>
+    <Content Include="Config\FileSystemProviders.QA.config">
+      <DependentUpon>Config\FileSystemProviders.config</DependentUpon>
+    </Content>
     <Content Include="Config\feedProxy.config" />
     <Content Include="Config\ExamineSettings.config" />
     <Content Include="Config\ExamineIndex.config" />
@@ -3062,9 +3063,9 @@
     <Content Include="Views\Home.cshtml" />
     <Content Include="Views\ContentPage.cshtml" />
     <Content Include="Config\uSyncSettings.config" />
-	<Content Include="Config\uSyncSettings.QA.config">
-	  <DependentUpon>Config\uSyncSettings.config</DependentUpon>
-	</Content>
+    <Content Include="Config\uSyncSettings.QA.config">
+      <DependentUpon>Config\uSyncSettings.config</DependentUpon>
+    </Content>
     <Content Include="Views\Login\Partials\Login.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
