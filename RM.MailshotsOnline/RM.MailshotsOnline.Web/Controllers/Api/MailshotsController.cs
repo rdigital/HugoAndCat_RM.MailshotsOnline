@@ -32,13 +32,10 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         /// <returns>Collection of Mailshot view model objects</returns>
         public HttpResponseMessage GetAll()
         {
-            try
+            var authResult = Authenticate();
+            if (authResult != null)
             {
-                Authenticate();
-            }
-            catch (HttpException ex)
-            {
-                return Request.CreateResponse((HttpStatusCode)ex.GetHttpCode(), ex.Message);
+                return authResult;
             }
 
             var mailshots = _mailshotsService.GetUsersMailshots(_loggedInMember.Id);
@@ -54,13 +51,10 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(Guid id)
         {
-            try
+            var authResult = Authenticate();
+            if (authResult != null)
             {
-                Authenticate();
-            }
-            catch (HttpException ex)
-            {
-                return Request.CreateResponse((HttpStatusCode)ex.ErrorCode, ex.Message);
+                return authResult;
             }
 
             var mailshot = _mailshotsService.GetMailshot(id);
@@ -87,21 +81,18 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         {
             if (mailshot == null)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Please provide mailshot data to save.");
+                return ErrorMessage(HttpStatusCode.BadRequest, "Please provide mailshot data to save.");
             }
 
             if (string.IsNullOrEmpty(mailshot.ContentText) || string.IsNullOrEmpty(mailshot.Name))
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Please provide mailshot data to save.");
+                return ErrorMessage(HttpStatusCode.BadRequest, "Please provide mailshot data to save.");
             }
 
-            try
+            var authResult = Authenticate();
+            if (authResult != null)
             {
-                Authenticate();
-            }
-            catch (HttpException ex)
-            {
-                return Request.CreateResponse((HttpStatusCode)ex.ErrorCode, ex.Message);
+                return authResult;
             }
 
             IMailshot mailshotData = mailshot;
@@ -112,7 +103,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             _mailshotsService.SaveMailshot(mailshotData);
 
-            return Request.CreateResponse(HttpStatusCode.Created, mailshotData.MailshotId);
+            return Request.CreateResponse(HttpStatusCode.Created, new { id = mailshotData.MailshotId });
         }
 
         /// <summary>
@@ -124,18 +115,15 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         [HttpPost]
         public HttpResponseMessage Update(Guid id, Mailshot mailshot)
         {
-            try
+            var authResult = Authenticate();
+            if (authResult != null)
             {
-                Authenticate();
-            }
-            catch (HttpException ex)
-            {
-                return Request.CreateResponse((HttpStatusCode)ex.ErrorCode, ex.Message);
+                return authResult;
             }
 
             if (mailshot == null || string.IsNullOrEmpty(mailshot.ContentText))
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Please provide mailshot data to save.");
+                return ErrorMessage(HttpStatusCode.BadRequest, "Please provide mailshot data to save.");
             }
 
             var mailshotData = _mailshotsService.GetMailshot(id);
@@ -168,7 +156,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             _mailshotsService.SaveMailshot(mailshotData);
 
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.OK, new { success = true });
         }
 
         /// <summary>
@@ -176,16 +164,14 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         /// </summary>
         /// <param name="id">ID of the mailshot for proofing</param>
         /// <returns>URL of the proof PDF</returns>
+        [Obsolete("The ProofPdfController has generation / access actions for proof PDFs")]
         [HttpGet]
         public HttpResponseMessage GetProofPdf(Guid id)
         {
-            try
+            var authResult = Authenticate();
+            if (authResult != null)
             {
-                Authenticate();
-            }
-            catch (HttpException ex)
-            {
-                return Request.CreateResponse((HttpStatusCode)ex.ErrorCode, ex.Message);
+                return authResult;
             }
 
             var mailshot = _mailshotsService.GetMailshot(id);
@@ -200,17 +186,17 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
 
             //TODO: Actually produce the XML
-            return Request.CreateResponse(HttpStatusCode.OK, "This will be the PDF URL");
+            return Request.CreateResponse(HttpStatusCode.OK, new { url = "This will be the PDF URL" });
         }
 
         private HttpResponseMessage MailshotNotFound()
         {
-            return Request.CreateResponse(HttpStatusCode.NotFound, "No mailshot found with that ID");
+            return ErrorMessage(HttpStatusCode.NotFound, "No mailshot found with that ID");
         }
 
         private HttpResponseMessage MailshotForbidden()
         {
-            return Request.CreateResponse(HttpStatusCode.Forbidden, "Forbidden.");
+            return ErrorMessage(HttpStatusCode.Forbidden, "Forbidden");
         }
     }
 }

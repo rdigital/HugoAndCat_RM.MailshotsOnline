@@ -30,24 +30,21 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(Guid id)
         {
-            try
+            var authResult = Authenticate();
+            if (authResult != null)
             {
-                Authenticate();
-            }
-            catch (HttpException ex)
-            {
-                return Request.CreateResponse((HttpStatusCode)ex.ErrorCode, ex.Message);
+                return authResult;
             }
 
             var mailshot = _mailshotsService.GetMailshot(id);
             if (mailshot == null)
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound, "No mailshot found with that ID");
+                return ErrorMessage(HttpStatusCode.NotFound, "No mailshot found with that ID");
             }
 
             if (mailshot.UserId != _loggedInMember.Id)
             {
-                return Request.CreateResponse(HttpStatusCode.Forbidden, "Forbidden");
+                return ErrorMessage(HttpStatusCode.Forbidden, "Forbidden");
             }
 
             HttpResponseMessage result;
@@ -55,14 +52,14 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             switch (mailshot.ProofPdfStatus)
             {
                 case PCL.Enums.PdfRenderStatus.Complete:
-                    result = Request.CreateResponse(HttpStatusCode.OK, mailshot.ProofPdfUrl);
+                    result = Request.CreateResponse(HttpStatusCode.OK, new { url = mailshot.ProofPdfUrl });
                     break;
                 case PCL.Enums.PdfRenderStatus.Pending:
-                    result = Request.CreateResponse(HttpStatusCode.PreconditionFailed, "The PDF is not ready.");
+                    result = ErrorMessage(HttpStatusCode.PreconditionFailed, "The PDF is not ready.");
                     break;
                 case PCL.Enums.PdfRenderStatus.None:
                 default:
-                    result = Request.CreateResponse(HttpStatusCode.NotFound, "No proof PDF has been requested for this mailshot.");
+                    result = ErrorMessage(HttpStatusCode.NotFound, "No proof PDF has been requested for this mailshot.");
                     break;
             }
 
@@ -72,24 +69,21 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         [HttpPost]
         public HttpResponseMessage CreateProof(Guid id)
         {
-            try
+            var authResult = Authenticate();
+            if (authResult != null)
             {
-                Authenticate();
-            }
-            catch (HttpException ex)
-            {
-                return Request.CreateResponse((HttpStatusCode)ex.ErrorCode, ex.Message);
+                return authResult;
             }
 
             var mailshot = _mailshotsService.GetMailshot(id);
             if (mailshot == null)
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound, "No mailshot found with that ID");
+                return ErrorMessage(HttpStatusCode.NotFound, "No mailshot found with that ID");
             }
 
             if (mailshot.UserId != _loggedInMember.Id)
             {
-                return Request.CreateResponse(HttpStatusCode.Forbidden, "Forbidden");
+                return ErrorMessage(HttpStatusCode.Forbidden, "Forbidden");
             }
 
             if (mailshot.ProofPdfStatus != PCL.Enums.PdfRenderStatus.Pending)
@@ -107,12 +101,12 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError, "Could not start the proof PDF creation process");
+                    return ErrorMessage(HttpStatusCode.InternalServerError, "Error starting the proof PDF creation process");
                 }
             }
             else
             {
-                return Request.CreateResponse(HttpStatusCode.Conflict, "There is already a proof PDF generation job pending for this mailshot.");
+                return ErrorMessage(HttpStatusCode.Conflict, "There is already a proof PDF generation job pending for this mailshot.  Please wait for this job to complete before starting another.");
             }
         }
 
@@ -122,13 +116,13 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             var mailshot = _mailshotsService.GetMailshot(id);
             if (mailshot == null)
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound, "No mailshot found with that ID");
+                return ErrorMessage(HttpStatusCode.NotFound, "No mailshot found with that ID");
             }
 
             //TODO: Authenticate that the response is valid
             if (data.AuthenticationKey != _authenticationKey)
             {
-                return Request.CreateResponse(HttpStatusCode.Forbidden);
+                return ErrorMessage(HttpStatusCode.Forbidden, "Forbidden");
             }
 
             // Validate that we have a proof PDF in the request

@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web;
 using Umbraco.Web;
 using Umbraco.Web.WebApi;
@@ -30,8 +32,10 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             _membershipService = membershipService;
         }
 
-        internal void Authenticate()
+        internal HttpResponseMessage Authenticate()
         {
+            HttpResponseMessage result = null;
+
             if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["SpoofUser"]))
             {
                 int userId = int.Parse(ConfigurationManager.AppSettings["SpoofUser"]);
@@ -48,11 +52,20 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             {
                 if (!HttpContext.Current.User.Identity.IsAuthenticated)
                 {
-                    throw new HttpException(401, "You must be logged in.");
+                    result = Request.CreateResponse(HttpStatusCode.Unauthorized, new { error = "You must be logged in.", statusCode = HttpStatusCode.Unauthorized });
                 }
-
-                _loggedInMember = _membershipService.GetCurrentMember();
+                else
+                {
+                    _loggedInMember = _membershipService.GetCurrentMember();
+                }
             }
+
+            return result;
+        }
+
+        internal HttpResponseMessage ErrorMessage(HttpStatusCode statusCode, string errorMessage)
+        {
+            return Request.CreateResponse(statusCode, new { error = errorMessage, statusCode = statusCode });
         }
     }
 }

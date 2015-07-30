@@ -3110,9 +3110,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\LoginSurface\" />
-    <Folder Include="Views\Mailshot\" />
-    <Folder Include="Views\Postage\" />
-    <Folder Include="Views\ProofPdf\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

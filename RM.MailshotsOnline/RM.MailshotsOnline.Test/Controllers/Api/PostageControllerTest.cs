@@ -47,7 +47,7 @@ namespace RM.MailshotsOnline.Test.Controllers.Api
         public void GetAllPostalOptions()
         {
             // Act
-            var postageOptions = _controller.GetAllPostalOptions();
+            var postageOptions = _controller.Get();
 
             // Assert
             Assert.That(postageOptions, Is.Not.Null);
@@ -61,7 +61,7 @@ namespace RM.MailshotsOnline.Test.Controllers.Api
             int formatId = 1;
 
             // Act
-            var postageOptions = _controller.GetPostalOptionForFormat(formatId);
+            var postageOptions = _controller.GetForFormat(formatId);
 
             // Assert
             Assert.That(postageOptions, Is.Not.Null);

@@ -26,15 +26,15 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         }
 
         [HttpGet]
-        public IEnumerable<IPostalOption> GetAllPostalOptions()
+        public IEnumerable<IPostalOption> Get()
         {
             return _pricingService.GetPostalOptions();
         }
 
         [HttpGet]
-        public IEnumerable<IPostalOption> GetPostalOptionForFormat(int formatId)
+        public IEnumerable<IPostalOption> GetForFormat(int id)
         {
-            return _pricingService.GetPostalOptions(formatId);
+            return _pricingService.GetPostalOptions(id);
         }
     }
 }
