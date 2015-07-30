@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="DAL\AzureConfiguration.cs" />
     <Compile Include="DAL\StorageContext.cs" />
+    <Compile Include="Extensions\MemberExtensions.cs" />
     <Compile Include="Migrations\201507081006455_InitialCreate.cs" />
     <Compile Include="Migrations\201507081006455_InitialCreate.Designer.cs">
       <DependentUpon>201507081006455_InitialCreate.cs</DependentUpon>

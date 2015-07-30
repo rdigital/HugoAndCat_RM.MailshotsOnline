@@ -32,7 +32,8 @@ namespace RM.MailshotsOnline.Web.Installers
                 Component.For<IContentService>().ImplementedBy<ContentService>().LifestyleTransient(),
                 Component.For<IMailshotsService>().ImplementedBy<MailshotsService>().LifestyleTransient(),
                 Component.For<IMembershipService>().ImplementedBy<MembershipService>().LifestyleTransient(),
-                Component.For<IPricingService>().ImplementedBy<PricingService>().LifestyleTransient());
+                Component.For<IPricingService>().ImplementedBy<PricingService>().LifestyleTransient(),
+                Component.For<IEmailService>().ImplementedBy<EmailService>().LifestyleTransient());
         }
 
         static public string AssemblyDirectory
