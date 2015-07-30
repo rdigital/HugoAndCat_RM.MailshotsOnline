@@ -4,10 +4,13 @@ using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using RM.MailshotsOnline.Data.Migrations;
 using Umbraco.Core.Persistence.Querying;
 
 namespace RM.MailshotsOnline.Data.Services
@@ -59,8 +62,10 @@ namespace RM.MailshotsOnline.Data.Services
             if (member != null)
             {
                 var token = Guid.NewGuid();
+                var expiryDays = int.Parse(ConfigurationManager.AppSettings["PasswordExpiryDays"]);
 
-                member.SetValue("passwordResetToken", token.ToString());
+                member.SetValue("passwordResetToken", Guid.NewGuid().ToString());
+                member.SetValue("passwordResetTokenExpiryDate", DateTime.UtcNow.AddSeconds(expiryDays).ToString(CultureInfo.InvariantCulture));
                 Umbraco.Core.ApplicationContext.Current.Services.MemberService.Save(member);
 
                 return token;
@@ -80,6 +85,7 @@ namespace RM.MailshotsOnline.Data.Services
             {
                 memberService.SavePassword(umbracoMember, password);
                 umbracoMember.SetValue("passwordResetToken", Guid.Empty.ToString());
+                umbracoMember.SetValue("passwordResetTokenExpiryDate", DateTime.MinValue.ToString(CultureInfo.InvariantCulture));
 
                 memberService.Save(umbracoMember);
             }
@@ -89,9 +95,24 @@ namespace RM.MailshotsOnline.Data.Services
         {
             var membershipService = Umbraco.Core.ApplicationContext.Current.Services.MemberService;
 
-            var member = membershipService.GetMembersByPropertyValue("passwordResetToken", token).FirstOrDefault();
+            var umbracoMember = membershipService.GetMembersByPropertyValue("passwordResetToken", token).FirstOrDefault();
 
-            return member?.ToMemberEntityModel();
+            // if we're null at this point, then the token was old/spurious.
+            if (umbracoMember == null)
+            {
+                return null;
+            }
+
+            var member = umbracoMember.ToMemberEntityModel();
+
+            // check for token expiry. DateTime.MinValue represents an unset token.
+            if (member.PasswordResetTokenExpiryDate != DateTime.MinValue &&
+                member.PasswordResetTokenExpiryDate < DateTime.UtcNow)
+            {
+                return null;
+            }
+
+            return member;
         }
 
         public void SetNewPassword(IMember member, string password)

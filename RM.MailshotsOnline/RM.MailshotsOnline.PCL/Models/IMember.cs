@@ -63,5 +63,7 @@ namespace RM.MailshotsOnline.PCL.Models
 
         Guid PasswordResetToken { get; set; }
 
+        DateTime PasswordResetTokenExpiryDate { get; set; }
+
     }
 }

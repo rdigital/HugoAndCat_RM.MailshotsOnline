@@ -3,11 +3,9 @@
 @using (Html.BeginUmbracoForm("RequestResetForm", "ResetPasswordSurface"))
 {
     <div>
-        @if (!string.IsNullOrEmpty(ViewBag.BadToken))
+        @if (!string.IsNullOrEmpty(ViewBag.BadTokenMessage))
         {
-            <div>
-                @ViewBag.BadToken
-            </div>
+            <span class="field-validation-error">@ViewBag.BadTokenMessage</span>
         }
         <div>
             @Html.DisplayFor(m => m.RequestIntroduction)

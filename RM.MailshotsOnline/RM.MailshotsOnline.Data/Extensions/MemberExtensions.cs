@@ -42,7 +42,8 @@ namespace RM.MailshotsOnline.Data.Extensions
                 Country = umbracoMember.GetValue<string>("country"),
                 WorkPhoneNumber = umbracoMember.GetValue<string>("workPhoneNumber"),
                 MobilePhoneNumber = umbracoMember.GetValue<string>("mobilePhoneNumber"),
-                PasswordResetToken = umbracoMember.GetValue<Guid>("passwordResetToken")
+                PasswordResetToken = umbracoMember.GetValue<Guid>("passwordResetToken"),
+                PasswordResetTokenExpiryDate = umbracoMember.GetValue<DateTime>("passwordResetTokenExpiryDate")
             };
         }
 
@@ -72,6 +73,7 @@ namespace RM.MailshotsOnline.Data.Extensions
             umbracoMember.SetValue("workPhoneNumber", member.WorkPhoneNumber);
             umbracoMember.SetValue("mobilePhoneNumber", member.MobilePhoneNumber);
             umbracoMember.SetValue("passwordResetToken", member.PasswordResetToken);
+            umbracoMember.SetValue("passwordResetTokenExpiryDate", member.PasswordResetTokenExpiryDate);
 
             return umbracoMember;
         }
