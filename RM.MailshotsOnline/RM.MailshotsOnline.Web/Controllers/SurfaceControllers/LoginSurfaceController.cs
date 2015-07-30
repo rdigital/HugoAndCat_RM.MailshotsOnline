@@ -13,13 +13,11 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 {
     public class LoginSurfaceController : SurfaceController
     {
-        private MembershipService _membershipService = new MembershipService();
-
         // GET: Login
         [ChildActionOnly]
         public ActionResult ShowLoginForm(Login model)
         {
-            var viewModel = new LoginViewModel() {PageModel = model};
+            var viewModel = new LoginViewModel() { PageModel = model };
             viewModel.ResetPasswordUrl = model.PasswordResetPage.Url(Umbraco);
             return PartialView("~/Views/Login/Partials/ShowLoginForm.cshtml", viewModel);
         }
@@ -40,10 +38,8 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 {
                     return Redirect(returnUrl);
                 }
-                else
-                {
-                    return Redirect("/");
-                }
+
+                return Redirect("/");
             }
 
             ModelState.AddModelError("BadLogin",
