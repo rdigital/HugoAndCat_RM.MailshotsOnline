@@ -79,6 +79,7 @@
     <Compile Include="PageModels\Item.cs" />
     <Compile Include="PageModels\Login.cs" />
     <Compile Include="PageModels\Logout.cs" />
+    <Compile Include="PageModels\MailshotEditor.cs" />
     <Compile Include="PageModels\Register.cs" />
     <Compile Include="PageModels\RequestResetPassword.cs" />
     <Compile Include="PageModels\ResetPassword.cs" />

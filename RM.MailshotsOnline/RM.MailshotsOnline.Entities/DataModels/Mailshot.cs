@@ -33,6 +33,7 @@ namespace RM.MailshotsOnline.Entities.DataModels
         [NotMapped]
         public string ContentText { get; set; }
 
+        [JsonIgnore]
         [Required]
         public int UserId { get; set; }
 

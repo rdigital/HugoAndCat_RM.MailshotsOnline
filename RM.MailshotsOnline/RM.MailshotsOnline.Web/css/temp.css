@@ -75,3 +75,8 @@ label {
 .validation-summary-errors, .field-validation-error {
     color: rgb(140, 46, 11);
 }
+
+#existingMailshots li span {
+    display: inline-block;
+    width: 100px;
+}

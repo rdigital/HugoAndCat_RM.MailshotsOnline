@@ -1,6 +1,10 @@
-﻿@inherits Glass.Mapper.Umb.Web.Ui.GlassViewPage<RM.MailshotsOnline.Entities.PageModels.BasePage>
+﻿@using ClientDependency.Core.Mvc
+@using ClientDependency.Core
+@inherits Glass.Mapper.Umb.Web.Ui.GlassViewPage<RM.MailshotsOnline.Entities.PageModels.BasePage>
 @{
     Layout = null;
+
+    Html.RequiresJs("~/scripts/jquery-1.10.2.min.js", 1);
 }
 
 <!DOCTYPE html>
@@ -12,6 +16,7 @@
     <meta name="description" content="@Model.MetaDescription" />
     <meta name="keywords" content="@Model.MetaKeywords" />
     <link href="~/css/temp.css" type="text/css" rel="stylesheet" />
+    @Html.RenderJsHere()
 </head>
 <body>
     <div class="wrapper"> 

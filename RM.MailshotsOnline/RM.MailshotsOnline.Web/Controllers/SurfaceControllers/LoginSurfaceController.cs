@@ -35,9 +35,15 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             if (Members.Login(model.Email, model.Password))
             {
                 // we're logged in
-
-                TempData["LoggedIn"] = true;
-                return Redirect("/?loggedin=true");
+                var returnUrl = Request.QueryString["ReturnUrl"];
+                if (!string.IsNullOrEmpty(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+                else
+                {
+                    return Redirect("/");
+                }
             }
 
             ModelState.AddModelError("BadLogin",

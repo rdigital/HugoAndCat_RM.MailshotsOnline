@@ -68,7 +68,13 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 return MailshotForbidden();
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, mailshot);
+            var mailshotData = (Mailshot)mailshot;
+            if (mailshotData.Content != null)
+            {
+                mailshotData.ContentText = mailshotData.Content.Content;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, mailshotData);
         }
 
         /// <summary>
