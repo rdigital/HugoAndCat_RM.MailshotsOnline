@@ -50,9 +50,11 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             if (token != null)
             {
-                _emailService.SendMail(ConfigurationManager.AppSettings["SystemEmailAddress"],
+                var resetLink = Request.Url.Authority + "/reset-password?token=" + token;
+
+            _emailService.SendMail(ConfigurationManager.AppSettings["SystemEmailAddress"],
                     model.RequestViewModel.Email, "Password reset",
-                    $"Click here mate: {Request.Url.Authority + "/reset-password?token="}/{token}");
+                    $"Click here mate: <a href='{resetLink}'>{resetLink}</a>");
             }
 
             TempData[RequestCompleteFlag] = true;
