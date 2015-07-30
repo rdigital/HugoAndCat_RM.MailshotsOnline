@@ -13,7 +13,7 @@ namespace RM.MailshotsOnline.Entities.ViewModels
         public string Password { get; set; }
 
         [Required(ErrorMessage = "Please re-type your password.")]
-        [Compare("ConfirmPassword", ErrorMessage = "The passwords entered do not match. Please check and try again")]
+        [Compare("Password", ErrorMessage = "The passwords entered do not match. Please check and try again")]
         public string ConfirmPassword { get; set; }
     }
 }
