@@ -1,0 +1,19 @@
+﻿@using RM.MailshotsOnline.Web.Constants
+@inherits Umbraco.Web.Macros.PartialViewMacroPage
+@{
+    var headerNavSettings = Umbraco.Content(ContentConstants.Settings.HeaderNavSettingsId);
+    var login = Umbraco.Content(headerNavSettings.loginPage);
+    var logout = Umbraco.Content(headerNavSettings.logoutPage);
+    var register = Umbraco.Content(headerNavSettings.registerPage);
+}
+
+<div class="header-navigation">
+    @if (Umbraco.MemberIsLoggedOn())
+    {
+        <a href="@logout.Url">@logout.Name</a>
+    }
+    else
+    {
+        <a href="@login.Url">@login.Name</a> @:| <a href="@register.Url">@register.Name</a>
+}
+</div>

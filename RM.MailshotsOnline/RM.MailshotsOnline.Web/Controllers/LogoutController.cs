@@ -20,8 +20,16 @@ namespace RM.MailshotsOnline.Web.Controllers
         }
 
         // GET: Logout
-        public ActionResult Index(RenderModel model)
+        public override ActionResult Index(RenderModel model)
         {
+            var memberShipHelper = new MembershipHelper(UmbracoContext);
+            if (memberShipHelper.IsLoggedIn())
+            {
+                memberShipHelper.Logout();
+
+                return Redirect(Request.RawUrl);
+            }
+
             var logoutPageModel = GetModel<Logout>();
 
             return View("~/Views/Logout/Logout.cshtml", logoutPageModel);

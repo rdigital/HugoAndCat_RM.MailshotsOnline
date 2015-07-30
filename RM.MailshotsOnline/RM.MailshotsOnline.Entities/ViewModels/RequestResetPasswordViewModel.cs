@@ -7,16 +7,9 @@ using System.Threading.Tasks;
 
 namespace RM.MailshotsOnline.Entities.ViewModels
 {
-    public class LoginViewModel
+    public class RequestResetPasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Please enter your email address")]
         public string Email { get; set; }
-
-        [Required]
-        public string Password { get; set; }
-
-        public PageModels.Login PageModel { get; set; }
-
-        public string ResetPasswordUrl { get; set; }
     }
 }

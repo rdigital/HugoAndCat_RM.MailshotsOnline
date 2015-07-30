@@ -91,13 +91,14 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+<<<<<<< HEAD
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45
+=======
 	GlobalSection(NestedProjects) = preSolution
 		{2867E7DB-2EB7-402B-BE27-1FFD3298E4AA} = {61BD6155-3F8A-4194-B3D0-A8B420375301}
 		{37C4DF1C-32F8-49BD-8DC7-0723D52779D1} = {61BD6155-3F8A-4194-B3D0-A8B420375301}
 		{C1FE6952-7E6B-4ED0-8F25-C37D979ED1E6} = {61BD6155-3F8A-4194-B3D0-A8B420375301}
-	EndGlobalSection
-
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45
+>>>>>>> 66d5051a8f76b5efec6ae89022b7f22e8ad16cbf
 	EndGlobalSection
 EndGlobal

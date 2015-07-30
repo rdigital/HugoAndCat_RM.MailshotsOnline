@@ -1,4 +1,9 @@
-﻿@model RM.MailshotsOnline.Entities.ViewModels.LoginViewModel
+﻿@using RM.MailshotsOnline.Web.Extensions
+@model RM.MailshotsOnline.Entities.ViewModels.LoginViewModel
+
+@{
+    //var resetPasswordPage = Umbraco.Content(Model.PageModel.PasswordResetPage.Id);
+}
 
 @using (Html.BeginUmbracoForm("LoginForm", "LoginSurface"))
 {
@@ -11,5 +16,9 @@
         <label for="Password">@Model.PageModel.PasswordLabel</label>
         @Html.PasswordFor(m => m.Password)
     </div>
-    <input type="submit" />
+    <div>
+        <a href="@Model.ResetPasswordUrl">@Model.PageModel.PasswordResetPage.Name</a>
+    </div>
+
+    <input type = "submit" />
 }

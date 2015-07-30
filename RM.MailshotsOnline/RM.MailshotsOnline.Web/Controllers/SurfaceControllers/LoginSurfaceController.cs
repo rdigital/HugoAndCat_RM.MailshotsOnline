@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using RM.MailshotsOnline.Data.Services;
 using RM.MailshotsOnline.Entities.PageModels;
 using RM.MailshotsOnline.Entities.ViewModels;
+using RM.MailshotsOnline.Web.Extensions;
 using Umbraco.Web.Mvc;
 
 namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
@@ -19,8 +20,8 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         public ActionResult ShowLoginForm(Login model)
         {
             var viewModel = new LoginViewModel() {PageModel = model};
-
-            return PartialView("~/Views/Login/Partials/Login.cshtml", viewModel);
+            viewModel.ResetPasswordUrl = model.PasswordResetPage.Url(Umbraco);
+            return PartialView("~/Views/Login/Partials/ShowLoginForm.cshtml", viewModel);
         }
 
         [HttpPost]

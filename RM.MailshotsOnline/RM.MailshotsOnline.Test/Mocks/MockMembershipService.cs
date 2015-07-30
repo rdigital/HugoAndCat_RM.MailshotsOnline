@@ -29,5 +29,10 @@ namespace RM.MailshotsOnline.Test.Mocks
         {
             throw new NotImplementedException();
         }
+
+        public Guid? RequestPasswordReset(string email)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

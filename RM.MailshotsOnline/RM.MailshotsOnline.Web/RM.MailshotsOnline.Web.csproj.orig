@@ -3070,10 +3070,14 @@
     <Content Include="Views\Home.cshtml" />
     <Content Include="Views\ContentPage.cshtml" />
     <Content Include="Config\uSyncSettings.config" />
+<<<<<<< HEAD
+    <Content Include="Views\Login\Partials\ShowLoginForm.cshtml" />
+=======
     <Content Include="Config\uSyncSettings.QA.config">
       <DependentUpon>Config\uSyncSettings.config</DependentUpon>
     </Content>
-    <Content Include="Views\Login\Partials\ShowLoginForm.cshtml" />
+    <Content Include="Views\Login\Partials\Login.cshtml" />
+>>>>>>> 66d5051a8f76b5efec6ae89022b7f22e8ad16cbf
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Register\Register.cshtml" />
@@ -3118,7 +3122,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\LoginSurface\" />
+    <Folder Include="Views\Mailshot\" />
+    <Folder Include="Views\Postage\" />
+<<<<<<< HEAD
     <Folder Include="Views\ResetPasswordSurface\" />
+=======
+    <Folder Include="Views\ProofPdf\" />
+>>>>>>> 66d5051a8f76b5efec6ae89022b7f22e8ad16cbf
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
