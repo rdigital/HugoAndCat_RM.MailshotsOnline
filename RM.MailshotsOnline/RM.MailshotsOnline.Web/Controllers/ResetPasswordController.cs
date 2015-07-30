@@ -39,8 +39,7 @@ namespace RM.MailshotsOnline.Web.Controllers
                 return View("~/Views/ResetPassword/ResetPassword.cshtml", pageModel);
             }
 
-            ModelState.AddModelError("BadToken",
-                "The login link you're trying to use is expired or invalid. Please request a new one using the form below.");
+            ViewBag.BadToken = "Your token is the worst";
             
             return View("~/Views/ResetPassword/RequestResetPassword.cshtml", pageModel);
         }

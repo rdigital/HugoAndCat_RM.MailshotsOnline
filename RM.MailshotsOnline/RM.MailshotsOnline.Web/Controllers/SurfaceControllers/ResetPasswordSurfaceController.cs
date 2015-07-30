@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Configuration;
 using System.Web;
@@ -49,7 +50,9 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             if (token != null)
             {
-                _emailService.SendMail("msol@hugoandcat.com", "jgriffin@hugoandcat.com", "Password reset", $"Your token: {token}");
+                _emailService.SendMail(ConfigurationManager.AppSettings["SystemEmailAddress"],
+                    model.RequestViewModel.Email, "Password reset",
+                    $"Click here mate: {Request.Url.Authority + "/reset-password?token="}/{token}");
             }
 
             TempData[RequestCompleteFlag] = true;

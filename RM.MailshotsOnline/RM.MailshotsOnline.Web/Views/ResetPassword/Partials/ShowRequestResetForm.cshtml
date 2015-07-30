@@ -3,9 +3,12 @@
 @using (Html.BeginUmbracoForm("RequestResetForm", "ResetPasswordSurface"))
 {
     <div>
-        <div>
-            
-        </div>
+        @if (!string.IsNullOrEmpty(ViewBag.BadToken))
+        {
+            <div>
+                @ViewBag.BadToken
+            </div>
+        }
         <div>
             @Html.DisplayFor(m => m.RequestIntroduction)
         </div>
@@ -15,6 +18,6 @@
             @Html.EditorFor(m => m.RequestViewModel.Email)
         </div>
 
-        <input type="submit" value="@Model.RequestPasswordResetCtaText" />
+        <input type="submit" value="@Model.RequestPasswordResetCtaText"/>
     </div>
 }
