@@ -2,7 +2,7 @@
 
 <div>
     <div>
-        @Model.RequestCompletedMessage
+        @Html.Raw(Model.ResetCompleteMessage)
     </div>
-    <a href="@Model.ContinuePage.Url">@Model.ContinuePage.Name</a>
+    <a href="@Model.ResetCompleteContinuePage.Url">@Model.ResetCompleteContinuePage.Name</a>
 </div>

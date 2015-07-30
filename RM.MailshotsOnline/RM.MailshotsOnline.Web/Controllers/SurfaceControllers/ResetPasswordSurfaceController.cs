@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Configuration;
 using System.Web;
 using System.Web.Mvc;
 using RM.MailshotsOnline.Data.Services;
@@ -67,6 +68,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             return PartialView("~/Views/ResetPassword/Partials/ShowResetForm.cshtml", model);
         }
+
         [HttpPost]
         public ActionResult ResetForm(ResetPassword model)
         {
@@ -75,7 +77,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return CurrentUmbracoPage();
             }
 
-            _membershipService.SetNewPassword(_membershipService.GetCurrentMember(), model.ResetViewModel.Password);
+            _membershipService.RedeemPasswordResetToken(Request.QueryString["token"], model.ResetViewModel.Password);
 
             TempData[CompletedFlag] = true;
 
