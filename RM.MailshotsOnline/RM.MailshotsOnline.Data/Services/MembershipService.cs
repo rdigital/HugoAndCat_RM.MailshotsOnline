@@ -65,7 +65,7 @@ namespace RM.MailshotsOnline.Data.Services
                 var expiryDays = int.Parse(ConfigurationManager.AppSettings["PasswordExpiryDays"]);
 
                 member.SetValue("passwordResetToken", Guid.NewGuid().ToString());
-                member.SetValue("passwordResetTokenExpiryDate", DateTime.UtcNow.AddSeconds(expiryDays).ToString(CultureInfo.InvariantCulture));
+                member.SetValue("passwordResetTokenExpiryDate", DateTime.UtcNow.AddDays(expiryDays).ToString(CultureInfo.InvariantCulture));
                 Umbraco.Core.ApplicationContext.Current.Services.MemberService.Save(member);
 
                 return token;
