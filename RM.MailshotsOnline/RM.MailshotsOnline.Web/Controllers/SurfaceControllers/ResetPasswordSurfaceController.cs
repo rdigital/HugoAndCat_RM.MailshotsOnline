@@ -16,12 +16,18 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         private readonly MembershipService _membershipService = new MembershipService();
         private readonly EmailService _emailService = new EmailService();
 
-        private const string CompletedFlag = "ResetComplete";
+        private const string RequestCompleteFlag = "RequestComplete";
+        private const string ResetCompleteFlag = "ResetComplete";
 
         [ChildActionOnly]
         public ActionResult ShowRequestResetForm(ResetPassword model)
         {
-            if (TempData[CompletedFlag] != null && (bool)TempData[CompletedFlag])
+            if (TempData[ResetCompleteFlag] != null && (bool) TempData[ResetCompleteFlag])
+            {
+                return ResetComplete(model);
+            }
+
+            if (TempData[RequestCompleteFlag] != null && (bool)TempData[RequestCompleteFlag])
             {
                 return RequestComplete(model);
             }
@@ -46,7 +52,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 _emailService.SendMail("msol@hugoandcat.com", "jgriffin@hugoandcat.com", "Password reset", $"Your token: {token}");
             }
 
-            TempData[CompletedFlag] = true;
+            TempData[RequestCompleteFlag] = true;
 
             return CurrentUmbracoPage();
         }
@@ -59,7 +65,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         [ChildActionOnly]
         public ActionResult ShowResetForm(ResetPassword model)
         {
-            if (TempData[CompletedFlag] != null && (bool) TempData[CompletedFlag])
+            if (TempData[ResetCompleteFlag] != null && (bool) TempData[ResetCompleteFlag])
             {
                 return ResetComplete(model);
             }
@@ -79,7 +85,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             _membershipService.RedeemPasswordResetToken(Request.QueryString["token"], model.ResetViewModel.Password);
 
-            TempData[CompletedFlag] = true;
+            TempData[ResetCompleteFlag] = true;
 
             return CurrentUmbracoPage();
         }

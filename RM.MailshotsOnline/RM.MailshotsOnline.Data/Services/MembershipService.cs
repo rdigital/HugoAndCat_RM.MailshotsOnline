@@ -71,16 +71,17 @@ namespace RM.MailshotsOnline.Data.Services
 
         public void RedeemPasswordResetToken(string token, string password)
         {
-            var umbracoMember =
-                    Umbraco.Core.ApplicationContext.Current.Services.MemberService.GetMembersByPropertyValue("passwordResetToken",
-                        token).FirstOrDefault();
+            var memberService = Umbraco.Core.ApplicationContext.Current.Services.MemberService;
+
+            var umbracoMember = memberService.GetMembersByPropertyValue("passwordResetToken",
+                token).FirstOrDefault();
 
             if (umbracoMember != null)
             {
-                umbracoMember.SetValue("passwordResetToken", Guid.Empty);
+                memberService.SavePassword(umbracoMember, password);
+                umbracoMember.SetValue("passwordResetToken", Guid.Empty.ToString());
 
-                var member = umbracoMember.ToMemberEntityModel();
-                SetNewPassword(member, password);
+                memberService.Save(umbracoMember);
             }
         }
 
@@ -90,7 +91,7 @@ namespace RM.MailshotsOnline.Data.Services
 
             var member = membershipService.GetMembersByPropertyValue("passwordResetToken", token).FirstOrDefault();
 
-            return member.ToMemberEntityModel();
+            return member?.ToMemberEntityModel();
         }
 
         public void SetNewPassword(IMember member, string password)
