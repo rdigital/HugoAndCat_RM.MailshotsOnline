@@ -5,15 +5,20 @@ using RM.MailshotsOnline.Data.Services;
 using RM.MailshotsOnline.Entities.MemberModels;
 using RM.MailshotsOnline.Entities.PageModels;
 using RM.MailshotsOnline.Entities.ViewModels;
+using RM.MailshotsOnline.PCL.Services;
 using Umbraco.Web.Mvc;
 
 namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 {
     public class RegisterSurfaceController : SurfaceController
     {
-        private readonly MembershipService _membershipService = new MembershipService();
-
+        private readonly IMembershipService _membershipService;
         private const string CompletedFlag = "RegistrationComplete";
+
+        public RegisterSurfaceController(IMembershipService membershipService)
+        {
+            _membershipService = membershipService;
+        }
 
         // GET: Register
         [ChildActionOnly]

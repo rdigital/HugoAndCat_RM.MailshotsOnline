@@ -5,20 +5,28 @@ using System.Linq;
 using System.Net.Configuration;
 using System.Web;
 using System.Web.Mvc;
+using Glass.Mapper.Umb;
 using RM.MailshotsOnline.Data.Services;
 using RM.MailshotsOnline.Entities.PageModels;
 using RM.MailshotsOnline.Entities.ViewModels;
+using RM.MailshotsOnline.PCL.Services;
 using Umbraco.Web.Mvc;
 
 namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 {
     public class ResetPasswordSurfaceController : SurfaceController
     {
-        private readonly MembershipService _membershipService = new MembershipService();
-        private readonly EmailService _emailService = new EmailService();
+        private readonly IMembershipService _membershipService;
+        private readonly IEmailService _emailService;
 
         private const string RequestCompleteFlag = "RequestComplete";
         private const string ResetCompleteFlag = "ResetComplete";
+
+        public ResetPasswordSurfaceController(IMembershipService membershipService, IEmailService emailService)
+        {
+            _membershipService = membershipService;
+            _emailService = emailService;
+        }
 
         [ChildActionOnly]
         public ActionResult ShowRequestResetForm(ResetPassword model)
