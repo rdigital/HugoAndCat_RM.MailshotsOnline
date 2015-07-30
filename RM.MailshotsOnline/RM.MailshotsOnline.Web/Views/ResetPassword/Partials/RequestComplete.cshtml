@@ -1,9 +1,8 @@
-﻿@model RM.MailshotsOnline.Entities.PageModels.RequestResetPassword
+﻿@model RM.MailshotsOnline.Entities.PageModels.ResetPassword
 
 <div>
-    <h1>@Model.PasswordResetCompleteTitle</h1>
     <div>
-        @Html.Raw(Model.PasswordResetCompleteMainText)
+        @Html.Raw(Model.RequestCompleteMessage)
     </div>
-    <a href="@Model.ContinuePage.Url">@Model.ContinuePage.Name</a>
+    <a href="@Model.RequestCompleteContinuePage.Url">@Model.RequestCompleteContinuePage.Name</a>
 </div>

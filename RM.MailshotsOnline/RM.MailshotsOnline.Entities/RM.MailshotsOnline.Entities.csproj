@@ -80,7 +80,6 @@
     <Compile Include="PageModels\Login.cs" />
     <Compile Include="PageModels\Logout.cs" />
     <Compile Include="PageModels\Register.cs" />
-    <Compile Include="PageModels\RequestResetPassword.cs" />
     <Compile Include="PageModels\ResetPassword.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />

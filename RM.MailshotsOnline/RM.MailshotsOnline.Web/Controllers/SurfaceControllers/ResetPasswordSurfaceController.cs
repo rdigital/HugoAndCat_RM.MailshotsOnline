@@ -18,27 +18,27 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         private const string CompletedFlag = "ResetComplete";
 
         [ChildActionOnly]
-        public ActionResult ShowRequestResetForm(RequestResetPassword model)
+        public ActionResult ShowRequestResetForm(ResetPassword model)
         {
             if (TempData[CompletedFlag] != null && (bool)TempData[CompletedFlag])
             {
                 return RequestComplete(model);
             }
 
-            model.ViewModel = new RequestResetPasswordViewModel();
+            model.RequestViewModel = new RequestResetPasswordViewModel();
 
             return PartialView("~/Views/ResetPassword/Partials/ShowRequestResetForm.cshtml", model);
         }
 
         [HttpPost]
-        public ActionResult RequestResetForm(RequestResetPassword model)
+        public ActionResult RequestResetForm(ResetPassword model)
         {
             if (!ModelState.IsValid)
             {
                 return CurrentUmbracoPage();
             }
 
-            var token = _membershipService.RequestPasswordReset(model.ViewModel.Email);
+            var token = _membershipService.RequestPasswordReset(model.RequestViewModel.Email);
 
             if (token != null)
             {
@@ -50,7 +50,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             return CurrentUmbracoPage();
         }
 
-        public ActionResult RequestComplete(RequestResetPassword model)
+        public ActionResult RequestComplete(ResetPassword model)
         {
             return PartialView("~/Views/ResetPassword/Partials/RequestComplete.cshtml", model);
         }
@@ -63,7 +63,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return ResetComplete(model);
             }
 
-            model.ViewModel = new ResetPasswordViewModel();
+            model.ResetViewModel = new ResetPasswordViewModel();
 
             return PartialView("~/Views/ResetPassword/Partials/ShowResetForm.cshtml", model);
         }
@@ -75,7 +75,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return CurrentUmbracoPage();
             }
 
-            _membershipService.SetNewPassword(_membershipService.GetCurrentMember(), model.ViewModel.Password);
+            _membershipService.SetNewPassword(_membershipService.GetCurrentMember(), model.ResetViewModel.Password);
 
             TempData[CompletedFlag] = true;
 

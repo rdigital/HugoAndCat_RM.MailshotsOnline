@@ -1,17 +1,20 @@
-﻿@model RM.MailshotsOnline.Entities.PageModels.RequestResetPassword
+﻿@model RM.MailshotsOnline.Entities.PageModels.ResetPassword
 
 @using (Html.BeginUmbracoForm("RequestResetForm", "ResetPasswordSurface"))
 {
     <div>
         <div>
-            @Html.DisplayFor(m => m.Introduction)
+            
         </div>
         <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.Email)
-            @Html.LabelFor(m => m.ViewModel.Email, Model.EmailAddressLabel)
-            @Html.EditorFor(m => m.ViewModel.Email)
+            @Html.DisplayFor(m => m.RequestIntroduction)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(m => m.RequestViewModel.Email)
+            @Html.LabelFor(m => m.RequestViewModel.Email, Model.RequestEmailAddressLabel)
+            @Html.EditorFor(m => m.RequestViewModel.Email)
         </div>
 
-        <input type="submit" value="@Model.PasswordResetCtaText"/>
+        <input type="submit" value="@Model.RequestPasswordResetCtaText" />
     </div>
 }
