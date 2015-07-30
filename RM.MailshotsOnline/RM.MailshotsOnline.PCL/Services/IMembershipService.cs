@@ -13,5 +13,9 @@ namespace RM.MailshotsOnline.PCL.Services
         IMember CreateMember(IMember member, string password);
 
         Guid? RequestPasswordReset(string email);
+
+        IMember GetMemberByPasswordResetToken(string token);
+
+        void SetNewPassword(IMember member, string password);
     }
 }

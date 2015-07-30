@@ -8,16 +8,18 @@ using RM.MailshotsOnline.Data.Services;
 using RM.MailshotsOnline.Entities.PageModels;
 using Umbraco.Web.Models;
 using Umbraco.Web.Mvc;
+using RM.MailshotsOnline.PCL.Services;
 
 namespace RM.MailshotsOnline.Web.Controllers
 {
     public class ResetPasswordController : GlassController
     {
-        private readonly MembershipService _membershipService = new MembershipService();
+        private readonly IMembershipService _membershipService;
 
-        public ResetPasswordController(IUmbracoService umbracoService)
+        public ResetPasswordController(IUmbracoService umbracoService, IMembershipService membershipService)
             : base(umbracoService)
         {
+            _membershipService = membershipService;
         }
 
         // GET: ResetPassword
