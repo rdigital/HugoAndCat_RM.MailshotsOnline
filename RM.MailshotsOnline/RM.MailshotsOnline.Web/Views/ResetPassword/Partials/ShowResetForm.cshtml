@@ -4,17 +4,17 @@
 {
     <div>
         <div>
-            @Html.DisplayFor(m => m.Introduction)
+            @Html.Raw(Model.ResetIntroduction)
         </div>
         <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.Password)
-            @Html.LabelFor(m => m.ViewModel.Password, Model.NewPasswordLabel)
-            @Html.EditorFor(m => m.ViewModel.Password)
+            @Html.ValidationMessageFor(m => m.ResetViewModel.Password)
+            @Html.LabelFor(m => m.ResetViewModel.Password, Model.ResetNewPasswordLabel)
+            @Html.PasswordFor(m => m.ResetViewModel.Password)
         </div>
         <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.ConfirmPassword)
-            @Html.LabelFor(m => m.ViewModel.ConfirmPassword, Model.ConfirmNewPasswordLabel)
-            @Html.EditorFor(m => m.ViewModel.ConfirmPassword)
+            @Html.ValidationMessageFor(m => m.ResetViewModel.ConfirmPassword)
+            @Html.LabelFor(m => m.ResetViewModel.ConfirmPassword, Model.ResetConfirmNewPasswordLabel)
+            @Html.PasswordFor(m => m.ResetViewModel.ConfirmPassword)
         </div>
 
         <input type="submit" />

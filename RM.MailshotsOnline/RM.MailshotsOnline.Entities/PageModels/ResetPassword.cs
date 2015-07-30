@@ -12,25 +12,46 @@ namespace RM.MailshotsOnline.Entities.PageModels
     [UmbracoType(AutoMap = true)]
     public class ResetPassword : BasePage
     {
-        #region Main form
+        #region Request form
 
-        public string Introduction { get; set; }
+        public string RequestIntroduction { get; set; }
 
-        public string NewPasswordLabel { get; set; }
+        public string RequestEmailAddressLabel { get; set; }
 
-        public string ConfirmNewPasswordLabel { get; set; }
-
-        #endregion
-
-        #region Completed
-
-        public string CompletedMessage { get; set; }
-
-        public BasePage ContinuePage { get; set; }
+        public string RequestPasswordResetCtaText { get; set; }
 
         #endregion
 
-        public ResetPasswordViewModel ViewModel { get; set; }
+        #region Request complete
+
+        public string RequestCompleteMessage { get; set; }
+
+        public BasePage RequestCompleteContinuePage { get; set; }
+
+        #endregion
+
+        public RequestResetPasswordViewModel RequestViewModel { get; set; }
+
+        
+        #region Reset form
+
+        public string ResetIntroduction { get; set; }
+
+        public string ResetNewPasswordLabel { get; set; }
+
+        public string ResetConfirmNewPasswordLabel { get; set; }
+
+        #endregion
+
+        #region Reset complete
+
+        public string ResetCompleteMessage { get; set; }
+
+        public BasePage ResetCompleteContinuePage { get; set; }
+
+        #endregion
+
+        public ResetPasswordViewModel ResetViewModel { get; set; }
 
     }
 }

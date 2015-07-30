@@ -23,29 +23,26 @@ namespace RM.MailshotsOnline.Web.Controllers
         }
 
         // GET: ResetPassword
-        public override ActionResult Index(RenderModel model)
+        public ActionResult Index(RenderModel model, string token)
         {
-            var pageModel = GetModel<RequestResetPassword>();
+            var pageModel = GetModel<ResetPassword>();
 
-            return View("~/Views/ResetPassword/RequestResetPassword.cshtml", pageModel);
-        }
+            if (token == null)
+            {
+                return View("~/Views/ResetPassword/RequestResetPassword.cshtml", pageModel);
+            }
 
-        // GET: Validate
-        public ActionResult Validate(string token)
-        {
             var member = _membershipService.GetMemberByPasswordResetToken(token);
 
             if (member != null)
             {
-                var pageModel = GetModel<ResetPassword>();
-
                 return View("~/Views/ResetPassword/ResetPassword.cshtml", pageModel);
             }
 
             ModelState.AddModelError("BadToken",
                 "The login link you're trying to use is expired or invalid. Please request a new one using the form below.");
-
-            return Index(GetModel<RenderModel>());
+            
+            return View("~/Views/ResetPassword/RequestResetPassword.cshtml", pageModel);
         }
     }
 }
