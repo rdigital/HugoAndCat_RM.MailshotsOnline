@@ -38,10 +38,10 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
             catch (HttpException ex)
             {
-                return Request.CreateResponse((HttpStatusCode)ex.ErrorCode, ex.Message);
+                return Request.CreateResponse((HttpStatusCode)ex.GetHttpCode(), ex.Message);
             }
 
-            var mailshots = _mailshotsService.GetUsersMailshots(_loggedInMember.Id).Select(m => m.ToViewModel());
+            var mailshots = _mailshotsService.GetUsersMailshots(_loggedInMember.Id);
 
             return Request.CreateResponse(HttpStatusCode.OK, mailshots);
         }
@@ -74,9 +74,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 return MailshotForbidden();
             }
 
-            var result = mailshot.ToViewModel();
-
-            return Request.CreateResponse(HttpStatusCode.OK, result);
+            return Request.CreateResponse(HttpStatusCode.OK, mailshot);
         }
 
         /// <summary>
@@ -85,14 +83,14 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         /// <param name="mailshot">The mailshot data to save</param>
         /// <returns>ID of the saved Mailshot</returns>
         [HttpPost]
-        public HttpResponseMessage Save(MailshotViewModel mailshot)
+        public HttpResponseMessage Save(Mailshot mailshot)
         {
             if (mailshot == null)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Please provide mailshot data to save.");
             }
 
-            if (string.IsNullOrEmpty(mailshot.Content) || string.IsNullOrEmpty(mailshot.Name))
+            if (string.IsNullOrEmpty(mailshot.ContentText) || string.IsNullOrEmpty(mailshot.Name))
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Please provide mailshot data to save.");
             }
@@ -106,22 +104,15 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 return Request.CreateResponse((HttpStatusCode)ex.ErrorCode, ex.Message);
             }
 
-            IMailshot mailshotData = new Mailshot()
-            {
-                UpdatedDate = DateTime.UtcNow,
-                UserId = _loggedInMember.Id,
-                Draft = true,
-                Name = mailshot.Name
-            };
+            IMailshot mailshotData = mailshot;
 
-            mailshotData.Content = new MailshotContent()
-            {
-                Content = mailshot.Content
-            };
+            mailshotData.Content = new MailshotContent() { Content = mailshot.ContentText };
+            mailshotData.UserId = _loggedInMember.Id;
+            mailshotData.UpdatedDate = DateTime.UtcNow;
 
             _mailshotsService.SaveMailshot(mailshotData);
 
-            return Request.CreateResponse(HttpStatusCode.OK, mailshotData.MailshotId);
+            return Request.CreateResponse(HttpStatusCode.Created, mailshotData.MailshotId);
         }
 
         /// <summary>
@@ -130,8 +121,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         /// <param name="id">ID of the mailshot to update</param>
         /// <param name="mailshot">New content for the mailshot</param>
         /// <returns>HTTP OK on success</returns>
-        [HttpPut]
-        public HttpResponseMessage Update(Guid id, MailshotViewModel mailshot)
+        [HttpPost]
+        public HttpResponseMessage Update(Guid id, Mailshot mailshot)
         {
             try
             {
@@ -142,9 +133,9 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 return Request.CreateResponse((HttpStatusCode)ex.ErrorCode, ex.Message);
             }
 
-            if (mailshot == null)
+            if (mailshot == null || string.IsNullOrEmpty(mailshot.ContentText))
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Please provide mailshot data to send.");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Please provide mailshot data to save.");
             }
 
             var mailshotData = _mailshotsService.GetMailshot(id);
@@ -159,8 +150,21 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
 
             mailshotData.Name = mailshot.Name;
-            mailshotData.Content.Content = mailshot.Content;
+            if (mailshotData.Content == null)
+            {
+                MailshotContent contentData = new MailshotContent() { Content = mailshot.ContentText };
+                mailshotData.Content = contentData;
+            }
+            else
+            {
+                mailshotData.Content.Content = mailshot.ContentText;
+            }
+
+            mailshotData.Draft = mailshot.Draft;
             mailshotData.UpdatedDate = DateTime.UtcNow;
+            mailshotData.TemplateId = mailshot.TemplateId;
+            mailshotData.FormatId = mailshot.FormatId;
+            mailshotData.ThemeId = mailshot.ThemeId;
 
             _mailshotsService.SaveMailshot(mailshotData);
 

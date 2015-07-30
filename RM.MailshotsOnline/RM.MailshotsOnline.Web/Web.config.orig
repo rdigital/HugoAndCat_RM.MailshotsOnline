@@ -66,8 +66,12 @@
 
     <add key="AppInsightsKey" value="f4926bc4-a07f-420c-89f1-40e38682d0c6" />
 
+<<<<<<< HEAD
+    <add key="SpoofUser" value="1" />
 
     <add key="HeaderNavSettingsId" value="1121"/>
+=======
+>>>>>>> 66d5051a8f76b5efec6ae89022b7f22e8ad16cbf
 
   </appSettings>
   <connectionStrings>

@@ -32,5 +32,12 @@ namespace RM.MailshotsOnline.PCL
             SentTo = 2,
             Inactive = 3
         }
+
+        public enum PdfRenderStatus
+        {
+            None = 1,
+            Pending = 2,
+            Complete = 3
+        }
     }
 }
