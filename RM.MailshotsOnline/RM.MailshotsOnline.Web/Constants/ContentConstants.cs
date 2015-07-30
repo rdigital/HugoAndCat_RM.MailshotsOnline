@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,12 +13,12 @@ namespace RM.MailshotsOnline.Web.Constants
     {
         public static class Settings
         {
-            public const int HeaderNavSettingsId = 1121;
+            public static readonly int HeaderNavSettingsId = int.Parse(ConfigurationManager.AppSettings["HeaderNavSettingsId"]);
         }
 
         public static class HomeContent
         {
-            public const int LoginId = 1084;
+            public static readonly int LoginId = int.Parse(ConfigurationManager.AppSettings["LoginId"]);
         }
     }
 }
