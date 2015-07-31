@@ -12,6 +12,7 @@ namespace RM.MailshotsOnline.Web.Controllers
     /// <summary>
     /// Base controller when wishing to use Glass models
     /// </summary>
+    [RequireHttps]
     public abstract class GlassController : RenderMvcController
     {
         /// <summary>
