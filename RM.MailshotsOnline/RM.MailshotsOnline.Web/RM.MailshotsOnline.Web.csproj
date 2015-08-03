@@ -2853,6 +2853,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LogoutController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\ResetPasswordController.cs" />
     <Compile Include="Controllers\SurfaceControllers\LoginSurfaceController.cs" />
@@ -3073,8 +3074,12 @@
     <Content Include="Views\Home.cshtml" />
     <Content Include="Views\ContentPage.cshtml" />
     <Content Include="Config\uSyncSettings.config" />
+    <Content Include="Config\uSyncSettings.Dev.config">
+      <DependentUpon>Config\uSyncSettings.config</DependentUpon>
+    </Content>
     <Content Include="Config\uSyncSettings.QA.config">
       <DependentUpon>Config\uSyncSettings.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Login\Partials\ShowLoginForm.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -3161,6 +3166,8 @@
     <Content Include="uSync\Template\ResetPassword\ResetPassword.config.orig" />
     <Content Include="uSync\Template\Validate\Validate.config" />
     <Content Include="Views\MailshotEditor.cshtml" />
+    <Content Include="uSync\Template\Master\MailshotEditor\MailshotEditor.config" />
+    <Content Include="uSync\DocumentType\Basepage\MailshotEditor\def.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
