@@ -1,11 +1,16 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Configuration;
+using System.Runtime.InteropServices;
 using System.Web.Mvc;
 using System.Web.Security;
+using Castle.Windsor.Installer;
+using RM.MailshotsOnline.Data.Extensions;
 using RM.MailshotsOnline.Data.Services;
 using RM.MailshotsOnline.Entities.MemberModels;
 using RM.MailshotsOnline.Entities.PageModels;
 using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.PCL.Services;
+using RM.MailshotsOnline.Web.Extensions;
+using umbraco;
 using Umbraco.Web.Mvc;
 
 namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
@@ -13,22 +18,29 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
     public class RegisterSurfaceController : SurfaceController
     {
         private readonly IMembershipService _membershipService;
+        private readonly IEmailService _emailService;
         private const string CompletedFlag = "RegistrationComplete";
 
-        public RegisterSurfaceController(IMembershipService membershipService)
+
+        public RegisterSurfaceController(IMembershipService membershipService, IEmailService emailService)
         {
             _membershipService = membershipService;
+            _emailService = emailService;
         }
 
         // GET: Register
         [ChildActionOnly]
         public ActionResult ShowRegisterForm(Register model)
         {
-            // todo: get valid titles.
             if (TempData[CompletedFlag] != null && (bool) TempData[CompletedFlag])
             {
                 return Complete(model);
             }
+
+            var titleDataType = Services.DataTypeService.GetDataTypeDefinitionByName("Title Dropdown");
+            var titlePrevalues = library.GetPreValues(titleDataType.Id);
+
+            model.TitleOptions = titlePrevalues.ToPreValueDictionary();
 
             model.ViewModel = new RegisterViewModel();
 
@@ -38,6 +50,13 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         [HttpPost]
         public ActionResult RegisterForm(Register model)
         {
+            var emailBody = string.Empty;
+            if (UmbracoContext.PageId.HasValue)
+            {
+                var pageModel = Umbraco.Content(UmbracoContext.PageId);
+                emailBody = pageModel.RegisterCompleteEmail.ToString();
+            }
+
             if (!ModelState.IsValid)
             {
                 return CurrentUmbracoPage();
@@ -45,8 +64,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             if (Members.GetByEmail(model.ViewModel.Email) != null)
             {
-                ModelState.AddModelError("ViewModel.Email",
-                    "You already appear to be registered with us. Please use the login page instead.");
+                ModelState.AddModelError("ViewModel.Email", model.AlreadyRegisteredMessage);
                 return CurrentUmbracoPage();
             }
 
@@ -57,11 +75,16 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             catch (MembershipPasswordException)
             {
                 ModelState.AddModelError("PasswordError",
-                    "Your password does not meet the minimum requirements. Please use 6 alphanumeric characters.");
+                    model.PasswordErrorMessage);
                 return CurrentUmbracoPage();
             }
 
             TempData[CompletedFlag] = true;
+
+            _emailService.SendMail(ConfigurationManager.AppSettings["SystemEmailAddress"], model.ViewModel.Email,
+                "Welcome to the Royal Mail Business Portal",
+                emailBody.Replace("##firstName", model.ViewModel.FirstName)
+                    .Replace("##email", model.ViewModel.Email));
 
             return CurrentUmbracoPage();
         }

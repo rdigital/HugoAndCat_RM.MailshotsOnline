@@ -14,6 +14,8 @@ namespace RM.MailshotsOnline.PCL.Services
 
         Guid? RequestPasswordReset(string email);
 
+        bool RedeemPasswordResetToken(string token, string password);
+
         IMember GetMemberByPasswordResetToken(string token);
 
         void SetNewPassword(IMember member, string password);

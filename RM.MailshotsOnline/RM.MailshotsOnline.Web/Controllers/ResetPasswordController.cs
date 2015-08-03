@@ -39,7 +39,7 @@ namespace RM.MailshotsOnline.Web.Controllers
                 return View("~/Views/ResetPassword/ResetPassword.cshtml", pageModel);
             }
 
-            ViewBag.BadTokenMessage = "Your token is the worst";
+            ViewBag.BadTokenMessage = pageModel.BadTokenMessage;
             
             return View("~/Views/ResetPassword/RequestResetPassword.cshtml", pageModel);
         }

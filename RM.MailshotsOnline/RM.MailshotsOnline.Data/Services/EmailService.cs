@@ -10,6 +10,10 @@ namespace RM.MailshotsOnline.Data.Services
 {
     public class EmailService : IEmailService
     {
+        public EmailService()
+        {
+        }
+
         public void SendMail(string @from, string to, string subject, string body)
         {
             var client = new SmtpClient();
@@ -17,7 +21,8 @@ namespace RM.MailshotsOnline.Data.Services
             using (var message = new MailMessage(new MailAddress(from), new MailAddress(to))
             {
                 Subject = subject,
-                Body = body
+                Body = body,
+                IsBodyHtml = true
             })
             {
                 client.Send(message);

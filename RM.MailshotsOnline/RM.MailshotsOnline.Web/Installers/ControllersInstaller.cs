@@ -15,6 +15,7 @@ using System.Web.Http.Controllers;
 using System.Web.Mvc;
 using Umbraco.Core.Services;
 using Umbraco.Web;
+using Umbraco.Web.Mvc;
 
 namespace RM.MailshotsOnline.Web.Installers
 {
@@ -33,7 +34,7 @@ namespace RM.MailshotsOnline.Web.Installers
                 Component.For<IMailshotsService>().ImplementedBy<MailshotsService>().LifestyleTransient(),
                 Component.For<IMembershipService>().ImplementedBy<MembershipService>().LifestyleTransient(),
                 Component.For<IPricingService>().ImplementedBy<PricingService>().LifestyleTransient(),
-                Component.For<IEmailService>().ImplementedBy<EmailService>().LifestyleTransient());
+                Component.For<IEmailService>().ImplementedBy<RM.MailshotsOnline.Data.Services.EmailService>().LifestyleTransient());
         }
 
         static public string AssemblyDirectory
