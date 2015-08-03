@@ -257,6 +257,7 @@
     <Compile Include="Helpers\UmbracoHelper.cs" />
     <Compile Include="Mocks\MockMembershipService.cs" />
     <Compile Include="Mocks\MockPricingService.cs" />
+    <Compile Include="Processors\MailshotsProcessorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -281,12 +282,19 @@
     <None Include="Configurations\UmbracoSettings\web.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="editorcontent.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Umbraco.Tests.dll.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\RM.MailshotsOnline.Business\RM.MailshotsOnline.Business.csproj">
+      <Project>{dcc80db8-069c-4b0b-a955-b8486d795f6d}</Project>
+      <Name>RM.MailshotsOnline.Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RM.MailshotsOnline.Data\RM.MailshotsOnline.Data.csproj">
       <Project>{0d159929-5a8f-4e0c-84a6-3c7e9de5f5ad}</Project>
       <Name>RM.MailshotsOnline.Data</Name>

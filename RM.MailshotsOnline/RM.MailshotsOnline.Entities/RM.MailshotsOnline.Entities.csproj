@@ -71,6 +71,9 @@
     <Compile Include="DataModels\Order.cs" />
     <Compile Include="DataModels\PostalOption.cs" />
     <Compile Include="Extensions\MailshotExtensions.cs" />
+    <Compile Include="JsonModels\ContentElement.cs" />
+    <Compile Include="JsonModels\ContentStyle.cs" />
+    <Compile Include="JsonModels\MailshotEditorContent.cs" />
     <Compile Include="MemberModels\ContactPreferences.cs" />
     <Compile Include="MemberModels\Member.cs" />
     <Compile Include="PageModels\BasePage.cs" />

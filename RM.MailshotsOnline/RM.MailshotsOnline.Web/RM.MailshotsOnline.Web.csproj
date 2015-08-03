@@ -3184,6 +3184,10 @@
       <Project>{bb08379a-7cb5-4142-ba89-3b3e2356b354}</Project>
       <Name>RM.MailshotsOnline.PCL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SparqTemp\SparqTemp.csproj">
+      <Project>{4a814c19-9e31-4a66-8453-6f0ccc391ce1}</Project>
+      <Name>SparqTemp</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
