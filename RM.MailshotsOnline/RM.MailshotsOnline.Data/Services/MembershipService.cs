@@ -76,10 +76,9 @@ namespace RM.MailshotsOnline.Data.Services
 
         /// <summary>
         /// Checks whether the given password reset token is valid.
-        /// Returns false if the token is an empty Guid, or not a Guid at all.
         /// </summary>
-        /// <param name="token"></param>
-        /// <returns></returns>
+        /// <param name="token">The token</param>
+        /// <returns>False if the token is an empty Guid, or not at all.</returns>
         private bool IsPasswordResetTokenValid(string token)
         {
             // if we've been given an empty guid, or an invalid token
