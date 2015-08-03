@@ -35,7 +35,7 @@ namespace RM.MailshotsOnline.Test.Mocks
             throw new NotImplementedException();
         }
 
-        public void RedeemPasswordResetToken(string token, string password)
+        public bool RedeemPasswordResetToken(string token, string password)
         {
             throw new NotImplementedException();
         }

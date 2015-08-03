@@ -31,7 +31,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         [ChildActionOnly]
         public ActionResult ShowRequestResetForm(ResetPassword model)
         {
-            if (TempData[ResetCompleteFlag] != null && (bool) TempData[ResetCompleteFlag])
+            if (TempData[ResetCompleteFlag] != null && (bool)TempData[ResetCompleteFlag])
             {
                 return ResetComplete(model);
             }
@@ -49,6 +49,13 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         [HttpPost]
         public ActionResult RequestResetForm(ResetPassword model)
         {
+            var emailBody = string.Empty;
+            if (UmbracoContext.PageId.HasValue)
+            {
+                var pageModel = Umbraco.Content(UmbracoContext.PageId);
+                emailBody = pageModel.RequestCompleteEmail.ToString();
+            }
+
             if (!ModelState.IsValid)
             {
                 return CurrentUmbracoPage();
@@ -58,11 +65,11 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             if (token != null)
             {
-                var resetLink = Request.Url.Authority + "/reset-password?token=" + token;
+                var resetLink = $"https://{Request.Url.Authority}/reset-password?token={token}";
 
-            _emailService.SendMail(ConfigurationManager.AppSettings["SystemEmailAddress"],
+                _emailService.SendMail(ConfigurationManager.AppSettings["SystemEmailAddress"],
                     model.RequestViewModel.Email, "Password reset",
-                    $"Click here mate: <a href='{resetLink}'>{resetLink}</a>");
+                    emailBody.Replace("##resetLink", $"<a href='{resetLink}'>{resetLink}</a>"));
             }
 
             TempData[RequestCompleteFlag] = true;
@@ -78,7 +85,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         [ChildActionOnly]
         public ActionResult ShowResetForm(ResetPassword model)
         {
-            if (TempData[ResetCompleteFlag] != null && (bool) TempData[ResetCompleteFlag])
+            if (TempData[ResetCompleteFlag] != null && (bool)TempData[ResetCompleteFlag])
             {
                 return ResetComplete(model);
             }
@@ -96,9 +103,12 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return CurrentUmbracoPage();
             }
 
-            _membershipService.RedeemPasswordResetToken(Request.QueryString["token"], model.ResetViewModel.Password);
+            var success = _membershipService.RedeemPasswordResetToken(Request.QueryString["token"], model.ResetViewModel.Password);
 
-            TempData[ResetCompleteFlag] = true;
+            if (success)
+            {
+                TempData[ResetCompleteFlag] = true;
+            }
 
             return CurrentUmbracoPage();
         }

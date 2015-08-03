@@ -20,6 +20,12 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         public string TitleLabel { get; set; }
 
+        public string PasswordErrorMessage { get; set; }
+
+        public string AlreadyRegisteredMessage { get; set; }
+
+        public IDictionary<string, string> TitleOptions { get; set; } 
+
         public string FirstNameLabel { get; set; }
 
         public string LastNameLabel { get; set; }
@@ -65,6 +71,8 @@ namespace RM.MailshotsOnline.Entities.PageModels
         public string ThankYouLabel { get; set; }
 
         public string MyAccountCtaText { get; set; }
+
+        public string RegisterCompleteEmail { get; set; }
 
         public RegisterViewModel ViewModel { get; set; }
     }

@@ -42,8 +42,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return Redirect("/");
             }
 
-            ModelState.AddModelError("BadLogin",
-                "Your login has not been recognised. Please check that you have entered your details correctly");
+            ModelState.AddModelError("BadLogin", model.PageModel.BadLoginMessage);
             return CurrentUmbracoPage();
         }
     }

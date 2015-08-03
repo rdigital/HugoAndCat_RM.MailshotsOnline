@@ -9,9 +9,7 @@
     <div class="logout">
         <div>
             <h1>@Model.ThankYouLabel</h1>
-            <span>@Model.MainBody</span>
-            @Html.ActionLink(Model.LoginCtaText, "Index", "Login")
-            @Html.ActionLink(Model.HomepageCtaText, "Index", "Home")
+            <span>@Html.Raw(Model.MainBody)</span>
         </div>
     </div>
 </div>

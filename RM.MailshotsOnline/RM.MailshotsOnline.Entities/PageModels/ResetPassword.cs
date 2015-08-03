@@ -20,7 +20,10 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         public string RequestPasswordResetCtaText { get; set; }
 
+        public string BadTokenMessage { get; set; }
+
         #endregion
+
 
         #region Request complete
 
@@ -43,11 +46,19 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         #endregion
 
+
         #region Reset complete
 
         public string ResetCompleteMessage { get; set; }
 
         public BasePage ResetCompleteContinuePage { get; set; }
+
+        #endregion
+
+
+        #region Emails
+
+        public string RequestCompleteEmail { get; set; }
 
         #endregion
 

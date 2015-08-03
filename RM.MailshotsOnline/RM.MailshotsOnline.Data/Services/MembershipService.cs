@@ -64,7 +64,7 @@ namespace RM.MailshotsOnline.Data.Services
                 var token = Guid.NewGuid();
                 var expiryDays = int.Parse(ConfigurationManager.AppSettings["PasswordExpiryDays"]);
 
-                member.SetValue("passwordResetToken", Guid.NewGuid().ToString());
+                member.SetValue("passwordResetToken", token.ToString());
                 member.SetValue("passwordResetTokenExpiryDate", DateTime.UtcNow.AddDays(expiryDays).ToString(CultureInfo.InvariantCulture));
                 Umbraco.Core.ApplicationContext.Current.Services.MemberService.Save(member);
 
@@ -74,13 +74,38 @@ namespace RM.MailshotsOnline.Data.Services
             return null;
         }
 
-        public void RedeemPasswordResetToken(string token, string password)
+        /// <summary>
+        /// Checks whether the given password reset token is valid.
+        /// Returns false if the token is an empty Guid, or not a Guid at all.
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        private bool IsPasswordResetTokenValid(string token)
         {
-            var memberService = Umbraco.Core.ApplicationContext.Current.Services.MemberService;
+            // if we've been given an empty guid, or an invalid token
+            var guidToken = new Guid();
+            if (!Guid.TryParse(token, out guidToken) || guidToken.Equals(Guid.Empty))
+            {
+                return false;
+            }
 
+            return true;
+        }
+
+        public bool RedeemPasswordResetToken(string token, string password)
+        {
+            // if the token isn't a guid, fail immediately.
+            if (!IsPasswordResetTokenValid(token))
+            {
+                return false;
+            }
+
+            // else proceed in trying to get the member based on the token
+            var memberService = Umbraco.Core.ApplicationContext.Current.Services.MemberService;
             var umbracoMember = memberService.GetMembersByPropertyValue("passwordResetToken",
                 token).FirstOrDefault();
 
+            // if there is a result, set that member's password
             if (umbracoMember != null)
             {
                 memberService.SavePassword(umbracoMember, password);
@@ -88,13 +113,22 @@ namespace RM.MailshotsOnline.Data.Services
                 umbracoMember.SetValue("passwordResetTokenExpiryDate", DateTime.MinValue.ToString(CultureInfo.InvariantCulture));
 
                 memberService.Save(umbracoMember);
+
+                return true;
             }
+
+            // ... we didn't find a member using that guid
+            return false;
         }
 
         public IMember GetMemberByPasswordResetToken(string token)
         {
-            var membershipService = Umbraco.Core.ApplicationContext.Current.Services.MemberService;
+            if (!IsPasswordResetTokenValid(token))
+            {
+                return null;
+            }
 
+            var membershipService = Umbraco.Core.ApplicationContext.Current.Services.MemberService;
             var umbracoMember = membershipService.GetMembersByPropertyValue("passwordResetToken", token).FirstOrDefault();
 
             // if we're null at this point, then the token was old/spurious.
@@ -118,7 +152,6 @@ namespace RM.MailshotsOnline.Data.Services
         public void SetNewPassword(IMember member, string password)
         {
             var membershipService = Umbraco.Core.ApplicationContext.Current.Services.MemberService;
-
             var umbracoMember = membershipService.GetByEmail(member.EmailAddress);
 
             membershipService.SavePassword(umbracoMember, password);
