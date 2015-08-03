@@ -7,6 +7,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.XPath;
+using System.Xml.Xsl;
 
 namespace RM.MailshotsOnline.Test.Processors
 {
@@ -27,7 +31,42 @@ namespace RM.MailshotsOnline.Test.Processors
         }
 
         [Test]
-        public void GetXmlAndXslTest()
+        public void MailshotsProcessorReturnsOutput()
+        {
+            var output = GetMailshotsOutout();
+
+            Assert.NotNull(output);
+            Assert.NotNull(output.Item1);
+            Assert.NotNull(output.Item2);
+        }
+
+        [Test]
+        public void MailshotsProcessorOutputIsValid()
+        {
+            var output = GetMailshotsOutout();
+
+            // Check that XML is valid
+            var xml = output.Item1;
+            XDocument xmlDoc = XDocument.Parse(xml);
+            Assert.NotNull(xmlDoc);
+            Assert.NotNull(xmlDoc.Root);
+
+            // Check that the XSL transforms the XML
+            var xmlStringReader = new StringReader(xml);
+            var xmlReader = XmlReader.Create(xmlStringReader);
+            var xsl = output.Item2;
+            var xslStringReader = new StringReader(xsl);
+            var xslReader = XmlReader.Create(xslStringReader);
+            XslCompiledTransform xslTransform = new XslCompiledTransform();
+            xslTransform.Load(xslReader);
+            StringBuilder transformBuilder = new StringBuilder();
+            XmlWriter writer = XmlWriter.Create(transformBuilder, xslTransform.OutputSettings);
+            xslTransform.Transform(xmlReader, writer);
+            writer.Close();
+            Assert.Greater(transformBuilder.Length, 0);
+        }
+
+        private Tuple<string, string> GetMailshotsOutout()
         {
             string input = File.ReadAllText("editorcontent.json");
             var mailshot = new Mailshot()
@@ -41,11 +80,10 @@ namespace RM.MailshotsOnline.Test.Processors
             mailshot.Content = new MailshotContent();
             mailshot.Content.Content = input;
 
-            var output = _processor.GetXmlAndXslForMailshot(mailshot);
+            string xsl = File.ReadAllText("A4PageComplete.xsl");
 
-            Assert.NotNull(output);
-            Assert.NotNull(output.Item1);
-            Assert.NotNull(output.Item2);
+            var output = _processor.GetXmlAndXslForMailshot(mailshot, xsl);
+            return output;
         }
     }
 }

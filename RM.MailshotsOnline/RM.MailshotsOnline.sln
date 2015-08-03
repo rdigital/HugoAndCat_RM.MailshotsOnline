@@ -42,6 +42,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{C1FE69
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparqTemp", "SparqTemp\SparqTemp.csproj", "{4A814C19-9E31-4A66-8453-6F0CCC391CE1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C5A06D3E-AF18-4928-A6D3-404B22AB0ACB}"
+	ProjectSection(SolutionItems) = preProject
+		XML\Tests\dataxml.xml = XML\Tests\dataxml.xml
+		XML\Tests\dataxsl.xslt = XML\Tests\dataxsl.xslt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +111,7 @@ Global
 		{2867E7DB-2EB7-402B-BE27-1FFD3298E4AA} = {61BD6155-3F8A-4194-B3D0-A8B420375301}
 		{37C4DF1C-32F8-49BD-8DC7-0723D52779D1} = {61BD6155-3F8A-4194-B3D0-A8B420375301}
 		{C1FE6952-7E6B-4ED0-8F25-C37D979ED1E6} = {61BD6155-3F8A-4194-B3D0-A8B420375301}
+		{C5A06D3E-AF18-4928-A6D3-404B22AB0ACB} = {61BD6155-3F8A-4194-B3D0-A8B420375301}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45

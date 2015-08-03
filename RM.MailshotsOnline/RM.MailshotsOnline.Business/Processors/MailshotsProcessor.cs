@@ -14,20 +14,28 @@ namespace RM.MailshotsOnline.Business.Processors
 {
     public class MailshotsProcessor
     {
+        private XNamespace _foNamespace;
+
+        public MailshotsProcessor()
+        {
+            _foNamespace = "http://www.w3.org/1999/XSL/Format";
+        }
+
         /// <summary>
         /// Gets the XML and XSLT output for a mailshot to send to the SparQ service
         /// </summary>
         /// <param name="mailshot">Mailshot to be generated</param>
+        /// <param name="xslOverride">Specify the XSL to use as an override, rather than generating XSL from the Mailshot format / template / theme</param>
         /// <returns>Item 1: XML content; Item 2: XSLT transform file</returns>
-        public Tuple<string, string> GetXmlAndXslForMailshot(IMailshot mailshot)
+        public Tuple<string, string> GetXmlAndXslForMailshot(IMailshot mailshot, string xslOverride = null)
         {
             if (mailshot == null)
             {
                 throw new ArgumentNullException("mailshot");
             }
 
-            string formatXsl = null;
-
+            //TODO: Get the correct XSL
+            /*string formatXsl = null;
             switch (mailshot.FormatId)
             {
                 case 1:
@@ -38,8 +46,8 @@ namespace RM.MailshotsOnline.Business.Processors
                     break;
             }
 
-            string TemplateXsl = null;
-
+            //TODO: Get the correct XSL
+            string templateXsl = null;
             switch (mailshot.TemplateId)
             {
                 case 1:
@@ -50,8 +58,8 @@ namespace RM.MailshotsOnline.Business.Processors
                     break;
             }
 
+            //TODO: Get the correct XSL
             string themeXsl = null;
-
             switch (mailshot.ThemeId)
             {
                 case 1:
@@ -60,9 +68,7 @@ namespace RM.MailshotsOnline.Business.Processors
                 default:
                     throw new ArgumentOutOfRangeException("mailshot", "Currently only supporting Theme ID of 1.");
                     break;
-            }
-
-            string contentXml = null;
+            }*/
 
             if (mailshot.Content == null || string.IsNullOrEmpty(mailshot.Content.Content))
             {
@@ -70,13 +76,16 @@ namespace RM.MailshotsOnline.Business.Processors
             }
 
             MailshotEditorContent content = JsonConvert.DeserializeObject<MailshotEditorContent>(mailshot.Content.Content);
+            var finalXml = GetContentXmlFromJson(content);
+
+            if (!string.IsNullOrEmpty(xslOverride))
+            {
+                return Tuple.Create<string, string>(finalXml, xslOverride);
+            }
 
             //TODO: Compile the XSL properly
             var finalXsl = File.ReadAllText("C:\\Projects\\RoyalMail\\MSOL\\RM.MailshotsOnline\\RM.MailshotsOnline\\XML\\Formats\\A4PageComplete.xsl");
-
-            //TODO: Convert the XML from the content
-            var finalXml = GetContentXmlFromJson(content);
-
+            
             return Tuple.Create<string, string>(finalXml, finalXsl);
         }
 
@@ -88,20 +97,26 @@ namespace RM.MailshotsOnline.Business.Processors
         private string GetContentXmlFromJson(MailshotEditorContent jsonContent)
         {
             var contentXml = new XDocument();
-            var ticket = new XElement("page");
+            var ticket = new XElement("page",
+                new XAttribute(XNamespace.Xmlns + "fo", _foNamespace));
+
             foreach (var jsonElement in jsonContent.Elements)
             {
-                var contentElement = new XElement(jsonElement.Name);
-                if (!jsonElement.Content.StartsWith("data:image"))
+                if (!string.IsNullOrEmpty(jsonElement.Content))
                 {
-                    contentElement.Value = ProcessHtmlContent(jsonElement.Content);
-                }
-                else
-                {
-                    contentElement.Value = jsonElement.Content;
-                }
+                    var contentElement = new XElement(jsonElement.Name.Replace(" ", string.Empty));
+                    if (!jsonElement.Content.StartsWith("data:image"))
+                    {
+                        contentElement.Add(ProcessHtmlContent(jsonElement.Content.Replace("<br>", "<br />")));
+                    }
+                    else
+                    {
+                        //contentElement.Value = jsonElement.Content;
+                        contentElement.Add(new XCData(jsonElement.Content));
+                    }
 
-                ticket.Add(contentElement);
+                    ticket.Add(contentElement);
+                }
             }
 
             contentXml.Add(ticket);
@@ -113,19 +128,91 @@ namespace RM.MailshotsOnline.Business.Processors
         /// </summary>
         /// <param name="htmlContent">HTML content from the editor</param>
         /// <returns>XSL:FO XML snippets</returns>
-        private string ProcessHtmlContent(string htmlContent)
+        private IEnumerable<XNode> ProcessHtmlContent(string htmlContent)
         {
-            // TODO: Strip all the HTML
-            var output = htmlContent.Replace("<div><br></div>", Environment.NewLine);
-            output = output.Replace("<div>", string.Empty).Replace("</div>", string.Empty);
+            var htmlAsXml = XDocument.Parse(string.Format("<root>{0}</root>", htmlContent));
 
-            // TODO: Convert PX into PT
-            var fontsizeRegex = new Regex(@"<span style=\""(font\-size): ([\d] +)px;\"">([\w\W]*)<\/span>");
-            output = fontsizeRegex.Replace(output, @"<fo:inline $1=""$2pt"">$3</fo:inline>");
+            var outputRoot = new XElement("root");
 
-            // TODO: All of the other required conversions!
+            foreach (XNode node in htmlAsXml.Root.Nodes())
+            {
+                // Do substitutions?
+                var newElement = ProcessSubNode(node);
+                // Add to outputRoot
+                if (newElement != null)
+                {
+                    outputRoot.Add(newElement);
+                }
+            }
 
-            return output;
+            return outputRoot.Nodes();
+        }
+
+        private XNode ProcessSubNode(XNode rootNode)
+        {
+            if (rootNode.NodeType == System.Xml.XmlNodeType.Text)
+            {
+                return rootNode;
+            }
+            else if (rootNode.NodeType == System.Xml.XmlNodeType.Element)
+            {
+                XElement rootElement = (XElement)rootNode;
+                XElement returnElement;
+
+                if (rootElement.Name == "div")
+                {
+                    returnElement = new XElement(_foNamespace + "block");
+                }
+                else if (rootElement.Name == "br")
+                {
+                    return new XText(Environment.NewLine);
+                }
+                else
+                {
+                    returnElement = new XElement(_foNamespace + "inline");
+                }
+
+                if (rootElement.Name == "span")
+                {
+                    var styleAttribute = rootElement.Attribute("style");
+                    if (styleAttribute != null)
+                    {
+                        var styleValues = styleAttribute.Value.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (string value in styleValues)
+                        {
+                            if (!string.IsNullOrWhiteSpace(value))
+                            {
+                                var valueParts = value.Split(new char[] { ':' });
+                                if (valueParts.Length == 2)
+                                {
+                                    returnElement.SetAttributeValue(valueParts[0].Trim(), valueParts[1].Trim());
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (rootElement.Name == "b" || rootElement.Name == "strong")
+                {
+                    returnElement.SetAttributeValue("font-weight", "bold");
+                }
+
+                if (rootElement.Name == "em" || rootElement.Name == "i")
+                {
+                    returnElement.SetAttributeValue("font-style", "italic");
+                }
+
+                foreach (var subNode in rootElement.Nodes())
+                {
+                    returnElement.Add(ProcessSubNode(subNode));
+                }
+
+                return returnElement;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
