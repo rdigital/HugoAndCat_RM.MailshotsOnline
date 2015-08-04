@@ -2867,6 +2867,8 @@
     <Compile Include="Plumbing\WindsorCompositionRoot.cs" />
     <Compile Include="Plumbing\WindsorControllerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\Providers\EncryptedMembershipProvider.cs" />
+    <Compile Include="Security\Providers\EncryptedMembershipExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
