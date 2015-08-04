@@ -73,14 +73,14 @@
         </div>
         <div>
             <label for="RoyalMailContactOptions">@Model.RoyalMailContactOptionsLabel</label>
-            @Html.EditorFor(m => m.ViewModel.RoyalMailContactOptions)
+            @Html.EditorFor(m => m.ViewModel.CommunicationPreferencesViewModel.RoyalMailContactPreferences)
         </div>
         <div>
             <span for="ThirdPartyContactOptionsDisclaimer">@Model.ThirdPartyContactOptionsDisclaimer</span>
         </div>
         <div>
             <label for="ThirdPartyContactOptions">@Model.ThirdPartyContactOptionsLabel</label>
-            @Html.EditorFor(m => m.ViewModel.ThirdPartyContactOptions)
+            @Html.EditorFor(m => m.ViewModel.CommunicationPreferencesViewModel.ThirdPartyContactPreferences)
         </div>
         <div>
             @Html.ValidationMessageFor(m => m.ViewModel.AgreeToTermsAndConditions)
@@ -93,103 +93,103 @@
 
     <section>
         <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.Postcode)
-            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationName)
-            @Html.ValidationMessageFor(m => m.ViewModel.JobTitle)
-            @Html.ValidationMessageFor(m => m.ViewModel.FlatNumber)
-            @Html.ValidationMessageFor(m => m.ViewModel.BuildingNumber)
-            @Html.ValidationMessageFor(m => m.ViewModel.BuildingName)
-            @Html.ValidationMessageFor(m => m.ViewModel.Address1)
-            @Html.ValidationMessageFor(m => m.ViewModel.Address2)
-            @Html.ValidationMessageFor(m => m.ViewModel.City)
-            @Html.ValidationMessageFor(m => m.ViewModel.Country)
-            @Html.ValidationMessageFor(m => m.ViewModel.WorkPhoneNumber)
-            @Html.ValidationMessageFor(m => m.ViewModel.MobilePhoneNumber)
+            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode)
+            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.OrganisationName)
+            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.JobTitle)
+            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.FlatNumber)
+            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingNumber)
+            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingName)
+            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Address1)
+            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Address2)
+            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.City)
+            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Country)
+            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber)
+            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.MobilePhoneNumber)
         </div>
 
         <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.Postcode)
+            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode)
         </div>
         <div>
-            @Html.LabelFor(m => m.ViewModel.Postcode, Model.PostcodeLabel)
-            @Html.EditorFor(m => m.ViewModel.Postcode)
+            @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode, Model.PostcodeLabel)
+            @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode)
         </div>
         <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationName)
+            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.OrganisationName)
         </div>
         <div>
-            @Html.LabelFor(m => m.ViewModel.OrganisationName, Model.OrganisationNameLabel)
-            @Html.EditorFor(m => m.ViewModel.OrganisationName)
+            @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.OrganisationName, Model.OrganisationNameLabel)
+            @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.OrganisationName)
         </div>
         <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.JobTitle)
+            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.JobTitle)
         </div>
         <div>
-            @Html.LabelFor(m => m.ViewModel.JobTitle, Model.JobTitleLabel)
-            @Html.EditorFor(m => m.ViewModel.JobTitle)
+            @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.JobTitle, Model.JobTitleLabel)
+            @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.JobTitle)
         </div>
         <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.FlatNumber)
+            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.FlatNumber)
         </div>
         <div>
-            @Html.LabelFor(m => m.ViewModel.FlatNumber, Model.FlatNumberLabel)
-            @Html.EditorFor(m => m.ViewModel.FlatNumber)
+            @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.FlatNumber, Model.FlatNumberLabel)
+            @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.FlatNumber)
         </div>
         <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.BuildingNumber)
+            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingNumber)
         </div>
         <div>
-            @Html.LabelFor(m => m.ViewModel.BuildingNumber, Model.BuildingNumberLabel)
-            @Html.EditorFor(m => m.ViewModel.BuildingNumber)
+            @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingNumber, Model.BuildingNumberLabel)
+            @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingNumber)
         </div>
         <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.BuildingName)
+            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingName)
         </div>
         <div>
-            @Html.LabelFor(m => m.ViewModel.BuildingName, Model.BuildingNameLabel)
-            @Html.EditorFor(m => m.ViewModel.BuildingName)
+            @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingName, Model.BuildingNameLabel)
+            @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingName)
         </div>
         <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.Address1)
+            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Address1)
         </div>
         <div>
-            @Html.LabelFor(m => m.ViewModel.Address1, Model.Address1Label)
-            @Html.EditorFor(m => m.ViewModel.Address1)
+            @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Address1, Model.Address1Label)
+            @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.Address1)
         </div>
         <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.Address2)
+            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Address2)
         </div>
         <div>
-            @Html.LabelFor(m => m.ViewModel.Address2, Model.Address2Label)
-            @Html.EditorFor(m => m.ViewModel.Address2)
+            @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Address2, Model.Address2Label)
+            @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.Address2)
         </div>
         <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.City)
+            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.City)
         </div>
         <div>
-            @Html.LabelFor(m => m.ViewModel.City, Model.CityLabel)
-            @Html.EditorFor(m => m.ViewModel.City)
+            @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.City, Model.CityLabel)
+            @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.City)
         </div>
         <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.Country)
+            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Country)
         </div>
         <div>
-            @Html.LabelFor(m => m.ViewModel.Country, Model.CountryLabel)
-            @Html.EditorFor(m => m.ViewModel.Country)
+            @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Country, Model.CountryLabel)
+            @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.Country)
         </div>
         <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.WorkPhoneNumber)
+            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber)
         </div>
         <div>
-            @Html.LabelFor(m => m.ViewModel.WorkPhoneNumber, Model.WorkPhoneNumberLabel)
-            @Html.EditorFor(m => m.ViewModel.WorkPhoneNumber)
+            @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber, Model.WorkPhoneNumberLabel)
+            @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber)
         </div>
         <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.MobilePhoneNumber)
+            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.MobilePhoneNumber)
         </div>
         <div>
-            @Html.LabelFor(m => m.ViewModel.MobilePhoneNumber, Model.MobilePhoneNumberLabel)
-            @Html.EditorFor(m => m.ViewModel.MobilePhoneNumber)
+            @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.MobilePhoneNumber, Model.MobilePhoneNumberLabel)
+            @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.MobilePhoneNumber)
         </div>
         <div>
             @Html.HiddenFor(m => m.ViewModel.IsRecaptchaValidated)

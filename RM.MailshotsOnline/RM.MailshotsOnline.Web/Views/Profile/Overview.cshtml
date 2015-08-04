@@ -1,0 +1,51 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<RM.MailshotsOnline.Entities.PageModels.Profile.Overview>
+
+@{
+    Layout = "~/Views/Master.cshtml";
+
+    var fullName = string.Format("{0} {1} {2}", Model.ProfileViewModel.Title, Model.ProfileViewModel.FirstName, Model.ProfileViewModel.LastName);
+    var topAddressLine = string.Format("{0}, {1} {2}", 
+        Model.ProfileViewModel.OrganisationDetailsViewModel.FlatNumber, 
+        Model.ProfileViewModel.OrganisationDetailsViewModel.BuildingNumber, 
+        Model.ProfileViewModel.OrganisationDetailsViewModel.BuildingName);
+
+}
+
+<div class="content">
+    <h1>@Model.Name</h1>
+    @Umbraco.RenderMacro("Breadcrumbs")
+    <div class="overview">
+        <div>
+            <h2>@Model.PersonalDetailsTitle</h2>
+            <h3>@fullName</h3>
+            @Html.DisplayFor(m => m.ProfileViewModel.OrganisationDetailsViewModel.JobTitle)
+            <h3>@Model.EmailTitle</h3>
+            @Html.DisplayFor(m => m.ProfileViewModel.Email)
+
+            <div>
+                @Model.UpdatePersonalDetailsCtaText
+            </div>
+        </div>
+        <div>
+            <h3>@Model.PersonalDetailsTitle</h3>
+            <h2>@Model.ProfileViewModel.OrganisationDetailsViewModel.OrganisationName</h2>
+            <span>@topAddressLine</span>
+            @Html.DisplayFor(m => m.ProfileViewModel.OrganisationDetailsViewModel.Address1)
+            @Html.DisplayFor(m => m.ProfileViewModel.OrganisationDetailsViewModel.Address2)
+            @Html.DisplayFor(m => m.ProfileViewModel.OrganisationDetailsViewModel.City)
+            @Html.DisplayFor(m => m.ProfileViewModel.OrganisationDetailsViewModel.Postcode)
+            @Html.DisplayFor(m => m.ProfileViewModel.OrganisationDetailsViewModel.Country)
+
+
+            <h3>@Model.WorkNumberTitle</h3>
+            @Html.DisplayFor(m => m.ProfileViewModel.OrganisationDetailsViewModel.WorkPhoneNumber)
+
+            <h3>@Model.MobileNumberTitle</h3>
+            @Html.DisplayFor(m => m.ProfileViewModel.OrganisationDetailsViewModel.MobilePhoneNumber)
+
+            <div>
+                @Model.UpdateOrganisationDetailsCtaText
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Web;
 
-namespace RM.MailshotsOnline.Web.Attributes
+namespace RM.MailshotsOnline.Entities.Attributes
 {
     public class Recaptcha : ValidationAttribute
     {

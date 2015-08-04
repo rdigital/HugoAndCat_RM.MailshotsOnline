@@ -3053,6 +3053,7 @@
     <Content Include="Config\FileSystemProviders.config" />
     <Content Include="Config\FileSystemProviders.QA.config">
       <DependentUpon>Config\FileSystemProviders.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Config\feedProxy.config" />
     <Content Include="Config\ExamineSettings.config" />
@@ -3168,6 +3169,7 @@
     <Content Include="Views\MailshotEditor.cshtml" />
     <Content Include="uSync\Template\Master\MailshotEditor\MailshotEditor.config" />
     <Content Include="uSync\DocumentType\Basepage\MailshotEditor\def.config" />
+    <Content Include="Views\Profile\Overview.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -3193,7 +3195,9 @@
       <Name>RM.MailshotsOnline.PCL</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Profile\Partials\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

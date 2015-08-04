@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using Umbraco.Web.Models;
 
 namespace RM.MailshotsOnline.Web.Controllers
@@ -17,10 +18,11 @@ namespace RM.MailshotsOnline.Web.Controllers
         }
 
         // GET: Profile
-        //public override ActionResult Index(RenderModel model)
-        //{
-        //    //var pageModel = GetModel<Profile>;
-        //    //return View("~/Views/Profile/Partials/ShowProfile.cshtml", pageModel);
-        //}
+        public override ActionResult Index(RenderModel model)
+        {
+            var pageModel = GetModel<Profile>();
+
+            return View("~/Views/Profile/Overview.cshtml", pageModel);
+        }
     }
 }

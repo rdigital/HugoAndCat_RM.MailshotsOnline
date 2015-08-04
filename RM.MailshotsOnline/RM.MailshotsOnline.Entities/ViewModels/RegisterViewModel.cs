@@ -5,8 +5,8 @@ using System.Linq;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
+using RM.MailshotsOnline.Entities.Attributes;
 using RM.MailshotsOnline.Entities.MemberModels;
-using RM.MailshotsOnline.Web.Attributes;
 
 namespace RM.MailshotsOnline.Entities.ViewModels
 {
@@ -37,9 +37,7 @@ namespace RM.MailshotsOnline.Entities.ViewModels
         [Compare("Password", ErrorMessage = "The passwords entered do not match. Please check and try again")]
         public string ConfirmPassword { get; set; }
 
-        public ContactPreferences RoyalMailContactOptions { get; set; }
-
-        public ContactPreferences ThirdPartyContactOptions { get; set; }
+        public CommunicationPreferencesViewModel CommunicationPreferencesViewModel { get; set; }
         
         [Required]
         [Range(typeof(bool), "true", "true", ErrorMessage = "Please accept T&C agreement")]
@@ -52,37 +50,7 @@ namespace RM.MailshotsOnline.Entities.ViewModels
 
         #region Part two
 
-        [Required(ErrorMessage = "Please enter your postcode")]
-        public string Postcode { get; set; }
-
-        [Required(ErrorMessage = "Please enter your organisation name")]
-        public string OrganisationName { get; set; }
-
-        [Required(ErrorMessage = "Please enter your job title")]
-        public string JobTitle { get; set; }
-
-        public string FlatNumber { get; set; }
-
-        public string BuildingNumber { get; set; }
-
-        public string BuildingName { get; set; }
-
-        [Required(ErrorMessage = "Please enter your street address")]
-        public string Address1 { get; set; }
-
-        public string Address2 { get; set; }
-
-        [Required(ErrorMessage = "Please enter your city")]
-        public string City { get; set; }
-
-        [Required(ErrorMessage = "Please enter your country")]
-        public string Country { get; set; }
-
-        [Required(ErrorMessage = "Please enter your work phone number")]
-        public string WorkPhoneNumber { get; set; }
-
-        public string MobilePhoneNumber { get; set; }
-
+        public OrganisationDetailsViewModel OrganisationDetailsViewModel { get; set; }
 
         #endregion
     }

@@ -65,7 +65,8 @@ namespace RM.MailshotsOnline.Data.Extensions
             umbracoMember.SetValue("organisationName", member.OrganisationName);
             umbracoMember.SetValue("jobTitle", member.JobTitle);
             umbracoMember.SetValue("flatNumber", member.FlatNumber);
-            umbracoMember.SetValue("buildingNumber", member.BuildingName);
+            umbracoMember.SetValue("buildingName", member.BuildingName);
+            umbracoMember.SetValue("buildingNumber", member.BuildingNumber);
             umbracoMember.SetValue("address1", member.Address1);
             umbracoMember.SetValue("address2", member.Address2);
             umbracoMember.SetValue("city", member.City);
