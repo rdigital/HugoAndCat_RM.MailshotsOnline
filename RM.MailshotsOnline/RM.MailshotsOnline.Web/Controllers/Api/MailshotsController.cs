@@ -15,7 +15,7 @@ using Umbraco.Web.WebApi;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
-    //[MemberAuthorize()]
+    [MemberAuthorize()]
     public class MailshotsController : ApiBaseController
     {
         private IMailshotsService _mailshotsService;

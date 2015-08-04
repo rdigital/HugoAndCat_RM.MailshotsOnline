@@ -36,15 +36,16 @@ namespace RM.MailshotsOnline.Test.Controllers.Api
         }
 
         [TearDown]
-        public void TearDown()
+        public override void TearDown()
         {
             _membershipService = null;
             _pricingService = null;
             _controller = null;
+            base.TearDown();
         }
 
         [Test]
-        public void GetAllPostalOptions()
+        public void PostalOptionControllerReturnsValues()
         {
             // Act
             var postageOptions = _controller.Get();
@@ -55,7 +56,7 @@ namespace RM.MailshotsOnline.Test.Controllers.Api
         }
 
         [Test]
-        public void GetPostalOptionForFormat()
+        public void PostalOptionControllerReturnsFilteredValues()
         {
             // Setup
             int formatId = 1;

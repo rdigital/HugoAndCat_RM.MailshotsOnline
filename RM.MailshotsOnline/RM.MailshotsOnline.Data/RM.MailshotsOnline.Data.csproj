@@ -125,6 +125,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\RM.MailshotsOnline.Business\RM.MailshotsOnline.Business.csproj">
+      <Project>{dcc80db8-069c-4b0b-a955-b8486d795f6d}</Project>
+      <Name>RM.MailshotsOnline.Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RM.MailshotsOnline.Entities\RM.MailshotsOnline.Entities.csproj">
       <Project>{1d34baad-7432-4d2b-9af8-7e211ea44a94}</Project>
       <Name>RM.MailshotsOnline.Entities</Name>

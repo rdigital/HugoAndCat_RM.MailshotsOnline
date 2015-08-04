@@ -1,4 +1,5 @@
-﻿using RM.MailshotsOnline.PCL.Models;
+﻿using RM.MailshotsOnline.Business.Processors;
+using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,9 @@ namespace RM.MailshotsOnline.Data.Services
             var success = true;
             //TODO: Generate XML based on Mailshot
             //TODO: Generate appropriate XSL based on Mailshot
+            var mailshotProcessor = new MailshotsProcessor();
+            var xmlAndXsl = mailshotProcessor.GetXmlAndXslForMailshot(mailshot);
+
             //TODO: Create new message for queue
             //TODO: Send to queue
             //TODO: Update status of Mailshot
