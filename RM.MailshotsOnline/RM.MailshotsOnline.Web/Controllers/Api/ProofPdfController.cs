@@ -25,6 +25,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             _mailshotsService = mailshotsService;
             _sparqQueueService = sparqQueueService;
             //TODO: Get a real authentication mechanism in place
+            // Encrypt Signature and Validate Signature
             _authenticationKey = "SOMETHING"; 
         }
 
