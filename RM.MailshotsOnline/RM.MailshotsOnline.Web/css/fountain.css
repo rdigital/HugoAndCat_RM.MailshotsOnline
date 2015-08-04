@@ -1,8 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Stylesheet>
-  <Name>fountain</Name>
-  <FileName>fountain</FileName>
-  <Content><![CDATA[#fountainG{
+﻿#fountainG{
 	position:relative;
 	width:120px;
 	height:14px;
@@ -180,5 +176,3 @@
 		background-color:rgb(255,255,255);
 	}
 }
-]]></Content>
-</Stylesheet>

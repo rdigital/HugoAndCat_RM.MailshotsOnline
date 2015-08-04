@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -67,13 +68,16 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         }
 
         [HttpPost]
-        public HttpResponseMessage CreateProof(Guid id)
+        public async Task<HttpResponseMessage> CreateProof(Guid id)
         {
             var authResult = Authenticate();
             if (authResult != null)
             {
                 return authResult;
             }
+
+            //TODO: Remove this
+            _sparqQueueService = new SparqTemp.SparqQueueService(_mailshotsService);
 
             var mailshot = _mailshotsService.GetMailshot(id);
             if (mailshot == null)
@@ -89,13 +93,14 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             if (mailshot.ProofPdfStatus != PCL.Enums.PdfRenderStatus.Pending)
             {
                 // Use the Sparq service to create a render PDF job
-                var messageSent = _sparqQueueService.SendRenderJob(mailshot);
+                var messageSent = await _sparqQueueService.SendRenderJob(mailshot);
 
                 if (messageSent)
                 {
                     // Update the Mailshot so that the status can be checked
-                    mailshot.ProofPdfStatus = PCL.Enums.PdfRenderStatus.Pending;
-                    _mailshotsService.SaveMailshot(mailshot);
+                    // Now handled inside sparq service. Double check
+                    //mailshot.ProofPdfStatus = PCL.Enums.PdfRenderStatus.Pending;
+                    //_mailshotsService.SaveMailshot(mailshot);
 
                     return Request.CreateResponse(HttpStatusCode.OK);
                 }

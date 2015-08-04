@@ -34,7 +34,8 @@ namespace RM.MailshotsOnline.Web.Installers
                 Component.For<IMailshotsService>().ImplementedBy<MailshotsService>().LifestyleTransient(),
                 Component.For<IMembershipService>().ImplementedBy<MembershipService>().LifestyleTransient(),
                 Component.For<IPricingService>().ImplementedBy<PricingService>().LifestyleTransient(),
-                Component.For<IEmailService>().ImplementedBy<RM.MailshotsOnline.Data.Services.EmailService>().LifestyleTransient());
+                Component.For<IEmailService>().ImplementedBy<EmailService>().LifestyleTransient(),
+                Component.For<ISparqQueueService>().ImplementedBy<SparqTemp.SparqQueueService>().LifestyleTransient());
         }
 
         static public string AssemblyDirectory

@@ -14,6 +14,11 @@
       <Setting name="AppInsightsKey" />
       <Setting name="StorageContextEF" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+      <Setting name="SparqServiceUrl" />
+      <Setting name="SparqServiceUsername" />
+      <Setting name="SparqServicePassword" />
+      <Setting name="SparqBlobStorage" />
+      <Setting name="SparqBlobContainer" />
     </ConfigurationSettings>
     <Endpoints>
       <InputEndpoint name="HttpIn" protocol="http" port="80" />

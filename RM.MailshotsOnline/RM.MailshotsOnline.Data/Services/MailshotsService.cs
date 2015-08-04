@@ -50,5 +50,11 @@ namespace RM.MailshotsOnline.Data.Services
 
             _context.SaveChanges();
         }
+
+        public void Delete(IMailshot mailshot)
+        {
+            _context.Mailshots.Remove((Mailshot)mailshot);
+            _context.SaveChanges();
+        }
     }
 }

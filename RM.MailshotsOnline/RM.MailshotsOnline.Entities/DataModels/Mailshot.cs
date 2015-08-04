@@ -62,10 +62,8 @@ namespace RM.MailshotsOnline.Entities.DataModels
         [JsonIgnore]
         public string ProofPdfBlobId { get; set; }
 
-        [JsonIgnore]
         public string ProofPdfUrl { get; set; }
 
-        [JsonIgnore]
         public Enums.PdfRenderStatus ProofPdfStatus { get; set; }
 
         #region Explicit Interface Implementations

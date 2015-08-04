@@ -18,12 +18,12 @@ namespace RM.MailshotsOnline.Data.Services
             _mailshotsService = mailshotsService;
         }
 
-        public bool SendRenderAndPrintJob(IMailshot mailshot)
+        public async Task<bool> SendRenderAndPrintJob(IMailshot mailshot)
         {
             return SendJob(mailshot, true);
         }
 
-        public bool SendRenderJob(IMailshot mailshot)
+        public async Task<bool> SendRenderJob(IMailshot mailshot)
         {
             return SendJob(mailshot, false);
         }
