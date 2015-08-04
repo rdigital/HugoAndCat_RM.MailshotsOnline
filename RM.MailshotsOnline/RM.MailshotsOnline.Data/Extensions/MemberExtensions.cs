@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using umbraco;
+using Umbraco.Core;
 
 namespace RM.MailshotsOnline.Data.Extensions
 {
@@ -12,6 +14,16 @@ namespace RM.MailshotsOnline.Data.Extensions
     {
         public static IMember ToMemberEntityModel(this Umbraco.Core.Models.IMember umbracoMember)
         {
+            var title = umbracoMember.GetValue<string>("title");
+            var titleValue =
+                Umbraco.Core.ApplicationContext.Current.Services.DataTypeService.GetPreValues("Title Dropdown")
+                    .FirstOrDefault(x => x.Key.Equals(title));
+
+            if (!string.IsNullOrEmpty(titleValue.Value))
+            {
+                title = titleValue.Value;
+            }
+
             //TODO Decrypt values
             return new Member()
             {
@@ -19,7 +31,7 @@ namespace RM.MailshotsOnline.Data.Extensions
                 EmailAddress = umbracoMember.Email,
                 IsApproved = umbracoMember.IsApproved,
                 IsLockedOut = umbracoMember.IsLockedOut,
-                Title = umbracoMember.GetValue<string>("title"),
+                Title = title,
                 FirstName = umbracoMember.GetValue<string>("firstName"),
                 LastName = umbracoMember.GetValue<string>("lastName"),
                 CanWeContactByPost = umbracoMember.GetValue<bool>("rmPost"),

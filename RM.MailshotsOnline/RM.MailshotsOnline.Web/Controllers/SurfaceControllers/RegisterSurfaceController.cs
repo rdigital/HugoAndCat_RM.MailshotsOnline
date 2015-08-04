@@ -37,11 +37,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return Complete(model);
             }
 
-            var titleDataType = Services.DataTypeService.GetDataTypeDefinitionByName("Title Dropdown");
-            var titlePrevalues = library.GetPreValues(titleDataType.Id);
-
-            model.TitleOptions = titlePrevalues.ToPreValueDictionary();
-
+            model.TitleOptions = Services.DataTypeService.GetPreValues("Title Dropdown");
             model.ViewModel = new RegisterViewModel();
 
             return PartialView("~/Views/Register/Partials/ShowRegisterForm.cshtml", model);

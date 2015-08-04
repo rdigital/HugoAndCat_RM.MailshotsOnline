@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Glass.Mapper.Umb.Configuration.Attributes;
 using RM.MailshotsOnline.Entities.ViewModels;
+using RM.MailshotsOnline.PCL.Models;
 
 namespace RM.MailshotsOnline.Entities.PageModels.Profile
 {
@@ -19,12 +20,12 @@ namespace RM.MailshotsOnline.Entities.PageModels.Profile
 
         public string UpdateOrganisationDetailsCtaText { get; set; }
 
-        public RegisterViewModel ProfileViewModel { get; set; }
-
         public string EmailTitle { get; set; }
 
         public string WorkNumberTitle { get; set; }
 
         public string MobileNumberTitle { get; set; }
+
+        public IMember Member { get; set; }
     }
 }
