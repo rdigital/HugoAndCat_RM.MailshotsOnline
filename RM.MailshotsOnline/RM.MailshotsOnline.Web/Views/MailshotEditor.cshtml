@@ -5,6 +5,7 @@
     Layout = "Master.cshtml";
 
     Html.RequiresJs("~/scripts/editor.js", 2);
+    Html.RequiresCss("~/css/fountain.css", 2);
 }
 
 <div class="content">
@@ -23,9 +24,25 @@
             <fieldset>
                 <div id="loadingIndicator" style="display: none;">Loading ...</div>
                 <div><label for="name">Mailshot name</label><input type="text" id="name" name="name" /></div>
-                <div><label for="content">Content</label><textarea name="content" id="content"></textarea></div>
+                <div><label for="content">Content</label><textarea name="content" id="content" cols="120" rows="20"></textarea></div>
+                <div><label>Proof PDF status</label><input id="proofStatus" name="proofStatus" disabled="disabled" /> <a id="pdfLink" style="display: none;">Download PDF</a></div>
                 <div><button id="save">Save Mailshot</button></div>
-                <input type="hidden" name="mailshotId" id="mailshotId" />
+                <div><input type="hidden" name="mailshotId" id="mailshotId" /></div>
+                <div id="pdfLoading" style="display:none;">
+                    <div id="fountainG">
+                        <div id="fountainG_1" class="fountainG"></div>
+                        <div id="fountainG_2" class="fountainG"></div>
+                        <div id="fountainG_3" class="fountainG"></div>
+                        <div id="fountainG_4" class="fountainG"></div>
+                        <div id="fountainG_5" class="fountainG"></div>
+                        <div id="fountainG_6" class="fountainG"></div>
+                        <div id="fountainG_7" class="fountainG"></div>
+                        <div id="fountainG_8" class="fountainG"></div>
+                    </div>
+                </div>
+                <div id="pdfButtonContainer">
+                    <button id="createPdf" disabled="disabled">Create PDF</button>
+                </div>
             </fieldset>
         </form>
     </div>

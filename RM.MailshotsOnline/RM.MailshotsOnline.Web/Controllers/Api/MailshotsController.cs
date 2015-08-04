@@ -191,8 +191,53 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 return MailshotForbidden();
             }
 
-            //TODO: Actually produce the XML
-            return Request.CreateResponse(HttpStatusCode.OK, new { url = "This will be the PDF URL" });
+            HttpResponseMessage result;
+
+            switch (mailshot.ProofPdfStatus)
+            {
+                case PCL.Enums.PdfRenderStatus.Complete:
+                    result = Request.CreateResponse(HttpStatusCode.OK, new { url = mailshot.ProofPdfUrl });
+                    break;
+                case PCL.Enums.PdfRenderStatus.Pending:
+                    result = ErrorMessage(HttpStatusCode.PreconditionFailed, "The PDF is not ready.");
+                    break;
+                case PCL.Enums.PdfRenderStatus.None:
+                default:
+                    result = ErrorMessage(HttpStatusCode.NotFound, "No proof PDF has been requested for this mailshot.");
+                    break;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Deletes a mailshot
+        /// </summary>
+        /// <param name="id">ID of the mailshot to delete</param>
+        /// <returns>HTTP No Content (204) on success</returns>
+        [HttpDelete]
+        public HttpResponseMessage Delete(Guid id)
+        {
+            var authResult = Authenticate();
+            if (authResult != null)
+            {
+                return authResult;
+            }
+
+            var mailshot = _mailshotsService.GetMailshot(id);
+            if (mailshot == null)
+            {
+                return MailshotNotFound();
+            }
+
+            if (mailshot.UserId != _loggedInMember.Id)
+            {
+                return MailshotForbidden();
+            }
+
+            _mailshotsService.Delete(mailshot);
+
+            return Request.CreateResponse(HttpStatusCode.NoContent);
         }
 
         private HttpResponseMessage MailshotNotFound()

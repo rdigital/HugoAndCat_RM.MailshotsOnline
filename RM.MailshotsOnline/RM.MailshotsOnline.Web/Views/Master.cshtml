@@ -5,6 +5,7 @@
     Layout = null;
 
     Html.RequiresJs("~/scripts/jquery-1.10.2.min.js", 1);
+    Html.RequiresCss("~/css/temp.css", 1);
 }
 
 <!DOCTYPE html>
@@ -15,7 +16,7 @@
     <title>@Model.Name</title>
     <meta name="description" content="@Model.MetaDescription" />
     <meta name="keywords" content="@Model.MetaKeywords" />
-    <link href="~/css/temp.css" type="text/css" rel="stylesheet" />
+    @Html.RenderCssHere()
     @Html.RenderJsHere()
 </head>
 <body>

@@ -1,9 +1,7 @@
 ﻿$(function () {
     $('#new').on('click', function (event) {
         event.preventDefault();
-        $('#mailshotId').val('');
-        $('#name').val('');
-        $('#content').val('');
+        ClearEditorForm();
     });
 
     $('#save').on('click', function (event) {
@@ -28,9 +26,7 @@
                 success: function (response) {
                     //console.log(response);
                     RefreshMailshots(function () {
-                        $('#mailshotId').val(response.id);
-                        $('#save').removeAttr('disabled');
-                        $('#loadingIndicator').hide();
+                        LoadMailshot(response.id);
                     });
                 }
             })
@@ -54,9 +50,7 @@
                 success: function (response) {
                     //console.log(response);
                     RefreshMailshots(function () {
-                        $('#mailshotId').val(response.id);
-                        $('#save').removeAttr('disabled');
-                        $('#loadingIndicator').hide();
+                        LoadMailshot(response.id);
                     });
                 }
             })
@@ -67,19 +61,59 @@
 
 });
 
-function LoadMailshot(link)
+function LoadMailshot(mailshotId)
 {
     $('#loadingIndicator').text('Loading ...').show();
-    var mailshotId = link.data('id');
     $.ajax({
         url: '/Umbraco/Api/Mailshots/Get/' + mailshotId,
         success: function (data) {
+
             $('#mailshotId').val(data.MailshotId);
             $('#name').val(data.Name);
             $('#content').val(data.ContentText);
+            DisplayProofStatus(data.ProofPdfStatus);
+            if (data.ProofPdfStatus == 3) {
+                $('#pdfLink').attr('href', data.ProofPdfUrl).show();
+            }
+            else {
+                $('#pdfLink').attr('href', '#').hide();
+            }
+            $('#createPdf').removeAttr('disabled');
+            $('#createPdf').on('click', function (event) {
+                event.preventDefault();
+                $('#pdfButtonContainer').hide();
+                $('#pdfLoading').show();
+                $.ajax({
+                    url: '/Umbraco/Api/ProofPdf/CreateProof/' + data.MailshotId,
+                    type: 'POST',
+                    success: function (createProofData) {
+                        $('#pdfButtonContainer').show();
+                        $('#pdfLoading').hide();
+                        DisplayProofStatus(2);
+                        LoadMailshot(data.MailshotId);
+                    }
+                });
+            });
             $('#loadingIndicator').hide();
         }
     })
+}
+
+function DisplayProofStatus(proofStatusCode)
+{
+    var proofStatus = "Not requested";
+    switch (proofStatusCode) {
+        case 2:
+            proofStatus = "Pending";
+            break;
+        case 3:
+            proofStatus = "Complete";
+            break;
+        case 4:
+            proofStatus = "Failed";
+            break;
+    }
+    $('#proofStatus').val(proofStatus);
 }
 
 function RefreshMailshots(callback) {
@@ -93,15 +127,43 @@ function RefreshMailshots(callback) {
                 var mailshot = data[i];
                 var listItem = $(document.createElement('li'));
                 var title = $(document.createElement('span')).text(mailshot.Name);
-                var editLink = $(document.createElement('a')).attr('href', '#').text('Edit').data('id', mailshot.MailshotId).on('click', function (event) {
+                var editLink = $(document.createElement('a')).attr('href', '#/open/' + mailshot.MailshotId).attr('class', 'openLink').text('Open').data('id', mailshot.MailshotId).on('click', function (event) {
                     event.preventDefault();
-                    LoadMailshot($(this));
+                    LoadMailshot($(this).data('id'));
+                });
+                var deleteLink = $(document.createElement('a')).attr('href', '#/delete/' + mailshot.MailshotId).attr('class', 'deleteLink').text('Delete').data('id', mailshot.MailshotId).on('click', function (event) {
+                    event.preventDefault();
+                    DeleteMailshot($(this).data('id'));
                 });
                 listItem.append(title);
                 listItem.append(editLink);
+                listItem.append(deleteLink);
                 $mailshotList.append(listItem);
                 callback();
             }
         }
     });
+}
+
+function DeleteMailshot(mailshotId) {
+    if (confirm("Do you really want to delete this mailshot?")) {
+        $.ajax({
+            url: '/Umbraco/Api/Mailshots/Delete/' + mailshotId,
+            type: 'DELETE',
+            success: function() {
+                RefreshMailshots();
+                ClearEditorForm();
+            }
+        });
+    }
+}
+
+function ClearEditorForm() {
+    $('#mailshotId').val('');
+    $('#name').val('');
+    $('#content').val('');
+    $('#proofStatus').val('');
+    $('#pdfLink').hide();
+    $('#createPdf').attr('disabled','disabled');
+    $('#pdfLoading').hide();
 }
