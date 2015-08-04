@@ -8,6 +8,7 @@
 @using (Html.BeginUmbracoForm("RegisterForm", "RegisterSurface"))
 {
     <section>
+        @Html.DisplayFor(m => m.RequiredFieldsLabel)
         <div>
             @Html.ValidationMessageFor(m => m.ViewModel.Email)
             @Html.ValidationMessageFor(m => m.ViewModel.ConfirmEmail)
@@ -92,6 +93,7 @@
     </section>
 
     <section>
+        @Html.DisplayFor(m => m.RequiredFieldsLabel)
         <div>
             @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode)
             @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.OrganisationName)

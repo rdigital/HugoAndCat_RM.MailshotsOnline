@@ -14,6 +14,8 @@ namespace RM.MailshotsOnline.Entities.PageModels
     {
         public int  Page { get; set; }
 
+        public string RequiredFieldsLabel { get; set; }
+
         public string EmailLabel { get; set; }
 
         public string ConfirmEmailLabel { get; set; }
