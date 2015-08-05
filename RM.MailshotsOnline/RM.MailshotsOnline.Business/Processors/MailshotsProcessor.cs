@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using RM.MailshotsOnline.Entities.JsonModels;
+using RM.MailshotsOnline.Entities.PageModels.Settings;
 using RM.MailshotsOnline.PCL.Models;
 using System;
 using System.Collections.Generic;
@@ -34,42 +35,53 @@ namespace RM.MailshotsOnline.Business.Processors
                 throw new ArgumentNullException("mailshot");
             }
 
-            //TODO: Get the correct XSL
-            /*string formatXsl = null;
-            switch (mailshot.FormatId)
-            {
-                case 1:
-                    formatXsl = "XSL for Format 1 goes here";
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("mailshot", "Currently only supporting Format ID of 1.");
-                    break;
-            }
+            // Generate the XSL
 
-            //TODO: Get the correct XSL
-            string templateXsl = null;
-            switch (mailshot.TemplateId)
-            {
-                case 1:
-                    formatXsl = "XSL for Template 1 goes here";
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("mailshot", "Currently only supporting Template ID of 1.");
-                    break;
-            }
+            //TODO: Get this another way?
+            /*var finalXsl = $@"<?xml version=""1.0"" encoding=""utf-8""?>
+<xsl:stylesheet version=""1.0"" xmlns:xsl=""http://www.w3.org/1999/XSL/Transform"" xmlns:fo=""http://www.w3.org/1999/XSL/Format"" xmlns:rx=""http://www.renderx.com/XSL/Extensions"">
+  
+  <xsl:output method=""xml"" version=""1.0"" encoding=""UTF-8"" />
 
-            //TODO: Get the correct XSL
-            string themeXsl = null;
-            switch (mailshot.ThemeId)
-            {
-                case 1:
-                    themeXsl = "XSL for Theme 1 goes here";
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("mailshot", "Currently only supporting Theme ID of 1.");
-                    break;
-            }*/
+  <!-- From Theme: -->
+  {theme.XslData}
 
+  <xsl:template match=""/page"">
+    <!--This sets up pages, dimensions, backgrounds, headers and footers. Background images can also be applied within this section.-->
+    <fo:root>
+      <fo:layout-master-set>
+        {format.XslData}
+
+        <fo:page-sequence-master master-name=""document"">
+          <fo:repeatable-page-master-alternatives>
+            <fo:conditional-page-master-reference page-position=""any"" odd-or-even=""odd"" master-reference=""FrontMaster"" />
+            <fo:conditional-page-master-reference page-position=""any"" odd-or-even=""even"" master-reference=""BackMaster"" />
+          </fo:repeatable-page-master-alternatives>
+        </fo:page-sequence-master>
+        
+      </fo:layout-master-set>
+
+      <fo:page-sequence master-reference=""FrontMaster"">
+        <fo:flow flow-name=""front"">
+          <!--This is the template containing the main body layout.-->
+          <xsl:call-template name=""pageContentFront"" />
+        </fo:flow>
+      </fo:page-sequence>
+      <fo:page-sequence master-reference=""BackMaster"">
+        <fo:flow flow-name=""back"">
+          <xsl:call-template name=""pageContentBack"" />
+        </fo:flow>
+      </fo:page-sequence>
+	  
+    </fo:root>
+  </xsl:template>
+
+  <!-- page templates-->
+  {layout.XslData}
+
+</xsl:stylesheet>";*/
+
+            // Generate the XML
             if (mailshot.Content == null || string.IsNullOrEmpty(mailshot.Content.Content))
             {
                 throw new ArgumentException("Mailshot content cannot be null", "mailshot");
@@ -85,7 +97,6 @@ namespace RM.MailshotsOnline.Business.Processors
 
             //TODO: Compile the XSL properly
             var finalXsl = File.ReadAllText("C:\\Projects\\RoyalMail\\MSOL\\RM.MailshotsOnline\\RM.MailshotsOnline\\XML\\Formats\\A4PageComplete.xsl");
-            
             return Tuple.Create<string, string>(finalXml, finalXsl);
         }
 
@@ -97,8 +108,7 @@ namespace RM.MailshotsOnline.Business.Processors
         private string GetContentXmlFromJson(MailshotEditorContent jsonContent)
         {
             var contentXml = new XDocument();
-            var ticket = new XElement("page",
-                new XAttribute(XNamespace.Xmlns + "fo", _foNamespace));
+            var ticket = new XElement("page", new XAttribute(XNamespace.Xmlns + "fo", _foNamespace));
 
             foreach (var jsonElement in jsonContent.Elements)
             {
