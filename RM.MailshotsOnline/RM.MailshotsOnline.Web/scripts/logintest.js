@@ -26,10 +26,7 @@
                 $('#checkLoggedInStatus').trigger('click');
             },
             statusCode: {
-                400: function (response) {
-                    console.log(response);
-                    alert(response.responseJSON.error);
-                }
+                400: function (response) { HandleError(response); }
             }
         });
     }
@@ -45,16 +42,55 @@
         });
     }
 
+    function Register() {
+        var registration = {
+            Email: $('#registerEmail').val(),
+            Title: $('#registerTitle').val(),
+            FirstName: $('#registerFirstname').val(),
+            LastName: $('#registerLastname').val(),
+            Password: $('#registerPassword').val(),
+            'g-recaptcha-response': $('#g-recaptcha-response').val(),
+            AgreeToRoyalMailContact: $('#registerAgreeRmContact').is(':checked'),
+            AgreeToThirdPartyContact: $('#registerAgreeThirdPartyContact').is(':checked')
+        };
+        $.ajax({
+            url: '/Umbraco/Api/Members/Register',
+            type: 'POST',
+            data: registration,
+            success: function (data) {
+                console.log(data);
+                alert("You have successfully reigistered!");
+                $('#checkLoggedInStatus').trigger('click');
+            },
+            statusCode: {
+                400: function (response) { HandleError(response); },
+                409: function (response) { HandleError(response); }
+            }
+        });
+    }
+
+    function HandleError(response) {
+        console.log(response);
+        grecaptcha.reset();
+        var errorMessage = response.responseJSON.error;
+        for (i = 0; i < response.responseJSON.fieldErrors.length; i++) {
+            errorMessage += "\n" + response.responseJSON.fieldErrors[i];
+        }
+        alert(errorMessage);
+    }
+
     $('#checkLoggedInStatus').on('click', function (event) {
         event.preventDefault();
         CheckLoggedInStatus(function (loggedIn) {
             if (loggedIn) {
                 $('#login').attr('disabled', 'disabled');
                 $('#logout').removeAttr('disabled');
+                $('#register').attr('disabled', 'disabled');
             }
             else {
                 $('#logout').attr('disabled', 'disabled');
                 $('#login').removeAttr('disabled');
+                $('#register').removeAttr('disabled');
             }
         });
     });
@@ -68,4 +104,9 @@
         event.preventDefault();
         Logout();
     })
+
+    $('#register').on('click', function (event) {
+        event.preventDefault();
+        Register();
+    });
 });

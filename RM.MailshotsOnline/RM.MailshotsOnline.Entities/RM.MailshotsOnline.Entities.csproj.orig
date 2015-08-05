@@ -96,8 +96,12 @@
     <Compile Include="PageModels\Settings\Theme.cs" />
     <Compile Include="PageModels\Settings\ThemeFolder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+<<<<<<< HEAD
     <Compile Include="ViewModels\MarketingPreferencesViewModel.cs" />
+=======
+    <Compile Include="ViewModels\CommunicationPreferencesViewModel.cs" />
     <Compile Include="ViewModels\ErrorViewModel.cs" />
+>>>>>>> 666865e0070d6d03b36957917cf40b569de59775
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MailshotViewModel.cs" />
     <Compile Include="ViewModels\PdfRenderJobViewModel.cs" />

@@ -41,31 +41,15 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             Authenticate();
             if (_loggedInMember != null)
             {
+                //TODO: Get the error messages out of Umbraco somewhere
                 return ErrorMessage(HttpStatusCode.BadRequest, "You are already logged in.");
             }
 
             if (!ModelState.IsValid)
             {
-                var errorMessage = new StringBuilder("Unable to login.  Please correct the following errors:");
-                
-                foreach (var modelState in ModelState.Values)
-                {
-                    foreach (var error in modelState.Errors)
-                    {
-                        if (!string.IsNullOrEmpty(error.ErrorMessage))
-                        {
-                            errorMessage.AppendLine();
-                            errorMessage.Append(error.ErrorMessage);
-                        }
-                        else if (error.Exception != null)
-                        {
-                            errorMessage.AppendLine();
-                            errorMessage.Append(error.Exception.Message);
-                        }
-                    }
-                }
-
-                return Request.CreateResponse(HttpStatusCode.BadRequest, new { error = errorMessage.ToString() });
+                //TODO: Get the error messages out of Umbraco somewhere
+                var errorResponse = GetErrors("Unable to login.  Please correct the following errors:");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, errorResponse);
             }
 
             if (Members.Login(login.Email, login.Password))
@@ -74,6 +58,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
             else
             {
+                //TODO: Get the error messages out of Umbraco somewhere
                 return ErrorMessage(HttpStatusCode.BadRequest, "Login credentials incorrect");
             }
         }
@@ -96,16 +81,20 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             Authenticate();
             if (_loggedInMember != null)
             {
+                //TODO: Get the error messages out of Umbraco somewhere
                 return ErrorMessage(HttpStatusCode.BadRequest, "You are already logged in.");
             }
 
             if (!ModelState.IsValid)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, new { error = "Unable to register. Please correct the following errors:", fieldErrors = ModelState.Values.Select(s => s.Errors.Select(e => e.ErrorMessage))});
+                //TODO: Get the error messages out of Umbraco somewhere
+                var errorResponse = GetErrors("Unable to register. Please correct the following errors:");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, errorResponse);
             }
 
             if (Members.GetByEmail(registration.Email) != null)
             {
+                //TODO: Get the error messages out of Umbraco somewhere
                 return ErrorMessage(HttpStatusCode.Conflict, "The email address provided has already been used to register.");
             }
 
@@ -115,6 +104,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
             catch (MembershipPasswordException)
             {
+                //TODO: Get the error messages out of Umbraco somewhere
                 return ErrorMessage(HttpStatusCode.BadRequest, "Your password does not meet the minimum requirements.");
             }
 
@@ -135,6 +125,28 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 IsApproved = false,
                 IsLockedOut = false
             }, model.Password);
+        }
+
+        private ErrorViewModel GetErrors(string mainError)
+        {
+            var errorResponse = new ErrorViewModel() { Error = mainError };
+            errorResponse.FieldErrors = new List<string>();
+            foreach (var modelState in ModelState.Values)
+            {
+                foreach (var error in modelState.Errors)
+                {
+                    if (error.Exception != null)
+                    {
+                        errorResponse.FieldErrors.Add(error.Exception.Message);
+                    }
+                    else
+                    {
+                        errorResponse.FieldErrors.Add(error.ErrorMessage);
+                    }
+                }
+            }
+
+            return errorResponse;
         }
     }
 }

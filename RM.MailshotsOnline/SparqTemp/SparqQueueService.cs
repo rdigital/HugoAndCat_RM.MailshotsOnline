@@ -15,6 +15,7 @@ using System.Threading;
 using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
+using RM.MailshotsOnline.Entities.PageModels.Settings;
 
 namespace SparqTemp
 {
@@ -110,57 +111,6 @@ namespace SparqTemp
             {
                 success = false;
             }
-
-            #region Really low-fi way of doing things
-            /*var requestContent = $@"--ThisIsATest
-Content-Type: application/json
-Content-Disposition: form-data; name=""job""
-
-{{ ""created"":null,""assets"":null,""key"":null,""status"":null,""failedAttempts"":0,""groupId"":null,""systemId"":null, ""priority"":""MEDIUM"",""errorEntries"":null}}
---ThisIsATest
-Content - Type: application / xml
-Content - Disposition: form - data; filename = ""xsl_testing.xml""; name = ""xml""
-
-{content.Item1}
---ThisIsATest
-Content - Type: application / xml
-Content - Disposition: form - data; filename = ""xsl_testing.xsl""; name = ""xsl""
-
-{content.Item2}
---ThisIsATest--";
-
-            // Send render job content
-            using (var client = new HttpClient())
-            {
-                try
-                {
-                    var postContent = new StringContent(requestContent, Encoding.UTF8);
-                    postContent.Headers.Add("Authorization", "Basic aHVnb2NhdDpzdHJpcGVkNjZSb2Jpbg==");
-                    postContent.Headers.Add("Content-Type", "multipart/form-data; boundary=ThisIsATest");
-                    var postResponse = await client.PostAsync("https://re-sparq.sp-systems.co.uk/sparq/job", postContent);
-                    if (postResponse.IsSuccessStatusCode)
-                    {
-                        var guidString = await postResponse.Content.ReadAsStringAsync();
-
-                        mailshot.ProofPdfStatus = RM.MailshotsOnline.PCL.Enums.PdfRenderStatus.Pending;
-                        _mailshotsService.SaveMailshot(mailshot);
-
-                        var getStatusResponse = await client.GetAsync($"https://re-sparq.sp-systems.co.uk/sparq/job/{guidString}");
-                        var getStatusContent = await getStatusResponse.Content.ReadAsStringAsync();
-                    }
-                    else
-                    {
-                        //TODO: Capture more information
-                        success = false;
-                    }
-                }
-                catch
-                {
-                    //TODO: Capture errors and report on them properly
-                    success = false;
-                }
-            }*/
-            #endregion
 
             return success;
         }

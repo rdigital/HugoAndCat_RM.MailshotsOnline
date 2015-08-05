@@ -4,6 +4,7 @@
 @{
     Layout = "Master.cshtml";
     Html.RequiresJs("~/scripts/logintest.js", 2);
+    Html.RequiresJs("https://www.google.com/recaptcha/api.js", 3);
 }
 
 <div class="content">
@@ -33,20 +34,26 @@
                 <label for="registerTitle">Title</label>
                 <select id="registerTitle" name="registerTitle">
                     <option value="">Please choose</option>
-                    <option value="Mr">Mr</option>
-                    <option value="Miss">Miss</option>
-                    <option value="Mrs">Mrs</option>
+                    <option value="21">Mr</option>
+                    <option value="22">Mrs</option>
+                    <option value="24">Miss</option>
+                    <option value="23">Ms</option>
+                    <option value="48">Mx</option>
+                    <option value="25">Dr</option>
+                    <option value="49">Sir</option>
+                    <option value="50">Dame</option>
                 </select>
             </div>
             <div><label for="registerFirstname">First name</label><input type="text" id="registerFirstname" name="registerFirstname" /></div>
             <div><label for="registerLastname">Last name</label><input type="text" id="registerLastname" name="registerLastname" /></div>
             <div><label for="registerEmail">Email</label><input type="text" id="registerEmail" name="registerEmail" /></div>
             <div><label for="registerPassword">Password</label><input type="password" id="registerPassword" name="registerPassword" /></div>
-            <div><label for="registerAgreeRmContact">Agree to RM Contact</label><input type="checkbox" id="registerAgreeRmContact" name="registerAgreeRmContact" value="true" /></div>
-            <div><label for="registerAgreeThirdPartyContact">Agree to third party contact</label><input type="checkbox" id="registerAgreeThirdPartyContact" name="registerAgreeThirdPartyContact" value="true" /></div>
+            <div class="checkbox"><input type="checkbox" id="registerAgreeRmContact" name="registerAgreeRmContact" value="true" /><label for="registerAgreeRmContact">I agree to be contacted about Royal Mail products, services, special offers and promotions. This could include post, email, telephone and SMS.</label></div>
+            <div class="checkbox"><input type="checkbox" id="registerAgreeThirdPartyContact" name="registerAgreeThirdPartyContact" value="true" /><label for="registerAgreeThirdPartyContact">I agree to be contacted about products, services, special offers and promotions by carefully selected third parties. This could include post, email, telephone and SMS.</label></div>
             <div>
                 <div class="g-recaptcha" data-sitekey="@ConfigurationManager.AppSettings["RecaptchaSiteKey"]"></div>
             </div>
+            <div><button id="register" disabled="disabled">Register</button></div>
         </fieldset>
     </form>
 </div>
