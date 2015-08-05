@@ -92,3 +92,5 @@ label {
     color: red;
 }
 
+
+div.checkbox label { display: inline-block; padding-left: 10px;}
