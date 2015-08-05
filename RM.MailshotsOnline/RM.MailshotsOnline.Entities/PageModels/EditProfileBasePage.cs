@@ -12,7 +12,6 @@ namespace RM.MailshotsOnline.Entities.PageModels
     [UmbracoType(AutoMap = true)]
     public class EditProfileBasePage : BasePage
     {
-        [NotMapped]
         public IMember Member { get; set; }
 
         public string UpdateSuccessMessage { get; set; }

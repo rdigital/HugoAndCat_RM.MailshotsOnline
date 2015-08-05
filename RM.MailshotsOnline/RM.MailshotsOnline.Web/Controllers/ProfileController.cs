@@ -41,7 +41,7 @@ namespace RM.MailshotsOnline.Web.Controllers
         //    var pageModel = GetModel<PersonalDetails>();
         //}
 
-        //GET: Profile/OrganisationDetails
+        //GET: Profile/OrganisationDetais
         public ActionResult OrganisationDetails(RenderModel model)
         {
             var pageModel = GetModel<OrganisationDetails>();

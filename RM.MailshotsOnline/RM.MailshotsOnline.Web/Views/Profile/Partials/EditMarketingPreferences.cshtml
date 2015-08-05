@@ -1,23 +1,30 @@
-﻿@model RM.MailshotsOnline.Entities.PageModels.Profile.MarketingPreferences
+﻿@model RM.MailshotsOnline.Entities.ViewModels.MarketingPreferencesViewModel
 
-@if (!string.IsNullOrEmpty(ViewBag.UpdateSuccess))
+@if (ViewBag.UpdateSuccess != null)
 {
-    <div>@ViewBag.SuccessMessage</div>
+    if ((bool) ViewBag.UpdateSuccess)
+    {
+        @Model.PageModel.UpdateSuccessMessage;
+    }
+    else
+    {
+        @Model.PageModel.UpdateFailMessage
+    }
 }
 
 @using (Html.BeginUmbracoForm("EditMarketingPreferences", "ProfileSurface"))
 {
-    <h2>@Model.MainTitle</h2>
-    @Html.Raw(Model.RoyalMailDisclaimer)
-    <h3>@Model.RoyalMailTitle</h3>
+    <h2>@Model.PageModel.MainTitle</h2>
+    @Html.Raw(Model.PageModel.RoyalMailDisclaimer)
+    <h3>@Model.PageModel.RoyalMailTitle</h3>
     <div>
-        @Html.EditorFor(m => m.ViewModel.RoyalMailContactPreferences)
+        @Html.EditorFor(m => m.RoyalMailMarketingPreferences)
     </div>
 
-    @Html.Raw(Model.ThirdPartyDisclaimer)
-    <h3>@Model.ThirdPartyTitle</h3>
+    @Html.Raw(Model.PageModel.ThirdPartyDisclaimer)
+    <h3>@Model.PageModel.ThirdPartyTitle</h3>
     <div>
-        @Html.EditorFor(m => m.ViewModel.ThirdPartyContactPreferences)
+        @Html.EditorFor(m => m.ThirdPartyMarketingPreferences)
     </div>
 
     <input type="submit"/>

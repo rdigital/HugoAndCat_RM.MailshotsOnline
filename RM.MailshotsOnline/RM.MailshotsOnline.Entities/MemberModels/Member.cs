@@ -1,15 +1,14 @@
 ﻿using RM.MailshotsOnline.PCL.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RM.MailshotsOnline.Entities.ViewModels;
 
 namespace RM.MailshotsOnline.Entities.MemberModels
 {
     public class Member : IMember
     {
+        private ContactOptions _royalMailMarketingPreferences;
+
+        private ContactOptions _thirdPartyMarketingPreferences;
+
         public int Id { get; set; }
 
         public string EmailAddress { get; set; }
@@ -24,21 +23,17 @@ namespace RM.MailshotsOnline.Entities.MemberModels
 
         public bool IsLockedOut { get; set; }
 
-        public bool CanWeContactByPost { get; set; }
+        public ContactOptions RoyalMailMarketingPreferences
+        {
+            get { return _royalMailMarketingPreferences; }
+            set { _royalMailMarketingPreferences = value; }
+        }
 
-        public bool CanWeContactByEmail { get; set; }
-
-        public bool CanWeContactByPhone { get; set; }
-
-        public bool CanWeContactBySmsAndOther { get; set; }
-
-        public bool CanThirdPatiesContactByPost { get; set; }
-
-        public bool CanThirdPatiesContactByEmail { get; set; }
-
-        public bool CanThirdPatiesContactByPhone { get; set; }
-
-        public bool CanThirdPatiesContactBySmsAndOther { get; set; }
+        public ContactOptions ThirdPartyMarketingPreferences
+        {
+            get { return _thirdPartyMarketingPreferences; }
+            set { _thirdPartyMarketingPreferences = value; }
+        }
 
         public string Postcode { get; set; }
 
@@ -67,5 +62,21 @@ namespace RM.MailshotsOnline.Entities.MemberModels
         public Guid PasswordResetToken { get; set; }
 
         public DateTime PasswordResetTokenExpiryDate { get; set; }
+
+        #region Explicit interface implementation
+
+        IContactOptions IMember.ThirdPartyMarketingPreferences
+        {
+            get { return _thirdPartyMarketingPreferences; }
+            set { _thirdPartyMarketingPreferences = (ContactOptions)value; }
+        }
+
+        IContactOptions IMember.RoyalMailMarketingPreferences
+        {
+            get { return _royalMailMarketingPreferences; }
+            set { _royalMailMarketingPreferences = (ContactOptions)value; }
+        }
+
+        #endregion
     }
 }

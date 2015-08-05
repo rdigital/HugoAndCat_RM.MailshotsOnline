@@ -21,21 +21,9 @@ namespace RM.MailshotsOnline.PCL.Models
 
         bool IsLockedOut { get; set; }
 
-        bool CanWeContactByPost { get; set; }
+        IContactOptions RoyalMailMarketingPreferences { get; set; }
 
-        bool CanWeContactByEmail { get; set; }
-
-        bool CanWeContactByPhone { get; set; }
-
-        bool CanWeContactBySmsAndOther { get; set; }
-
-        bool CanThirdPatiesContactByPost { get; set; }
-
-        bool CanThirdPatiesContactByEmail { get; set; }
-
-        bool CanThirdPatiesContactByPhone { get; set; }
-
-        bool CanThirdPatiesContactBySmsAndOther { get; set; }
+        IContactOptions ThirdPartyMarketingPreferences { get; set; }
 
         string Postcode { get; set; }
 
