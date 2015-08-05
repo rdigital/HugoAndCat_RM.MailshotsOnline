@@ -83,11 +83,14 @@
     <Compile Include="PageModels\Login.cs" />
     <Compile Include="PageModels\Logout.cs" />
     <Compile Include="PageModels\MailshotEditor.cs" />
+    <Compile Include="PageModels\EditProfileBasePage.cs" />
+    <Compile Include="PageModels\Profile\MarketingPreferences.cs" />
     <Compile Include="PageModels\Profile\Overview.cs" />
+    <Compile Include="PageModels\Profile\PersonalDetails.cs" />
     <Compile Include="PageModels\Register.cs" />
     <Compile Include="PageModels\ResetPassword.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\CommunicationPreferencesViewModel.cs" />
+    <Compile Include="ViewModels\MarketingPreferencesViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MailshotViewModel.cs" />
     <Compile Include="ViewModels\PdfRenderJobViewModel.cs" />

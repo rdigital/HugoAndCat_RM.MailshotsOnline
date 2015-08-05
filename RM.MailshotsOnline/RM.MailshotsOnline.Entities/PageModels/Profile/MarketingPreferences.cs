@@ -10,20 +10,18 @@ using RM.MailshotsOnline.PCL.Models;
 namespace RM.MailshotsOnline.Entities.PageModels.Profile
 {
     [UmbracoType(AutoMap = true)]
-    public class Overview : EditProfileBasePage
+    public class MarketingPreferences : EditProfileBasePage
     {
         public string MainTitle { get; set; }
 
-        public string UpdatePersonalDetailsCtaText { get; set; }
+        public string RoyalMailDisclaimer { get; set; }
 
-        public string OrganisationDetailsTitle { get; set; }
+        public string RoyalMailTitle { get; set; }
 
-        public string UpdateOrganisationDetailsCtaText { get; set; }
+        public string ThirdPartyDisclaimer { get; set; }
 
-        public string EmailTitle { get; set; }
+        public string ThirdPartyTitle { get; set; }
 
-        public string WorkNumberTitle { get; set; }
-
-        public string MobileNumberTitle { get; set; }
+        public MarketingPreferencesViewModel ViewModel { get; set; }
     }
 }

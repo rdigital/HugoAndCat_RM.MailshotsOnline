@@ -13,12 +13,12 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 {
     public class LoginSurfaceController : SurfaceController
     {
-        // GET: Login
         [ChildActionOnly]
         public ActionResult ShowLoginForm(Login model)
         {
             var viewModel = new LoginViewModel() { PageModel = model };
             viewModel.ResetPasswordUrl = model.PasswordResetPage.Url(Umbraco);
+
             return PartialView("~/Views/Login/Partials/ShowLoginForm.cshtml", viewModel);
         }
 

@@ -7,7 +7,7 @@ using RM.MailshotsOnline.Entities.MemberModels;
 
 namespace RM.MailshotsOnline.Entities.ViewModels
 {
-    public class CommunicationPreferencesViewModel
+    public class MarketingPreferencesViewModel
     {
         public ContactPreferences RoyalMailContactPreferences { get; set; }
 
