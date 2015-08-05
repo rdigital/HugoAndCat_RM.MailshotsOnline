@@ -96,6 +96,7 @@
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\RequestResetPasswordViewModel.cs" />
     <Compile Include="ViewModels\ResetPasswordViewModel.cs" />
+    <Compile Include="ViewModels\SimplifiedRegisterViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

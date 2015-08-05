@@ -23,5 +23,12 @@ namespace RM.MailshotsOnline.Web.Controllers
             var contentPageModel = GetModel<ContentPage>();
             return View("~/Views/ContentPage.cshtml", contentPageModel);
         }
+
+        public ActionResult MemberAPITestPage(RenderModel model)
+        {
+            // Fetch the Glass model of the home page
+            var contentPageModel = GetModel<ContentPage>();
+            return View("~/Views/MemberAPITestPage.cshtml", contentPageModel);
+        }
     }
 }

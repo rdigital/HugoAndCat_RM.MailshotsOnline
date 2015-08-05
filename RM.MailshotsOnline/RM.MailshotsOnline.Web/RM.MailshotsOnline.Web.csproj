@@ -353,6 +353,7 @@
     <Content Include="scripts\editor.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
+    <Content Include="scripts\logintest.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="umbraco\Actions\delete.aspx" />
     <Content Include="umbraco\Actions\editContent.aspx" />
@@ -2846,6 +2847,7 @@
     <Compile Include="Constants\ContentConstants.cs" />
     <Compile Include="Controllers\Api\ApiBaseController.cs" />
     <Compile Include="Controllers\Api\MailshotsController.cs" />
+    <Compile Include="Controllers\Api\MembersController.cs" />
     <Compile Include="Controllers\Api\PostageController.cs" />
     <Compile Include="Controllers\Api\ProofPdfController.cs" />
     <Compile Include="Controllers\ContentPageController.cs" />
@@ -3172,6 +3174,7 @@
     <Content Include="uSync\Template\Master\MailshotEditor\MailshotEditor.config" />
     <Content Include="uSync\DocumentType\Basepage\MailshotEditor\def.config" />
     <Content Include="Views\Profile\Overview.cshtml" />
+    <Content Include="Views\MemberAPITestPage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
