@@ -76,7 +76,7 @@ namespace SparqTemp
                         container.SetPermissions(permissions);
                     }
 
-                    var blobFilename = string.Format("{0}.pdf", mailshot.MailshotId.ToString("D"));
+                    var blobFilename = string.Format("{0}/{1:yyyyMMddHHmmssfff}.pdf", mailshot.MailshotId.ToString("D"), DateTime.UtcNow);
                     var blobMediaType = "application/pdf";
 
                     // Retrieve reference to a blob

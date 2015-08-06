@@ -3198,9 +3198,9 @@
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web.QA.config">
+    <Content Include="Web.QA.config">
       <DependentUpon>Web.config</DependentUpon>
-    </None>
+    </Content>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
