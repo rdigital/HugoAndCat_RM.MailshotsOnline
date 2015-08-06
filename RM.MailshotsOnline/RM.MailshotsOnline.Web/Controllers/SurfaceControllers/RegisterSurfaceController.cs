@@ -100,14 +100,20 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 LastName = model.LastName,
                 IsApproved = false,
                 IsLockedOut = false,
-                CanWeContactByPost = model.CommunicationPreferencesViewModel.RoyalMailContactPreferences.Post,
-                CanWeContactByEmail = model.CommunicationPreferencesViewModel.RoyalMailContactPreferences.Email,
-                CanWeContactByPhone = model.CommunicationPreferencesViewModel.RoyalMailContactPreferences.Phone,
-                CanWeContactBySmsAndOther = model.CommunicationPreferencesViewModel.RoyalMailContactPreferences.SmsAndOther,
-                CanThirdPatiesContactByPost = model.CommunicationPreferencesViewModel.RoyalMailContactPreferences.Post,
-                CanThirdPatiesContactByEmail = model.CommunicationPreferencesViewModel.RoyalMailContactPreferences.Email,
-                CanThirdPatiesContactByPhone = model.CommunicationPreferencesViewModel.RoyalMailContactPreferences.Phone,
-                CanThirdPatiesContactBySmsAndOther = model.CommunicationPreferencesViewModel.RoyalMailContactPreferences.SmsAndOther,
+                RoyalMailMarketingPreferences = new ContactOptions()
+                {
+                    Post = model.MarketingPreferencesViewModel.RoyalMailMarketingPreferences.Post,
+                    Email = model.MarketingPreferencesViewModel.RoyalMailMarketingPreferences.Email,
+                    Phone = model.MarketingPreferencesViewModel.RoyalMailMarketingPreferences.Phone,
+                    SmsAndOther = model.MarketingPreferencesViewModel.RoyalMailMarketingPreferences.SmsAndOther
+                },
+                ThirdPartyMarketingPreferences = new ContactOptions()
+                {
+                    Post = model.MarketingPreferencesViewModel.ThirdPartyMarketingPreferences.Post,
+                    Email = model.MarketingPreferencesViewModel.ThirdPartyMarketingPreferences.Email,
+                    Phone = model.MarketingPreferencesViewModel.ThirdPartyMarketingPreferences.Phone,
+                    SmsAndOther = model.MarketingPreferencesViewModel.ThirdPartyMarketingPreferences.SmsAndOther
+                },
                 Postcode = model.OrganisationDetailsViewModel.Postcode,
                 OrganisationName = model.OrganisationDetailsViewModel.OrganisationName,
                 JobTitle = model.OrganisationDetailsViewModel.JobTitle,

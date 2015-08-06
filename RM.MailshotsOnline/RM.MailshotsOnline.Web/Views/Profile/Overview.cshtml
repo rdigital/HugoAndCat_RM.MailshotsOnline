@@ -16,7 +16,7 @@
     @Umbraco.RenderMacro("Breadcrumbs")
     <div class="overview">
         <div>
-            <h2>@Model.PersonalDetailsTitle</h2>
+            <h2>@Model.MainTitle</h2>
             <h3>@fullName</h3>
             @Model.Member.JobTitle
             <h3>@Model.EmailTitle</h3>
@@ -27,8 +27,8 @@
             </div>
         </div>
         <div>
-            <h3>@Model.PersonalDetailsTitle</h3>
-            <h2>@Model.Member.OrganisationName</h2>
+            <h2>@Model.OrganisationDetailsTitle</h2>
+            <h3>@Model.Member.OrganisationName</h3>
             @topAddressLine<br/>
             @Model.Member.Address1<br />
             @Model.Member.Address2<br />

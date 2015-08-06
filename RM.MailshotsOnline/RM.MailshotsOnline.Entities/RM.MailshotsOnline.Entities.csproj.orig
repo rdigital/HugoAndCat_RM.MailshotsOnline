@@ -68,9 +68,6 @@
     <Compile Include="DataModels\DistributionList.cs" />
     <Compile Include="DataModels\Mailshot.cs" />
     <Compile Include="DataModels\MailshotContent.cs" />
-    <Compile Include="DataModels\MailshotSettings\Format.cs" />
-    <Compile Include="DataModels\MailshotSettings\Template.cs" />
-    <Compile Include="DataModels\MailshotSettings\Theme.cs" />
     <Compile Include="DataModels\Order.cs" />
     <Compile Include="DataModels\PostalOption.cs" />
     <Compile Include="Extensions\MailshotExtensions.cs" />
@@ -99,8 +96,12 @@
     <Compile Include="PageModels\Settings\Theme.cs" />
     <Compile Include="PageModels\Settings\ThemeFolder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+<<<<<<< HEAD
     <Compile Include="ViewModels\MarketingPreferencesViewModel.cs" />
+=======
+    <Compile Include="ViewModels\CommunicationPreferencesViewModel.cs" />
     <Compile Include="ViewModels\ErrorViewModel.cs" />
+>>>>>>> 666865e0070d6d03b36957917cf40b569de59775
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MailshotViewModel.cs" />
     <Compile Include="ViewModels\PdfRenderJobViewModel.cs" />

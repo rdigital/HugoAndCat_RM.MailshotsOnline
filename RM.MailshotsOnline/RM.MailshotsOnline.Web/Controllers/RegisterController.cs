@@ -24,10 +24,5 @@ namespace RM.MailshotsOnline.Web.Controllers
 
             return View("~/Views/Register/Register.cshtml", registerPageModel);
         }
-
-        public ActionResult DisplayPartTwo(Register model)
-        {
-            return View("~/Views/Register/Register.cshtml", model);
-        }
     }
 }

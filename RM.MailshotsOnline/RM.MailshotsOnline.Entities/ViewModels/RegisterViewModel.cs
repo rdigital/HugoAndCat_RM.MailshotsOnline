@@ -37,7 +37,7 @@ namespace RM.MailshotsOnline.Entities.ViewModels
         [Compare("Password", ErrorMessage = "The passwords entered do not match. Please check and try again")]
         public string ConfirmPassword { get; set; }
 
-        public CommunicationPreferencesViewModel CommunicationPreferencesViewModel { get; set; }
+        public MarketingPreferencesViewModel MarketingPreferencesViewModel { get; set; }
         
         [Required]
         [Range(typeof(bool), "true", "true", ErrorMessage = "Please accept T&C agreement")]

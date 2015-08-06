@@ -30,26 +30,33 @@ namespace RM.MailshotsOnline.Web.Controllers
         public override ActionResult Index(RenderModel model)
         {
             var pageModel = GetModel<Overview>();
-            var member = _membershipService.GetCurrentMember();
-
-            if (member == null)
-            {
-                return RedirectToRoute("/");
-            }
-
-            if(!string.IsNullOrEmpty(member.Title))
-            {
-                var title = Services.DataTypeService.GetPreValues("Title Dropdown").FirstOrDefault(x => x.Key.Equals(member.Title));
-
-                if (title.Value != null)
-                {
-                    member.Title = title.Value;
-                }
-            }
-
-            pageModel.Member = member;
+            pageModel.Member = _membershipService.GetCurrentMember();
 
             return View("~/Views/Profile/Overview.cshtml", pageModel);
+        }
+
+        //GET: Profile/PersonalDetails
+        //public ActionResult PersonalDetails(RenderModel model)
+        //{
+        //    var pageModel = GetModel<PersonalDetails>();
+        //}
+
+        //GET: Profile/OrganisationDetais
+        public ActionResult OrganisationDetails(RenderModel model)
+        {
+            var pageModel = GetModel<OrganisationDetails>();
+            pageModel.Member = _membershipService.GetCurrentMember();
+
+            return View("~/Views/Profile/OrganisationDetails.cshtml", pageModel);
+        }
+
+        //GET: Profile/MarketingPreferences
+        public ActionResult MarketingPreferences(RenderModel model)
+        {
+            var pageModel = GetModel<MarketingPreferences>();
+            pageModel.Member = _membershipService.GetCurrentMember();
+
+            return View("~/Views/Profile/MarketingPreferences.cshtml", pageModel);
         }
     }
 }

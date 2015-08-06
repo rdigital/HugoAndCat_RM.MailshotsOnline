@@ -74,14 +74,14 @@
         </div>
         <div>
             <label for="RoyalMailContactOptions">@Model.RoyalMailContactOptionsLabel</label>
-            @Html.EditorFor(m => m.ViewModel.CommunicationPreferencesViewModel.RoyalMailContactPreferences)
+            @Html.EditorFor(m => m.ViewModel.MarketingPreferencesViewModel.RoyalMailMarketingPreferences)
         </div>
         <div>
             <span for="ThirdPartyContactOptionsDisclaimer">@Model.ThirdPartyContactOptionsDisclaimer</span>
         </div>
         <div>
             <label for="ThirdPartyContactOptions">@Model.ThirdPartyContactOptionsLabel</label>
-            @Html.EditorFor(m => m.ViewModel.CommunicationPreferencesViewModel.ThirdPartyContactPreferences)
+            @Html.EditorFor(m => m.ViewModel.MarketingPreferencesViewModel.ThirdPartyMarketingPreferences)
         </div>
         <div>
             @Html.ValidationMessageFor(m => m.ViewModel.AgreeToTermsAndConditions)

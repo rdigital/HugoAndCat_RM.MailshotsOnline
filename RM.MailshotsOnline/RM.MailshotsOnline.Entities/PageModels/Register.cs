@@ -76,9 +76,9 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         public string RegisterCompleteEmail { get; set; }
 
-        public CommunicationPreferencesViewModel RoyalMailCommunicationPreferencesViewModel { get; set; }
+        public MarketingPreferencesViewModel RoyalMailMarketingPreferencesViewModel { get; set; }
 
-        public CommunicationPreferencesViewModel ThirdPartyCommunicationPreferencesViewModel { get; set; }
+        public MarketingPreferencesViewModel ThirdPartyMarketingPreferencesViewModel { get; set; }
 
         public RegisterViewModel ViewModel { get; set; }
     }

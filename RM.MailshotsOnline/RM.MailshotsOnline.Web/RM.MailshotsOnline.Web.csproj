@@ -2864,10 +2864,13 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LogoutController.cs" />
+    <Compile Include="Controllers\MarketingPreferencesController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\ResetPasswordController.cs" />
+    <Compile Include="Controllers\SurfaceControllers\BaseSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\LoginSurfaceController.cs" />
+    <Compile Include="Controllers\SurfaceControllers\ProfileSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\RegisterSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ResetPasswordSurfaceController.cs" />
     <Compile Include="Extensions\BasePageExtensions.cs" />
@@ -3183,6 +3186,10 @@
     <Content Include="uSync\DocumentType\Basepage\MailshotEditor\def.config" />
     <Content Include="Views\Profile\Overview.cshtml" />
     <Content Include="Views\MemberAPITestPage.cshtml" />
+    <Content Include="Views\Profile\OrganisationDetails.cshtml" />
+    <Content Include="Views\Profile\Partials\EditMarketingPreferences.cshtml" />
+    <Content Include="Views\Profile\PersonalDetails.cshtml" />
+    <Content Include="Views\Profile\MarketingPreferences.cshtml" />
     <Content Include="uSync\DocumentType\ThemeFolder\def.config" />
     <Content Include="uSync\DocumentType\Theme\def.config" />
     <Content Include="uSync\StyleSheet\fountain.config" />
@@ -3217,7 +3224,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Profile\Partials\" />
+    <Folder Include="Views\MarketingPreferences\" />
+    <Folder Include="Views\ProfileSurface\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

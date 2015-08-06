@@ -17,6 +17,10 @@ namespace RM.MailshotsOnline.Data.Services
 {
     public class MembershipService : IMembershipService
     {
+        /// <summary>
+        /// Retrieve the domain entity for the current user.
+        /// </summary>
+        /// <returns>The domain entity representing the current user.</returns>
         public IMember GetCurrentMember()
         {
             if (!HttpContext.Current.User.Identity.IsAuthenticated)
@@ -25,12 +29,17 @@ namespace RM.MailshotsOnline.Data.Services
             }
 
             var securityMember = System.Web.Security.Membership.GetUser();
-
             var umbracoMember = Umbraco.Core.ApplicationContext.Current.Services.MemberService.GetByProviderKey(securityMember.ProviderUserKey);
 
             return umbracoMember.ToMemberEntityModel();
         }
 
+        /// <summary>
+        /// Create a new Umbraco Member given the domain entity and password.
+        /// </summary>
+        /// <param name="member">The member</param>
+        /// <param name="password">The member's password</param>
+        /// <returns></returns>
         public IMember CreateMember(IMember member, string password)
         {
             var membershipService = Umbraco.Core.ApplicationContext.Current.Services.MemberService;
@@ -45,18 +54,22 @@ namespace RM.MailshotsOnline.Data.Services
 
             umbracoMember = umbracoMember.UpdateValues(member);
 
-            Umbraco.Core.ApplicationContext.Current.Services.MemberService.Save(umbracoMember);
-            Umbraco.Core.ApplicationContext.Current.Services.MemberService.SavePassword(umbracoMember, password);
+            membershipService.Save(umbracoMember);
+            membershipService.SavePassword(umbracoMember, password);
 
             member.Id = umbracoMember.Id;
 
             return member;
         }
 
+        /// <summary>
+        /// Request that a password reset token be issued to a member
+        /// </summary>
+        /// <param name="email">The email address of the member</param>
+        /// <returns>The token, if the email is valid. Null otherwise.</returns>
         public Guid? RequestPasswordReset(string email)
         {
             var membershipService = Umbraco.Core.ApplicationContext.Current.Services.MemberService;
-
             var member = membershipService.GetByEmail(email);
 
             if (member != null)
@@ -91,6 +104,12 @@ namespace RM.MailshotsOnline.Data.Services
             return true;
         }
 
+        /// <summary>
+        /// Set a new password for the token holder, provided the token is valid
+        /// </summary>
+        /// <param name="token">The token</param>
+        /// <param name="password">The new password</param>
+        /// <returns>Success</returns>
         public bool RedeemPasswordResetToken(string token, string password)
         {
             // if the token isn't a guid, fail immediately.
@@ -120,6 +139,11 @@ namespace RM.MailshotsOnline.Data.Services
             return false;
         }
 
+        /// <summary>
+        /// Retrieve a member by password reset token
+        /// </summary>
+        /// <param name="token">The password reset token in the form a GUID</param>
+        /// <returns></returns>
         public IMember GetMemberByPasswordResetToken(string token)
         {
             if (!IsPasswordResetTokenValid(token))
@@ -148,12 +172,33 @@ namespace RM.MailshotsOnline.Data.Services
             return member;
         }
 
+        /// <summary>
+        /// Sets a new password for the given member
+        /// </summary>
+        /// <param name="member">The member</param>
+        /// <param name="password">The new password to set</param>
         public void SetNewPassword(IMember member, string password)
         {
             var membershipService = Umbraco.Core.ApplicationContext.Current.Services.MemberService;
             var umbracoMember = membershipService.GetByEmail(member.EmailAddress);
 
             membershipService.SavePassword(umbracoMember, password);
+        }
+
+        public bool Save(IMember member)
+        {
+            var membershipService = Umbraco.Core.ApplicationContext.Current.Services.MemberService;
+            var umbracoMember = membershipService.GetByEmail(member.EmailAddress);
+
+            if (umbracoMember != null)
+            {
+                umbracoMember = umbracoMember.UpdateValues(member);
+                membershipService.Save(umbracoMember);
+
+                return true;
+            }
+
+            return false;
         }
     }
 }

@@ -34,14 +34,20 @@ namespace RM.MailshotsOnline.Data.Extensions
                 Title = title,
                 FirstName = umbracoMember.GetValue<string>("firstName"),
                 LastName = umbracoMember.GetValue<string>("lastName"),
-                CanWeContactByPost = umbracoMember.GetValue<bool>("rmPost"),
-                CanWeContactByEmail = umbracoMember.GetValue<bool>("rmEmail"),
-                CanWeContactByPhone = umbracoMember.GetValue<bool>("rmPhone"),
-                CanWeContactBySmsAndOther = umbracoMember.GetValue<bool>("rmSmsAndOther"),
-                CanThirdPatiesContactByPost = umbracoMember.GetValue<bool>("thirdPartyPost"),
-                CanThirdPatiesContactByEmail = umbracoMember.GetValue<bool>("thirdPartyEmail"),
-                CanThirdPatiesContactByPhone = umbracoMember.GetValue<bool>("thirdPartyPhone"),
-                CanThirdPatiesContactBySmsAndOther = umbracoMember.GetValue<bool>("thirdPartySmsAndOther"),
+                RoyalMailMarketingPreferences = new ContactOptions()
+                {
+                    Post = umbracoMember.GetValue<bool>("rmPost"),
+                    Email = umbracoMember.GetValue<bool>("rmEmail"),
+                    Phone = umbracoMember.GetValue<bool>("rmPhone"),
+                    SmsAndOther = umbracoMember.GetValue<bool>("rmSmsAndOther")
+                },
+                ThirdPartyMarketingPreferences = new ContactOptions()
+                {
+                    Post = umbracoMember.GetValue<bool>("thirdPartyPost"),
+                    Email = umbracoMember.GetValue<bool>("thirdPartyEmail"),
+                    Phone = umbracoMember.GetValue<bool>("thirdPartyPhone"),
+                    SmsAndOther = umbracoMember.GetValue<bool>("thirdPartySmsAndOther")
+                },
                 Postcode = umbracoMember.GetValue<string>("postcode"),
                 OrganisationName = umbracoMember.GetValue<string>("organisationName"),
                 JobTitle = umbracoMember.GetValue<string>("jobTitle"),
@@ -65,14 +71,14 @@ namespace RM.MailshotsOnline.Data.Extensions
             umbracoMember.SetValue("title", member.Title);
             umbracoMember.SetValue("firstName", member.FirstName);
             umbracoMember.SetValue("lastName", member.LastName);
-            umbracoMember.SetValue("rmPost", member.CanWeContactByPost);
-            umbracoMember.SetValue("rmEmail", member.CanWeContactByEmail);
-            umbracoMember.SetValue("rmPhone", member.CanWeContactByPhone);
-            umbracoMember.SetValue("rmSmsAndOther", member.CanWeContactBySmsAndOther);
-            umbracoMember.SetValue("thirdPartyPost", member.CanThirdPatiesContactByPost);
-            umbracoMember.SetValue("thirdPartyEmail", member.CanThirdPatiesContactByEmail);
-            umbracoMember.SetValue("thirdPartyPhone", member.CanThirdPatiesContactByPhone);
-            umbracoMember.SetValue("thirdPartySmsAndOther", member.CanThirdPatiesContactBySmsAndOther);
+            umbracoMember.SetValue("rmPost", member.RoyalMailMarketingPreferences.Post);
+            umbracoMember.SetValue("rmEmail", member.RoyalMailMarketingPreferences.Email);
+            umbracoMember.SetValue("rmPhone", member.RoyalMailMarketingPreferences.Phone);
+            umbracoMember.SetValue("rmSmsAndOther", member.RoyalMailMarketingPreferences.SmsAndOther);
+            umbracoMember.SetValue("thirdPartyPost", member.ThirdPartyMarketingPreferences.Post);
+            umbracoMember.SetValue("thirdPartyEmail", member.ThirdPartyMarketingPreferences.Email);
+            umbracoMember.SetValue("thirdPartyPhone", member.ThirdPartyMarketingPreferences.Phone);
+            umbracoMember.SetValue("thirdPartySmsAndOther", member.ThirdPartyMarketingPreferences.SmsAndOther);
             umbracoMember.SetValue("postcode", member.Postcode);
             umbracoMember.SetValue("organisationName", member.OrganisationName);
             umbracoMember.SetValue("jobTitle", member.JobTitle);
