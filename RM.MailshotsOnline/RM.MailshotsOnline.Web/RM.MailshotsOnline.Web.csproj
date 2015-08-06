@@ -2857,6 +2857,8 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LogoutController.cs" />
     <Compile Include="Controllers\MarketingPreferencesController.cs" />
+    <Compile Include="Controllers\OrganisationDetailsController.cs" />
+    <Compile Include="Controllers\PersonalDetailsController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\ResetPasswordController.cs" />
@@ -3182,6 +3184,9 @@
     <Content Include="Views\Profile\Partials\EditMarketingPreferences.cshtml" />
     <Content Include="Views\Profile\PersonalDetails.cshtml" />
     <Content Include="Views\Profile\MarketingPreferences.cshtml" />
+    <Content Include="Views\Profile\Partials\EditOrganisationDetails.cshtml" />
+    <Content Include="Views\Profile\Partials\EditPersonalDetails.cshtml" />
+    <Content Include="Views\Profile\Partials\ChangePassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -3213,6 +3218,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\MarketingPreferences\" />
+    <Folder Include="Views\OrganisationDetails\" />
+    <Folder Include="Views\PersonalDetails\" />
     <Folder Include="Views\ProfileSurface\" />
   </ItemGroup>
   <PropertyGroup>

@@ -46,6 +46,14 @@
     <Reference Include="Glass.Mapper.Umb">
       <HintPath>..\packages\Glass.Mapper.Umb.3.0.6.9\lib\net45\Glass.Mapper.Umb.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8\Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.Data, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45\Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -86,6 +94,7 @@
     <Compile Include="PageModels\EditProfileBasePage.cs" />
     <Compile Include="PageModels\Profile\MarketingPreferences.cs" />
     <Compile Include="PageModels\Profile\Overview.cs" />
+    <Compile Include="PageModels\Profile\OrganisationDetails.cs" />
     <Compile Include="PageModels\Profile\PersonalDetails.cs" />
     <Compile Include="PageModels\Register.cs" />
     <Compile Include="PageModels\ResetPassword.cs" />
@@ -100,9 +109,11 @@
     <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MailshotViewModel.cs" />
+    <Compile Include="ViewModels\PasswordViewModel.cs" />
     <Compile Include="ViewModels\PdfRenderJobViewModel.cs" />
     <Compile Include="ViewModels\PdfRenderResultViewModel.cs" />
     <Compile Include="ViewModels\OrganisationDetailsViewModel.cs" />
+    <Compile Include="ViewModels\PersonalDetailsViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\RequestResetPasswordViewModel.cs" />
     <Compile Include="ViewModels\ResetPasswordViewModel.cs" />

@@ -1,0 +1,55 @@
+﻿@model RM.MailshotsOnline.Entities.ViewModels.PersonalDetailsViewModel
+
+@if (ViewBag.UpdateSuccess != null)
+{
+    if ((bool)ViewBag.UpdateSuccess)
+    {
+        @Model.PageModel.UpdateSuccessMessage;
+    }
+    else
+    {
+        @Model.PageModel.UpdateFailMessage
+    }
+}
+
+@using (Html.BeginUmbracoForm("EditPersonalDetails", "ProfileSurface"))
+{
+    @Html.ValidationSummary()
+
+    <h2>@Model.PageModel.PesonalDetailsSectionTitle</h2>
+
+    <div>
+        @Model.PageModel.RequiredFieldLabel
+    </div>
+
+    <div>
+        @Html.ValidationMessageFor(x => Model.Title)
+    </div>
+    <div>
+        @Html.LabelFor(m => Model.Title, Model.PageModel.TitleLabel)
+        @Html.EditorFor(m => Model.Title)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => Model.FirstName)
+    </div>
+    <div>
+        @Html.LabelFor(m => Model.FirstName, Model.PageModel.FirstNameLabel)
+        @Html.EditorFor(m => Model.FirstName)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => Model.LastName)
+    </div>
+    <div>
+        @Html.LabelFor(m => Model.LastName, Model.PageModel.LastNameLabel)
+        @Html.EditorFor(m => Model.LastName)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => Model.EmailAddress)
+    </div>
+    <div>
+        @Html.LabelFor(m => Model.EmailAddress, Model.PageModel.EmailAddressLabel)
+        @Html.EditorFor(m => Model.EmailAddress)
+    </div>
+
+    <input type="submit" value="@Model.PageModel.SavePersonalDetailsCtaText"/>
+}

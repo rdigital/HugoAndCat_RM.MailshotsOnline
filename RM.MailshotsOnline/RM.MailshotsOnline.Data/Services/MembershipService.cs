@@ -177,12 +177,22 @@ namespace RM.MailshotsOnline.Data.Services
         /// </summary>
         /// <param name="member">The member</param>
         /// <param name="password">The new password to set</param>
-        public void SetNewPassword(IMember member, string password)
+        public bool SetNewPassword(IMember member, string password)
         {
             var membershipService = Umbraco.Core.ApplicationContext.Current.Services.MemberService;
-            var umbracoMember = membershipService.GetByEmail(member.EmailAddress);
 
-            membershipService.SavePassword(umbracoMember, password);
+            try
+            {
+                var umbracoMember = membershipService.GetByEmail(member.EmailAddress);
+                membershipService.SavePassword(umbracoMember, password);
+            }
+            catch
+            {
+                // Probably do some logging here.
+                return false;
+            }
+
+            return true;
         }
 
         public bool Save(IMember member)

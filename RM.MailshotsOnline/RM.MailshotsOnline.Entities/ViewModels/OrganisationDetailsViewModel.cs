@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RM.MailshotsOnline.Entities.PageModels.Profile;
 
 namespace RM.MailshotsOnline.Entities.ViewModels
 {
@@ -39,5 +40,7 @@ namespace RM.MailshotsOnline.Entities.ViewModels
         public string WorkPhoneNumber { get; set; }
 
         public string MobilePhoneNumber { get; set; }
+
+        public OrganisationDetails PageModel { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<RM.MailshotsOnline.Entities.PageModels.Profile.MarketingPreferences>
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<RM.MailshotsOnline.Entities.PageModels.Profile.PersonalDetails>
 
 @{
     Layout = "~/Views/Master.cshtml";
@@ -8,6 +8,9 @@
     <h1>@Model.Name</h1>
     @Umbraco.RenderMacro("Breadcrumbs")
     <div>
-        @Html.Action("ShowEditPersonalDetails", "ProfileSurface", new { model = Model })
+        @Html.Action("ShowEditPersonalDetails", "ProfileSurface", new {model = Model})
+    </div>
+    <div>
+        @Html.Action("ShowChangePassword", "ProfileSurface", new { model = Model })
     </div>
 </div>
