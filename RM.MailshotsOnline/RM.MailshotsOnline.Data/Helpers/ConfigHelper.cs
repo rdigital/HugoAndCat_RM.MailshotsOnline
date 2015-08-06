@@ -11,27 +11,27 @@ namespace RM.MailshotsOnline.Data.Helpers
     public class ConfigHelper
     {
         /// <summary>
-        /// Umbraco ID of the Formats folder
+        /// Content Type Alias for the Mailshot Format items
         /// </summary>
-        public static int FormatsFolderId
+        public static string FormatContentTypeAlias
         {
-            get { return GetConfigValue("FormatsFolderId", 1056); }
+            get { return GetConfigValue("FormatTemplateAlias", "Format"); }
         }
 
         /// <summary>
-        /// Umbraco ID of the Layouts folder
+        /// Content Type Alias for the Mailshot Template items
         /// </summary>
-        public static int LayoutsFolderId
+        public static string TemplateContentTypeAlias
         {
-            get { return GetConfigValue("LayoutsFolderId", 1057); }
+            get { return GetConfigValue("TemplateContentTypeAlias", "Layout"); }
         }
 
         /// <summary>
-        /// Umbraco ID of the Themes folder
+        /// Content Type Alias for the Mailshot Theme items
         /// </summary>
-        public static int ThemesFolderId
+        public static string ThemeContentTypeAlias
         {
-            get { return GetConfigValue("ThemesFolderId", 1173); }
+            get { return GetConfigValue("ThemeContentTypeAlias", "Theme"); }
         }
 
         private static int GetConfigValue(string key, int defaultValue)
@@ -43,6 +43,11 @@ namespace RM.MailshotsOnline.Data.Helpers
             }
 
             return result;
+        }
+
+        private static string GetConfigValue(string key, string defaultValue)
+        {
+            return GetConfigValue(key) ?? defaultValue;
         }
 
         private static string GetConfigValue(string key)

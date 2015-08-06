@@ -68,6 +68,9 @@
     <Compile Include="DataModels\DistributionList.cs" />
     <Compile Include="DataModels\Mailshot.cs" />
     <Compile Include="DataModels\MailshotContent.cs" />
+    <Compile Include="DataModels\MailshotSettings\Format.cs" />
+    <Compile Include="DataModels\MailshotSettings\Template.cs" />
+    <Compile Include="DataModels\MailshotSettings\Theme.cs" />
     <Compile Include="DataModels\Order.cs" />
     <Compile Include="DataModels\PostalOption.cs" />
     <Compile Include="Extensions\MailshotExtensions.cs" />

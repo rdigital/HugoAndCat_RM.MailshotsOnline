@@ -26,7 +26,12 @@ namespace RM.MailshotsOnline.Data.Services
 
         public IMailshot GetMailshot(Guid mailshotId)
         {
-            return _context.Mailshots.Include("Content").FirstOrDefault(m => m.MailshotId == mailshotId);
+            return _context.Mailshots
+                .Include("Content")
+                .Include("Template")
+                .Include("Format")
+                .Include("Theme")
+                .FirstOrDefault(m => m.MailshotId == mailshotId);
         }
 
         public IEnumerable<IMailshot> GetUsersMailshots(int userId, bool draftOnly = false)

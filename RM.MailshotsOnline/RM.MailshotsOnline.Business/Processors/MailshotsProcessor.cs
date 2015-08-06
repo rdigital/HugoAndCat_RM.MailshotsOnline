@@ -38,19 +38,19 @@ namespace RM.MailshotsOnline.Business.Processors
             // Generate the XSL
 
             //TODO: Get this another way?
-            /*var finalXsl = $@"<?xml version=""1.0"" encoding=""utf-8""?>
+            var finalXsl = $@"<?xml version=""1.0"" encoding=""utf-8""?>
 <xsl:stylesheet version=""1.0"" xmlns:xsl=""http://www.w3.org/1999/XSL/Transform"" xmlns:fo=""http://www.w3.org/1999/XSL/Format"" xmlns:rx=""http://www.renderx.com/XSL/Extensions"">
   
   <xsl:output method=""xml"" version=""1.0"" encoding=""UTF-8"" />
 
   <!-- From Theme: -->
-  {theme.XslData}
+  {mailshot.Theme.XslData}
 
   <xsl:template match=""/page"">
     <!--This sets up pages, dimensions, backgrounds, headers and footers. Background images can also be applied within this section.-->
     <fo:root>
       <fo:layout-master-set>
-        {format.XslData}
+        {mailshot.Format.XslData}
 
         <fo:page-sequence-master master-name=""document"">
           <fo:repeatable-page-master-alternatives>
@@ -77,9 +77,9 @@ namespace RM.MailshotsOnline.Business.Processors
   </xsl:template>
 
   <!-- page templates-->
-  {layout.XslData}
+  {mailshot.Template.XslData}
 
-</xsl:stylesheet>";*/
+</xsl:stylesheet>";
 
             // Generate the XML
             if (mailshot.Content == null || string.IsNullOrEmpty(mailshot.Content.Content))
@@ -96,7 +96,7 @@ namespace RM.MailshotsOnline.Business.Processors
             }
 
             //TODO: Compile the XSL properly
-            var finalXsl = File.ReadAllText("C:\\Projects\\RoyalMail\\MSOL\\RM.MailshotsOnline\\RM.MailshotsOnline\\XML\\Formats\\A4PageComplete.xsl");
+            //var finalXsl = File.ReadAllText("C:\\Projects\\RoyalMail\\MSOL\\RM.MailshotsOnline\\RM.MailshotsOnline\\XML\\Formats\\A4PageComplete.xsl");
             return Tuple.Create<string, string>(finalXml, finalXsl);
         }
 
@@ -112,17 +112,18 @@ namespace RM.MailshotsOnline.Business.Processors
 
             foreach (var jsonElement in jsonContent.Elements)
             {
-                if (!string.IsNullOrEmpty(jsonElement.Content))
+                var content = jsonElement.Content ?? jsonElement.Src;
+                if (!string.IsNullOrEmpty(content))
                 {
                     var contentElement = new XElement(jsonElement.Name.Replace(" ", string.Empty));
-                    if (!jsonElement.Content.StartsWith("data:image"))
+                    if (!content.StartsWith("data:image"))
                     {
-                        contentElement.Add(ProcessHtmlContent(jsonElement.Content.Replace("<br>", "<br />")));
+                        contentElement.Add(ProcessHtmlContent(content.Replace("<br>", "<br />")));
                     }
                     else
                     {
                         //contentElement.Value = jsonElement.Content;
-                        contentElement.Add(new XCData(jsonElement.Content));
+                        contentElement.Add(new XCData(content));
                     }
 
                     ticket.Add(contentElement);

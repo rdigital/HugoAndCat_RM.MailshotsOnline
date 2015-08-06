@@ -15,5 +15,7 @@ namespace RM.MailshotsOnline.Entities.PageModels.Settings
         public int Format { get; set; }
 
         public string XslData { get; set; }
+
+        public int JsonIndex { get; set; }
     }
 }

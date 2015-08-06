@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
+using RM.MailshotsOnline.Entities.DataModels.MailshotSettings;
 using RM.MailshotsOnline.PCL;
 using RM.MailshotsOnline.PCL.Models;
+using RM.MailshotsOnline.PCL.Models.MailshotSettings;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,6 +16,12 @@ namespace RM.MailshotsOnline.Entities.DataModels
     public class Mailshot : IMailshot
     {
         private MailshotContent _content;
+
+        private Format _format;
+
+        private Template _template;
+
+        private Theme _theme;
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -50,14 +58,38 @@ namespace RM.MailshotsOnline.Entities.DataModels
 
         public bool Draft { get; set; }
 
+        [JsonIgnore]
         [Required]
-        public int FormatId { get; set; }
+        public Guid FormatId { get; set; }
 
-        [Required]
-        public int TemplateId { get; set; }
+        [JsonIgnore]
+        public virtual Format Format
+        {
+            get { return _format; }
+            set { _format = value; }
+        }
 
+        [JsonIgnore]
         [Required]
-        public int ThemeId { get; set; }
+        public Guid TemplateId { get; set; }
+
+        [JsonIgnore]
+        public virtual Template Template
+        {
+            get { return _template; }
+            set { _template = value; }
+        }
+
+        [JsonIgnore]
+        [Required]
+        public Guid ThemeId { get; set; }
+
+        [JsonIgnore]
+        public virtual Theme Theme
+        {
+            get { return _theme; }
+            set { _theme = value; }
+        }
 
         [JsonIgnore]
         public string ProofPdfBlobId { get; set; }
@@ -73,6 +105,27 @@ namespace RM.MailshotsOnline.Entities.DataModels
         {
             get { return _content; }
             set { _content = (MailshotContent)value; }
+        }
+
+        [JsonIgnore]
+        IFormat IMailshot.Format
+        {
+            get { return _format; }
+            set { _format = (Format)value; }
+        }
+
+        [JsonIgnore]
+        ITemplate IMailshot.Template
+        {
+            get { return _template; }
+            set { _template = (Template)value; }
+        }
+
+        [JsonIgnore]
+        ITheme IMailshot.Theme
+        {
+            get { return _theme; }
+            set { _theme = (Theme)value; }
         }
 
         #endregion

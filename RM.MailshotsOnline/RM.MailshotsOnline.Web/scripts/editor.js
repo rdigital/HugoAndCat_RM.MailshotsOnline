@@ -95,6 +95,7 @@ function LoadMailshot(mailshotId)
                 });
             });
             $('#loadingIndicator').hide();
+            $('#save').removeAttr('disabled');
         }
     })
 }
@@ -166,4 +167,5 @@ function ClearEditorForm() {
     $('#pdfLink').hide();
     $('#createPdf').attr('disabled','disabled');
     $('#pdfLoading').hide();
+    $('#save').removeAttr('disabled');
 }

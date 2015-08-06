@@ -78,7 +78,7 @@ label {
 
 #existingMailshots li span {
     display: inline-block;
-    width: 100px;
+    width: 200px;
 }
 
 #existingMailshots li a.openLink {

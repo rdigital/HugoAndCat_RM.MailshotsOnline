@@ -12,6 +12,8 @@ namespace RM.MailshotsOnline.Entities.JsonModels
 
         public string Content { get; set; }
 
+        public string Src { get; set; }
+
         public IEnumerable<ContentStyle> Styles { get; set; }
     }
 }
