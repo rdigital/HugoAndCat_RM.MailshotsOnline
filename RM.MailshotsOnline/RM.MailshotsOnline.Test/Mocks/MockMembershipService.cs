@@ -51,7 +51,7 @@ namespace RM.MailshotsOnline.Test.Mocks
             throw new NotImplementedException();
         }
 
-        public bool Save(IMember member)
+        public bool Save(string emailAddress, IMember member)
         {
             throw new NotImplementedException();
         }

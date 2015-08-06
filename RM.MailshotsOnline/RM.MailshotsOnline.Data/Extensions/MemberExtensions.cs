@@ -93,6 +93,8 @@ namespace RM.MailshotsOnline.Data.Extensions
             umbracoMember.SetValue("mobilePhoneNumber", member.MobilePhoneNumber);
             umbracoMember.SetValue("passwordResetToken", member.PasswordResetToken.ToString());
             umbracoMember.SetValue("passwordResetTokenExpiryDate", member.PasswordResetTokenExpiryDate.ToString());
+            umbracoMember.Email = member.EmailAddress;
+            umbracoMember.Name = umbracoMember.Email;
 
             return umbracoMember;
         }

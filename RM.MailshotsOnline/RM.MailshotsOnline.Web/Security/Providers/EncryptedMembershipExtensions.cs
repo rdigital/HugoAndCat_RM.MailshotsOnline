@@ -25,6 +25,7 @@ namespace RM.MailshotsOnline.Web.Security.Providers
                 encryptedUser.LastActivityDate,
                 encryptedUser.LastPasswordChangedDate,
                 encryptedUser.LastLockoutDate);
+
             return result;
         }
 

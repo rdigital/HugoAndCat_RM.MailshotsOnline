@@ -20,6 +20,6 @@ namespace RM.MailshotsOnline.PCL.Services
 
         bool SetNewPassword(IMember member, string password);
 
-        bool Save(IMember member);
+        bool Save(string emailAddress, IMember member);
     }
 }

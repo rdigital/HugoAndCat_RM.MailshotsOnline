@@ -3094,13 +3094,10 @@
     <Content Include="Views\Login\Partials\ShowLoginForm.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Register\Register.cshtml" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\Register\Partials\ShowRegisterForm.cshtml" />
-    <Content Include="Views\Register\Partials\RegisterComplete.cshtml" />
     <Content Include="Views\Logout\Logout.cshtml" />
     <Content Include="Views\MacroPartials\HeaderNavigation.cshtml" />
     <Content Include="Views\ResetPassword\RequestResetPassword.cshtml" />
@@ -3187,6 +3184,15 @@
     <Content Include="Views\Profile\Partials\EditOrganisationDetails.cshtml" />
     <Content Include="Views\Profile\Partials\EditPersonalDetails.cshtml" />
     <Content Include="Views\Profile\Partials\ChangePassword.cshtml" />
+    <Content Include="uSync\Template\MarketingPreferences\MarketingPreferences.config" />
+    <Content Include="uSync\Template\Overview\Overview.config" />
+    <Content Include="uSync\Template\PersonalDetails\PersonalDetails.config" />
+    <Content Include="uSync\Template\OrganisationDetails\OrganisationDetails.config" />
+    <Content Include="uSync\DocumentType\EditProfileBasePage\MarketingPreferences\def.config" />
+    <Content Include="uSync\DocumentType\EditProfileBasePage\OrganisationDetails\def.config" />
+    <Content Include="uSync\DocumentType\EditProfileBasePage\PersonalDetails\def.config" />
+    <Content Include="uSync\DocumentType\EditProfileBasePage\def.config" />
+    <Content Include="uSync\DocumentType\Basepage\Profile\def.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -3217,10 +3223,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\MarketingPreferences\" />
-    <Folder Include="Views\OrganisationDetails\" />
-    <Folder Include="Views\PersonalDetails\" />
-    <Folder Include="Views\ProfileSurface\" />
+    <Folder Include="uSync\Template\EditProfileBasePage\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

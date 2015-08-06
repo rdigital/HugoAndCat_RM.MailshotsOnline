@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Glass.Mapper.Umb;
+using log4net.Core;
 using RM.MailshotsOnline.Data.Extensions;
 using RM.MailshotsOnline.Entities.MemberModels;
 using RM.MailshotsOnline.Entities.PageModels.Profile;
@@ -63,7 +64,13 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return CurrentUmbracoPage();
             }
 
-            if (MembershipService.Save(LoggedInMember))
+            var originalEmailAddress = LoggedInMember.EmailAddress;
+            LoggedInMember.Title = model.Title;
+            LoggedInMember.FirstName = model.FirstName;
+            LoggedInMember.LastName = model.LastName;
+            LoggedInMember.EmailAddress = model.EmailAddress;
+
+            if (MembershipService.Save(originalEmailAddress, LoggedInMember))
             {
                 TempData[UpdatedFlag] = true;
                 return CurrentUmbracoPage();
@@ -158,7 +165,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             LoggedInMember.WorkPhoneNumber = model.WorkPhoneNumber;
             LoggedInMember.MobilePhoneNumber = model.MobilePhoneNumber;
 
-            if (MembershipService.Save(LoggedInMember))
+            if (MembershipService.Save(LoggedInMember.EmailAddress, LoggedInMember))
             {
                 TempData[UpdatedFlag] = true;
                 return CurrentUmbracoPage();
@@ -189,7 +196,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             LoggedInMember.RoyalMailMarketingPreferences = model.RoyalMailMarketingPreferences;
             LoggedInMember.ThirdPartyMarketingPreferences = model.ThirdPartyMarketingPreferences;
 
-            if (MembershipService.Save(LoggedInMember))
+            if (MembershipService.Save(LoggedInMember.EmailAddress, LoggedInMember))
             {
                 TempData[UpdatedFlag] = true;
                 return CurrentUmbracoPage();
