@@ -13,9 +13,16 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 {
     public class LoginSurfaceController : SurfaceController
     {
+        private const string BadLoginFlag = "BadLogin";
+
         [ChildActionOnly]
         public ActionResult ShowLoginForm(Login model)
         {
+            if (TempData[BadLoginFlag] != null && (bool) TempData[BadLoginFlag])
+            {
+                ViewBag.ErrorMessage = model.BadLoginMessage;
+            }
+
             var viewModel = new LoginViewModel() { PageModel = model };
             viewModel.ResetPasswordUrl = model.PasswordResetPage.Url(Umbraco);
 
@@ -42,7 +49,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return Redirect("/");
             }
 
-            ModelState.AddModelError("BadLogin", model.PageModel.BadLoginMessage);
+            TempData[BadLoginFlag] = true;
             return CurrentUmbracoPage();
         }
     }
