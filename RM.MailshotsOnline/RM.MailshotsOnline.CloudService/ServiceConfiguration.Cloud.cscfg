@@ -8,14 +8,14 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMTE1dpbmRvd3MgQXp1cmUgVG9vbHMCEP8dzFU/IKaVSGjdilwuaZgwDQYJKoZIhvcNAQEBBQAEggEAOtEb4cQeD0PMQulNRsghmEHlQMToGUtghg62TIKbwhgH9XLP2lSKrJRbt5Yc3bqlyg5cfPnOUycQo4rMQcwUFZ3w51ADG2spNayjO3TzxIALCN+ARJX0nafqTae6GCg3Eoa9lCzIja4zf2LOq+fs1ncqmwJeHx1SxPLXl4YftBd+5VNqycB8lD3miLsDNLEdq0dtxyq2OBVY8f1iJuIObyURf+UcnBv7oNzfwkM6zDJ29lTV+yzi3vdVJdAmI3SB32dx3rz46jWwyQJ8fVLONF+vVyqJADdD9wvwQGlYMczna2a1ladKBdc3MRIZewURRcKyVK3AexnxHVd0tv2p1TAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECDU51zC/9Yr7gBANNuJ+QBO3u7ecqu7J9+Oz" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2016-07-21T23:59:59.0000000+01:00" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
-      <Setting name="StorageConnectionString" value="DefaultEndpointsProtocol=https;AccountName=mrhcrmmsol;AccountKey=a83JkbdFS+qybOaPzq2X5lRImPGIVt+mBqJicYUNKasUw50LXvRliwIUeObfmWgKOZqv0z2gqbkIR8y2lDnqCw==" />
+      <Setting name="StorageConnectionString" value="DefaultEndpointsProtocol=https;AccountName=mrhcrmmsol;AccountKey=EDu8h+0zzlP9T8roDBXdFd58ti0UQyQNeON0BsT87rfpRSaKxXQ6xCKymGhO/vtsZPygpHrAXY63HkSjQEO5ig==" />
       <Setting name="AppInsightsKey" value="f4926bc4-a07f-420c-89f1-40e38682d0c6" />
       <Setting name="StorageContextEF" value="Server=tcp:gpxfbusuk8.database.windows.net,1433;Database=mrhcrmmsol-sql;User ID=rmphoto@gpxfbusuk8;Password=ZA8X461t7yQwdTDUZDTl;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;" />
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=mrhcrmmsol;AccountKey=a83JkbdFS+qybOaPzq2X5lRImPGIVt+mBqJicYUNKasUw50LXvRliwIUeObfmWgKOZqv0z2gqbkIR8y2lDnqCw==" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=mrhcrmmsol;AccountKey=EDu8h+0zzlP9T8roDBXdFd58ti0UQyQNeON0BsT87rfpRSaKxXQ6xCKymGhO/vtsZPygpHrAXY63HkSjQEO5ig==" />
       <Setting name="SparqServiceUrl" value="https://re-sparq.sp-systems.co.uk/sparq" />
       <Setting name="SparqServiceUsername" value="gosborne" />
       <Setting name="SparqServicePassword" value="15PaleGrass" />
-      <Setting name="SparqBlobStorage" value="DefaultEndpointsProtocol=https;AccountName=mrhcrmmsol;AccountKey=a83JkbdFS+qybOaPzq2X5lRImPGIVt+mBqJicYUNKasUw50LXvRliwIUeObfmWgKOZqv0z2gqbkIR8y2lDnqCw==" />
+      <Setting name="SparqBlobStorage" value="DefaultEndpointsProtocol=https;AccountName=mrhcrmmsol;AccountKey=EDu8h+0zzlP9T8roDBXdFd58ti0UQyQNeON0BsT87rfpRSaKxXQ6xCKymGhO/vtsZPygpHrAXY63HkSjQEO5ig==" />
       <Setting name="SparqBlobContainer" value="sparq-blob-storage-container" />
     </ConfigurationSettings>
     <Certificates>
