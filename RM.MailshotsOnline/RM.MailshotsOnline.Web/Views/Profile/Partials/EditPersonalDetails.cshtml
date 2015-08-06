@@ -27,7 +27,7 @@
     </div>
     <div>
         @Html.LabelFor(m => Model.Title, Model.PageModel.TitleLabel)
-        @Html.EditorFor(m => Model.Title)
+        @Html.DropDownListFor(m => m.Title, new SelectList(Model.PageModel.TitleOptions, "Key", "Value", Model.Title))
     </div>
     <div>
         @Html.ValidationMessageFor(m => Model.FirstName)

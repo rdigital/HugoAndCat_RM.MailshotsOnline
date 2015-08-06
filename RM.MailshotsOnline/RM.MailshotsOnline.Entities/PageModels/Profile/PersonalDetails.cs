@@ -20,6 +20,8 @@ namespace RM.MailshotsOnline.Entities.PageModels.Profile
 
         public string TitleLabel { get; set; }
 
+        public IDictionary<string, string> TitleOptions { get; set; }
+
         public string FirstNameLabel { get; set; }
 
         public string LastNameLabel { get; set; }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Glass.Mapper.Umb;
 using RM.MailshotsOnline.Data.Extensions;
 using RM.MailshotsOnline.Entities.MemberModels;
@@ -39,6 +40,8 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 ViewBag.UpdateSuccess = (bool) TempData[UpdatedFlag];
             }
 
+            model.TitleOptions = Services.DataTypeService.GetPreValues("Title Dropdown");
+
             var viewModel = new PersonalDetailsViewModel()
             {
                 Title = LoggedInMember.Title,
@@ -60,14 +63,11 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return CurrentUmbracoPage();
             }
 
-            //if (MembershipService.Save(LoggedInMember))
-            //{
-            //    TempData[UpdatedFlag] = true;
-            //    return CurrentUmbracoPage();
-            //}
-
-            TempData[UpdatedFlag] = true;
-            return CurrentUmbracoPage();
+            if (MembershipService.Save(LoggedInMember))
+            {
+                TempData[UpdatedFlag] = true;
+                return CurrentUmbracoPage();
+            }
 
             TempData[UpdatedFlag] = false;
             return CurrentUmbracoPage();
@@ -96,7 +96,11 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return CurrentUmbracoPage();
             }
 
-            // todo: check if current password is valid before setting new one
+            if (!Membership.Provider.ValidateUser(LoggedInMember.EmailAddress, model.CurrentPassword))
+            {
+                ModelState.AddModelError("WrongPassword", "Your current password is incorrect. Please enter it again.");
+                return CurrentUmbracoPage();
+            }
 
             if (MembershipService.SetNewPassword(LoggedInMember, model.NewPassword))
             {

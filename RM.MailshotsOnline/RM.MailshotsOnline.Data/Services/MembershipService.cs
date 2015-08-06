@@ -195,6 +195,11 @@ namespace RM.MailshotsOnline.Data.Services
             return true;
         }
 
+        /// <summary>
+        /// Overwrite an existing member record with the provided one.
+        /// </summary>
+        /// <param name="member">The member to update</param>
+        /// <returns>Success</returns>
         public bool Save(IMember member)
         {
             var membershipService = Umbraco.Core.ApplicationContext.Current.Services.MemberService;
