@@ -7,13 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure;
+using RM.MailshotsOnline.Entities.DataModels.MailshotSettings;
 
 namespace RM.MailshotsOnline.Data.DAL
 {
     [DbConfigurationType(typeof(AzureConfiguration))]
     public class StorageContext : DbContext
     {
-        public StorageContext() : this(CloudConfigurationManager.GetSetting("StorageContextEF") ?? "StorageConextEF")
+        public StorageContext() : this(CloudConfigurationManager.GetSetting("StorageContextEF") ?? "StorageContextEF")
         { }
 
         public StorageContext(string nameOrConnectionString) : base(nameOrConnectionString)
@@ -29,6 +30,9 @@ namespace RM.MailshotsOnline.Data.DAL
         public DbSet<PostalOption> PostalOptions { get; set; }
         public DbSet<Mailshot> Mailshots { get; set; }
         public DbSet<MailshotContent> MailshotContents { get; set; }
+        public DbSet<Format> Formats { get; set; }
+        public DbSet<Template> Templates { get; set; }
+        public DbSet<Theme> Themes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

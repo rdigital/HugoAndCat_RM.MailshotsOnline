@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RM.MailshotsOnline.PCL.Models.MailshotSettings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,11 +24,17 @@ namespace RM.MailshotsOnline.PCL.Models
 
         bool Draft { get; set; }
 
-        int FormatId { get; set; }
+        Guid FormatId { get; set; }
 
-        int TemplateId { get; set; }
+        IFormat Format { get; set; }
 
-        int ThemeId { get; set; }
+        Guid TemplateId { get; set; }
+
+        ITemplate Template { get; set; }
+
+        Guid ThemeId { get; set; }
+
+        ITheme Theme { get; set; }
 
         string ProofPdfBlobId { get; set; }
 

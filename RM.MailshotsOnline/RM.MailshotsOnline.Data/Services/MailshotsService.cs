@@ -21,23 +21,28 @@ namespace RM.MailshotsOnline.Data.Services
 
         public IEnumerable<IMailshot> GetAllMailshots()
         {
-            return _context.Mailshots.AsEnumerable();
+            return _context.Mailshots.OrderBy(m => m.Name).AsEnumerable();
         }
 
         public IMailshot GetMailshot(Guid mailshotId)
         {
-            return _context.Mailshots.Include("Content").FirstOrDefault(m => m.MailshotId == mailshotId);
+            return _context.Mailshots
+                .Include("Content")
+                .Include("Template")
+                .Include("Format")
+                .Include("Theme")
+                .FirstOrDefault(m => m.MailshotId == mailshotId);
         }
 
         public IEnumerable<IMailshot> GetUsersMailshots(int userId, bool draftOnly = false)
         {
             if (!draftOnly)
             {
-                return _context.Mailshots.Where(m => m.UserId == userId);
+                return _context.Mailshots.Where(m => m.UserId == userId).OrderBy(m => m.Name);
             }
             else
             {
-                return _context.Mailshots.Where(m => m.UserId == userId && m.Draft == true);
+                return _context.Mailshots.Where(m => m.UserId == userId && m.Draft == true).OrderBy(m => m.Name);
             }
         }
 

@@ -9,7 +9,7 @@ namespace RM.MailshotsOnline.Data.Migrations
     using System.Data.Entity.SqlServer;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<RM.MailshotsOnline.Data.DAL.StorageContext>
+    public sealed class Configuration : DbMigrationsConfiguration<RM.MailshotsOnline.Data.DAL.StorageContext>
     {
         public Configuration()
         {

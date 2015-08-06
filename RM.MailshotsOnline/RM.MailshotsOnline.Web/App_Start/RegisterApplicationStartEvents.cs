@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Web;
+﻿using RM.MailshotsOnline.Data.Migrations;
+using System.Data.Entity.Migrations;
 using Umbraco.Core;
 
 namespace RM.MailshotsOnline.Web.App_Start
 {
     public class RegisterApplicationStartEvents : ApplicationEventHandler
     {
-        // Uncomment the method below to add application events
-        //protected override void ApplicationStarting(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
-        //{
-            
-        //}
+        protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
+        {
+            base.ApplicationStarted(umbracoApplication, applicationContext);
+            var dbMigrator = new DbMigrator(new Configuration());
+            dbMigrator.Update();
+        }
     }
 }

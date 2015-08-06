@@ -1,7 +1,11 @@
-﻿using RM.MailshotsOnline.Entities.DataModels;
+﻿using Newtonsoft.Json;
+using RM.MailshotsOnline.Entities.DataModels;
+using RM.MailshotsOnline.Entities.DataModels.MailshotSettings;
 using RM.MailshotsOnline.Entities.Extensions;
+using RM.MailshotsOnline.Entities.JsonModels;
 using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.PCL.Models;
+using RM.MailshotsOnline.PCL.Models.MailshotSettings;
 using RM.MailshotsOnline.PCL.Services;
 using RM.MailshotsOnline.Web.Helpers;
 using System;
@@ -19,11 +23,13 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
     public class MailshotsController : ApiBaseController
     {
         private IMailshotsService _mailshotsService;
+        private IMailshotSettingsService _settingsService;
 
-        public MailshotsController(IMailshotsService mailshotsService, IMembershipService membershipService)
+        public MailshotsController(IMailshotSettingsService settingsService, IMailshotsService mailshotsService, IMembershipService membershipService)
             : base(membershipService)
         {
             _mailshotsService = mailshotsService;
+            _settingsService = settingsService;
         }
 
         /// <summary>
@@ -32,12 +38,14 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         /// <returns>Collection of Mailshot view model objects</returns>
         public HttpResponseMessage GetAll()
         {
+            // Confirm the user is logged in
             var authResult = Authenticate();
             if (authResult != null)
             {
                 return authResult;
             }
 
+            // Find the mailshots that belong to the user
             var mailshots = _mailshotsService.GetUsersMailshots(_loggedInMember.Id);
 
             return Request.CreateResponse(HttpStatusCode.OK, mailshots);
@@ -51,23 +59,27 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(Guid id)
         {
+            // Confirm the user is logged in
             var authResult = Authenticate();
             if (authResult != null)
             {
                 return authResult;
             }
 
+            // Confirm that the mailshot exists
             var mailshot = _mailshotsService.GetMailshot(id);
             if (mailshot == null)
             {
                 return MailshotNotFound();
             }
 
+            // Confirm that the user has access to the mailshot
             if (mailshot.UserId != _loggedInMember.Id)
             {
                 return MailshotForbidden();
             }
 
+            // Return the mailshot
             var mailshotData = (Mailshot)mailshot;
             if (mailshotData.Content != null)
             {
@@ -85,27 +97,46 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         [HttpPost]
         public HttpResponseMessage Save(Mailshot mailshot)
         {
-            if (mailshot == null)
-            {
-                return ErrorMessage(HttpStatusCode.BadRequest, "Please provide mailshot data to save.");
-            }
-
-            if (string.IsNullOrEmpty(mailshot.ContentText) || string.IsNullOrEmpty(mailshot.Name))
-            {
-                return ErrorMessage(HttpStatusCode.BadRequest, "Please provide mailshot data to save.");
-            }
-
+            // Confirm the user is logged in
             var authResult = Authenticate();
             if (authResult != null)
             {
                 return authResult;
             }
 
+            // Confirm that the request is okay
+            if (mailshot == null)
+            {
+                return ErrorMessage(HttpStatusCode.BadRequest, "Please provide mailshot data to save.");
+            }
+
+            // Confirm that the request contains the required information
+            if (string.IsNullOrEmpty(mailshot.ContentText) || string.IsNullOrEmpty(mailshot.Name))
+            {
+                return ErrorMessage(HttpStatusCode.BadRequest, "Please provide mailshot data to save.");
+            }
+
+            // Get the Format, Template and Theme from the JSON
+            IFormat format = null;
+            ITemplate template = null;
+            ITheme theme = null;
+            var jsonCheckResult = ConfirmJsonContentIsCorrect(mailshot.ContentText, out format, out template, out theme);
+
+            if (jsonCheckResult != null)
+            {
+                // Error while checking the JSON - return this
+                return jsonCheckResult;
+            }
+
+            // Save the mailshot
             IMailshot mailshotData = mailshot;
 
             mailshotData.Content = new MailshotContent() { Content = mailshot.ContentText };
             mailshotData.UserId = _loggedInMember.Id;
             mailshotData.UpdatedDate = DateTime.UtcNow;
+            mailshotData.FormatId = format.FormatId;
+            mailshotData.TemplateId = template.TemplateId;
+            mailshotData.ThemeId = theme.ThemeId;
 
             _mailshotsService.SaveMailshot(mailshotData);
 
@@ -121,28 +152,45 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         [HttpPost]
         public HttpResponseMessage Update(Guid id, Mailshot mailshot)
         {
+            // Confirm the user is logged in
             var authResult = Authenticate();
             if (authResult != null)
             {
                 return authResult;
             }
 
+            // Confirm that the request is okay
             if (mailshot == null || string.IsNullOrEmpty(mailshot.ContentText))
             {
                 return ErrorMessage(HttpStatusCode.BadRequest, "Please provide mailshot data to save.");
             }
 
+            // Confirm that mailshot exists
             var mailshotData = _mailshotsService.GetMailshot(id);
             if (mailshotData == null)
             {
                 return MailshotNotFound();
             }
 
+            // Confirm that the user has access to the mailshot
             if (mailshotData.UserId != _loggedInMember.Id)
             {
                 return MailshotForbidden();
             }
 
+            // Get the Format, Template and Theme from the JSON
+            IFormat format = null;
+            ITemplate template = null;
+            ITheme theme = null;
+            var jsonCheckResult = ConfirmJsonContentIsCorrect(mailshot.ContentText, out format, out template, out theme);
+
+            if (jsonCheckResult != null)
+            {
+                // Error while checking the JSON - return this
+                return jsonCheckResult;
+            }
+
+            // Save new data
             mailshotData.Name = mailshot.Name;
             if (mailshotData.Content == null)
             {
@@ -156,9 +204,9 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             mailshotData.Draft = mailshot.Draft;
             mailshotData.UpdatedDate = DateTime.UtcNow;
-            mailshotData.TemplateId = mailshot.TemplateId;
-            mailshotData.FormatId = mailshot.FormatId;
-            mailshotData.ThemeId = mailshot.ThemeId;
+            mailshotData.FormatId = format.FormatId;
+            mailshotData.TemplateId = template.TemplateId;
+            mailshotData.ThemeId = theme.ThemeId;
 
             _mailshotsService.SaveMailshot(mailshotData);
 
@@ -174,23 +222,27 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         [HttpGet]
         public HttpResponseMessage GetProofPdf(Guid id)
         {
+            // Confirm the user is logged in
             var authResult = Authenticate();
             if (authResult != null)
             {
                 return authResult;
             }
 
+            // Confirm that mailshot exists
             var mailshot = _mailshotsService.GetMailshot(id);
             if (mailshot == null)
             {
                 return MailshotNotFound();
             }
 
+            // Confirm that the user has access to the mailshot
             if (mailshot.UserId != _loggedInMember.Id)
             {
                 return MailshotForbidden();
             }
 
+            // Check for the proof PDF
             HttpResponseMessage result;
 
             switch (mailshot.ProofPdfStatus)
@@ -218,27 +270,72 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         [HttpDelete]
         public HttpResponseMessage Delete(Guid id)
         {
+            // Confirm the user is logged in
             var authResult = Authenticate();
             if (authResult != null)
             {
                 return authResult;
             }
 
+            // Confirm that mailshot exists
             var mailshot = _mailshotsService.GetMailshot(id);
             if (mailshot == null)
             {
                 return MailshotNotFound();
             }
 
+            // Confirm that the user has access to the mailshot
             if (mailshot.UserId != _loggedInMember.Id)
             {
                 return MailshotForbidden();
             }
 
+            // Delete the mailshot
             _mailshotsService.Delete(mailshot);
 
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
+
+        private HttpResponseMessage ConfirmJsonContentIsCorrect(string content, out IFormat format, out ITemplate template, out ITheme theme)
+        {
+            format = null;
+            template = null;
+            theme = null;
+
+            // Confirm that the JSON content is correct
+            var parsedContent = JsonConvert.DeserializeObject<MailshotEditorContent>(content);
+            if (parsedContent == null || parsedContent.Elements == null)
+            {
+                return ErrorMessage(HttpStatusCode.BadRequest, "The JSON content is incorrect.");
+            }
+
+            // Confirm that the selected Formats exist
+            format = _settingsService.GetFormatByJsonIndex(parsedContent.FormatId);
+            template = _settingsService.GetTemplateByJsonIndex(parsedContent.TemplateId, parsedContent.FormatId);
+            theme = _settingsService.GetThemeByJsonIndex(parsedContent.ThemeId);
+            if (format == null)
+            {
+                return ErrorMessage(HttpStatusCode.BadRequest, "The specified format does not exist.");
+            }
+
+            if (template == null)
+            {
+                return ErrorMessage(HttpStatusCode.BadRequest, "The specified template does not exist.");
+            }
+
+            if (template.FormatUmbracoPageId != format.UmbracoPageId)
+            {
+                return ErrorMessage(HttpStatusCode.BadRequest, "The selected template does not belong to the selected format.");
+            }
+
+            if (theme == null)
+            {
+                return ErrorMessage(HttpStatusCode.BadRequest, "The specified theme does not exist.");
+            }
+
+            return null;
+        }
+
 
         private HttpResponseMessage MailshotNotFound()
         {

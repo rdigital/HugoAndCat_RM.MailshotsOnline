@@ -16,6 +16,7 @@ using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using RM.MailshotsOnline.Entities.PageModels.Settings;
+using System.Configuration;
 
 namespace SparqTemp
 {
@@ -41,9 +42,9 @@ namespace SparqTemp
             var content = mailshotProcessor.GetXmlAndXslForMailshot(mailshot);
 
             //TODO: Throw all of this away - will be replaced with the queue!
-            var sparqServer = CloudConfigurationManager.GetSetting("SparqServiceUrl");
-            var sparqUsername = CloudConfigurationManager.GetSetting("SparqServiceUsername");
-            var sparqPassword = CloudConfigurationManager.GetSetting("SparqServicePassword");
+            var sparqServer = GetSetting("SparqServiceUrl");
+            var sparqUsername = GetSetting("SparqServiceUsername");
+            var sparqPassword = GetSetting("SparqServicePassword");
             var sparqRenderer = new SparqRenderJob.SparqRenderJob(sparqServer, sparqUsername, sparqPassword);
             SparqJob job = new SparqJob() { priority = SparqRenderJob.Common.Enums.SparqPriorityEnum.MEDIUM, systemId = "http://www.hugoandcat.com/data/" };
 
@@ -59,8 +60,8 @@ namespace SparqTemp
                 if (pdfBytes != null && pdfBytes.Length > 0)
                 {
                     // Save PDF to blob storage
-                    var blobAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("SparqBlobStorage"));
-                    var containerName = CloudConfigurationManager.GetSetting("SparqBlobContainer");
+                    var blobAccount = CloudStorageAccount.Parse(GetSetting("SparqBlobStorage"));
+                    var containerName = GetSetting("SparqBlobContainer");
 
                     // create Blob Client and return reference to the container
                     CloudBlobClient blobClient = blobAccount.CreateCloudBlobClient();
@@ -75,7 +76,7 @@ namespace SparqTemp
                         container.SetPermissions(permissions);
                     }
 
-                    var blobFilename = string.Format("{0}.pdf", mailshot.MailshotId.ToString("D"));
+                    var blobFilename = string.Format("{0}/{1:yyyyMMddHHmmssfff}.pdf", mailshot.MailshotId.ToString("D"), DateTime.UtcNow);
                     var blobMediaType = "application/pdf";
 
                     // Retrieve reference to a blob
@@ -131,6 +132,11 @@ namespace SparqTemp
             {
                 return JobReady(jobId, renderer);
             }
+        }
+
+        private string GetSetting(string key)
+        {
+            return CloudConfigurationManager.GetSetting(key) ?? ConfigurationManager.AppSettings[key];
         }
     }
 }
