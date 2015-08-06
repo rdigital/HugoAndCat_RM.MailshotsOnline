@@ -21,7 +21,7 @@ namespace RM.MailshotsOnline.Data.Services
 
         public IEnumerable<IMailshot> GetAllMailshots()
         {
-            return _context.Mailshots.AsEnumerable();
+            return _context.Mailshots.OrderBy(m => m.Name).AsEnumerable();
         }
 
         public IMailshot GetMailshot(Guid mailshotId)
@@ -38,11 +38,11 @@ namespace RM.MailshotsOnline.Data.Services
         {
             if (!draftOnly)
             {
-                return _context.Mailshots.Where(m => m.UserId == userId);
+                return _context.Mailshots.Where(m => m.UserId == userId).OrderBy(m => m.Name);
             }
             else
             {
-                return _context.Mailshots.Where(m => m.UserId == userId && m.Draft == true);
+                return _context.Mailshots.Where(m => m.UserId == userId && m.Draft == true).OrderBy(m => m.Name);
             }
         }
 

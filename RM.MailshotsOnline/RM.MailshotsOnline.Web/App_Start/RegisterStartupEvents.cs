@@ -20,21 +20,12 @@ namespace RM.MailshotsOnline.Web.App_Start
     {
         private IMailshotSettingsService _settingsService;
 
-        //public RegisterStartupEvents(IMailshotSettingsService settingsService) : base()
-        //{
-        //    _settingsService = settingsService;
-        //}
-
         /// <summary>
         /// Runs immediately after the Application Start for Umbraco.  Register new events here
         /// </summary>
         /// <see cref="https://our.umbraco.org/Documentation/Reference/Events-v6/Application-Startup"/>
         protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
-            base.ApplicationStarted(umbracoApplication, applicationContext);
-            var dbMigrator = new DbMigrator(new Configuration());
-            dbMigrator.Update();
-
             ContentService.Created += ContentService_Created;
             ContentService.Saving += ContentService_Saving;
             ContentService.Saved += ContentService_Saved;
