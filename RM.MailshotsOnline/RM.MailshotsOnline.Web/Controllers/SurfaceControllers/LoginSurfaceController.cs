@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using RM.MailshotsOnline.Data.Services;
 using RM.MailshotsOnline.Entities.PageModels;
 using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.Web.Extensions;
@@ -37,16 +36,21 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return CurrentUmbracoPage();
             }
 
-            if (Members.Login(model.Email, model.Password))
-            {
-                // we're logged in
-                var returnUrl = Request.QueryString["ReturnUrl"];
-                if (!string.IsNullOrEmpty(returnUrl))
-                {
-                    return Redirect(returnUrl);
-                }
+            var member = Services.MemberService.GetByEmail(model.Email);
 
-                return Redirect("/");
+            if (member != null)
+            {
+                if (Members.Login(member.Username, model.Password))
+                {
+                    // we're logged in
+                    var returnUrl = Request.QueryString["ReturnUrl"];
+                    if (!string.IsNullOrEmpty(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+
+                    return Redirect("/");
+                }
             }
 
             TempData[BadLoginFlag] = true;

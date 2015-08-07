@@ -51,7 +51,7 @@ namespace RM.MailshotsOnline.Data.Services
                 return null;
             }
 
-            var umbracoMember = _umbracoMemberService.CreateMemberWithIdentity(member.EmailAddress, member.EmailAddress,
+            var umbracoMember = _umbracoMemberService.CreateMemberWithIdentity(Guid.NewGuid().ToString(), member.EmailAddress,
                 member.EmailAddress, "Member");
 
             umbracoMember = umbracoMember.UpdateValues(member);

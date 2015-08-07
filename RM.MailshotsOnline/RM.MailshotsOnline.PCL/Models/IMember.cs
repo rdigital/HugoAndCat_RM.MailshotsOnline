@@ -9,6 +9,8 @@ namespace RM.MailshotsOnline.PCL.Models
     {
         int Id { get; set; }
 
+        string Username { get; set; }
+
         string EmailAddress { get; set; }
 
         string Title { get; set; }

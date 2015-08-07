@@ -103,7 +103,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return CurrentUmbracoPage();
             }
 
-            if (!Membership.Provider.ValidateUser(LoggedInMember.EmailAddress, model.CurrentPassword))
+            if (!Membership.Provider.ValidateUser(LoggedInMember.Username, model.CurrentPassword))
             {
                 ModelState.AddModelError("WrongPassword", "Your current password is incorrect. Please enter it again.");
                 return CurrentUmbracoPage();

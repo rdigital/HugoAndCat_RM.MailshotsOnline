@@ -28,6 +28,7 @@ namespace RM.MailshotsOnline.Data.Extensions
             return new Member()
             {
                 Id = umbracoMember.Id,
+                Username = umbracoMember.Username,
                 EmailAddress = umbracoMember.Email,
                 IsApproved = umbracoMember.IsApproved,
                 IsLockedOut = umbracoMember.IsLockedOut,
