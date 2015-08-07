@@ -9,7 +9,7 @@ using Umbraco.Web.Models;
 
 namespace RM.MailshotsOnline.Web.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class MailshotEditorController : GlassController
     {
         public MailshotEditorController(IUmbracoService umbracoService) 
