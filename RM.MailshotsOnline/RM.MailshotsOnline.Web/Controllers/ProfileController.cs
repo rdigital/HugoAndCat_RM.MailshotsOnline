@@ -12,6 +12,7 @@ using RM.MailshotsOnline.Web.Extensions;
 using umbraco;
 using Umbraco.Core.Services;
 using Umbraco.Web.Models;
+using Profile = RM.MailshotsOnline.Entities.PageModels.Profile.Profile;
 
 namespace RM.MailshotsOnline.Web.Controllers
 {
@@ -29,7 +30,7 @@ namespace RM.MailshotsOnline.Web.Controllers
         // GET: Profile
         public override ActionResult Index(RenderModel model)
         {
-            var pageModel = GetModel<Overview>();
+            var pageModel = GetModel<Profile>();
             pageModel.Member = _membershipService.GetCurrentMember();
 
             return View("~/Views/Profile/Overview.cshtml", pageModel);

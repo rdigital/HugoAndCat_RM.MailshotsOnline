@@ -10,15 +10,19 @@ using RM.MailshotsOnline.PCL.Models;
 namespace RM.MailshotsOnline.Entities.PageModels.Profile
 {
     [UmbracoType(AutoMap = true)]
-    public class Overview : EditProfileBasePage
+    public class Profile : EditProfileBasePage
     {
         public string MainTitle { get; set; }
 
         public string UpdatePersonalDetailsCtaText { get; set; }
 
+        public BasePage PrersonalDetailsPage { get; set; }
+
         public string OrganisationDetailsTitle { get; set; }
 
         public string UpdateOrganisationDetailsCtaText { get; set; }
+
+        public BasePage OrganisationDetailsPage { get; set; }
 
         public string EmailTitle { get; set; }
 
