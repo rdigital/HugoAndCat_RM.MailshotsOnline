@@ -4,10 +4,13 @@
     Layout = "~/Views/Master.cshtml";
 
     var fullName = string.Format("{0} {1} {2}", Model.Member.Title, Model.Member.FirstName, Model.Member.LastName);
-    var topAddressLine = string.Format("{0}, {1} {2}", 
-        Model.Member.FlatNumber, 
-        Model.Member.BuildingNumber, 
+    var topAddressLine = string.Format("{0}, {1} {2}",
+        Model.Member.FlatNumber,
+        Model.Member.BuildingNumber,
         Model.Member.BuildingName);
+
+    var personalDetailsPage = Umbraco.Content(Model.PersonalDetailsPage.Id);
+    var organisationDetailsPage = Umbraco.Content(Model.OrganisationDetailsPage.Id);
 
 }
 
@@ -23,18 +26,18 @@
             @Model.Member.EmailAddress
 
             <div>
-                @Model.UpdatePersonalDetailsCtaText
+                <a href="@personalDetailsPage.Url">@Model.UpdatePersonalDetailsCtaText</a>
             </div>
         </div>
         <div>
             <h2>@Model.OrganisationDetailsTitle</h2>
             <h3>@Model.Member.OrganisationName</h3>
             @topAddressLine<br/>
-            @Model.Member.Address1<br />
-            @Model.Member.Address2<br />
-            @Model.Member.City<br />
-            @Model.Member.Postcode<br />
-            @Model.Member.Country<br />
+            @Model.Member.Address1<br/>
+            @Model.Member.Address2<br/>
+            @Model.Member.City<br/>
+            @Model.Member.Postcode<br/>
+            @Model.Member.Country<br/>
 
 
             <h3>@Model.WorkNumberTitle</h3>
@@ -44,7 +47,7 @@
             @Model.Member.MobilePhoneNumber
 
             <div>
-                @Model.UpdateOrganisationDetailsCtaText
+                <a href="@organisationDetailsPage.Url">@Model.UpdateOrganisationDetailsCtaText</a>
             </div>
         </div>
     </div>

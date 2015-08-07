@@ -16,7 +16,7 @@ namespace RM.MailshotsOnline.Entities.PageModels.Profile
 
         public string UpdatePersonalDetailsCtaText { get; set; }
 
-        public BasePage PrersonalDetailsPage { get; set; }
+        public BasePage PersonalDetailsPage { get; set; }
 
         public string OrganisationDetailsTitle { get; set; }
 

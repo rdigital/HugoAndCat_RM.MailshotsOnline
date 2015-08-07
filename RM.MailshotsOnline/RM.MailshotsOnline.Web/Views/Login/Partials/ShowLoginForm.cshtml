@@ -2,6 +2,12 @@
 @model RM.MailshotsOnline.Entities.ViewModels.LoginViewModel
 @using System.Web.Mvc;
 
+@{
+
+    var umbracoHelper = new Umbraco.Web.UmbracoHelper(Umbraco.Web.UmbracoContext.Current);
+    var passwordResetUrl = umbracoHelper.Content(Model.PageModel.PasswordResetPage.Id).Url;
+}
+
 @if (ViewBag.ErrorMessage != null)
 {
     <div>@ViewBag.ErrorMessage</div>
@@ -19,9 +25,10 @@
         @Html.PasswordFor(m => m.Password)
     </div>
     <div>
-        <input type="submit" />
-    </div>
-    <div>
-        <a href="@Model.ResetPasswordUrl">@Model.PageModel.PasswordResetPage.Name</a>
+        <input type="submit" value="@Model.PageModel.LoginCtaText" />
     </div>
 }
+
+<div>
+    <a href="@passwordResetUrl">@Model.PageModel.PasswordResetCtaText</a>
+</div>
