@@ -4,18 +4,26 @@ body {
 /* EDITOR PROPERTIES - PLEASE DON'T DELETE THIS LINE TO AVOID DUPLICATE PROPERTIES */
 
 body {
-     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+     background-color: #EEE;
 }
 
 .wrapper {
       margin-left: auto; 
       margin-right: auto;
       width: 1280px;
+      background-color: #FFF;
+      padding-bottom: 20px;
 }
 
 div.home,
 div.content {
     padding-left: 20px;
+}
+
+div.rich-text,
+div.login {
+    /*padding-bottom: 20px;*/
 }
 
 .home img + div.rich-text {
@@ -24,6 +32,10 @@ div.content {
      padding-right: 20px;*/
      width: 1240px;
      z-index:100;
+}
+
+.home img {
+    margin-left:-20px;
 }
 
 header .header-navigation {
@@ -39,7 +51,7 @@ header nav.main-nav .header-navigation a {
 
 
 header nav.main-nav {
-     border: 1px solid black;
+    border: 1px solid black;
     background-color: #dc3232;
     color: #eee;
 }
@@ -98,5 +110,8 @@ label {
     color: red;
 }
 
+fieldset {
+    margin-right: 20px;
+}
 
 div.checkbox label { display: inline-block; padding-left: 10px;}

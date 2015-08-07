@@ -3192,7 +3192,8 @@
     <Content Include="uSync\DocumentType\ThemeFolder\def.config" />
     <Content Include="uSync\DocumentType\Theme\def.config" />
     <Content Include="uSync\StyleSheet\fountain.config" />
-    <Content Include="uSync\Template\Master\MemberAPITestPage\MemberAPITestPage.config" />    <Content Include="Views\Profile\Partials\EditOrganisationDetails.cshtml" />
+    <Content Include="uSync\Template\Master\MemberAPITestPage\MemberAPITestPage.config" />
+    <Content Include="Views\Profile\Partials\EditOrganisationDetails.cshtml" />
     <Content Include="Views\Profile\Partials\EditPersonalDetails.cshtml" />
     <Content Include="Views\Profile\Partials\ChangePassword.cshtml" />
     <Content Include="uSync\Template\MarketingPreferences\MarketingPreferences.config" />
@@ -3204,6 +3205,9 @@
     <Content Include="uSync\DocumentType\EditProfileBasePage\PersonalDetails\def.config" />
     <Content Include="uSync\DocumentType\EditProfileBasePage\def.config" />
     <Content Include="uSync\DocumentType\Basepage\Profile\def.config" />
+    <Content Include="Views\Register\Partials\RegisterComplete.cshtml" />
+    <Content Include="Views\Register\Partials\ShowRegisterForm.cshtml" />
+    <Content Include="Views\Register\Register.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
