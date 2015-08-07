@@ -14,6 +14,7 @@ namespace RM.MailshotsOnline.Entities.ViewModels
     {
         #region Part one
 
+        [EmailAddress(ErrorMessage = "Please enter a valid email address")]
         [Required(ErrorMessage = "Please enter a valid email address")]
         public string Email { get; set; }
 

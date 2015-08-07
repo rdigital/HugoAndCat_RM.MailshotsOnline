@@ -21,5 +21,7 @@ namespace RM.MailshotsOnline.Entities.PageModels.Profile
         public string ThirdPartyDisclaimer { get; set; }
 
         public string ThirdPartyTitle { get; set; }
+
+        public string SaveCtaText { get; set; }
     }
 }

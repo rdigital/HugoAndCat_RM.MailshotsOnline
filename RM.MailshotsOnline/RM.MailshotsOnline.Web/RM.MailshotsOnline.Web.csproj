@@ -3208,6 +3208,7 @@
     <Content Include="Views\Register\Partials\RegisterComplete.cshtml" />
     <Content Include="Views\Register\Partials\ShowRegisterForm.cshtml" />
     <Content Include="Views\Register\Register.cshtml" />
+    <Content Include="uSync\Template\Profile\Profile.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

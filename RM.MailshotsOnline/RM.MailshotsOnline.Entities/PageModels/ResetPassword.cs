@@ -44,6 +44,8 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         public string ResetConfirmNewPasswordLabel { get; set; }
 
+        public string ResetSavePasswordCtaText { get; set; }
+
         #endregion
 
 

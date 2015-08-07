@@ -70,9 +70,13 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         public string MobilePhoneNumberLabel { get; set; }
 
+        public string RegisterCtaText { get; set; }
+
         public string ThankYouLabel { get; set; }
 
         public string MyAccountCtaText { get; set; }
+
+        public Profile.Profile MyProfilePage { get; set; }
 
         public string RegisterCompleteEmail { get; set; }
 

@@ -20,6 +20,11 @@ namespace RM.MailshotsOnline.Web.Controllers
         // GET: Login
         public override ActionResult Index(RenderModel model)
         {
+            if (Umbraco.MemberIsLoggedOn())
+            {
+                return Redirect("/");
+            }
+
             var loginPageModel = GetModel<Login>();
 
             return View("~/Views/Login/Login.cshtml", loginPageModel);

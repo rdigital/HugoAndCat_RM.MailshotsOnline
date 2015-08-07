@@ -14,5 +14,11 @@ namespace RM.MailshotsOnline.Web.Extensions
         {
             return umbracoHelper.NiceUrl(basePage.Id);
         }
+
+        public static string Url(this BasePage basePage)
+        {
+            var helper = new UmbracoHelper(UmbracoContext.Current);
+            return Url(basePage, helper);
+        }
     }
 }
