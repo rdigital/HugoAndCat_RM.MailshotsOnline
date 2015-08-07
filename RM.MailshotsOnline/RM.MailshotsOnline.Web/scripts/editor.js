@@ -49,7 +49,7 @@ function CreatePdf(mailshotId) {
     });
 }
 
-function HandleError(response) {
+function HandleError(response, callback) {
     console.log(response);
     $('#pdfButtonContainer').show();
     $('#pdfLoading').hide();
@@ -64,6 +64,9 @@ function HandleError(response) {
         }
     }
     alert(errorMessage);
+    if (typeof (callback) != "undefined") {
+        callback();
+    }
 }
 
 function SaveNewMailshot() {
@@ -88,12 +91,16 @@ function SaveNewMailshot() {
             });
         },
         statusCode: {
-            400: function (response) { HandleError(response); },
-            401: function (response) { HandleError(response); },
-            403: function (response) { HandleError(response); },
-            404: function (response) { HandleError(response); }
+            400: function (response) { HandleError(response, function() {ReEnableSaveButton();}); },
+            401: function (response) { HandleError(response, function() {ReEnableSaveButton();}); },
+            403: function (response) { HandleError(response, function() {ReEnableSaveButton();}); },
+            404: function (response) { HandleError(response, function() {ReEnableSaveButton();}); }
         }
     })
+}
+
+function ReEnableSaveButton() {
+    $('#save').removeAttr('disabled');
 }
 
 function UpdateMailshot(mailshotId) {
@@ -118,10 +125,10 @@ function UpdateMailshot(mailshotId) {
             });
         },
         statusCode: {
-            400: function (response) { HandleError(response); },
-            401: function (response) { HandleError(response); },
-            403: function (response) { HandleError(response); },
-            404: function (response) { HandleError(response); }
+            400: function (response) { HandleError(response, function() {ReEnableSaveButton();}); },
+            401: function (response) { HandleError(response, function() {ReEnableSaveButton();}); },
+            403: function (response) { HandleError(response, function() {ReEnableSaveButton();}); },
+            404: function (response) { HandleError(response, function() {ReEnableSaveButton();}); }
         }
     })
 }
@@ -181,27 +188,32 @@ function RefreshMailshots(callback) {
         url: '/Umbraco/Api/Mailshots/GetAll/',
         success: function (data) {
             $mailshotList.html('');
-            for (var i = 0; i < data.length; i++) {
-                var mailshot = data[i];
-                var listItem = $(document.createElement('li'));
-                var title = $(document.createElement('span')).text(mailshot.Name);
-                var editLink = $(document.createElement('a')).attr('href', '#/open/' + mailshot.MailshotId).attr('class', 'openLink').text('Open').data('id', mailshot.MailshotId).on('click', function (event) {
-                    event.preventDefault();
-                    LoadMailshot($(this).data('id'));
-                });
-                var deleteLink = $(document.createElement('a')).attr('href', '#/delete/' + mailshot.MailshotId).attr('class', 'deleteLink').text('Delete').data('id', mailshot.MailshotId).on('click', function (event) {
-                    event.preventDefault();
-                    DeleteMailshot($(this).data('id'));
-                });
-                listItem.append(title);
-                listItem.append(editLink);
-                listItem.append(deleteLink);
-                $mailshotList.append(listItem);
+            if (data.length == 0) {
+                $mailshotList.html('<li>You currently have no saved mailshots</li>')
+            }
+            else {
+                for (var i = 0; i < data.length; i++) {
+                    var mailshot = data[i];
+                    var listItem = $(document.createElement('li'));
+                    var title = $(document.createElement('span')).text(mailshot.Name);
+                    var editLink = $(document.createElement('a')).attr('href', '#/open/' + mailshot.MailshotId).attr('class', 'openLink').text('Open').data('id', mailshot.MailshotId).on('click', function (event) {
+                        event.preventDefault();
+                        LoadMailshot($(this).data('id'));
+                    });
+                    var deleteLink = $(document.createElement('a')).attr('href', '#/delete/' + mailshot.MailshotId).attr('class', 'deleteLink').text('Delete').data('id', mailshot.MailshotId).on('click', function (event) {
+                        event.preventDefault();
+                        DeleteMailshot($(this).data('id'));
+                    });
+                    listItem.append(title);
+                    listItem.append(editLink);
+                    listItem.append(deleteLink);
+                    $mailshotList.append(listItem);
+                }
             }
             callback();
         },
         statusCode: {
-            401: function () { $mailshotList.html(''); }
+            401: function () { $mailshotList.html('<li>No mailshots because user is not logged in.</li>'); }
         }
     });
 }
