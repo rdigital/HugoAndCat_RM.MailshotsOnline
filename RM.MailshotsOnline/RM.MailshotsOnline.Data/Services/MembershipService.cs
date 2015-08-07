@@ -1,24 +1,20 @@
-﻿using RM.MailshotsOnline.Data.Extensions;
-using RM.MailshotsOnline.Entities.MemberModels;
-using RM.MailshotsOnline.PCL.Models;
-using RM.MailshotsOnline.PCL.Services;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Configuration;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
-using RM.MailshotsOnline.Data.Migrations;
-using Umbraco.Core.Persistence.Querying;
+using System.Web.Security;
+using RM.MailshotsOnline.Data.Extensions;
+using RM.MailshotsOnline.PCL.Models;
+using RM.MailshotsOnline.PCL.Services;
+using Umbraco.Core;
 using Umbraco.Core.Services;
 
 namespace RM.MailshotsOnline.Data.Services
 {
     public class MembershipService : IMembershipService
     {
-        private readonly IMemberService _umbracoMemberService = Umbraco.Core.ApplicationContext.Current.Services.MemberService;
+        private readonly IMemberService _umbracoMemberService = ApplicationContext.Current.Services.MemberService;
 
         /// <summary>
         /// Retrieve the domain entity for the current user.
@@ -31,7 +27,7 @@ namespace RM.MailshotsOnline.Data.Services
                 return null;
             }
 
-            var securityMember = System.Web.Security.Membership.GetUser();
+            var securityMember = Membership.GetUser();
 
             if (securityMember != null)
             {
@@ -127,7 +123,7 @@ namespace RM.MailshotsOnline.Data.Services
             var umbracoMember = _umbracoMemberService.GetMembersByPropertyValue("passwordResetToken",
                 token).FirstOrDefault();
 
-            return ChangePassword(umbracoMember, password, false);
+            return ChangePassword(umbracoMember, password, true);
         }
 
         /// <summary>
