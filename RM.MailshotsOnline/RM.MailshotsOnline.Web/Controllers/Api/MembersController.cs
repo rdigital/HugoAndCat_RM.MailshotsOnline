@@ -11,6 +11,7 @@ using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.Entities.MemberModels;
 using System.Web.Security;
 using System.Text;
+using RM.MailshotsOnline.PCL.Models;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
@@ -116,6 +117,22 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
         private void CreateMember(SimplifiedRegisterViewModel model)
         {
+            var rmContactOptions = new ContactOptions()
+            {
+                Email = model.AgreeToRoyalMailContact,
+                Phone = model.AgreeToRoyalMailContact,
+                Post = model.AgreeToRoyalMailContact,
+                SmsAndOther = model.AgreeToRoyalMailContact
+            };
+
+            var thirdPartyContactOptions = new ContactOptions()
+            {
+                Email = model.AgreeToThirdPartyContact,
+                Phone = model.AgreeToThirdPartyContact,
+                Post = model.AgreeToThirdPartyContact,
+                SmsAndOther = model.AgreeToThirdPartyContact
+            };
+            
             _membershipService.CreateMember(new Member()
             {
                 EmailAddress = model.Email,
@@ -123,7 +140,9 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 IsApproved = false,
-                IsLockedOut = false
+                IsLockedOut = false,
+                RoyalMailMarketingPreferences = rmContactOptions,
+                ThirdPartyMarketingPreferences = thirdPartyContactOptions
             }, model.Password);
         }
 
