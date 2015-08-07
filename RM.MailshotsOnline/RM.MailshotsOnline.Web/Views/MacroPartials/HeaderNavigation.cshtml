@@ -5,12 +5,13 @@
     var login = Umbraco.Content(headerNavSettings.loginPage);
     var logout = Umbraco.Content(headerNavSettings.logoutPage);
     var register = Umbraco.Content(headerNavSettings.registerPage);
+    var profile = Umbraco.Content(headerNavSettings.profilePage);
 }
 
 <div class="header-navigation">
     @if (Umbraco.MemberIsLoggedOn())
     {
-        <a href="@logout.Url">@logout.Name</a>
+        <a href="@profile.Url">@profile.Name</a> @:|<a href="@logout.Url">@logout.Name</a>
     }
     else
     {
