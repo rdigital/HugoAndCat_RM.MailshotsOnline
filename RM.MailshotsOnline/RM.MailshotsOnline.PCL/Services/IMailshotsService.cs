@@ -14,7 +14,7 @@ namespace RM.MailshotsOnline.PCL.Services
 
         IMailshot GetMailshot(Guid mailshotId);
 
-        void SaveMailshot(IMailshot mailshot);
+        IMailshot SaveMailshot(IMailshot mailshot);
 
         void Delete(IMailshot mailshot);
     }

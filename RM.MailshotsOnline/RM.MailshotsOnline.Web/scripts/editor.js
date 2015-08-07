@@ -9,57 +9,129 @@
         var mailshotId = $('#mailshotId').val();
         if (mailshotId.length) {
             // UPDATE MAILSHOT
-            $('#loadingIndicator').text('Updating ...').show();
-            $('#save').attr('disabled', 'disabled');
-            var mailshot = {
-                name: $('#name').val(),
-                contentText: $('#content').val(),
-                themeId: 1,
-                templateId: 1,
-                layoutId: 1,
-                draft: true
-            };
-            $.ajax({
-                url: '/Umbraco/Api/Mailshots/Update/' + mailshotId,
-                data: mailshot,
-                type: 'POST',
-                success: function (response) {
-                    //console.log(response);
-                    RefreshMailshots(function () {
-                        LoadMailshot(response.id);
-                    });
-                }
-            })
+            UpdateMailshot(mailshotId);
         }
         else {
             // SAVE NEW MAILSHOT
-            $('#loadingIndicator').text('Saving ...').show();
-            $('#save').attr('disabled', 'disabled');
-            var mailshot = {
-                name: $('#name').val(),
-                contentText: $('#content').val(),
-                themeId: 1,
-                templateId: 1,
-                layoutId: 1,
-                draft: true
-            };
-            $.ajax({
-                url: '/Umbraco/Api/Mailshots/Save',
-                data: mailshot,
-                type: 'POST',
-                success: function (response) {
-                    //console.log(response);
-                    RefreshMailshots(function () {
-                        LoadMailshot(response.id);
-                    });
-                }
-            })
+            SaveNewMailshot();
         }
+    });
+
+    $('#createPdf').on('click', function (event) {
+        event.preventDefault();
+        var mailshotId = $('#mailshotId').val();
+        CreatePdf(mailshotId);
     });
 
     RefreshMailshots(function () { });
 
 });
+
+function CreatePdf(mailshotId) {
+    $('#pdfButtonContainer').hide();
+    $('#pdfLoading').show();
+    $.ajax({
+        url: '/Umbraco/Api/ProofPdf/CreateProof/' + mailshotId,
+        type: 'POST',
+        success: function (createProofData) {
+            $('#pdfButtonContainer').show();
+            $('#pdfLoading').hide();
+            DisplayProofStatus(2);
+            LoadMailshot(mailshotId);
+        },
+        statusCode: {
+            400: function (response) { HandleError(response); },
+            401: function (response) { HandleError(response); },
+            403: function (response) { HandleError(response); },
+            404: function (response) { HandleError(response); },
+            409: function (response) { HandleError(response); }
+        }
+    });
+}
+
+function HandleError(response, callback) {
+    console.log(response);
+    $('#pdfButtonContainer').show();
+    $('#pdfLoading').hide();
+    $('#loadingIndicator').hide();
+    var errorMessage = response.responseJSON.error;
+    if (typeof (response.responseJSON.error) == "undefined") {
+        errorMessage = response.responseJSON.Message;
+    }
+    if (typeof(response.responseJSON.fieldErrors) != "undefined") {
+        for (i = 0; i < response.responseJSON.fieldErrors.length; i++) {
+            errorMessage += "\n" + response.responseJSON.fieldErrors[i];
+        }
+    }
+    alert(errorMessage);
+    if (typeof (callback) != "undefined") {
+        callback();
+    }
+}
+
+function SaveNewMailshot() {
+    $('#loadingIndicator').text('Saving ...').show();
+    $('#save').attr('disabled', 'disabled');
+    var mailshot = {
+        name: $('#name').val(),
+        contentText: $('#content').val(),
+        themeId: 1,
+        templateId: 1,
+        layoutId: 1,
+        draft: true
+    };
+    $.ajax({
+        url: '/Umbraco/Api/Mailshots/Save',
+        data: mailshot,
+        type: 'POST',
+        success: function (response) {
+            //console.log(response);
+            RefreshMailshots(function () {
+                LoadMailshot(response.id);
+            });
+        },
+        statusCode: {
+            400: function (response) { HandleError(response, function() {ReEnableSaveButton();}); },
+            401: function (response) { HandleError(response, function() {ReEnableSaveButton();}); },
+            403: function (response) { HandleError(response, function() {ReEnableSaveButton();}); },
+            404: function (response) { HandleError(response, function() {ReEnableSaveButton();}); }
+        }
+    })
+}
+
+function ReEnableSaveButton() {
+    $('#save').removeAttr('disabled');
+}
+
+function UpdateMailshot(mailshotId) {
+    $('#loadingIndicator').text('Updating ...').show();
+    $('#save').attr('disabled', 'disabled');
+    var mailshot = {
+        name: $('#name').val(),
+        contentText: $('#content').val(),
+        themeId: 1,
+        templateId: 1,
+        layoutId: 1,
+        draft: true
+    };
+    $.ajax({
+        url: '/Umbraco/Api/Mailshots/Update/' + mailshotId,
+        data: mailshot,
+        type: 'POST',
+        success: function (response) {
+            //console.log(response);
+            RefreshMailshots(function () {
+                LoadMailshot(mailshotId);
+            });
+        },
+        statusCode: {
+            400: function (response) { HandleError(response, function() {ReEnableSaveButton();}); },
+            401: function (response) { HandleError(response, function() {ReEnableSaveButton();}); },
+            403: function (response) { HandleError(response, function() {ReEnableSaveButton();}); },
+            404: function (response) { HandleError(response, function() {ReEnableSaveButton();}); }
+        }
+    })
+}
 
 function LoadMailshot(mailshotId)
 {
@@ -79,23 +151,15 @@ function LoadMailshot(mailshotId)
                 $('#pdfLink').attr('href', '#').hide();
             }
             $('#createPdf').removeAttr('disabled');
-            $('#createPdf').on('click', function (event) {
-                event.preventDefault();
-                $('#pdfButtonContainer').hide();
-                $('#pdfLoading').show();
-                $.ajax({
-                    url: '/Umbraco/Api/ProofPdf/CreateProof/' + data.MailshotId,
-                    type: 'POST',
-                    success: function (createProofData) {
-                        $('#pdfButtonContainer').show();
-                        $('#pdfLoading').hide();
-                        DisplayProofStatus(2);
-                        LoadMailshot(data.MailshotId);
-                    }
-                });
-            });
+            
             $('#loadingIndicator').hide();
             $('#save').removeAttr('disabled');
+        },
+        statusCode: {
+            400: function (response) { HandleError(response); },
+            401: function (response) { HandleError(response); },
+            403: function (response) { HandleError(response); },
+            404: function (response) { HandleError(response); }
         }
     })
 }
@@ -124,36 +188,50 @@ function RefreshMailshots(callback) {
         url: '/Umbraco/Api/Mailshots/GetAll/',
         success: function (data) {
             $mailshotList.html('');
-            for (var i = 0; i < data.length; i++) {
-                var mailshot = data[i];
-                var listItem = $(document.createElement('li'));
-                var title = $(document.createElement('span')).text(mailshot.Name);
-                var editLink = $(document.createElement('a')).attr('href', '#/open/' + mailshot.MailshotId).attr('class', 'openLink').text('Open').data('id', mailshot.MailshotId).on('click', function (event) {
-                    event.preventDefault();
-                    LoadMailshot($(this).data('id'));
-                });
-                var deleteLink = $(document.createElement('a')).attr('href', '#/delete/' + mailshot.MailshotId).attr('class', 'deleteLink').text('Delete').data('id', mailshot.MailshotId).on('click', function (event) {
-                    event.preventDefault();
-                    DeleteMailshot($(this).data('id'));
-                });
-                listItem.append(title);
-                listItem.append(editLink);
-                listItem.append(deleteLink);
-                $mailshotList.append(listItem);
-                callback();
+            if (data.length == 0) {
+                $mailshotList.html('<li>You currently have no saved mailshots</li>')
             }
+            else {
+                for (var i = 0; i < data.length; i++) {
+                    var mailshot = data[i];
+                    var listItem = $(document.createElement('li'));
+                    var title = $(document.createElement('span')).text(mailshot.Name);
+                    var editLink = $(document.createElement('a')).attr('href', '#/open/' + mailshot.MailshotId).attr('class', 'openLink').text('Open').data('id', mailshot.MailshotId).on('click', function (event) {
+                        event.preventDefault();
+                        LoadMailshot($(this).data('id'));
+                    });
+                    var deleteLink = $(document.createElement('a')).attr('href', '#/delete/' + mailshot.MailshotId).attr('class', 'deleteLink').text('Delete').data('id', mailshot.MailshotId).on('click', function (event) {
+                        event.preventDefault();
+                        DeleteMailshot($(this).data('id'));
+                    });
+                    listItem.append(title);
+                    listItem.append(editLink);
+                    listItem.append(deleteLink);
+                    $mailshotList.append(listItem);
+                }
+            }
+            callback();
+        },
+        statusCode: {
+            401: function () { $mailshotList.html('<li>No mailshots because user is not logged in.</li>'); }
         }
     });
 }
 
 function DeleteMailshot(mailshotId) {
     if (confirm("Do you really want to delete this mailshot?")) {
+        $('#existingMailshots').html('<li>Loading ...</li>');
         $.ajax({
             url: '/Umbraco/Api/Mailshots/Delete/' + mailshotId,
             type: 'DELETE',
-            success: function() {
-                RefreshMailshots();
+            success: function () {
                 ClearEditorForm();
+                RefreshMailshots();
+            },
+            statusCode: {
+                400: function (response) { HandleError(response); },
+                403: function (response) { HandleError(response); },
+                404: function (response) { HandleError(response); }
             }
         });
     }

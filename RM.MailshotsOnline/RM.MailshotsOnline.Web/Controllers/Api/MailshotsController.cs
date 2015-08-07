@@ -138,9 +138,9 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             mailshotData.TemplateId = template.TemplateId;
             mailshotData.ThemeId = theme.ThemeId;
 
-            _mailshotsService.SaveMailshot(mailshotData);
+            var savedMailshot = _mailshotsService.SaveMailshot(mailshotData);
 
-            return Request.CreateResponse(HttpStatusCode.Created, new { id = mailshotData.MailshotId });
+            return Request.CreateResponse(HttpStatusCode.Created, new { id = savedMailshot.MailshotId });
         }
 
         /// <summary>
@@ -303,7 +303,16 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             theme = null;
 
             // Confirm that the JSON content is correct
-            var parsedContent = JsonConvert.DeserializeObject<MailshotEditorContent>(content);
+            MailshotEditorContent parsedContent = null;
+            try
+            {
+                parsedContent = JsonConvert.DeserializeObject<MailshotEditorContent>(content);
+            }
+            catch (Exception ex)
+            {
+                // TODO: Log the exception
+            }
+
             if (parsedContent == null || parsedContent.Elements == null)
             {
                 return ErrorMessage(HttpStatusCode.BadRequest, "The JSON content is incorrect.");

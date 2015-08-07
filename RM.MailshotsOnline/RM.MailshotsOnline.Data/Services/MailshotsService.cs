@@ -46,7 +46,7 @@ namespace RM.MailshotsOnline.Data.Services
             }
         }
 
-        public void SaveMailshot(IMailshot mailshot)
+        public IMailshot SaveMailshot(IMailshot mailshot)
         {
             if (mailshot.MailshotId == Guid.Empty)
             {
@@ -54,6 +54,7 @@ namespace RM.MailshotsOnline.Data.Services
             }
 
             _context.SaveChanges();
+            return mailshot;
         }
 
         public void Delete(IMailshot mailshot)

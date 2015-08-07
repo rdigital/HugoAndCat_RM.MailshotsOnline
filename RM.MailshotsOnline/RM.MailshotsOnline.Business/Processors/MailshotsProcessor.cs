@@ -94,9 +94,7 @@ namespace RM.MailshotsOnline.Business.Processors
             {
                 return Tuple.Create<string, string>(finalXml, xslOverride);
             }
-
-            //TODO: Compile the XSL properly
-            //var finalXsl = File.ReadAllText("C:\\Projects\\RoyalMail\\MSOL\\RM.MailshotsOnline\\RM.MailshotsOnline\\XML\\Formats\\A4PageComplete.xsl");
+            
             return Tuple.Create<string, string>(finalXml, finalXsl);
         }
 
@@ -112,7 +110,12 @@ namespace RM.MailshotsOnline.Business.Processors
 
             foreach (var jsonElement in jsonContent.Elements)
             {
-                var content = jsonElement.Content ?? jsonElement.Src;
+                var content = jsonElement.Content;
+                if (!string.IsNullOrWhiteSpace(jsonElement.Src))
+                {
+                    content = jsonElement.Src;
+                }
+
                 if (!string.IsNullOrEmpty(content))
                 {
                     var contentElement = new XElement(jsonElement.Name.Replace(" ", string.Empty));
