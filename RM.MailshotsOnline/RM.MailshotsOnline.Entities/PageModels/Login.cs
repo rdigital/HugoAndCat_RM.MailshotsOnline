@@ -18,6 +18,8 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         public BasePage PasswordResetPage { get; set; }
 
+        public string PasswordResetCtaText { get; set; }
+
         public string BadLoginMessage { get; set; }
 
     }

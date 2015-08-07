@@ -96,9 +96,9 @@
     <Compile Include="PageModels\MailshotEditor.cs" />
     <Compile Include="PageModels\EditProfileBasePage.cs" />
     <Compile Include="PageModels\Profile\MarketingPreferences.cs" />
+    <Compile Include="PageModels\Profile\Profile.cs" />
     <Compile Include="PageModels\Profile\OrganisationDetails.cs" />
     <Compile Include="PageModels\Profile\PersonalDetails.cs" />
-    <Compile Include="PageModels\Profile\Profile.cs" />
     <Compile Include="PageModels\Register.cs" />
     <Compile Include="PageModels\ResetPassword.cs" />
     <Compile Include="PageModels\Settings\Format.cs" />

@@ -35,29 +35,5 @@ namespace RM.MailshotsOnline.Web.Controllers
 
             return View("~/Views/Profile/Overview.cshtml", pageModel);
         }
-
-        //GET: Profile/PersonalDetails
-        //public ActionResult PersonalDetails(RenderModel model)
-        //{
-        //    var pageModel = GetModel<PersonalDetails>();
-        //}
-
-        //GET: Profile/OrganisationDetais
-        public ActionResult OrganisationDetails(RenderModel model)
-        {
-            var pageModel = GetModel<OrganisationDetails>();
-            pageModel.Member = _membershipService.GetCurrentMember();
-
-            return View("~/Views/Profile/OrganisationDetails.cshtml", pageModel);
-        }
-
-        //GET: Profile/MarketingPreferences
-        public ActionResult MarketingPreferences(RenderModel model)
-        {
-            var pageModel = GetModel<MarketingPreferences>();
-            pageModel.Member = _membershipService.GetCurrentMember();
-
-            return View("~/Views/Profile/MarketingPreferences.cshtml", pageModel);
-        }
     }
 }

@@ -23,7 +23,6 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             }
 
             var viewModel = new LoginViewModel() { PageModel = model };
-            viewModel.ResetPasswordUrl = model.PasswordResetPage.Url(Umbraco);
 
             return PartialView("~/Views/Login/Partials/ShowLoginForm.cshtml", viewModel);
         }
