@@ -1,0 +1,118 @@
+﻿@model RM.MailshotsOnline.Entities.ViewModels.OrganisationDetailsViewModel
+
+@if (ViewBag.UpdateSuccess != null)
+{
+    if ((bool) ViewBag.UpdateSuccess)
+    {
+        @Model.PageModel.UpdateSuccessMessage;
+    }
+    else
+    {
+        @Model.PageModel.UpdateFailMessage
+    }
+}
+
+@Html.ValidationSummary()
+
+@using (Html.BeginUmbracoForm("EditOrganisationDetails", "ProfileSurface"))
+{
+    <h2>@Model.PageModel.MainTitle</h2>
+
+    <div>
+        @Model.PageModel.RequiredFieldLabel
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.OrganisationName)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.OrganisationName, Model.PageModel.OrganisationNameLabel)
+        @Html.EditorFor(m => m.OrganisationName)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.JobTitle)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.JobTitle, Model.PageModel.JobTitleLabel)
+        @Html.EditorFor(m => m.JobTitle)
+    </div>
+
+    <h2>@Model.PageModel.AddressTitle</h2>
+
+    <div>
+        @Html.ValidationMessageFor(m => m.FlatNumber)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.FlatNumber, Model.PageModel.FlatNumberLabel)
+        @Html.EditorFor(m => m.FlatNumber)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.BuildingNumber)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.BuildingNumber, Model.PageModel.BuildingNumberLabel)
+        @Html.EditorFor(m => m.BuildingNumber)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.BuildingName)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.BuildingName, Model.PageModel.BuildingNameLabel)
+        @Html.EditorFor(m => m.BuildingName)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.Address1)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Address1, Model.PageModel.Address1Label)
+        @Html.EditorFor(m => m.Address1)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.Address2)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Address2, Model.PageModel.Address2Label)
+        @Html.EditorFor(m => m.Address2)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.City)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.City, Model.PageModel.CityLabel)
+        @Html.EditorFor(m => m.City)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.Postcode)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Postcode, Model.PageModel.PostcodeLabel)
+        @Html.EditorFor(m => m.Postcode)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.Country)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Country, Model.PageModel.CountryLabel)
+        @Html.EditorFor(m => m.Country)
+    </div>
+
+    <h2>@Model.PageModel.TelephoneNumbersTitle</h2>
+
+    <div>
+        @Html.ValidationMessageFor(m => m.WorkPhoneNumber)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.WorkPhoneNumber, Model.PageModel.WorkNumberLabel)
+        @Html.EditorFor(m => m.WorkPhoneNumber)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.MobilePhoneNumber)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.MobilePhoneNumber, Model.PageModel.MobileNumberLabel)
+        @Html.EditorFor(m => m.MobilePhoneNumber)
+    </div>
+
+
+    <input type="submit" />
+
+}

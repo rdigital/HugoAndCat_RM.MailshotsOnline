@@ -1,7 +1,11 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<RM.MailshotsOnline.Entities.PageModels.Profile.OrganisationDetails>
+﻿@inherits Glass.Mapper.Umb.Web.Ui.GlassViewPage < RM.MailshotsOnline.Entities.PageModels.Profile.OrganisationDetails>
 
 @{
     Layout = "~/Views/Master.cshtml";
+    if (Model == null)
+    {
+        throw new HttpException(404, "Page not found");
+    }
 }
 
 <div class="content">

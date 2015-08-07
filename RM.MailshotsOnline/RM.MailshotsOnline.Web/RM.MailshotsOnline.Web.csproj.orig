@@ -83,6 +83,14 @@
     <Reference Include="CookComputing.XmlRpcV2">
       <HintPath>..\packages\xmlrpcnet.2.5.0\lib\net20\CookComputing.XmlRpcV2.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Examine, Version=0.1.65.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Examine.0.1.65.0\lib\Examine.dll</HintPath>
@@ -335,6 +343,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="css\fountain.css" />
     <Content Include="css\temp.css" />
     <Content Include="default.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -349,8 +358,10 @@
     <Content Include="package.json" />
     <Content Include="Gruntfile.js" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="scripts\editor.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
+    <Content Include="scripts\logintest.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="umbraco\Actions\delete.aspx" />
     <Content Include="umbraco\Actions\editContent.aspx" />
@@ -2839,21 +2850,29 @@
     </Compile>
     <Compile Include="App_Start\RegisterApplicationStartEvents.cs" />
     <Compile Include="App_Start\RegisterIoCEvents.cs" />
-    <Compile Include="App_Start\RegisterPageEvents.cs" />
+    <Compile Include="App_Start\RegisterStartupEvents.cs" />
     <Compile Include="App_Start\TelemetryConfig.cs" />
     <Compile Include="Constants\ContentConstants.cs" />
     <Compile Include="Controllers\Api\ApiBaseController.cs" />
     <Compile Include="Controllers\Api\MailshotsController.cs" />
+    <Compile Include="Controllers\Api\MembersController.cs" />
     <Compile Include="Controllers\Api\PostageController.cs" />
     <Compile Include="Controllers\Api\ProofPdfController.cs" />
     <Compile Include="Controllers\ContentPageController.cs" />
+    <Compile Include="Controllers\MailshotEditorController.cs" />
     <Compile Include="Controllers\GlassController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LogoutController.cs" />
+    <Compile Include="Controllers\MarketingPreferencesController.cs" />
+    <Compile Include="Controllers\OrganisationDetailsController.cs" />
+    <Compile Include="Controllers\PersonalDetailsController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\ResetPasswordController.cs" />
+    <Compile Include="Controllers\SurfaceControllers\BaseSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\LoginSurfaceController.cs" />
+    <Compile Include="Controllers\SurfaceControllers\ProfileSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\RegisterSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ResetPasswordSurfaceController.cs" />
     <Compile Include="Extensions\BasePageExtensions.cs" />
@@ -2863,6 +2882,8 @@
     <Compile Include="Plumbing\WindsorCompositionRoot.cs" />
     <Compile Include="Plumbing\WindsorControllerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\Providers\EncryptedMembershipProvider.cs" />
+    <Compile Include="Security\Providers\EncryptedMembershipExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
@@ -3049,6 +3070,7 @@
     <Content Include="Config\FileSystemProviders.config" />
     <Content Include="Config\FileSystemProviders.QA.config">
       <DependentUpon>Config\FileSystemProviders.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Config\feedProxy.config" />
     <Content Include="Config\ExamineSettings.config" />
@@ -3070,23 +3092,20 @@
     <Content Include="Views\Home.cshtml" />
     <Content Include="Views\ContentPage.cshtml" />
     <Content Include="Config\uSyncSettings.config" />
-<<<<<<< HEAD
-    <Content Include="Views\Login\Partials\ShowLoginForm.cshtml" />
-=======
-    <Content Include="Config\uSyncSettings.QA.config">
+    <Content Include="Config\uSyncSettings.Dev.config">
       <DependentUpon>Config\uSyncSettings.config</DependentUpon>
     </Content>
-    <Content Include="Views\Login\Partials\Login.cshtml" />
->>>>>>> 66d5051a8f76b5efec6ae89022b7f22e8ad16cbf
+    <Content Include="Config\uSyncSettings.QA.config">
+      <DependentUpon>Config\uSyncSettings.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Login\Partials\ShowLoginForm.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Register\Register.cshtml" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\Register\Partials\ShowRegisterForm.cshtml" />
-    <Content Include="Views\Register\Partials\RegisterComplete.cshtml" />
     <Content Include="Views\Logout\Logout.cshtml" />
     <Content Include="Views\MacroPartials\HeaderNavigation.cshtml" />
     <Content Include="Views\ResetPassword\RequestResetPassword.cshtml" />
@@ -3095,13 +3114,107 @@
     <Content Include="Views\ResetPassword\ResetPassword.cshtml" />
     <Content Include="Views\ResetPassword\Partials\ShowResetForm.cshtml" />
     <Content Include="Views\ResetPassword\Partials\ResetComplete.cshtml" />
+    <Content Include="uSync\DataTypeDefinition\Approved Color.config" />
+    <Content Include="uSync\DataTypeDefinition\Checkbox list.config" />
+    <Content Include="uSync\DataTypeDefinition\Content Picker.config" />
+    <Content Include="uSync\DataTypeDefinition\Date Picker with time.config" />
+    <Content Include="uSync\DataTypeDefinition\Date Picker.config" />
+    <Content Include="uSync\DataTypeDefinition\Dropdown multiple.config" />
+    <Content Include="uSync\DataTypeDefinition\Dropdown.config" />
+    <Content Include="uSync\DataTypeDefinition\Folder Browser.config" />
+    <Content Include="uSync\DataTypeDefinition\Format Picker.config" />
+    <Content Include="uSync\DataTypeDefinition\Image Cropper.config" />
+    <Content Include="uSync\DataTypeDefinition\Label.config" />
+    <Content Include="uSync\DataTypeDefinition\List View - Content.config" />
+    <Content Include="uSync\DataTypeDefinition\List View - Media.config" />
+    <Content Include="uSync\DataTypeDefinition\List View - Members.config" />
+    <Content Include="uSync\DataTypeDefinition\Media Picker.config" />
+    <Content Include="uSync\DataTypeDefinition\Member Picker.config" />
+    <Content Include="uSync\DataTypeDefinition\Multi Node Tree Picker.config" />
+    <Content Include="uSync\DataTypeDefinition\Multiple Media Picker.config" />
+    <Content Include="uSync\DataTypeDefinition\Numeric.config" />
+    <Content Include="uSync\DataTypeDefinition\Page Picker.config" />
+    <Content Include="uSync\DataTypeDefinition\Radiobox.config" />
+    <Content Include="uSync\DataTypeDefinition\Related Links.config" />
+    <Content Include="uSync\DataTypeDefinition\Richtext editor.config" />
+    <Content Include="uSync\DataTypeDefinition\Tags.config" />
+    <Content Include="uSync\DataTypeDefinition\Textbox multiple.config" />
+    <Content Include="uSync\DataTypeDefinition\Textstring.config" />
+    <Content Include="uSync\DataTypeDefinition\Title Dropdown.config" />
+    <Content Include="uSync\DataTypeDefinition\Truefalse.config" />
+    <Content Include="uSync\DataTypeDefinition\Upload.config" />
+    <Content Include="uSync\DocumentType\Basepage\def.config" />
+    <Content Include="uSync\DocumentType\Basepage\Login\def.config" />
+    <Content Include="uSync\DocumentType\Basepage\Logout\def.config" />
+    <Content Include="uSync\DocumentType\Basepage\Register\def.config" />
+    <Content Include="uSync\DocumentType\Basepage\ResetPasswordComplete\def.config" />
+    <Content Include="uSync\DocumentType\Basepage\ResetPassword\def.config" />
+    <Content Include="uSync\DocumentType\Basepage\ResetPassword\def.config.orig" />
+    <Content Include="uSync\DocumentType\Basepage\Validate\def.config" />
+    <Content Include="uSync\DocumentType\ContentPage\def.config" />
+    <Content Include="uSync\DocumentType\Formatfolder\def.config" />
+    <Content Include="uSync\DocumentType\Format\def.config" />
+    <Content Include="uSync\DocumentType\Home\def.config" />
+    <Content Include="uSync\DocumentType\Layoutfolder\def.config" />
+    <Content Include="uSync\DocumentType\Layout\def.config" />
+    <Content Include="uSync\DocumentType\PageCollection\def.config" />
+    <Content Include="uSync\DocumentType\SettingsFolder\def.config" />
+    <Content Include="uSync\Language\en-US.config" />
+    <Content Include="uSync\Macro\Breadcrumbs.config" />
+    <Content Include="uSync\Macro\HeaderNavigation.config" />
+    <Content Include="uSync\Macro\MainNavigation.config" />
+    <Content Include="uSync\MediaType\File\def.config" />
+    <Content Include="uSync\MediaType\Folder\def.config" />
+    <Content Include="uSync\MediaType\Image\def.config" />
+    <Content Include="uSync\StyleSheet\temp.config" />
+    <Content Include="uSync\Template\Login\Login.config" />
+    <Content Include="uSync\Template\Logout\Logout.config" />
+    <Content Include="uSync\Template\Master\ContentPage\ContentPage.config" />
+    <Content Include="uSync\Template\Master\Home\Home.config" />
+    <Content Include="uSync\Template\Master\Master.config" />
+    <Content Include="uSync\Template\PageCollection\PageCollection.config" />
+    <Content Include="uSync\Template\PageCollection\PageCollection.config.orig" />
+    <Content Include="uSync\Template\Register\Register.config" />
+    <Content Include="uSync\Template\ResetPasswordComplete\ResetPasswordComplete.config" />
+    <Content Include="uSync\Template\ResetPasswordComplete\ResetPasswordComplete.config.orig" />
+    <Content Include="uSync\Template\ResetPassword\ResetPassword.config" />
+    <Content Include="uSync\Template\ResetPassword\ResetPassword.config.orig" />
+    <Content Include="uSync\Template\Validate\Validate.config" />
+    <Content Include="Views\MailshotEditor.cshtml" />
+    <Content Include="uSync\Template\Master\MailshotEditor\MailshotEditor.config" />
+    <Content Include="uSync\DocumentType\Basepage\MailshotEditor\def.config" />
+    <Content Include="Views\Profile\Overview.cshtml" />
+    <Content Include="Views\MemberAPITestPage.cshtml" />
+    <Content Include="Views\Profile\OrganisationDetails.cshtml" />
+    <Content Include="Views\Profile\Partials\EditMarketingPreferences.cshtml" />
+    <Content Include="Views\Profile\PersonalDetails.cshtml" />
+    <Content Include="Views\Profile\MarketingPreferences.cshtml" />
+<<<<<<< HEAD
+    <Content Include="Views\Profile\Partials\EditOrganisationDetails.cshtml" />
+    <Content Include="Views\Profile\Partials\EditPersonalDetails.cshtml" />
+    <Content Include="Views\Profile\Partials\ChangePassword.cshtml" />
+    <Content Include="uSync\Template\MarketingPreferences\MarketingPreferences.config" />
+    <Content Include="uSync\Template\Overview\Overview.config" />
+    <Content Include="uSync\Template\PersonalDetails\PersonalDetails.config" />
+    <Content Include="uSync\Template\OrganisationDetails\OrganisationDetails.config" />
+    <Content Include="uSync\DocumentType\EditProfileBasePage\MarketingPreferences\def.config" />
+    <Content Include="uSync\DocumentType\EditProfileBasePage\OrganisationDetails\def.config" />
+    <Content Include="uSync\DocumentType\EditProfileBasePage\PersonalDetails\def.config" />
+    <Content Include="uSync\DocumentType\EditProfileBasePage\def.config" />
+    <Content Include="uSync\DocumentType\Basepage\Profile\def.config" />
+=======
+    <Content Include="uSync\DocumentType\ThemeFolder\def.config" />
+    <Content Include="uSync\DocumentType\Theme\def.config" />
+    <Content Include="uSync\StyleSheet\fountain.config" />
+    <Content Include="uSync\Template\Master\MemberAPITestPage\MemberAPITestPage.config" />
+>>>>>>> 2deb1e1d643e030a58d380ab72f5f156008bd8c1
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web.QA.config">
+    <Content Include="Web.QA.config">
       <DependentUpon>Web.config</DependentUpon>
-    </None>
+    </Content>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3119,16 +3232,13 @@
       <Project>{bb08379a-7cb5-4142-ba89-3b3e2356b354}</Project>
       <Name>RM.MailshotsOnline.PCL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SparqTemp\SparqTemp.csproj">
+      <Project>{4a814c19-9e31-4a66-8453-6f0ccc391ce1}</Project>
+      <Name>SparqTemp</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\LoginSurface\" />
-    <Folder Include="Views\Mailshot\" />
-    <Folder Include="Views\Postage\" />
-<<<<<<< HEAD
-    <Folder Include="Views\ResetPasswordSurface\" />
-=======
-    <Folder Include="Views\ProofPdf\" />
->>>>>>> 66d5051a8f76b5efec6ae89022b7f22e8ad16cbf
+    <Folder Include="uSync\Template\EditProfileBasePage\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

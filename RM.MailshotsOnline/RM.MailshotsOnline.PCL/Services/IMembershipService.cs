@@ -18,8 +18,8 @@ namespace RM.MailshotsOnline.PCL.Services
 
         IMember GetMemberByPasswordResetToken(string token);
 
-        void SetNewPassword(IMember member, string password);
+        bool SetNewPassword(IMember member, string password);
 
-        bool Save(IMember member);
+        bool Save(string emailAddress, IMember member);
     }
 }

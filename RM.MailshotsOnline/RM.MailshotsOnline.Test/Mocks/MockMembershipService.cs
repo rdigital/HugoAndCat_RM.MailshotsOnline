@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http.Routing.Constraints;
 using RM.MailshotsOnline.PCL.Models;
 
 namespace RM.MailshotsOnline.Test.Mocks
@@ -45,12 +46,12 @@ namespace RM.MailshotsOnline.Test.Mocks
             throw new NotImplementedException();
         }
 
-        public void SetNewPassword(IMember member, string password)
+        public bool SetNewPassword(IMember member, string password)
         {
             throw new NotImplementedException();
         }
 
-        public bool Save(IMember member)
+        public bool Save(string emailAddress, IMember member)
         {
             throw new NotImplementedException();
         }
