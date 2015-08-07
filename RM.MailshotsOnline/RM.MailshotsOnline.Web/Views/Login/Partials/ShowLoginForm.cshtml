@@ -1,5 +1,6 @@
 ﻿@using RM.MailshotsOnline.Web.Extensions
 @model RM.MailshotsOnline.Entities.ViewModels.LoginViewModel
+@using System.Web.Mvc;
 
 @if (ViewBag.ErrorMessage != null)
 {
@@ -10,16 +11,17 @@
 {
     @Html.ValidationSummary()
     <div>
-        <label for="Email">@Model.PageModel.EmailLabel</label>
+        @Html.LabelFor(m => m.Email, Model.PageModel.EmailLabel)
         @Html.EditorFor(m => m.Email)
     </div>
     <div>
-        <label for="Password">@Model.PageModel.PasswordLabel</label>
+        @Html.LabelFor(m => m.Password, Model.PageModel.PasswordLabel)
         @Html.PasswordFor(m => m.Password)
+    </div>
+    <div>
+        <input type="submit" />
     </div>
     <div>
         <a href="@Model.ResetPasswordUrl">@Model.PageModel.PasswordResetPage.Name</a>
     </div>
-
-    <input type = "submit" />
 }
