@@ -160,6 +160,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\UmbracoCms.Core.7.2.8\lib\Microsoft.ApplicationBlocks.Data.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=1.1.0.1899, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.ApplicationInsights.1.2.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.ApplicationInsights.Extensibility.DependencyCollector, Version=1.1.0.1909, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.1.1.0\lib\net45\Microsoft.ApplicationInsights.Extensibility.DependencyCollector.dll</HintPath>
       <Private>True</Private>
