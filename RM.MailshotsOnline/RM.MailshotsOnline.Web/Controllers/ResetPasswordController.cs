@@ -9,6 +9,7 @@ using RM.MailshotsOnline.Entities.PageModels;
 using Umbraco.Web.Models;
 using Umbraco.Web.Mvc;
 using RM.MailshotsOnline.PCL.Services;
+using HC.RM.Common.Azure.Extensions;
 
 namespace RM.MailshotsOnline.Web.Controllers
 {
@@ -40,7 +41,8 @@ namespace RM.MailshotsOnline.Web.Controllers
             }
 
             ViewBag.BadTokenMessage = pageModel.BadTokenMessage;
-            
+            telemetry.TraceInfo(this.GetType().Name, "Index", "Bad reset password token supplied to reset password page.");
+
             return View("~/Views/ResetPassword/RequestResetPassword.cshtml", pageModel);
         }
     }

@@ -9,12 +9,14 @@ using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using Umbraco.Core;
 using Umbraco.Core.Services;
+using Microsoft.ApplicationInsights;
 
 namespace RM.MailshotsOnline.Data.Services
 {
     public class MembershipService : IMembershipService
     {
         private readonly IMemberService _umbracoMemberService = ApplicationContext.Current.Services.MemberService;
+        private readonly TelemetryClient telemetry = new TelemetryClient();
 
         /// <summary>
         /// Retrieve the domain entity for the current user.
@@ -200,17 +202,27 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>Success</returns>
         public bool Save(string emailAddress, IMember member)
         {
-            var umbracoMember = _umbracoMemberService.GetByEmail(emailAddress);
-
-            if (umbracoMember != null)
+            bool success = false;
+            try
             {
-                umbracoMember = umbracoMember.UpdateValues(member);
-                _umbracoMemberService.Save(umbracoMember);
 
-                return true;
+
+                var umbracoMember = _umbracoMemberService.GetByEmail(emailAddress);
+
+                if (umbracoMember != null)
+                {
+                    umbracoMember = umbracoMember.UpdateValues(member);
+                    _umbracoMemberService.Save(umbracoMember);
+
+                    success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+
             }
 
-            return false;
+            return success;
         }
 
         private bool ChangePassword(Umbraco.Core.Models.IMember umbracoMember, string password, bool clearPasswordResetToken)

@@ -1,4 +1,5 @@
-﻿using RM.MailshotsOnline.Entities.MemberModels;
+﻿using Microsoft.ApplicationInsights;
+using RM.MailshotsOnline.Entities.MemberModels;
 using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using RM.MailshotsOnline.Web.Helpers;
@@ -20,6 +21,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
     {
         internal IMember LoggedInMember;
         internal readonly IMembershipService MembershipService;
+        internal readonly TelemetryClient telemetry = new TelemetryClient();
 
         public BaseSurfaceController(IMembershipService membershipService, UmbracoContext umbracoContext)
             : base(umbracoContext)

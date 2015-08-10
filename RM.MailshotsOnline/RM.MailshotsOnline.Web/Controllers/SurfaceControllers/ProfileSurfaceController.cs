@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Security;
-using Glass.Mapper.Umb;
+﻿using Glass.Mapper.Umb;
+using HC.RM.Common.Azure.Extensions;
 using log4net.Core;
 using RM.MailshotsOnline.Data.Extensions;
 using RM.MailshotsOnline.Entities.MemberModels;
@@ -12,6 +7,12 @@ using RM.MailshotsOnline.Entities.PageModels.Profile;
 using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Security;
 using Umbraco.Web.Models.ContentEditing;
 using Umbraco.Web.Mvc;
 using MarketingPreferences = RM.MailshotsOnline.Entities.PageModels.Profile.MarketingPreferences;
@@ -72,10 +73,12 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             if (MembershipService.Save(originalEmailAddress, LoggedInMember))
             {
+                telemetry.TraceInfo(this.GetType().Name, "EditPersonalDetails", "Personal details updated for user {0}.", LoggedInMember.Username);
                 TempData[UpdatedFlag] = true;
                 return CurrentUmbracoPage();
             }
 
+            telemetry.TraceWarn(this.GetType().Name, "EditPersonalDetails", "Personal details update failed for user {0}.", LoggedInMember.Username);
             TempData[UpdatedFlag] = false;
             return CurrentUmbracoPage();
         }
