@@ -26,62 +26,45 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         [HttpGet]
         public HttpResponseMessage GetImages()
         {
-            var results = _imageLibrary.GetImages("animals");
+            var results = _imageLibrary.GetImages();
+            var serializedResults = Serialize(results);
 
-            var concreteResults = results.Select(x => new LibraryImage() {Tags = x.GetPropertyValue("tags").ToString().Split(',')});
-
-            string serializedMedia = null;
-            try
-            {
-                serializedMedia = JsonConvert.SerializeObject(concreteResults, Formatting.Indented,
-                    new JsonSerializerSettings
-                    {
-                        PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                    });
-            }
-            catch
-            {
-                // error serlializing media items.
-            }
-
-            return Request.CreateResponse(HttpStatusCode.Accepted, serializedMedia);
+            return Request.CreateResponse(HttpStatusCode.Accepted, serializedResults);
         }
 
         [HttpGet]
-        public HttpResponseMessage Search()
+        public HttpResponseMessage GetSearchResults(string tag)
         {
-            var results = _imageLibrary.GetImages("animals");
+            var results = _imageLibrary.GetImages(tag);
+            var serializedResults = Serialize(results);
 
-            string serializedMedia = null;
-            try
-            {
-                serializedMedia = JsonConvert.SerializeObject(results);
-            }
-            catch
-            {
-                // error serlializing media items.
-            }
-
-            return Request.CreateResponse(HttpStatusCode.Accepted, serializedMedia);
+            return Request.CreateResponse(HttpStatusCode.Accepted, serializedResults);
         }
 
         [Authorize]
         [HttpGet]
-        public HttpResponseMessage GetImages(string username)
+        public HttpResponseMessage GetMyImages(string username)
         {
             var results = _imageLibrary.GetImages(_loggedInMember);
+            var serializedResults = Serialize(results);
 
-            string serializedMedia = null;
+            return Request.CreateResponse(HttpStatusCode.Accepted, serializedResults);
+
+        }
+
+        private static string Serialize(IEnumerable<LibraryImage> results)
+        {
+            string serializedResults = null;
             try
             {
-                serializedMedia = JsonConvert.SerializeObject(results);
+                serializedResults = JsonConvert.SerializeObject(results);
             }
             catch
             {
                 // error serlializing media items.
             }
 
-            return Request.CreateResponse(HttpStatusCode.Accepted, serializedMedia);
+            return serializedResults;
         }
     }
 }

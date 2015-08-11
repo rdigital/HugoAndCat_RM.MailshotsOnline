@@ -28,9 +28,9 @@ namespace RM.MailshotsOnline.Data.Services
         /// </summary>
         /// <param name="tag">The tag</param>
         /// <returns>The collection of images.</returns>
-        public IEnumerable<IPublishedContent> GetImages(string tag)
+        public IEnumerable<LibraryImage> GetImages(string tag)
         {
-            return _helper.TagQuery.GetMediaByTag(tag, ContentConstants.Settings.DefaultMediaLibraryTagGroup);
+            return Convert(_helper.TagQuery.GetMediaByTag(tag, ContentConstants.Settings.DefaultMediaLibraryTagGroup));
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace RM.MailshotsOnline.Data.Services
                         new LibraryImage()
                         {
                             Tags = x.GetPropertyValue("tags").ToString().Split(','),
-                            Src = x.GetPropertyValue("umbracoUpload").ToString()
+                            Src = x.GetPropertyValue("umbracoFile").ToString()
                         });
 
             return concreteContent;
