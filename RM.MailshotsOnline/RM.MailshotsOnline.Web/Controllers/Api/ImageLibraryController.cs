@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using Newtonsoft.Json;
 using RM.MailshotsOnline.Data.Services;
 using RM.MailshotsOnline.Entities.JsonModels;
+using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using Umbraco.Core.Models;
 using Umbraco.Web;
@@ -26,22 +27,19 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         }
 
         [HttpGet]
-        public JsonResult<IEnumerable<Image>> GetImages()
+        public HttpResponseMessage GetImages()
         {
             var results = _imageLibrary.GetImages();
-
-            return Json(results);
+            return Request.CreateResponse(HttpStatusCode.OK, results);
         }
 
         [HttpGet]
-        public JsonResult<IEnumerable<Image>> GetImages(string tag)
+        public HttpResponseMessage GetImages(string tag)
         {
             var results = _imageLibrary.GetImages(tag);
-
-            return Json(results);
+            return Request.CreateResponse(HttpStatusCode.OK, results);
         }
 
-        [Authorize]
         [HttpGet]
         public HttpResponseMessage GetMyImages()
         {
@@ -50,32 +48,16 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             {
                 return authResult;
             }
-            
-            var results = _imageLibrary.GetImages();
-            return Request.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(results));
+
+            var results = _imageLibrary.GetImages(_loggedInMember);
+            return Request.CreateResponse(HttpStatusCode.OK, results);
         }
 
         [HttpGet]
-        public JsonResult<IEnumerable<string>> GetTags()
+        public HttpResponseMessage GetTags()
         {
             var results = _imageLibrary.GetTags();
-
-            return Json(results);
-        }
-
-        private static string Serialize(IEnumerable<Image> results)
-        {
-            string serializedResults = null;
-            try
-            {
-                serializedResults = JsonConvert.SerializeObject(results);
-            }
-            catch
-            {
-                // todo: log exception
-            }
-
-            return serializedResults;
+            return Request.CreateResponse(HttpStatusCode.OK, results);
         }
     }
 }

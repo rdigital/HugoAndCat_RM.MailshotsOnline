@@ -42,7 +42,7 @@
     <Compile Include="Models\ICampaign.cs" />
     <Compile Include="Models\IContact.cs" />
     <Compile Include="Models\IDistributionList.cs" />
-    <Compile Include="Models\IPublicLibraryImage.cs" />
+    <Compile Include="Models\IImage.cs" />
     <Compile Include="Models\ITaggable.cs" />
     <Compile Include="Models\MailshotSettings\IFormat.cs" />
     <Compile Include="Models\IItem.cs" />

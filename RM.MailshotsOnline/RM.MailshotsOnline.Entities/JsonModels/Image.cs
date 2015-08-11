@@ -4,10 +4,11 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using RM.MailshotsOnline.PCL.Models;
 
 namespace RM.MailshotsOnline.Entities.JsonModels
 {
-    public class Image
+    public class Image :IImage
     {
         public string Src { get; set; }
 
