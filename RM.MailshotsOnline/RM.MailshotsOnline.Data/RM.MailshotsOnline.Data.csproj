@@ -73,6 +73,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\ContentConstants.cs" />
     <Compile Include="DAL\AzureConfiguration.cs" />
     <Compile Include="DAL\StorageContext.cs" />
     <Compile Include="Extensions\DataTypeExtensions.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\EmailService.cs" />
+    <Compile Include="Services\ImageLibraryService.cs" />
     <Compile Include="Services\MailshotSettingsService.cs" />
     <Compile Include="Services\MailshotsService.cs" />
     <Compile Include="Services\MembershipService.cs" />

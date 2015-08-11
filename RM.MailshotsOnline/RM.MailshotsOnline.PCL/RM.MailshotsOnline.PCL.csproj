@@ -42,6 +42,8 @@
     <Compile Include="Models\ICampaign.cs" />
     <Compile Include="Models\IContact.cs" />
     <Compile Include="Models\IDistributionList.cs" />
+    <Compile Include="Models\IPublicLibraryImage.cs" />
+    <Compile Include="Models\ITaggable.cs" />
     <Compile Include="Models\MailshotSettings\IFormat.cs" />
     <Compile Include="Models\IItem.cs" />
     <Compile Include="Models\IMailshot.cs" />
@@ -55,6 +57,7 @@
     <Compile Include="Models\MailshotSettings\ITheme.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IEmailService.cs" />
+    <Compile Include="Services\IImageLibraryService.cs" />
     <Compile Include="Services\IMailshotSettingsService.cs" />
     <Compile Include="Services\IMailshotsService.cs" />
     <Compile Include="Services\IMembershipService.cs" />

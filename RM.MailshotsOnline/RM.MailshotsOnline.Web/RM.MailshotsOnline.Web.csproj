@@ -2852,8 +2852,8 @@
     <Compile Include="App_Start\RegisterIoCEvents.cs" />
     <Compile Include="App_Start\RegisterStartupEvents.cs" />
     <Compile Include="App_Start\TelemetryConfig.cs" />
-    <Compile Include="Constants\ContentConstants.cs" />
     <Compile Include="Controllers\Api\ApiBaseController.cs" />
+    <Compile Include="Controllers\Api\ImageLibraryController.cs" />
     <Compile Include="Controllers\Api\MailshotsController.cs" />
     <Compile Include="Controllers\Api\MembersController.cs" />
     <Compile Include="Controllers\Api\PostageController.cs" />
@@ -3240,6 +3240,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="uSync\Template\EditProfileBasePage\" />
+    <Folder Include="Views\Images\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
