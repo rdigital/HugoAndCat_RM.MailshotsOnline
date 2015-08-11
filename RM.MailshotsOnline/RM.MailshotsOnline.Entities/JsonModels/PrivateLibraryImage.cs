@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RM.MailshotsOnline.Entities.MemberModels;
 
 namespace RM.MailshotsOnline.Entities.JsonModels
 {
-    public class LibraryImage
+    public class PrivateLibraryImage : Image
     {
-        public string Src { get; set; }
-
-        public IEnumerable<string> Tags { get; set; }
+        public string Username { get; set; }
     }
 }

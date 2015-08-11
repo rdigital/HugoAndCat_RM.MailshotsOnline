@@ -43,8 +43,14 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
         [Authorize]
         [HttpGet]
-        public HttpResponseMessage GetMyImages(string username)
+        public HttpResponseMessage GetMyImages()
         {
+            var authResult = Authenticate();
+            if (authResult != null)
+            {
+                return authResult;
+            }
+
             var results = _imageLibrary.GetImages(_loggedInMember);
             var serializedResults = Serialize(results);
 
@@ -52,7 +58,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
         }
 
-        private static string Serialize(IEnumerable<LibraryImage> results)
+        private static string Serialize(IEnumerable<Image> results)
         {
             string serializedResults = null;
             try

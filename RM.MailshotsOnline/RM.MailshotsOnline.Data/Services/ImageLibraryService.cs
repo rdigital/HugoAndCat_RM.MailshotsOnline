@@ -18,9 +18,9 @@ namespace RM.MailshotsOnline.Data.Services
         /// Get all images in the public library.
         /// </summary>
         /// <returns>The collection of images.</returns>
-        public IEnumerable<LibraryImage> GetImages()
+        public IEnumerable<Image> GetImages()
         {
-            return Convert(_helper.TagQuery.GetMediaByTagGroup(ContentConstants.Settings.DefaultMediaLibraryTagGroup));
+            return Convert(_helper.TagQuery.GetMediaByTagGroup(ContentConstants.Settings.DefaultMediaLibraryTagGroup), true);
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace RM.MailshotsOnline.Data.Services
         /// </summary>
         /// <param name="tag">The tag</param>
         /// <returns>The collection of images.</returns>
-        public IEnumerable<LibraryImage> GetImages(string tag)
+        public IEnumerable<Image> GetImages(string tag)
         {
             return Convert(_helper.TagQuery.GetMediaByTag(tag, ContentConstants.Settings.DefaultMediaLibraryTagGroup));
         }
@@ -38,27 +38,46 @@ namespace RM.MailshotsOnline.Data.Services
         /// </summary>
         /// <param name="member">The member.</param>
         /// <returns>The collection of images.</returns>
-        public IEnumerable<LibraryImage> GetImages(IMember member)
+        public IEnumerable<Image> GetImages(IMember member)
         {
             throw new NotImplementedException();
         }
 
-        private static IEnumerable<LibraryImage> Convert(IEnumerable<IPublishedContent> publishedContent)
+        private static IEnumerable<Image> Convert(IEnumerable<IPublishedContent> publishedContent, bool @private = false)
         {
             if (publishedContent == null)
             {
                 return null;
             }
 
-            var concreteContent = publishedContent.Select(
+            if (@private)
+            {
+                return publishedContent.Select(
                     x =>
-                        new LibraryImage()
+                        new PrivateLibraryImage()
                         {
-                            Tags = x.GetPropertyValue("tags").ToString().Split(','),
-                            Src = x.GetPropertyValue("umbracoFile").ToString()
-                        });
+                            Src = x.GetPropertyValue("umbracoFile").ToString(),
+                            Width = x.GetPropertyValue("umbracoWidth").ToString(),
+                            Height = x.GetPropertyValue("umbracoHeight").ToString(),
+                            Size = x.GetPropertyValue("umbracoBytes").ToString(),
+                            Type = x.GetPropertyValue("umbracoExtension").ToString(),
 
-            return concreteContent;
+                            Username = x.GetProperty("username").ToString()
+                        });
+            }
+
+            return publishedContent.Select(
+                x =>
+                    new PublicLibraryImage()
+                    {
+                        Src = x.GetPropertyValue("umbracoFile").ToString(),
+                        Width = x.GetPropertyValue("umbracoWidth").ToString(),
+                        Height = x.GetPropertyValue("umbracoHeight").ToString(),
+                        Size = x.GetPropertyValue("umbracoBytes").ToString(),
+                        Type = x.GetPropertyValue("umbracoExtension").ToString(),
+
+                        Tags = x.GetPropertyValue("tags").ToString().Split(',')
+                    });
         }
     }
 }
