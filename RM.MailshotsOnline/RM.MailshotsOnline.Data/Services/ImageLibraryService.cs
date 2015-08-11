@@ -15,12 +15,22 @@ namespace RM.MailshotsOnline.Data.Services
         private readonly UmbracoHelper _helper = new Umbraco.Web.UmbracoHelper(UmbracoContext.Current);
 
         /// <summary>
+        /// Get a list of all tags stored in Umbraco
+        /// </summary>
+        /// <returns>The list of all tags</returns>
+        public IEnumerable<string> GetTags()
+        {
+            return _helper.TagQuery.GetAllTags(ContentConstants.Settings.DefaultMediaLibraryTagGroup)
+                .Select(x => x.Text);
+        }
+
+        /// <summary>
         /// Get all images in the public library.
         /// </summary>
         /// <returns>The collection of images.</returns>
         public IEnumerable<Image> GetImages()
         {
-            return Convert(_helper.TagQuery.GetMediaByTagGroup(ContentConstants.Settings.DefaultMediaLibraryTagGroup), true);
+            return Convert(_helper.TagQuery.GetMediaByTagGroup(ContentConstants.Settings.DefaultMediaLibraryTagGroup));
         }
 
         /// <summary>

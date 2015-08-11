@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web;
+using System.Web.Http.Results;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using RM.MailshotsOnline.Data.Services;
@@ -11,6 +12,7 @@ using RM.MailshotsOnline.Entities.JsonModels;
 using RM.MailshotsOnline.PCL.Services;
 using Umbraco.Core.Models;
 using Umbraco.Web;
+using Umbraco.Web.Editors;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
@@ -24,21 +26,19 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         }
 
         [HttpGet]
-        public HttpResponseMessage GetImages()
+        public JsonResult<IEnumerable<Image>> GetImages()
         {
             var results = _imageLibrary.GetImages();
-            var serializedResults = Serialize(results);
 
-            return Request.CreateResponse(HttpStatusCode.Accepted, serializedResults);
+            return Json(results);
         }
 
         [HttpGet]
-        public HttpResponseMessage GetSearchResults(string tag)
+        public JsonResult<IEnumerable<Image>> GetImages(string tag)
         {
             var results = _imageLibrary.GetImages(tag);
-            var serializedResults = Serialize(results);
 
-            return Request.CreateResponse(HttpStatusCode.Accepted, serializedResults);
+            return Json(results);
         }
 
         [Authorize]
@@ -50,12 +50,17 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             {
                 return authResult;
             }
+            
+            var results = _imageLibrary.GetImages();
+            return Request.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(results));
+        }
 
-            var results = _imageLibrary.GetImages(_loggedInMember);
-            var serializedResults = Serialize(results);
+        [HttpGet]
+        public JsonResult<IEnumerable<string>> GetTags()
+        {
+            var results = _imageLibrary.GetTags();
 
-            return Request.CreateResponse(HttpStatusCode.Accepted, serializedResults);
-
+            return Json(results);
         }
 
         private static string Serialize(IEnumerable<Image> results)
@@ -67,7 +72,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
             catch
             {
-                // error serlializing media items.
+                // todo: log exception
             }
 
             return serializedResults;
