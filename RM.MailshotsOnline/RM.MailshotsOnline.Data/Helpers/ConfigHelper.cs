@@ -18,6 +18,21 @@ namespace RM.MailshotsOnline.Data.Helpers
             get { return GetConfigValue("FormatTemplateAlias", "Format"); }
         }
 
+        public static string HostedDomain
+        {
+            get { return GetConfigValue("HostedDomain"); }
+        }
+
+        public static string HostedPort
+        {
+            get { return GetConfigValue("HostedPort"); }
+        }
+
+        public static string HostedScheme
+        {
+            get { return GetConfigValue("HostedScheme"); }
+        }
+
         /// <summary>
         /// Content Type Alias for the Mailshot Template items
         /// </summary>

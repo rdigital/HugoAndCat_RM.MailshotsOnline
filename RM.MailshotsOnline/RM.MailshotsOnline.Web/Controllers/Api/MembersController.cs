@@ -70,7 +70,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             else
             {
                 //TODO: Get the error messages out of Umbraco somewhere
-                _telemetry.TraceError(this.GetType().Name, "Login", "Invalid login attempt with email address {0}.", login.Email);
+                _log.Error(this.GetType().Name, "Login", "Invalid login attempt with email address {0}.", login.Email);
                 return ErrorMessage(HttpStatusCode.BadRequest, "Login credentials incorrect");
             }
         }
@@ -115,7 +115,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             if (Members.GetByEmail(registration.Email) != null)
             {
-                _telemetry.TraceError(this.GetType().Name, "Register", "Attempt to register with email {0} which has already been used.", registration.Email);
+                _log.Error(this.GetType().Name, "Register", "Attempt to register with email {0} which has already been used.", registration.Email);
                 //TODO: Get the error messages out of Umbraco somewhere
                 return ErrorMessage(HttpStatusCode.Conflict, "The email address provided has already been used to register.");
             }
@@ -131,7 +131,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
             catch (Exception ex)
             {
-                _telemetry.TraceError(this.GetType().Name, "Register", "Attempt to register with email {0} resulted in an error: {1}", registration.Email, ex.Message);
+                _log.Error(this.GetType().Name, "Register", "Attempt to register with email {0} resulted in an error: {1}", registration.Email, ex.Message);
                 return ErrorMessage(HttpStatusCode.InternalServerError, "There was an error attempting to create your registration.");
             }
 

@@ -14,11 +14,17 @@
       <Setting name="AppInsightsKey" />
       <Setting name="StorageContextEF" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
-      <Setting name="SparqServiceUrl" />
+      <!--<Setting name="SparqServiceUrl" />
       <Setting name="SparqServiceUsername" />
       <Setting name="SparqServicePassword" />
       <Setting name="SparqBlobStorage" />
-      <Setting name="SparqBlobContainer" />
+      <Setting name="SparqBlobContainer" />-->
+      <Setting name="SparqServiceBusConnectionString" />
+      <Setting name="RenderQueueName" />
+      <Setting name="PrintQueueName" />
+      <Setting name="HostedDomain" />
+      <Setting name="HostedScheme" />
+      <Setting name="HostedPort" />
     </ConfigurationSettings>
     <Endpoints>
       <InputEndpoint name="HttpIn" protocol="http" port="80" />

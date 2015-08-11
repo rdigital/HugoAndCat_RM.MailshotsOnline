@@ -41,7 +41,7 @@ namespace RM.MailshotsOnline.Web.Controllers
             }
 
             ViewBag.BadTokenMessage = pageModel.BadTokenMessage;
-            telemetry.TraceInfo(this.GetType().Name, "Index", "Bad reset password token supplied to reset password page.");
+            log.Info(this.GetType().Name, "Index", "Bad reset password token supplied to reset password page.");
 
             return View("~/Views/ResetPassword/RequestResetPassword.cshtml", pageModel);
         }

@@ -8,14 +8,14 @@ using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.Web.Extensions;
 using Umbraco.Web.Mvc;
 using Microsoft.ApplicationInsights;
-using HC.RM.Common.Azure.Extensions;
+using RM.MailshotsOnline.Web.Helpers;
 
 namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 {
     public class LoginSurfaceController : SurfaceController
     {
         private const string BadLoginFlag = "BadLogin";
-        private readonly TelemetryClient _telemetry = new TelemetryClient();
+        private readonly TelemetryHelper _log = new TelemetryHelper();
 
         [ChildActionOnly]
         public ActionResult ShowLoginForm(Login model)
@@ -55,7 +55,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 }
                 else
                 {
-                    _telemetry.TraceWarn(this.GetType().Name, "LoginForm", "Bad login request for email {0}.", model.Email);
+                    _log.Warn(this.GetType().Name, "LoginForm", "Bad login request for email {0}.", model.Email);
                 }
             }
 

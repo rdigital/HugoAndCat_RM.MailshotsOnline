@@ -21,6 +21,7 @@ namespace RM.MailshotsOnline.Web.Controllers
         {
             // Fetch the Glass model of the home page
             var contentPageModel = GetModel<ContentPage>();
+
             return View("~/Views/ContentPage.cshtml", contentPageModel);
         }
 
@@ -28,6 +29,7 @@ namespace RM.MailshotsOnline.Web.Controllers
         {
             // Fetch the Glass model of the home page
             var contentPageModel = GetModel<ContentPage>();
+
             return View("~/Views/MemberAPITestPage.cshtml", contentPageModel);
         }
     }

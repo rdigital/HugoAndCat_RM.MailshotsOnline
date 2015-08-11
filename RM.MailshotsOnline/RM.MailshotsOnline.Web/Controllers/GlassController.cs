@@ -1,5 +1,5 @@
 ﻿using Glass.Mapper.Umb;
-using Microsoft.ApplicationInsights;
+using RM.MailshotsOnline.Web.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +19,7 @@ namespace RM.MailshotsOnline.Web.Controllers
         /// <summary>
         /// The Application Insights telemetry client
         /// </summary>
-        internal TelemetryClient telemetry = new TelemetryClient();
+        internal TelemetryHelper log = new TelemetryHelper();
 
         /// <summary>
         /// The Umbraco Glass service

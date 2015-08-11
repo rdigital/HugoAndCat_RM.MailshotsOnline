@@ -1,5 +1,7 @@
 ﻿using Glass.Mapper.Umb;
+using Microsoft.ApplicationInsights;
 using RM.MailshotsOnline.Entities.PageModels;
+using RM.MailshotsOnline.Web.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

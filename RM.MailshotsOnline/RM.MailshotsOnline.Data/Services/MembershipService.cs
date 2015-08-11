@@ -9,14 +9,12 @@ using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using Umbraco.Core;
 using Umbraco.Core.Services;
-using Microsoft.ApplicationInsights;
 
 namespace RM.MailshotsOnline.Data.Services
 {
     public class MembershipService : IMembershipService
     {
         private readonly IMemberService _umbracoMemberService = ApplicationContext.Current.Services.MemberService;
-        private readonly TelemetryClient telemetry = new TelemetryClient();
 
         /// <summary>
         /// Retrieve the domain entity for the current user.

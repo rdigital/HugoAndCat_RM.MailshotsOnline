@@ -40,10 +40,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{C1FE69
 		XML\Common\modules.xsl = XML\Common\modules.xsl
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparqTemp", "SparqTemp\SparqTemp.csproj", "{4A814C19-9E31-4A66-8453-6F0CCC391CE1}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C5A06D3E-AF18-4928-A6D3-404B22AB0ACB}"
 	ProjectSection(SolutionItems) = preProject
+		XML\Tests\A4Template-WithCropMarks.xslt = XML\Tests\A4Template-WithCropMarks.xslt
 		XML\Tests\A4Template1.xslt = XML\Tests\A4Template1.xslt
 		XML\Tests\dataxml.xml = XML\Tests\dataxml.xml
 		XML\Tests\PostcardTemplate1.xslt = XML\Tests\PostcardTemplate1.xslt
@@ -99,12 +98,6 @@ Global
 		{DCC80DB8-069C-4B0B-A955-B8486D795F6D}.QA|Any CPU.Build.0 = Release|Any CPU
 		{DCC80DB8-069C-4B0B-A955-B8486D795F6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DCC80DB8-069C-4B0B-A955-B8486D795F6D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4A814C19-9E31-4A66-8453-6F0CCC391CE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4A814C19-9E31-4A66-8453-6F0CCC391CE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4A814C19-9E31-4A66-8453-6F0CCC391CE1}.QA|Any CPU.ActiveCfg = Release|Any CPU
-		{4A814C19-9E31-4A66-8453-6F0CCC391CE1}.QA|Any CPU.Build.0 = Release|Any CPU
-		{4A814C19-9E31-4A66-8453-6F0CCC391CE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4A814C19-9E31-4A66-8453-6F0CCC391CE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

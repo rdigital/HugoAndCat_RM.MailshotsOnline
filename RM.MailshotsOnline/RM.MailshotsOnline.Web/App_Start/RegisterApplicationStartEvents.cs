@@ -1,4 +1,5 @@
-﻿using HC.RM.Common.AzureWeb.Attributes;
+﻿using HC.RM.Common.Azure;
+using HC.RM.Common.AzureWeb.Attributes;
 using RM.MailshotsOnline.Data.Migrations;
 using System.Data.Entity.Migrations;
 using System.Web.Mvc;
@@ -16,8 +17,14 @@ namespace RM.MailshotsOnline.Web.App_Start
             var dbMigrator = new DbMigrator(new Configuration());
             dbMigrator.Update();
 
-            // Application Insights error handling
-            GlobalFilters.Filters.Add(new AppInsightsHandleErrorAttribute());
+            if (Microsoft.WindowsAzure.ServiceRuntime.RoleEnvironment.IsAvailable)
+            {
+                // Set up telemetry
+                TelemetryConfig.SetupTelemetry();
+
+                // Application Insights error handling
+                GlobalFilters.Filters.Add(new AppInsightsHandleErrorAttribute());
+            }
         }
     }
 }

@@ -73,8 +73,10 @@
         console.log(response);
         grecaptcha.reset();
         var errorMessage = response.responseJSON.error;
-        for (i = 0; i < response.responseJSON.fieldErrors.length; i++) {
-            errorMessage += "\n" + response.responseJSON.fieldErrors[i];
+        if (response.responseJSON.fieldErrors) {
+            for (i = 0; i < response.responseJSON.fieldErrors.length; i++) {
+                errorMessage += "\n" + response.responseJSON.fieldErrors[i];
+            }
         }
         alert(errorMessage);
     }
