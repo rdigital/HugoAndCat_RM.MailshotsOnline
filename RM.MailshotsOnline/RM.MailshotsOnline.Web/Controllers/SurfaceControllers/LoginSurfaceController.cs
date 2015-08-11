@@ -15,7 +15,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
     public class LoginSurfaceController : SurfaceController
     {
         private const string BadLoginFlag = "BadLogin";
-        private readonly TelemetryClient telemetry = new TelemetryClient();
+        private readonly TelemetryClient _telemetry = new TelemetryClient();
 
         [ChildActionOnly]
         public ActionResult ShowLoginForm(Login model)
@@ -55,7 +55,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 }
                 else
                 {
-                    telemetry.TraceWarn(this.GetType().Name, "LoginForm", "Bad login request for email {0}.", model.Email);
+                    _telemetry.TraceWarn(this.GetType().Name, "LoginForm", "Bad login request for email {0}.", model.Email);
                 }
             }
 

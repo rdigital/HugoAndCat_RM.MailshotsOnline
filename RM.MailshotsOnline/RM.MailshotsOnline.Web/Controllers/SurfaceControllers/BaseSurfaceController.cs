@@ -21,7 +21,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
     {
         internal IMember LoggedInMember;
         internal readonly IMembershipService MembershipService;
-        internal readonly TelemetryClient telemetry = new TelemetryClient();
+        internal readonly TelemetryClient Telemetry = new TelemetryClient();
 
         public BaseSurfaceController(IMembershipService membershipService, UmbracoContext umbracoContext)
             : base(umbracoContext)

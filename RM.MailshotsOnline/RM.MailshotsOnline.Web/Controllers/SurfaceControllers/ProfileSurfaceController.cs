@@ -75,17 +75,17 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             {
                 if (MembershipService.Save(originalEmailAddress, LoggedInMember))
                 {
-                    telemetry.TraceInfo(this.GetType().Name, "EditPersonalDetails", "Personal details updated for user {0}.", LoggedInMember.Username);
+                    Telemetry.TraceInfo(this.GetType().Name, "EditPersonalDetails", "Personal details updated for user {0}.", LoggedInMember.Username);
                     TempData[UpdatedFlag] = true;
                     return CurrentUmbracoPage();
                 }
             }
             catch (Exception ex)
             {
-                telemetry.TraceError(this.GetType().Name, "EditPersonalDetails", "Error updating personal details for user {0}: {1}.", LoggedInMember.Username, ex.Message);
+                Telemetry.TraceError(this.GetType().Name, "EditPersonalDetails", "Error updating personal details for user {0}: {1}.", LoggedInMember.Username, ex.Message);
             }
 
-            telemetry.TraceWarn(this.GetType().Name, "EditPersonalDetails", "Personal details update failed for user {0}.", LoggedInMember.Username);
+            Telemetry.TraceWarn(this.GetType().Name, "EditPersonalDetails", "Personal details update failed for user {0}.", LoggedInMember.Username);
             TempData[UpdatedFlag] = false;
             return CurrentUmbracoPage();
         }
@@ -116,7 +116,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             if (!Membership.Provider.ValidateUser(LoggedInMember.Username, model.CurrentPassword))
             {
                 ModelState.AddModelError("WrongPassword", "Your current password is incorrect. Please enter it again.");
-                telemetry.TraceWarn(this.GetType().Name, "ChangePassword", "Incorrect password entered when user {0} attempted to change password.", LoggedInMember.Username);
+                Telemetry.TraceWarn(this.GetType().Name, "ChangePassword", "Incorrect password entered when user {0} attempted to change password.", LoggedInMember.Username);
                 return CurrentUmbracoPage();
             }
 
@@ -124,17 +124,17 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             {
                 if (MembershipService.SetNewPassword(LoggedInMember, model.NewPassword))
                 {
-                    telemetry.TraceInfo(this.GetType().Name, "ChangePassword", "Password changed for user {0}.", LoggedInMember.Username);
+                    Telemetry.TraceInfo(this.GetType().Name, "ChangePassword", "Password changed for user {0}.", LoggedInMember.Username);
                     TempData[UpdatedFlag] = true;
                     return CurrentUmbracoPage();
                 }
             }
             catch (Exception ex)
             {
-                telemetry.TraceError(this.GetType().Name, "ChangePassword", "Error changing password for user {0}: {1}.", LoggedInMember.Username, ex.Message);
+                Telemetry.TraceError(this.GetType().Name, "ChangePassword", "Error changing password for user {0}: {1}.", LoggedInMember.Username, ex.Message);
             }
 
-            telemetry.TraceWarn(this.GetType().Name, "ChangePassword", "Unable to change password for user {0}.", LoggedInMember.Username);
+            Telemetry.TraceWarn(this.GetType().Name, "ChangePassword", "Unable to change password for user {0}.", LoggedInMember.Username);
             TempData[UpdatedFlag] = false;
             return CurrentUmbracoPage();
         }
@@ -189,17 +189,17 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             {
                 if (MembershipService.Save(LoggedInMember.EmailAddress, LoggedInMember))
                 {
-                    telemetry.TraceInfo(this.GetType().Name, "EditOrganisationDetails", "Organisation details updated for user {0}.", LoggedInMember.Username);
+                    Telemetry.TraceInfo(this.GetType().Name, "EditOrganisationDetails", "Organisation details updated for user {0}.", LoggedInMember.Username);
                     TempData[UpdatedFlag] = true;
                     return CurrentUmbracoPage();
                 }
             }
             catch(Exception ex)
             {
-                telemetry.TraceError(this.GetType().Name, "EditOrganisationDetails", "Error when updating organisation details for user {0}: {1}", LoggedInMember.Username, ex.Message);
+                Telemetry.TraceError(this.GetType().Name, "EditOrganisationDetails", "Error when updating organisation details for user {0}: {1}", LoggedInMember.Username, ex.Message);
             }
 
-            telemetry.TraceWarn(this.GetType().Name, "EditOrganisationDetails", "Unable to update Organisation details for user {0}.", LoggedInMember.Username);
+            Telemetry.TraceWarn(this.GetType().Name, "EditOrganisationDetails", "Unable to update Organisation details for user {0}.", LoggedInMember.Username);
             TempData[UpdatedFlag] = false;
             return CurrentUmbracoPage();
         }
@@ -229,17 +229,17 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             {
                 if (MembershipService.Save(LoggedInMember.EmailAddress, LoggedInMember))
                 {
-                    telemetry.TraceInfo(this.GetType().Name, "EditMarketingPreferences", "Marketing prefernces updated for user {0}.", LoggedInMember.Username);
+                    Telemetry.TraceInfo(this.GetType().Name, "EditMarketingPreferences", "Marketing prefernces updated for user {0}.", LoggedInMember.Username);
                     TempData[UpdatedFlag] = true;
                     return CurrentUmbracoPage();
                 }
             }
             catch (Exception ex)
             {
-                telemetry.TraceError(this.GetType().Name, "EditMarketingPreferences", "Error when updating marketing preferences for user {0}: {1}", LoggedInMember.Username, ex.Message);
+                Telemetry.TraceError(this.GetType().Name, "EditMarketingPreferences", "Error when updating marketing preferences for user {0}: {1}", LoggedInMember.Username, ex.Message);
             }
 
-            telemetry.TraceWarn(this.GetType().Name, "EditMarketingPreferences", "Unable to update marketing preferences for user {0}.", LoggedInMember.Username);
+            Telemetry.TraceWarn(this.GetType().Name, "EditMarketingPreferences", "Unable to update marketing preferences for user {0}.", LoggedInMember.Username);
             TempData[UpdatedFlag] = false;
             return CurrentUmbracoPage();
         }

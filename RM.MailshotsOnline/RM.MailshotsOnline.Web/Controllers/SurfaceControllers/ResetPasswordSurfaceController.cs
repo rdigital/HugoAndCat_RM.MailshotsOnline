@@ -20,7 +20,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
     {
         private readonly IMembershipService _membershipService;
         private readonly IEmailService _emailService;
-        private readonly TelemetryClient telemetry = new TelemetryClient();
+        private readonly TelemetryClient _telemetry = new TelemetryClient();
 
         private const string RequestCompleteFlag = "RequestComplete";
         private const string ResetCompleteFlag = "ResetComplete";
@@ -74,7 +74,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                     model.RequestViewModel.Email, "Password reset",
                     emailBody.Replace("##resetLink", $"<a href='{resetLink}'>{resetLink}</a>"));
 
-                telemetry.TraceInfo(this.GetType().Name, "RequestRestForm", "Password reset email sent to {0}.", model.RequestViewModel.Email);
+                _telemetry.TraceInfo(this.GetType().Name, "RequestRestForm", "Password reset email sent to {0}.", model.RequestViewModel.Email);
             }
 
             TempData[RequestCompleteFlag] = true;
@@ -113,11 +113,11 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             if (success)
             {
                 TempData[ResetCompleteFlag] = true;
-                telemetry.TraceInfo(this.GetType().Name, "ResetForm", "Password reset successful using token {0}", Request.QueryString["token"]);
+                _telemetry.TraceInfo(this.GetType().Name, "ResetForm", "Password reset successful using token {0}", Request.QueryString["token"]);
             }
             else
             {
-                telemetry.TraceWarn(this.GetType().Name, "ResetForm", "Password reset failed for token {0}", Request.QueryString["token"]);
+                _telemetry.TraceWarn(this.GetType().Name, "ResetForm", "Password reset failed for token {0}", Request.QueryString["token"]);
             }
 
             return CurrentUmbracoPage();

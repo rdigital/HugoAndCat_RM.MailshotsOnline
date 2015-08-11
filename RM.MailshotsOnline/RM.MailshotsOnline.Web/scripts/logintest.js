@@ -2,8 +2,8 @@
 
     function CheckLoggedInStatus(callback) {
         $.ajax({
-            url: '/Umbraco/Api/Members/CurrentlyLoggedIn',
-            type: 'POST',
+            url: '/Umbraco/Api/Members/GetLoggedInStatus',
+            type: 'GET',
             success: function (data) {
                 var loggedInMessage = 'You are logged in';
                 if (data.loggedIn != true) {

@@ -1,4 +1,5 @@
-﻿using RM.MailshotsOnline.Entities.MemberModels;
+﻿using Microsoft.ApplicationInsights;
+using RM.MailshotsOnline.Entities.MemberModels;
 using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using RM.MailshotsOnline.Web.Helpers;
@@ -19,6 +20,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         internal IMember _loggedInMember;
 
         internal IMembershipService _membershipService;
+
+        internal readonly TelemetryClient _telemetry = new TelemetryClient();
 
         // Used for mocking
         public ApiBaseController(IMembershipService membershipService, UmbracoContext umbracoContext)
