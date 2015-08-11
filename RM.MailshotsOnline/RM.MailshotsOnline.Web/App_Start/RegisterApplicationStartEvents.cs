@@ -1,5 +1,8 @@
 ﻿using RM.MailshotsOnline.Data.Migrations;
 using System.Data.Entity.Migrations;
+using System.Diagnostics;
+using System.Linq;
+using System.Web.Http;
 using Umbraco.Core;
 
 namespace RM.MailshotsOnline.Web.App_Start
@@ -11,6 +14,7 @@ namespace RM.MailshotsOnline.Web.App_Start
             base.ApplicationStarted(umbracoApplication, applicationContext);
             var dbMigrator = new DbMigrator(new Configuration());
             dbMigrator.Update();
+            GlobalConfiguration.Configure(WebApiConfig.Register);
         }
     }
 }
