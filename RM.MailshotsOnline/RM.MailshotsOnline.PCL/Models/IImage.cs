@@ -2,7 +2,7 @@
 
 namespace RM.MailshotsOnline.PCL.Models
 {
-    public interface IImage
+    public interface IImage : IMedia
     {
         string Src { get; set; }
 

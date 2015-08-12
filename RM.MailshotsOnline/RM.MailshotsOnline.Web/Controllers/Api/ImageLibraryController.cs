@@ -19,11 +19,12 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 {
     public class ImageLibraryController : ApiBaseController
     {
-        private readonly ImageLibraryService _imageLibrary = new ImageLibraryService();
+        private readonly IImageLibraryService _imageLibrary;
 
         // GET: Images
-        public ImageLibraryController(IMembershipService membershipService) : base(membershipService)
+        public ImageLibraryController(IMembershipService membershipService, IImageLibraryService imageLibraryService) : base(membershipService)
         {
+            _imageLibrary = imageLibraryService;
         }
 
         [HttpGet]

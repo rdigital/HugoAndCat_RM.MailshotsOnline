@@ -2,19 +2,30 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Glass.Mapper.Umb;
 using RM.MailshotsOnline.Data.Constants;
 using RM.MailshotsOnline.Entities.JsonModels;
+using RM.MailshotsOnline.Entities.PageModels;
 using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using Umbraco.Core.Models;
+using Umbraco.Core.Persistence;
+using Umbraco.Core.Services;
 using Umbraco.Web;
 using IMember = RM.MailshotsOnline.PCL.Models.IMember;
+using UmbracoContext = Umbraco.Web.UmbracoContext;
 
 namespace RM.MailshotsOnline.Data.Services
 {
     public class ImageLibraryService : IImageLibraryService
     {
+        private readonly IUmbracoService _umbracoService;
         private readonly UmbracoHelper _helper = new Umbraco.Web.UmbracoHelper(UmbracoContext.Current);
+
+        public ImageLibraryService(IUmbracoService umbracoService)
+        {
+            _umbracoService = umbracoService;
+        }
 
         /// <summary>
         /// Get a list of all tags stored in Umbraco
@@ -52,16 +63,31 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>The collection of images.</returns>
         public IEnumerable<IImage> GetImages(IMember member)
         {
-            var media = _helper.ContentQuery.TypedMediaAtRoot();
-            media =
-                media.DescendantsOrSelf("PrivateLibraryImage")
-                    .Where(
-                        x =>
-                            x.HasProperty("username") &&
-                            x.GetPropertyValue("username").Equals(member.Username.ToString()));
+            var privateImages =
+                _helper.ContentQuery.TypedMedia(ContentConstants.MediaContent.PrivateMediaLibraryId)
+                    .DescendantsOrSelf(ContentConstants.MediaContent.PrivateLibraryImageMediaTypeAlias);
 
-            return Convert(media, true);
+            var memberPrivateImages =
+                privateImages.Where(x => x.GetPropertyValue("username").Equals(member.Username.ToString()));
+
+            return Convert(memberPrivateImages, true);
         }
+
+        public bool AddImage(IImage image, IMember member)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteImage(IImage image)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RenameImage(IImage image, string name)
+        {
+            throw new NotImplementedException();
+        }
+
 
         private static IEnumerable<IImage> Convert(IEnumerable<IPublishedContent> publishedContent, bool @private = false)
         {
@@ -81,6 +107,7 @@ namespace RM.MailshotsOnline.Data.Services
                             Height = x.GetPropertyValue("umbracoHeight")?.ToString(),
                             Size = x.GetPropertyValue("umbracoBytes")?.ToString(),
                             Type = x.GetPropertyValue("umbracoExtension")?.ToString(),
+                            Name = x.GetPropertyValue("umbracoName")?.ToString(),
 
                             Username = x.GetPropertyValue("username")?.ToString()
                         });
@@ -90,11 +117,12 @@ namespace RM.MailshotsOnline.Data.Services
                 x =>
                     new PublicLibraryImage()
                     {
-                        Src = x.GetPropertyValue("umbracoFile")?.ToString(),
+                        Src = x.GetPropertyValue("umbracoFile")?.ToString(),     
                         Width = x.GetPropertyValue("umbracoWidth")?.ToString(),
                         Height = x.GetPropertyValue("umbracoHeight")?.ToString(),
                         Size = x.GetPropertyValue("umbracoBytes")?.ToString(),
                         Type = x.GetPropertyValue("umbracoExtension")?.ToString(),
+                        Name = x.GetPropertyValue("umbracoName")?.ToString(),
 
                         Tags = x.GetPropertyValue("tags")?.ToString().Split(',')
                     });

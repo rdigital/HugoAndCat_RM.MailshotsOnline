@@ -14,5 +14,13 @@ namespace RM.MailshotsOnline.Data.Constants
         {
             public static readonly int LoginId = int.Parse(ConfigurationManager.AppSettings["LoginId"]);
         }
+
+        public static class MediaContent
+        {
+            public static readonly int PublicMediaLibraryId = int.Parse(ConfigurationManager.AppSettings["PublicMediaLibraryId"]);
+            public static readonly int PrivateMediaLibraryId = int.Parse(ConfigurationManager.AppSettings["PrivateMediaLibraryId"]);
+            public static readonly string PublicLibraryImageMediaTypeAlias = ConfigurationManager.AppSettings["PublicLibraryImageMediaTypeAlias"];
+            public static readonly string PrivateLibraryImageMediaTypeAlias = ConfigurationManager.AppSettings["PrivateLibraryImageMediaTypeAlias"];
+        }
     }
 }

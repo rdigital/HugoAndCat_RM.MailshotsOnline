@@ -13,5 +13,10 @@ namespace RM.MailshotsOnline.PCL.Services
 
         IEnumerable<IImage> GetImages(IMember member);
 
+        bool AddImage(IImage image, IMember member);
+
+        bool DeleteImage(IImage image);
+
+        bool RenameImage(IImage image, string name);
     }
 }
