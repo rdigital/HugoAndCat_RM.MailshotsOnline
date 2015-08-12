@@ -11,6 +11,14 @@ namespace RM.MailshotsOnline.Data.Helpers
     public class ConfigHelper
     {
         /// <summary>
+        /// The Application Insights key
+        /// </summary>
+        public static string AppInsightsKey
+        {
+            get { return GetConfigValue("AppInsightsKey", "f4926bc4-a07f-420c-89f1-40e38682d0c6"); }
+        }
+
+        /// <summary>
         /// Content Type Alias for the Mailshot Format items
         /// </summary>
         public static string FormatContentTypeAlias
@@ -31,6 +39,31 @@ namespace RM.MailshotsOnline.Data.Helpers
         public static string HostedScheme
         {
             get { return GetConfigValue("HostedScheme"); }
+        }
+
+        public static string SparqServiceBlobContainer
+        {
+            get { return GetConfigValue("SparqServiceBlobContainer"); }
+        }
+
+        public static string SparqServiceBlobConnectionString
+        {
+            get { return GetConfigValue("SparqServiceBlobConnectionString"); }
+        }
+
+        public static string SparqServiceBusConnectionString
+        {
+            get { return GetConfigValue("SparqServiceBusConnectionString"); }
+        }
+
+        public static string SparqBlobContainer
+        {
+            get { return GetConfigValue("SparqBlobContainer"); }
+        }
+
+        public static string StorageConnectionString
+        {
+            get { return GetConfigValue("StorageConnectionString"); }
         }
 
         /// <summary>

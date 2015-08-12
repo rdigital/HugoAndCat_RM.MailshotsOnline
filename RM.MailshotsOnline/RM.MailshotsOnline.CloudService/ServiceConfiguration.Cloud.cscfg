@@ -14,15 +14,16 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=mrhcrmmsol;AccountKey=EDu8h+0zzlP9T8roDBXdFd58ti0UQyQNeON0BsT87rfpRSaKxXQ6xCKymGhO/vtsZPygpHrAXY63HkSjQEO5ig==" />
       <!--<Setting name="SparqServiceUrl" value="https://re-sparq.sp-systems.co.uk/sparq" />
       <Setting name="SparqServiceUsername" value="gosborne" />
-      <Setting name="SparqServicePassword" value="15PaleGrass" />
-      <Setting name="SparqBlobStorage" value="DefaultEndpointsProtocol=https;AccountName=mrhcrmmsol;AccountKey=EDu8h+0zzlP9T8roDBXdFd58ti0UQyQNeON0BsT87rfpRSaKxXQ6xCKymGhO/vtsZPygpHrAXY63HkSjQEO5ig==" />
-      <Setting name="SparqBlobContainer" value="sparq-blob-storage-container" />-->
+      <Setting name="SparqServicePassword" value="15PaleGrass" />-->
+      <Setting name="SparqServiceBlobConnectionString" value="DefaultEndpointsProtocol=https;AccountName=bdhcrmsharedstore;AccountKey=1UD5ZEPi5fO/AVTY2Hiq/t9EwjvzVKulzHFJdp1xy30BiOozXoQcWe+nISrxPwp9ZWCLsr4+0xRpL9hSlrxAFg=="/>
+      <Setting name="SparqServiceBlobContainer" value="sparq-blob-storage-container" />
       <Setting name="SparqServiceBusConnectionString" value="Endpoint=sb://bdhc-rmsharedservicesb.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=g3Nsb+aWx6pKYFddoVb2JFHUTjs5fHIw+ndvpyc5DGk=" />
+      <Setting name="SparqBlobContainer" value="sparq-blob-storage-container" />
       <Setting name="RenderQueueName" value="RenderOnlyQueue" />
       <Setting name="PrintQueueName" value="RenderAndPrintQueue" />
       <Setting name="HostedDomain" value="mrhcrmmsol.cloudapp.net" />
-      <Setting name="HostedScheme" value="https" />
-      <Setting name="HostedPort" value="443" />
+      <Setting name="HostedScheme" value="http" />
+      <Setting name="HostedPort" value="80" />
     </ConfigurationSettings>
     <Certificates>
       <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="A8758600C049A567CCAFF3FDCE236C3C81E6CD06" thumbprintAlgorithm="sha1" />

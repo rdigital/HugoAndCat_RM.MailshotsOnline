@@ -1,5 +1,7 @@
-﻿using HC.RM.Common.Azure.ServiceBus;
+﻿using HC.RM.Common.Azure;
+using HC.RM.Common.Azure.ServiceBus;
 using HC.RM.Common.Orders;
+using HC.RM.Common.PCL.Helpers;
 using Microsoft.ServiceBus.Messaging;
 using RM.MailshotsOnline.Business.Processors;
 using RM.MailshotsOnline.Data.Helpers;
@@ -15,8 +17,11 @@ namespace RM.MailshotsOnline.Data.Services
 {
     public class SparqQueueService : ISparqQueueService
     {
+        private ILogger _log;
+
         public SparqQueueService()
         {
+            _log = new Logger();
         }
 
         /// <summary>
@@ -67,7 +72,7 @@ namespace RM.MailshotsOnline.Data.Services
                 var orderPriority = printAfterRender ? SparqOrderPriority.Low : SparqOrderPriority.High;
                 var orderType = printAfterRender ? SparqOrderType.RenderAndPrint : SparqOrderType.RenderOnly;
                 var groupOrder = printAfterRender; // TODO: Confirm that this is correct
-                var order = new SparqOrder(mailshot.MailshotId, // Mailshot ID
+                var order = new SparqOrder(mailshot.ProofPdfOrderNumber, // Order ID
                                            Encoding.UTF8.GetBytes(xmlAndXsl.Item1), // XML Bytes
                                            Encoding.UTF8.GetBytes(xmlAndXsl.Item2), // XSL Bytes
                                            baseUrl, // Base URL for additional assets
@@ -76,6 +81,22 @@ namespace RM.MailshotsOnline.Data.Services
                                            groupOrder, // Order is a group order
                                            postbackUrl, // Proof is ready postback URL
                                            ftpPostbackUrl); // Print PDF is ready postback URL
+
+                LogInfo("SendJob", @"Sending job with the following parameters:
+Mailshot ID: {0},
+Base URL: {1},
+Postback URL: {2},
+FTP postback URL: {3},
+Order Priority: {4},
+Order Type: {5},
+Group Order: {6}", 
+mailshot.MailshotId,
+baseUrl,
+postbackUrl,
+ftpPostbackUrl,
+orderPriority,
+orderType,
+groupOrder);
 
                 // Send to queue
                 var message = new BrokeredMessage(order);
@@ -98,6 +119,24 @@ namespace RM.MailshotsOnline.Data.Services
             }
 
             return success;
+        }
+
+        private void LogInfo(string methodName, string message, params object[] args)
+        {
+            try
+            {
+                _log.Info(this.GetType().Name, methodName, message, args);
+            }
+            catch { }
+        }
+
+        private void LogError(string methodName, string message, params object[] args)
+        {
+            try
+            {
+                _log.Error(this.GetType().Name, methodName, message, args);
+            }
+            catch { }
         }
     }
 }

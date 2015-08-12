@@ -96,6 +96,8 @@ namespace RM.MailshotsOnline.Entities.DataModels
 
         public string ProofPdfUrl { get; set; }
 
+        public Guid ProofPdfOrderNumber { get; set; }
+
         public Enums.PdfRenderStatus ProofPdfStatus { get; set; }
 
         #region Explicit Interface Implementations
