@@ -261,7 +261,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             byte[] pdfBytes = null;
             try
             {
-                pdfBytes = await serviceLayerBlobHelper.FetchBytes(result.BlobId);
+                pdfBytes = serviceLayerBlobHelper.FetchBytes(result.BlobId);
             }
             catch (Exception ex)
             {

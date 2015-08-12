@@ -28,12 +28,19 @@ namespace RM.MailshotsOnline.Web.Helpers
             blobService = new BlobService(blobStore, containerName);
         }
 
-        public async Task<byte[]> FetchBytes(string blobId)
+        public byte[] FetchBytes(string blobId)
         {
+            var blobStream = blobService.DownloadToStream(blobId);
+            if (blobStream is MemoryStream)
+            {
+                return ((MemoryStream)blobStream).ToArray();
+            }
+
             using (MemoryStream ms = new MemoryStream())
             {
-                await blobService.DownloadToStream(blobId).CopyToAsync(ms);
-                return ms.ToArray();
+                blobStream.CopyTo(ms);
+                var result = ms.ToArray();
+                return result;
             }
         }
 
