@@ -116,6 +116,7 @@
     <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MailshotViewModel.cs" />
+    <Compile Include="ViewModels\OrderResults.cs" />
     <Compile Include="ViewModels\PasswordViewModel.cs" />
     <Compile Include="ViewModels\PdfRenderJobViewModel.cs" />
     <Compile Include="ViewModels\PdfRenderResultViewModel.cs" />

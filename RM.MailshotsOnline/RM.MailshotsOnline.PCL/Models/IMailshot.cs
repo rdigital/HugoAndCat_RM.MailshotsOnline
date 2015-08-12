@@ -40,6 +40,8 @@ namespace RM.MailshotsOnline.PCL.Models
 
         string ProofPdfUrl { get; set; }
 
+        Guid ProofPdfOrderNumber { get; set; }
+
         Enums.PdfRenderStatus ProofPdfStatus { get; set; }
     }
 }

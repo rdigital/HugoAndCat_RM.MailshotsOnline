@@ -22,6 +22,7 @@ namespace RM.MailshotsOnline.Web.Controllers
         {
             // Fetch the Glass model of the home page
             var editorModel = GetModel<MailshotEditor>();
+
             return View("~/Views/MailshotEditor.cshtml", editorModel);
         }
     }

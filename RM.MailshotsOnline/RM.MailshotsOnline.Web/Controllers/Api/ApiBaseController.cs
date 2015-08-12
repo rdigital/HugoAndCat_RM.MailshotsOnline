@@ -1,5 +1,4 @@
-﻿using RM.MailshotsOnline.Entities.MemberModels;
-using RM.MailshotsOnline.PCL.Models;
+﻿using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using RM.MailshotsOnline.Web.Helpers;
 using System;
@@ -20,6 +19,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
         internal IMembershipService _membershipService;
 
+        internal readonly TelemetryHelper _log = new TelemetryHelper();
+
         // Used for mocking
         public ApiBaseController(IMembershipService membershipService, UmbracoContext umbracoContext)
             : base(umbracoContext)
@@ -36,28 +37,13 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         {
             HttpResponseMessage result = null;
 
-            if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["SpoofUser"]))
+            if (!HttpContext.Current.User.Identity.IsAuthenticated)
             {
-                int userId = int.Parse(ConfigurationManager.AppSettings["SpoofUser"]);
-                _loggedInMember = new Member()
-                {
-                    Id = userId,
-                    FirstName = "Test",
-                    LastName = "User",
-                    EmailAddress = "ext-mradford@hugoandcat.com",
-                    Title = "Mr"
-                };
+                result = Request.CreateResponse(HttpStatusCode.Unauthorized, new { error = "You must be logged in.", statusCode = HttpStatusCode.Unauthorized });
             }
             else
             {
-                if (!HttpContext.Current.User.Identity.IsAuthenticated)
-                {
-                    result = Request.CreateResponse(HttpStatusCode.Unauthorized, new { error = "You must be logged in.", statusCode = HttpStatusCode.Unauthorized });
-                }
-                else
-                {
-                    _loggedInMember = _membershipService.GetCurrentMember();
-                }
+                _loggedInMember = _membershipService.GetCurrentMember();
             }
 
             return result;

@@ -2,8 +2,8 @@
 
     function CheckLoggedInStatus(callback) {
         $.ajax({
-            url: '/Umbraco/Api/Members/CurrentlyLoggedIn',
-            type: 'POST',
+            url: '/Umbraco/Api/Members/GetLoggedInStatus',
+            type: 'GET',
             success: function (data) {
                 var loggedInMessage = 'You are logged in';
                 if (data.loggedIn != true) {
@@ -73,8 +73,10 @@
         console.log(response);
         grecaptcha.reset();
         var errorMessage = response.responseJSON.error;
-        for (i = 0; i < response.responseJSON.fieldErrors.length; i++) {
-            errorMessage += "\n" + response.responseJSON.fieldErrors[i];
+        if (response.responseJSON.fieldErrors) {
+            for (i = 0; i < response.responseJSON.fieldErrors.length; i++) {
+                errorMessage += "\n" + response.responseJSON.fieldErrors[i];
+            }
         }
         alert(errorMessage);
     }

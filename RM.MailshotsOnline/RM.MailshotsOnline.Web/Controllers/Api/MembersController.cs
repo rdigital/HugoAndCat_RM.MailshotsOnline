@@ -12,6 +12,7 @@ using RM.MailshotsOnline.Entities.MemberModels;
 using System.Web.Security;
 using System.Text;
 using RM.MailshotsOnline.PCL.Models;
+using HC.RM.Common.Azure.Extensions;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
@@ -22,8 +23,12 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         {
         }
         
+        /// <summary>
+        /// Checks if there's a user currently logged in
+        /// </summary>
+        /// <returns>HTTP OK with an object containing the status</returns>
         [HttpGet]
-        public HttpResponseMessage CurrentlyLoggedIn()
+        public HttpResponseMessage GetLoggedInStatus()
         {
             bool loggedIn = false;
             Authenticate();
@@ -36,6 +41,11 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, new { loggedIn });
         }
 
+        /// <summary>
+        /// Attempts to log a user in
+        /// </summary>
+        /// <param name="login">Login viewmodel</param>
+        /// <returns>HTTP OK if the login was successful, HTTP Bad Request if not</returns>
         [HttpPost]
         public HttpResponseMessage Login(LoginViewModel login)
         {
@@ -60,10 +70,15 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             else
             {
                 //TODO: Get the error messages out of Umbraco somewhere
+                _log.Error(this.GetType().Name, "Login", "Invalid login attempt with email address {0}.", login.Email);
                 return ErrorMessage(HttpStatusCode.BadRequest, "Login credentials incorrect");
             }
         }
 
+        /// <summary>
+        /// Perform a logout
+        /// </summary>
+        /// <returns>HTTP OK</returns>
         [HttpPost]
         public HttpResponseMessage Logout()
         {
@@ -76,6 +91,11 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, new { loggedIn = false });
         }
 
+        /// <summary>
+        /// Register a new user
+        /// </summary>
+        /// <param name="registration">Registration view model</param>
+        /// <returns>HTTP OK if the registration was successful</returns>
         [HttpPost]
         public HttpResponseMessage Register(SimplifiedRegisterViewModel registration)
         {
@@ -95,6 +115,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             if (Members.GetByEmail(registration.Email) != null)
             {
+                _log.Error(this.GetType().Name, "Register", "Attempt to register with email {0} which has already been used.", registration.Email);
                 //TODO: Get the error messages out of Umbraco somewhere
                 return ErrorMessage(HttpStatusCode.Conflict, "The email address provided has already been used to register.");
             }
@@ -108,6 +129,11 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 //TODO: Get the error messages out of Umbraco somewhere
                 return ErrorMessage(HttpStatusCode.BadRequest, "Your password does not meet the minimum requirements.");
             }
+            catch (Exception ex)
+            {
+                _log.Error(this.GetType().Name, "Register", "Attempt to register with email {0} resulted in an error: {1}", registration.Email, ex.Message);
+                return ErrorMessage(HttpStatusCode.InternalServerError, "There was an error attempting to create your registration.");
+            }
 
             bool registered = true;
             bool loggedIn = Members.Login(registration.Email, registration.Password);
@@ -115,6 +141,10 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, new { registered, loggedIn });
         }
 
+        /// <summary>
+        /// Create the newly registered member
+        /// </summary>
+        /// <param name="model">View model</param>
         private void CreateMember(SimplifiedRegisterViewModel model)
         {
             var rmContactOptions = new ContactOptions()
@@ -146,6 +176,11 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }, model.Password);
         }
 
+        /// <summary>
+        /// Get additional field errors from the view state
+        /// </summary>
+        /// <param name="mainError">Main error message</param>
+        /// <returns>Error view model</returns>
         private ErrorViewModel GetErrors(string mainError)
         {
             var errorResponse = new ErrorViewModel() { Error = mainError };

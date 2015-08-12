@@ -11,6 +11,11 @@ using RM.MailshotsOnline.Entities.PageModels;
 using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.PCL.Services;
 using Umbraco.Web.Mvc;
+using Microsoft.ApplicationInsights;
+using HC.RM.Common.Azure.Extensions;
+using RM.MailshotsOnline.Web.Helpers;
+using HC.RM.Common.PCL.Helpers;
+using HC.RM.Common.Azure;
 
 namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 {
@@ -18,6 +23,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
     {
         private readonly IMembershipService _membershipService;
         private readonly IEmailService _emailService;
+        private readonly TelemetryHelper _log = new TelemetryHelper();
 
         private const string RequestCompleteFlag = "RequestComplete";
         private const string ResetCompleteFlag = "ResetComplete";
@@ -70,6 +76,8 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 _emailService.SendMail(ConfigurationManager.AppSettings["SystemEmailAddress"],
                     model.RequestViewModel.Email, "Password reset",
                     emailBody.Replace("##resetLink", $"<a href='{resetLink}'>{resetLink}</a>"));
+
+                _log.Info(this.GetType().Name, "RequestRestForm", "Password reset email sent to {0}.", model.RequestViewModel.Email);
             }
 
             TempData[RequestCompleteFlag] = true;
@@ -108,6 +116,11 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             if (success)
             {
                 TempData[ResetCompleteFlag] = true;
+                _log.Info(this.GetType().Name, "ResetForm", "Password reset successful using token {0}", Request.QueryString["token"]);
+            }
+            else
+            {
+                _log.Warn(this.GetType().Name, "ResetForm", "Password reset failed for token {0}", Request.QueryString["token"]);
             }
 
             return CurrentUmbracoPage();

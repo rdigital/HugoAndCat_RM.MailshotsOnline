@@ -10,13 +10,21 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
       <Setting name="StorageConnectionString" value="UseDevelopmentStorage=true" />
       <Setting name="AppInsightsKey" value="f4926bc4-a07f-420c-89f1-40e38682d0c6" />
-      <Setting name="StorageContextEF" value="Data Source=.\;Initial Catalog=mrhcrmmsol-sql;User ID=sa;Password=AddedSugar;" />
+      <!--<Setting name="StorageContextEF" value="Data Source=.\;Initial Catalog=mrhcrmmsol-sql;User ID=sa;Password=AddedSugar;" />-->
+      <Setting name="StorageContextEF" value="Server=tcp:gpxfbusuk8.database.windows.net,1433;Database=mrhcrmmsol-sql;User ID=rmphoto@gpxfbusuk8;Password=ZA8X461t7yQwdTDUZDTl;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
-      <Setting name="SparqServiceUrl" value="https://re-sparq.sp-systems.co.uk/sparq" />
+      <!--<Setting name="SparqServiceUrl" value="https://re-sparq.sp-systems.co.uk/sparq" />
       <Setting name="SparqServiceUsername" value="gosborne" />
-      <Setting name="SparqServicePassword" value="15PaleGrass" />
-      <Setting name="SparqBlobStorage" value="UseDevelopmentStorage=true" />
+      <Setting name="SparqServicePassword" value="15PaleGrass" />-->
+      <Setting name="SparqServiceBlobConnectionString" value="DefaultEndpointsProtocol=https;AccountName=bdhcrmsharedstore;AccountKey=1UD5ZEPi5fO/AVTY2Hiq/t9EwjvzVKulzHFJdp1xy30BiOozXoQcWe+nISrxPwp9ZWCLsr4+0xRpL9hSlrxAFg=="/>
+      <Setting name="SparqServiceBlobContainer" value="sparq-blob-storage-container" />
+      <Setting name="SparqServiceBusConnectionString" value="Endpoint=sb://bdhc-rmsharedservicesb.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=g3Nsb+aWx6pKYFddoVb2JFHUTjs5fHIw+ndvpyc5DGk=" />
       <Setting name="SparqBlobContainer" value="sparq-blob-storage-container" />
+      <Setting name="RenderQueueName" value="RenderOnlyQueue" />
+      <Setting name="PrintQueueName" value="RenderAndPrintQueue" />
+      <Setting name="HostedDomain" value="localhost" />
+      <Setting name="HostedScheme" value="https" />
+      <Setting name="HostedPort" value="444" />
     </ConfigurationSettings>
     <Certificates>
       <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="A8758600C049A567CCAFF3FDCE236C3C81E6CD06" thumbprintAlgorithm="sha1" />

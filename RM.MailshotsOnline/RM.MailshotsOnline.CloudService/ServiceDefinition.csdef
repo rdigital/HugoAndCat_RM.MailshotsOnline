@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ServiceDefinition name="RM.MailshotsOnline.CloudService" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2015-04.2.6">
-  <WebRole name="RM.MailshotsOnline.Web" vmsize="Large">
+  <WebRole name="RM.MailshotsOnline.Web" vmsize="Small">
     <Sites>
       <Site name="Web">
         <Bindings>
@@ -14,11 +14,18 @@
       <Setting name="AppInsightsKey" />
       <Setting name="StorageContextEF" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
-      <Setting name="SparqServiceUrl" />
+      <!--<Setting name="SparqServiceUrl" />
       <Setting name="SparqServiceUsername" />
-      <Setting name="SparqServicePassword" />
-      <Setting name="SparqBlobStorage" />
-      <Setting name="SparqBlobContainer" />
+      <Setting name="SparqServicePassword" />-->
+      <Setting name="SparqServiceBlobConnectionString" />
+      <Setting name="SparqServiceBlobContainer" />
+      <Setting name="SparqServiceBusConnectionString" />
+      <Setting name="SparqBlobContainer"/>
+      <Setting name="RenderQueueName" />
+      <Setting name="PrintQueueName" />
+      <Setting name="HostedDomain" />
+      <Setting name="HostedScheme" />
+      <Setting name="HostedPort" />
     </ConfigurationSettings>
     <Endpoints>
       <InputEndpoint name="HttpIn" protocol="http" port="80" />

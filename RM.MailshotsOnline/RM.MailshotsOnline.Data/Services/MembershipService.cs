@@ -200,17 +200,27 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>Success</returns>
         public bool Save(string emailAddress, IMember member)
         {
-            var umbracoMember = _umbracoMemberService.GetByEmail(emailAddress);
-
-            if (umbracoMember != null)
+            bool success = false;
+            try
             {
-                umbracoMember = umbracoMember.UpdateValues(member);
-                _umbracoMemberService.Save(umbracoMember);
 
-                return true;
+
+                var umbracoMember = _umbracoMemberService.GetByEmail(emailAddress);
+
+                if (umbracoMember != null)
+                {
+                    umbracoMember = umbracoMember.UpdateValues(member);
+                    _umbracoMemberService.Save(umbracoMember);
+
+                    success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+
             }
 
-            return false;
+            return success;
         }
 
         private bool ChangePassword(Umbraco.Core.Models.IMember umbracoMember, string password, bool clearPasswordResetToken)

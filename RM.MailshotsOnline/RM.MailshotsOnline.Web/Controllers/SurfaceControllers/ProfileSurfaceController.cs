@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Security;
-using Glass.Mapper.Umb;
+﻿using Glass.Mapper.Umb;
+using HC.RM.Common.Azure.Extensions;
 using log4net.Core;
 using RM.MailshotsOnline.Data.Extensions;
 using RM.MailshotsOnline.Entities.MemberModels;
@@ -12,6 +7,12 @@ using RM.MailshotsOnline.Entities.PageModels.Profile;
 using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Security;
 using Umbraco.Web.Models.ContentEditing;
 using Umbraco.Web.Mvc;
 using MarketingPreferences = RM.MailshotsOnline.Entities.PageModels.Profile.MarketingPreferences;
@@ -70,12 +71,21 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             LoggedInMember.LastName = model.LastName;
             LoggedInMember.EmailAddress = model.EmailAddress;
 
-            if (MembershipService.Save(originalEmailAddress, LoggedInMember))
+            try
             {
-                TempData[UpdatedFlag] = true;
-                return CurrentUmbracoPage();
+                if (MembershipService.Save(originalEmailAddress, LoggedInMember))
+                {
+                    Log.Info(this.GetType().Name, "EditPersonalDetails", "Personal details updated for user {0}.", LoggedInMember.Username);
+                    TempData[UpdatedFlag] = true;
+                    return CurrentUmbracoPage();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(this.GetType().Name, "EditPersonalDetails", "Error updating personal details for user {0}: {1}.", LoggedInMember.Username, ex.Message);
             }
 
+            Log.Warn(this.GetType().Name, "EditPersonalDetails", "Personal details update failed for user {0}.", LoggedInMember.Username);
             TempData[UpdatedFlag] = false;
             return CurrentUmbracoPage();
         }
@@ -106,15 +116,25 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             if (!Membership.Provider.ValidateUser(LoggedInMember.Username, model.CurrentPassword))
             {
                 ModelState.AddModelError("WrongPassword", "Your current password is incorrect. Please enter it again.");
+                Log.Warn(this.GetType().Name, "ChangePassword", "Incorrect password entered when user {0} attempted to change password.", LoggedInMember.Username);
                 return CurrentUmbracoPage();
             }
 
-            if (MembershipService.SetNewPassword(LoggedInMember, model.NewPassword))
+            try
             {
-                TempData[UpdatedFlag] = true;
-                return CurrentUmbracoPage();
+                if (MembershipService.SetNewPassword(LoggedInMember, model.NewPassword))
+                {
+                    Log.Info(this.GetType().Name, "ChangePassword", "Password changed for user {0}.", LoggedInMember.Username);
+                    TempData[UpdatedFlag] = true;
+                    return CurrentUmbracoPage();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(this.GetType().Name, "ChangePassword", "Error changing password for user {0}: {1}.", LoggedInMember.Username, ex.Message);
             }
 
+            Log.Warn(this.GetType().Name, "ChangePassword", "Unable to change password for user {0}.", LoggedInMember.Username);
             TempData[UpdatedFlag] = false;
             return CurrentUmbracoPage();
         }
@@ -165,12 +185,21 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             LoggedInMember.WorkPhoneNumber = model.WorkPhoneNumber;
             LoggedInMember.MobilePhoneNumber = model.MobilePhoneNumber;
 
-            if (MembershipService.Save(LoggedInMember.EmailAddress, LoggedInMember))
+            try
             {
-                TempData[UpdatedFlag] = true;
-                return CurrentUmbracoPage();
+                if (MembershipService.Save(LoggedInMember.EmailAddress, LoggedInMember))
+                {
+                    Log.Info(this.GetType().Name, "EditOrganisationDetails", "Organisation details updated for user {0}.", LoggedInMember.Username);
+                    TempData[UpdatedFlag] = true;
+                    return CurrentUmbracoPage();
+                }
+            }
+            catch(Exception ex)
+            {
+                Log.Error(this.GetType().Name, "EditOrganisationDetails", "Error when updating organisation details for user {0}: {1}", LoggedInMember.Username, ex.Message);
             }
 
+            Log.Warn(this.GetType().Name, "EditOrganisationDetails", "Unable to update Organisation details for user {0}.", LoggedInMember.Username);
             TempData[UpdatedFlag] = false;
             return CurrentUmbracoPage();
         }
@@ -196,12 +225,21 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             LoggedInMember.RoyalMailMarketingPreferences = model.RoyalMailMarketingPreferences;
             LoggedInMember.ThirdPartyMarketingPreferences = model.ThirdPartyMarketingPreferences;
 
-            if (MembershipService.Save(LoggedInMember.EmailAddress, LoggedInMember))
+            try
             {
-                TempData[UpdatedFlag] = true;
-                return CurrentUmbracoPage();
+                if (MembershipService.Save(LoggedInMember.EmailAddress, LoggedInMember))
+                {
+                    Log.Info(this.GetType().Name, "EditMarketingPreferences", "Marketing prefernces updated for user {0}.", LoggedInMember.Username);
+                    TempData[UpdatedFlag] = true;
+                    return CurrentUmbracoPage();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(this.GetType().Name, "EditMarketingPreferences", "Error when updating marketing preferences for user {0}: {1}", LoggedInMember.Username, ex.Message);
             }
 
+            Log.Warn(this.GetType().Name, "EditMarketingPreferences", "Unable to update marketing preferences for user {0}.", LoggedInMember.Username);
             TempData[UpdatedFlag] = false;
             return CurrentUmbracoPage();
         }

@@ -1,4 +1,5 @@
 ﻿using Glass.Mapper.Umb;
+using RM.MailshotsOnline.Web.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,11 @@ namespace RM.MailshotsOnline.Web.Controllers
     [RequireHttps]
     public abstract class GlassController : RenderMvcController
     {
+        /// <summary>
+        /// The Application Insights telemetry client
+        /// </summary>
+        internal TelemetryHelper log = new TelemetryHelper();
+
         /// <summary>
         /// The Umbraco Glass service
         /// </summary>

@@ -15,6 +15,7 @@ using Umbraco.Web.Models;
 
 namespace RM.MailshotsOnline.Web.Controllers
 {
+    [Authorize]
     public class PersonalDetailsController : GlassController
     {
         private readonly IMembershipService _membershipService;
