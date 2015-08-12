@@ -63,5 +63,10 @@ namespace RM.MailshotsOnline.Data.Helpers
                 Username = content.GetPropertyValue("username")?.ToString()
             };
         }
+
+        private static IMedia PrivateLibaryImage(IPublishedContent content)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
