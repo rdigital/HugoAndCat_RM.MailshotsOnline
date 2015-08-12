@@ -67,6 +67,22 @@ namespace RM.MailshotsOnline.Data.Helpers
         }
 
         /// <summary>
+        /// Content Type Alias for the Private Image items
+        /// </summary>
+        public static string PrivateImageContentTypeAlias
+        {
+            get { return GetConfigValue("PrivateImageContentTypeAlias", "PrivateLibraryImage"); }
+        }
+
+        /// <summary>
+        /// The Blob Storage container name for the Private Media container
+        /// </summary>
+        public static string PrivateMediaBlobStorageContainer
+        {
+            get { return GetConfigValue("PrivateMediaBlobStorageContainer"); }
+        }
+
+        /// <summary>
         /// Content Type Alias for the Mailshot Template items
         /// </summary>
         public static string TemplateContentTypeAlias

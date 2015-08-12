@@ -2900,6 +2900,7 @@
     <Compile Include="Controllers\Api\MembersController.cs" />
     <Compile Include="Controllers\Api\PostageController.cs" />
     <Compile Include="Controllers\Api\ProofPdfController.cs" />
+    <Compile Include="Controllers\Api\TempImageController.cs" />
     <Compile Include="Controllers\ContentPageController.cs" />
     <Compile Include="Controllers\MailshotEditorController.cs" />
     <Compile Include="Controllers\GlassController.cs" />
