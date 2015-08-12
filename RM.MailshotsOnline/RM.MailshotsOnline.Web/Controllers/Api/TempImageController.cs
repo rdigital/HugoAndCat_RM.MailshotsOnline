@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
+using RM.MailshotsOnline.Web.Helpers;
 using Umbraco.Web;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
@@ -63,8 +64,11 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                     var blobConnectionString = ConfigHelper.StorageConnectionString;
                     var blobContainerName = ConfigHelper.PrivateMediaBlobStorageContainer;
 
-                    // TODO: Read all bytes from the blob
-                    // TODO: Return the bytes from the blob with the correct media type
+                    BlobStorageHelper blobStore = new BlobStorageHelper(blobConnectionString, blobContainerName);
+                    var bytes = blobStore.FetchBytes(blobId);
+
+                    var result = Request.CreateResponse(HttpStatusCode.OK, bytes);
+                    result.Content.Headers.ContentType.MediaType = "application/pdf";
                 }
                 else
                 {
