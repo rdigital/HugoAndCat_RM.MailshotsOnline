@@ -1,15 +1,13 @@
-﻿using System;
+﻿using Glass.Mapper.Umb;
+using HC.RM.Common.PCL.Helpers;
+using RM.MailshotsOnline.Entities.PageModels;
+using RM.MailshotsOnline.PCL.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Glass.Mapper.Umb;
-using RM.MailshotsOnline.Data.Services;
-using RM.MailshotsOnline.Entities.PageModels;
 using Umbraco.Web.Models;
-using Umbraco.Web.Mvc;
-using RM.MailshotsOnline.PCL.Services;
-using HC.RM.Common.Azure.Extensions;
 
 namespace RM.MailshotsOnline.Web.Controllers
 {
@@ -17,8 +15,8 @@ namespace RM.MailshotsOnline.Web.Controllers
     {
         private readonly IMembershipService _membershipService;
 
-        public ResetPasswordController(IUmbracoService umbracoService, IMembershipService membershipService)
-            : base(umbracoService)
+        public ResetPasswordController(IUmbracoService umbracoService, IMembershipService membershipService, ILogger logger)
+            : base(umbracoService, logger)
         {
             _membershipService = membershipService;
         }
@@ -41,7 +39,7 @@ namespace RM.MailshotsOnline.Web.Controllers
             }
 
             ViewBag.BadTokenMessage = pageModel.BadTokenMessage;
-            log.Info(this.GetType().Name, "Index", "Bad reset password token supplied to reset password page.");
+            _logger.Info(this.GetType().Name, "Index", "Bad reset password token supplied to reset password page.");
 
             return View("~/Views/ResetPassword/RequestResetPassword.cshtml", pageModel);
         }

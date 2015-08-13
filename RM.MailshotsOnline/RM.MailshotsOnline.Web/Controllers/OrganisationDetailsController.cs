@@ -12,6 +12,7 @@ using RM.MailshotsOnline.Web.Extensions;
 using umbraco;
 using Umbraco.Core.Services;
 using Umbraco.Web.Models;
+using HC.RM.Common.PCL.Helpers;
 
 namespace RM.MailshotsOnline.Web.Controllers
 {
@@ -20,8 +21,8 @@ namespace RM.MailshotsOnline.Web.Controllers
     {
         private readonly IMembershipService _membershipService;
 
-        public OrganisationDetailsController(IUmbracoService umbracoService, IMembershipService membershipService)
-            : base(umbracoService)
+        public OrganisationDetailsController(IUmbracoService umbracoService, IMembershipService membershipService, ILogger logger)
+            : base(umbracoService, logger)
         {
             _membershipService = membershipService;
         }

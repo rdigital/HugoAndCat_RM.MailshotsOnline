@@ -1,6 +1,6 @@
 ﻿using Glass.Mapper.Umb;
 using HC.RM.Common.Azure.Extensions;
-using log4net.Core;
+using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.Extensions;
 using RM.MailshotsOnline.Entities.MemberModels;
 using RM.MailshotsOnline.Entities.PageModels.Profile;
@@ -25,12 +25,13 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
     {
         private const string UpdatedFlag = "MarketingPreferencesUpdated";
 
-        public ProfileSurfaceController(IMembershipService membershipService) : base(membershipService)
+        public ProfileSurfaceController(IMembershipService membershipService, ILogger logger) 
+            : base(membershipService, logger)
         {
         }
 
-        public ProfileSurfaceController(IMembershipService membershipService, UmbracoContext umbracoContext)
-            : base(membershipService, umbracoContext)
+        public ProfileSurfaceController(IMembershipService membershipService, UmbracoContext umbracoContext, ILogger logger)
+            : base(membershipService, umbracoContext, logger)
         {
         }
 

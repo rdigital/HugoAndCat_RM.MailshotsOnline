@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Glass.Mapper.Umb;
+using HC.RM.Common.PCL.Helpers;
+using RM.MailshotsOnline.Entities.PageModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Glass.Mapper.Umb;
-using RM.MailshotsOnline.Entities.PageModels;
 using umbraco;
 using Umbraco.Web.Models;
 using Umbraco.Web.Mvc;
@@ -14,8 +15,8 @@ namespace RM.MailshotsOnline.Web.Controllers
 {
     public class LogoutController : GlassController
     {
-        public LogoutController(IUmbracoService umbracoService)
-            : base(umbracoService)
+        public LogoutController(IUmbracoService umbracoService, ILogger logger)
+            : base(umbracoService, logger)
         {
         }
 

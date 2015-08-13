@@ -1,4 +1,5 @@
 ﻿using HC.RM.Common.Azure.Extensions;
+using HC.RM.Common.PCL.Helpers;
 using Newtonsoft.Json;
 using RM.MailshotsOnline.Entities.DataModels;
 using RM.MailshotsOnline.Entities.DataModels.MailshotSettings;
@@ -26,8 +27,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         private IMailshotsService _mailshotsService;
         private IMailshotSettingsService _settingsService;
 
-        public MailshotsController(IMailshotSettingsService settingsService, IMailshotsService mailshotsService, IMembershipService membershipService)
-            : base(membershipService)
+        public MailshotsController(IMailshotSettingsService settingsService, IMailshotsService mailshotsService, IMembershipService membershipService, ILogger logger)
+            : base(membershipService, logger)
         {
             _mailshotsService = mailshotsService;
             _settingsService = settingsService;
@@ -64,7 +65,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             var authResult = Authenticate();
             if (authResult != null)
             {
-                _log.Error(this.GetType().Name, "Get", "Unauthenticated attempt to get mailshot with ID {0}.", id);
+                _logger.Error(this.GetType().Name, "Get", "Unauthenticated attempt to get mailshot with ID {0}.", id);
                 return authResult;
             }
 
@@ -72,14 +73,14 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             var mailshot = _mailshotsService.GetMailshot(id);
             if (mailshot == null)
             {
-                _log.Info(this.GetType().Name, "Get", "Attempt to get unknown mailshot with ID {0}.", id);
+                _logger.Info(this.GetType().Name, "Get", "Attempt to get unknown mailshot with ID {0}.", id);
                 return MailshotNotFound();
             }
 
             // Confirm that the user has access to the mailshot
             if (mailshot.UserId != _loggedInMember.Id)
             {
-                _log.Error(this.GetType().Name, "Get", "Unauthorised attempt to get mailshot with ID {0}.", id);
+                _logger.Error(this.GetType().Name, "Get", "Unauthorised attempt to get mailshot with ID {0}.", id);
                 return MailshotForbidden();
             }
 
@@ -105,7 +106,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             var authResult = Authenticate();
             if (authResult != null)
             {
-                _log.Error(this.GetType().Name, "Save", "Unauthenticated attempt to save new mailshot.");
+                _logger.Error(this.GetType().Name, "Save", "Unauthenticated attempt to save new mailshot.");
                 return authResult;
             }
 
@@ -150,7 +151,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
             catch (Exception ex)
             {
-                _log.Error(this.GetType().Name, "Save", "Error when attempting to save mailshot: {0}", ex.Message);
+                _logger.Error(this.GetType().Name, "Save", "Error when attempting to save mailshot: {0}", ex.Message);
             }
 
             return ErrorMessage(HttpStatusCode.InternalServerError, "Unable to save mailshot data.");
@@ -169,7 +170,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             var authResult = Authenticate();
             if (authResult != null)
             {
-                _log.Error(this.GetType().Name, "Update", "Unauthenticated attempt to update mailshot with ID {0}.", id);
+                _logger.Error(this.GetType().Name, "Update", "Unauthenticated attempt to update mailshot with ID {0}.", id);
                 return authResult;
             }
 
@@ -183,14 +184,14 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             var mailshotData = _mailshotsService.GetMailshot(id);
             if (mailshotData == null)
             {
-                _log.Info(this.GetType().Name, "Update", "Attempt to update unknown mailshot with ID {0}.", id);
+                _logger.Info(this.GetType().Name, "Update", "Attempt to update unknown mailshot with ID {0}.", id);
                 return MailshotNotFound();
             }
 
             // Confirm that the user has access to the mailshot
             if (mailshotData.UserId != _loggedInMember.Id)
             {
-                _log.Error(this.GetType().Name, "Update", "Unauthorised attempt to update mailshot with ID {0}.", id);
+                _logger.Error(this.GetType().Name, "Update", "Unauthorised attempt to update mailshot with ID {0}.", id);
                 return MailshotForbidden();
             }
 
@@ -233,7 +234,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
             catch (Exception ex)
             {
-                _log.Error(this.GetType().Name, "Update", "Error updating mailshot with ID {0}: {1}", id, ex.Message);
+                _logger.Error(this.GetType().Name, "Update", "Error updating mailshot with ID {0}: {1}", id, ex.Message);
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, new { success = success });
@@ -300,7 +301,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             var authResult = Authenticate();
             if (authResult != null)
             {
-                _log.Error(this.GetType().Name, "Delete", "Unauthenticated attempt to delete mailshot with ID {0}.", id);
+                _logger.Error(this.GetType().Name, "Delete", "Unauthenticated attempt to delete mailshot with ID {0}.", id);
                 return authResult;
             }
 
@@ -308,14 +309,14 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             var mailshot = _mailshotsService.GetMailshot(id);
             if (mailshot == null)
             {
-                _log.Info(this.GetType().Name, "Delete", "Attempt to delete unknown mailshot with ID {0}.", id);
+                _logger.Info(this.GetType().Name, "Delete", "Attempt to delete unknown mailshot with ID {0}.", id);
                 return MailshotNotFound();
             }
 
             // Confirm that the user has access to the mailshot
             if (mailshot.UserId != _loggedInMember.Id)
             {
-                _log.Error(this.GetType().Name, "Delete", "Unauthorised attempt to delete mailshot with ID {0}.", id);
+                _logger.Error(this.GetType().Name, "Delete", "Unauthorised attempt to delete mailshot with ID {0}.", id);
                 return MailshotForbidden();
             }
 
@@ -348,7 +349,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             catch (Exception ex)
             {
                 // Log the exception
-                _log.Error(this.GetType().Name, "ConfirmJsonContentIsCorrect", "Error parsing JSON content: {0}", ex.Message);
+                _logger.Error(this.GetType().Name, "ConfirmJsonContentIsCorrect", "Error parsing JSON content: {0}", ex.Message);
             }
 
             if (parsedContent == null || parsedContent.Elements == null)
@@ -362,25 +363,25 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             theme = _settingsService.GetThemeByJsonIndex(parsedContent.ThemeId);
             if (format == null)
             {
-                _log.Error(this.GetType().Name, "ConfirmJsonContentIsCorrect", "Attempt to use unknown format: {0}", parsedContent.FormatId);
+                _logger.Error(this.GetType().Name, "ConfirmJsonContentIsCorrect", "Attempt to use unknown format: {0}", parsedContent.FormatId);
                 return ErrorMessage(HttpStatusCode.BadRequest, "The specified format does not exist.");
             }
 
             if (template == null)
             {
-                _log.Error(this.GetType().Name, "ConfirmJsonContentIsCorrect", "Attempt to use unknown template: {0}", parsedContent.TemplateId);
+                _logger.Error(this.GetType().Name, "ConfirmJsonContentIsCorrect", "Attempt to use unknown template: {0}", parsedContent.TemplateId);
                 return ErrorMessage(HttpStatusCode.BadRequest, "The specified template does not exist.");
             }
 
             if (template.FormatUmbracoPageId != format.UmbracoPageId)
             {
-                _log.Error(this.GetType().Name, "ConfirmJsonContentIsCorrect", "Attempt to use template {0} which does not match format {1}.", parsedContent.TemplateId, parsedContent.FormatId);
+                _logger.Error(this.GetType().Name, "ConfirmJsonContentIsCorrect", "Attempt to use template {0} which does not match format {1}.", parsedContent.TemplateId, parsedContent.FormatId);
                 return ErrorMessage(HttpStatusCode.BadRequest, "The selected template does not belong to the selected format.");
             }
 
             if (theme == null)
             {
-                _log.Error(this.GetType().Name, "ConfirmJsonContentIsCorrect", "Attempt to use unknown theme: {0}", parsedContent.TemplateId);
+                _logger.Error(this.GetType().Name, "ConfirmJsonContentIsCorrect", "Attempt to use unknown theme: {0}", parsedContent.TemplateId);
                 return ErrorMessage(HttpStatusCode.BadRequest, "The specified theme does not exist.");
             }
 

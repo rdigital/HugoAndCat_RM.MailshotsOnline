@@ -3,6 +3,8 @@ using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Glass.Mapper;
 using Glass.Mapper.Umb;
+using HC.RM.Common.Azure;
+using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.Services;
 using RM.MailshotsOnline.PCL.Services;
 using System;
@@ -38,7 +40,8 @@ namespace RM.MailshotsOnline.Web.Installers
                 Component.For<IEmailService>().ImplementedBy<EmailService>().LifestyleTransient(),
                 Component.For<ISparqQueueService>().ImplementedBy<SparqQueueService>().LifestyleTransient(),
                 Component.For<IMailshotSettingsService>().ImplementedBy<MailshotSettingsService>().LifestyleTransient(),
-                Component.For<IImageLibraryService>().ImplementedBy<ImageLibraryService>().LifestyleTransient());
+                Component.For<IImageLibraryService>().ImplementedBy<ImageLibraryService>().LifestyleTransient(),
+				Component.For<ILogger>().ImplementedBy<Logger>().LifestyleTransient());
         }
 
         static public string AssemblyDirectory

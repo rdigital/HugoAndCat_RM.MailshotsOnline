@@ -1,21 +1,25 @@
-﻿using System;
+﻿using HC.RM.Common.Azure;
+using HC.RM.Common.PCL.Helpers;
+using RM.MailshotsOnline.Entities.PageModels;
+using RM.MailshotsOnline.Entities.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using RM.MailshotsOnline.Entities.PageModels;
-using RM.MailshotsOnline.Entities.ViewModels;
-using RM.MailshotsOnline.Web.Extensions;
 using Umbraco.Web.Mvc;
-using Microsoft.ApplicationInsights;
-using RM.MailshotsOnline.Web.Helpers;
 
 namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 {
     public class LoginSurfaceController : SurfaceController
     {
         private const string BadLoginFlag = "BadLogin";
-        private readonly TelemetryHelper _log = new TelemetryHelper();
+        private readonly ILogger _log;
+
+        public LoginSurfaceController(ILogger logger)
+        {
+            _log = logger;
+        }
 
         [ChildActionOnly]
         public ActionResult ShowLoginForm(Login model)

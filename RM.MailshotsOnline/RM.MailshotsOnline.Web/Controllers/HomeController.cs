@@ -1,4 +1,5 @@
 ﻿using Glass.Mapper.Umb;
+using HC.RM.Common.PCL.Helpers;
 using Microsoft.ApplicationInsights;
 using RM.MailshotsOnline.Entities.PageModels;
 using RM.MailshotsOnline.Web.Helpers;
@@ -13,8 +14,8 @@ namespace RM.MailshotsOnline.Web.Controllers
 {
     public class HomeController : GlassController
     {
-        public HomeController(IUmbracoService umbracoService) 
-            : base(umbracoService)
+        public HomeController(IUmbracoService umbracoService, ILogger logger) 
+            : base(umbracoService, logger)
         {
         }
 

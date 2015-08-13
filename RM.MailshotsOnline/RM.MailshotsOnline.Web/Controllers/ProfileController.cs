@@ -1,16 +1,11 @@
 ﻿using Glass.Mapper.Umb;
+using HC.RM.Common.PCL.Helpers;
+using RM.MailshotsOnline.PCL.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using AutoMapper;
-using RM.MailshotsOnline.Data.Extensions;
-using RM.MailshotsOnline.Entities.PageModels.Profile;
-using RM.MailshotsOnline.PCL.Services;
-using RM.MailshotsOnline.Web.Extensions;
-using umbraco;
-using Umbraco.Core.Services;
 using Umbraco.Web.Models;
 using Profile = RM.MailshotsOnline.Entities.PageModels.Profile.Profile;
 
@@ -21,8 +16,8 @@ namespace RM.MailshotsOnline.Web.Controllers
     {
         private readonly IMembershipService _membershipService;
 
-        public ProfileController(IUmbracoService umbracoService, IMembershipService membershipService)
-            : base(umbracoService)
+        public ProfileController(IUmbracoService umbracoService, IMembershipService membershipService, ILogger logger)
+            : base(umbracoService, logger)
         {
             _membershipService = membershipService;
         }

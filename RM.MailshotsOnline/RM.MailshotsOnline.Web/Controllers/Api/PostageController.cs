@@ -1,4 +1,5 @@
-﻿using RM.MailshotsOnline.PCL.Models;
+﻿using HC.RM.Common.PCL.Helpers;
+using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using System;
 using System.Collections.Generic;
@@ -13,14 +14,14 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
     {
         private IPricingService _pricingService;
 
-        public PostageController(IMembershipService membershipService, IPricingService pricingService, UmbracoContext umbracoContext)
-            : base(membershipService, umbracoContext)
+        public PostageController(IMembershipService membershipService, IPricingService pricingService, UmbracoContext umbracoContext, ILogger logger)
+            : base(membershipService, umbracoContext, logger)
         {
             _pricingService = pricingService;
         }
 
-        public PostageController(IMembershipService membershipService, IPricingService pricingService)
-            : base(membershipService)
+        public PostageController(IMembershipService membershipService, IPricingService pricingService, ILogger logger)
+            : base(membershipService, logger)
         {
             _pricingService = pricingService;        
         }

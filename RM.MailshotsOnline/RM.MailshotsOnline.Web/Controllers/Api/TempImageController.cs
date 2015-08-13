@@ -1,4 +1,5 @@
-﻿using RM.MailshotsOnline.Data.Helpers;
+﻿using HC.RM.Common.PCL.Helpers;
+using RM.MailshotsOnline.Data.Helpers;
 using RM.MailshotsOnline.PCL.Services;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 {
     public class TempImageController : ApiBaseController
     {
-        public TempImageController(IMembershipService membershipService) : base(membershipService)
+        public TempImageController(IMembershipService membershipService, ILogger logger) 
+            : base(membershipService, logger)
         {
 
         }

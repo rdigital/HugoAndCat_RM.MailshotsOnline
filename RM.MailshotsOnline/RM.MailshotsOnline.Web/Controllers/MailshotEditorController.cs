@@ -1,4 +1,5 @@
 ﻿using Glass.Mapper.Umb;
+using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Entities.PageModels;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,8 @@ namespace RM.MailshotsOnline.Web.Controllers
     //[Authorize]
     public class MailshotEditorController : GlassController
     {
-        public MailshotEditorController(IUmbracoService umbracoService) 
-            : base(umbracoService)
+        public MailshotEditorController(IUmbracoService umbracoService, ILogger logger) 
+            : base(umbracoService, logger)
         {
         }
 

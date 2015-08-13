@@ -13,13 +13,14 @@ using System.Web.Security;
 using System.Text;
 using RM.MailshotsOnline.PCL.Models;
 using HC.RM.Common.Azure.Extensions;
+using HC.RM.Common.PCL.Helpers;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
     public class MembersController : ApiBaseController
     {
-        public MembersController(IMembershipService membershipService)
-            : base(membershipService)
+        public MembersController(IMembershipService membershipService, ILogger logger)
+            : base(membershipService, logger)
         {
         }
         
@@ -70,7 +71,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             else
             {
                 //TODO: Get the error messages out of Umbraco somewhere
-                _log.Error(this.GetType().Name, "Login", "Invalid login attempt with email address {0}.", login.Email);
+                _logger.Error(this.GetType().Name, "Login", "Invalid login attempt with email address {0}.", login.Email);
                 return ErrorMessage(HttpStatusCode.BadRequest, "Login credentials incorrect");
             }
         }
@@ -115,7 +116,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             if (Members.GetByEmail(registration.Email) != null)
             {
-                _log.Error(this.GetType().Name, "Register", "Attempt to register with email {0} which has already been used.", registration.Email);
+                _logger.Error(this.GetType().Name, "Register", "Attempt to register with email {0} which has already been used.", registration.Email);
                 //TODO: Get the error messages out of Umbraco somewhere
                 return ErrorMessage(HttpStatusCode.Conflict, "The email address provided has already been used to register.");
             }
@@ -131,7 +132,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
             catch (Exception ex)
             {
-                _log.Error(this.GetType().Name, "Register", "Attempt to register with email {0} resulted in an error: {1}", registration.Email, ex.Message);
+                _logger.Error(this.GetType().Name, "Register", "Attempt to register with email {0} resulted in an error: {1}", registration.Email, ex.Message);
                 return ErrorMessage(HttpStatusCode.InternalServerError, "There was an error attempting to create your registration.");
             }
 

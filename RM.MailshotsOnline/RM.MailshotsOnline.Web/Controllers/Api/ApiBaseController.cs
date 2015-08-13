@@ -1,4 +1,6 @@
-﻿using RM.MailshotsOnline.PCL.Models;
+﻿using HC.RM.Common.Azure;
+using HC.RM.Common.PCL.Helpers;
+using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using RM.MailshotsOnline.Web.Helpers;
 using System;
@@ -19,18 +21,20 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
         internal IMembershipService _membershipService;
 
-        internal readonly TelemetryHelper _log = new TelemetryHelper();
+        internal readonly ILogger _logger;
 
         // Used for mocking
-        public ApiBaseController(IMembershipService membershipService, UmbracoContext umbracoContext)
+        public ApiBaseController(IMembershipService membershipService, UmbracoContext umbracoContext, ILogger logger)
             : base(umbracoContext)
         {
             _membershipService = membershipService;
+            _logger = logger;
         }
 
-        public ApiBaseController(IMembershipService membershipService)
+        public ApiBaseController(IMembershipService membershipService, ILogger logger)
         {
             _membershipService = membershipService;
+            _logger = logger;
         }
 
         internal HttpResponseMessage Authenticate()
