@@ -380,6 +380,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Plugins\PrivateImageViewer\imageviewer.controller.js" />
+    <Content Include="App_Plugins\PrivateImageViewer\imageviewer.html" />
     <Content Include="Config\grid.editors.config.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -399,6 +401,7 @@
     <Content Include="Gruntfile.js" />
     <Content Include="AppInsightsAgent\InstallAgent.ps1" />
     <Content Include="AppInsightsAgent\InstallAgent.bat" />
+    <Content Include="App_Plugins\PrivateImageViewer\package.manifest" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\editor.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
