@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using HC.RM.Common.PCL.Helpers;
+using NUnit.Framework;
 using RM.MailshotsOnline.Data.Services;
 using RM.MailshotsOnline.PCL.Services;
 using RM.MailshotsOnline.Test.Mocks;
@@ -22,6 +23,8 @@ namespace RM.MailshotsOnline.Test.Controllers.Api
 
         private PostageController _controller;
 
+        private ILogger _logger;
+
         private UmbracoContext _umbracoContext;
 
         [SetUp]
@@ -31,8 +34,9 @@ namespace RM.MailshotsOnline.Test.Controllers.Api
             _membershipService = new MockMembershipService();
             //_pricingService = new PricingService("StorageContextEF");
             _pricingService = new MockPricingService();
+            _logger = new MockLogger();
             _umbracoContext = umbracoHelper.GetMockContext();
-            _controller = new PostageController(_membershipService, _pricingService, _umbracoContext);
+            _controller = new PostageController(_membershipService, _pricingService, _umbracoContext, _logger);
         }
 
         [TearDown]
