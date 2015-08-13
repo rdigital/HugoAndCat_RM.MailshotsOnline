@@ -1,4 +1,10 @@
-﻿using System;
+﻿using HC.RM.Common.PCL.Helpers;
+using Newtonsoft.Json;
+using RM.MailshotsOnline.Data.Services;
+using RM.MailshotsOnline.Entities.JsonModels;
+using RM.MailshotsOnline.PCL.Models;
+using RM.MailshotsOnline.PCL.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -6,11 +12,6 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http.Results;
 using System.Web.Mvc;
-using Newtonsoft.Json;
-using RM.MailshotsOnline.Data.Services;
-using RM.MailshotsOnline.Entities.JsonModels;
-using RM.MailshotsOnline.PCL.Models;
-using RM.MailshotsOnline.PCL.Services;
 using Umbraco.Core.Models;
 using Umbraco.Web;
 using Umbraco.Web.Editors;
@@ -22,7 +23,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         private readonly IImageLibraryService _imageLibrary;
 
         // GET: Images
-        public ImageLibraryController(IMembershipService membershipService, IImageLibraryService imageLibraryService) : base(membershipService)
+        public ImageLibraryController(IMembershipService membershipService, IImageLibraryService imageLibraryService, ILogger logger) 
+            : base(membershipService, logger)
         {
             _imageLibrary = imageLibraryService;
         }
