@@ -10,28 +10,20 @@ using RM.MailshotsOnline.PCL.Models;
 namespace RM.MailshotsOnline.Entities.JsonModels
 {
     [UmbracoType(AutoMap = true)]
-    public class Image :IImage
+    public class Image : Media
     {
-        [UmbracoPropertyValue("name", "")]
-        public string Name { get; set; }
-
-        [UmbracoPropertyValue("umbracoFile", "")]
         public string Src { get; set; }
 
-        [UmbracoPropertyValue("umbracoWIdth", "")]
         public string Width { get; set; }
 
-        [UmbracoPropertyValue("umbracoHeight", "")]
         public string Height { get; set; }
 
-        [UmbracoPropertyValue("umbracoBytes", "")]
         public string Size
         {
             get { return (_size / 1024) + "KB"; }
             set { _size = Convert.ToInt32(value); }
         }
 
-        [UmbracoPropertyValue("umbracoExtension", "")]
         public string Type { get; set; }
 
         private int _size { get; set; }

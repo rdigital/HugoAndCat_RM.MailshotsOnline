@@ -148,6 +148,7 @@
     <Compile Include="Extensions\MemberExtensions.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Media Conversion\Converters\ImageMediaConverter.cs" />
+    <Compile Include="Media Conversion\Converters\MediaMediaConverter.cs" />
     <Compile Include="Media Conversion\IMediaConverter.cs" />
     <Compile Include="Media Conversion\MediaConverter.cs" />
     <Compile Include="Media Conversion\MediaFactory.cs" />

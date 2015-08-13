@@ -5,6 +5,7 @@ using RM.MailshotsOnline.Data.Media_Conversion.Converters;
 using RM.MailshotsOnline.Entities.JsonModels;
 using Umbraco.Core.Models;
 using IMedia = RM.MailshotsOnline.PCL.Models.IMedia;
+using Media = RM.MailshotsOnline.Entities.JsonModels.Media;
 
 namespace RM.MailshotsOnline.Data.Media_Conversion
 {
@@ -15,6 +16,7 @@ namespace RM.MailshotsOnline.Data.Media_Conversion
 
         static MediaFactory()
         {
+            MediaConverters.Add(typeof(Media), new MediaMediaConverter());
             MediaConverters.Add(typeof(Image), new ImageMediaConverter());
             MediaConverters.Add(typeof(PublicLibraryImage), new PublicLibraryImageMediaConverter());
             MediaConverters.Add(typeof(PrivateLibraryImage), new PrivateLibraryImageMediaConverter());

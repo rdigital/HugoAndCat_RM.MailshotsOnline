@@ -17,7 +17,6 @@ namespace RM.MailshotsOnline.Data.Media_Conversion.Converters
             Media.Height = content.GetPropertyValue("umbracoHeight")?.ToString();
             Media.Size = content.GetPropertyValue("umbracoBytes")?.ToString();
             Media.Type = content.GetPropertyValue("umbracoExtension")?.ToString();
-            Media.Name = content.GetPropertyValue("contentName")?.ToString();
 
             return Media;
         }

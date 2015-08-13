@@ -83,6 +83,7 @@
     <Compile Include="DataModels\PostalOption.cs" />
     <Compile Include="DataModels\PublicLibraryImage.cs" />
     <Compile Include="Extensions\MailshotExtensions.cs" />
+    <Compile Include="JsonModels\Media.cs" />
     <Compile Include="JsonModels\PrivateLibraryImage.cs" />
     <Compile Include="JsonModels\PublicLibraryImage.cs" />
     <Compile Include="JsonModels\ContentElement.cs" />
