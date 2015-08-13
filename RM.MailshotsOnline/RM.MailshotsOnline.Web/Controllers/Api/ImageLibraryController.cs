@@ -6,15 +6,20 @@ using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http.Results;
 using System.Web.Mvc;
+using HC.RM.Common.Images;
+using RM.MailshotsOnline.Data.Constants;
 using Umbraco.Core.Models;
 using Umbraco.Web;
 using Umbraco.Web.Editors;
+using Image = System.Drawing.Image;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
@@ -61,6 +66,77 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         {
             var results = _imageLibrary.GetTags();
             return Request.CreateResponse(HttpStatusCode.OK, results);
+        }
+
+        [HttpPut]
+        public HttpResponseMessage UploadImage(byte[] bytes, string name)
+        {
+            // todo: check size of bytes[]
+
+            var authResult = Authenticate();
+            if (authResult != null)
+            {
+                return authResult;
+            }
+
+            Image original;
+            using (var stream = new MemoryStream())
+            {
+                original = Image.FromStream(stream);
+            }
+
+            var resizer = new ImageResizer();
+            var resizedSmall = resizer.GetResizedImageBytes(original, ContentConstants.Settings.ImageThumbnailSizeSmall);
+            var resizedLarge = resizer.GetResizedImageBytes(original, ContentConstants.Settings.ImageThumbnailSizeLarge);
+
+            ImageFormat format;
+            using (var stream = new MemoryStream())
+            {
+                format = Image.FromStream(stream).RawFormat;
+            }
+
+            var s1 = _imageLibrary.AddImage(bytes, name, original.RawFormat.ToString(), _loggedInMember);
+            var s2 = _imageLibrary.AddImage(resizedSmall, name, format.ToString(), _loggedInMember);
+            var s3 = _imageLibrary.AddImage(resizedLarge, name, format.ToString(), _loggedInMember);
+
+            if (!(s1 || s2 || s3))
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.Created);
+        }
+
+        [HttpPost]
+        public HttpResponseMessage DeleteImage(string id)
+        {
+            var authResult = Authenticate();
+            if (authResult != null)
+            {
+                return authResult;
+            }
+
+            // delete from blob store.
+
+            // delete from umbraco
+
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        [HttpPost]
+        public HttpResponseMessage RenameImage(string id)
+        {
+            var authResult = Authenticate();
+            if (authResult != null)
+            {
+                return authResult;
+            }
+
+            // rename in blob store.
+
+            // rename in umbraco
+
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }

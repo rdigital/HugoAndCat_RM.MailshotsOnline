@@ -11,6 +11,6 @@ namespace RM.MailshotsOnline.Data.Media_Conversion
         /// <param name="content">The content item</param>
         /// <param name="o">The object that </param>
         /// <returns></returns>
-        IMedia Convert(IPublishedContent content, object);
+        IMedia Convert(IPublishedContent content, object o);
     }
 }

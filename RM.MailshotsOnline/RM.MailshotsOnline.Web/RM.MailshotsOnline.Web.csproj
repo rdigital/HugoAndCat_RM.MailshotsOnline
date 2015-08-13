@@ -2920,7 +2920,6 @@
     <Compile Include="Controllers\SurfaceControllers\RegisterSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ResetPasswordSurfaceController.cs" />
     <Compile Include="Extensions\BasePageExtensions.cs" />
-    <Compile Include="Helpers\BlobStorageHelper.cs" />
     <Compile Include="Helpers\ControllersHelper.cs" />
     <Compile Include="Helpers\MembershipHelper.cs" />
     <Compile Include="Installers\ControllersInstaller.cs" />
@@ -3263,6 +3262,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HC.RM.Common.Images\HC.RM.Common.Images.csproj">
+      <Project>{b90ff7f0-d68b-47a3-90da-ee6776210f3a}</Project>
+      <Name>HC.RM.Common.Images</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RM.MailshotsOnline.Data\RM.MailshotsOnline.Data.csproj">
       <Project>{0d159929-5a8f-4e0c-84a6-3c7e9de5f5ad}</Project>
       <Name>RM.MailshotsOnline.Data</Name>

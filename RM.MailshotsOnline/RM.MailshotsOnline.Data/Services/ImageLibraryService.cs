@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Glass.Mapper.Umb;
+using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.Constants;
+using RM.MailshotsOnline.Data.Helpers;
 using RM.MailshotsOnline.Data.Media_Conversion;
 using RM.MailshotsOnline.Entities.JsonModels;
-using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
-using Umbraco.Core.Models;
+using Umbraco.Core;
 using Umbraco.Web;
 using IMember = RM.MailshotsOnline.PCL.Models.IMember;
 using IMedia = RM.MailshotsOnline.PCL.Models.IMedia;
@@ -17,12 +19,14 @@ namespace RM.MailshotsOnline.Data.Services
 {
     public class ImageLibraryService : IImageLibraryService
     {
-        private readonly IUmbracoService _umbracoService;
-        private readonly UmbracoHelper _helper = new Umbraco.Web.UmbracoHelper(UmbracoContext.Current);
+        private readonly UmbracoHelper _helper = new UmbracoHelper(UmbracoContext.Current);
+        private readonly BlobStorageHelper _blobStorage =
+            new BlobStorageHelper(ConfigHelper.StorageConnectionString, ConfigHelper.PrivateMediaBlobStorageContainer);
+        private readonly ILogger _logger;
 
-        public ImageLibraryService(IUmbracoService umbracoService)
+        public ImageLibraryService(ILogger logger)
         {
-            _umbracoService = umbracoService;
+            _logger = logger;
         }
 
         /// <summary>
@@ -73,9 +77,22 @@ namespace RM.MailshotsOnline.Data.Services
             return memberPrivateImages.Select(x => MediaFactory.Convert(x, typeof(PrivateLibraryImage)));
         }
 
-        public bool AddImage(IMedia image, IMember member)
+        public bool AddImage(byte[] bytes, string name, string extension, IMember member)
         {
-            throw new NotImplementedException();
+            var filename = $"{member.Id}/{name}{DateTime.UtcNow}.{extension}";
+
+            try
+            {
+                _blobStorage.StoreBytes(bytes, filename, $"image/{extension.ToLower()}");
+            }
+            catch(Exception e)
+            {
+                _logger.Error(this.GetType().Name, "AddImage", $"{e.GetType().Name} {e.Message} {e.StackTrace}");
+
+                return false;
+            }
+
+            return true;
         }
 
         public bool DeleteImage(IMedia image)
