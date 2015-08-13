@@ -72,10 +72,12 @@
   <ItemGroup>
     <Compile Include="Attributes\RecaptchaValidatorAttribute.cs" />
     <Compile Include="DataModels\Campaign.cs" />
+    <Compile Include="DataModels\CmsImage.cs" />
     <Compile Include="DataModels\Contact.cs" />
     <Compile Include="DataModels\DistributionList.cs" />
     <Compile Include="DataModels\Mailshot.cs" />
     <Compile Include="DataModels\MailshotContent.cs" />
+    <Compile Include="DataModels\MailshotImageUse.cs" />
     <Compile Include="DataModels\MailshotSettings\Format.cs" />
     <Compile Include="DataModels\MailshotSettings\Template.cs" />
     <Compile Include="DataModels\MailshotSettings\Theme.cs" />
@@ -123,6 +125,7 @@
     <Compile Include="ViewModels\PdfRenderResultViewModel.cs" />
     <Compile Include="ViewModels\OrganisationDetailsViewModel.cs" />
     <Compile Include="ViewModels\PersonalDetailsViewModel.cs" />
+    <Compile Include="ViewModels\ProcessedMailshotData.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\RequestResetPasswordViewModel.cs" />
     <Compile Include="ViewModels\ResetPasswordViewModel.cs" />

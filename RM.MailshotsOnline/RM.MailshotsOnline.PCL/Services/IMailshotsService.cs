@@ -17,5 +17,7 @@ namespace RM.MailshotsOnline.PCL.Services
         IMailshot SaveMailshot(IMailshot mailshot);
 
         void Delete(IMailshot mailshot);
+
+        void UpdateLinkedImages(IMailshot mailshot, IEnumerable<string> linkedImages);
     }
 }

@@ -73,8 +73,8 @@ namespace RM.MailshotsOnline.Data.Services
                 var orderType = printAfterRender ? SparqOrderType.RenderAndPrint : SparqOrderType.RenderOnly;
                 var groupOrder = printAfterRender; // TODO: Confirm that this is correct
                 var order = new SparqOrder(mailshot.ProofPdfOrderNumber, // Order ID
-                                           Encoding.UTF8.GetBytes(xmlAndXsl.Item1), // XML Bytes
-                                           Encoding.UTF8.GetBytes(xmlAndXsl.Item2), // XSL Bytes
+                                           Encoding.UTF8.GetBytes(xmlAndXsl.XmlData), // XML Bytes
+                                           Encoding.UTF8.GetBytes(xmlAndXsl.XslStylesheet), // XSL Bytes
                                            baseUrl, // Base URL for additional assets
                                            orderPriority, // Priority
                                            orderType, // Order type

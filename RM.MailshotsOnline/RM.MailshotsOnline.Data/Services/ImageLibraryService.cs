@@ -18,11 +18,13 @@ namespace RM.MailshotsOnline.Data.Services
     public class ImageLibraryService : IImageLibraryService
     {
         private readonly IUmbracoService _umbracoService;
+        private readonly ICmsImageService _cmsImageService;
         private readonly UmbracoHelper _helper = new Umbraco.Web.UmbracoHelper(UmbracoContext.Current);
 
-        public ImageLibraryService(IUmbracoService umbracoService)
+        public ImageLibraryService(IUmbracoService umbracoService, ICmsImageService cmsImageService)
         {
             _umbracoService = umbracoService;
+            _cmsImageService = cmsImageService;
         }
 
         /// <summary>
@@ -42,8 +44,8 @@ namespace RM.MailshotsOnline.Data.Services
         public IEnumerable<IMedia> GetImages()
         {
             return
-                _helper.TagQuery.GetMediaByTagGroup(ContentConstants.Settings.DefaultMediaLibraryTagGroup)
-                    .Select(x => MediaFactory.Convert(x, typeof (PublicLibraryImage)));
+                PopulateUsageCounts(_helper.TagQuery.GetMediaByTagGroup(ContentConstants.Settings.DefaultMediaLibraryTagGroup)
+                    .Select(x => MediaFactory.Convert(x, typeof (PublicLibraryImage))));
         }
 
         /// <summary>
@@ -53,7 +55,7 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>The collection of images.</returns>
         public IEnumerable<IMedia> GetImages(string tag)
         {
-            return _helper.TagQuery.GetMediaByTag(tag, ContentConstants.Settings.DefaultMediaLibraryTagGroup).Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage)));
+            return PopulateUsageCounts(_helper.TagQuery.GetMediaByTag(tag, ContentConstants.Settings.DefaultMediaLibraryTagGroup).Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage))));
         }
 
         /// <summary>
@@ -70,7 +72,7 @@ namespace RM.MailshotsOnline.Data.Services
             var memberPrivateImages =
                 privateImages.Where(x => x.GetPropertyValue("username").Equals(member.Username.ToString()));
 
-            return memberPrivateImages.Select(x => MediaFactory.Convert(x, typeof(PrivateLibraryImage)));
+            return PopulateUsageCounts(memberPrivateImages.Select(x => MediaFactory.Convert(x, typeof(PrivateLibraryImage))));
         }
 
         public bool AddImage(IMedia image, IMember member)
@@ -86,6 +88,18 @@ namespace RM.MailshotsOnline.Data.Services
         public bool RenameImage(IMedia image, string name)
         {
             throw new NotImplementedException();
+        }
+
+        private IEnumerable<IMedia> PopulateUsageCounts(IEnumerable<IMedia> mediaItems)
+        {
+            List<IMedia> result = new List<IMedia>();
+            foreach(var mediaItem in mediaItems)
+            {
+                mediaItem.MailshotUses = _cmsImageService.GetImageUsageCount(mediaItem.MediaId);
+                result.Add(mediaItem);
+            }
+
+            return result;
         }
     }
 }

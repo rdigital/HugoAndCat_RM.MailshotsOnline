@@ -82,6 +82,11 @@ namespace RM.MailshotsOnline.Data.Helpers
             get { return GetConfigValue("PrivateMediaBlobStorageContainer"); }
         }
 
+        public static string PublicLibraryImageContentTypeAlias
+        {
+            get { return GetConfigValue("PublicLibraryImageContentTypeAlias", "PublicLibraryImage"); }
+        }
+
         /// <summary>
         /// Content Type Alias for the Mailshot Template items
         /// </summary>

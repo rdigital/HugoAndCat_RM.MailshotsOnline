@@ -204,6 +204,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CmsImageService.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\ImageLibraryService.cs" />
     <Compile Include="Services\MailshotSettingsService.cs" />

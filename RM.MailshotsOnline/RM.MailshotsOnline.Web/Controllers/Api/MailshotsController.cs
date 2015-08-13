@@ -126,7 +126,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             IFormat format = null;
             ITemplate template = null;
             ITheme theme = null;
-            var jsonCheckResult = ConfirmJsonContentIsCorrect(mailshot.ContentText, out format, out template, out theme);
+            MailshotEditorContent parsedContent = null;
+            var jsonCheckResult = ConfirmJsonContentIsCorrect(mailshot.ContentText, out format, out template, out theme, out parsedContent);
 
             if (jsonCheckResult != null)
             {
@@ -144,9 +145,12 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             mailshotData.TemplateId = template.TemplateId;
             mailshotData.ThemeId = theme.ThemeId;
 
+            var linkedImages = parsedContent.Elements.Where(e => !string.IsNullOrEmpty(e.Src)).Select(e => e.Src);
+
             try
             {
                 var savedMailshot = _mailshotsService.SaveMailshot(mailshotData);
+                _mailshotsService.UpdateLinkedImages(savedMailshot, linkedImages);
                 return Request.CreateResponse(HttpStatusCode.Created, new { id = savedMailshot.MailshotId });
             }
             catch (Exception ex)
@@ -199,7 +203,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             IFormat format = null;
             ITemplate template = null;
             ITheme theme = null;
-            var jsonCheckResult = ConfirmJsonContentIsCorrect(mailshot.ContentText, out format, out template, out theme);
+            MailshotEditorContent parsedContent = null;
+            var jsonCheckResult = ConfirmJsonContentIsCorrect(mailshot.ContentText, out format, out template, out theme, out parsedContent);
 
             if (jsonCheckResult != null)
             {
@@ -226,10 +231,13 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             mailshotData.ThemeId = theme.ThemeId;
             mailshotData.ProofPdfStatus = PCL.Enums.PdfRenderStatus.None;
 
+            var linkedImages = parsedContent.Elements.Where(e => !string.IsNullOrEmpty(e.Src)).Select(e => e.Src);
+
             var success = false;
             try
             {
                 _mailshotsService.SaveMailshot(mailshotData);
+                _mailshotsService.UpdateLinkedImages(mailshotData, linkedImages);
                 success = true;
             }
             catch (Exception ex)
@@ -334,14 +342,14 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         /// <param name="template">The Template used for the mailshot</param>
         /// <param name="theme">The Theme used for the mailshot</param>
         /// <returns>Returns an HTTP response if the JSON is incorrect</returns>
-        private HttpResponseMessage ConfirmJsonContentIsCorrect(string content, out IFormat format, out ITemplate template, out ITheme theme)
+        private HttpResponseMessage ConfirmJsonContentIsCorrect(string content, out IFormat format, out ITemplate template, out ITheme theme, out MailshotEditorContent parsedContent)
         {
             format = null;
             template = null;
             theme = null;
 
             // Confirm that the JSON content is correct
-            MailshotEditorContent parsedContent = null;
+            parsedContent = null;
             try
             {
                 parsedContent = JsonConvert.DeserializeObject<MailshotEditorContent>(content);
