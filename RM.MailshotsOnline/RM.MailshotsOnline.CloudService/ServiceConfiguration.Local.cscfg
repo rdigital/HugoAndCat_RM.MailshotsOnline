@@ -20,6 +20,7 @@
       <Setting name="SparqServiceBlobContainer" value="sparq-blob-storage-container" />
       <Setting name="SparqServiceBusConnectionString" value="Endpoint=sb://bdhc-rmsharedservicesb.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=g3Nsb+aWx6pKYFddoVb2JFHUTjs5fHIw+ndvpyc5DGk=" />
       <Setting name="SparqBlobContainer" value="sparq-blob-storage-container" />
+      <Setting name="PrivateMediaBlobStorageContainer" value="privateimages" />
       <Setting name="RenderQueueName" value="RenderOnlyQueue" />
       <Setting name="PrintQueueName" value="RenderAndPrintQueue" />
       <Setting name="HostedDomain" value="localhost" />

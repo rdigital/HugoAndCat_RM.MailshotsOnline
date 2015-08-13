@@ -21,6 +21,7 @@
       <Setting name="SparqBlobContainer" value="sparq-blob-storage-container" />
       <Setting name="RenderQueueName" value="RenderOnlyQueue" />
       <Setting name="PrintQueueName" value="RenderAndPrintQueue" />
+      <Setting name="PrivateMediaBlobStorageContainer" value="privateimages" />
       <Setting name="HostedDomain" value="mrhcrmmsol.cloudapp.net" />
       <Setting name="HostedScheme" value="http" />
       <Setting name="HostedPort" value="80" />

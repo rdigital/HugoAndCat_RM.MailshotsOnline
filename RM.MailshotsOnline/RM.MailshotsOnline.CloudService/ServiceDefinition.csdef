@@ -19,6 +19,7 @@
       <Setting name="SparqServicePassword" />-->
       <Setting name="SparqServiceBlobConnectionString" />
       <Setting name="SparqServiceBlobContainer" />
+      <Setting name="PrivateMediaBlobStorageContainer" />
       <Setting name="SparqServiceBusConnectionString" />
       <Setting name="SparqBlobContainer"/>
       <Setting name="RenderQueueName" />

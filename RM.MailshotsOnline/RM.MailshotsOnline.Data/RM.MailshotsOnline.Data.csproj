@@ -146,6 +146,7 @@
     <Compile Include="Extensions\DataTypeExtensions.cs" />
     <Compile Include="Extensions\MediaExtensions.cs" />
     <Compile Include="Extensions\MemberExtensions.cs" />
+    <Compile Include="Helpers\BlobStorageHelper.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Media Conversion\Converters\ImageMediaConverter.cs" />
     <Compile Include="Media Conversion\Converters\MediaMediaConverter.cs" />
