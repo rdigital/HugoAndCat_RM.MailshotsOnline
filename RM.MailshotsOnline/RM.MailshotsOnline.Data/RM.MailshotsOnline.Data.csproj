@@ -144,9 +144,15 @@
     <Compile Include="DAL\AzureConfiguration.cs" />
     <Compile Include="DAL\StorageContext.cs" />
     <Compile Include="Extensions\DataTypeExtensions.cs" />
+    <Compile Include="Extensions\MediaExtensions.cs" />
     <Compile Include="Extensions\MemberExtensions.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
-    <Compile Include="Helpers\MediaConverter.cs" />
+    <Compile Include="Media Conversion\Converters\ImageMediaConverter.cs" />
+    <Compile Include="Media Conversion\IMediaConverter.cs" />
+    <Compile Include="Media Conversion\MediaConverter.cs" />
+    <Compile Include="Media Conversion\MediaFactory.cs" />
+    <Compile Include="Media Conversion\Converters\PrivateLibraryImageMediaConverter.cs" />
+    <Compile Include="Media Conversion\Converters\PublicLibraryImageMediaConverter.cs" />
     <Compile Include="Migrations\201507081006455_InitialCreate.cs" />
     <Compile Include="Migrations\201507081006455_InitialCreate.Designer.cs">
       <DependentUpon>201507081006455_InitialCreate.cs</DependentUpon>

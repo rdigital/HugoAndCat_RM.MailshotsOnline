@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Glass.Mapper.Umb;
 using RM.MailshotsOnline.Data.Constants;
+using RM.MailshotsOnline.Data.Media_Conversion;
 using RM.MailshotsOnline.Entities.JsonModels;
-using RM.MailshotsOnline.Entities.PageModels;
 using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using Umbraco.Core.Models;
-using Umbraco.Core.Persistence;
-using Umbraco.Core.Services;
 using Umbraco.Web;
 using IMember = RM.MailshotsOnline.PCL.Models.IMember;
+using IMedia = RM.MailshotsOnline.PCL.Models.IMedia;
 using UmbracoContext = Umbraco.Web.UmbracoContext;
 
 namespace RM.MailshotsOnline.Data.Services
@@ -61,7 +59,7 @@ namespace RM.MailshotsOnline.Data.Services
         /// </summary>
         /// <param name="member">The member.</param>
         /// <returns>The collection of images.</returns>
-        public IEnumerable<IImage> GetImages(IMember member)
+        public IEnumerable<IMedia> GetImages(IMember member)
         {
             var privateImages =
                 _helper.ContentQuery.TypedMedia(ContentConstants.MediaContent.PrivateMediaLibraryId)
@@ -70,7 +68,7 @@ namespace RM.MailshotsOnline.Data.Services
             var memberPrivateImages =
                 privateImages.Where(x => x.GetPropertyValue("username").Equals(member.Username.ToString()));
 
-            return Convert(memberPrivateImages, true);
+            return memberPrivateImages.Select(x => MediaFactory.Convert(x, typeof(PrivateLibraryImage)));
         }
 
         public bool AddImage(IImage image, IMember member)

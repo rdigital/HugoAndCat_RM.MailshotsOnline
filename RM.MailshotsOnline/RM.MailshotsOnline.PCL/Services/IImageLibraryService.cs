@@ -11,7 +11,7 @@ namespace RM.MailshotsOnline.PCL.Services
 
         IEnumerable<IImage> GetImages(string tag);
 
-        IEnumerable<IImage> GetImages(IMember member);
+        IEnumerable<IMedia> GetImages(IMember member);
 
         bool AddImage(IImage image, IMember member);
 

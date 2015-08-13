@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using RM.MailshotsOnline.Data.Constants;
-using RM.MailshotsOnline.Data.Extensions;
+using RM.MailshotsOnline.Data.Media_Conversion.Converters;
 using RM.MailshotsOnline.Entities.JsonModels;
 using Umbraco.Core.Models;
-using Umbraco.Web;
 using IMedia = RM.MailshotsOnline.PCL.Models.IMedia;
 
-namespace RM.MailshotsOnline.Data.Helpers
+namespace RM.MailshotsOnline.Data.Media_Conversion
 {
     public static class MediaFactory
     {
         private static readonly Dictionary<Type, IMediaConverter> MediaConverters =
             new Dictionary<Type, IMediaConverter>();
-
 
         static MediaFactory()
         {
@@ -35,7 +31,7 @@ namespace RM.MailshotsOnline.Data.Helpers
         /// </summary>
         /// <param name="content">The content item to convert</param>
         /// <param name="type">The type to convert the item into</param>
-        /// <returns></returns>
+        /// <returns>The converted media</returns>
         public static IMedia Convert(IPublishedContent content, Type type)
         {
             // Create a new instance of our type
@@ -61,9 +57,9 @@ namespace RM.MailshotsOnline.Data.Helpers
         /// <summary>
         /// Recursively get the registered conversion methods for the given type.
         /// </summary>
-        /// <param name="t">The type to use for searching registered conversions methods</param>
+        /// <param name="t">The type</param>
         /// <param name="mediaConverters">The current stack of conversion methods that applies to this type</param>
-        /// <returns></returns>
+        /// <returns>The complete set of conversions to apply to the media of the given type</returns>
         private static Stack<IMediaConverter> GetConversionMethods(Type t, Stack<IMediaConverter> mediaConverters)
         {
             if (MediaConverters.ContainsKey(t))
@@ -79,62 +75,6 @@ namespace RM.MailshotsOnline.Data.Helpers
             GetConversionMethods(t.BaseType, mediaConverters);
 
             return mediaConverters;
-        }
-    }
-
-    public interface IMediaConverter
-    {
-        IMedia Convert(IPublishedContent content, object o);
-    }
-
-    public abstract class ImageMediaConverter<T> : IMediaConverter where T : IMedia
-    {
-        public abstract T Media { get; set; }
-
-        public abstract IMedia Convert(IPublishedContent content, object o);
-    }
-
-    public class ImageMediaConverter : ImageMediaConverter<Image>
-    {
-        public override Image Media { get; set; }
-
-        public override IMedia Convert(IPublishedContent content, object o)
-        {
-            Media = (Image) o;
-            Media.Src = content.GetPropertyValue("umbracoFile")?.ToString();
-            Media.Width = content.GetPropertyValue("umbracoWidth")?.ToString();
-            Media.Height = content.GetPropertyValue("umbracoHeight")?.ToString();
-            Media.Size = content.GetPropertyValue("umbracoBytes")?.ToString();
-            Media.Type = content.GetPropertyValue("umbracoExtension")?.ToString();
-            Media.Name = content.GetPropertyValue("umbracoName")?.ToString();
-
-            return Media;
-        }
-    }
-
-    public class PrivateLibraryImageMediaConverter : ImageMediaConverter<PrivateLibraryImage>
-    {
-        public override PrivateLibraryImage Media { get; set; }
-
-        public override IMedia Convert(IPublishedContent content, object o)
-        {
-            Media = (PrivateLibraryImage) o;
-            Media.Username = content.GetPropertyValue("username")?.ToString();
-
-            return Media;
-        }
-    }
-
-    public class PublicLibraryImageMediaConverter : ImageMediaConverter<PublicLibraryImage>
-    {
-        public override PublicLibraryImage Media { get; set; }
-
-        public override IMedia Convert(IPublishedContent content, object o)
-        {
-            Media = (PublicLibraryImage) o;
-            Media.Tags = content.GetPropertyValue("tags")?.ToString().Split(',');
-
-            return Media;
         }
     }
 }
