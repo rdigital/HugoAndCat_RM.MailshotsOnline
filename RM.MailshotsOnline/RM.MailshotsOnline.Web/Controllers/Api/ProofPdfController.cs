@@ -1,6 +1,7 @@
 ﻿using HC.RM.Common.Azure.Extensions;
 using HC.RM.Common.Azure.Persistence;
 using HC.RM.Common.Orders;
+using HC.RM.Common.PCL.Helpers;
 using HC.RM.Common.PCL.Persistence;
 using Newtonsoft.Json;
 using RM.MailshotsOnline.Data.Helpers;
@@ -29,8 +30,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
         private string _controllerName;
 
-        public ProofPdfController(ISparqQueueService sparqQueueService, IMailshotsService mailshotsService, IMembershipService membershipService)
-            : base(membershipService)
+        public ProofPdfController(ISparqQueueService sparqQueueService, IMailshotsService mailshotsService, IMembershipService membershipService, ILogger logger)
+            : base(membershipService, logger)
         {
             _mailshotsService = mailshotsService;
             _sparqQueueService = sparqQueueService;
@@ -52,7 +53,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             var authResult = Authenticate();
             if (authResult != null)
             {
-                _log.Error(_controllerName, "Get", "Unauthenticated request for Proof PDF for mailshot {0}.", id);
+                _logger.Error(_controllerName, "Get", "Unauthenticated request for Proof PDF for mailshot {0}.", id);
                 return authResult;
             }
 
@@ -60,14 +61,14 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             var mailshot = _mailshotsService.GetMailshot(id);
             if (mailshot == null)
             {
-                _log.Info(_controllerName, "Get", "Request for Proof PDF for unknown mailshot {0}.", id);
+                _logger.Info(_controllerName, "Get", "Request for Proof PDF for unknown mailshot {0}.", id);
                 return ErrorMessage(HttpStatusCode.NotFound, "No mailshot found with that ID");
             }
 
             // Confirm that the user owns the mailshot
             if (mailshot.UserId != _loggedInMember.Id)
             {
-                _log.Error(_controllerName, "Get", "Unauthorized request for Proof PDF for mailshot {0}.", id);
+                _logger.Error(_controllerName, "Get", "Unauthorized request for Proof PDF for mailshot {0}.", id);
                 return ErrorMessage(HttpStatusCode.Forbidden, "Forbidden");
             }
 
@@ -101,7 +102,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             var authResult = Authenticate();
             if (authResult != null)
             {
-                _log.Error(_controllerName, methodName, "Unauthenticated request to create Proof PDF for mailshot {0}.", id);
+                _logger.Error(_controllerName, methodName, "Unauthenticated request to create Proof PDF for mailshot {0}.", id);
                 return authResult;
             }
 
@@ -109,14 +110,14 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             var mailshot = _mailshotsService.GetMailshot(id);
             if (mailshot == null)
             {
-                _log.Info(_controllerName, methodName, "Request to create Proof PDF for unknown mailshot {0}.", id);
+                _logger.Info(_controllerName, methodName, "Request to create Proof PDF for unknown mailshot {0}.", id);
                 return ErrorMessage(HttpStatusCode.NotFound, "No mailshot found with that ID");
             }
 
             // Confirm that the user owns the mailshot
             if (mailshot.UserId != _loggedInMember.Id)
             {
-                _log.Error(_controllerName, methodName, "Unauthorized request to create Proof PDF for mailshot {0}.", id);
+                _logger.Error(_controllerName, methodName, "Unauthorized request to create Proof PDF for mailshot {0}.", id);
                 return ErrorMessage(HttpStatusCode.Forbidden, "Forbidden");
             }
 
@@ -132,8 +133,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 }
                 catch (Exception ex)
                 {
-                    _log.Exception(_controllerName, methodName, ex);
-                    _log.Error(_controllerName, methodName, "Unable to save the order number to mailshot {0}: {1}", id, ex.Message);
+                    _logger.Exception(_controllerName, methodName, ex);
+                    _logger.Error(_controllerName, methodName, "Unable to save the order number to mailshot {0}: {1}", id, ex.Message);
                 }
 
                 // Use the Sparq service to create a render PDF job
@@ -141,12 +142,12 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 try
                 {
                     messageSent = await _sparqQueueService.SendRenderJob(mailshot);
-                    _log.Info(_controllerName, methodName, "Proof PDF requested for mailshot {0}", id);
+                    _logger.Info(_controllerName, methodName, "Proof PDF requested for mailshot {0}", id);
                 }
                 catch (Exception ex)
                 {
-                    _log.Exception(_controllerName, methodName, ex);
-                    _log.Error(_controllerName, methodName, "Error when attempting to send render job for mailshot {0}: {1}", id, ex.Message);
+                    _logger.Exception(_controllerName, methodName, ex);
+                    _logger.Error(_controllerName, methodName, "Error when attempting to send render job for mailshot {0}: {1}", id, ex.Message);
                 }
 
                 HttpResponseMessage result = null;
@@ -170,14 +171,14 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 }
                 catch (Exception ex)
                 {
-                    _log.Error(_controllerName, methodName, "Unable to update status of mailshot object {0}: {1}", id, ex.Message);
+                    _logger.Error(_controllerName, methodName, "Unable to update status of mailshot object {0}: {1}", id, ex.Message);
                 }
 
                 return result;
             }
             else
             {
-                _log.Info(_controllerName, methodName, "Request to create Proof PDF for mailshot {0}: Proof PDF is already pending.", id);
+                _logger.Info(_controllerName, methodName, "Request to create Proof PDF for mailshot {0}: Proof PDF is already pending.", id);
                 return ErrorMessage(HttpStatusCode.Conflict, "There is already a proof PDF generation job pending for this mailshot.  Please wait for this job to complete before starting another.");
             }
         }
@@ -188,25 +189,25 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         {
             string methodName = "ProofReady";
 
-            _log.Info(_controllerName, methodName, "Proof ready post sent for mailshot {0}. Order ID: {1}; Results: {2}", id, orderResults.OrderId, orderResults.Results);
+            _logger.Info(_controllerName, methodName, "Proof ready post sent for mailshot {0}. Order ID: {1}; Results: {2}", id, orderResults.OrderId, orderResults.Results);
 
             var mailshot = _mailshotsService.GetMailshot(id);
             if (mailshot == null)
             {
-                _log.Warn(_controllerName, methodName, "Proof ready post sent for mailshot {0} which was not found.", id);
+                _logger.Warn(_controllerName, methodName, "Proof ready post sent for mailshot {0} which was not found.", id);
                 return ErrorMessage(HttpStatusCode.NotFound, "No mailshot found with that ID");
             }
 
             Guid orderNumber;
             if (!Guid.TryParse(orderResults.OrderId, out orderNumber))
             {
-                _log.Warn(_controllerName, methodName, "Proof ready post sent for mailshot {0} with incorrect order number {0}.", id, orderResults.OrderId);
+                _logger.Warn(_controllerName, methodName, "Proof ready post sent for mailshot {0} with incorrect order number {0}.", id, orderResults.OrderId);
                 return ErrorMessage(HttpStatusCode.BadRequest, "Invalid order number.");
             }
 
             if (mailshot.ProofPdfOrderNumber != orderNumber)
             {
-                _log.Warn(_controllerName, methodName, "Proof ready post sent for mailshot {0} with incorrect order number {0}.", id, orderResults.OrderId);
+                _logger.Warn(_controllerName, methodName, "Proof ready post sent for mailshot {0} with incorrect order number {0}.", id, orderResults.OrderId);
                 return ErrorMessage(HttpStatusCode.BadRequest, "Mismatch on order number.");
             }
 
@@ -218,8 +219,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
             catch (Exception ex)
             {
-                _log.Exception(_controllerName, methodName, ex);
-                _log.Warn(_controllerName, methodName, "Proof ready post sent for mailshot {0} without valid results.", id);
+                _logger.Exception(_controllerName, methodName, ex);
+                _logger.Warn(_controllerName, methodName, "Proof ready post sent for mailshot {0} without valid results.", id);
                 mailshot.ProofPdfStatus = PCL.Enums.PdfRenderStatus.Failed;
                 _mailshotsService.SaveMailshot(mailshot);
                 return ErrorMessage(HttpStatusCode.BadRequest, "Results invalid.");
@@ -229,25 +230,25 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             var result = parsedResults.FirstOrDefault();
             if (result == null)
             {
-                _log.Warn(_controllerName, methodName, "Proof ready post sent for mailshot {0} without valid results.", id);
+                _logger.Warn(_controllerName, methodName, "Proof ready post sent for mailshot {0} without valid results.", id);
                 mailshot.ProofPdfStatus = PCL.Enums.PdfRenderStatus.Failed;
                 _mailshotsService.SaveMailshot(mailshot);
                 return ErrorMessage(HttpStatusCode.BadRequest, "No results returned.");
             }
 
-            _log.Info(_controllerName, methodName, "Proof for mailshot {0} returned status {1}.", id, result.Status);
+            _logger.Info(_controllerName, methodName, "Proof for mailshot {0} returned status {1}.", id, result.Status);
 
             if (result.Errors != null && result.Errors.Any())
             {
                 foreach (var error in result.Errors)
                 {
-                    _log.Warn(_controllerName, methodName, "Error rendering mailshot {0}, order number {1}: {2}", id, orderNumber, error.Message);
+                    _logger.Warn(_controllerName, methodName, "Error rendering mailshot {0}, order number {1}: {2}", id, orderNumber, error.Message);
                 }
             }
             
             if (string.IsNullOrEmpty(result.BlobId))
             {
-                _log.Warn(_controllerName, methodName, "Proof ready post sent for mailshot {0} without blob ID.", id);
+                _logger.Warn(_controllerName, methodName, "Proof ready post sent for mailshot {0} without blob ID.", id);
                 mailshot.ProofPdfStatus = PCL.Enums.PdfRenderStatus.Failed;
                 _mailshotsService.SaveMailshot(mailshot);
                 return ErrorMessage(HttpStatusCode.BadRequest, "No blob ID returned.");
@@ -265,8 +266,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
             catch (Exception ex)
             {
-                _log.Exception(_controllerName, methodName, ex);
-                _log.Error(_controllerName, methodName, "Unable to download blob {0} from shared service blob storage for mailshot {1}.", result.BlobId, id);
+                _logger.Exception(_controllerName, methodName, ex);
+                _logger.Error(_controllerName, methodName, "Unable to download blob {0} from shared service blob storage for mailshot {1}.", result.BlobId, id);
                 mailshot.ProofPdfStatus = PCL.Enums.PdfRenderStatus.Failed;
                 _mailshotsService.SaveMailshot(mailshot);
                 return ErrorMessage(HttpStatusCode.InternalServerError, "Unable to download proof PDF from blob storage.");
@@ -284,8 +285,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
             catch (Exception ex)
             {
-                _log.Exception(_controllerName, methodName, ex);
-                _log.Error(_controllerName, methodName, "Unable to save PDF to blob storage for mailshot {0}.", id);
+                _logger.Exception(_controllerName, methodName, ex);
+                _logger.Error(_controllerName, methodName, "Unable to save PDF to blob storage for mailshot {0}.", id);
                 mailshot.ProofPdfStatus = PCL.Enums.PdfRenderStatus.Failed;
                 _mailshotsService.SaveMailshot(mailshot);
                 return ErrorMessage(HttpStatusCode.InternalServerError, "Unable to save proof PDF to blob storage.");

@@ -1,12 +1,9 @@
-﻿using Castle.Windsor.Installer;
+﻿using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.Extensions;
-using RM.MailshotsOnline.Data.Services;
 using RM.MailshotsOnline.Entities.MemberModels;
 using RM.MailshotsOnline.Entities.PageModels;
 using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.PCL.Services;
-using RM.MailshotsOnline.Web.Extensions;
-using RM.MailshotsOnline.Web.Helpers;
 using System;
 using System.Configuration;
 using System.Runtime.InteropServices;
@@ -22,12 +19,13 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         private readonly IMembershipService _membershipService;
         private readonly IEmailService _emailService;
         private const string CompletedFlag = "RegistrationComplete";
-        private readonly TelemetryHelper _log = new TelemetryHelper();
+        private readonly ILogger _logger;
 
-        public RegisterSurfaceController(IMembershipService membershipService, IEmailService emailService)
+        public RegisterSurfaceController(IMembershipService membershipService, IEmailService emailService, ILogger logger)
         {
             _membershipService = membershipService;
             _emailService = emailService;
+            _logger = logger;
         }
 
         // GET: Register
@@ -62,7 +60,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             if (Members.GetByEmail(model.ViewModel.Email) != null)
             {
-                _log.Info(this.GetType().Name, "RegisterForm", "Duplicate registration attempted.");
+                _logger.Info(this.GetType().Name, "RegisterForm", "Duplicate registration attempted.");
                 ModelState.AddModelError("ViewModel.Email", model.AlreadyRegisteredMessage);
                 return CurrentUmbracoPage();
             }
@@ -73,20 +71,20 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             }
             catch (MembershipPasswordException)
             {
-                _log.Info(this.GetType().Name, "RegisterForm", "Registration attempt with low quality password.");
+                _logger.Info(this.GetType().Name, "RegisterForm", "Registration attempt with low quality password.");
                 ModelState.AddModelError("PasswordError",
                     model.PasswordErrorMessage);
                 return CurrentUmbracoPage();
             }
             catch (Exception ex)
             {
-                _log.Error(this.GetType().Name, "RegisterForm", "Registration attempt failed with error: {0}", ex.Message);
+                _logger.Error(this.GetType().Name, "RegisterForm", "Registration attempt failed with error: {0}", ex.Message);
                 ModelState.AddModelError("PasswordError", "There was an error and you have not been registered.  Please try again later.");
                 return CurrentUmbracoPage();
             }
 
             TempData[CompletedFlag] = true;
-            _log.Info(this.GetType().Name, "RegisterForm", "New registration complete.");
+            _logger.Info(this.GetType().Name, "RegisterForm", "New registration complete.");
             _emailService.SendMail(ConfigurationManager.AppSettings["SystemEmailAddress"], model.ViewModel.Email,
                 "Welcome to the Royal Mail Business Portal",
                 emailBody.Replace("##firstName", model.ViewModel.FirstName)

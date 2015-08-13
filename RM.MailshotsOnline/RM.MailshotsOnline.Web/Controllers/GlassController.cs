@@ -1,5 +1,6 @@
 ﻿using Glass.Mapper.Umb;
-using RM.MailshotsOnline.Web.Helpers;
+using HC.RM.Common.Azure;
+using HC.RM.Common.PCL.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace RM.MailshotsOnline.Web.Controllers
         /// <summary>
         /// The Application Insights telemetry client
         /// </summary>
-        internal TelemetryHelper log = new TelemetryHelper();
+        protected readonly ILogger _logger;
 
         /// <summary>
         /// The Umbraco Glass service
@@ -30,9 +31,10 @@ namespace RM.MailshotsOnline.Web.Controllers
         /// Creates a new instance of the GlassController class
         /// </summary>
         /// <param name="umbracoService">The Glass Umbraco service</param>
-        public GlassController(IUmbracoService umbracoService)
+        public GlassController(IUmbracoService umbracoService, ILogger logger)
         {
             _umbracoService = umbracoService;
+            _logger = logger;
         }
 
         /// <summary>

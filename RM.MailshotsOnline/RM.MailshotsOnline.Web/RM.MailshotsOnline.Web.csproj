@@ -106,20 +106,20 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Glass.Mapper.Umb.CastleWindsor.3.0.4.5\lib\net45\Glass.Mapper.Umb.CastleWindsor.dll</HintPath>
     </Reference>
-    <Reference Include="HC.RM.Common, Version=1.0.13.27, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.1.0.13.27\lib\net45\HC.RM.Common.dll</HintPath>
+    <Reference Include="HC.RM.Common, Version=1.0.13.29, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.1.0.13.29\lib\net45\HC.RM.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HC.RM.Common.Azure, Version=1.0.13.27, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.Azure.1.0.13.27\lib\net45\HC.RM.Common.Azure.dll</HintPath>
+    <Reference Include="HC.RM.Common.Azure, Version=1.0.13.29, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.Azure.1.0.13.29\lib\net45\HC.RM.Common.Azure.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HC.RM.Common.AzureWeb, Version=1.0.13.27, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.AzureWeb.1.0.13.27\lib\net45\HC.RM.Common.AzureWeb.dll</HintPath>
+    <Reference Include="HC.RM.Common.AzureWeb, Version=1.0.13.29, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.AzureWeb.1.0.13.29\lib\net45\HC.RM.Common.AzureWeb.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HC.RM.Common.PCL, Version=1.0.13.27, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.PCL.1.0.13.27\lib\portable-net45+win+wpa81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\HC.RM.Common.PCL.dll</HintPath>
+    <Reference Include="HC.RM.Common.PCL, Version=1.0.13.29, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.PCL.1.0.13.29\lib\portable-net45+win+wpa81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\HC.RM.Common.PCL.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="HtmlAgilityPack">
@@ -2922,7 +2922,6 @@
     <Compile Include="Helpers\BlobStorageHelper.cs" />
     <Compile Include="Helpers\ControllersHelper.cs" />
     <Compile Include="Helpers\MembershipHelper.cs" />
-    <Compile Include="Helpers\TelemetryHelper.cs" />
     <Compile Include="Installers\ControllersInstaller.cs" />
     <Compile Include="Plumbing\WindsorCompositionRoot.cs" />
     <Compile Include="Plumbing\WindsorControllerFactory.cs" />
@@ -3323,11 +3322,11 @@
     <Error Condition="!Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.2.8\build\UmbracoCms.props'))" />
     <Error Condition="!Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.Agent.Intercept.0.17.0\build\Microsoft.ApplicationInsights.Agent.Intercept.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.Agent.Intercept.0.17.0\build\Microsoft.ApplicationInsights.Agent.Intercept.targets'))" />
-    <Error Condition="!Exists('..\packages\HC.RM.Common.Azure.1.0.13.27\build\HC.RM.Common.Azure.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\HC.RM.Common.Azure.1.0.13.27\build\HC.RM.Common.Azure.targets'))" />
+    <Error Condition="!Exists('..\packages\HC.RM.Common.Azure.1.0.13.29\build\HC.RM.Common.Azure.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\HC.RM.Common.Azure.1.0.13.29\build\HC.RM.Common.Azure.targets'))" />
   </Target>
   <Import Project="..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets" Condition="Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets')" />
   <Import Project="..\packages\Microsoft.ApplicationInsights.Agent.Intercept.0.17.0\build\Microsoft.ApplicationInsights.Agent.Intercept.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.Agent.Intercept.0.17.0\build\Microsoft.ApplicationInsights.Agent.Intercept.targets')" />
-  <Import Project="..\packages\HC.RM.Common.Azure.1.0.13.27\build\HC.RM.Common.Azure.targets" Condition="Exists('..\packages\HC.RM.Common.Azure.1.0.13.27\build\HC.RM.Common.Azure.targets')" />
+  <Import Project="..\packages\HC.RM.Common.Azure.1.0.13.29\build\HC.RM.Common.Azure.targets" Condition="Exists('..\packages\HC.RM.Common.Azure.1.0.13.29\build\HC.RM.Common.Azure.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
