@@ -7,16 +7,16 @@ namespace RM.MailshotsOnline.PCL.Services
     {
         IEnumerable<string> GetTags();
 
-        IEnumerable<IImage> GetImages();
+        IEnumerable<IMedia> GetImages();
 
-        IEnumerable<IImage> GetImages(string tag);
+        IEnumerable<IMedia> GetImages(string tag);
 
         IEnumerable<IMedia> GetImages(IMember member);
 
-        bool AddImage(IImage image, IMember member);
+        bool AddImage(IMedia image, IMember member);
 
-        bool DeleteImage(IImage image);
+        bool DeleteImage(IMedia image);
 
-        bool RenameImage(IImage image, string name);
+        bool RenameImage(IMedia image, string name);
     }
 }

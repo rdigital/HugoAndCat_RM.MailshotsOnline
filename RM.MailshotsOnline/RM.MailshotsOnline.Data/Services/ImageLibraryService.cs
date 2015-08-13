@@ -26,9 +26,9 @@ namespace RM.MailshotsOnline.Data.Services
         }
 
         /// <summary>
-        /// Get a list of all tags stored in Umbraco
+        /// Get a list of all tags stored in Umbraco.
         /// </summary>
-        /// <returns>The list of all tags</returns>
+        /// <returns>The list of all tags.</returns>
         public IEnumerable<string> GetTags()
         {
             return _helper.TagQuery.GetAllTags(ContentConstants.Settings.DefaultMediaLibraryTagGroup)
@@ -39,19 +39,21 @@ namespace RM.MailshotsOnline.Data.Services
         /// Get all images in the public library.
         /// </summary>
         /// <returns>The collection of images.</returns>
-        public IEnumerable<IImage> GetImages()
+        public IEnumerable<IMedia> GetImages()
         {
-            return Convert(_helper.TagQuery.GetMediaByTagGroup(ContentConstants.Settings.DefaultMediaLibraryTagGroup));
+            return
+                _helper.TagQuery.GetMediaByTagGroup(ContentConstants.Settings.DefaultMediaLibraryTagGroup)
+                    .Select(x => MediaFactory.Convert(x, typeof (PublicLibraryImage)));
         }
 
         /// <summary>
         /// Gets all images under the given tag in the public library.
         /// </summary>
-        /// <param name="tag">The tag</param>
+        /// <param name="tag">The tag.</param>
         /// <returns>The collection of images.</returns>
-        public IEnumerable<IImage> GetImages(string tag)
+        public IEnumerable<IMedia> GetImages(string tag)
         {
-            return Convert(_helper.TagQuery.GetMediaByTag(tag, ContentConstants.Settings.DefaultMediaLibraryTagGroup));
+            return _helper.TagQuery.GetMediaByTag(tag, ContentConstants.Settings.DefaultMediaLibraryTagGroup).Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage)));
         }
 
         /// <summary>
@@ -71,59 +73,19 @@ namespace RM.MailshotsOnline.Data.Services
             return memberPrivateImages.Select(x => MediaFactory.Convert(x, typeof(PrivateLibraryImage)));
         }
 
-        public bool AddImage(IImage image, IMember member)
+        public bool AddImage(IMedia image, IMember member)
         {
             throw new NotImplementedException();
         }
 
-        public bool DeleteImage(IImage image)
+        public bool DeleteImage(IMedia image)
         {
             throw new NotImplementedException();
         }
 
-        public bool RenameImage(IImage image, string name)
+        public bool RenameImage(IMedia image, string name)
         {
             throw new NotImplementedException();
-        }
-
-
-        private static IEnumerable<IImage> Convert(IEnumerable<IPublishedContent> publishedContent, bool @private = false)
-        {
-            if (publishedContent == null)
-            {
-                return null;
-            }
-
-            if (@private)
-            {
-                return publishedContent.Select(
-                    x =>
-                        new PrivateLibraryImage()
-                        {
-                            Src = x.GetPropertyValue("umbracoFile")?.ToString(),
-                            Width = x.GetPropertyValue("umbracoWidth")?.ToString(),
-                            Height = x.GetPropertyValue("umbracoHeight")?.ToString(),
-                            Size = x.GetPropertyValue("umbracoBytes")?.ToString(),
-                            Type = x.GetPropertyValue("umbracoExtension")?.ToString(),
-                            Name = x.GetPropertyValue("umbracoName")?.ToString(),
-
-                            Username = x.GetPropertyValue("username")?.ToString()
-                        });
-            }
-
-            return publishedContent.Select(
-                x =>
-                    new PublicLibraryImage()
-                    {
-                        Src = x.GetPropertyValue("umbracoFile")?.ToString(),     
-                        Width = x.GetPropertyValue("umbracoWidth")?.ToString(),
-                        Height = x.GetPropertyValue("umbracoHeight")?.ToString(),
-                        Size = x.GetPropertyValue("umbracoBytes")?.ToString(),
-                        Type = x.GetPropertyValue("umbracoExtension")?.ToString(),
-                        Name = x.GetPropertyValue("umbracoName")?.ToString(),
-
-                        Tags = x.GetPropertyValue("tags")?.ToString().Split(',')
-                    });
         }
     }
 }

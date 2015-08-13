@@ -21,22 +21,22 @@ namespace RM.MailshotsOnline.Data.Media_Conversion
         }
 
         /// <summary>
-        /// Converts a media item into the given type if a conversion method has been registered.
+        /// <para>Converts a media item into the given type if a media converter for that type has 
+        /// been registered.</para>
         /// 
-        /// Conversion methods are held locally and registered in the constructor for this class.
+        /// <para>Conversters are registered in the constructor for this class.</para>
         /// 
-        /// Conversions for the given type and all its base classes are looked up recursively and
-        /// pushed into a stack, derived-type first (most-base-type last). Conversions are popped off
-        /// and applied to our media one by one (i.e. most-base first, derived last).
+        /// <para>Conversions for the given type and all its base classes are looked up and applied to
+        /// our media one by one (i.e. most-base first, derived last).</para>
         /// </summary>
-        /// <param name="content">The content item to convert</param>
-        /// <param name="type">The type to convert the item into</param>
+        /// <param name="content">The content item to convert.</param>
+        /// <param name="type">The type to convert the item into.</param>
         /// <returns>The converted media</returns>
         public static IMedia Convert(IPublishedContent content, Type type)
         {
             // Create a new instance of our type
             var newMedia = (IMedia) Activator.CreateInstance(type);
-            var mediaConverters = GetConversionMethods(type, new Stack<IMediaConverter>());
+            var mediaConverters = GetMediaConverters(type, new Stack<IMediaConverter>());
 
             // this is awesome:
             // return MediaConverters?.Aggregate(newMedia, (current, f) => f.Convert(content, current));
@@ -46,21 +46,21 @@ namespace RM.MailshotsOnline.Data.Media_Conversion
                 return null;
             }
 
-            foreach (var f in mediaConverters)
+            foreach (var m in mediaConverters)
             {
-                newMedia = f.Convert(content, newMedia);
+                newMedia = m.Convert(content, newMedia);
             }
 
             return newMedia;
         }
 
         /// <summary>
-        /// Recursively get the registered conversion methods for the given type.
+        /// Recursively get the registered media converters for the given type.
         /// </summary>
-        /// <param name="t">The type</param>
-        /// <param name="mediaConverters">The current stack of conversion methods that applies to this type</param>
-        /// <returns>The complete set of conversions to apply to the media of the given type</returns>
-        private static Stack<IMediaConverter> GetConversionMethods(Type t, Stack<IMediaConverter> mediaConverters)
+        /// <param name="t">The type.</param>
+        /// <param name="mediaConverters">The current stack of conversion methods that applies to this type.</param>
+        /// <returns>The complete set of converters that should be used for the given type.</returns>
+        private static Stack<IMediaConverter> GetMediaConverters(Type t, Stack<IMediaConverter> mediaConverters)
         {
             if (MediaConverters.ContainsKey(t))
             {
@@ -72,7 +72,7 @@ namespace RM.MailshotsOnline.Data.Media_Conversion
                 return null;
             }
 
-            GetConversionMethods(t.BaseType, mediaConverters);
+            GetMediaConverters(t.BaseType, mediaConverters);
 
             return mediaConverters;
         }
