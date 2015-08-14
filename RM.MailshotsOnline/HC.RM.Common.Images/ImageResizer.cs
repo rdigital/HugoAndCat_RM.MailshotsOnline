@@ -14,12 +14,25 @@ namespace HC.RM.Common.Images
         private readonly ILogger _logger = new Logger();
 
         /// <summary>
-        /// Gets a resized image in bytes
+        /// Converts the bytes provided into an Image
         /// </summary>
-        /// <param name="image">the image</param>
-        /// <param name="width">the targetSize</param>
-        /// <returns>A byte array of the resized image</returns>
-        public byte[] GetResizedImageBytes(Image image, int width)
+        /// <param name="bytes">The bytes.</param>
+        /// <returns>An Image.</returns>
+        public Image GetImage(byte[] bytes)
+        {
+            using (var stream = new MemoryStream(bytes))
+            {
+                return Image.FromStream(stream);
+            }
+        }
+
+        /// <summary>
+        /// Resizes an Image to a specific width and returns a byte array
+        /// </summary>
+        /// <param name="image">The image</param>
+        /// <param name="width">THe width</param>
+        /// <returns>The byte array of the resized image</returns>
+        public byte[] ResizeImageBytes(Image image, int width)
         {
             try
             {
@@ -68,7 +81,8 @@ namespace HC.RM.Common.Images
                                 attribute.SetWrapMode(WrapMode.TileFlipXY);
 
                                 // draws the resized image to the bitmap
-                                g.DrawImage(image, new Rectangle(new Point(0, 0), new Size(targetW, targetH)), 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, attribute);
+                                g.DrawImage(image, new Rectangle(new Point(0, 0), new Size(targetW, targetH)), 0, 0,
+                                    image.Width, image.Height, GraphicsUnit.Pixel, attribute);
                             }
 
                             using (var stream = new MemoryStream())
@@ -80,7 +94,9 @@ namespace HC.RM.Common.Images
                     }
                     catch (OutOfMemoryException e)
                     {
-                        _logger.Error(this.GetType().Name, "Resize", "OutOfMemoryException Image format: {0} Message: {1}, StackTrace: {2}", format, e.Message, e.StackTrace);
+                        _logger.Error(this.GetType().Name, "Resize",
+                            "OutOfMemoryException Image format: {0} Message: {1}, StackTrace: {2}", format, e.Message,
+                            e.StackTrace);
                     }
                 }
 
@@ -88,14 +104,34 @@ namespace HC.RM.Common.Images
             }
             catch (ExternalException e)
             {
-                _logger.Error(this.GetType().Name, "Resize", "ExternalException Message: {0}, StackTrace: {1}", e.Message, e.StackTrace);
+                _logger.Error(this.GetType().Name, "Resize", "ExternalException Message: {0}, StackTrace: {1}",
+                    e.Message, e.StackTrace);
             }
             catch (ArgumentNullException e)
             {
-                _logger.Error(this.GetType().Name, "Resize", "ArgumentNullException Message: {0}, StackTrace: {1}", e.Message, e.StackTrace);
+                _logger.Error(this.GetType().Name, "Resize", "ArgumentNullException Message: {0}, StackTrace: {1}",
+                    e.Message, e.StackTrace);
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Resizes an Image to a specific width and resturns a new Image
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="width"></param>
+        /// <returns></returns>
+        public Image ResizeImage(Image image, int width)
+        {
+            var resized = ResizeImageBytes(image, width);
+
+            using (var stream = new MemoryStream(resized))
+            {
+                image = Image.FromStream(stream);
+            }
+
+            return image;
         }
     }
 }
