@@ -39,10 +39,15 @@ namespace RM.MailshotsOnline.Data.Helpers
             }
         }
 
+        public string GetBlobUrl(string blobId)
+        {
+            return _blobService.GetBlobUri(_containerName, blobId).ToString();
+        }
+
         public string StoreBytes(byte[] bytes, string filename, string mediaType)
         {
             var blobId = _blobService.Store(bytes, filename, mediaType);
-            var url = _blobService.GetBlobUri(_containerName, filename);
+            var url = _blobService.GetBlobUri(_containerName, blobId);
             return url.ToString();
         }
 

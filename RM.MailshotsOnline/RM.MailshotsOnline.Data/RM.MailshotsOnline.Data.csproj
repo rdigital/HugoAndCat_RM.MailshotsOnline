@@ -117,6 +117,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Spatial, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -227,6 +228,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HC.RM.Common.Images\HC.RM.Common.Images.csproj">
+      <Project>{b90ff7f0-d68b-47a3-90da-ee6776210f3a}</Project>
+      <Name>HC.RM.Common.Images</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RM.MailshotsOnline.Business\RM.MailshotsOnline.Business.csproj">
       <Project>{dcc80db8-069c-4b0b-a955-b8486d795f6d}</Project>
       <Name>RM.MailshotsOnline.Business</Name>

@@ -1,25 +1,9 @@
-﻿using HC.RM.Common.PCL.Helpers;
-using Newtonsoft.Json;
-using RM.MailshotsOnline.Data.Services;
-using RM.MailshotsOnline.Entities.JsonModels;
-using RM.MailshotsOnline.PCL.Models;
+﻿using System.Collections.Generic;
+using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.PCL.Services;
-using System;
-using System.Collections.Generic;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web;
-using System.Web.Http.Results;
 using System.Web.Mvc;
-using HC.RM.Common.Images;
-using RM.MailshotsOnline.Data.Constants;
-using Umbraco.Core.Models;
-using Umbraco.Web;
-using Umbraco.Web.Editors;
-using Image = System.Drawing.Image;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
@@ -81,32 +65,14 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 return authResult;
             }
 
-            Image original;
-            using (var stream = new MemoryStream())
-            {
-                original = Image.FromStream(stream);
-            }
+            var media = _imageLibrary.AddImage(bytes, name, _loggedInMember);
 
-            var resizer = new ImageResizer();
-            var resizedSmall = resizer.GetResizedImageBytes(original, ContentConstants.Settings.ImageThumbnailSizeSmall);
-            var resizedLarge = resizer.GetResizedImageBytes(original, ContentConstants.Settings.ImageThumbnailSizeLarge);
-
-            ImageFormat format;
-            using (var stream = new MemoryStream())
-            {
-                format = Image.FromStream(stream).RawFormat;
-            }
-
-            var s1 = _imageLibrary.AddImage(bytes, name, original.RawFormat.ToString(), _loggedInMember);
-            var s2 = _imageLibrary.AddImage(resizedSmall, name, format.ToString(), _loggedInMember);
-            var s3 = _imageLibrary.AddImage(resizedLarge, name, format.ToString(), _loggedInMember);
-
-            if (!(s1 || s2 || s3))
+            if (media == null)
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError);
             }
 
-            return Request.CreateResponse(HttpStatusCode.Created);
+            return Request.CreateResponse(HttpStatusCode.Created, media);
         }
 
         [HttpPost]
