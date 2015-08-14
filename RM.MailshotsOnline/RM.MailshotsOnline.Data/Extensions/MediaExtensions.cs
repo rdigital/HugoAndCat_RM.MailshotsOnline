@@ -3,25 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RM.MailshotsOnline.Entities.DataModels;
 using RM.MailshotsOnline.Entities.JsonModels;
-using Umbraco.Core.Models;
-using Umbraco.Web;
 
 namespace RM.MailshotsOnline.Data.Extensions
 {
     public static class MediaExtensions
     {
-        public static Image SetValues(this Image image, IPublishedContent content)
+        public static Umbraco.Core.Models.IMedia SetValues(this Umbraco.Core.Models.IMedia umbracoMedia, PrivateLibraryImage media)
         {
-            image.Src = content.GetPropertyValue("umbracoFile")?.ToString();
-            image.Width = content.GetPropertyValue("umbracoWidth")?.ToString();
-            image.Height = content.GetPropertyValue("umbracoHeight")?.ToString();
-            image.Size = content.GetPropertyValue("umbracoBytes")?.ToString();
-            image.Type = content.GetPropertyValue("umbracoExtension")?.ToString();
-            image.Name = content.GetPropertyValue("umbracoName")?.ToString();
+            umbracoMedia.SetValue("originalBlobUrl", media.OriginalBlobId);
+            umbracoMedia.SetValue("smallThumbBlobId", media.SmallThumbBlobId);
+            umbracoMedia.SetValue("largeThumbBlobId", media.LargeThumbBlobId);
 
-            return image;
+            umbracoMedia.SetValue("originalUrl", media.OriginalUrl);
+            umbracoMedia.SetValue("smallThumbUrl", media.SmallThumbUrl);
+            umbracoMedia.SetValue("largeThumbUrl", media.LargeThumbUrl);
+
+            return umbracoMedia;
         }
     }
 }

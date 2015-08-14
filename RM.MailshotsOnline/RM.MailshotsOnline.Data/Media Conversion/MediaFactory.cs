@@ -4,6 +4,7 @@ using System.Linq;
 using RM.MailshotsOnline.Data.Media_Conversion.Converters;
 using RM.MailshotsOnline.Entities.JsonModels;
 using Umbraco.Core.Models;
+using Umbraco.Web;
 using IMedia = RM.MailshotsOnline.PCL.Models.IMedia;
 using Media = RM.MailshotsOnline.Entities.JsonModels.Media;
 
@@ -13,6 +14,8 @@ namespace RM.MailshotsOnline.Data.Media_Conversion
     {
         private static readonly Dictionary<Type, IMediaConverter> MediaConverters =
             new Dictionary<Type, IMediaConverter>();
+
+        private static readonly UmbracoHelper _helper = new UmbracoHelper(UmbracoContext.Current);
 
         static MediaFactory()
         {
@@ -41,7 +44,7 @@ namespace RM.MailshotsOnline.Data.Media_Conversion
             var mediaConverters = GetMediaConverters(type, new Stack<IMediaConverter>());
 
             // this is awesome:
-            // return MediaConverters?.Aggregate(newMedia, (current, f) => f.Convert(content, current));
+            // return mediaConverters?.Aggregate(newMedia, (current, m) => m.Convert(content, current));
 
             if (mediaConverters == null)
             {
@@ -54,6 +57,25 @@ namespace RM.MailshotsOnline.Data.Media_Conversion
             }
 
             return newMedia;
+        }
+
+        /// <summary>
+        /// <para>Converts a media item into the given type if a media converter for that type has 
+        /// been registered.</para>
+        /// 
+        /// <para>Conversters are registered in the constructor for this class.</para>
+        /// 
+        /// <para>Conversions for the given type and all its base classes are looked up and applied to
+        /// our media one by one (i.e. most-base first, derived last).</para>
+        /// </summary>
+        /// <param name="contentId">The ID of the content item to convert.</param>
+        /// <param name="type">The type to convert the item into.</param>
+        /// <returns>The converted media</returns>
+        public static IMedia Convert(int contentId, Type type)
+        {
+            var content = _helper.TypedContent(contentId);
+
+            return Convert(content, type);
         }
 
         /// <summary>

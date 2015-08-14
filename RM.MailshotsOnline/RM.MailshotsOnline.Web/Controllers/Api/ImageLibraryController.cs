@@ -1,4 +1,5 @@
-﻿using HC.RM.Common.PCL.Helpers;
+﻿using System.Collections.Generic;
+using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.PCL.Services;
 using System.Net;
 using System.Net.Http;

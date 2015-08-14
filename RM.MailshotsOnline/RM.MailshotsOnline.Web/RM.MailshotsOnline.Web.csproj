@@ -2897,7 +2897,6 @@
     <Compile Include="App_Start\RegisterIoCEvents.cs" />
     <Compile Include="App_Start\RegisterStartupEvents.cs" />
     <Compile Include="App_Start\TelemetryConfig.cs" />
-    <Compile Include="App_Start\UmbracoMessageHandler.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Api\ApiBaseController.cs" />
     <Compile Include="Controllers\Api\ImageLibraryController.cs" />
@@ -3254,7 +3253,6 @@
     <Content Include="Views\Register\Partials\ShowRegisterForm.cshtml" />
     <Content Include="Views\Register\Register.cshtml" />
     <Content Include="uSync\Template\Profile\Profile.config" />
-    <Content Include="uSync\DataTypeDefinition\Private Image Viewer.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -3267,10 +3265,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HC.RM.Common.Images\HC.RM.Common.Images.csproj">
-      <Project>{b90ff7f0-d68b-47a3-90da-ee6776210f3a}</Project>
-      <Name>HC.RM.Common.Images</Name>
-    </ProjectReference>
     <ProjectReference Include="..\RM.MailshotsOnline.Data\RM.MailshotsOnline.Data.csproj">
       <Project>{0d159929-5a8f-4e0c-84a6-3c7e9de5f5ad}</Project>
       <Name>RM.MailshotsOnline.Data</Name>

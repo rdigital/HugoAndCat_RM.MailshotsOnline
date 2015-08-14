@@ -7,6 +7,7 @@ using Glass.Mapper.Umb;
 using HC.RM.Common.Images;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.Constants;
+using RM.MailshotsOnline.Data.Extensions;
 using RM.MailshotsOnline.Data.Helpers;
 using RM.MailshotsOnline.Data.Media_Conversion;
 using RM.MailshotsOnline.Entities.JsonModels;
@@ -26,13 +27,17 @@ namespace RM.MailshotsOnline.Data.Services
         private readonly BlobStorageHelper _blobStorage =
             new BlobStorageHelper(ConfigHelper.StorageConnectionString, ConfigHelper.PrivateMediaBlobStorageContainer);
         private readonly ILogger _logger;
-        private readonly ICmsImageService _cmsImageService;        private readonly ImageResizer _imageResizer = new ImageResizer();
+        private readonly ICmsImageService _cmsImageService;
         private readonly IMediaService _mediaService;
+        private readonly ImageResizer _imageResizer = new ImageResizer();
+
         public ImageLibraryService(ILogger logger, ICmsImageService cmsImageService, IMediaService mediaService)
- 
+
         {
             _logger = logger;
-             mediaService = mediaService;            _cmsImageService = cmsImageService;        }
+            _cmsImageService = cmsImageService;
+            _mediaService = mediaService;
+        }
 
         /// <summary>
         /// Get a list of all tags stored in Umbraco.
@@ -50,7 +55,7 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>The collection of images.</returns>
         public IEnumerable<IMedia> GetImages()
         {
-            return PopulateUsageCounts(_helper.TagQuery.GetMediaByTagGroup(ContentConstants.Settings.DefaultMediaLibraryTagGroup).Select(x => MediaFactory.Convert(x, typeof (PublicLibraryImage))));
+            return PopulateUsageCounts(_helper.TagQuery.GetMediaByTagGroup(ContentConstants.Settings.DefaultMediaLibraryTagGroup).Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage))));
         }
 
         /// <summary>
@@ -114,11 +119,14 @@ namespace RM.MailshotsOnline.Data.Services
             var smallThumbFilename = $"{member.Id}/{name}-thumbSmall-{DateTime.UtcNow.ToString("yyyyMMddHHmmss")}.{extension.ToLower()}";
             var largeThumbFilename = $"{member.Id}/{name}-thumbLarge-{DateTime.UtcNow.ToString("yyyyMMddHHmmss")}.{extension.ToLower()}";
 
+            string originalBlobUrl;
+            string smallThumbBlobUrl;
+            string largeThumbBlobUrl;
             try
             {
-                var originalStored = _blobStorage.StoreBytes(bytes, originalFilename, $"image/{extension.ToLower()}");
-                var smallThumbStored = _blobStorage.StoreBytes(smallThumb, smallThumbFilename, $"image/{extension.ToLower()}");
-                var largeThumbStored = _blobStorage.StoreBytes(largeThumb, largeThumbFilename, $"image/{extension.ToLower()}");
+                originalBlobUrl = _blobStorage.StoreBytes(bytes, originalFilename, $"image/{extension.ToLower()}");
+                smallThumbBlobUrl = _blobStorage.StoreBytes(smallThumb, smallThumbFilename, $"image/{extension.ToLower()}");
+                largeThumbBlobUrl = _blobStorage.StoreBytes(largeThumb, largeThumbFilename, $"image/{extension.ToLower()}");
             }
             catch (Exception e)
             {
@@ -127,22 +135,32 @@ namespace RM.MailshotsOnline.Data.Services
                 return null;
             }
 
-            // store to umbraco
-
             var memberMediaFolder =
                 _helper.ContentQuery.TypedMedia(ContentConstants.MediaContent.PrivateMediaLibraryId)
                     .Children.FirstOrDefault(x => x.Name.Equals(member.Username))?.Id;
 
-            Umbraco.Core.Models.IMedia media;
             if (memberMediaFolder == null)
             {
-                _mediaService.CreateMedia(member.Username, ContentConstants.MediaContent.PrivateMediaLibraryId,
-                    ContentConstants.MediaContent.PrivateImageLibraryFolderMediaTypeAlias);
+                memberMediaFolder = _mediaService.CreateMedia(member.Username, ContentConstants.MediaContent.PrivateMediaLibraryId,
+                    ContentConstants.MediaContent.PrivateImageLibraryFolderMediaTypeAlias).Id;
             }
 
-            var createdMedia = _mediaService.CreateMedia(name, memberMediaFolder, "");
+            var createdMedia = _mediaService.CreateMedia(name, (int) memberMediaFolder, "");
+            var convertedMedia = (PrivateLibraryImage) MediaFactory.Convert(createdMedia.Id, typeof(PrivateLibraryImage));
 
-            return createdmedia;
+            convertedMedia.OriginalBlobId = originalFilename;
+            convertedMedia.SmallThumbBlobId = smallThumbFilename;
+            convertedMedia.LargeThumbBlobId = largeThumbFilename;
+
+            convertedMedia.OriginalUrl = originalBlobUrl;
+            convertedMedia.SmallThumbUrl = smallThumbBlobUrl;
+            convertedMedia.LargeThumbUrl = largeThumbBlobUrl;
+
+            createdMedia.SetValues(convertedMedia);
+
+            _mediaService.Save(createdMedia, member.Id);
+
+            return convertedMedia;
         }
 
         public bool DeleteImage(IMedia image)
@@ -158,11 +176,11 @@ namespace RM.MailshotsOnline.Data.Services
         private IEnumerable<IMedia> PopulateUsageCounts(IEnumerable<IMedia> mediaItems)
         {
             List<IMedia> result = new List<IMedia>();
-            foreach(var mediaItem in mediaItems)
+            foreach (var mediaItem in mediaItems)
             {
                 mediaItem.MailshotUses = _cmsImageService.GetImageUsageCount(mediaItem.MediaId);
                 result.Add(mediaItem);
-    }
+            }
 
             return result;
         }
