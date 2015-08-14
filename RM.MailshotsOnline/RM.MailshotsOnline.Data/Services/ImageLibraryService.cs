@@ -127,14 +127,11 @@ namespace RM.MailshotsOnline.Data.Services
             var smallThumbFilename = $"{member.Id}/{name}-thumbSmall-{DateTime.UtcNow.ToString("yyyyMMddHHmmss")}.{extension.ToLower()}";
             var largeThumbFilename = $"{member.Id}/{name}-thumbLarge-{DateTime.UtcNow.ToString("yyyyMMddHHmmss")}.{extension.ToLower()}";
 
-            string originalBlobUrl;
-            string smallThumbBlobUrl;
-            string largeThumbBlobUrl;
             try
             {
-                originalBlobUrl = _blobStorage.StoreBytes(bytes, originalFilename, $"image/{extension.ToLower()}");
-                smallThumbBlobUrl = _blobStorage.StoreBytes(smallThumb, smallThumbFilename, $"image/{extension.ToLower()}");
-                largeThumbBlobUrl = _blobStorage.StoreBytes(largeThumb, largeThumbFilename, $"image/{extension.ToLower()}");
+                _blobStorage.StoreBytes(bytes, originalFilename, $"image/{extension.ToLower()}");
+                _blobStorage.StoreBytes(smallThumb, smallThumbFilename, $"image/{extension.ToLower()}");
+                _blobStorage.StoreBytes(largeThumb, largeThumbFilename, $"image/{extension.ToLower()}");
             }
             catch (Exception e)
             {
