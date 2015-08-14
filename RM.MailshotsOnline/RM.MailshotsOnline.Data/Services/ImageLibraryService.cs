@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Web;
 using Glass.Mapper.Umb;
 using HC.RM.Common.Images;
 using HC.RM.Common.PCL.Helpers;
@@ -96,6 +97,13 @@ namespace RM.MailshotsOnline.Data.Services
         }
 
 
+        /// <summary>
+        /// Add an image into the blob store for the given member.
+        /// </summary>
+        /// <param name="bytes">THe byte representing the image.</param>
+        /// <param name="name">The name of the image.</param>
+        /// <param name="member">The member creating this image. The image will be stored in this member's personal image store.</param>
+        /// <returns></returns>
         public IMedia AddImage(byte[] bytes, string name, IMember member)
         {
             byte[] smallThumb;
@@ -152,9 +160,9 @@ namespace RM.MailshotsOnline.Data.Services
             convertedMedia.SmallThumbBlobId = smallThumbFilename;
             convertedMedia.LargeThumbBlobId = largeThumbFilename;
 
-            convertedMedia.OriginalUrl = originalBlobUrl;
-            convertedMedia.SmallThumbUrl = smallThumbBlobUrl;
-            convertedMedia.LargeThumbUrl = largeThumbBlobUrl;
+            convertedMedia.OriginalUrl = $"/Umbraco/Api/TempImage/GetImage?url={HttpUtility.UrlEncode(originalFilename)}";
+            convertedMedia.SmallThumbUrl = $"/Umbraco/Api/TempImage/GetImage?url={HttpUtility.UrlEncode(originalFilename)}&size=small";
+            convertedMedia.LargeThumbUrl = $"/Umbraco/Api/TempImage/GetImage?url={HttpUtility.UrlEncode(originalFilename)}&size=medium";
 
             createdMedia.SetValues(convertedMedia);
 
@@ -163,12 +171,17 @@ namespace RM.MailshotsOnline.Data.Services
             return convertedMedia;
         }
 
-        public bool DeleteImage(IMedia image)
+        /// <summary>
+        /// Delete an image 
+        /// </summary>
+        /// <param name="blobStoreId"></param>
+        /// <returns></returns>
+        public bool DeleteImage(string blobStoreId)
         {
             throw new NotImplementedException();
         }
 
-        public bool RenameImage(IMedia image, string name)
+        public bool RenameImage(string name, string newName)
         {
             throw new NotImplementedException();
         }
