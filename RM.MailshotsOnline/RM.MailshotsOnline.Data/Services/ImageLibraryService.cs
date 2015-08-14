@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Web;
-using Glass.Mapper.Umb;
 using HC.RM.Common.Images;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.Constants;
@@ -173,7 +172,7 @@ namespace RM.MailshotsOnline.Data.Services
         /// </summary>
         /// <param name="blobStoreId"></param>
         /// <returns></returns>
-        public bool DeleteImage(string blobStoreId)
+        public bool DeleteImage(string id)
         {
             throw new NotImplementedException();
         }
