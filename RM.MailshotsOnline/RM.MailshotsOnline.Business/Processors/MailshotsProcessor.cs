@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using RM.MailshotsOnline.Entities.JsonModels;
 using RM.MailshotsOnline.Entities.PageModels.Settings;
+using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.PCL.Models;
 using System;
 using System.Collections.Generic;
@@ -28,8 +29,10 @@ namespace RM.MailshotsOnline.Business.Processors
         /// <param name="mailshot">Mailshot to be generated</param>
         /// <param name="xslOverride">Specify the XSL to use as an override, rather than generating XSL from the Mailshot format / template / theme</param>
         /// <returns>Item 1: XML content; Item 2: XSLT transform file</returns>
-        public Tuple<string, string> GetXmlAndXslForMailshot(IMailshot mailshot, string xslOverride = null)
+        public ProcessedMailshotData GetXmlAndXslForMailshot(IMailshot mailshot, string xslOverride = null)
         {
+            ProcessedMailshotData result = new ProcessedMailshotData();
+
             if (mailshot == null)
             {
                 throw new ArgumentNullException("mailshot");
@@ -88,14 +91,21 @@ namespace RM.MailshotsOnline.Business.Processors
             }
 
             MailshotEditorContent content = JsonConvert.DeserializeObject<MailshotEditorContent>(mailshot.Content.Content);
+            result.UsedImageSrcs = content.Elements.Where(e => !string.IsNullOrEmpty(e.Src)).Select(e => e.Src);
+
             var finalXml = GetContentXmlFromJson(content);
+            result.XmlData = finalXml;
 
             if (!string.IsNullOrEmpty(xslOverride))
             {
-                return Tuple.Create<string, string>(finalXml, xslOverride);
+                result.XslStylesheet = xslOverride;
             }
-            
-            return Tuple.Create<string, string>(finalXml, finalXsl);
+            else
+            {
+                result.XslStylesheet = finalXsl;
+            }
+
+            return result;
         }
 
         /// <summary>

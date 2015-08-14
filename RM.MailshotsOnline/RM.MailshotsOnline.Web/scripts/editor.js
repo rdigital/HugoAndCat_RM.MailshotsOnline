@@ -210,10 +210,14 @@ function RefreshMailshots(callback) {
                     $mailshotList.append(listItem);
                 }
             }
+            GetUsedImages();
             callback();
         },
         statusCode: {
-            401: function () { $mailshotList.html('<li>No mailshots because user is not logged in.</li>'); }
+            401: function () {
+                $mailshotList.html('<li>No mailshots because user is not logged in.</li>');
+                GetUsedImages();
+            }
         }
     });
 }
@@ -246,4 +250,30 @@ function ClearEditorForm() {
     $('#createPdf').attr('disabled','disabled');
     $('#pdfLoading').hide();
     $('#save').removeAttr('disabled');
+}
+
+function GetUsedImages() {
+    $('#usedImages').html('<li>Loading ...</li>');
+    $.ajax({
+        url: '/Umbraco/Api/ImageLibrary/GetUsedImages',
+        type: 'GET',
+        success: function (data) {
+            console.log(data);
+            var result = '';
+            if (data.length > 0) {
+                for (var i = 0; i < data.length; i++) {
+                    var image = data[i];
+                    result += '<li><a href="' + image.Src + '" target="_blank">' + image.Name + '</a></li>';
+                }
+            }
+            else {
+                result = '<li>No recent images</li>';
+            }
+
+            $('#usedImages').html(result);
+        },
+        statusCode: {
+            401: function () { $('#usedImages').html('<li>No used images because user is not logged in.</li>'); }
+        }
+    })
 }

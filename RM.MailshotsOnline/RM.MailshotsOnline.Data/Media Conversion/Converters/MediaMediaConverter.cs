@@ -14,6 +14,8 @@ namespace RM.MailshotsOnline.Data.Media_Conversion.Converters
         {
             Media = (Media)o;
             Media.Name = content.Name;
+            Media.MailshotUses = 0; // Filled in by another service
+            Media.MediaId = content.Id;
 
             return Media;
         }

@@ -14,9 +14,13 @@ namespace RM.MailshotsOnline.Data.Services
     {
         private StorageContext _context;
 
-        public MailshotsService()
+        public MailshotsService() 
+            : this(new StorageContext())
+        { }
+
+        public MailshotsService(StorageContext storageContext)
         {
-            _context = new StorageContext();
+            _context = storageContext;
         }
 
         public IEnumerable<IMailshot> GetAllMailshots()
@@ -59,8 +63,34 @@ namespace RM.MailshotsOnline.Data.Services
 
         public void Delete(IMailshot mailshot)
         {
+            // Unlink any images from the mailshot first
+            var usedImages = _context.MailshotImageUse.Where(ui => ui.MailshotId == mailshot.MailshotId);
+            _context.MailshotImageUse.RemoveRange(usedImages);
+
+            // Remove the mailshot
             _context.Mailshots.Remove((Mailshot)mailshot);
             _context.SaveChanges();
+        }
+
+        public void UpdateLinkedImages(IMailshot mailshot, IEnumerable<string> linkedImages)
+        {
+            if (mailshot.MailshotContentId != Guid.Empty)
+            {
+                // Unlink any existing from the mailshot first
+                var usedImages = _context.MailshotImageUse.Where(ui => ui.MailshotId == mailshot.MailshotId);
+                _context.MailshotImageUse.RemoveRange(usedImages);
+
+                foreach (string src in linkedImages.Distinct())
+                {
+                    var cmsImage = _context.CmsImages.FirstOrDefault(c => c.Src == src);
+                    if (cmsImage != null)
+                    {
+                        _context.MailshotImageUse.Add(new MailshotImageUse() { MailshotId = mailshot.MailshotId, CmsImageId = cmsImage.CmsImageId });
+                    }
+                }
+
+                _context.SaveChanges();
+            }
         }
     }
 }

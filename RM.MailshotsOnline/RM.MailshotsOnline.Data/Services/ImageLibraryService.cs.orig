@@ -26,13 +26,23 @@ namespace RM.MailshotsOnline.Data.Services
         private readonly BlobStorageHelper _blobStorage =
             new BlobStorageHelper(ConfigHelper.StorageConnectionString, ConfigHelper.PrivateMediaBlobStorageContainer);
         private readonly ILogger _logger;
-        private readonly ICmsImageService _cmsImageService;        private readonly ImageResizer _imageResizer = new ImageResizer();
+<<<<<<< HEAD
+        private readonly ImageResizer _imageResizer = new ImageResizer();
         private readonly IMediaService _mediaService;
-        public ImageLibraryService(ILogger logger, ICmsImageService cmsImageService, IMediaService mediaService)
- 
+
+        public ImageLibraryService(ILogger logger, IMediaService mediaService)
         {
             _logger = logger;
-             mediaService = mediaService;            _cmsImageService = cmsImageService;        }
+            _mediaService = mediaService;
+=======
+        private readonly ICmsImageService _cmsImageService;
+
+        public ImageLibraryService(ILogger logger, ICmsImageService cmsImageService)
+        {
+            _logger = logger;
+            _cmsImageService = cmsImageService;
+>>>>>>> 562171616ec3d97b0e75fcdf09628c1847ef8957
+        }
 
         /// <summary>
         /// Get a list of all tags stored in Umbraco.
@@ -50,7 +60,14 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>The collection of images.</returns>
         public IEnumerable<IMedia> GetImages()
         {
-            return PopulateUsageCounts(_helper.TagQuery.GetMediaByTagGroup(ContentConstants.Settings.DefaultMediaLibraryTagGroup).Select(x => MediaFactory.Convert(x, typeof (PublicLibraryImage))));
+            return
+<<<<<<< HEAD
+                _helper.TagQuery.GetMediaByTagGroup(ContentConstants.Settings.DefaultMediaLibraryTagGroup)
+                    .Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage)));
+=======
+                PopulateUsageCounts(_helper.TagQuery.GetMediaByTagGroup(ContentConstants.Settings.DefaultMediaLibraryTagGroup)
+                    .Select(x => MediaFactory.Convert(x, typeof (PublicLibraryImage))));
+>>>>>>> 562171616ec3d97b0e75fcdf09628c1847ef8957
         }
 
         /// <summary>
@@ -60,7 +77,6 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>The collection of images.</returns>
         public IEnumerable<IMedia> GetImages(string tag)
         {
-
             return PopulateUsageCounts(_helper.TagQuery.GetMediaByTag(tag, ContentConstants.Settings.DefaultMediaLibraryTagGroup).Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage))));
         }
 
@@ -86,10 +102,14 @@ namespace RM.MailshotsOnline.Data.Services
             var memberPrivateImages =
                 privateImages.Where(x => x.GetPropertyValue("username").Equals(member.Username.ToString()));
 
+<<<<<<< HEAD
 
+
+            return memberPrivateImages.Select(x => MediaFactory.Convert(x, typeof(PrivateLibraryImage)));
+=======
             return PopulateUsageCounts(memberPrivateImages.Select(x => MediaFactory.Convert(x, typeof(PrivateLibraryImage))));
+>>>>>>> 562171616ec3d97b0e75fcdf09628c1847ef8957
         }
-
 
         public IMedia AddImage(byte[] bytes, string name, IMember member)
         {
@@ -162,7 +182,7 @@ namespace RM.MailshotsOnline.Data.Services
             {
                 mediaItem.MailshotUses = _cmsImageService.GetImageUsageCount(mediaItem.MediaId);
                 result.Add(mediaItem);
-    }
+            }
 
             return result;
         }

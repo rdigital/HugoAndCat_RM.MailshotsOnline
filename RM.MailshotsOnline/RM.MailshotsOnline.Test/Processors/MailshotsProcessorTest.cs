@@ -2,6 +2,7 @@
 using RM.MailshotsOnline.Business.Processors;
 using RM.MailshotsOnline.Entities.DataModels;
 using RM.MailshotsOnline.Entities.DataModels.MailshotSettings;
+using RM.MailshotsOnline.Entities.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -37,8 +38,8 @@ namespace RM.MailshotsOnline.Test.Processors
             var output = GetMailshotsOutout();
 
             Assert.NotNull(output);
-            Assert.NotNull(output.Item1);
-            Assert.NotNull(output.Item2);
+            Assert.NotNull(output.XmlData);
+            Assert.NotNull(output.XslStylesheet);
         }
 
         [Test]
@@ -47,7 +48,7 @@ namespace RM.MailshotsOnline.Test.Processors
             var output = GetMailshotsOutout();
 
             // Check that XML is valid
-            var xml = output.Item1;
+            var xml = output.XmlData;
             XDocument xmlDoc = XDocument.Parse(xml);
             Assert.NotNull(xmlDoc);
             Assert.NotNull(xmlDoc.Root);
@@ -55,7 +56,7 @@ namespace RM.MailshotsOnline.Test.Processors
             // Check that the XSL transforms the XML
             var xmlStringReader = new StringReader(xml);
             var xmlReader = XmlReader.Create(xmlStringReader);
-            var xsl = output.Item2;
+            var xsl = output.XslStylesheet;
             var xslStringReader = new StringReader(xsl);
             var xslReader = XmlReader.Create(xslStringReader);
             XslCompiledTransform xslTransform = new XslCompiledTransform();
@@ -67,7 +68,7 @@ namespace RM.MailshotsOnline.Test.Processors
             Assert.Greater(transformBuilder.Length, 0);
         }
 
-        private Tuple<string, string> GetMailshotsOutout()
+        private ProcessedMailshotData GetMailshotsOutout()
         {
             string input = File.ReadAllText("editorcontent.json");
             var format = new Format()

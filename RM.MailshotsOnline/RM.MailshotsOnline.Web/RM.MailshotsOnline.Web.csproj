@@ -2897,6 +2897,7 @@
     <Compile Include="App_Start\RegisterIoCEvents.cs" />
     <Compile Include="App_Start\RegisterStartupEvents.cs" />
     <Compile Include="App_Start\TelemetryConfig.cs" />
+    <Compile Include="App_Start\UmbracoMessageHandler.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Api\ApiBaseController.cs" />
     <Compile Include="Controllers\Api\ImageLibraryController.cs" />
@@ -3253,6 +3254,7 @@
     <Content Include="Views\Register\Partials\ShowRegisterForm.cshtml" />
     <Content Include="Views\Register\Register.cshtml" />
     <Content Include="uSync\Template\Profile\Profile.config" />
+    <Content Include="uSync\DataTypeDefinition\Private Image Viewer.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
