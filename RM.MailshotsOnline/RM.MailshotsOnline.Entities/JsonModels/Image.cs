@@ -14,6 +14,16 @@ namespace RM.MailshotsOnline.Entities.JsonModels
     {
         public string Src { get; set; }
 
+        public string MediumSrc
+        {
+            get { return GetSrcForSize(1000); }
+        }
+
+        public string SmallSrc
+        {
+            get { return GetSrcForSize(200); }
+        }
+
         public string Width { get; set; }
 
         public string Height { get; set; }
@@ -27,5 +37,14 @@ namespace RM.MailshotsOnline.Entities.JsonModels
         public string Type { get; set; }
 
         private int _size { get; set; }
+
+        private string GetSrcForSize(int size)
+        {
+            var dotPosition = this.Src.LastIndexOf('.');
+            return string.Format("{0}_{1}.{2}",
+                this.Src.Substring(0, dotPosition),
+                size,
+                this.Src.Substring(dotPosition + 1));
+        }
     }
 }

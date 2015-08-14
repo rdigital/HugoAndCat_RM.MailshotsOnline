@@ -115,3 +115,21 @@ fieldset {
 }
 
 div.checkbox label { display: inline-block; padding-left: 10px;}
+
+.image-grid a {
+    display: inline-block;
+    padding: 5px;
+    margin: auto;
+    vertical-align: middle;
+    border: 1px solid white;
+    background-color: #bbb;
+}
+
+.image-viewer {
+    padding:10px;
+    border: 1px solid black;
+}
+
+.image-viewer a {
+    float:right;
+}

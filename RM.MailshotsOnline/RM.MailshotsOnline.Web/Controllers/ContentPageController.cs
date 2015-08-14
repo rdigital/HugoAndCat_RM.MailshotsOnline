@@ -33,5 +33,13 @@ namespace RM.MailshotsOnline.Web.Controllers
 
             return View("~/Views/MemberAPITestPage.cshtml", contentPageModel);
         }
+
+        public ActionResult ImageLibraryAPITestPage(RenderModel model)
+        {
+            // Fetch the Glass model of the home page
+            var contentPageModel = GetModel<ContentPage>();
+
+            return View("~/Views/ImageLibraryAPITestPage.cshtml", contentPageModel);
+        }
     }
 }

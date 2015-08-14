@@ -404,6 +404,7 @@
     <Content Include="App_Plugins\PrivateImageViewer\package.manifest" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\editor.js" />
+    <Content Include="scripts\imagelibrarytest.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
     <Content Include="scripts\logintest.js" />
@@ -3255,6 +3256,7 @@
     <Content Include="Views\Register\Register.cshtml" />
     <Content Include="uSync\Template\Profile\Profile.config" />
     <Content Include="uSync\DataTypeDefinition\Private Image Viewer.config" />
+    <Content Include="Views\ImageLibraryAPITestPage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
