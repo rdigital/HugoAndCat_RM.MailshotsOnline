@@ -102,12 +102,12 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>Number of times the image has been linked to a Mailshot</returns>
         public int GetImageUsageCount(int umbracoImageId)
         {
-            var linkIds = from m in _context.MailshotImageUse
-                          join c in _context.CmsImages on m.CmsImageId equals c.CmsImageId
-                          where c.UmbracoMediaId == umbracoImageId
-                          select m.MailshotImageUseId;
+            var linkCount = (from m in _context.MailshotImageUse
+                             join c in _context.CmsImages on m.CmsImageId equals c.CmsImageId
+                             where c.UmbracoMediaId == umbracoImageId
+                             select m.MailshotId).Count();
 
-            return linkIds.Count(); 
+            return linkCount;
         }
 
         /// <summary>
@@ -207,6 +207,23 @@ namespace RM.MailshotsOnline.Data.Services
                 _context.MailshotImageUse.Remove((MailshotImageUse)link);
                 _context.SaveChanges();
             }
+        }
+
+        /// <summary>
+        /// Finds the CMS images that a user has used
+        /// </summary>
+        /// <param name="userId">ID of the user</param>
+        /// <returns>Collection of images</returns>
+        public IEnumerable<ICmsImage> FindImagesUsedByUser(int userId)
+        {
+            var images = from c in _context.CmsImages
+                         join ui in _context.MailshotImageUse on c.CmsImageId equals ui.CmsImageId
+                         join m in _context.Mailshots on ui.MailshotId equals m.MailshotId
+                         where m.UserId == userId
+                         orderby ui.CreatedUtc descending
+                         select c;
+
+            return images;
         }
     }
 }

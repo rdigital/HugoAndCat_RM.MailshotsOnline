@@ -41,6 +41,7 @@ namespace RM.MailshotsOnline.Web.Installers
                 Component.For<ISparqQueueService>().ImplementedBy<SparqQueueService>().LifestyleTransient(),
                 Component.For<IMailshotSettingsService>().ImplementedBy<MailshotSettingsService>().LifestyleTransient(),
                 Component.For<IImageLibraryService>().ImplementedBy<ImageLibraryService>().LifestyleTransient(),
+                Component.For<ICmsImageService>().ImplementedBy<CmsImageService>().LifestyleTransient(),
 				Component.For<ILogger>().ImplementedBy<Logger>().LifestyleTransient());
         }
 

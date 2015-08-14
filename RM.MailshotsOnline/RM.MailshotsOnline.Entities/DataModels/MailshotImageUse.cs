@@ -16,10 +16,6 @@ namespace RM.MailshotsOnline.Entities.DataModels
 
         private Mailshot _mailshot;
 
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid MailshotImageUseId { get; set; }
-
         [ForeignKey("CmsImageId")]
         public virtual CmsImage CmsImage
         {
@@ -27,6 +23,8 @@ namespace RM.MailshotsOnline.Entities.DataModels
             set { _cmsImage = value; }
         }
 
+        [Key]
+        [Column(Order = 1)]
         public Guid CmsImageId { get; set; }
 
         public DateTime CreatedDate { get { return CreatedUtc; } }
@@ -37,6 +35,8 @@ namespace RM.MailshotsOnline.Entities.DataModels
         [ForeignKey("MailshotId")]
         public virtual Mailshot Mailshot { get; set; }
 
+        [Key]
+        [Column(Order = 2)]
         public Guid MailshotId { get; set; }
 
         #region Explicit interface implementation

@@ -105,5 +105,12 @@ namespace RM.MailshotsOnline.PCL.Services
         /// <param name="cmsImage">The CMS image</param>
         /// <param name="mailshot">The Mailshot</param>
         void UnlinkImageFromMailshot(ICmsImage cmsImage, IMailshot mailshot);
+
+        /// <summary>
+        /// Finds the CMS images that a user has used
+        /// </summary>
+        /// <param name="userId">ID of the user</param>
+        /// <returns>Collection of images</returns>
+        IEnumerable<ICmsImage> FindImagesUsedByUser(int userId);
     }
 }

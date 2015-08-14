@@ -11,7 +11,7 @@ namespace RM.MailshotsOnline.PCL.Models
 
         int UmbracoMediaId { get; set; }
 
-        int? UserId { get; set; }
+        string UserName { get; set; }
 
         string Src { get; set; }
 

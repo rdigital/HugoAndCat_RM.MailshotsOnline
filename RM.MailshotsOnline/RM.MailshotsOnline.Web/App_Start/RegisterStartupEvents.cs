@@ -24,6 +24,14 @@ namespace RM.MailshotsOnline.Web.App_Start
         private ICmsImageService _cmsImageService;
 
         /// <summary>
+        /// Runs as the application is starting
+        /// </summary>
+        protected override void ApplicationStarting(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
+        {
+            //System.Web.Http.GlobalConfiguration.Configuration.MessageHandlers.Add(new UmbracoMessageHandler());
+        }
+
+        /// <summary>
         /// Runs immediately after the Application Start for Umbraco.  Register new events here
         /// </summary>
         /// <see cref="https://our.umbraco.org/Documentation/Reference/Events-v6/Application-Startup"/>
@@ -34,42 +42,23 @@ namespace RM.MailshotsOnline.Web.App_Start
             ContentService.Saved += ContentService_Saved;
             ContentService.Trashing += ContentService_Trashing;
             ContentService.Deleting += ContentService_Deleting;
+            MediaService.Saved += MediaService_Saved;
+            MediaService.Trashing += MediaService_Trashing;
+            MediaService.Deleting += MediaService_Deleting;
         }
 
         #region Event handlers
 
         /// <summary>
-        /// Run before the content service can move an item to the trash
+        /// Runs before a media item is deleted
         /// </summary>
-        private void ContentService_Trashing(IContentService sender, Umbraco.Core.Events.MoveEventArgs<IContent> e)
-        {
-            foreach (var moveAction in e.MoveInfoCollection)
-            {
-                if (ContentIsImageLibraryItem(moveAction.Entity))
-                {
-                    if (ContentIsUsedImage(moveAction.Entity))
-                    {
-                        e.Cancel = true;
-                        ((BasePage)HttpContext.Current.Handler).ClientTools.ShowSpeechBubble(Umbraco.Web.UI.SpeechBubbleIcon.Error, "Unable to delete", "The image you tried to delete is being used in a Mailshot so can't be deleted.");
-                    }
-                    else
-                    {
-                        DeleteCmsImage(moveAction.Entity);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Run before the content service can delete an item
-        /// </summary>
-        private void ContentService_Deleting(IContentService sender, Umbraco.Core.Events.DeleteEventArgs<IContent> e)
+        private void MediaService_Deleting(IMediaService sender, Umbraco.Core.Events.DeleteEventArgs<IMedia> e)
         {
             foreach (var item in e.DeletedEntities)
             {
-                if (ContentIsImageLibraryItem(item))
+                if (MediaIsImageLibraryItem(item))
                 {
-                    if (ContentIsUsedImage(item))
+                    if (MediaIsUsedImage(item))
                     {
                         e.Cancel = true;
                         ((BasePage)HttpContext.Current.Handler).ClientTools.ShowSpeechBubble(Umbraco.Web.UI.SpeechBubbleIcon.Error, "Unable to delete", "The image you tried to delete is being used in a Mailshot so can't be deleted.");
@@ -80,6 +69,66 @@ namespace RM.MailshotsOnline.Web.App_Start
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Runs before a media item is moved to the trash
+        /// </summary>
+        private void MediaService_Trashing(IMediaService sender, Umbraco.Core.Events.MoveEventArgs<IMedia> e)
+        {
+            var cancelled = false;
+            foreach (var moveAction in e.MoveInfoCollection)
+            {
+                if (MediaIsImageLibraryItem(moveAction.Entity))
+                {
+                    if (MediaIsUsedImage(moveAction.Entity))
+                    {
+                        e.Cancel = true;
+                        cancelled = true;
+                        //((BasePage)HttpContext.Current.Handler).ClientTools.ShowSpeechBubble(Umbraco.Web.UI.SpeechBubbleIcon.Error, "Unable to delete", "The image you tried to delete is being used in a Mailshot so can't be deleted.");
+                    }
+                    else
+                    {
+                        DeleteCmsImage(moveAction.Entity);
+                    }
+                }
+            }
+
+            if (cancelled)
+            {
+                throw new Exception("Unable to delete image that is still being used.");
+                // TODO: Do this a better way using some sort of feedback to the CMS user
+            }
+        }
+
+        /// <summary>
+        /// Runs after a media item is saved
+        /// </summary>
+        private void MediaService_Saved(IMediaService sender, Umbraco.Core.Events.SaveEventArgs<IMedia> e)
+        {
+            foreach (var item in e.SavedEntities)
+            {
+                if (item.ContentType.Alias.InvariantEquals(ConfigHelper.PublicLibraryImageContentTypeAlias) || item.ContentType.Alias.InvariantEquals(ConfigHelper.PrivateImageContentTypeAlias))
+                {
+                    SaveCmsImage(item);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Run before the content service can move an item to the trash
+        /// </summary>
+        private void ContentService_Trashing(IContentService sender, Umbraco.Core.Events.MoveEventArgs<IContent> e)
+        {
+            
+        }
+
+        /// <summary>
+        /// Run before the content service can delete an item
+        /// </summary>
+        private void ContentService_Deleting(IContentService sender, Umbraco.Core.Events.DeleteEventArgs<IContent> e)
+        {
+            
         }
 
         /// <summary>
@@ -101,10 +150,6 @@ namespace RM.MailshotsOnline.Web.App_Start
                 else if (item.ContentType.Alias.InvariantEquals(ConfigHelper.ThemeContentTypeAlias))
                 {
                     SaveTheme(item);
-                }
-                else if (item.ContentType.Alias.InvariantEquals(ConfigHelper.PublicLibraryImageContentTypeAlias) || item.ContentType.Alias.InvariantEquals(ConfigHelper.PrivateImageContentTypeAlias))
-                {
-                    SaveCmsImage(item);
                 }
             }
         }
@@ -143,7 +188,7 @@ namespace RM.MailshotsOnline.Web.App_Start
 
         #region Private methods
 
-        private void DeleteCmsImage(IContent item)
+        private void DeleteCmsImage(IMedia item)
         {
             // Confirm we have CMS image service object
             _cmsImageService = _cmsImageService ?? new CmsImageService();
@@ -157,43 +202,44 @@ namespace RM.MailshotsOnline.Web.App_Start
         /// <summary>
         /// Saves a CMS image to the DB
         /// </summary>
-        private void SaveCmsImage(IContent item)
+        private void SaveCmsImage(IMedia item)
         {
             // Confirm we have CMS image service object
             _cmsImageService = _cmsImageService ?? new CmsImageService();
 
-            CmsImage cmsImage = null;
-            _cmsImageService.GetCmsImage(item.Id);
+            CmsImage cmsImage = (CmsImage)_cmsImageService.GetCmsImage(item.Id);
             if (cmsImage == null)
             {
                 cmsImage = new CmsImage
                 {
                     UmbracoMediaId = item.Id,
-                    Src = item.GetValue<string>("umbracoFile")
+                    Src = item.GetValue<string>("umbracoFile"),
+                    UpdatedDate = DateTime.UtcNow
                 };
 
-                if (item.HasProperty("userId"))
+                if (item.HasProperty("username"))
                 {
-                    cmsImage.UserId = item.GetValue<int>("userId");
+                    cmsImage.UserName = item.GetValue<string>("username");
                 }
             }
             else
             {
                 cmsImage.Src = item.GetValue<string>("umbracoFile");
-                if (item.HasProperty("userId"))
+                cmsImage.UpdatedDate = DateTime.UtcNow;
+                if (item.HasProperty("username"))
                 {
-                    cmsImage.UserId = item.GetValue<int>("userId");
+                    cmsImage.UserName = item.GetValue<string>("username");
                 }
                 else
                 {
-                    cmsImage.UserId = null;
+                    cmsImage.UserName = null;
                 }
             }
 
             _cmsImageService.SaveCmsImage(cmsImage);
         }
 
-        private bool ContentIsImageLibraryItem(IContent item)
+        private bool MediaIsImageLibraryItem(IMedia item)
         {
             return item.ContentType.Alias == ConfigHelper.PublicLibraryImageContentTypeAlias || item.ContentType.Alias == ConfigHelper.PrivateImageContentTypeAlias;
         }
@@ -201,7 +247,7 @@ namespace RM.MailshotsOnline.Web.App_Start
         /// <summary>
         /// Checks to see if the given item is a CMS image that's used in a mailshot
         /// </summary>
-        private bool ContentIsUsedImage(IContent item)
+        private bool MediaIsUsedImage(IMedia item)
         {
             var contentIsUsed = false;
             if (item.ContentType.Alias == ConfigHelper.PublicLibraryImageContentTypeAlias || item.ContentType.Alias == ConfigHelper.PrivateImageContentTypeAlias)

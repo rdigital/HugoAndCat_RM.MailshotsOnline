@@ -12,6 +12,8 @@ namespace RM.MailshotsOnline.Entities.DataModels
 {
     public class CmsImage : ICmsImage
     {
+        private ICollection<MailshotImageUse> _mailshotUses;
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid CmsImageId { get; set; }
@@ -29,9 +31,19 @@ namespace RM.MailshotsOnline.Entities.DataModels
 
         public DateTime UpdatedDate { get; set; }
 
-        public int? UserId { get; set; }
+        public string UserName { get; set; }
 
         [InverseProperty("CmsImage")]
-        public virtual ICollection<IMailshotImageUse> MailshotUses { get; set; }
+        public virtual ICollection<MailshotImageUse> MailshotUses
+        {
+            get { return _mailshotUses; }
+            set { _mailshotUses = value; }
+        }
+
+        ICollection<IMailshotImageUse> ICmsImage.MailshotUses
+        {
+            get { return (ICollection<IMailshotImageUse>)_mailshotUses; }
+            set { _mailshotUses = (ICollection<MailshotImageUse>)value; }
+        }
     }
 }

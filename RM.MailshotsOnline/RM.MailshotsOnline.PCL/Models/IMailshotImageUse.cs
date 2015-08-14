@@ -7,8 +7,6 @@ namespace RM.MailshotsOnline.PCL.Models
 {
     public interface IMailshotImageUse
     {
-        Guid MailshotImageUseId { get; set; }
-
         Guid MailshotId { get; set; }
 
         IMailshot Mailshot { get; set; }

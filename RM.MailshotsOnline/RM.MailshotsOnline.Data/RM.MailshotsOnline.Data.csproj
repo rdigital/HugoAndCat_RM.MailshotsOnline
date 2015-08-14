@@ -203,6 +203,14 @@
     <Compile Include="Migrations\201508121502368_ProofPdfOrderNumber.Designer.cs">
       <DependentUpon>201508121502368_ProofPdfOrderNumber.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508140916359_AddCmsImages.cs" />
+    <Compile Include="Migrations\201508140916359_AddCmsImages.Designer.cs">
+      <DependentUpon>201508140916359_AddCmsImages.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508141016106_SimplifyMailshotImageUseTable.cs" />
+    <Compile Include="Migrations\201508141016106_SimplifyMailshotImageUseTable.Designer.cs">
+      <DependentUpon>201508141016106_SimplifyMailshotImageUseTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CmsImageService.cs" />
@@ -268,6 +276,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508121502368_ProofPdfOrderNumber.resx">
       <DependentUpon>201508121502368_ProofPdfOrderNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508140916359_AddCmsImages.resx">
+      <DependentUpon>201508140916359_AddCmsImages.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508141016106_SimplifyMailshotImageUseTable.resx">
+      <DependentUpon>201508141016106_SimplifyMailshotImageUseTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

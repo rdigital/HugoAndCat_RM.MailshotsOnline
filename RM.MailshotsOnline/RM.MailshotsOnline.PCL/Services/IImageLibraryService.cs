@@ -13,6 +13,8 @@ namespace RM.MailshotsOnline.PCL.Services
 
         IEnumerable<IMedia> GetImages(IMember member);
 
+        IMedia GetImage(int mediaId, bool publicImage);
+
         bool AddImage(byte[] bytes, string name, string extension, IMember member);
 
         bool DeleteImage(IMedia image);

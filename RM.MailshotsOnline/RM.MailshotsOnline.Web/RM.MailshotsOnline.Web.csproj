@@ -2897,6 +2897,7 @@
     <Compile Include="App_Start\RegisterIoCEvents.cs" />
     <Compile Include="App_Start\RegisterStartupEvents.cs" />
     <Compile Include="App_Start\TelemetryConfig.cs" />
+    <Compile Include="App_Start\UmbracoMessageHandler.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Api\ApiBaseController.cs" />
     <Compile Include="Controllers\Api\ImageLibraryController.cs" />

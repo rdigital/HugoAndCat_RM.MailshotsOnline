@@ -62,6 +62,14 @@ namespace RM.MailshotsOnline.Data.Services
             return PopulateUsageCounts(_helper.TagQuery.GetMediaByTag(tag, ContentConstants.Settings.DefaultMediaLibraryTagGroup).Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage))));
         }
 
+        public IMedia GetImage(int mediaId, bool publicImage)
+        {
+            var requiredType = publicImage ? typeof(PublicLibraryImage) : typeof(PrivateLibraryImage);
+            IMedia image = MediaFactory.Convert(_helper.TypedMedia(mediaId), requiredType);
+            image.MailshotUses = _cmsImageService.GetImageUsageCount(mediaId);
+            return image;
+        }
+
         /// <summary>
         /// Get all images belonging to the member.
         /// </summary>

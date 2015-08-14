@@ -80,7 +80,7 @@ namespace RM.MailshotsOnline.Data.Services
                 var usedImages = _context.MailshotImageUse.Where(ui => ui.MailshotId == mailshot.MailshotId);
                 _context.MailshotImageUse.RemoveRange(usedImages);
 
-                foreach (string src in linkedImages)
+                foreach (string src in linkedImages.Distinct())
                 {
                     var cmsImage = _context.CmsImages.FirstOrDefault(c => c.Src == src);
                     if (cmsImage != null)

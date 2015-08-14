@@ -26,12 +26,14 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
     public class ImageLibraryController : ApiBaseController
     {
         private readonly IImageLibraryService _imageLibrary;
+        private readonly ICmsImageService _cmsImageService;
 
         // GET: Images
-        public ImageLibraryController(IMembershipService membershipService, IImageLibraryService imageLibraryService, ILogger logger) 
+        public ImageLibraryController(IMembershipService membershipService, IImageLibraryService imageLibraryService, ICmsImageService cmsImageService, ILogger logger) 
             : base(membershipService, logger)
         {
             _imageLibrary = imageLibraryService;
+            _cmsImageService = cmsImageService;
         }
 
         [HttpGet]
@@ -137,6 +139,27 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             // rename in umbraco
 
             return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetUsedImages()
+        {
+            var authResult = Authenticate();
+            if (authResult != null)
+            {
+                return authResult;
+            }
+
+            var usedImages = new List<PCL.Models.IMedia>();
+
+            // Search the CMS Image service for all images used by this user
+            var usedCmsImages = _cmsImageService.FindImagesUsedByUser(_loggedInMember.Id);
+            foreach (var cmsImage in usedCmsImages)
+            {
+                usedImages.Add(_imageLibrary.GetImage(cmsImage.UmbracoMediaId, string.IsNullOrEmpty(cmsImage.UserName)));
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, usedImages);
         }
     }
 }
