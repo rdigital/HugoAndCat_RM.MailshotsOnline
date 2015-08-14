@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using Glass.Mapper.Umb;
+using HC.RM.Common.Images;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.Constants;
 using RM.MailshotsOnline.Data.Helpers;
@@ -10,6 +12,7 @@ using RM.MailshotsOnline.Data.Media_Conversion;
 using RM.MailshotsOnline.Entities.JsonModels;
 using RM.MailshotsOnline.PCL.Services;
 using Umbraco.Core;
+using Umbraco.Core.Services;
 using Umbraco.Web;
 using IMember = RM.MailshotsOnline.PCL.Models.IMember;
 using IMedia = RM.MailshotsOnline.PCL.Models.IMedia;
@@ -23,10 +26,13 @@ namespace RM.MailshotsOnline.Data.Services
         private readonly BlobStorageHelper _blobStorage =
             new BlobStorageHelper(ConfigHelper.StorageConnectionString, ConfigHelper.PrivateMediaBlobStorageContainer);
         private readonly ILogger _logger;
+        private readonly ImageResizer _imageResizer = new ImageResizer();
+        private readonly IMediaService _mediaService;
 
-        public ImageLibraryService(ILogger logger)
+        public ImageLibraryService(ILogger logger, IMediaService mediaService)
         {
             _logger = logger;
+            _mediaService = mediaService;
         }
 
         /// <summary>
@@ -47,7 +53,7 @@ namespace RM.MailshotsOnline.Data.Services
         {
             return
                 _helper.TagQuery.GetMediaByTagGroup(ContentConstants.Settings.DefaultMediaLibraryTagGroup)
-                    .Select(x => MediaFactory.Convert(x, typeof (PublicLibraryImage)));
+                    .Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage)));
         }
 
         /// <summary>
@@ -74,25 +80,63 @@ namespace RM.MailshotsOnline.Data.Services
             var memberPrivateImages =
                 privateImages.Where(x => x.GetPropertyValue("username").Equals(member.Username.ToString()));
 
+
+
             return memberPrivateImages.Select(x => MediaFactory.Convert(x, typeof(PrivateLibraryImage)));
         }
 
-        public bool AddImage(byte[] bytes, string name, string extension, IMember member)
+        public IMedia AddImage(byte[] bytes, string name, IMember member)
         {
-            var filename = $"{member.Id}/{name}{DateTime.UtcNow}.{extension}";
-
+            byte[] smallThumb;
+            byte[] largeThumb;
+            System.Drawing.Image original;
             try
             {
-                _blobStorage.StoreBytes(bytes, filename, $"image/{extension.ToLower()}");
+                original = _imageResizer.GetImage(bytes);
+                smallThumb = _imageResizer.ResizeImageBytes(original, ContentConstants.Settings.ImageThumbnailSizeSmall);
+                largeThumb = _imageResizer.ResizeImageBytes(original, ContentConstants.Settings.ImageThumbnailSizeLarge);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 _logger.Error(this.GetType().Name, "AddImage", $"{e.GetType().Name} {e.Message} {e.StackTrace}");
 
-                return false;
+                return null;
             }
 
-            return true;
+            var extension = original.RawFormat.ToString().ToLower();
+            var originalFilename = $"{member.Id}/{name}-{DateTime.UtcNow.ToString("yyyyMMddHHmmss")}.{extension.ToLower()}";
+            var smallThumbFilename = $"{member.Id}/{name}-thumbSmall-{DateTime.UtcNow.ToString("yyyyMMddHHmmss")}.{extension.ToLower()}";
+            var largeThumbFilename = $"{member.Id}/{name}-thumbLarge-{DateTime.UtcNow.ToString("yyyyMMddHHmmss")}.{extension.ToLower()}";
+
+            try
+            {
+                var originalStored = _blobStorage.StoreBytes(bytes, originalFilename, $"image/{extension.ToLower()}");
+                var smallThumbStored = _blobStorage.StoreBytes(smallThumb, smallThumbFilename, $"image/{extension.ToLower()}");
+                var largeThumbStored = _blobStorage.StoreBytes(largeThumb, largeThumbFilename, $"image/{extension.ToLower()}");
+            }
+            catch (Exception e)
+            {
+                _logger.Error(this.GetType().Name, "AddImage", $"{e.GetType().Name} {e.Message} {e.StackTrace}");
+
+                return null;
+            }
+
+            // store to umbraco
+
+            var memberMediaFolder =
+                _helper.ContentQuery.TypedMedia(ContentConstants.MediaContent.PrivateMediaLibraryId)
+                    .Children.FirstOrDefault(x => x.Name.Equals(member.Username))?.Id;
+
+            Umbraco.Core.Models.IMedia media;
+            if (memberMediaFolder == null)
+            {
+                _mediaService.CreateMedia(member.Username, ContentConstants.MediaContent.PrivateMediaLibraryId,
+                    ContentConstants.MediaContent.PrivateImageLibraryFolderMediaTypeAlias);
+            }
+
+            var createdMedia = _mediaService.CreateMedia(name, memberMediaFolder, "");
+
+            return createdmedia;
         }
 
         public bool DeleteImage(IMedia image)

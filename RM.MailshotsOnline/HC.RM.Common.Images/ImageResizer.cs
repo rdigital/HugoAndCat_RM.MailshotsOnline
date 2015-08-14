@@ -26,6 +26,17 @@ namespace HC.RM.Common.Images
             }
         }
 
+        public byte[] GetBytes(Image image)
+        {
+            using (var stream = new MemoryStream())
+            {
+                image.Save(stream, image.RawFormat);
+                var resizedBytes = stream.GetBuffer();
+
+                return resizedBytes;
+            }
+        }
+
         /// <summary>
         /// Resizes an Image to a specific width and returns a byte array
         /// </summary>
@@ -56,7 +67,7 @@ namespace HC.RM.Common.Images
                 // Graphics objects can not be created from bitmaps with an Indexed Pixel Format, use RGB instead.
                 var format = image.PixelFormat;
                 if (format.ToString().Contains("Indexed") || format == PixelFormat.Format16bppArgb1555 ||
-                    format == PixelFormat.Format16bppGrayScale || (int) format == 8207)
+                    format == PixelFormat.Format16bppGrayScale || (int)format == 8207)
                 {
                     format = PixelFormat.Format24bppRgb;
                 }

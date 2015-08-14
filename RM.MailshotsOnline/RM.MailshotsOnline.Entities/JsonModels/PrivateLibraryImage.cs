@@ -13,5 +13,17 @@ namespace RM.MailshotsOnline.Entities.JsonModels
     public class PrivateLibraryImage : Image
     {
         public string Username { get; set; }
+
+        public string OriginalBlobId { get; set; }
+
+        public string SmallThumbBlobId { get; set; }
+
+        public string LargeThumbBlobId { get; set; }
+
+        public string OriginalUrl { get; set; }
+
+        public string SmallThumbUrl { get; set; }
+
+        public string LargeThumbUrl { get; set; }
     }
 }
