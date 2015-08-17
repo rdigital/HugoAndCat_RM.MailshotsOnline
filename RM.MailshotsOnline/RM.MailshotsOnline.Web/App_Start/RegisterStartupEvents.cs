@@ -1,4 +1,6 @@
-﻿using log4net;
+﻿using HC.RM.Common.Azure;
+using HC.RM.Common.PCL.Helpers;
+using log4net;
 using RM.MailshotsOnline.Data.Helpers;
 using RM.MailshotsOnline.Data.Migrations;
 using RM.MailshotsOnline.Data.Services;
@@ -54,6 +56,7 @@ namespace RM.MailshotsOnline.Web.App_Start
         /// </summary>
         private void MediaService_Deleting(IMediaService sender, Umbraco.Core.Events.DeleteEventArgs<IMedia> e)
         {
+            var cancelled = false;
             foreach (var item in e.DeletedEntities)
             {
                 if (MediaIsImageLibraryItem(item))
@@ -61,13 +64,20 @@ namespace RM.MailshotsOnline.Web.App_Start
                     if (MediaIsUsedImage(item))
                     {
                         e.Cancel = true;
-                        ((BasePage)HttpContext.Current.Handler).ClientTools.ShowSpeechBubble(Umbraco.Web.UI.SpeechBubbleIcon.Error, "Unable to delete", "The image you tried to delete is being used in a Mailshot so can't be deleted.");
+                        cancelled = true;
+                        //((BasePage)HttpContext.Current.Handler).ClientTools.ShowSpeechBubble(Umbraco.Web.UI.SpeechBubbleIcon.Error, "Unable to delete", "The image you tried to delete is being used in a Mailshot so can't be deleted.");
                     }
                     else
                     {
                         DeleteCmsImage(item);
                     }
                 }
+            }
+
+            if (cancelled)
+            {
+                throw new Exception("Unable to delete image that is still being used.");
+                // TODO: Do this a better way using some sort of feedback to the CMS user
             }
         }
 
@@ -89,7 +99,7 @@ namespace RM.MailshotsOnline.Web.App_Start
                     }
                     else
                     {
-                        DeleteCmsImage(moveAction.Entity);
+                        //DeleteCmsImage(moveAction.Entity);
                     }
                 }
             }
@@ -196,7 +206,28 @@ namespace RM.MailshotsOnline.Web.App_Start
             // Delete the item
             _cmsImageService.DeleteCmsImage(item.Id);
 
-            //TODO: Remove the image blob
+            // Remove the image blobs
+            if (item.ContentType.Alias == ConfigHelper.PrivateImageContentTypeAlias)
+            {
+                BlobStorageHelper blobStorage = new BlobStorageHelper(ConfigHelper.StorageConnectionString, ConfigHelper.PrivateMediaBlobStorageContainer);
+                TryDeleteBlob(blobStorage, item.GetValue<string>("originalBlobId"));
+                TryDeleteBlob(blobStorage, item.GetValue<string>("smallThumbBlobId"));
+                TryDeleteBlob(blobStorage, item.GetValue<string>("largeThumbBlobId"));
+            }
+        }
+
+        private void TryDeleteBlob(BlobStorageHelper helper, string blobId)
+        {
+            try
+            {
+                helper.DeleteBlob(blobId);
+            }
+            catch (Exception ex)
+            {
+                ILogger log = new Logger();
+                log.Exception(this.GetType().Name, "TryDeleteBlob", ex);
+                log.Error(this.GetType().Name, "TryDeleteBlob", "Unable to delete blobg with ID {0}", blobId);
+            }
         }
 
         /// <summary>
@@ -221,6 +252,11 @@ namespace RM.MailshotsOnline.Web.App_Start
                 {
                     cmsImage.UserName = item.GetValue<string>("username");
                 }
+
+                if (item.HasProperty("originalUrl"))
+                {
+                    cmsImage.Src = item.GetValue<string>("originalUrl");
+                }
             }
             else
             {
@@ -233,6 +269,11 @@ namespace RM.MailshotsOnline.Web.App_Start
                 else
                 {
                     cmsImage.UserName = null;
+                }
+
+                if (item.HasProperty("originalUrl"))
+                {
+                    cmsImage.Src = item.GetValue<string>("originalUrl");
                 }
             }
 

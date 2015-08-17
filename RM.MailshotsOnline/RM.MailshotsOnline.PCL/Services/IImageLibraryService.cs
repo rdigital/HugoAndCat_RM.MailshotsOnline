@@ -17,7 +17,11 @@ namespace RM.MailshotsOnline.PCL.Services
 
         IMedia GetImage(int mediaId, bool publicImage);
 
+        IMedia GetImageByBlobUrl(string blobUrl);
+
         bool DeleteImage(string id);
+
+        bool DeleteImage(IMedia media);
 
         bool RenameImage(string name, string newName);
     }

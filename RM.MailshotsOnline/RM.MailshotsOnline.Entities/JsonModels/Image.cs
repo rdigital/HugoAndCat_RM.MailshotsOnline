@@ -12,14 +12,14 @@ namespace RM.MailshotsOnline.Entities.JsonModels
     [UmbracoType(AutoMap = true)]
     public class Image : Media
     {
-        public string Src { get; set; }
+        public virtual string Src { get; set; }
 
-        public string MediumSrc
+        public virtual string MediumSrc
         {
             get { return GetSrcForSize(1000); }
         }
 
-        public string SmallSrc
+        public virtual string SmallSrc
         {
             get { return GetSrcForSize(200); }
         }
@@ -31,7 +31,15 @@ namespace RM.MailshotsOnline.Entities.JsonModels
         public string Size
         {
             get { return (_size / 1024) + "KB"; }
-            set { _size = Convert.ToInt32(value); }
+            set
+            {
+                int size = 0;
+                if (!int.TryParse(value, out size))
+                {
+                    size = 0;
+                }
+                _size = size;
+            }
         }
 
         public string Type { get; set; }
@@ -40,11 +48,18 @@ namespace RM.MailshotsOnline.Entities.JsonModels
 
         private string GetSrcForSize(int size)
         {
-            var dotPosition = this.Src.LastIndexOf('.');
-            return string.Format("{0}_{1}.{2}",
-                this.Src.Substring(0, dotPosition),
-                size,
-                this.Src.Substring(dotPosition + 1));
+            if (!string.IsNullOrEmpty(Src))
+            {
+                var dotPosition = this.Src.LastIndexOf('.');
+                return string.Format("{0}_{1}.{2}",
+                    this.Src.Substring(0, dotPosition),
+                    size,
+                    this.Src.Substring(dotPosition + 1));
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

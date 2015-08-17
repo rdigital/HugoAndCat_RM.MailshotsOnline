@@ -39,6 +39,10 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Examine, Version=0.1.65.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Examine.0.1.65.0\lib\Examine.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="HC.RM.Common, Version=1.0.13.27, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\HC.RM.Common.1.0.13.27\lib\net45\HC.RM.Common.dll</HintPath>
       <Private>True</Private>
@@ -49,6 +53,14 @@
     </Reference>
     <Reference Include="HC.RM.Common.PCL, Version=1.0.13.27, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\HC.RM.Common.PCL.1.0.13.27\lib\portable-net45+win+wpa81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\HC.RM.Common.PCL.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Lucene.Net, Version=2.9.4.1, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lucene.Net.2.9.4.1\lib\net40\Lucene.Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ApplicationInsights, Version=1.0.0.4220, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -145,6 +157,7 @@
     <Compile Include="DAL\AzureConfiguration.cs" />
     <Compile Include="DAL\StorageContext.cs" />
     <Compile Include="Extensions\DataTypeExtensions.cs" />
+    <Compile Include="Extensions\ImageExtensions.cs" />
     <Compile Include="Extensions\MediaExtensions.cs" />
     <Compile Include="Extensions\MemberExtensions.cs" />
     <Compile Include="Helpers\BlobStorageHelper.cs" />

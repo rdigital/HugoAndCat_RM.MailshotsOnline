@@ -1,36 +1,5 @@
 ﻿$(function () {
 
-    function CheckLoggedInStatus(callback) {
-        $.ajax({
-            url: '/Umbraco/Api/Members/GetLoggedInStatus',
-            type: 'GET',
-            success: function (data) {
-                var loggedInMessage = 'You are logged in';
-                if (data.loggedIn != true) {
-                    loggedInMessage = 'Not logged in';
-                }
-                $('#loggedInStatus').val(loggedInMessage);
-
-                callback(data.loggedIn);
-            }
-        });
-    }
-
-    function Login() {
-        $.ajax({
-            url: '/Umbraco/Api/Members/Login',
-            type: 'POST',
-            data: { Email: $('#email').val(), Password: $('#password').val()},
-            success: function (data) {
-                console.log(data);
-                $('#checkLoggedInStatus').trigger('click');
-            },
-            statusCode: {
-                400: function (response) { HandleError(response); }
-            }
-        });
-    }
-
     function Logout() {
         $.ajax({
             url: '/Umbraco/Api/Members/Logout',
@@ -69,21 +38,14 @@
         });
     }
 
-    function HandleError(response) {
-        console.log(response);
-        grecaptcha.reset();
-        var errorMessage = response.responseJSON.error;
-        if (response.responseJSON.fieldErrors) {
-            for (i = 0; i < response.responseJSON.fieldErrors.length; i++) {
-                errorMessage += "\n" + response.responseJSON.fieldErrors[i];
-            }
-        }
-        alert(errorMessage);
-    }
-
     $('#checkLoggedInStatus').on('click', function (event) {
         event.preventDefault();
         CheckLoggedInStatus(function (loggedIn) {
+            var loggedInMessage = 'You are logged in';
+            if (loggedIn != true) {
+                loggedInMessage = 'Not logged in';
+            }
+            $('#loggedInStatus').val(loggedInMessage);
             if (loggedIn) {
                 $('#login').attr('disabled', 'disabled');
                 $('#logout').removeAttr('disabled');
@@ -99,7 +61,12 @@
 
     $('#login').on('click', function (event) {
         event.preventDefault();
-        Login();
+        var email = $('#email').val();
+        var password = $('#password').val();
+        Login(email, password, function (data) {
+            console.log(data);
+            $('#checkLoggedInStatus').trigger('click');
+        });
     });
 
     $('#logout').on('click', function (event) {

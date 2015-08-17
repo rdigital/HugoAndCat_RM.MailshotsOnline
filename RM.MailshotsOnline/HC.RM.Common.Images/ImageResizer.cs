@@ -41,7 +41,7 @@ namespace HC.RM.Common.Images
         /// Resizes an Image to a specific width and returns a byte array
         /// </summary>
         /// <param name="image">The image</param>
-        /// <param name="width">THe width</param>
+        /// <param name="width">The maximum size in either dimension</param>
         /// <returns>The byte array of the resized image</returns>
         public byte[] ResizeImageBytes(Image image, int width)
         {
@@ -49,8 +49,35 @@ namespace HC.RM.Common.Images
             {
                 byte[] resizedBytes = null;
 
-                var targetH = checked((int)(image.Height * ((float)width / (float)image.Width)));
-                var targetW = width;
+                int targetH;
+                int targetW;
+
+                if (image.Height > image.Width)
+                {
+                    if (width > image.Height)
+                    {
+                        targetW = image.Width;
+                        targetH = image.Height;
+                    }
+                    else
+                    {
+                        targetW = checked((int)(image.Width * ((float)width / (float)image.Height)));
+                        targetH = width;
+                    }
+                }
+                else
+                {
+                    if (width > image.Width)
+                    {
+                        targetH = image.Height;
+                        targetW = image.Width;
+                    }
+                    else
+                    {
+                        targetH = checked((int)(image.Height * ((float)width / (float)image.Width)));
+                        targetW = width;
+                    }
+                }
 
                 // no change in width and height => return original image
                 if (image.Height == targetH && image.Width == targetW)

@@ -12,5 +12,13 @@ namespace RM.MailshotsOnline.Data.Media_Conversion
         /// <param name="o">The object that </param>
         /// <returns></returns>
         IMedia Convert(IPublishedContent content, object o);
+
+        /// <summary>
+        /// Convert the given content iten into an IMedia
+        /// </summary>
+        /// <param name="content">The media item</param>
+        /// <param name="o">The object that </param>
+        /// <returns></returns>
+        IMedia Convert(Umbraco.Core.Models.IMedia content, object o);
     }
 }

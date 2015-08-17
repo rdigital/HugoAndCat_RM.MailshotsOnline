@@ -8,5 +8,7 @@ namespace RM.MailshotsOnline.Data.Media_Conversion
         public abstract T Media { get; set; }
 
         public abstract IMedia Convert(IPublishedContent content, object o);
+
+        public abstract IMedia Convert(Umbraco.Core.Models.IMedia content, object o);
     }
 }

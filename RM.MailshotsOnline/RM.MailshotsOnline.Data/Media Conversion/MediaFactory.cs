@@ -59,6 +59,28 @@ namespace RM.MailshotsOnline.Data.Media_Conversion
             return newMedia;
         }
 
+        public static IMedia Convert(Umbraco.Core.Models.IMedia content, Type type)
+        {
+            // Create a new instance of our type
+            var newMedia = (IMedia)Activator.CreateInstance(type);
+            var mediaConverters = GetMediaConverters(type, new Stack<IMediaConverter>());
+
+            // this is awesome:
+            // return mediaConverters?.Aggregate(newMedia, (current, m) => m.Convert(content, current));
+
+            if (mediaConverters == null)
+            {
+                return null;
+            }
+
+            foreach (var m in mediaConverters)
+            {
+                newMedia = m.Convert(content, newMedia);
+            }
+
+            return newMedia;
+        }
+
         /// <summary>
         /// <para>Converts a media item into the given type if a media converter for that type has 
         /// been registered.</para>

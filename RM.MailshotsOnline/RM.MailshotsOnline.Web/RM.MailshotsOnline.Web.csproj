@@ -407,6 +407,7 @@
     <Content Include="scripts\imagelibrarytest.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
+    <Content Include="scripts\loginfunctions.js" />
     <Content Include="scripts\logintest.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="umbraco\Actions\delete.aspx" />
@@ -3257,6 +3258,10 @@
     <Content Include="uSync\Template\Profile\Profile.config" />
     <Content Include="uSync\DataTypeDefinition\Private Image Viewer.config" />
     <Content Include="Views\ImageLibraryAPITestPage.cshtml" />
+    <Content Include="uSync\MediaType\PrivateImageLibraryFolder\def.config" />
+    <Content Include="uSync\MediaType\PrivateLibraryImage\def.config" />
+    <Content Include="uSync\MediaType\PublicImageLibraryFolder\def.config" />
+    <Content Include="uSync\MediaType\PublicLibraryImage\def.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

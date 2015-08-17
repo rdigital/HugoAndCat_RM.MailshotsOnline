@@ -11,7 +11,8 @@ namespace RM.MailshotsOnline.Data.Extensions
     {
         public static Umbraco.Core.Models.IMedia SetValues(this Umbraco.Core.Models.IMedia umbracoMedia, PrivateLibraryImage media)
         {
-            umbracoMedia.SetValue("originalBlobUrl", media.OriginalBlobId);
+            umbracoMedia.SetValue("username", media.Username);
+            umbracoMedia.SetValue("originalBlobId", media.OriginalBlobId);
             umbracoMedia.SetValue("smallThumbBlobId", media.SmallThumbBlobId);
             umbracoMedia.SetValue("largeThumbBlobId", media.LargeThumbBlobId);
 

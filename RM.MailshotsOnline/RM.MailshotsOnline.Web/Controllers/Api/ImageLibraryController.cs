@@ -4,6 +4,11 @@ using RM.MailshotsOnline.PCL.Services;
 using System.Net;
 using System.Net.Http;
 using System.Web.Mvc;
+using System;
+using RM.MailshotsOnline.Entities.ViewModels;
+using Examine;
+using RM.MailshotsOnline.Entities.JsonModels;
+using RM.MailshotsOnline.Data.Helpers;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
@@ -54,29 +59,143 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, results);
         }
 
-        [HttpPut]
-        public HttpResponseMessage UploadImage(byte[] bytes, string name)
+        [HttpGet]
+        public HttpResponseMessage GetPrivateImage(string url)
         {
-            // todo: check size of bytes[]
+            return GetPrivateImage(url, "original");
+        }
 
+        [HttpGet]
+        public HttpResponseMessage GetPrivateImage(string url, string size)
+        {
+            bool umbracoAccess = false;
+            // Check to see if the user is logged into Umbraco
+            var umbracoUser = UmbracoContext.Security.CurrentUser;
+            if (umbracoUser != null)
+            {
+                // TODO: Double check this is the way to do it
+                if (umbracoUser.UserType.Alias.ToLowerInvariant() == "administrator")
+                {
+                    umbracoAccess = true;
+                }
+            }
+
+            // Check to see if the user is logged into the front-end site
+            if (!umbracoAccess)
+            {
+                var authResult = Authenticate();
+                if (authResult != null)
+                {
+                    return authResult;
+                }
+            }
+
+            if (string.IsNullOrEmpty(url))
+            {
+                return ErrorMessage(HttpStatusCode.BadRequest, "URL of the required image isn't specified.");
+            }
+
+            HttpResponseMessage result = ErrorMessage(HttpStatusCode.NotFound, "Image not found");
+
+            var image = _imageLibrary.GetImageByBlobUrl(url) as PrivateLibraryImage;
+            if (image.Username == _loggedInMember.Username || umbracoAccess)
+            {
+                string blobId;
+                switch (size.ToLowerInvariant())
+                {
+                    case "small":
+                        blobId = image.SmallThumbBlobId;
+                        break;
+                    case "large":
+                        blobId = image.LargeThumbBlobId;
+                        break;
+                    case "original":
+                    default:
+                        blobId = image.OriginalBlobId;
+                        break;
+                }
+
+                BlobStorageHelper blobHelper = new BlobStorageHelper(ConfigHelper.StorageConnectionString, ConfigHelper.PrivateMediaBlobStorageContainer);
+                var accessUrl = blobHelper.GetBlobUrlWithSas(blobId, 60);
+
+                result = Request.CreateResponse(HttpStatusCode.Moved);
+                result.Headers.Location = new Uri(accessUrl);
+            }
+            else
+            {
+                result = ErrorMessage(HttpStatusCode.Forbidden, "You do not have permission to view this image.");
+            }
+
+            return result;
+        }
+
+        [HttpPost]
+        public HttpResponseMessage UploadImage(ImageUploadViewModel imageUpload)
+        {
             var authResult = Authenticate();
             if (authResult != null)
             {
                 return authResult;
             }
 
-            var media = _imageLibrary.AddImage(bytes, name, _loggedInMember);
+            if (string.IsNullOrEmpty(imageUpload.Name))
+            {
+                return ErrorMessage(HttpStatusCode.BadRequest, "You must provide a name for the image");
+            }
+
+            byte[] bytes = null;
+            if (imageUpload.ImageData != null)
+            {
+                bytes = imageUpload.ImageData;
+            }
+            else
+            {
+                try
+                {
+                    bytes = Convert.FromBase64String(imageUpload.ImageString);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Exception(this.GetType().Name, "UploadBase64Image", ex);
+                    _logger.Error(this.GetType().Name, "UploadBase64Image", "A user tried to upload an invalid image.");
+                }
+            }
+
+            if (bytes != null)
+            {
+                return UploadImage(bytes, imageUpload.Name);
+            }
+            else
+            {
+                return ErrorMessage(HttpStatusCode.BadRequest, "The image provided was not in the correct format.");
+            }
+        }
+
+        private HttpResponseMessage UploadImage(byte[] bytes, string name)
+        {
+            // todo: check size of bytes[]
+
+            PCL.Models.IMedia media = null;
+            try
+            {
+                media = _imageLibrary.AddImage(bytes, name, _loggedInMember);
+            }
+            catch (Exception ex)
+            {
+                _logger.Exception(this.GetType().Name, "UploadImage", ex);
+                _logger.Error(this.GetType().Name, "UploadImage", "Unable to save image to Umbraco.");
+            }
 
             if (media == null)
             {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError);
+                return ErrorMessage(HttpStatusCode.InternalServerError, "Unable to save image.");
             }
 
             return Request.CreateResponse(HttpStatusCode.Created, media);
         }
 
-        [HttpPost]
-        public HttpResponseMessage DeleteImage(string id)
+        [HttpDelete]
+        public HttpResponseMessage DeleteImage(int id)
         {
             var authResult = Authenticate();
             if (authResult != null)
@@ -84,11 +203,26 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 return authResult;
             }
 
-            // delete from blob store.
+            // Find the image
+            var image = _imageLibrary.GetImage(id, false) as PrivateLibraryImage;
+            if (image == null)
+            {
+                return ErrorMessage(HttpStatusCode.NotFound, "The image was not found");
+            }
 
-            // delete from umbraco
+            if (image.Username != _loggedInMember.Username)
+            {
+                return ErrorMessage(HttpStatusCode.Forbidden, "You do not have permission to delete this image");
+            }
 
-            return Request.CreateResponse(HttpStatusCode.OK);
+            bool success = _imageLibrary.DeleteImage(image);
+
+            if (!success)
+            {
+                return ErrorMessage(HttpStatusCode.InternalServerError, "Unable to delete image.");
+            }
+
+            return Request.CreateResponse(HttpStatusCode.NoContent);
         }
 
         [HttpPost]
