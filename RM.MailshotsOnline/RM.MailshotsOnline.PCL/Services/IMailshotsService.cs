@@ -19,5 +19,12 @@ namespace RM.MailshotsOnline.PCL.Services
         void Delete(IMailshot mailshot);
 
         void UpdateLinkedImages(IMailshot mailshot, IEnumerable<string> linkedImages);
+
+        /// <summary>
+        /// Checks if the given mailshot is used in a campaign
+        /// </summary>
+        /// <param name="mailshot">Mailshot to check</param>
+        /// <returns>True if the mailshot is used, false otherwise</returns>
+        bool MailshotIsUsedInCampaign(IMailshot mailshot);
     }
 }

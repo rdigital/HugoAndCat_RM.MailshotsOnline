@@ -11,9 +11,9 @@ namespace RM.MailshotsOnline.PCL
         {
             Draft = 1,
             PendingModeration = 2,
-            Ready = 3,
+            ReadyForFulfilment = 3,
             SentForFulfilment = 4,
-            Complete = 5,
+            Fulfilled = 5,
             Exception = -1
         }
 
@@ -39,6 +39,14 @@ namespace RM.MailshotsOnline.PCL
             Pending = 2,
             Complete = 3,
             Failed = 4
+        }
+
+        public enum DataSearchStatus
+        {
+            Draft = 1,
+            Finalised = 2,
+            Purchased = 3,
+            Fulfilled = 4
         }
     }
 }

@@ -92,5 +92,15 @@ namespace RM.MailshotsOnline.Data.Services
                 _context.SaveChanges();
             }
         }
+
+        /// <summary>
+        /// Checks if the given mailshot is used in a campaign
+        /// </summary>
+        /// <param name="mailshot">Mailshot to check</param>
+        /// <returns>True if the mailshot is used, false otherwise</returns>
+        public bool MailshotIsUsedInCampaign(IMailshot mailshot)
+        {
+            return _context.Campaigns.Any(c => c.MailshotId == mailshot.MailshotId);
+        }
     }
 }

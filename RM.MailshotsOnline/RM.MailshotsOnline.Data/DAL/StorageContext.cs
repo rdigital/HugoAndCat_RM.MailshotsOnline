@@ -24,8 +24,10 @@ namespace RM.MailshotsOnline.Data.DAL
         }
 
         public DbSet<Campaign> Campaigns { get; set; }
+        public DbSet<CampaignDistributionList> CampaignDistributionLists { get; set; }
         public DbSet<CmsImage> CmsImages { get; set; }
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<DataSearch> DataSearch { get; set; }
         public DbSet<DistributionList> DistributionLists { get; set; }
         public DbSet<Format> Formats { get; set; }
         public DbSet<MailshotContent> MailshotContents { get; set; }

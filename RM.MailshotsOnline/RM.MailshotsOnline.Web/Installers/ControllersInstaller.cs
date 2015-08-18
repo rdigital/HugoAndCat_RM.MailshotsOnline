@@ -42,6 +42,7 @@ namespace RM.MailshotsOnline.Web.Installers
                 Component.For<IMailshotSettingsService>().ImplementedBy<MailshotSettingsService>().LifestyleTransient(),
                 Component.For<IImageLibraryService>().ImplementedBy<ImageLibraryService>().LifestyleTransient(),
                 Component.For<ICmsImageService>().ImplementedBy<CmsImageService>().LifestyleTransient(),
+                Component.For<ICampaignService>().ImplementedBy<CampaignService>().LifestyleTransient(),
 				Component.For<ILogger>().ImplementedBy<Logger>().LifestyleTransient());
         }
 

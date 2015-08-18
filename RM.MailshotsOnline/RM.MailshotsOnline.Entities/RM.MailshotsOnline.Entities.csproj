@@ -72,8 +72,10 @@
   <ItemGroup>
     <Compile Include="Attributes\RecaptchaValidatorAttribute.cs" />
     <Compile Include="DataModels\Campaign.cs" />
+    <Compile Include="DataModels\CampaignDistributionList.cs" />
     <Compile Include="DataModels\CmsImage.cs" />
     <Compile Include="DataModels\Contact.cs" />
+    <Compile Include="DataModels\DataSearch.cs" />
     <Compile Include="DataModels\DistributionList.cs" />
     <Compile Include="DataModels\Mailshot.cs" />
     <Compile Include="DataModels\MailshotContent.cs" />

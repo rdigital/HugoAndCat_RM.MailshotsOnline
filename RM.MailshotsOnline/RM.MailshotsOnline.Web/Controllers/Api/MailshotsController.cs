@@ -328,6 +328,13 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 return MailshotForbidden();
             }
 
+            // Confirm that the mailshot isn't used in any campaigns
+            if (_mailshotsService.MailshotIsUsedInCampaign(mailshot))
+            {
+                _logger.Error(this.GetType().Name, "Delete", "Attempt to delete mailshot that is in use with ID {0}.", id);
+                return ErrorMessage(HttpStatusCode.Conflict, "Unable to delete mailshot that is in use for a campaign.");
+            }
+
             // Delete the mailshot
             _mailshotsService.Delete(mailshot);
 
