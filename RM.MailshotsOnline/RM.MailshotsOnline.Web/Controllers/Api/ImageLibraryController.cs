@@ -9,6 +9,8 @@ using RM.MailshotsOnline.Entities.ViewModels;
 using Examine;
 using RM.MailshotsOnline.Entities.JsonModels;
 using RM.MailshotsOnline.Data.Helpers;
+using System.Web;
+using Umbraco.Core.Security;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
@@ -71,10 +73,17 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             bool umbracoAccess = false;
             // Check to see if the user is logged into Umbraco
             var umbracoUser = UmbracoContext.Security.CurrentUser;
+
+            if (umbracoUser == null)
+            {
+                var userName = new HttpContextWrapper(HttpContext.Current).GetUmbracoAuthTicket().Name;
+                umbracoUser = UmbracoContext.Application.Services.UserService.GetByUsername(userName);
+            }
+
             if (umbracoUser != null)
             {
                 // TODO: Double check this is the way to do it
-                if (umbracoUser.UserType.Alias.ToLowerInvariant() == "administrator")
+                if (umbracoUser.UserType.Alias.ToLowerInvariant() == "admin")
                 {
                     umbracoAccess = true;
                 }
@@ -98,7 +107,13 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             HttpResponseMessage result = ErrorMessage(HttpStatusCode.NotFound, "Image not found");
 
             var image = _imageLibrary.GetImageByBlobUrl(url) as PrivateLibraryImage;
-            if (image.Username == _loggedInMember.Username || umbracoAccess)
+            var userAccess = false;
+            if (_loggedInMember != null)
+            {
+                userAccess = image.Username == _loggedInMember.Username;
+            }
+
+            if (userAccess || umbracoAccess)
             {
                 string blobId;
                 switch (size.ToLowerInvariant())
