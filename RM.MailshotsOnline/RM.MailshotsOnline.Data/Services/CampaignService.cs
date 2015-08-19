@@ -39,7 +39,7 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>Collection of campaigns</returns>
         public IEnumerable<ICampaign> GetCampaigns(Func<ICampaign, bool> filter)
         {
-            return _context.Campaigns.Include("Mailshot").Include("CampaignDistributionLists").Include("DataSearches").Where(c => filter(c));
+            return _context.Campaigns.Include("Mailshot").Include("CampaignDistributionLists").Include("DataSearches").Where(filter);
         }
 
         /// <summary>

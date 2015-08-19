@@ -225,6 +225,10 @@
     <Compile Include="Migrations\201508141016106_SimplifyMailshotImageUseTable.Designer.cs">
       <DependentUpon>201508141016106_SimplifyMailshotImageUseTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508191619247_CampaignsUpdate.cs" />
+    <Compile Include="Migrations\201508191619247_CampaignsUpdate.Designer.cs">
+      <DependentUpon>201508191619247_CampaignsUpdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CampaignService.cs" />
@@ -301,6 +305,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508141016106_SimplifyMailshotImageUseTable.resx">
       <DependentUpon>201508141016106_SimplifyMailshotImageUseTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508191619247_CampaignsUpdate.resx">
+      <DependentUpon>201508191619247_CampaignsUpdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

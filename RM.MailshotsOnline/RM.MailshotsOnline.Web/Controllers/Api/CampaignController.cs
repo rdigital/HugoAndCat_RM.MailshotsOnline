@@ -36,7 +36,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
 
             // Get the user's campaigns
-            var campaigns = _campaignService.GetCampaignsForUser(_loggedInMember.Id);
+            var campaigns = _campaignService.GetCampaignsForUser(_loggedInMember.Id).Select(c => (Campaign)c);
 
             return Request.CreateResponse(HttpStatusCode.OK, campaigns);
         }

@@ -21,7 +21,12 @@ function Login(email, password, callback) {
             }
         },
         statusCode: {
-            400: function (response) { HandleError(response); }
+            400: function (response) {
+                HandleError(response);
+                if (typeof (callback) != "undefined") {
+                    callback(false);
+                }
+            }
         }
     });
 }
