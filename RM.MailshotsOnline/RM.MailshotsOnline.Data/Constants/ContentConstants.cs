@@ -19,13 +19,13 @@ namespace RM.MailshotsOnline.Data.Constants
 
         public static class MediaContent
         {
-            public static readonly int PublicMediaLibraryId = int.Parse(ConfigurationManager.AppSettings["PublicMediaLibraryId"]);
-            public static readonly string PublicLibraryImageMediaTypeAlias = ConfigurationManager.AppSettings["PublicLibraryImageMediaTypeAlias"];
-            public static readonly string PublicImageLibraryFolderMediaTypeAlias = ConfigurationManager.AppSettings["PublicImageLibraryFolderMediaTypeAlias"];
+            public static readonly int PublicMediaLibraryId = Helpers.ConfigHelper.GetConfigValue("PublicMediaLibraryId", 1176);
+            public static readonly string PublicLibraryImageMediaTypeAlias = Helpers.ConfigHelper.GetConfigValue("PublicLibraryImageMediaTypeAlias");
+            public static readonly string PublicImageLibraryFolderMediaTypeAlias = Helpers.ConfigHelper.GetConfigValue("PublicImageLibraryFolderMediaTypeAlias");
 
-            public static readonly int PrivateMediaLibraryId = int.Parse(ConfigurationManager.AppSettings["PrivateMediaLibraryId"]);
-            public static readonly string PrivateLibraryImageMediaTypeAlias = ConfigurationManager.AppSettings["PrivateLibraryImageMediaTypeAlias"];
-            public static readonly string PrivateImageLibraryFolderMediaTypeAlias = ConfigurationManager.AppSettings["PrivateImageLibraryFolderMediaTypeAlias"];
+            public static readonly int PrivateMediaLibraryId = Helpers.ConfigHelper.GetConfigValue("PrivateMediaLibraryId", 1177);
+            public static readonly string PrivateLibraryImageMediaTypeAlias = Helpers.ConfigHelper.GetConfigValue("PrivateLibraryImageMediaTypeAlias");
+            public static readonly string PrivateImageLibraryFolderMediaTypeAlias = Helpers.ConfigHelper.GetConfigValue("PrivateImageLibraryFolderMediaTypeAlias");
         }
     }
 }
