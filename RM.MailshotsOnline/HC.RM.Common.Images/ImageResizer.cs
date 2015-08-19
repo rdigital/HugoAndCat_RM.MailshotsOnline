@@ -41,9 +41,9 @@ namespace HC.RM.Common.Images
         /// Resizes an Image to a specific width and returns a byte array
         /// </summary>
         /// <param name="image">The image</param>
-        /// <param name="width">The maximum size in either dimension</param>
+        /// <param name="maxDimension">The maximum size in either dimension</param>
         /// <returns>The byte array of the resized image</returns>
-        public byte[] ResizeImageBytes(Image image, int width)
+        public byte[] ResizeImageBytes(Image image, int maxDimension)
         {
             try
             {
@@ -54,28 +54,28 @@ namespace HC.RM.Common.Images
 
                 if (image.Height > image.Width)
                 {
-                    if (width > image.Height)
+                    if (maxDimension > image.Height)
                     {
                         targetW = image.Width;
                         targetH = image.Height;
                     }
                     else
                     {
-                        targetW = checked((int)(image.Width * ((float)width / (float)image.Height)));
-                        targetH = width;
+                        targetW = checked((int)(image.Width * ((float)maxDimension / (float)image.Height)));
+                        targetH = maxDimension;
                     }
                 }
                 else
                 {
-                    if (width > image.Width)
+                    if (maxDimension > image.Width)
                     {
                         targetH = image.Height;
                         targetW = image.Width;
                     }
                     else
                     {
-                        targetH = checked((int)(image.Height * ((float)width / (float)image.Width)));
-                        targetW = width;
+                        targetH = checked((int)(image.Height * ((float)maxDimension / (float)image.Width)));
+                        targetW = maxDimension;
                     }
                 }
 
@@ -85,7 +85,7 @@ namespace HC.RM.Common.Images
                     using (var stream = new MemoryStream())
                     {
                         image.Save(stream, image.RawFormat);
-                        resizedBytes = stream.GetBuffer();
+                        resizedBytes = stream.ToArray();
 
                         return resizedBytes;
                     }

@@ -209,7 +209,7 @@ namespace RM.MailshotsOnline.Web.App_Start
             // Remove the image blobs
             if (item.ContentType.Alias == ConfigHelper.PrivateImageContentTypeAlias)
             {
-                BlobStorageHelper blobStorage = new BlobStorageHelper(ConfigHelper.StorageConnectionString, ConfigHelper.PrivateMediaBlobStorageContainer);
+                BlobStorageHelper blobStorage = new BlobStorageHelper(ConfigHelper.PrivateStorageConnectionString, ConfigHelper.PrivateMediaBlobStorageContainer);
                 TryDeleteBlob(blobStorage, item.GetValue<string>("originalBlobId"));
                 TryDeleteBlob(blobStorage, item.GetValue<string>("smallThumbBlobId"));
                 TryDeleteBlob(blobStorage, item.GetValue<string>("largeThumbBlobId"));

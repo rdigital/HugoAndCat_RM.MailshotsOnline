@@ -3,7 +3,7 @@
         "RM.HC.PrivateImageViewerController",
         // inject the umbraco asset service
         function ($scope, assetsService) {
-            $scope.image = "/umbraco/backoffice/UmbracoApi/Images/GetResized?width=200&imagePath=" + encodeURI($scope.model.value);
+            $scope.image = $scope.model.value + '&size=small';
             //$scope.clearImage = function () {
             //    alert("Clicked!");
             //    $scope.model.value = "";

@@ -9,6 +9,7 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2016-07-21T23:59:59.0000000+01:00" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
       <Setting name="StorageConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="PrivateStorageConnectionString" value="UseDevelopmentStorage=true" />
       <Setting name="AppInsightsKey" value="f4926bc4-a07f-420c-89f1-40e38682d0c6" />
       <!--<Setting name="StorageContextEF" value="Data Source=.\;Initial Catalog=mrhcrmmsol-sql;User ID=sa;Password=AddedSugar;" />-->
       <Setting name="StorageContextEF" value="Server=tcp:gpxfbusuk8.database.windows.net,1433;Database=mrhcrmmsol-sql;User ID=rmphoto@gpxfbusuk8;Password=ZA8X461t7yQwdTDUZDTl;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;" />
