@@ -3265,10 +3265,10 @@
     <Content Include="uSync\Template\Profile\Profile.config" />
     <Content Include="uSync\DataTypeDefinition\Private Image Viewer.config" />
     <Content Include="Views\ImageLibraryAPITestPage.cshtml" />
-    <Content Include="uSync\MediaType\PrivateImageLibraryFolder\def.config" />
-    <Content Include="uSync\MediaType\PrivateLibraryImage\def.config" />
-    <Content Include="uSync\MediaType\PublicImageLibraryFolder\def.config" />
-    <Content Include="uSync\MediaType\PublicLibraryImage\def.config" />
+    <Content Include="uSync\MediaType\Image\PrivateLibraryImage\def.config" />
+    <Content Include="uSync\MediaType\Image\PublicLibraryImage\def.config" />
+    <Content Include="uSync\MediaType\Folder\PrivateImageLibraryFolder\def.config" />
+    <Content Include="uSync\MediaType\Folder\PublicImageLibraryFolder\def.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
