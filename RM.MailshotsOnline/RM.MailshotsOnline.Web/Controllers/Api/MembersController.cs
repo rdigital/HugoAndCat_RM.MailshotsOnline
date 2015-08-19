@@ -64,7 +64,14 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 return Request.CreateResponse(HttpStatusCode.BadRequest, errorResponse);
             }
 
-            if (Members.Login(login.Email, login.Password))
+            var member = Services.MemberService.GetByEmail(login.Email);
+            if (member == null)
+            {
+                _logger.Error(this.GetType().Name, "Login", "Invalid login attempt with email address {0}.", login.Email);
+                return ErrorMessage(HttpStatusCode.BadRequest, "Login credentials incorrect");
+            }
+
+            if (Members.Login(member.Username, login.Password))
             {
                 return Request.CreateResponse(HttpStatusCode.OK, new { loggedIn = true });
             }
