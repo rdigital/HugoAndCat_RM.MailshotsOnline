@@ -26,7 +26,7 @@ namespace RM.MailshotsOnline.Data.Services
     {
         private readonly UmbracoHelper _helper = new UmbracoHelper(UmbracoContext.Current);
         private readonly BlobStorageHelper _blobStorage =
-            new BlobStorageHelper(ConfigHelper.StorageConnectionString, ConfigHelper.PrivateMediaBlobStorageContainer);
+            new BlobStorageHelper(ConfigHelper.PrivateStorageConnectionString, ConfigHelper.PrivateMediaBlobStorageContainer);
         private readonly ILogger _logger;
         private readonly ICmsImageService _cmsImageService;
         private readonly IMediaService _mediaService;
@@ -146,11 +146,24 @@ namespace RM.MailshotsOnline.Data.Services
             byte[] smallThumb;
             byte[] largeThumb;
             System.Drawing.Image original;
+            int originalHeight = 0;
+            int originalWidth = 0;
+            string extension;
             try
             {
-                original = _imageResizer.GetImage(bytes);
-                smallThumb = _imageResizer.ResizeImageBytes(original, ContentConstants.Settings.ImageThumbnailSizeSmall);
-                largeThumb = _imageResizer.ResizeImageBytes(original, ContentConstants.Settings.ImageThumbnailSizeLarge);
+                using (var stream = new MemoryStream(bytes))
+                {
+                    original = System.Drawing.Image.FromStream(stream);
+                    smallThumb = _imageResizer.ResizeImageBytes(original, ContentConstants.Settings.ImageThumbnailSizeSmall);
+                    largeThumb = _imageResizer.ResizeImageBytes(original, ContentConstants.Settings.ImageThumbnailSizeLarge);
+
+                    extension = original.RawFormat.ToFileExtension();
+                    originalHeight = original.Height;
+                    originalWidth = original.Width;
+                }
+                //original = _imageResizer.GetImage(bytes);
+                //smallThumb = _imageResizer.ResizeImageBytes(original, ContentConstants.Settings.ImageThumbnailSizeSmall);
+                //largeThumb = _imageResizer.ResizeImageBytes(original, ContentConstants.Settings.ImageThumbnailSizeLarge);
             }
             catch (Exception e)
             {
@@ -158,8 +171,6 @@ namespace RM.MailshotsOnline.Data.Services
 
                 return null;
             }
-
-            var extension = original.RawFormat.ToFileExtension();
 
             //var extension = original.RawFormat.GetType().Name.ToLower();
             var originalFilename = $"{member.Id}/{name}-{DateTime.UtcNow.ToString("yyyyMMddHHmmss")}{extension.ToLower()}";
@@ -206,8 +217,8 @@ namespace RM.MailshotsOnline.Data.Services
             convertedMedia.LargeThumbUrl = $"/Umbraco/Api/ImageLibrary/GetPrivateImage?url={HttpUtility.UrlEncode(originalFilename)}&size=medium";
 
             convertedMedia.Username = member.Username;
-            convertedMedia.Height = original.Height.ToString();
-            convertedMedia.Width = original.Width.ToString();
+            convertedMedia.Height = originalHeight.ToString();
+            convertedMedia.Width = originalWidth.ToString();
             convertedMedia.Type = extension.Trim(".");
 
             createdMedia.SetValues(convertedMedia);
@@ -239,7 +250,16 @@ namespace RM.MailshotsOnline.Data.Services
             {
                 _logger.Exception(this.GetType().Name, "DeleteImage", ex);
                 _logger.Error(this.GetType().Name, "DeleteImage", "Unable to delete media item with ID {0}.", media.MediaId);
-                success = false;
+
+                if (ex.Source == "Examine")
+                {
+                    // TODO: Trigger rebuild of index
+                    ExamineManager.Instance.RebuildIndex();
+                }
+                else
+                {
+                    success = false;
+                }
             }
 
             return success;

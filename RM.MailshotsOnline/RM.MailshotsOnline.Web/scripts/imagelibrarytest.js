@@ -8,6 +8,8 @@
     $noPrivateImages = $('#noPrivateImages');
     $deleteLink = $('#deleteLink');
     $closeLink = $('#closeLink');
+    $refreshButton = $('#refreshButton');
+    $refreshPrivateImages = $('#refreshPrivateImages');
 
     function DisplayImageTags(callback) {
         $.ajax({
@@ -144,6 +146,7 @@
             success: function (images) {
                 DisplayImages(images, $privateImageGrid, $privateLoading, $noPrivateImages, function () {
                     ShowNewImageForm();
+                    $refreshPrivateImages.show();
                     if (typeof (callback) != "undefined") {
                         callback();
                     }
@@ -157,7 +160,8 @@
         $('#imageName').removeAttr('disabled').val('');
         $('#imageBaseString').removeAttr('disabled').val('');
         $('#saveImageButton').text('Save image').removeAttr('disabled');
-        // TODO: Clear the form
+        var iframeTarget = $('#uploadIframe').attr('src');
+        $('#uploadIframe').attr('src', iframeTarget);
     }
 
     function SaveNewImage() {
@@ -247,6 +251,11 @@
             })
         }
     })
+
+    $refreshButton.on('click', function (event) {
+        event.preventDefault();
+        GetPrivateImages();
+    });
 
     $('#loginButton').on('click', function (event) {
         event.preventDefault();

@@ -76,8 +76,12 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             if (umbracoUser == null)
             {
-                var userName = new HttpContextWrapper(HttpContext.Current).GetUmbracoAuthTicket().Name;
-                umbracoUser = UmbracoContext.Application.Services.UserService.GetByUsername(userName);
+                var authTicket = new HttpContextWrapper(HttpContext.Current).GetUmbracoAuthTicket();
+                if (authTicket != null)
+                {
+                    var userName = authTicket.Name;
+                    umbracoUser = UmbracoContext.Application.Services.UserService.GetByUsername(userName);
+                }
             }
 
             if (umbracoUser != null)
@@ -130,7 +134,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                         break;
                 }
 
-                BlobStorageHelper blobHelper = new BlobStorageHelper(ConfigHelper.StorageConnectionString, ConfigHelper.PrivateMediaBlobStorageContainer);
+                BlobStorageHelper blobHelper = new BlobStorageHelper(ConfigHelper.PrivateStorageConnectionString, ConfigHelper.PrivateMediaBlobStorageContainer);
                 var accessUrl = blobHelper.GetBlobUrlWithSas(blobId, 60);
 
                 result = Request.CreateResponse(HttpStatusCode.Moved);
