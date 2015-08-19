@@ -108,7 +108,7 @@ namespace RM.MailshotsOnline.Data.Helpers
             get { return GetConfigValue("ThemeContentTypeAlias", "Theme"); }
         }
 
-        private static int GetConfigValue(string key, int defaultValue)
+        internal static int GetConfigValue(string key, int defaultValue)
         {
             int result;
             if (!int.TryParse(GetConfigValue(key), out result))
@@ -119,12 +119,12 @@ namespace RM.MailshotsOnline.Data.Helpers
             return result;
         }
 
-        private static string GetConfigValue(string key, string defaultValue)
+        internal static string GetConfigValue(string key, string defaultValue)
         {
             return GetConfigValue(key) ?? defaultValue;
         }
 
-        private static string GetConfigValue(string key)
+        internal static string GetConfigValue(string key)
         {
             return CloudConfigurationManager.GetSetting(key) ?? ConfigurationManager.AppSettings[key];
         }

@@ -26,6 +26,8 @@
       <Setting name="HostedDomain" value="mrhcrmmsol.cloudapp.net" />
       <Setting name="HostedScheme" value="http" />
       <Setting name="HostedPort" value="80" />
+      <Setting name="PublicMediaLibraryId" value="1217"/>
+      <Setting name="PrivateMediaLibraryId" value="1218"/>
     </ConfigurationSettings>
     <Certificates>
       <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="A8758600C049A567CCAFF3FDCE236C3C81E6CD06" thumbprintAlgorithm="sha1" />
