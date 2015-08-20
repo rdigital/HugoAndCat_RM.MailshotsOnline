@@ -13,14 +13,29 @@ using System.Threading.Tasks;
 
 namespace RM.MailshotsOnline.Entities.DataModels
 {
+    /// <summary>
+    /// Model representing Mailshot data
+    /// </summary>
     public class Mailshot : IMailshot
     {
+        /// <summary>
+        /// The concrete Mailshot Content object
+        /// </summary>
         private MailshotContent _content;
 
+        /// <summary>
+        /// The concrete Format object
+        /// </summary>
         private Format _format;
 
+        /// <summary>
+        /// The concrete Template object
+        /// </summary>
         private Template _template;
 
+        /// <summary>
+        /// The concrete Theme object
+        /// </summary>
         private Theme _theme;
 
         [Key]

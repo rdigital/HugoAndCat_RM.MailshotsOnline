@@ -8,6 +8,9 @@ namespace RM.MailshotsOnline.PCL.Services
 {
     public interface IPricingService
     {
+        /// <summary>
+        /// Gets the Postal Options
+        /// </summary>
         IEnumerable<IPostalOption> GetPostalOptions(int formatId = 0);
     }
 }

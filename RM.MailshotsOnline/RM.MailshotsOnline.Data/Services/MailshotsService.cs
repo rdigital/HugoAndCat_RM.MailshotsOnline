@@ -23,11 +23,20 @@ namespace RM.MailshotsOnline.Data.Services
             _context = storageContext;
         }
 
+        /// <summary>
+        /// Finds all Mailshots
+        /// </summary>
+        /// <returns>Collection of Mailshots</returns>
         public IEnumerable<IMailshot> GetAllMailshots()
         {
             return _context.Mailshots.OrderBy(m => m.Name).AsEnumerable();
         }
 
+        /// <summary>
+        /// Gets a specific Mailshot
+        /// </summary>
+        /// <param name="mailshotId">The ID of the mailshot to get</param>
+        /// <returns>Mailshot object</returns>
         public IMailshot GetMailshot(Guid mailshotId)
         {
             return _context.Mailshots
@@ -38,6 +47,12 @@ namespace RM.MailshotsOnline.Data.Services
                 .FirstOrDefault(m => m.MailshotId == mailshotId);
         }
 
+        /// <summary>
+        /// Gets a user's mailshots
+        /// </summary>
+        /// <param name="userId">The ID of the user to search against</param>
+        /// <param name="draftOnly">Indicates if only draft Mailshots should be returned</param>
+        /// <returns>Collection of Mailshot objects</returns>
         public IEnumerable<IMailshot> GetUsersMailshots(int userId, bool draftOnly = false)
         {
             if (!draftOnly)
@@ -50,6 +65,11 @@ namespace RM.MailshotsOnline.Data.Services
             }
         }
 
+        /// <summary>
+        /// Saves a Mailshot to the database
+        /// </summary>
+        /// <param name="mailshot"></param>
+        /// <returns></returns>
         public IMailshot SaveMailshot(IMailshot mailshot)
         {
             if (mailshot.MailshotId == Guid.Empty)
@@ -61,6 +81,11 @@ namespace RM.MailshotsOnline.Data.Services
             return mailshot;
         }
 
+        /// <summary>
+        /// Deletes a Mailshot
+        /// </summary>
+        /// <param name="mailshot">The Mailshot to be deleted</param>
+        /// <returns>True on success</returns>
         public bool Delete(IMailshot mailshot)
         {
             // Double check that the mailshot isn't used in a campaign
@@ -80,6 +105,11 @@ namespace RM.MailshotsOnline.Data.Services
             return true;
         }
 
+        /// <summary>
+        /// Updates the links between Mailshots and CMS images
+        /// </summary>
+        /// <param name="mailshot">Mailshot to link images to</param>
+        /// <param name="linkedImages">List of image URLs to be linked</param>
         public void UpdateLinkedImages(IMailshot mailshot, IEnumerable<string> linkedImages)
         {
             if (mailshot.MailshotContentId != Guid.Empty)

@@ -70,6 +70,12 @@ namespace RM.MailshotsOnline.Data.Services
             return PopulateUsageCounts(_helper.TagQuery.GetMediaByTag(tag, ContentConstants.Settings.DefaultMediaLibraryTagGroup).Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage))));
         }
 
+        /// <summary>
+        /// Gets an image
+        /// </summary>
+        /// <param name="mediaId">The Umbraco media ID of the image to fetch</param>
+        /// <param name="publicImage">Indicates if this is a public image</param>
+        /// <returns>The Media item</returns>
         public IMedia GetImage(int mediaId, bool publicImage)
         {
             var requiredType = publicImage ? typeof(PublicLibraryImage) : typeof(PrivateLibraryImage);
@@ -78,6 +84,11 @@ namespace RM.MailshotsOnline.Data.Services
             return image;
         }
 
+        /// <summary>
+        /// Gets a media item (base class)
+        /// </summary>
+        /// <param name="mediaId">The Umbraco media ID of the media item to fetch</param>
+        /// <returns>The Media item</returns>
         public IMedia GetMedia(int mediaId)
         {
             IMedia image = MediaFactory.Convert(_helper.TypedMedia(mediaId), typeof(Media));
@@ -85,6 +96,11 @@ namespace RM.MailshotsOnline.Data.Services
             return image;
         }
 
+        /// <summary>
+        /// Finds a private image based on its Blob URL
+        /// </summary>
+        /// <param name="blobUrl">The Blob URL to search for</param>
+        /// <returns>The Media item</returns>
         public IMedia GetImageByBlobUrl(string blobUrl)
         {
             var mediaSearcher = ExamineManager.Instance.SearchProviderCollection["MediaSearcher"] ?? ExamineManager.Instance.DefaultSearchProvider;
@@ -144,7 +160,7 @@ namespace RM.MailshotsOnline.Data.Services
         /// <summary>
         /// Add an image into the blob store for the given member.
         /// </summary>
-        /// <param name="bytes">THe byte representing the image.</param>
+        /// <param name="bytes">The bytes representing the image.</param>
         /// <param name="name">The name of the image.</param>
         /// <param name="member">The member creating this image. The image will be stored in this member's personal image store.</param>
         /// <returns></returns>
@@ -245,6 +261,11 @@ namespace RM.MailshotsOnline.Data.Services
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Deletes a media item
+        /// </summary>
+        /// <param name="media">The media item to be deleted</param>
+        /// <returns>True on success</returns>
         public bool DeleteImage(IMedia media)
         {
             bool success = true;
@@ -272,11 +293,22 @@ namespace RM.MailshotsOnline.Data.Services
             return success;
         }
 
+        /// <summary>
+        /// Renames a given image (Not sure if this needs to be used?)
+        /// </summary>
+        /// <param name="name">Original name of the image</param>
+        /// <param name="newName">New name for the image</param>
+        /// <returns>True on success</returns>
         public bool RenameImage(string name, string newName)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Finds the usage count for a given set of media items and populates it onto the model
+        /// </summary>
+        /// <param name="mediaItems">Collection of media items</param>
+        /// <returns>Collection of media items</returns>
         private IEnumerable<IMedia> PopulateUsageCounts(IEnumerable<IMedia> mediaItems)
         {
             List<IMedia> result = new List<IMedia>();

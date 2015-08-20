@@ -223,6 +223,13 @@ namespace RM.MailshotsOnline.Data.Services
             return success;
         }
 
+        /// <summary>
+        /// Saves the new password against the member
+        /// </summary>
+        /// <param name="umbracoMember">Member to update the password for</param>
+        /// <param name="password">The new password</param>
+        /// <param name="clearPasswordResetToken">Indicates if the password reset token should be cleared</param>
+        /// <returns>True on success</returns>
         private bool ChangePassword(Umbraco.Core.Models.IMember umbracoMember, string password, bool clearPasswordResetToken)
         {
             if (umbracoMember != null)

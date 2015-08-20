@@ -7,6 +7,9 @@ namespace RM.MailshotsOnline.PCL
 {
     public class Enums
     {
+        /// <summary>
+        /// Status for campaigns
+        /// </summary>
         public enum CampaignStatus
         {
             Draft = 1,
@@ -17,6 +20,9 @@ namespace RM.MailshotsOnline.PCL
             Exception = -1
         }
 
+        /// <summary>
+        /// Status for Orders
+        /// </summary>
         public enum OrderStatus
         {
             Draft = 1,
@@ -26,6 +32,9 @@ namespace RM.MailshotsOnline.PCL
             Exception = -1
         }
 
+        /// <summary>
+        /// Status for Contacts
+        /// </summary>
         public enum ContactStatus
         {
             New = 1,
@@ -33,6 +42,9 @@ namespace RM.MailshotsOnline.PCL
             Inactive = 3
         }
 
+        /// <summary>
+        /// Status for PDF render jobs
+        /// </summary>
         public enum PdfRenderStatus
         {
             None = 1,
@@ -41,6 +53,9 @@ namespace RM.MailshotsOnline.PCL
             Failed = 4
         }
 
+        /// <summary>
+        /// Status for third-party data search requests
+        /// </summary>
         public enum DataSearchStatus
         {
             Draft = 1,

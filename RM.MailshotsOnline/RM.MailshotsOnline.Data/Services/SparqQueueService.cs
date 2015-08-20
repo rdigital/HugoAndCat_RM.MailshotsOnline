@@ -5,6 +5,7 @@ using HC.RM.Common.PCL.Helpers;
 using Microsoft.ServiceBus.Messaging;
 using RM.MailshotsOnline.Business.Processors;
 using RM.MailshotsOnline.Data.Helpers;
+using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using System;
@@ -55,12 +56,21 @@ namespace RM.MailshotsOnline.Data.Services
             var success = true;
             // Generate XML and XSL from Mailshot
             var mailshotProcessor = new MailshotsProcessor();
-            var xmlAndXsl = mailshotProcessor.GetXmlAndXslForMailshot(mailshot);
+            ProcessedMailshotData xmlAndXsl = null;
+
+            try
+            {
+                xmlAndXsl = mailshotProcessor.GetXmlAndXslForMailshot(mailshot);
+            }
+            catch (Exception ex)
+            {
+                _log.Exception(this.GetType().Name, "SendJob", ex);
+                _log.Error(this.GetType().Name, "SendJob", "Unable to send job to Sparq queue for Mailshot {0}", mailshot.MailshotId);
+            }
 
             if (xmlAndXsl == null)
             {
                 // Error creating XML and XSL
-                // Should have thrown an exception
                 success = false;
             }
             else
@@ -82,21 +92,14 @@ namespace RM.MailshotsOnline.Data.Services
                                            postbackUrl, // Proof is ready postback URL
                                            ftpPostbackUrl); // Print PDF is ready postback URL
 
-                LogInfo("SendJob", @"Sending job with the following parameters:
-Mailshot ID: {0},
-Base URL: {1},
-Postback URL: {2},
-FTP postback URL: {3},
-Order Priority: {4},
-Order Type: {5},
-Group Order: {6}", 
-mailshot.MailshotId,
-baseUrl,
-postbackUrl,
-ftpPostbackUrl,
-orderPriority,
-orderType,
-groupOrder);
+                _log.Info(this.GetType().Name, "SendJob", $@"Sending job with the following parameters:
+Mailshot ID: {mailshot.MailshotId},
+Base URL: {baseUrl},
+Postback URL: {postbackUrl},
+FTP postback URL: {ftpPostbackUrl},
+Order Priority: {orderPriority},
+Order Type: {orderType},
+Group Order: {groupOrder}");
 
                 // Send to queue
                 var message = new BrokeredMessage(order);
@@ -119,24 +122,6 @@ groupOrder);
             }
 
             return success;
-        }
-
-        private void LogInfo(string methodName, string message, params object[] args)
-        {
-            try
-            {
-                _log.Info(this.GetType().Name, methodName, message, args);
-            }
-            catch { }
-        }
-
-        private void LogError(string methodName, string message, params object[] args)
-        {
-            try
-            {
-                _log.Error(this.GetType().Name, methodName, message, args);
-            }
-            catch { }
         }
     }
 }

@@ -19,6 +19,10 @@ namespace RM.MailshotsOnline.Data.Services
             _context = new StorageContext();
         }
 
+        /// <summary>
+        /// Add or update a Format
+        /// </summary>
+        /// <param name="format">The Format to be saved</param>
         public void AddOrUpdateFormat(IFormat format)
         {
             var existingFormat = _context.Formats.FirstOrDefault(f => f.UmbracoPageId == format.UmbracoPageId);
@@ -39,6 +43,10 @@ namespace RM.MailshotsOnline.Data.Services
             _context.SaveChanges();
         }
 
+        /// <summary>
+        /// Add or update a Template
+        /// </summary>
+        /// <param name="template">The Template to be saved</param>
         public void AddOrUpdateTemplate(ITemplate template)
         {
             var existingTemplate = _context.Templates.FirstOrDefault(f => f.UmbracoPageId == template.UmbracoPageId);
@@ -60,6 +68,10 @@ namespace RM.MailshotsOnline.Data.Services
             _context.SaveChanges();
         }
 
+        /// <summary>
+        /// Add or update a Theme
+        /// </summary>
+        /// <param name="theme">The Theme to be saved</param>
         public void AddOrUpdateTheme(ITheme theme)
         {
             var existingTheme = _context.Themes.FirstOrDefault(f => f.UmbracoPageId == theme.UmbracoPageId);
@@ -80,11 +92,22 @@ namespace RM.MailshotsOnline.Data.Services
             _context.SaveChanges();
         }
 
+        /// <summary>
+        /// Fetches a Format object based on it's JSON index
+        /// </summary>
+        /// <param name="index">JSON index</param>
+        /// <returns>A Format object</returns>
         public IFormat GetFormatByJsonIndex(int index)
         {
             return _context.Formats.FirstOrDefault(f => f.JsonIndex == index);
         }
 
+        /// <summary>
+        /// Fetches a Template based on its JSON index
+        /// </summary>
+        /// <param name="index">JSON index of the template</param>
+        /// <param name="formatIndex">JSON index of the parent format</param>
+        /// <returns>A Template object</returns>
         public ITemplate GetTemplateByJsonIndex(int index, int formatIndex)
         {
             // Odd query becuase we need to confirm that the format index matches the format assigned in Umbraco
@@ -96,6 +119,11 @@ namespace RM.MailshotsOnline.Data.Services
             return templates.FirstOrDefault();
         }
 
+        /// <summary>
+        /// Fetches a Theme based on its JSON index
+        /// </summary>
+        /// <param name="index">JSON index</param>
+        /// <returns>Theme Object</returns>
         public ITheme GetThemeByJsonIndex(int index)
         {
             return _context.Themes.FirstOrDefault(f => f.JsonIndex == index);
