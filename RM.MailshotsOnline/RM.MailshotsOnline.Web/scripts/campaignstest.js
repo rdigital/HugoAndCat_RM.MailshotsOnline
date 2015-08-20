@@ -1,8 +1,13 @@
 ﻿$(function () {
-    $loading = $('#loading');
-    $myCampaigns = $('#myCampaigns');
-    $campaignList = $('#campaignList');
-    $addCampaignForm = $('#addCampaignForm');
+    var $loading = $('#loading');
+    var $myCampaigns = $('#myCampaigns');
+    var $campaignList = $('#campaignList');
+    var $addCampaignForm = $('#addCampaignForm');
+    var $saveCampaignButton = $('#saveCampaign');
+    var $mailshotList = $('#mailshot');
+    var $formTitle = $('#addCampaignForm h2');
+    var $readonlyFields = $('#readonlyFields');
+    var $noCampaignsMessage = $('#noCampaignsMessage');
 
     function GetMyCampaigns(callback) {
         $myCampaigns.show();
@@ -41,10 +46,68 @@
     function DisplayCampaigns(data, callback) {
         //console.log(data);
         if (data.length > 0) {
+            $noCampaignsMessage.hide();
+            $campaignList.html('<tr><th>Name</th><th>Updated</th><th>Status</th><th>Mailshot</th><th>Data selected</th><th></th><th></th></tr>').show();
+            $loading.hide();
+            for (i = 0; i < data.length; i++) {
+                var campaign = data[i];
+                var updatedDate = new Date(campaign.UpdatedDate);
 
+                var row = $(document.createElement('tr'));
+                var name = $(document.createElement('td')).text(campaign.Name);
+                var updated = $(document.createElement('td')).text(updatedDate.toDateString());
+                var statusText = GetStatusText(campaign.Status);
+                var status = $(document.createElement('td')).text(statusText);
+                if (statusText == "Draft") {
+                    status.attr('class', 'draft');
+                }
+
+                var mailshot = $(document.createElement('td'))
+                if (campaign.MailshotTitle != null) {
+                    mailshot.text(campaign.MailshotTitle);
+                }
+                else {
+                    mailshot.attr('class', 'empty').text('None selected');
+                }
+                
+                var dataSelected = $(document.createElement('td'))
+                if (campaign.HasDataSearches || campaign.HasDistributionLists) {
+                    dataSelected.text('Yes');
+                }
+                else {
+                    dataSelected.attr('class', 'empty').text('No');
+                }
+
+                var editLink = $(document.createElement('a'))
+                    .text('Edit')
+                    .attr('class', 'openLink')
+                    .attr('href', '#/Edit/' + campaign.CampaignId)
+                    .data('campaignId', campaign.CampaignId)
+                    .on('click', function (event) {
+                        event.preventDefault();
+                        LoadCampaign($(this).data('campaignId'));
+                    });
+                var editCell = $(document.createElement('td')).append(editLink);
+
+                var deleteLink = $(document.createElement('a'))
+                    .text('Delete')
+                    .attr('class', 'deleteLink')
+                    .attr('href', '#/delete/' + campaign.CampaignId)
+                    .data('campaignId', campaign.CampaignId)
+                    .on('click', function (event) {
+                        event.preventDefault();
+                        DeleteCampaign($(this).data('campaignId'))
+                    });
+                var deleteCell = $(document.createElement('td')).append(deleteLink);
+
+                row.append(name, updated, status, mailshot, dataSelected, editCell, deleteCell);
+
+                $campaignList.append(row);
+            }
         }
         else {
-            $campaignList.html('<li>No campaigns to display.</li>').show();
+            $campaignList.hide();
+            $noCampaignsMessage.show();
             $loading.hide();
         }
 
@@ -53,14 +116,235 @@
         }
     }
 
+    function GetStatusText(statusId) {
+        var status = 'Draft';
+        switch (statusId) {
+            case 2:
+                status = "Pending Moderation";
+                break;
+            case 3:
+                status = "Ready for fulfilment";
+                break;
+            case 4:
+                status = "Sent for fulfilment";
+                break;
+            case 5:
+                status = "Fulfilled";
+                break;
+            case -1:
+                status = "Exception";
+                break;
+        }
+        return status;
+    }
+
+    function LoadCampaign(campaignId) {
+        $formTitle.text('Loading ...');
+        $.ajax({
+            url: '/Umbraco/Api/Campaign/Get/' + campaignId,
+            type: 'GET',
+            success: function (data) {
+                $formTitle.text('Edit campaign');
+                $('#campaignName').val(data.Name);
+                notes = $('#notes').val(data.Notes);
+                $mailshotList.val(data.MailshotId);
+                $('#campaignId').val(data.CampaignId);
+                $readonlyFields.show();
+                $('#hasOwnData').val(data.HasDistributionLists);
+                $('#hasRentedData').val(data.HasDataSearches);
+                var status = GetStatusText(data.Status);
+                $('#status').val(status);
+            },
+            statusCode: {
+                400: function (response) {
+                    HandleError(response);
+                },
+                401: function (response) {
+                    HandleError(response);
+                },
+                403: function (response) {
+                    HandleError(response);
+                },
+                500: function (response) {
+                    HandleError(response);
+                }
+            }
+        })
+    }
+
+    function DeleteCampaign(campaignId) {
+        if (confirm('Are you sure you want to delete this campaign?')) {
+            $.ajax({
+                url: '/Umbraco/Api/Campaign/Delete/' + campaignId,
+                type: 'DELETE',
+                success: function () {
+                    DisplayCampaignForm();
+                    GetMyCampaigns();
+                },
+                statusCode: {
+                    400: function (response) {
+                        HandleError(response);
+                    },
+                    401: function (response) {
+                        HandleError(response);
+                    },
+                    403: function (response) {
+                        HandleError(response);
+                    },
+                    404: function (response) {
+                        HandleError(response);
+                    },
+                    500: function (response) {
+                        HandleError(response);
+                    }
+                }
+            });
+        }
+    }
+
     function DisplayCampaignForm() {
         $addCampaignForm.show();
+        $formTitle.text('Add a campaign');
+        $saveCampaignButton.removeAttr('disabled').text('Save');
+        $('#campaignName').val('');
+        notes = $('#notes').val('');
+        $mailshotList.val('');
+        $('#campaignId').val('');
+        $readonlyFields.hide();
     }
+
+
+    function PopulateMailshotList(callback) {
+        $.ajax({
+            url: '/Umbraco/Api/Mailshots/GetAll/',
+            success: function (data) {
+                $mailshotList.html('');
+                if (data.length == 0) {
+                    $mailshotList.html('<option value="">You currently have no saved mailshots</option>')
+                }
+                else {
+                    $mailshotList.html('<option value="">Please select a mailshot</option>')
+                    for (var i = 0; i < data.length; i++) {
+                        var mailshot = data[i];
+                        var optionItem = $(document.createElement('option'));
+                        optionItem.attr('value', mailshot.MailshotId).text(mailshot.Name);
+                        $mailshotList.append(optionItem);
+                    }
+                }
+                if (typeof (callback != "undefined")) {
+                    callback();
+                }
+            },
+            statusCode: {
+                401: function () {
+                    $mailshotList.html('<option value="">No mailshots because user is not logged in.</option>');
+                }
+            }
+        });
+    }
+
+
+    function CreateCampaign(successCallback) {
+
+        var name = $('#campaignName').val();
+        var notes = $('#notes').val();
+        var mailshotId = $mailshotList.val();
+
+        var dataValid = true;
+
+        if (name.length == 0) {
+            alert('You must provide a name for your campaign.');
+            $('#campaignName').focus();
+            dataValid = false;
+        }
+
+        if (dataValid) {
+            $saveCampaignButton.attr('disabled', 'disabled').text('Saving ...');
+
+            var postData = {
+                Name: name,
+                Notes: notes,
+                MailshotId: mailshotId
+            };
+
+            $.ajax({
+                url: '/Umbraco/Api/Campaign/Save',
+                type: 'POST',
+                data: postData,
+                success: function (data) {
+                    if (typeof (successCallback != "undefined")) {
+                        successCallback(data);
+                    }
+                },
+                statusCode: {
+                    400: function (response) {
+                        HandleError(response);
+                        $saveCampaignButton.removeAttr('disabled').text('Save');
+                    },
+                    500: function (response) {
+                        HandleError(response);
+                        $saveCampaignButton.removeAttr('disabled').text('Save');
+                    }
+                }
+            })
+        }
+    }
+
+    function UpdateCampaign(successCallback) {
+
+        var name = $('#campaignName').val();
+        var notes = $('#notes').val();
+        var mailshotId = $mailshotList.val();
+        var campaignId = $('#campaignId').val();
+
+        var dataValid = true;
+
+        if (name.length == 0) {
+            alert('You must provide a name for your campaign.');
+            $('#campaignName').focus();
+            dataValid = false;
+        }
+
+        if (dataValid) {
+            $saveCampaignButton.attr('disabled', 'disabled').text('Saving ...');
+
+            var postData = {
+                Name: name,
+                Notes: notes,
+                MailshotId: mailshotId
+            };
+
+            $.ajax({
+                url: '/Umbraco/Api/Campaign/Update/' + campaignId,
+                type: 'POST',
+                data: postData,
+                success: function (data) {
+                    if (typeof (successCallback != "undefined")) {
+                        successCallback(data);
+                    }
+                },
+                statusCode: {
+                    400: function (response) {
+                        HandleError(response);
+                        $saveCampaignButton.removeAttr('disabled').text('Save');
+                    },
+                    500: function (response) {
+                        HandleError(response);
+                        $saveCampaignButton.removeAttr('disabled').text('Save');
+                    }
+                }
+            })
+        }
+    }
+
+
+    // Startup stuff below
 
     CheckLoggedInStatus(function (loggedIn) {
         $loading.hide();
         if (loggedIn) {
-            GetMyCampaigns(function () { DisplayCampaignForm(); });
+            GetMyCampaigns();
+            PopulateMailshotList(function () { DisplayCampaignForm(); });
         }
         else {
             $('#loginForm').show();
@@ -75,11 +359,34 @@
         Login(email, password, function (loggedIn) {
             if (loggedIn) {
                 $('#loginForm').hide();
-                GetMyCampaigns(function () { DisplayCampaignForm(); });
+                GetMyCampaigns();
+                PopulateMailshotList(function () { DisplayCampaignForm(); });
             }
             else {
                 $('#loginButton').text('Login').removeAttr('disabled');
             }
         });
+    });
+
+    $('#saveCampaign').on('click', function (event) {
+        event.preventDefault();
+        var campaignId = $('#campaignId').val();
+        if (campaignId.length > 0) {
+            UpdateCampaign(function () {
+                GetMyCampaigns();
+                DisplayCampaignForm();
+            });
+        }
+        else {
+            CreateCampaign(function () {
+                GetMyCampaigns();
+                DisplayCampaignForm();
+            });
+        }
+    });
+
+    $('#cancelButton').on('click', function (event) {
+        event.preventDefault();
+        DisplayCampaignForm();
     });
 });

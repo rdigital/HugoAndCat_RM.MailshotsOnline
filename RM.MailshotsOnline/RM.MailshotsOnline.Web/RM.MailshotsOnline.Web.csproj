@@ -382,7 +382,6 @@
   <ItemGroup>
     <Content Include="App_Plugins\PrivateImageViewer\imageviewer.controller.js" />
     <Content Include="App_Plugins\PrivateImageViewer\imageviewer.html" />
-    <Content Include="campaigntest.html" />
     <Content Include="Config\grid.editors.config.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -2904,6 +2903,7 @@
     <Compile Include="App_Start\TelemetryConfig.cs" />
     <Compile Include="App_Start\UmbracoMessageHandler.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Attributes\RequireSecureConnectionFilter.cs" />
     <Compile Include="Controllers\Api\ApiBaseController.cs" />
     <Compile Include="Controllers\Api\CampaignController.cs" />
     <Compile Include="Controllers\Api\ImageLibraryController.cs" />
@@ -3272,6 +3272,7 @@
     <Content Include="uSync\MediaType\Image\PublicLibraryImage\def.config" />
     <Content Include="uSync\MediaType\Folder\PrivateImageLibraryFolder\def.config" />
     <Content Include="uSync\MediaType\Folder\PublicImageLibraryFolder\def.config" />
+    <Content Include="Views\MyCampaignsAPITestPage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -3303,7 +3304,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="uSync\Template\EditProfileBasePage\" />
-    <Folder Include="Views\Images\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

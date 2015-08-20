@@ -100,7 +100,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             ICampaign savedCampaign;
             try
             {
-                savedCampaign = _campaignService.SaveCampaign(campaignData);
+                savedCampaign = (Campaign)_campaignService.SaveCampaign(campaignData);
             }
             catch (Exception ex)
             {
@@ -150,6 +150,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             originalCampaign.UpdatedDate = DateTime.UtcNow;
             originalCampaign.Name = campaign.Name;
             originalCampaign.Notes = campaign.Notes;
+            originalCampaign.MailshotId = campaign.MailshotId;
 
             // Save the changse
             try
@@ -164,6 +165,62 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
 
             // Return the result
+            return Request.CreateResponse(HttpStatusCode.NoContent);
+        }
+
+        [HttpDelete]
+        [Authorize]
+        public HttpResponseMessage Delete(Guid id)
+        {
+            // Confirm the user is logged in
+            var authResult = Authenticate();
+            if (authResult != null)
+            {
+                _logger.Error(this.GetType().Name, "Delete", "Unauthenticated attempt to delete campaign with ID {0}.", id);
+                return authResult;
+            }
+
+            // Confirm that the original campaign exists
+            var originalCampaign = _campaignService.GetCampaign(id);
+            if (originalCampaign == null)
+            {
+                _logger.Error(this.GetType().Name, "Delete", "Attempt to delete unknown campaign with ID {0}.", id);
+                return ErrorMessage(HttpStatusCode.NotFound, "Campaign not found");
+            }
+
+            // Confirm that the user has access to the campaign
+            if (originalCampaign.UserId != _loggedInMember.Id)
+            {
+                _logger.Error(this.GetType().Name, "Delete", "Unauthorised attempt to delete campaign with ID {0}.", id);
+                return ErrorMessage(HttpStatusCode.Forbidden, "No access to specified campaign");
+            }
+
+            // Confirm that the campaign can be updated
+            List<PCL.Enums.CampaignStatus> updatableStatuses = new List<PCL.Enums.CampaignStatus>() { PCL.Enums.CampaignStatus.Draft };
+            if (!updatableStatuses.Contains(originalCampaign.Status))
+            {
+                _logger.Error(this.GetType().Name, "Delete", "Attempt to delete in-progress campaign with ID {0}.", id);
+                return ErrorMessage(HttpStatusCode.Conflict, "Campaign is in process and can no longer be delete.");
+            }
+
+            //TODO: Confirm: Delete mailshot too?
+
+            bool success = false;
+            try
+            {
+                success = _campaignService.DeleteCampaignWithId(id);
+            }
+            catch (Exception ex)
+            {
+                _logger.Exception(this.GetType().Name, "Delete", ex);
+            }
+
+            if (!success)
+            {
+                _logger.Error(this.GetType().Name, "Delete", "Unable to delete campaign with ID {0}.", id);
+                return ErrorMessage(HttpStatusCode.InternalServerError, "Unable to delete campaign because of a server error.");
+            }
+
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
 
@@ -241,6 +298,21 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             if (string.IsNullOrEmpty(campaign.Name))
             {
                 return ErrorMessage(HttpStatusCode.BadRequest, "Please provide a name for the campaign");
+            }
+
+            // Confirm that the selected mailshot exists and belongs to the user
+            if (campaign.MailshotId.HasValue)
+            {
+                var mailshot = _mailshotService.GetMailshot(campaign.MailshotId.Value);
+                if (mailshot == null)
+                {
+                    return ErrorMessage(HttpStatusCode.BadRequest, "The selected mailshot does not exist");
+                }
+
+                if (mailshot.UserId != _loggedInMember.Id)
+                {
+                    return ErrorMessage(HttpStatusCode.BadRequest, "The selected mailshot does not belong to the logged in user.");
+                }
             }
 
             return null;

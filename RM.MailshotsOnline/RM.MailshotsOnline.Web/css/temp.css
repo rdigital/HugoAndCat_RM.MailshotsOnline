@@ -94,19 +94,45 @@ label {
     color: rgb(140, 46, 11);
 }
 
+table#campaignList {
+    width: 100%;
+}
+
+#campaignList th {
+    text-align: left;
+    border-bottom: 1px solid #DDD;
+    padding:1px;
+}
+
+#campaignList td {
+    border-bottom: 1px solid #DDD;
+    padding:1px;
+}
+
+#campaignList .draft {
+    color: #272;
+}
+
+#campaignList .empty {
+    color: #888;
+}
+
 #existingMailshots li span {
     display: inline-block;
     width: 200px;
 }
 
-#existingMailshots li a.openLink {
+li a.openLink {
     display: inline-block;
     margin-left: 20px;
 }
 
-#existingMailshots li a.deleteLink {
+li a.deleteLink {
     display: inline-block;
     margin-left: 20px;
+}
+
+a.deleteLink {
     color: red;
 }
 

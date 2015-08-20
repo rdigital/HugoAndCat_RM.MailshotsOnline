@@ -1,6 +1,7 @@
 ﻿using Glass.Mapper.Umb;
 using HC.RM.Common.Azure;
 using HC.RM.Common.PCL.Helpers;
+using RM.MailshotsOnline.Web.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace RM.MailshotsOnline.Web.Controllers
     /// <summary>
     /// Base controller when wishing to use Glass models
     /// </summary>
-    [RequireHttps]
+    [RequireSecureConnectionFilter]
     public abstract class GlassController : RenderMvcController
     {
         /// <summary>
