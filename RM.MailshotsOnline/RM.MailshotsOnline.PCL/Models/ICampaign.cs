@@ -53,7 +53,7 @@ namespace RM.MailshotsOnline.PCL.Models
         /// <summary>
         /// ID of the campaign's mailshot
         /// </summary>
-        Guid MailshotId { get; set; }
+        Guid? MailshotId { get; set; }
 
         /// <summary>
         /// The campaign's mailshot

@@ -49,7 +49,7 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>Collection of Campaigns</returns>
         public IEnumerable<ICampaign> GetCampaignsForUser(int userId)
         {
-            return GetCampaigns(c => c.UserId == userId);
+            return GetCampaigns(c => c.UserId == userId).OrderByDescending(c => c.UpdatedDate);
         }
 
         /// <summary>
@@ -89,6 +89,7 @@ namespace RM.MailshotsOnline.Data.Services
             try
             {
                 _context.Campaigns.Remove((Campaign)campaign);
+                _context.SaveChanges();
             }
             catch (Exception ex)
             {

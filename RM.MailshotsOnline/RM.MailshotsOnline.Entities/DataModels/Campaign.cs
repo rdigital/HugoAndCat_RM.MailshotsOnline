@@ -86,7 +86,7 @@ namespace RM.MailshotsOnline.Entities.DataModels
         /// <summary>
         /// ID of the campaign's mailshot
         /// </summary>
-        public Guid MailshotId { get; set; }
+        public Guid? MailshotId { get; set; }
 
         /// <summary>
         /// The campaign's mailshot
@@ -97,6 +97,19 @@ namespace RM.MailshotsOnline.Entities.DataModels
         {
             get { return _mailshot; }
             set { _mailshot = value; }
+        }
+
+        public string MailshotTitle
+        {
+            get
+            {
+                if (_mailshot != null)
+                {
+                    return _mailshot.Name;
+                }
+
+                return null;
+            }
         }
 
         /// <summary>
@@ -128,7 +141,15 @@ namespace RM.MailshotsOnline.Entities.DataModels
         [JsonIgnore]
         public ICollection<DistributionList> DistributionLists
         {
-            get { return (ICollection<DistributionList>)_campaignDistributionLists.Select(x => x.DistributionList); }
+            get
+            {
+                if (_campaignDistributionLists != null)
+                {
+                    return (ICollection<DistributionList>)_campaignDistributionLists.Select(x => x.DistributionList);
+                }
+
+                return null;
+            }
         }
 
         /// <summary>
@@ -144,7 +165,15 @@ namespace RM.MailshotsOnline.Entities.DataModels
         /// </summary>
         public bool HasDistributionLists
         {
-            get { return this.CampaignDistributionLists.Any(); }
+            get
+            {
+                if (this.CampaignDistributionLists != null)
+                {
+                    return this.CampaignDistributionLists.Any();
+                }
+
+                return false;
+            }
         }
 
         /// <summary>
@@ -152,7 +181,15 @@ namespace RM.MailshotsOnline.Entities.DataModels
         /// </summary>
         public bool HasDataSearches
         {
-            get { return this.DataSearches.Any(); }
+            get
+            {
+                if (this.DataSearches != null)
+                {
+                    return this.DataSearches.Any();
+                }
+
+                return false;
+            }
         }
 
         #region Explicit interface definition
