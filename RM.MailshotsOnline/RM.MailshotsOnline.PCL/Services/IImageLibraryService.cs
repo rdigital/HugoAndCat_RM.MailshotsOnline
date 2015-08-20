@@ -17,6 +17,8 @@ namespace RM.MailshotsOnline.PCL.Services
 
         IMedia GetImage(int mediaId, bool publicImage);
 
+        IMedia GetMedia(int mediaId);
+
         IMedia GetImageByBlobUrl(string blobUrl);
 
         bool DeleteImage(string id);

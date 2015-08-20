@@ -380,6 +380,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Plugins\ImageUsageCount\usagecount.controller.js" />
+    <Content Include="App_Plugins\ImageUsageCount\usagecount.html" />
     <Content Include="App_Plugins\PrivateImageViewer\imageviewer.controller.js" />
     <Content Include="App_Plugins\PrivateImageViewer\imageviewer.html" />
     <Content Include="Config\grid.editors.config.js" />
@@ -402,6 +404,7 @@
     <Content Include="AppInsightsAgent\InstallAgent.ps1" />
     <Content Include="AppInsightsAgent\InstallAgent.bat" />
     <Content Include="App_Plugins\PrivateImageViewer\package.manifest" />
+    <Content Include="App_Plugins\ImageUsageCount\package.manifest" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\campaignstest.js" />
     <Content Include="scripts\editor.js" />

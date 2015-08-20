@@ -78,6 +78,13 @@ namespace RM.MailshotsOnline.Data.Services
             return image;
         }
 
+        public IMedia GetMedia(int mediaId)
+        {
+            IMedia image = MediaFactory.Convert(_helper.TypedMedia(mediaId), typeof(Media));
+            image.MailshotUses = _cmsImageService.GetImageUsageCount(mediaId);
+            return image;
+        }
+
         public IMedia GetImageByBlobUrl(string blobUrl)
         {
             var mediaSearcher = ExamineManager.Instance.SearchProviderCollection["MediaSearcher"] ?? ExamineManager.Instance.DefaultSearchProvider;

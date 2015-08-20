@@ -55,6 +55,47 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         }
 
         [HttpGet]
+        public HttpResponseMessage GetImageUsageCount(int id)
+        {
+            bool umbracoAccess = false;
+            // Check to see if the user is logged into Umbraco
+            var umbracoUser = UmbracoContext.Security.CurrentUser;
+
+            if (umbracoUser == null)
+            {
+                var authTicket = new HttpContextWrapper(HttpContext.Current).GetUmbracoAuthTicket();
+                if (authTicket != null)
+                {
+                    var userName = authTicket.Name;
+                    umbracoUser = UmbracoContext.Application.Services.UserService.GetByUsername(userName);
+                }
+            }
+
+            if (umbracoUser != null)
+            {
+                // TODO: Double check this is the way to do it
+                if (umbracoUser.UserType.Alias.ToLowerInvariant() == "admin")
+                {
+                    umbracoAccess = true;
+                }
+            }
+
+            if (!umbracoAccess)
+            {
+                ErrorMessage(HttpStatusCode.Forbidden, "Only administrators can view usage count via this method.");
+            }
+
+            // Get item
+            var media = _imageLibrary.GetMedia(id);
+            if (media == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, 0);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, media.MailshotUses);
+        }
+
+        [HttpGet]
         public HttpResponseMessage GetTags()
         {
             var results = _imageLibrary.GetTags();
