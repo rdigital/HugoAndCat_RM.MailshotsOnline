@@ -125,6 +125,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                     case "small":
                         blobId = image.SmallThumbBlobId;
                         break;
+                    case "medium":
                     case "large":
                         blobId = image.LargeThumbBlobId;
                         break;
