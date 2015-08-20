@@ -61,8 +61,14 @@ namespace RM.MailshotsOnline.Data.Services
             return mailshot;
         }
 
-        public void Delete(IMailshot mailshot)
+        public bool Delete(IMailshot mailshot)
         {
+            // Double check that the mailshot isn't used in a campaign
+            if (_context.Campaigns.Any(c => c.MailshotId == mailshot.MailshotId))
+            {
+                return false;
+            }
+
             // Unlink any images from the mailshot first
             var usedImages = _context.MailshotImageUse.Where(ui => ui.MailshotId == mailshot.MailshotId);
             _context.MailshotImageUse.RemoveRange(usedImages);
@@ -70,6 +76,8 @@ namespace RM.MailshotsOnline.Data.Services
             // Remove the mailshot
             _context.Mailshots.Remove((Mailshot)mailshot);
             _context.SaveChanges();
+
+            return true;
         }
 
         public void UpdateLinkedImages(IMailshot mailshot, IEnumerable<string> linkedImages)

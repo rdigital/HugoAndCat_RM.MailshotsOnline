@@ -47,7 +47,7 @@
         //console.log(data);
         if (data.length > 0) {
             $noCampaignsMessage.hide();
-            $campaignList.html('<tr><th>Name</th><th>Updated</th><th>Status</th><th>Mailshot</th><th>Data selected</th><th></th><th></th></tr>').show();
+            $campaignList.html('<tr><th>Name</th><th>Updated</th><th>Status</th><th>Mailshot</th><th>Data selected</th><th></th><th></th><th></th></tr>').show();
             $loading.hide();
             for (i = 0; i < data.length; i++) {
                 var campaign = data[i];
@@ -89,6 +89,17 @@
                     });
                 var editCell = $(document.createElement('td')).append(editLink);
 
+                var copyLink = $(document.createElement('a'))
+                    .text('Copy')
+                    .attr('class', 'openLink')
+                    .attr('href', '#/copy/' + campaign.CampaignId)
+                    .data('campaignId', campaign.CampaignId)
+                    .on('click', function (event) {
+                        event.preventDefault();
+                        CopyCampaign($(this).data('campaignId'));
+                    });
+                var copyCell = $(document.createElement('td')).append(copyLink);
+
                 var deleteLink = $(document.createElement('a'))
                     .text('Delete')
                     .attr('class', 'deleteLink')
@@ -100,7 +111,7 @@
                     });
                 var deleteCell = $(document.createElement('td')).append(deleteLink);
 
-                row.append(name, updated, status, mailshot, dataSelected, editCell, deleteCell);
+                row.append(name, updated, status, mailshot, dataSelected, editCell, copyCell, deleteCell);
 
                 $campaignList.append(row);
             }
@@ -136,6 +147,33 @@
                 break;
         }
         return status;
+    }
+
+    function CopyCampaign(campaignId) {
+        $loading.show();
+        $.ajax({
+            url: '/Umbraco/Api/Campaign/GetCopy/' + campaignId,
+            type: 'GET',
+            success: function (data) {
+                GetMyCampaigns(function () {
+                    LoadCampaign(data.CampaignId);
+                });
+            },
+            statusCode: {
+                400: function (response) {
+                    HandleError(response);
+                },
+                401: function (response) {
+                    HandleError(response);
+                },
+                403: function (response) {
+                    HandleError(response);
+                },
+                500: function (response) {
+                    HandleError(response);
+                }
+            }
+        })
     }
 
     function LoadCampaign(campaignId) {
@@ -174,6 +212,7 @@
 
     function DeleteCampaign(campaignId) {
         if (confirm('Are you sure you want to delete this campaign?')) {
+            $loading.show();
             $.ajax({
                 url: '/Umbraco/Api/Campaign/Delete/' + campaignId,
                 type: 'DELETE',

@@ -168,6 +168,60 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
 
+        [HttpGet]
+        public HttpResponseMessage GetCopy(Guid id)
+        {
+            // Confirm the user is logged in
+            var authResult = Authenticate();
+            if (authResult != null)
+            {
+                _logger.Error(this.GetType().Name, "GetCopy", "Unauthenticated attempt to copy campaign with ID {0}.", id);
+                return authResult;
+            }
+
+            // Confirm that the original campaign exists
+            var originalCampaign = _campaignService.GetCampaign(id);
+            if (originalCampaign == null)
+            {
+                _logger.Error(this.GetType().Name, "GetCopy", "Attempt to copy unknown campaign with ID {0}.", id);
+                return ErrorMessage(HttpStatusCode.NotFound, "Campaign not found");
+            }
+
+            // Confirm that the user has access to the campaign
+            if (originalCampaign.UserId != _loggedInMember.Id)
+            {
+                _logger.Error(this.GetType().Name, "GetCopy", "Unauthorised attempt to copy campaign with ID {0}.", id);
+                return ErrorMessage(HttpStatusCode.Forbidden, "No access to specified campaign");
+            }
+
+            ICampaign newCampaign = new Campaign();
+            //TODO: Create a copy of the Mailshot
+            newCampaign.MailshotId = originalCampaign.MailshotId;
+            newCampaign.Name = $"{originalCampaign.Name} - Copy";
+            newCampaign.Notes = $"Copied from {originalCampaign.Name} on {DateTime.UtcNow.ToString("d MMMM yyyy")}.{Environment.NewLine}{originalCampaign.Notes}";
+            newCampaign.Status = PCL.Enums.CampaignStatus.Draft;
+            newCampaign.SystemNotes = $"Copied from {originalCampaign.Name} on {DateTime.UtcNow.ToString("d MMMM yyyy")}.{Environment.NewLine}{originalCampaign.SystemNotes}";
+            newCampaign.UpdatedDate = DateTime.UtcNow;
+            newCampaign.UserId = _loggedInMember.Id;
+            //TODO: Copy Data usage information
+
+            // Save the campaign
+            ICampaign savedCampaign;
+            try
+            {
+                savedCampaign = (Campaign)_campaignService.SaveCampaign(newCampaign);
+            }
+            catch (Exception ex)
+            {
+                _logger.Exception(this.GetType().Name, "GetCopy", ex);
+                _logger.Error(this.GetType().Name, "GetCopy", "Unable to save new campaign");
+                return ErrorMessage(HttpStatusCode.InternalServerError, "Unable to save campaign due to server error");
+            }
+
+            // Return the result
+            return Request.CreateResponse(HttpStatusCode.OK, savedCampaign);
+        }
+
         [HttpDelete]
         [Authorize]
         public HttpResponseMessage Delete(Guid id)
