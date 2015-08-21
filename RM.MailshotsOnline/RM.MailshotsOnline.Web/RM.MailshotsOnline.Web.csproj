@@ -2915,6 +2915,7 @@
     <Compile Include="Controllers\Api\PostageController.cs" />
     <Compile Include="Controllers\Api\ProofPdfController.cs" />
     <Compile Include="Controllers\ContentPageController.cs" />
+    <Compile Include="Controllers\CreateCanvasController.cs" />
     <Compile Include="Controllers\MailshotEditorController.cs" />
     <Compile Include="Controllers\GlassController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -3276,6 +3277,7 @@
     <Content Include="uSync\MediaType\Folder\PrivateImageLibraryFolder\def.config" />
     <Content Include="uSync\MediaType\Folder\PublicImageLibraryFolder\def.config" />
     <Content Include="Views\MyCampaignsAPITestPage.cshtml" />
+    <Content Include="Views\CreateCanvas.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -3307,6 +3309,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="uSync\Template\EditProfileBasePage\" />
+    <Folder Include="Views\CreateCanvas\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

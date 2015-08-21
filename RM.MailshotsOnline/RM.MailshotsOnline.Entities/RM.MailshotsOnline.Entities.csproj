@@ -98,6 +98,7 @@
     <Compile Include="MemberModels\Member.cs" />
     <Compile Include="PageModels\BasePage.cs" />
     <Compile Include="PageModels\ContentPage.cs" />
+    <Compile Include="PageModels\CreateCanvas.cs" />
     <Compile Include="PageModels\Home.cs" />
     <Compile Include="PageModels\Item.cs" />
     <Compile Include="PageModels\Login.cs" />
