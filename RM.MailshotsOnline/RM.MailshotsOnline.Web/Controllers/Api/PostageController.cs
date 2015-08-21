@@ -32,10 +32,10 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             return _pricingService.GetPostalOptions();
         }
 
-        [HttpGet]
-        public IEnumerable<IPostalOption> GetForFormat(int id)
-        {
-            return _pricingService.GetPostalOptions(id);
-        }
+        //[HttpGet]
+        //public IEnumerable<IPostalOption> GetForFormat(int id)
+        //{
+        //    return _pricingService.GetPostalOptions(id);
+        //}
     }
 }

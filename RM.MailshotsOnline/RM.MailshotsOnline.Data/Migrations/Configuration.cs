@@ -19,13 +19,11 @@ namespace RM.MailshotsOnline.Data.Migrations
 
         protected override void Seed(RM.MailshotsOnline.Data.DAL.StorageContext context)
         {
-            context.PostalOptions.AddOrUpdate(
-                o => new { o.Name, o.FormatId },
-                new PostalOption { Name = "First class", FormatId = 1, Currency = "GBP", PricePerUnit = 0.63m, Tax = 0.12m, TaxCode = "V" },
-                new PostalOption { Name = "Second class", FormatId = 1, Currency = "GBP", PricePerUnit = 0.54m, Tax = 0.10m, TaxCode = "V" },
-                new PostalOption { Name = "First class", FormatId = 2, Currency = "GBP", PricePerUnit = 0.70m, Tax = 0.14m, TaxCode = "V" },
-                new PostalOption { Name = "Second class", FormatId = 2, Currency = "GBP", PricePerUnit = 0.60m, Tax = 0.12m, TaxCode = "V" }
-                );
+            //context.PostalOptions.AddOrUpdate(
+            //    o => new { o.Name },
+            //    new PostalOption { Name = "First class", UmbracoId = 0, Currency = "GBP", PricePerUnit = 0.63m, Tax = 0.12m, TaxCode = "V" },
+            //    new PostalOption { Name = "Second class", UmbracoId = 1, Currency = "GBP", PricePerUnit = 0.54m, Tax = 0.10m, TaxCode = "V" }
+            //    );
         }
 
         /// <summary>

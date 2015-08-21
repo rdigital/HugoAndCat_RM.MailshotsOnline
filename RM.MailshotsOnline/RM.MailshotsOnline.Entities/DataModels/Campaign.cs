@@ -30,6 +30,11 @@ namespace RM.MailshotsOnline.Entities.DataModels
         private ICollection<CampaignDistributionList> _campaignDistributionLists;
 
         /// <summary>
+        /// The chosen postal option (concrete model)
+        /// </summary>
+        private PostalOption _postalOption;
+
+        /// <summary>
         /// The ID of the campaign
         /// </summary>
         [Key]
@@ -192,6 +197,16 @@ namespace RM.MailshotsOnline.Entities.DataModels
             }
         }
 
+        /// <summary>
+        /// Gets or sets the ID of the chosen postal option
+        /// </summary>
+        public Guid? PostalOptionId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the postal option
+        /// </summary>
+        public PostalOption PostalOption { get; set; }
+
         #region Explicit interface definition
 
         IMailshot ICampaign.Mailshot
@@ -215,6 +230,12 @@ namespace RM.MailshotsOnline.Entities.DataModels
         ICollection<IDistributionList> ICampaign.DistributionLists
         {
             get { return (ICollection<IDistributionList>)_campaignDistributionLists.Select(x => x.DistributionList); }
+        }
+
+        IPostalOption ICampaign.PostalOption
+        {
+            get { return _postalOption; }
+            set { _postalOption = (PostalOption)value; }
         }
 
         #endregion

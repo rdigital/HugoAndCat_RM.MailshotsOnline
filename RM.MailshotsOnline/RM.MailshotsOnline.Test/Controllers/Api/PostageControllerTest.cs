@@ -59,19 +59,19 @@ namespace RM.MailshotsOnline.Test.Controllers.Api
             Assert.That(postageOptions.Any(), Is.True);
         }
 
-        [Test]
-        public void PostalOptionControllerReturnsFilteredValues()
-        {
-            // Setup
-            int formatId = 1;
+        //[Test]
+        //public void PostalOptionControllerReturnsFilteredValues()
+        //{
+        //    // Setup
+        //    int formatId = 1;
 
-            // Act
-            var postageOptions = _controller.GetForFormat(formatId);
+        //    // Act
+        //    var postageOptions = _controller.GetForFormat(formatId);
 
-            // Assert
-            Assert.That(postageOptions, Is.Not.Null);
-            Assert.That(postageOptions.Any(), Is.True);
-            Assert.That(postageOptions.Any(p => p.FormatId != formatId), Is.False);
-        }
+        //    // Assert
+        //    Assert.That(postageOptions, Is.Not.Null);
+        //    Assert.That(postageOptions.Any(), Is.True);
+        //    Assert.That(postageOptions.Any(p => p.FormatId != formatId), Is.False);
+        //}
     }
 }

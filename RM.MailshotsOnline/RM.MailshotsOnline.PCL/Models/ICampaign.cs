@@ -74,5 +74,15 @@ namespace RM.MailshotsOnline.PCL.Models
         /// The data searches for the campaign
         /// </summary>
         ICollection<IDataSearch> DataSearches { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ID of the chosen postal option
+        /// </summary>
+        Guid? PostalOptionId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the postal option
+        /// </summary>
+        IPostalOption PostalOption { get; set; }
     }
 }

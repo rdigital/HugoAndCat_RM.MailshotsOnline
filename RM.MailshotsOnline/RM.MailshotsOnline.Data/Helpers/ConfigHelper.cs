@@ -67,6 +67,15 @@ namespace RM.MailshotsOnline.Data.Helpers
         }
 
         /// <summary>
+        /// Content Type Alias for Postal Option items
+        /// </summary>
+        public static string PostalOptionContentTypeAlias
+        {
+            get { return GetConfigValue("PostalOptionContentTypeAlias", "PostalOption"); }
+        }
+
+
+        /// <summary>
         /// Content Type Alias for the Private Image items
         /// </summary>
         public static string PrivateImageContentTypeAlias
@@ -82,11 +91,17 @@ namespace RM.MailshotsOnline.Data.Helpers
             get { return GetConfigValue("PrivateMediaBlobStorageContainer"); }
         }
 
+        /// <summary>
+        /// Content Type Alias for Public Library Image
+        /// </summary>
         public static string PublicLibraryImageContentTypeAlias
         {
             get { return GetConfigValue("PublicLibraryImageContentTypeAlias", "PublicLibraryImage"); }
         }
 
+        /// <summary>
+        /// Connection string for the Private blob storage container
+        /// </summary>
         public static string PrivateStorageConnectionString
         {
             get { return GetConfigValue("PrivateStorageConnectionString"); }

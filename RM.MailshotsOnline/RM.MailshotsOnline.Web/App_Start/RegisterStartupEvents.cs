@@ -24,6 +24,7 @@ namespace RM.MailshotsOnline.Web.App_Start
     {
         private IMailshotSettingsService _settingsService;
         private ICmsImageService _cmsImageService;
+        private IPricingService _pricingService;
 
         /// <summary>
         /// Runs as the application is starting
@@ -160,6 +161,10 @@ namespace RM.MailshotsOnline.Web.App_Start
                 else if (item.ContentType.Alias.InvariantEquals(ConfigHelper.ThemeContentTypeAlias))
                 {
                     SaveTheme(item);
+                }
+                else if (item.ContentType.Alias.InvariantEquals(ConfigHelper.PostalOptionContentTypeAlias))
+                {
+                    SavePostalOption(item);
                 }
             }
         }
@@ -328,6 +333,40 @@ namespace RM.MailshotsOnline.Web.App_Start
             {
                 item.SetValue(propertyName, value);
             }
+        }
+
+        /// <summary>
+        /// Saves a Postal Option item to the DB
+        /// </summary>
+        /// <param name="item"></param>
+        private void SavePostalOption(IContent item)
+        {
+            _pricingService = _pricingService ?? new PricingService();
+
+            var postalOption = _pricingService.GetPostalOptionByUmbracoId(item.Id);
+            if (postalOption == null)
+            {
+                postalOption = new PostalOption()
+                {
+                    UmbracoId = item.Id,
+                    Name = item.Name,
+                    Currency = item.GetValue<string>("Currency"),
+                    PricePerUnit = item.GetValue<decimal>("PricePerUnit"),
+                    Tax = item.GetValue<decimal>("Tax"),
+                    TaxCode = item.GetValue<string>("TaxCode")
+                };
+            }
+            else
+            {
+                postalOption.UmbracoId = item.Id;
+                postalOption.Name = item.Name;
+                postalOption.Currency = item.GetValue<string>("Currency");
+                postalOption.PricePerUnit = item.GetValue<decimal>("PricePerUnit");
+                postalOption.Tax = item.GetValue<decimal>("Tax");
+                postalOption.TaxCode = item.GetValue<string>("TaxCode");
+            }
+
+            _pricingService.SavePostalOption(postalOption);
         }
 
         /// <summary>

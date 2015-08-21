@@ -1,5 +1,6 @@
 ﻿using Microsoft.Azure;
 using RM.MailshotsOnline.Data.DAL;
+using RM.MailshotsOnline.Entities.DataModels;
 using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using System;
@@ -35,16 +36,45 @@ namespace RM.MailshotsOnline.Data.Services
         /// <summary>
         /// Gets the Postal Options
         /// </summary>
-        public IEnumerable<IPostalOption> GetPostalOptions(int formatId = 0)
+        public IEnumerable<IPostalOption> GetPostalOptions()
         {
-            if (formatId > 0)
+            return _context.PostalOptions.AsEnumerable();
+        }
+
+        /// <summary>
+        /// Gets a specific postal option
+        /// </summary>
+        /// <param name="postalOptionId">The ID of the postal option</param>
+        /// <returns>Postal option object</returns>
+        public IPostalOption GetPostalOption(Guid postalOptionId)
+        {
+            return _context.PostalOptions.FirstOrDefault(p => p.PostalOptionId == postalOptionId);
+        }
+
+        /// <summary>
+        /// Gets a specific postal option by Umbraco ID
+        /// </summary>
+        /// <param name="umbracoId">Umbraco ID of the postal option</param>
+        /// <returns>Postal option object</returns>
+        public IPostalOption GetPostalOptionByUmbracoId(int umbracoId)
+        {
+            return _context.PostalOptions.FirstOrDefault(p => p.UmbracoId == umbracoId);
+        }
+
+        /// <summary>
+        /// Saves a postal option to the database
+        /// </summary>
+        /// <param name="postalOption">Postal option</param>
+        /// <returns>The updated postal option</returns>
+        public IPostalOption SavePostalOption(IPostalOption postalOption)
+        {
+            if (postalOption.PostalOptionId == Guid.Empty)
             {
-                return _context.PostalOptions.Where(p => p.FormatId == formatId);
+                _context.PostalOptions.Add((PostalOption)postalOption);
             }
-            else
-            {
-                return _context.PostalOptions.AsEnumerable();
-            }
+
+            _context.SaveChanges();
+            return postalOption;
         }
     }
 }
