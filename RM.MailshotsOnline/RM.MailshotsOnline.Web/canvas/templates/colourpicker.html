@@ -1,0 +1,11 @@
+<div class="dropdown" data-bind="css: {'dropdown_active': open}, element: element">
+	<span data-bind="css: anchorClass, click: toggle">
+		<span class="dropdown-colourswatch" data-bind="style: {backgroundColor: selected}"></span>
+	</span>
+	<div class="dropdown-options" data-bind="css: {'dropdown-options_active': open}">
+		<!-- ko foreach: options -->
+		<div data-bind="style: {backgroundColor: $data}, click: $parent.selected" class="dropdown-colourswatch"></div>
+		<!-- /ko -->
+		<div data-bind="spectrum: {colour: selectedObs, callback: focusCallback}" class="tools-button dropdown-colourswatch-button">Custom</div>
+	</div>
+</div>

@@ -1,0 +1,7 @@
+<div class="slider" data-bind="click: resize, event: { mousedown: dragStart, mousemove: dragMove, mouseup: dragEnd, mouseleave: dragEnd}">
+	<div class="slider-inner">
+		<div class="slider-current" data-bind="style: {left: left_percent() + '%'}"></div>
+	</div>
+</div>
+
+<div class="tools-button" data-bind="text: Math.round(current()) + '%'"></div>

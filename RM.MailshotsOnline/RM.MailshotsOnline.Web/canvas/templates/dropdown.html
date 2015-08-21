@@ -1,0 +1,10 @@
+<div class="dropdown" data-bind="css: {'dropdown_active': open}, element: element">
+	<span data-bind="css: anchorClass, click: toggle">
+		<span data-bind="text: selected"></span>
+	</span>
+	<div class="dropdown-options" data-bind="css: {'dropdown-options_active': open}">
+		<!-- ko foreach: options -->
+		<div data-bind="text: name, click: $parent.selected" class="dropdown-option"></div>
+		<!-- /ko -->
+	</div>
+</div>
