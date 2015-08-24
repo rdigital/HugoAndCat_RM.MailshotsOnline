@@ -151,6 +151,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             originalCampaign.Name = campaign.Name;
             originalCampaign.Notes = campaign.Notes;
             originalCampaign.MailshotId = campaign.MailshotId;
+            originalCampaign.PostalOptionId = campaign.PostalOptionId;
 
             // Save the changse
             try
@@ -197,6 +198,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             ICampaign newCampaign = new Campaign();
             //TODO: Create a copy of the Mailshot
             newCampaign.MailshotId = originalCampaign.MailshotId;
+            newCampaign.PostalOptionId = originalCampaign.PostalOptionId;
             newCampaign.Name = $"{originalCampaign.Name} - Copy";
             newCampaign.Notes = $"Copied from {originalCampaign.Name} on {DateTime.UtcNow.ToString("d MMMM yyyy")}.{Environment.NewLine}{originalCampaign.Notes}";
             newCampaign.Status = PCL.Enums.CampaignStatus.Draft;

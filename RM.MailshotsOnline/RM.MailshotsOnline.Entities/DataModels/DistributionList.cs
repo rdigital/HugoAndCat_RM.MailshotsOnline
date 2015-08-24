@@ -20,6 +20,8 @@ namespace RM.MailshotsOnline.Entities.DataModels
 
         public string Name { get; set; }
 
+        public int UserId { get; set; }
+
         public DateTime CreatedDate
         {
             get { return CreatedUtc; }
@@ -33,6 +35,8 @@ namespace RM.MailshotsOnline.Entities.DataModels
             get { return _contacts; }
             set { _contacts = value; }
         }
+
+        public int RecordCount { get; set; }
 
         #region Explicit Interface Implementations
         ICollection<IContact> IDistributionList.Contacts

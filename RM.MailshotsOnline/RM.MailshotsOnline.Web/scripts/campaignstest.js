@@ -5,6 +5,7 @@
     var $addCampaignForm = $('#addCampaignForm');
     var $saveCampaignButton = $('#saveCampaign');
     var $mailshotList = $('#mailshot');
+    var $postageList = $('#postalOption');
     var $formTitle = $('#addCampaignForm h2');
     var $readonlyFields = $('#readonlyFields');
     var $noCampaignsMessage = $('#noCampaignsMessage');
@@ -47,7 +48,7 @@
         //console.log(data);
         if (data.length > 0) {
             $noCampaignsMessage.hide();
-            $campaignList.html('<tr><th>Name</th><th>Updated</th><th>Status</th><th>Mailshot</th><th>Data selected</th><th></th><th></th><th></th></tr>').show();
+            $campaignList.html('<tr><th>Name</th><th>Updated</th><th>Status</th><th>Mailshot</th><th>Own data</th><th>Rented data</th><th>Postage</th><th>Cost</th><th></th><th></th><th></th></tr>').show();
             $loading.hide();
             for (i = 0; i < data.length; i++) {
                 var campaign = data[i];
@@ -70,12 +71,38 @@
                     mailshot.attr('class', 'empty').text('None selected');
                 }
                 
-                var dataSelected = $(document.createElement('td'))
-                if (campaign.HasDataSearches || campaign.HasDistributionLists) {
-                    dataSelected.text('Yes');
+                //var dataSelected = $(document.createElement('td'))
+                //if (campaign.HasDataSearches || campaign.HasDistributionLists) {
+                //    dataSelected.text('Yes');
+                //}
+                //else {
+                //    dataSelected.attr('class', 'empty').text('No');
+                //}
+
+                var ownData = $(document.createElement('td')).text(campaign.OwnDataRecipientCount);
+                if (campaign.OwnDataRecipientCount == 0) {
+                    ownData.attr('class', 'empty');
+                }
+
+                var rentedData = $(document.createElement('td')).text(campaign.RentedDataRecipientCount);
+                if (campaign.RentedDataRecipientCount == 0) {
+                    rentedData.attr('class', 'empty');
+                }
+
+                var postalOption = $(document.createElement('td'));
+                if (campaign.PostalOption != null) {
+                    postalOption.text(campaign.PostalOption.Name);
                 }
                 else {
-                    dataSelected.attr('class', 'empty').text('No');
+                    postalOption.text('None selected').attr('class','empty');
+                }
+
+                var cost = $(document.createElement('td'));
+                if (campaign.CampaignCost != null) {
+                    cost.text(campaign.CampaignCost);
+                }
+                else {
+                    cost.text('Unknown').attr('class', 'empty');
                 }
 
                 var editLink = $(document.createElement('a'))
@@ -111,7 +138,7 @@
                     });
                 var deleteCell = $(document.createElement('td')).append(deleteLink);
 
-                row.append(name, updated, status, mailshot, dataSelected, editCell, copyCell, deleteCell);
+                row.append(name, updated, status, mailshot, ownData, rentedData, postalOption, cost, editCell, copyCell, deleteCell);
 
                 $campaignList.append(row);
             }
@@ -186,6 +213,7 @@
                 $('#campaignName').val(data.Name);
                 notes = $('#notes').val(data.Notes);
                 $mailshotList.val(data.MailshotId);
+                $postageList.val(data.PostalOptionId);
                 $('#campaignId').val(data.CampaignId);
                 $readonlyFields.show();
                 $('#hasOwnData').val(data.HasDistributionLists);
@@ -248,6 +276,7 @@
         $('#campaignName').val('');
         notes = $('#notes').val('');
         $mailshotList.val('');
+        $postageList.val('');
         $('#campaignId').val('');
         $readonlyFields.hide();
     }
@@ -283,11 +312,37 @@
     }
 
 
-    function CreateCampaign(successCallback) {
+    function PopulatePostageList(callback) {
+        $.ajax({
+            url: '/Umbraco/Api/Postage/Get/',
+            success: function (data) {
+                $postageList.html('');
+                if (data.length == 0) {
+                    $postageList.html('<option value="">No postage options</option>');
+                }
+                else {
+                    $postageList.html('<option value="">Please select a postal option</option>')
+                    for (var i = 0; i < data.length; i++) {
+                        var postalOption = data[i];
+                        var optionItem = $(document.createElement('option'));
+                        optionItem.attr('value', postalOption.PostalOptionId).text(postalOption.Name);
+                        $postageList.append(optionItem);
+                    }
+                }
+                if (typeof (callback != "undefined")) {
+                    callback();
+                }
+            }
+        })
+    }
 
+
+    function ExecuteCampaignCall(url, successCallback) {
         var name = $('#campaignName').val();
         var notes = $('#notes').val();
         var mailshotId = $mailshotList.val();
+        var campaignId = $('#campaignId').val();
+        var postalOptionId = $postageList.val();
 
         var dataValid = true;
 
@@ -303,7 +358,59 @@
             var postData = {
                 Name: name,
                 Notes: notes,
-                MailshotId: mailshotId
+                MailshotId: mailshotId,
+                PostalOptionId: postalOptionId
+            };
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: postData,
+                success: function (data) {
+                    if (typeof (successCallback != "undefined")) {
+                        successCallback(data);
+                    }
+                },
+                statusCode: {
+                    400: function (response) {
+                        HandleError(response);
+                        $saveCampaignButton.removeAttr('disabled').text('Save');
+                    },
+                    500: function (response) {
+                        HandleError(response);
+                        $saveCampaignButton.removeAttr('disabled').text('Save');
+                    }
+                }
+            })
+        }
+    }
+
+
+    function CreateCampaign(successCallback) {
+
+        return ExecuteCampaignCall('/Umbraco/Api/Campaign/Save', successCallback);
+        /*
+        var name = $('#campaignName').val();
+        var notes = $('#notes').val();
+        var mailshotId = $mailshotList.val();
+        var postalOptionId = $postageList.val();
+
+        var dataValid = true;
+
+        if (name.length == 0) {
+            alert('You must provide a name for your campaign.');
+            $('#campaignName').focus();
+            dataValid = false;
+        }
+
+        if (dataValid) {
+            $saveCampaignButton.attr('disabled', 'disabled').text('Saving ...');
+
+            var postData = {
+                Name: name,
+                Notes: notes,
+                MailshotId: mailshotId,
+                PostalOptionId: postalOptionId
             };
 
             $.ajax({
@@ -326,15 +433,19 @@
                     }
                 }
             })
-        }
+        }*/
     }
 
     function UpdateCampaign(successCallback) {
 
-        var name = $('#campaignName').val();
+        var campaignId = $('#campaignId').val();
+        return ExecuteCampaignCall('/Umbraco/Api/Campaign/Update/' + campaignId, successCallback);
+
+        /*var name = $('#campaignName').val();
         var notes = $('#notes').val();
         var mailshotId = $mailshotList.val();
         var campaignId = $('#campaignId').val();
+        var postalOptionId = $postageList.val();
 
         var dataValid = true;
 
@@ -350,7 +461,8 @@
             var postData = {
                 Name: name,
                 Notes: notes,
-                MailshotId: mailshotId
+                MailshotId: mailshotId,
+                PostalOptionId: postalOptionId
             };
 
             $.ajax({
@@ -373,7 +485,7 @@
                     }
                 }
             })
-        }
+        }*/
     }
 
 
@@ -383,7 +495,11 @@
         $loading.hide();
         if (loggedIn) {
             GetMyCampaigns();
-            PopulateMailshotList(function () { DisplayCampaignForm(); });
+            PopulateMailshotList(function () {
+                PopulatePostageList(function () {
+                    DisplayCampaignForm();
+                });
+            });
         }
         else {
             $('#loginForm').show();
@@ -399,7 +515,11 @@
             if (loggedIn) {
                 $('#loginForm').hide();
                 GetMyCampaigns();
-                PopulateMailshotList(function () { DisplayCampaignForm(); });
+                PopulateMailshotList(function () {
+                    PopulatePostageList(function () {
+                        DisplayCampaignForm();
+                    });
+                });
             }
             else {
                 $('#loginButton').text('Login').removeAttr('disabled');

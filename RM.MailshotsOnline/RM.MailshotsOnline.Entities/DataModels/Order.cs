@@ -12,7 +12,7 @@ namespace RM.MailshotsOnline.Entities.DataModels
     [Table("Order")]
     public class Order : IOrder
     {
-        private ICollection<DistributionList> _distributionLists;
+        private Campaign _campaign;
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -21,12 +21,11 @@ namespace RM.MailshotsOnline.Entities.DataModels
         public Guid CampaignId { get; set; }
 
         [ForeignKey("CampaignId")]
-        public virtual Campaign Campaign { get; set; }
-
-        public Guid PostalOptionId { get; set; }
-
-        [ForeignKey("PostalOptionId")]
-        public virtual PostalOption PostalOption { get; set; }
+        public virtual Campaign Campaign
+        {
+            get { return _campaign; }
+            set { _campaign = value; }
+        }
 
         public DateTime CreatedDate { get { return CreatedUtc; } }
 
@@ -35,18 +34,14 @@ namespace RM.MailshotsOnline.Entities.DataModels
 
         public DateTime? CompletionDate { get; set; }
 
-        public ICollection<DistributionList> DistributionLists
+        #region Explicit interface implementation
+
+        ICampaign IOrder.Campaign
         {
-            get { return _distributionLists; }
-            set { _distributionLists = value; }
+            get { return _campaign; }
+            set { _campaign = (Campaign)value; }
         }
 
-        #region Explicit Interface Implementations
-        ICollection<IDistributionList> IOrder.DistributionLists
-        {
-            get { return (ICollection<IDistributionList>)_distributionLists; }
-            set { _distributionLists = (ICollection<DistributionList>)value; }
-        }
         #endregion
     }
 }

@@ -22,6 +22,8 @@ namespace RM.MailshotsOnline.PCL.Models
         //TODO: Finalise this
         Enums.DataSearchStatus Status { get; set; }
 
+        int RecordCount { get; set; }
+
         Guid CampaignId { get; set; }
 
         ICampaign Campaign { get; set; }

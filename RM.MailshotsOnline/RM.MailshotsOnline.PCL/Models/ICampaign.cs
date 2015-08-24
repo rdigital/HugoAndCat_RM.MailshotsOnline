@@ -68,7 +68,7 @@ namespace RM.MailshotsOnline.PCL.Models
         /// <summary>
         /// The distribution lists for the campaign
         /// </summary>
-        ICollection<IDistributionList> DistributionLists { get; }
+        IEnumerable<IDistributionList> DistributionLists { get; }
 
         /// <summary>
         /// The data searches for the campaign
@@ -84,5 +84,40 @@ namespace RM.MailshotsOnline.PCL.Models
         /// Gets or sets the postal option
         /// </summary>
         IPostalOption PostalOption { get; set; }
+
+        /// <summary>
+        /// Indicates if a campaign has a mailshot set
+        /// </summary>
+        bool HasMailshotSet { get; }
+
+        /// <summary>
+        /// Indicates if a campaign has any distribution lists assigned to it
+        /// </summary>
+        bool HasDistributionLists { get; }
+
+        /// <summary>
+        /// Indicates if a campaign has any data searches assigned to it
+        /// </summary>
+        bool HasDataSearches { get; }
+
+        /// <summary>
+        /// Gets the number of recipients (of own data) the Campaign will be sent to
+        /// </summary>
+        int OwnDataRecipientCount { get; }
+
+        /// <summary>
+        /// Gets the number of recipients (or rented data) the Campaign will be sent to
+        /// </summary>
+        int RentedDataRecipientCount { get; }
+
+        decimal? CampaignCost { get; }
+
+        decimal TaxRate { get; }
+
+        decimal? PostalCost { get; }
+
+        decimal OnceOffFee { get; set; }
+
+        decimal DataCost { get; set; }
     }
 }

@@ -11,12 +11,10 @@ namespace RM.MailshotsOnline.PCL.Models
 
         Guid CampaignId { get; set; }
 
+        ICampaign Campaign { get; set; }
+
         DateTime CreatedDate { get; }
 
         DateTime? CompletionDate { get; set; }
-
-        Guid PostalOptionId { get; set; }
-
-        ICollection<IDistributionList> DistributionLists { get; set; }
     }
 }

@@ -26,6 +26,8 @@ namespace RM.MailshotsOnline.Entities.DataModels
 
         public Enums.DataSearchStatus Status { get; set; }
 
+        public int RecordCount { get; set; }
+
         public DateTime CreatedDate { get { return CreatedUtc; } }
 
         [Required, DatabaseGenerated(DatabaseGeneratedOption.Computed)]

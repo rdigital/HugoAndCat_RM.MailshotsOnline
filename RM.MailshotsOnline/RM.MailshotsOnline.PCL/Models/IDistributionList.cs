@@ -11,8 +11,12 @@ namespace RM.MailshotsOnline.PCL.Models
 
         string Name { get; set; }
 
+        int UserId { get; set; }
+
         DateTime CreatedDate { get; }
 
         ICollection<IContact> Contacts { get; set; }
+
+        int RecordCount { get; set; }
     }
 }

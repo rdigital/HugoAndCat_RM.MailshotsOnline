@@ -71,9 +71,24 @@ namespace RM.MailshotsOnline.Data.Helpers
         /// </summary>
         public static string PostalOptionContentTypeAlias
         {
-            get { return GetConfigValue("PostalOptionContentTypeAlias", "PostalOption"); }
+            get { return GetConfigValue("PostalOptionContentTypeAlias", "PostageOption"); }
         }
 
+        /// <summary>
+        /// The price per campaign
+        /// </summary>
+        public static decimal PricePerCampaign
+        {
+            get { return GetConfigValue("PricePerCampaign", 5.00m); }
+        }
+
+        /// <summary>
+        /// The price for each rented data record
+        /// </summary>
+        public static decimal PricePerRentedDataRecord
+        {
+            get { return GetConfigValue("PricePerRentedDataRecord", 0.1m); }
+        }
 
         /// <summary>
         /// Content Type Alias for the Private Image items
@@ -92,19 +107,19 @@ namespace RM.MailshotsOnline.Data.Helpers
         }
 
         /// <summary>
-        /// Content Type Alias for Public Library Image
-        /// </summary>
-        public static string PublicLibraryImageContentTypeAlias
-        {
-            get { return GetConfigValue("PublicLibraryImageContentTypeAlias", "PublicLibraryImage"); }
-        }
-
-        /// <summary>
         /// Connection string for the Private blob storage container
         /// </summary>
         public static string PrivateStorageConnectionString
         {
             get { return GetConfigValue("PrivateStorageConnectionString"); }
+        }
+
+        /// <summary>
+        /// Content Type Alias for Public Library Image
+        /// </summary>
+        public static string PublicLibraryImageContentTypeAlias
+        {
+            get { return GetConfigValue("PublicLibraryImageContentTypeAlias", "PublicLibraryImage"); }
         }
 
         /// <summary>
@@ -127,6 +142,17 @@ namespace RM.MailshotsOnline.Data.Helpers
         {
             int result;
             if (!int.TryParse(GetConfigValue(key), out result))
+            {
+                return defaultValue;
+            }
+
+            return result;
+        }
+
+        internal static decimal GetConfigValue(string key, decimal defaultValue)
+        {
+            decimal result;
+            if (!decimal.TryParse(GetConfigValue(key), out result))
             {
                 return defaultValue;
             }

@@ -144,13 +144,13 @@ namespace RM.MailshotsOnline.Entities.DataModels
         /// </summary>
         [NotMapped]
         [JsonIgnore]
-        public ICollection<DistributionList> DistributionLists
+        public IEnumerable<DistributionList> DistributionLists
         {
             get
             {
                 if (_campaignDistributionLists != null)
                 {
-                    return (ICollection<DistributionList>)_campaignDistributionLists.Select(x => x.DistributionList);
+                    return _campaignDistributionLists.Select(x => x.DistributionList);
                 }
 
                 return null;
@@ -207,6 +207,98 @@ namespace RM.MailshotsOnline.Entities.DataModels
         /// </summary>
         public PostalOption PostalOption { get; set; }
 
+        [NotMapped]
+        /// <summary>
+        /// Gets the number of recipients (of own data) the Campaign will be sent to
+        /// </summary>
+        public int OwnDataRecipientCount
+        {
+            get
+            {
+                if (HasDistributionLists)
+                {
+                    return this.DistributionLists.Sum(dl => dl.RecordCount);
+                }
+
+                return 0;
+            }
+        }
+
+        [NotMapped]
+        /// <summary>
+        /// Gets the number of recipients (or rented data) the Campaign will be sent to
+        /// </summary>
+        public int RentedDataRecipientCount
+        {
+            get
+            {
+                if (HasDataSearches)
+                {
+                    return this.DataSearches.Sum(ds => ds.RecordCount);
+                }
+
+                return 0;
+            }
+        }
+
+        [JsonIgnore]
+        [NotMapped]
+        public decimal TaxRate
+        {
+            get
+            {
+                //TODO: Move this away from here
+                return 0.2m;
+            }
+        }
+
+        [NotMapped]
+        public decimal? PostalCost
+        {
+            get
+            {
+                if (PostalOption != null)
+                {
+                    return (this.PostalOption.PricePerUnit + this.PostalOption.Tax) * (this.RentedDataRecipientCount + this.OwnDataRecipientCount);
+                }
+
+                return null;
+            }
+        }
+
+        [NotMapped]
+        public decimal OnceOffFee { get; set; }
+
+        [NotMapped]
+        public decimal DataCost { get; set; }
+
+        /// <summary>
+        /// Gets the cost of the campaign
+        /// </summary>
+        [NotMapped]
+        public decimal? CampaignCost
+        {
+            get
+            {
+                if (PostalOption == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    // TODO: Get all of these values properly
+                    decimal flatFeePerMailshot = 5.00m;
+                    decimal pricePerRentedRecord = 0.1m;
+
+                    decimal costBeforePostageAndTax =
+                        flatFeePerMailshot
+                        + this.RentedDataRecipientCount * pricePerRentedRecord;
+                    decimal postageCost = PostalCost.Value;
+                    return (costBeforePostageAndTax * (1 + this.TaxRate)) + postageCost;
+                }
+            }
+        }
+
         #region Explicit interface definition
 
         IMailshot ICampaign.Mailshot
@@ -227,9 +319,9 @@ namespace RM.MailshotsOnline.Entities.DataModels
             set { _campaignDistributionLists = (ICollection<CampaignDistributionList>)value; }
         }
 
-        ICollection<IDistributionList> ICampaign.DistributionLists
+        IEnumerable<IDistributionList> ICampaign.DistributionLists
         {
-            get { return (ICollection<IDistributionList>)_campaignDistributionLists.Select(x => x.DistributionList); }
+            get { return _campaignDistributionLists.Select(x => x.DistributionList); }
         }
 
         IPostalOption ICampaign.PostalOption
