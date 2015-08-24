@@ -56,9 +56,20 @@
                 </select>
             </div>
             <div id="readonlyFields" style="display:none;">
+                <p>Information:</p>
                 <div><label>Status:</label><input type="text" disabled="disabled" id="status" /></div>
                 <div><label>Has own data:</label><input type="text" disabled="disabled" id="hasOwnData" /></div>
                 <div><label>Has rented data:</label><input type="text" disabled="disabled" id="hasRentedData" /></div>
+            </div>
+            <div id="pricingInformation" style="display:none;">
+                <p>Pricing</p>
+                <div><label>Service fee:</label><span id="serviceFee"></span></div>
+                <div><label>Printing costs:</label><span id="printingCosts"></span></div>
+                <div><label>Data costs:</label><span id="dataCosts"></span></div>
+                <div><label>Postage costs:</label><span id="postageCosts"></span></div>
+                <div><label>VAT:</label><span id="vat"></span></div>
+                <div><label>Total costs:</label><span id="totalCost"></span></div>
+                <div><button id="order" disabled="disabled">Order this campaign</button></div>
             </div>
             <div><button id="saveCampaign">Save</button> &nbsp; <button id="cancelButton">Cancel</button></div>
             <input type="hidden" id="campaignId" />

@@ -376,13 +376,28 @@ namespace RM.MailshotsOnline.Web.App_Start
         {
             _settingsService = _settingsService ?? new MailshotSettingsService();
 
+            decimal pricePerPrint;
+            decimal onceOffPrice;
+
+            if (!decimal.TryParse(item.GetValue<string>("pricePerPrint"), out pricePerPrint))
+            {
+                pricePerPrint = 0;
+            }
+
+            if (!decimal.TryParse(item.GetValue<string>("onceOffPrice"), out onceOffPrice))
+            {
+                onceOffPrice = 0;
+            }
+
             var format = new Format()
             {
                 UmbracoPageId = item.Id,
                 Name = item.Name,
                 XslData = item.GetValue<string>("xslData"),
                 JsonIndex = item.GetValue<int>("jsonIndex"),
-                UpdatedDate = DateTime.UtcNow
+                UpdatedDate = DateTime.UtcNow,
+                PricePerPrint = pricePerPrint,
+                OnceOffPrice = onceOffPrice
             };
 
             _settingsService.AddOrUpdateFormat(format);

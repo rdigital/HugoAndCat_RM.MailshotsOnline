@@ -32,5 +32,9 @@ namespace RM.MailshotsOnline.Entities.DataModels.MailshotSettings
 
         [Required, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime CreatedUtc { get; private set; }
+
+        public decimal PricePerPrint { get; set; }
+
+        public decimal OnceOffPrice { get; set; }
     }
 }

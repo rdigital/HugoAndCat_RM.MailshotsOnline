@@ -41,6 +41,7 @@
     <Compile Include="Enums.cs" />
     <Compile Include="Models\ICampaign.cs" />
     <Compile Include="Models\ICampaignDistributionList.cs" />
+    <Compile Include="Models\ICampaignPriceBreakdown.cs" />
     <Compile Include="Models\ICmsImage.cs" />
     <Compile Include="Models\IContact.cs" />
     <Compile Include="Models\IDataSearch.cs" />

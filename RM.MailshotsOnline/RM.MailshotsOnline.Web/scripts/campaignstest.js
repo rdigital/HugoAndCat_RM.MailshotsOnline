@@ -48,7 +48,7 @@
         //console.log(data);
         if (data.length > 0) {
             $noCampaignsMessage.hide();
-            $campaignList.html('<tr><th>Name</th><th>Updated</th><th>Status</th><th>Mailshot</th><th>Own data</th><th>Rented data</th><th>Postage</th><th>Cost</th><th></th><th></th><th></th></tr>').show();
+            $campaignList.html('<tr><th>Name</th><th>Updated</th><th>Status</th><th>Mailshot</th><th>Own data</th><th>Rented data</th><th>Postage</th><th></th><th></th><th></th></tr>').show();
             $loading.hide();
             for (i = 0; i < data.length; i++) {
                 var campaign = data[i];
@@ -97,16 +97,8 @@
                     postalOption.text('None selected').attr('class','empty');
                 }
 
-                var cost = $(document.createElement('td'));
-                if (campaign.CampaignCost != null) {
-                    cost.text(campaign.CampaignCost);
-                }
-                else {
-                    cost.text('Unknown').attr('class', 'empty');
-                }
-
                 var editLink = $(document.createElement('a'))
-                    .text('Edit')
+                    .text('Open')
                     .attr('class', 'openLink')
                     .attr('href', '#/Edit/' + campaign.CampaignId)
                     .data('campaignId', campaign.CampaignId)
@@ -138,7 +130,7 @@
                     });
                 var deleteCell = $(document.createElement('td')).append(deleteLink);
 
-                row.append(name, updated, status, mailshot, ownData, rentedData, postalOption, cost, editCell, copyCell, deleteCell);
+                row.append(name, updated, status, mailshot, ownData, rentedData, postalOption, editCell, copyCell, deleteCell);
 
                 $campaignList.append(row);
             }
@@ -204,6 +196,7 @@
     }
 
     function LoadCampaign(campaignId) {
+        DisplayCampaignForm();
         $formTitle.text('Loading ...');
         $.ajax({
             url: '/Umbraco/Api/Campaign/Get/' + campaignId,
@@ -220,6 +213,8 @@
                 $('#hasRentedData').val(data.HasDataSearches);
                 var status = GetStatusText(data.Status);
                 $('#status').val(status);
+
+                LoadPricingInformation(data.CampaignId);
             },
             statusCode: {
                 400: function (response) {
@@ -279,6 +274,64 @@
         $postageList.val('');
         $('#campaignId').val('');
         $readonlyFields.hide();
+
+        $('#pricingInformation').hide();
+        $('#serviceFee').text('');
+        $('#printingCosts').text('');
+        $('#dataCosts').text('');
+        $('#postageCosts').text('');
+        $('#vat').text('');
+        $('#totalCost').text('');
+    }
+
+    function LoadPricingInformation(campaignId) {
+        $.ajax({
+            url: '/Umbraco/Api/Campaign/GetPriceBreakdown/' + campaignId,
+            type: 'GET',
+            success: function (data) {
+                if (data.Complete) {
+                    $('#order').removeAttr('disabled');
+                }
+                else {
+                    $('#order').attr('disabled', 'disabled');
+                }
+
+                console.log(data);
+                $('#pricingInformation').show();
+                if (data.ServiceFee != null) {
+                    $('#serviceFee').text(data.ServiceFee);
+                }
+                if (data.PrintingCost != null) {
+                    $('#printingCosts').text(data.PrintingCost);
+                }
+                if (data.DataRentalCost != null) {
+                    $('#dataCosts').text(data.DataRentalCost);
+                }
+                if (data.PostageCost != null) {
+                    $('#postageCosts').text(data.PostageCost);
+                }
+                if (data.TotalTax != null) {
+                    $('#vat').text(data.TotalTax);
+                }
+                if (data.Total != null) {
+                    $('#totalCost').text(data.Total);
+                }
+            },
+            statusCode: {
+                400: function (response) {
+                    HandleError(response);
+                },
+                401: function (response) {
+                    HandleError(response);
+                },
+                403: function (response) {
+                    HandleError(response);
+                },
+                500: function (response) {
+                    HandleError(response);
+                }
+            }
+        })
     }
 
 
@@ -389,103 +442,12 @@
     function CreateCampaign(successCallback) {
 
         return ExecuteCampaignCall('/Umbraco/Api/Campaign/Save', successCallback);
-        /*
-        var name = $('#campaignName').val();
-        var notes = $('#notes').val();
-        var mailshotId = $mailshotList.val();
-        var postalOptionId = $postageList.val();
-
-        var dataValid = true;
-
-        if (name.length == 0) {
-            alert('You must provide a name for your campaign.');
-            $('#campaignName').focus();
-            dataValid = false;
-        }
-
-        if (dataValid) {
-            $saveCampaignButton.attr('disabled', 'disabled').text('Saving ...');
-
-            var postData = {
-                Name: name,
-                Notes: notes,
-                MailshotId: mailshotId,
-                PostalOptionId: postalOptionId
-            };
-
-            $.ajax({
-                url: '/Umbraco/Api/Campaign/Save',
-                type: 'POST',
-                data: postData,
-                success: function (data) {
-                    if (typeof (successCallback != "undefined")) {
-                        successCallback(data);
-                    }
-                },
-                statusCode: {
-                    400: function (response) {
-                        HandleError(response);
-                        $saveCampaignButton.removeAttr('disabled').text('Save');
-                    },
-                    500: function (response) {
-                        HandleError(response);
-                        $saveCampaignButton.removeAttr('disabled').text('Save');
-                    }
-                }
-            })
-        }*/
     }
 
     function UpdateCampaign(successCallback) {
 
         var campaignId = $('#campaignId').val();
         return ExecuteCampaignCall('/Umbraco/Api/Campaign/Update/' + campaignId, successCallback);
-
-        /*var name = $('#campaignName').val();
-        var notes = $('#notes').val();
-        var mailshotId = $mailshotList.val();
-        var campaignId = $('#campaignId').val();
-        var postalOptionId = $postageList.val();
-
-        var dataValid = true;
-
-        if (name.length == 0) {
-            alert('You must provide a name for your campaign.');
-            $('#campaignName').focus();
-            dataValid = false;
-        }
-
-        if (dataValid) {
-            $saveCampaignButton.attr('disabled', 'disabled').text('Saving ...');
-
-            var postData = {
-                Name: name,
-                Notes: notes,
-                MailshotId: mailshotId,
-                PostalOptionId: postalOptionId
-            };
-
-            $.ajax({
-                url: '/Umbraco/Api/Campaign/Update/' + campaignId,
-                type: 'POST',
-                data: postData,
-                success: function (data) {
-                    if (typeof (successCallback != "undefined")) {
-                        successCallback(data);
-                    }
-                },
-                statusCode: {
-                    400: function (response) {
-                        HandleError(response);
-                        $saveCampaignButton.removeAttr('disabled').text('Save');
-                    },
-                    500: function (response) {
-                        HandleError(response);
-                        $saveCampaignButton.removeAttr('disabled').text('Save');
-                    }
-                }
-            })
-        }*/
     }
 
 

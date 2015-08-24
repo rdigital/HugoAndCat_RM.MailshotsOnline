@@ -109,15 +109,5 @@ namespace RM.MailshotsOnline.PCL.Models
         /// Gets the number of recipients (or rented data) the Campaign will be sent to
         /// </summary>
         int RentedDataRecipientCount { get; }
-
-        decimal? CampaignCost { get; }
-
-        decimal TaxRate { get; }
-
-        decimal? PostalCost { get; }
-
-        decimal OnceOffFee { get; set; }
-
-        decimal DataCost { get; set; }
     }
 }

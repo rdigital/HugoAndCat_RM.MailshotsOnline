@@ -16,12 +16,14 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
     {
         private ICampaignService _campaignService;
         private IMailshotsService _mailshotService;
+        private IPricingService _pricingService;
 
-        public CampaignController(ICampaignService campaignService, IMailshotsService mailshotService, IMembershipService membershipService, ILogger logger)
+        public CampaignController(ICampaignService campaignService, IMailshotsService mailshotService, IPricingService pricingService, IMembershipService membershipService, ILogger logger)
             : base (membershipService, logger)
         {
             _campaignService = campaignService;
             _mailshotService = mailshotService;
+            _pricingService = pricingService;
         }
 
         [Authorize]
@@ -70,6 +72,51 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             // Return the campaign
             var campaignData = (Campaign)campaign;
             return Request.CreateResponse(HttpStatusCode.OK, campaignData);
+        }
+
+        public HttpResponseMessage GetPriceBreakdown(Guid id)
+        {
+            // Confirm the user is logged in
+            var authResult = Authenticate();
+            if (authResult != null)
+            {
+                _logger.Error(this.GetType().Name, "GetPriceBreakdown", "Unauthenticated attempt to get pricing for campaign with ID {0}.", id);
+                return authResult;
+            }
+
+            // Confirm that the campaign exists
+            var campaign = _campaignService.GetCampaign(id);
+            if (campaign == null)
+            {
+                _logger.Error(this.GetType().Name, "GetPriceBreakdown", "Attempt to get unknown campaign with ID {0}.", id);
+                return ErrorMessage(HttpStatusCode.NotFound, "Campaign not found");
+            }
+
+            // Confirm that the user has access to the campaign
+            if (campaign.UserId != _loggedInMember.Id)
+            {
+                _logger.Error(this.GetType().Name, "GetPriceBreakdown", "Unauthorised attempt to get campaign with ID {0}.", id);
+                return ErrorMessage(HttpStatusCode.Forbidden, "No access to specified campaign");
+            }
+
+            // Return the campaign price breakdown
+            ICampaignPriceBreakdown priceBreakdown = null;
+            try
+            {
+                priceBreakdown = _pricingService.GetPriceBreakdown(campaign);
+            }
+            catch (Exception ex)
+            {
+                _logger.Exception(this.GetType().Name, "GetPriceBreakdown", ex);
+                _logger.Error(this.GetType().Name, "GetPriceBreakdown", "Server error getting price information for Campaign {0}: {1}", id, ex.Message);
+            }
+
+            if (priceBreakdown != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, priceBreakdown);
+            }
+
+            return ErrorMessage(HttpStatusCode.InternalServerError, "Unable to get price information.");
         }
 
         [Authorize]

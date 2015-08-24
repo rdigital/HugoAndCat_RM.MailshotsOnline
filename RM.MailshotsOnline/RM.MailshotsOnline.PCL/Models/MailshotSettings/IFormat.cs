@@ -8,5 +8,9 @@ namespace RM.MailshotsOnline.PCL.Models.MailshotSettings
     public interface IFormat : IMailshotSetting
     {
         Guid FormatId { get; set; }
+
+        decimal PricePerPrint { get; set; }
+
+        decimal OnceOffPrice { get; set; }
     }
 }

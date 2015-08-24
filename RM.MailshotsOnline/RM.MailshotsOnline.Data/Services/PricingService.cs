@@ -1,5 +1,7 @@
 ﻿using Microsoft.Azure;
+using RM.MailshotsOnline.Business.Processors;
 using RM.MailshotsOnline.Data.DAL;
+using RM.MailshotsOnline.Data.Helpers;
 using RM.MailshotsOnline.Entities.DataModels;
 using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
@@ -75,6 +77,58 @@ namespace RM.MailshotsOnline.Data.Services
 
             _context.SaveChanges();
             return postalOption;
+        }
+
+        /// <summary>
+        /// Generates a price breakdown based on a campaign
+        /// </summary>
+        /// <param name="campaign">The Campaign to get the price breakdown for</param>
+        /// <returns>Price breakdown</returns>
+        public ICampaignPriceBreakdown GetPriceBreakdown(ICampaign campaign)
+        {
+            if (campaign.Mailshot == null && campaign.MailshotId.HasValue && campaign.MailshotId != Guid.Empty)
+            {
+                var mailshot = _context.Mailshots.Include("Format").FirstOrDefault(m => m.MailshotId == campaign.MailshotId);
+                campaign.Mailshot = mailshot;
+            }
+
+            if (campaign.Mailshot != null && campaign.Mailshot.Format == null && campaign.Mailshot.FormatId != Guid.Empty)
+            {
+                var format = _context.Formats.FirstOrDefault(f => f.FormatId == campaign.Mailshot.FormatId);
+                campaign.Mailshot.Format = format;
+            }
+
+            if (campaign.PostalOption == null && campaign.PostalOptionId.HasValue && campaign.PostalOptionId != Guid.Empty)
+            {
+                var postalOption = _context.PostalOptions.FirstOrDefault(p => p.PostalOptionId == campaign.PostalOptionId);
+                campaign.PostalOption = postalOption;
+            }
+
+            var result = new Entities.JsonModels.CampaignPriceBreakdown();
+            if (campaign.HasDataSearches || campaign.HasDistributionLists)
+            {
+                result.PrintCount = campaign.OwnDataRecipientCount + campaign.RentedDataRecipientCount;
+            }
+
+            result.TaxRate = ConfigHelper.TaxRate;
+            result.DataRentalRate = ConfigHelper.PricePerRentedDataRecord;
+            if (campaign.HasDataSearches)
+            {
+                result.DataRentalCount = campaign.RentedDataRecipientCount;
+            }
+
+            if (campaign.PostalOption != null)
+            {
+                result.PostageRate = campaign.PostalOption.PricePerUnit;
+            }
+            
+            if (campaign.Mailshot != null && campaign.Mailshot.Format != null)
+            {
+                result.ServiceFee = campaign.Mailshot.Format.OnceOffPrice;
+                result.PrintingRate = campaign.Mailshot.Format.PricePerPrint;
+            }
+
+            return result;
         }
     }
 }

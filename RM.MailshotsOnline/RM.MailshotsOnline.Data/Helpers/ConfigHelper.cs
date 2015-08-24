@@ -75,14 +75,6 @@ namespace RM.MailshotsOnline.Data.Helpers
         }
 
         /// <summary>
-        /// The price per campaign
-        /// </summary>
-        public static decimal PricePerCampaign
-        {
-            get { return GetConfigValue("PricePerCampaign", 5.00m); }
-        }
-
-        /// <summary>
         /// The price for each rented data record
         /// </summary>
         public static decimal PricePerRentedDataRecord
@@ -120,6 +112,14 @@ namespace RM.MailshotsOnline.Data.Helpers
         public static string PublicLibraryImageContentTypeAlias
         {
             get { return GetConfigValue("PublicLibraryImageContentTypeAlias", "PublicLibraryImage"); }
+        }
+
+        /// <summary>
+        /// The current tax rate
+        /// </summary>
+        public static decimal TaxRate
+        {
+            get { return GetConfigValue("TaxRate", 0.2m); }
         }
 
         /// <summary>

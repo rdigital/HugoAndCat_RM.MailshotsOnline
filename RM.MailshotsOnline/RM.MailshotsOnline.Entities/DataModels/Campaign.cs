@@ -241,64 +241,6 @@ namespace RM.MailshotsOnline.Entities.DataModels
             }
         }
 
-        [JsonIgnore]
-        [NotMapped]
-        public decimal TaxRate
-        {
-            get
-            {
-                //TODO: Move this away from here
-                return 0.2m;
-            }
-        }
-
-        [NotMapped]
-        public decimal? PostalCost
-        {
-            get
-            {
-                if (PostalOption != null)
-                {
-                    return (this.PostalOption.PricePerUnit + this.PostalOption.Tax) * (this.RentedDataRecipientCount + this.OwnDataRecipientCount);
-                }
-
-                return null;
-            }
-        }
-
-        [NotMapped]
-        public decimal OnceOffFee { get; set; }
-
-        [NotMapped]
-        public decimal DataCost { get; set; }
-
-        /// <summary>
-        /// Gets the cost of the campaign
-        /// </summary>
-        [NotMapped]
-        public decimal? CampaignCost
-        {
-            get
-            {
-                if (PostalOption == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    // TODO: Get all of these values properly
-                    decimal flatFeePerMailshot = 5.00m;
-                    decimal pricePerRentedRecord = 0.1m;
-
-                    decimal costBeforePostageAndTax =
-                        flatFeePerMailshot
-                        + this.RentedDataRecipientCount * pricePerRentedRecord;
-                    decimal postageCost = PostalCost.Value;
-                    return (costBeforePostageAndTax * (1 + this.TaxRate)) + postageCost;
-                }
-            }
-        }
-
         #region Explicit interface definition
 
         IMailshot ICampaign.Mailshot

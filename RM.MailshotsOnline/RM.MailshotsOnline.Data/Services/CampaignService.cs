@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.Data.DAL;
 using RM.MailshotsOnline.Entities.DataModels;
+using RM.MailshotsOnline.Business.Processors;
+using RM.MailshotsOnline.Data.Helpers;
 
 namespace RM.MailshotsOnline.Data.Services
 {
@@ -59,7 +61,7 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>Campaign object</returns>
         public ICampaign GetCampaign(Guid campaignId)
         {
-            return _context.Campaigns.FirstOrDefault(c => c.CampaignId == campaignId);
+            return _context.Campaigns.Include("Mailshot").Include("CampaignDistributionLists").Include("DataSearches").Include("PostalOption").Include("CampaignDistributionLists.DistributionList").FirstOrDefault(c => c.CampaignId == campaignId);
         }
 
         /// <summary>

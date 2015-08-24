@@ -33,5 +33,12 @@ namespace RM.MailshotsOnline.PCL.Services
         /// <param name="postalOption">Postal option</param>
         /// <returns>The updated postal option</returns>
         IPostalOption SavePostalOption(IPostalOption postalOption);
+
+        /// <summary>
+        /// Generates a price breakdown based on a campaign
+        /// </summary>
+        /// <param name="campaign">The Campaign to get the price breakdown for</param>
+        /// <returns>Price breakdown</returns>
+        ICampaignPriceBreakdown GetPriceBreakdown(ICampaign campaign);
     }
 }
