@@ -30,6 +30,11 @@ namespace RM.MailshotsOnline.Test.Mocks
             return result;
         }
 
+        public ICampaignPriceBreakdown GetPriceBreakdown(ICampaign campaign)
+        {
+            throw new NotImplementedException();
+        }
+
         public IPostalOption SavePostalOption(IPostalOption postalOption)
         {
             throw new NotImplementedException();

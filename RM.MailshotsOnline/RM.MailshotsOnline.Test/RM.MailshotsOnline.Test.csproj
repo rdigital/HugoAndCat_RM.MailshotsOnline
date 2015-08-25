@@ -295,10 +295,9 @@
     <Compile Include="Mocks\MockPricingService.cs" />
     <Compile Include="Processors\MailshotsProcessorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceTests\PaypalServiceTests.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ServiceTests\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="app.config">
       <SubType>Designer</SubType>
@@ -327,6 +326,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HC.RM.Common.PayPal\HC.RM.Common.PayPal.csproj">
+      <Project>{5cecfbd1-8591-4d0a-9032-2da879dbea75}</Project>
+      <Name>HC.RM.Common.PayPal</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RM.MailshotsOnline.Business\RM.MailshotsOnline.Business.csproj">
       <Project>{dcc80db8-069c-4b0b-a955-b8486d795f6d}</Project>
       <Name>RM.MailshotsOnline.Business</Name>

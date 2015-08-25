@@ -58,7 +58,7 @@ namespace RM.MailshotsOnline.Entities.JsonModels
         {
             get
             {
-                return subTotal + TotalTax;
+                return SubTotal + TotalTax;
             }
         }
 
@@ -72,7 +72,7 @@ namespace RM.MailshotsOnline.Entities.JsonModels
         {
             get
             {
-                return subTotal * TaxRate;
+                return SubTotal * TaxRate;
             }
         }
 
@@ -89,7 +89,7 @@ namespace RM.MailshotsOnline.Entities.JsonModels
             }
         }
 
-        private decimal subTotal
+        public decimal SubTotal
         {
             get
             {
