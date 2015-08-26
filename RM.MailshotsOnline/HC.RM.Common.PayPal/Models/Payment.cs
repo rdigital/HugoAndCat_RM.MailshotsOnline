@@ -16,6 +16,7 @@ namespace HC.RM.Common.PayPal.Models
         }
 
         public Payment(
+            string cartId,
             PaymentIntent intent, 
             string returnUrl, 
             string cancelUrl, 
@@ -25,13 +26,14 @@ namespace HC.RM.Common.PayPal.Models
             string currency, 
             string invoiceNumber,
             Payer payer)
-            : this(intent, returnUrl, cancelUrl, totalAmount, tax, subTotal, currency, invoiceNumber)
+            : this(cartId, intent, returnUrl, cancelUrl, totalAmount, tax, subTotal, currency, invoiceNumber)
         {
             this.Payer = payer;
         }
 
-        public Payment(PaymentIntent intent, string returnUrl, string cancelUrl, decimal totalAmount, decimal tax, decimal subTotal, string currency, string invoiceNumber)
+        public Payment(string cartId, PaymentIntent intent, string returnUrl, string cancelUrl, decimal totalAmount, decimal tax, decimal subTotal, string currency, string invoiceNumber)
         {
+            this.CartId = cartId;
             this.Intent = intent;
             this.ReturnUrl = returnUrl;
             this.CancelUrl = cancelUrl;
@@ -52,8 +54,7 @@ namespace HC.RM.Common.PayPal.Models
             this.Payer = pplPayment.payer != null ? new Payer(pplPayment.payer) : null;
             this.Links = pplPayment.links != null ? pplPayment.links.ToHateoasLinks() : null;
             this.Transactions = pplPayment.transactions != null ? pplPayment.transactions.ToTransactions() : null;
-            var transaction = pplPayment.transactions.FirstOrDefault();
-            transaction.related_resources.First().order.
+            this.CartId = pplPayment.cart;
         }
 
         public string Id { get; set; }
@@ -71,6 +72,8 @@ namespace HC.RM.Common.PayPal.Models
         public string CancelUrl { get; set; }
 
         public Payer Payer { get; set; }
+
+        public string CartId { get; set; }
 
         public IEnumerable<HateoasLink> Links { get; set; }
 
@@ -112,6 +115,7 @@ namespace HC.RM.Common.PayPal.Models
             pplPayment.token = this.Token;
             pplPayment.update_time = this.UpdateTime.ToUniversalTime().ToString("O");
             pplPayment.transactions = this.Transactions.ToPplTransactions();
+            pplPayment.cart = this.CartId;
 
             return pplPayment;
         }

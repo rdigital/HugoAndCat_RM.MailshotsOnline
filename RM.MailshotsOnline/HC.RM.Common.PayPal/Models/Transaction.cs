@@ -6,16 +6,31 @@ using System.Threading.Tasks;
 using PplTransaction = PayPal.Api.Transaction;
 using PplAmount = PayPal.Api.Amount;
 using PplDetails = PayPal.Api.Details;
+using PplRelatedResources = PayPal.Api.RelatedResources;
 
 namespace HC.RM.Common.PayPal.Models
 {
     public class Transaction
     {
-        public Transaction()
+        /// <summary>
+        /// Creates a new Transaction object
+        /// </summary>
+        /// <param name="currency">Three-letter currency code</param>
+        /// <param name="total">Total amount for the transaction</param>
+        public Transaction(string currency, decimal total)
         {
-
+            this.Currency = currency;
+            this.Total = total;
         }
 
+        /// <summary>
+        /// Creates a new Transaction object
+        /// </summary>
+        /// <param name="currency">Three-letter currency code</param>
+        /// <param name="total">Total amount for the transaction</param>
+        /// <param name="subTotal">The sub-total before tax</param>
+        /// <param name="tax">The total tax</param>
+        /// <param name="invoiceNumber">The invoice number for the transaction</param>
         public Transaction(string currency, decimal total, decimal subTotal, decimal tax, string invoiceNumber)
         {
             this.Currency = currency;
@@ -25,6 +40,10 @@ namespace HC.RM.Common.PayPal.Models
             this.InvoiceNumber = invoiceNumber;
         }
 
+        /// <summary>
+        /// Creates a new Transaction object from a PayPal Transaction
+        /// </summary>
+        /// <param name="transaction">The PayPal Transaction</param>
         internal Transaction(PplTransaction transaction)
         {
             if (transaction.amount != null)
@@ -41,22 +60,63 @@ namespace HC.RM.Common.PayPal.Models
             this.Description = transaction.description;
             this.InvoiceNumber = transaction.invoice_number;
             this.CustomField = transaction.custom;
+            this.RelatedResources = transaction.related_resources != null 
+                ? transaction.related_resources.ToRelatedResources() 
+                : null;
+            this.Items = transaction.item_list != null 
+                ? transaction.item_list.ToPurchaseItems() 
+                : null;
         }
 
+        /// <summary>
+        /// Three-letter currency code
+        /// </summary>
         public string Currency { get; set; }
 
+        /// <summary>
+        /// Total amount for the transaction
+        /// </summary>
         public decimal Total { get; set; }
 
+        /// <summary>
+        /// Sub-total before tax
+        /// </summary>
         public decimal SubTotal { get; set; }
 
+        /// <summary>
+        /// Total tax
+        /// </summary>
         public decimal Tax { get; set; }
 
+        /// <summary>
+        /// The Description
+        /// </summary>
         public string Description { get; set; }
 
+        /// <summary>
+        /// The invoice number
+        /// </summary>
         public string InvoiceNumber { get; set; }
 
+        /// <summary>
+        /// A custom field that can be set by the system and returned by PayPal
+        /// </summary>
         public string CustomField { get; set; }
 
+        /// <summary>
+        /// Related resources (Authorizations, Orders, etc)
+        /// </summary>
+        IEnumerable<RelatedResource> RelatedResources { get; set; }
+
+        /// <summary>
+        /// The Items that the transaction is for
+        /// </summary>
+        IEnumerable<PurchaseItem> Items { get; set; }
+
+        /// <summary>
+        /// Converts the Transaction to a PayPal Transaction object
+        /// </summary>
+        /// <returns>PayPal Transaction object</returns>
         internal PplTransaction ToPaypalTransaction()
         {
             PplTransaction result = new PplTransaction();
@@ -69,6 +129,12 @@ namespace HC.RM.Common.PayPal.Models
             result.amount.details.subtotal = this.SubTotal.ToString("F");
             result.custom = this.CustomField;
             result.description = this.Description;
+            result.related_resources = this.RelatedResources != null 
+                ? this.RelatedResources.ToPplRelatedResources() 
+                : null;
+            result.item_list = this.Items != null 
+                ? this.Items.ToPplItemList() 
+                : null;
 
             return result;
         }

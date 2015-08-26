@@ -10,8 +10,15 @@ namespace HC.RM.Common.PayPal.Models
 {
     public class Order : RelatedResource
     {
+        /// <summary>
+        /// Creates a new Order object
+        /// </summary>
         public Order() { }
 
+        /// <summary>
+        /// Creates a new Order object from a PayPal Order
+        /// </summary>
+        /// <param name="pplOrder">PayPal Order</param>
         internal Order(PplOrder pplOrder)
         {
             this.Id = pplOrder.id;
@@ -27,8 +34,15 @@ namespace HC.RM.Common.PayPal.Models
             this.State = (OrderState)Enum.Parse(typeof(OrderState), pplOrder.state);
         }
 
+        /// <summary>
+        /// The State of the Order
+        /// </summary>
         public OrderState State { get; set; }
 
+        /// <summary>
+        /// Converts the Order to a PayPal Order object
+        /// </summary>
+        /// <returns>PayPal Order object</returns>
         internal PplOrder ToPaypalOrder()
         {
             PplOrder result = new PplOrder();
@@ -38,7 +52,7 @@ namespace HC.RM.Common.PayPal.Models
             result.parent_payment = this.ParentPaymentId;
             result.amount = new PplAmount()
             {
-                total = this.AmountTotal.ToString("D2"),
+                total = this.AmountTotal.ToString("F"),
                 currency = this.AmountCurrency
             };
             result.links = this.Links.ToPplLinks();
@@ -48,6 +62,9 @@ namespace HC.RM.Common.PayPal.Models
         }
     }
 
+    /// <summary>
+    /// Order State values
+    /// </summary>
     public enum OrderState
     {
         pending,

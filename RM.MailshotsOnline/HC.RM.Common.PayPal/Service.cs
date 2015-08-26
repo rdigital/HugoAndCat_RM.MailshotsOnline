@@ -20,6 +20,9 @@ namespace HC.RM.Common.PayPal
         private readonly Dictionary<string, string> _config = ConfigManager.Instance.GetProperties();
         private readonly OAuthTokenCredential _oauthTokenCred;
 
+        /// <summary>
+        /// Creates a new PayPal service wrapper
+        /// </summary>
         public Service()
         {
             _oauthTokenCred = new OAuthTokenCredential(_config);
