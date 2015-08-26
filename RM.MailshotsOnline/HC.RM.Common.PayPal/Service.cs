@@ -43,6 +43,27 @@ namespace HC.RM.Common.PayPal
         }
 
         /// <summary>
+        /// Gets a Payment from PayPal based on the payment ID
+        /// </summary>
+        /// <param name="paymentId">ID of the payment from PayPal</param>
+        /// <returns>Payment object</returns>
+        public Payment GetPayment(string paymentId)
+        {
+            var context = ApiContext;
+
+            var pplPayment = PplPayment.Get(context, paymentId);
+
+            if (pplPayment == null)
+            {
+                return null;
+            }
+
+            var result = new Payment(pplPayment);
+
+            return result;
+        }
+
+        /// <summary>
         /// Creates a Paypal Payment using the details specified in the Payment object
         /// </summary>
         /// <param name="payment">The Payment to create</param>

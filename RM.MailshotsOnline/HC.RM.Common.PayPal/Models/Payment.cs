@@ -52,6 +52,8 @@ namespace HC.RM.Common.PayPal.Models
             this.Payer = pplPayment.payer != null ? new Payer(pplPayment.payer) : null;
             this.Links = pplPayment.links != null ? pplPayment.links.ToHateoasLinks() : null;
             this.Transactions = pplPayment.transactions != null ? pplPayment.transactions.ToTransactions() : null;
+            var transaction = pplPayment.transactions.FirstOrDefault();
+            transaction.related_resources.First().order.
         }
 
         public string Id { get; set; }

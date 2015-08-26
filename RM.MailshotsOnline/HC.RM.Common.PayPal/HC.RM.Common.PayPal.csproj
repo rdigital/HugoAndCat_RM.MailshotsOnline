@@ -55,6 +55,7 @@
     <Compile Include="Models\Payer.cs" />
     <Compile Include="Models\Payment.cs" />
     <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\RelatedResource.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service.cs" />
