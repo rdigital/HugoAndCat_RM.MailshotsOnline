@@ -69,49 +69,49 @@ namespace HC.RM.Common.PayPal.Models
         }
 
         /// <summary>
-        /// Three-letter currency code
+        /// Gets or sets the Three-letter currency code
         /// </summary>
         public string Currency { get; set; }
 
         /// <summary>
-        /// Total amount for the transaction
+        /// Gets or sets the Total amount for the transaction
         /// </summary>
         public decimal Total { get; set; }
 
         /// <summary>
-        /// Sub-total before tax
+        /// Gets or sets the Sub-total before tax
         /// </summary>
         public decimal SubTotal { get; set; }
 
         /// <summary>
-        /// Total tax
+        /// Gets or sets the total Tax
         /// </summary>
         public decimal Tax { get; set; }
 
         /// <summary>
-        /// The Description
+        /// Gets or sets the Description
         /// </summary>
         public string Description { get; set; }
 
         /// <summary>
-        /// The invoice number
+        /// Gets or sets the invoice number
         /// </summary>
         public string InvoiceNumber { get; set; }
 
         /// <summary>
-        /// A custom field that can be set by the system and returned by PayPal
+        /// Gets or sets a custom field that can be set by the system and returned by PayPal
         /// </summary>
         public string CustomField { get; set; }
 
         /// <summary>
-        /// Related resources (Authorizations, Orders, etc)
+        /// Gets the Related resources (Authorizations, Orders, etc)
         /// </summary>
-        IEnumerable<RelatedResource> RelatedResources { get; set; }
+        public IEnumerable<RelatedResource> RelatedResources { get; private set; }
 
         /// <summary>
-        /// The Items that the transaction is for
+        /// Gets or sets the Items that the transaction is for
         /// </summary>
-        IEnumerable<PurchaseItem> Items { get; set; }
+        public IEnumerable<PurchaseItem> Items { get; set; }
 
         /// <summary>
         /// Converts the Transaction to a PayPal Transaction object

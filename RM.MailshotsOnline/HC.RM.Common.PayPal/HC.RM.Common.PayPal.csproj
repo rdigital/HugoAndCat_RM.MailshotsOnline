@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Extensions.cs" />
     <Compile Include="Models\Authorization.cs" />
+    <Compile Include="Models\Capture.cs" />
     <Compile Include="Models\HateoasLink.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Payer.cs" />

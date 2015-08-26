@@ -6,9 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Order = HC.RM.Common.PayPal.Models.Order;
 using Payment = HC.RM.Common.PayPal.Models.Payment;
+using Authorization = HC.RM.Common.PayPal.Models.Authorization;
 using PplOrder = PayPal.Api.Order;
 using PplPayment = PayPal.Api.Payment;
 using PplPaymentExecution = PayPal.Api.PaymentExecution;
+using PplAuthorization = PayPal.Api.Authorization;
+using PplCapture = PayPal.Api.Capture;
+using PplAmount = PayPal.Api.Amount;
 
 namespace HC.RM.Common.PayPal
 {
@@ -64,6 +68,57 @@ namespace HC.RM.Common.PayPal
             var result = new Payment(pplPayment);
 
             return result;
+        }
+
+        /// <summary>
+        /// Gets a PayPal Order based on the Order ID
+        /// </summary>
+        /// <param name="orderId">Order ID</param>
+        /// <returns>The resulting Order object</returns>
+        public Order GetOrder(string orderId)
+        {
+            var context = ApiContext;
+            var pplOrder = PplOrder.Get(context, orderId);
+            if (pplOrder == null)
+            {
+                return null;
+            }
+
+            var result = new Order(pplOrder);
+            return result;
+        }
+
+        /// <summary>
+        /// Authorizes an order
+        /// </summary>
+        /// <param name="order">Order to Authorize</param>
+        /// <returns>Authorization object</returns>
+        public Authorization AuthorizeOrder(Order order)
+        {
+            var context = ApiContext;
+            var pplOrder = order.ToPaypalOrder();
+            var pplAuth = PplOrder.Authorize(context, pplOrder);
+            var result = new Authorization(pplAuth);
+            return result;
+        }
+
+        public void CaptureOrder(Order order)
+        {
+            var context = ApiContext;
+            var pplOrder = order.ToPaypalOrder();
+            var amount = new PplAmount()
+            {
+                currency = order.AmountCurrency,
+                total = order.AmountTotal.ToString("F")
+            };
+
+            var capture = new PplCapture()
+            {
+                is_final_capture = true,
+                amount = amount
+            };
+
+            var something = PplOrder.Capture(context, order.Id, capture);
         }
 
         /// <summary>

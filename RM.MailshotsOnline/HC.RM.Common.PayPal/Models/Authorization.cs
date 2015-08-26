@@ -11,11 +11,6 @@ namespace HC.RM.Common.PayPal.Models
     public class Authorization : RelatedResource
     {
         /// <summary>
-        /// Creates a new Authorization object
-        /// </summary>
-        public Authorization() { }
-
-        /// <summary>
         /// Creates a new Authorization object from a PayPal Authorization
         /// </summary>
         /// <param name="authorization">PayPal Authorization object</param>
@@ -40,17 +35,17 @@ namespace HC.RM.Common.PayPal.Models
         /// <summary>
         /// The time the Authorization is valid until
         /// </summary>
-        public DateTime ValidUntil { get; set; }
+        public DateTime ValidUntil { get; private set; }
 
         /// <summary>
         /// The selected Payment Mode
         /// </summary>
-        public AuthorizationPaymentMode PaymentMode { get; set; }
+        public AuthorizationPaymentMode PaymentMode { get; private set; }
 
         /// <summary>
         /// The Authorization state
         /// </summary>
-        public AuthorizationState State { get; set; }
+        public AuthorizationState State { get; private set; }
 
         /// <summary>
         /// Converts the Authorization to a PayPal Authorization

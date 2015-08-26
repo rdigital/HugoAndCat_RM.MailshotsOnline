@@ -24,19 +24,19 @@ namespace HC.RM.Common.PayPal.Models
         }
 
         /// <summary>
-        /// The HREF / URL of the link
+        /// Gets the HREF / URL of the link
         /// </summary>
-        public string Href { get; set; }
+        public string Href { get; private set; }
 
         /// <summary>
-        /// The purpose of the link
+        /// Gets the purpose of the link
         /// </summary>
-        public string Rel { get; set; }
+        public string Rel { get; private set; }
 
         /// <summary>
-        /// The HTTP verb used to access the link
+        /// Gets the HTTP verb used to access the link
         /// </summary>
-        public string Method { get; set; }
+        public string Method { get; private set; }
 
         /// <summary>
         /// Converts the HateosLink to a PayPal Links object

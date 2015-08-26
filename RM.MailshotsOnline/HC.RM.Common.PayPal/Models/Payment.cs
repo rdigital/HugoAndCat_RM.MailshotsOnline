@@ -8,13 +8,41 @@ using RedirectUrls = PayPal.Api.RedirectUrls;
 
 namespace HC.RM.Common.PayPal.Models
 {
+    /// <summary>
+    /// Represents a Payment object
+    /// </summary>
     public class Payment
     {
-        public Payment()
+        /// <summary>
+        /// Creates a new Payment object
+        /// </summary>
+        /// <param name="intent">The intent for the Payment</param>
+        /// <param name="payer">The Payer object</param>
+        /// <param name="transaction">The first Transaction object</param>
+        /// <param name="returnUrl">The Return URL</param>
+        /// <param name="cancelUrl">The Cancel URL</param>
+        public Payment(PaymentIntent intent, Payer payer, Transaction transaction, string returnUrl, string cancelUrl)
         {
-
+            this.Intent = intent;
+            this.Payer = payer;
+            var transactionsList = new List<Transaction>();
+            transactionsList.Add(transaction);
+            this.Transactions = transactionsList;
         }
 
+        /// <summary>
+        /// Creates a new Payment object
+        /// </summary>
+        /// <param name="cartId">The site Cart ID</param>
+        /// <param name="intent">The intent for the Payment</param>
+        /// <param name="returnUrl">The Return URL</param>
+        /// <param name="cancelUrl">The Cancel URL</param>
+        /// <param name="totalAmount">The total amount to charge</param>
+        /// <param name="tax">The tax being charged</param>
+        /// <param name="subTotal">The sub-total before tax being charged</param>
+        /// <param name="currency">Three-letter currency code</param>
+        /// <param name="invoiceNumber">The Invoice number</param>
+        /// <param name="payer">The Payer object</param>
         public Payment(
             string cartId,
             PaymentIntent intent, 
@@ -31,6 +59,18 @@ namespace HC.RM.Common.PayPal.Models
             this.Payer = payer;
         }
 
+        /// <summary>
+        /// Creates a new Payment object
+        /// </summary>
+        /// <param name="cartId">The site Cart ID</param>
+        /// <param name="intent">The intent for the Payment</param>
+        /// <param name="returnUrl">The Return URL</param>
+        /// <param name="cancelUrl">The Cancel URL</param>
+        /// <param name="totalAmount">The total amount to charge</param>
+        /// <param name="tax">The tax being charged</param>
+        /// <param name="subTotal">The sub-total before tax being charged</param>
+        /// <param name="currency">Three-letter currency code</param>
+        /// <param name="invoiceNumber">The Invoice number</param>
         public Payment(string cartId, PaymentIntent intent, string returnUrl, string cancelUrl, decimal totalAmount, decimal tax, decimal subTotal, string currency, string invoiceNumber)
         {
             this.CartId = cartId;
@@ -42,6 +82,10 @@ namespace HC.RM.Common.PayPal.Models
             this.Transactions = transactions;
         }
 
+        /// <summary>
+        /// Creates a Payment object from a PayPal Payment object
+        /// </summary>
+        /// <param name="pplPayment">The PayPal Payment object</param>
         internal Payment(PplPayment pplPayment)
         {
             this.Id = pplPayment.id;
@@ -57,28 +101,64 @@ namespace HC.RM.Common.PayPal.Models
             this.CartId = pplPayment.cart;
         }
 
-        public string Id { get; set; }
+        /// <summary>
+        /// Gets the Payment ID
+        /// </summary>
+        public string Id { get; private set; }
 
-        public DateTime CreateTime { get; set; }
+        /// <summary>
+        /// Gets the Create time
+        /// </summary>
+        public DateTime CreateTime { get; private set; }
 
-        public DateTime UpdateTime { get; set; }
+        /// <summary>
+        /// Gets the Update time
+        /// </summary>
+        public DateTime UpdateTime { get; private set; }
 
-        public PaymentState State { get; set; }
+        /// <summary>
+        /// Gets the Payment State
+        /// </summary>
+        public PaymentState State { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the intent for the Payment (required)
+        /// </summary>
         public PaymentIntent Intent { get; set; }
 
+        /// <summary>
+        /// Gets or sets the Return URL (required if Payer's method is Paypal)
+        /// </summary>
         public string ReturnUrl { get; set; }
 
+        /// <summary>
+        /// Gets or sets the Cancel URL (required if Payer's method is Paypal)
+        /// </summary>
         public string CancelUrl { get; set; }
 
+        /// <summary>
+        /// Gets or sets the Payer (required)
+        /// </summary>
         public Payer Payer { get; set; }
 
+        /// <summary>
+        /// Gets or sets the site's Cart ID
+        /// </summary>
         public string CartId { get; set; }
 
-        public IEnumerable<HateoasLink> Links { get; set; }
+        /// <summary>
+        /// Gets the HATEOS Links
+        /// </summary>
+        public IEnumerable<HateoasLink> Links { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the transactions of the Payment (required)
+        /// </summary>
         public IEnumerable<Transaction> Transactions { get; set; }
 
+        /// <summary>
+        /// Gets the Approval URL for the payment
+        /// </summary>
         public string ApprovalUrl
         {
             get
@@ -101,6 +181,10 @@ namespace HC.RM.Common.PayPal.Models
         /// </summary>
         public string Token { get; set; }
 
+        /// <summary>
+        /// Converst the Payment object to a PayPal Payment
+        /// </summary>
+        /// <returns>PayPal Payment</returns>
         internal PplPayment ToPaypalPayment()
         {
             PplPayment pplPayment = new PplPayment();
@@ -121,6 +205,9 @@ namespace HC.RM.Common.PayPal.Models
         }
     }
 
+    /// <summary>
+    /// Payment intent
+    /// </summary>
     public enum PaymentIntent
     {
         Sale = 1,
@@ -128,6 +215,9 @@ namespace HC.RM.Common.PayPal.Models
         Order = 3
     }
 
+    /// <summary>
+    /// Payment State
+    /// </summary>
     public enum PaymentState
     {
         created,

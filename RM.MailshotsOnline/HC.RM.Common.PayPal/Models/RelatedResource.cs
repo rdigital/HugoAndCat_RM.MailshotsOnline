@@ -6,20 +6,44 @@ using System.Threading.Tasks;
 
 namespace HC.RM.Common.PayPal.Models
 {
+    /// <summary>
+    /// Base class for related resources
+    /// </summary>
     public abstract class RelatedResource
     {
-        public string Id { get; set; }
+        /// <summary>
+        /// ID of the resource
+        /// </summary>
+        public string Id { get; protected set; }
 
-        public DateTime CreateTime { get; set; }
+        /// <summary>
+        /// Gets the Create time
+        /// </summary>
+        public DateTime CreateTime { get; protected set; }
 
-        public DateTime UpdateTime { get; set; }
+        /// <summary>
+        /// Gets the Update time
+        /// </summary>
+        public DateTime UpdateTime { get; protected set; }
 
-        public string ParentPaymentId { get; set; }
+        /// <summary>
+        /// Gets the Parent Payment ID
+        /// </summary>
+        public string ParentPaymentId { get; protected set; }
 
-        public IEnumerable<HateoasLink> Links { get; set; }
+        /// <summary>
+        /// Gets the HATEOS Links
+        /// </summary>
+        public IEnumerable<HateoasLink> Links { get; protected set; }
 
-        public decimal AmountTotal { get; set; }
+        /// <summary>
+        /// Gets the Amount total
+        /// </summary>
+        public decimal AmountTotal { get; protected set; }
 
-        public string AmountCurrency { get; set; }
+        /// <summary>
+        /// Gets the three-letter Amount Currency code
+        /// </summary>
+        public string AmountCurrency { get; protected set; }
     }
 }

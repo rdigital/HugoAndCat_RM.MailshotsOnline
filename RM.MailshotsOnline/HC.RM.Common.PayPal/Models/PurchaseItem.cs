@@ -43,7 +43,7 @@ namespace HC.RM.Common.PayPal.Models
         }
 
         /// <summary>
-        /// Three-letter currency code
+        /// Three-letter currency code (required)
         /// </summary>
         public string Currency { get; set; }
 
@@ -53,27 +53,27 @@ namespace HC.RM.Common.PayPal.Models
         public string Description { get; set; }
 
         /// <summary>
-        /// Name of the item
+        /// Name of the item (required)
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Price of the item per unit
+        /// Price of the item (required)
         /// </summary>
         public decimal Price { get; set; }
 
         /// <summary>
-        /// Quantity of the items
+        /// Quantity of the items (required)
         /// </summary>
         public int Quantity { get; set; }
 
         /// <summary>
-        /// Internal stock code (Stock Keeping Unit)
+        /// Internal stock code (Stock Keeping Unit) (optional)
         /// </summary>
         public string StockCode { get; set; }
 
         /// <summary>
-        /// Tax on the item
+        /// Tax on the item (required)
         /// </summary>
         public decimal Tax { get; set; }
 

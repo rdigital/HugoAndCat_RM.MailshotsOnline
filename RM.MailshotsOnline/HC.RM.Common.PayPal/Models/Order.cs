@@ -11,11 +11,6 @@ namespace HC.RM.Common.PayPal.Models
     public class Order : RelatedResource
     {
         /// <summary>
-        /// Creates a new Order object
-        /// </summary>
-        public Order() { }
-
-        /// <summary>
         /// Creates a new Order object from a PayPal Order
         /// </summary>
         /// <param name="pplOrder">PayPal Order</param>
@@ -35,9 +30,9 @@ namespace HC.RM.Common.PayPal.Models
         }
 
         /// <summary>
-        /// The State of the Order
+        /// Gets the State of the Order
         /// </summary>
-        public OrderState State { get; set; }
+        public OrderState State { get; private set; }
 
         /// <summary>
         /// Converts the Order to a PayPal Order object
