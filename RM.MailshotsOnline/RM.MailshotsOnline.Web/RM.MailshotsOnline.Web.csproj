@@ -106,20 +106,20 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Glass.Mapper.Umb.CastleWindsor.3.0.4.5\lib\net45\Glass.Mapper.Umb.CastleWindsor.dll</HintPath>
     </Reference>
-    <Reference Include="HC.RM.Common, Version=1.0.13.29, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.1.0.13.29\lib\net45\HC.RM.Common.dll</HintPath>
+    <Reference Include="HC.RM.Common, Version=1.0.13.30, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.1.0.13.30\lib\net45\HC.RM.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HC.RM.Common.Azure, Version=1.0.13.29, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.Azure.1.0.13.29\lib\net45\HC.RM.Common.Azure.dll</HintPath>
+    <Reference Include="HC.RM.Common.Azure, Version=1.0.13.30, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.Azure.1.0.13.30\lib\net45\HC.RM.Common.Azure.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HC.RM.Common.AzureWeb, Version=1.0.13.29, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.AzureWeb.1.0.13.29\lib\net45\HC.RM.Common.AzureWeb.dll</HintPath>
+    <Reference Include="HC.RM.Common.AzureWeb, Version=1.0.13.30, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.AzureWeb.1.0.13.30\lib\net45\HC.RM.Common.AzureWeb.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HC.RM.Common.PCL, Version=1.0.13.29, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.PCL.1.0.13.29\lib\portable-net45+win+wpa81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\HC.RM.Common.PCL.dll</HintPath>
+    <Reference Include="HC.RM.Common.PCL, Version=1.0.13.30, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.PCL.1.0.13.30\lib\portable-net45+win+wpa81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\HC.RM.Common.PCL.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="HtmlAgilityPack">
@@ -630,73 +630,11 @@
     </Content>
     <Content Include="package.json" />
     <Content Include="Gruntfile.js" />
-    <Content Include="AppInsightsAgent\InstallAgent.ps1" />
-    <Content Include="AppInsightsAgent\InstallAgent.bat" />
     <Content Include="App_Plugins\PrivateImageViewer\package.manifest" />
     <Content Include="App_Plugins\ImageUsageCount\package.manifest" />
     <Content Include="canvas\styles\compiled\mailshot.css.map" />
-    <Content Include="canvas\js\vendor\components-font-awesome\.bower.json" />
-    <Content Include="canvas\js\vendor\components-font-awesome\bower.json" />
-    <Content Include="canvas\js\vendor\components-font-awesome\fonts\fontawesome-webfont.eot" />
-    <Content Include="canvas\js\vendor\components-font-awesome\fonts\fontawesome-webfont.ttf" />
-    <Content Include="canvas\js\vendor\components-font-awesome\fonts\fontawesome-webfont.woff" />
-    <Content Include="canvas\js\vendor\components-font-awesome\fonts\fontawesome-webfont.woff2" />
-    <Content Include="canvas\js\vendor\components-font-awesome\fonts\FontAwesome.otf" />
-    <Content Include="canvas\js\vendor\components-font-awesome\less\animated.less" />
-    <Content Include="canvas\js\vendor\components-font-awesome\less\bordered-pulled.less" />
-    <Content Include="canvas\js\vendor\components-font-awesome\less\core.less" />
-    <Content Include="canvas\js\vendor\components-font-awesome\less\fixed-width.less" />
-    <Content Include="canvas\js\vendor\components-font-awesome\less\font-awesome.less" />
-    <Content Include="canvas\js\vendor\components-font-awesome\less\icons.less" />
-    <Content Include="canvas\js\vendor\components-font-awesome\less\larger.less" />
-    <Content Include="canvas\js\vendor\components-font-awesome\less\list.less" />
-    <Content Include="canvas\js\vendor\components-font-awesome\less\mixins.less" />
-    <Content Include="canvas\js\vendor\components-font-awesome\less\path.less" />
-    <Content Include="canvas\js\vendor\components-font-awesome\less\rotated-flipped.less" />
-    <Content Include="canvas\js\vendor\components-font-awesome\less\stacked.less" />
-    <Content Include="canvas\js\vendor\components-font-awesome\less\variables.less" />
-    <Content Include="canvas\js\vendor\components-font-awesome\README.md" />
-    <Content Include="canvas\js\vendor\components-font-awesome\scss\font-awesome.scss" />
-    <Content Include="canvas\js\vendor\components-font-awesome\scss\_animated.scss" />
-    <Content Include="canvas\js\vendor\components-font-awesome\scss\_bordered-pulled.scss" />
-    <Content Include="canvas\js\vendor\components-font-awesome\scss\_core.scss" />
-    <Content Include="canvas\js\vendor\components-font-awesome\scss\_fixed-width.scss" />
-    <Content Include="canvas\js\vendor\components-font-awesome\scss\_icons.scss" />
-    <Content Include="canvas\js\vendor\components-font-awesome\scss\_larger.scss" />
-    <Content Include="canvas\js\vendor\components-font-awesome\scss\_list.scss" />
-    <Content Include="canvas\js\vendor\components-font-awesome\scss\_mixins.scss" />
-    <Content Include="canvas\js\vendor\components-font-awesome\scss\_path.scss" />
-    <Content Include="canvas\js\vendor\components-font-awesome\scss\_rotated-flipped.scss" />
-    <Content Include="canvas\js\vendor\components-font-awesome\scss\_stacked.scss" />
-    <Content Include="canvas\js\vendor\components-font-awesome\scss\_variables.scss" />
-    <Content Include="canvas\js\vendor\jquery\.bower.json" />
-    <Content Include="canvas\js\vendor\jquery\bower.json" />
-    <Content Include="canvas\js\vendor\jquery\dist\jquery.min.map" />
-    <Content Include="canvas\js\vendor\jquery\src\sizzle\dist\sizzle.min.map" />
-    <Content Include="canvas\js\vendor\knockout-mapping\.bower.json" />
-    <Content Include="canvas\js\vendor\knockout-mapping\HISTORY.md" />
-    <Content Include="canvas\js\vendor\knockout-mapping\Package.nuspec" />
-    <Content Include="canvas\js\vendor\knockout-mapping\README.md" />
-    <Content Include="canvas\js\vendor\knockout\.bower.json" />
-    <Content Include="canvas\js\vendor\knockout\bower.json" />
-    <Content Include="canvas\js\vendor\knockout\LICENSE" />
-    <Content Include="canvas\js\vendor\knockout\package.json" />
-    <Content Include="canvas\js\vendor\knockout\README.md" />
-    <Content Include="canvas\js\vendor\requirejs-domready\.bower.json" />
-    <Content Include="canvas\js\vendor\requirejs-domready\LICENSE" />
-    <Content Include="canvas\js\vendor\requirejs-domready\package.json" />
-    <Content Include="canvas\js\vendor\requirejs-domready\README.md" />
-    <Content Include="canvas\js\vendor\requirejs-text\.bower.json" />
-    <Content Include="canvas\js\vendor\requirejs-text\bower.json" />
-    <Content Include="canvas\js\vendor\requirejs-text\LICENSE" />
-    <Content Include="canvas\js\vendor\requirejs-text\package.json" />
-    <Content Include="canvas\js\vendor\requirejs-text\README.md" />
-    <Content Include="canvas\js\vendor\requirejs\.bower.json" />
-    <Content Include="canvas\js\vendor\requirejs\bower.json" />
-    <Content Include="canvas\js\vendor\requirejs\README.md" />
-    <Content Include="canvas\js\vendor\spectrum\.bower.json" />
-    <Content Include="canvas\js\vendor\spectrum\bower.json" />
-    <Content Include="canvas\js\vendor\spectrum\package.json" />
+    <Content Include="AppInsightsAgent\InstallAgent.bat" />
+    <Content Include="AppInsightsAgent\InstallAgent.ps1" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\campaignstest.js" />
     <Content Include="scripts\editor.js" />
@@ -3647,11 +3585,11 @@
     <Error Condition="!Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.2.8\build\UmbracoCms.props'))" />
     <Error Condition="!Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.Agent.Intercept.0.17.0\build\Microsoft.ApplicationInsights.Agent.Intercept.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.Agent.Intercept.0.17.0\build\Microsoft.ApplicationInsights.Agent.Intercept.targets'))" />
-    <Error Condition="!Exists('..\packages\HC.RM.Common.Azure.1.0.13.29\build\HC.RM.Common.Azure.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\HC.RM.Common.Azure.1.0.13.29\build\HC.RM.Common.Azure.targets'))" />
+    <Error Condition="!Exists('..\packages\HC.RM.Common.Azure.1.0.13.30\build\HC.RM.Common.Azure.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\HC.RM.Common.Azure.1.0.13.30\build\HC.RM.Common.Azure.targets'))" />
   </Target>
   <Import Project="..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets" Condition="Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets')" />
   <Import Project="..\packages\Microsoft.ApplicationInsights.Agent.Intercept.0.17.0\build\Microsoft.ApplicationInsights.Agent.Intercept.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.Agent.Intercept.0.17.0\build\Microsoft.ApplicationInsights.Agent.Intercept.targets')" />
-  <Import Project="..\packages\HC.RM.Common.Azure.1.0.13.29\build\HC.RM.Common.Azure.targets" Condition="Exists('..\packages\HC.RM.Common.Azure.1.0.13.29\build\HC.RM.Common.Azure.targets')" />
+  <Import Project="..\packages\HC.RM.Common.Azure.1.0.13.30\build\HC.RM.Common.Azure.targets" Condition="Exists('..\packages\HC.RM.Common.Azure.1.0.13.30\build\HC.RM.Common.Azure.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
