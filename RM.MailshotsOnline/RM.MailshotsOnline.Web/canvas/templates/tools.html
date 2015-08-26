@@ -1,0 +1,55 @@
+<div class="tools" data-bind="css: {'tools_visible': isVisible}, style: attachment, click: focusInput, element: element, event: {mousedown: function() {return false}}">
+    <!-- ko if: elementType() == 'html' -->
+    <div class="tools-row">
+        <label>Font</label>
+        <dropdown-component params="{options: fonts, selected: font, focusCallback: focusInput, anchorClass: 'tools-dropdown'}"></dropdown-component>
+    </div>
+
+    <div class="tools-row">
+        <label>Size</label>
+        <span class="tools-button" data-bind="click: decreaseFontSize"><b>-</b></span>
+        <span class="tools-button" data-bind="click: increaseFontSize"><b>+</b></span>
+    </div>
+
+    <div class="tools-row">
+        <label>Style</label>
+        <span class="tools-button" data-bind="click: bold, css: {'active': isBold()}"><b>B</b></span>
+        <span class="tools-button" data-bind="click: underline, css: {'active': isUnderline()}"><u>U</u></span>
+        <span class="tools-button" data-bind="click: italic, css: {'active': isItalic()}"><i>I</i></span>
+    </div>
+
+    <div class="tools-row">
+        <label>Alignment</label>
+        <span class="tools-button fa fa-align-left" data-bind="click: function() {setStyle('text-align', 'left')}, css: {'active': alignment() == 'left'}"></span>
+        <span class="tools-button fa fa-align-center" data-bind="click: function() {setStyle('text-align', 'center')}, css: {'active': alignment() == 'center'}"></span>
+        <span class="tools-button fa fa-align-right" data-bind="click: function() {setStyle('text-align', 'right')}, css: {'active': alignment() == 'right'}"></span>
+    </div>
+
+    <div class="tools-row">
+        <label>Colour</label>
+        <colourpicker-component params="{options: colours, selected: colour, focusCallback: focusInput, anchorClass: 'tools-dropdown'}"></colourpicker-component>
+    </div>
+
+    <div class="tools-row">
+        <label>Text tag</label>
+        <div class="dropdown" >
+            <span class="tools-dropdown">
+                <span>Customer Name</span>
+            </span>
+        </div>
+    </div>
+    
+    <!-- /ko -->
+    <!-- ko if: elementType() == 'image' -->
+    <div class="tools-row">
+        <label>Add Image</label>
+        <span class="tools-button" data-bind="click: toggleImageUpload">Upload</span>
+    </div>
+    <!-- ko if: showScale() -->
+    <div class="tools-row">
+        <label>Resize</label>
+        <slider-component params="{min: 1, max: 400, current: selectedElement().imageObj.scale}"></slider-component>
+    </div>
+    <!-- /ko -->
+    <!-- /ko -->
+</div>

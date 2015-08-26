@@ -1,0 +1,10 @@
+<div class="picker-background" data-bind="click: toggleThemePicker"></div>
+<div class="theme-picker">
+	<!-- ko foreach: themes -->
+	<div class="theme-container" data-bind="click: $parent.selectTheme">
+		<side-component class="side" params="{side: 'front', override_theme: $data}"></side-component>
+		<div class="theme-name" data-bind="text: name"></div>
+	</div>
+	<!-- /ko -->
+</div>
+

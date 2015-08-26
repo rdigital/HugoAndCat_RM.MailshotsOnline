@@ -1,0 +1,8 @@
+<div data-bind="style: flatStyles(), css: {'editable_active': isSelected, 'editable_error': isScrollVisible}, click: clickSetFocus" class="editable">
+	<!-- ko if: preview -->
+	<div data-bind="contentEditable: false, htmlLazy: userData.content, element: element, template: { afterRender: sizeAdjustPreviewBound }" class="editable-input"></div>
+	<!-- /ko -->
+	<!-- ko ifnot: preview -->
+	<div data-bind="contentEditable: true, htmlLazy: userData.content, element: element, event: {'keyup': handleKeyup, 'mouseup': getState, paste: plainTextPaste}, template: { afterRender: sizeAdjustBound }, hasFocus: isSelectedSetOnly" class="editable-input"></div>
+	<!-- /ko -->
+</div>

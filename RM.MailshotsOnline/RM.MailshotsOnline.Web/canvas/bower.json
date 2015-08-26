@@ -1,0 +1,32 @@
+{
+  "name": "MSOL",
+  "version": "0.0.1",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "js/lib/",
+    "test",
+    "tests",
+    "source",
+    "spec",
+    ".bowerrc",
+    ".gitignore",
+    ".jshintignore",
+    ".jshintrc",
+    "bower.json",
+    "gruntfile.js",
+    "package.json",
+    "README.md"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "knockout": "~3.3.0",
+    "knockout-mapping": "latest",
+    "requirejs": "latest",
+    "requirejs-text": "latest",
+    "requirejs-domready": "latest",
+    "components-font-awesome": "latest"
+  }
+}

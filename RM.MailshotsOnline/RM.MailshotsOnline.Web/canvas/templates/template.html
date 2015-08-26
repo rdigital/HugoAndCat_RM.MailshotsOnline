@@ -1,0 +1,15 @@
+<div class="picker-background" data-bind="click: toggleTemplatePicker"></div>
+<div class="theme-picker">
+	<!-- ko foreach: templates -->
+	<div class="theme-container" data-bind="click: $parent.selectTemplate">
+		<!-- ko if: id == $parent.currentTemplate() -->
+		<side-component class="side" params="{side: 'front', preview: true}"></side-component>
+		<!-- /ko -->
+		<!-- ko ifnot: id == $parent.currentTemplate() -->
+		<side-component class="side" params="{side: 'front', override_template: $data}"></side-component>
+		<!-- /ko -->
+		<div class="theme-name" data-bind="text: name"></div>
+	</div>
+	<!-- /ko -->
+</div>
+

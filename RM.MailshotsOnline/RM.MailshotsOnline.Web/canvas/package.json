@@ -1,0 +1,14 @@
+{
+    "name": "MSOL",
+    "version": "0.0.1",
+    "dependencies": {
+	    "bower": "latest",
+	    "grunt-cli": "latest",
+	    "grunt-contrib-watch": "latest",
+	    "grunt-sass": "latest",
+	    "load-grunt-tasks": "latest"
+	},
+	"scripts": {
+    	"postinstall" : "bower install"
+	}
+}

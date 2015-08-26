@@ -1,0 +1,21 @@
+<div data-bind="style: flatStyles" class="face">
+    <div class="face-hover editable" data-bind="click: selectBackground, css: {'face-hover_active': backgroundSelected}"></div>
+    <!-- ko foreach: elements -->
+        <div data-bind="text: name" style="display: none;"></div>
+        <!-- ko if: type == 'html' -->
+        <input-component params="{data: $data, override_theme: $parent.override_theme, override_template: $parent.override_template, preview: $parent.preview}" data-bind="style: $parent.getElementLayout($data), css: {'component_selected': $parent.childSelected(name)}" class="component"></input-component>
+        <!-- /ko -->
+        <!-- ko if: type == 'image' -->
+        <image-component params="{data: $data, override_theme: $parent.override_theme, override_template: $parent.override_template, preview: $parent.preview}" data-bind="style: $parent.getElementLayout($data), css: {'component_selected': $parent.childSelected(name)}" class="component"></image-component>
+        <!-- /ko -->
+        <!-- ko if: type == 'noprint' -->
+        <div class="no-print" data-bind="style: $parent.getElementLayout($data)">
+            <div class="no-print_text" data-bind="text: name"></div>
+        </div>
+        <!-- /ko -->
+    <!-- /ko -->
+</div>
+<div class="selected-overlay" data-bind="css: {'selected-overlay_visible': overlayVisible}"></div>
+<!-- ko if: isBackgroundSelected -->
+<backgroundtools-component></backgroundtools-component>
+<!-- /ko -->
