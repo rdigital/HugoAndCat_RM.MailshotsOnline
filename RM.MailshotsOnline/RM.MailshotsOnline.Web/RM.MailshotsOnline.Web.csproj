@@ -417,6 +417,7 @@
     <Content Include="canvas\js\vendor\requirejs-domready\domReady.js" />
     <Content Include="canvas\js\vendor\requirejs-text\text.js" />
     <Content Include="canvas\js\vendor\requirejs\require.js" />
+    <Content Include="canvas\js\vendor\spectrum\spectrum.css" />
     <Content Include="canvas\js\vendor\spectrum\spectrum.js" />
     <Content Include="canvas\js\view_models\data.js" />
     <Content Include="canvas\js\view_models\element.js" />
