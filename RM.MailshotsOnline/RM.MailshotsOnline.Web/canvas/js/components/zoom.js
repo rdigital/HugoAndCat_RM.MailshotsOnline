@@ -23,25 +23,16 @@ define(['knockout', 'jquery', 'view_models/state'],
 
         zoomComponentViewModel.prototype.handleScale = function handleScale() {
             var el = this.scaleElement();
-
             if (!el) {
                 return
             }
-            var coords = el[0].getBoundingClientRect();
-            if (coords.bottom > $(window).height()) {
-                var resized = this.decreaseZoom();
-                if (resized) {
-                    this.handleScale();
-                }
-            }
-            console.log(coords.right);
-            console.log($(window).width() - 150)
-            if (coords.right >= $(window).width() - 150) {
-                var resized = this.decreaseZoom();
-                if (resized) {
-                    this.handleScale();
-                }
-            }
+            var window_height = $(window).height() - 150,
+                window_width = $(window).width() - 150,
+                width_factor = (Math.floor((window_width / el.width())*4))/4,
+                height_factor = (Math.floor((window_height / el.height())*4))/4;
+            console.log(width_factor, height_factor);
+
+            this.zoom(Math.min(width_factor, height_factor));
         }
 
         zoomComponentViewModel.prototype.increaseZoom = function increaseZoom() {

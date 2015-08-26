@@ -24,13 +24,6 @@ define(['knockout', 'komapping', 'components/side', 'components/tools', 'compone
 
             // subscriptions
             this.handleSubscriptions();
-
-            this.zoom = stateViewModel.zoom;
-            this.scale = ko.pureComputed(function() {
-                if (!this.preview) {
-                    return 'scale(' + this.zoom() + ')'
-                }
-            }, this)
         }
 
         /**

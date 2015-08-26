@@ -10,6 +10,8 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
         function toolsViewModel(params) {
             this.element = ko.observable();
             this.selectedElement = stateViewModel.selectedElement;
+            this.window_width = ko.observable(0)
+            this.window_height = ko.observable(0)
 
             this.isVisible = ko.pureComputed(function() {
                 return this.selectedElement() ? true : false;
@@ -26,6 +28,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
 
             this.colour = this.getStyleComputed('color');
             this.font = this.getStyleComputed('font-family');
+            $(window).resize(this.handleResize.bind(this));
         }
 
         /**
@@ -97,46 +100,55 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
         toolsViewModel.prototype.getAttachmentComputed = function getAttachmentComputed() {
             return ko.pureComputed(function() {
                 if (this.selectedElement()) {
-                    var coords = this.selectedElement().getCoords(),
-                        right_margin = $(window).width() - coords.right,
-                        bottom_margin = $(window).height() - coords.bottom,
-                        attachment = {};
-
-                    // not enough horizontal room, try placing tools above or below
-                    if (coords.left < coords.width && right_margin < coords.width) {
-                        attachment.left = coords.left - 10;
-                        attachment.right = 'auto';
-                        if (coords.top > bottom_margin && coords.top > coords.height) {
-                            attachment.bottom = $(window).height() - coords.top + 10;
-                            attachment.top = 'auto';
-                        } else {
-                            attachment.top = coords.bottom + 10;
-                            attachment.bottom = 'auto';
-                        }
-                        return attachment
-                    }
-
-                    // horizontal attachment
-                    if (coords.left > right_margin) {
-                        attachment.right = $(window).width() - coords.left;
-                        attachment.left = 'auto';
-                    } else {
-                        attachment.left = coords.right;
-                        attachment.right = 'auto';
-                    }
-
-                    // vertical attachment
-                    if (coords.top > bottom_margin) {
-                        attachment.bottom = bottom_margin;
-                        attachment.top = 'auto';
-                    } else {
-                        attachment.top = coords.top;
-                        attachment.bottom = 'auto';
-                    }
-                    return attachment
+                    return this.calcAttachment();
                 }
                 return {}
             }, this)
+        }
+
+        toolsViewModel.prototype.handleResize = function handleResize() {
+            this.window_width($(window).width())
+            this.window_height($(window).height())
+        }
+
+        toolsViewModel.prototype.calcAttachment = function calcAttachment() {
+            var coords = this.selectedElement().getCoords(),
+                right_margin = this.window_width() - coords.right,
+                bottom_margin = this.window_height() - coords.bottom,
+                attachment = {};
+
+            // not enough horizontal room, try placing tools above or below
+            if (coords.left < coords.width && right_margin < coords.width) {
+                attachment.left = coords.left - 10;
+                attachment.right = 'auto';
+                if (coords.top > bottom_margin && coords.top > coords.height) {
+                    attachment.bottom = $(window).height() - coords.top + 10;
+                    attachment.top = 'auto';
+                } else {
+                    attachment.top = coords.bottom + 10;
+                    attachment.bottom = 'auto';
+                }
+                return attachment
+            }
+
+            // horizontal attachment
+            if (coords.left > right_margin) {
+                attachment.right = $(window).width() - coords.left;
+                attachment.left = 'auto';
+            } else {
+                attachment.left = coords.right;
+                attachment.right = 'auto';
+            }
+
+            // vertical attachment
+            if (coords.top > bottom_margin) {
+                attachment.bottom = bottom_margin;
+                attachment.top = 'auto';
+            } else {
+                attachment.top = coords.top;
+                attachment.bottom = 'auto';
+            }
+            return attachment
         }
 
         /**

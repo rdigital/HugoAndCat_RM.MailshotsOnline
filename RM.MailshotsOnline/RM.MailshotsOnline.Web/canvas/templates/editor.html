@@ -14,7 +14,7 @@
 <!-- ko if: faces() && faces().length -->
 	<!-- main editor -->
 	<!-- ko with: viewingSide -->
-	<side-component class="side" params="{side: $data}"></side-component>
+	<side-component class="side" params="{side: $data}" data-bind="style: {'transform': $parent.scale}"></side-component>
 	<!-- /ko -->
 	<!-- side picker -->
 	<div class="side-picker">
