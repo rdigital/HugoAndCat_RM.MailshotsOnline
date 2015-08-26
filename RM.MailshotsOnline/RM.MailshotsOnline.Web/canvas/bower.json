@@ -27,6 +27,7 @@
     "requirejs": "latest",
     "requirejs-text": "latest",
     "requirejs-domready": "latest",
-    "components-font-awesome": "latest"
+    "components-font-awesome": "latest",
+    "spectrum": "latest"
   }
 }
