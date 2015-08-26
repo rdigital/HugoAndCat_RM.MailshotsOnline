@@ -10,10 +10,13 @@ define(['knockout', 'jquery', 'view_models/state'],
 
             // bound functions
             this.handleScale = this.handleScale.bind(this);
-            this.handleScale();
 
             // subscriptions
             this.handleSubscriptions();
+
+            setTimeout(function() {
+                this.handleScale();
+            }.bind(this), 100)
         }
 
         zoomComponentViewModel.prototype.handleSubscriptions = function handleSubscriptions() {
@@ -30,7 +33,6 @@ define(['knockout', 'jquery', 'view_models/state'],
                 window_width = $(window).width() - 150,
                 width_factor = (Math.floor((window_width / el.width())*4))/4,
                 height_factor = (Math.floor((window_height / el.height())*4))/4;
-            console.log(width_factor, height_factor);
 
             this.zoom(Math.min(width_factor, height_factor));
         }

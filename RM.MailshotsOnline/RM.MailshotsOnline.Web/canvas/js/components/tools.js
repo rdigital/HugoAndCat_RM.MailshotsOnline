@@ -10,6 +10,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
         function toolsViewModel(params) {
             this.element = ko.observable();
             this.selectedElement = stateViewModel.selectedElement;
+            this.viewingSide = stateViewModel.viewingSide;
             this.window_width = ko.observable(0)
             this.window_height = ko.observable(0)
 
@@ -99,6 +100,9 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
          */
         toolsViewModel.prototype.getAttachmentComputed = function getAttachmentComputed() {
             return ko.pureComputed(function() {
+                this.window_width();
+                this.window_height();
+                this.viewingSide();
                 if (this.selectedElement()) {
                     return this.calcAttachment();
                 }
