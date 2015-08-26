@@ -8,8 +8,15 @@ using PplAmount = PayPal.Api.Amount;
 
 namespace HC.RM.Common.PayPal.Models
 {
+    /// <summary>
+    /// Represents a funds capture request
+    /// </summary>
     public class Capture : RelatedResource
     {
+        /// <summary>
+        /// Creates a new Capture object from a PayPal Capture
+        /// </summary>
+        /// <param name="capture">PayPal Capture object</param>
         internal Capture(PplCapture capture)
         {
             this.Id = capture.id;
@@ -27,11 +34,43 @@ namespace HC.RM.Common.PayPal.Models
                 : false;
         }
 
-        public bool IsFinalCapture { get; private set; }
+        /// <summary>
+        /// Gets or sets whether or not this is a final capture
+        /// </summary>
+        public bool IsFinalCapture { get; set; }
 
+        /// <summary>
+        /// Gets the state of the capture
+        /// </summary>
         public CaptureState State { get; private set; }
+
+        /// <summary>
+        /// Converts the Capture to a PayPal capture object
+        /// </summary>
+        /// <returns>PayPal Capture object</returns>
+        internal PplCapture ToPaypalCapture()
+        {
+            var result = new PplCapture();
+            result.id = this.Id;
+            result.create_time = this.CreateTime.ToUniversalTime().ToString("O");
+            result.update_time = this.UpdateTime.ToUniversalTime().ToString("O");
+            result.parent_payment = this.ParentPaymentId;
+            result.amount = new PplAmount()
+            {
+                total = this.AmountTotal.ToString("F"),
+                currency = this.AmountCurrency
+            };
+            result.links = this.Links.ToPplLinks();
+            result.state = this.State.ToString();
+            result.is_final_capture = this.IsFinalCapture;
+
+            return result;
+        }
     }
 
+    /// <summary>
+    /// Capture State
+    /// </summary>
     public enum CaptureState
     {
         pending,

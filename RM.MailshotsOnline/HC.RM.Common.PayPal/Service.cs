@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 using Order = HC.RM.Common.PayPal.Models.Order;
 using Payment = HC.RM.Common.PayPal.Models.Payment;
 using Authorization = HC.RM.Common.PayPal.Models.Authorization;
+using Capture = HC.RM.Common.PayPal.Models.Capture;
 using PplOrder = PayPal.Api.Order;
 using PplPayment = PayPal.Api.Payment;
 using PplPaymentExecution = PayPal.Api.PaymentExecution;
-using PplAuthorization = PayPal.Api.Authorization;
 using PplCapture = PayPal.Api.Capture;
-using PplAmount = PayPal.Api.Amount;
 
 namespace HC.RM.Common.PayPal
 {
@@ -102,23 +101,24 @@ namespace HC.RM.Common.PayPal
             return result;
         }
 
-        public void CaptureOrder(Order order)
+        /// <summary>
+        /// Captures the full amount for an Order
+        /// </summary>
+        /// <param name="order">The Order to capture</param>
+        /// <returns>Capture object</returns>
+        public Capture CaptureFullAmountForOrder(Order order)
         {
             var context = ApiContext;
             var pplOrder = order.ToPaypalOrder();
-            var amount = new PplAmount()
+
+            var pplCapture = new PplCapture()
             {
-                currency = order.AmountCurrency,
-                total = order.AmountTotal.ToString("F")
+                is_final_capture = true
             };
 
-            var capture = new PplCapture()
-            {
-                is_final_capture = true,
-                amount = amount
-            };
-
-            var something = PplOrder.Capture(context, order.Id, capture);
+            var capture = PplOrder.Capture(context, order.Id, pplCapture);
+            var result = new Capture(capture);
+            return result;
         }
 
         /// <summary>

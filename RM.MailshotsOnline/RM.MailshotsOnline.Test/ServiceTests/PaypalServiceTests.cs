@@ -20,43 +20,13 @@ namespace RM.MailshotsOnline.Test
 
         private HC.RM.Common.PayPal.Models.Payment CreatePaymentObject()
         {
-            var address = new HC.RM.Common.PayPal.Models.Address()
-            {
-                Line1 = "123 Some street",
-                City = "London",
-                PostalCode = "E1 6LP",
-                RecipientName = "Test",
-                CountryCode = "GB"
-            };
+            var payer = new HC.RM.Common.PayPal.Models.Payer(HC.RM.Common.PayPal.Models.PayerPaymentMethod.paypal);
 
-            var payer = new HC.RM.Common.PayPal.Models.Payer()
-            {
-                FirstName = "Test",
-                LastName = "Test",
-                Email = "ext-mradford@hugoandcat.com",
-                ShippingAddress = address,
-                PaymentMethod = HC.RM.Common.PayPal.Models.PayerPaymentMethod.paypal
-            };
+            var transaction = new HC.RM.Common.PayPal.Models.Transaction("GBP", 132.00m, 110.00m, 22.00m, "Invoice number");
+            transaction.CustomField = "Custom field";
+            transaction.Description = "Description";
 
-            var transaction = new HC.RM.Common.PayPal.Models.Transaction()
-            {
-                Currency = "GBP",
-                CustomField = "Custom Field",
-                InvoiceNumber = "Invoice number",
-                Description = "Description",
-                Total = 132.00m,
-                SubTotal = 110.00m,
-                Tax = 22.00m
-            };
-
-            var payment = new HC.RM.Common.PayPal.Models.Payment()
-            {
-                Intent = HC.RM.Common.PayPal.Models.PaymentIntent.Order,
-                Payer = payer,
-                CancelUrl = "http://www.example.com/",
-                ReturnUrl = "http://www.example.com/",
-                Transactions = new List<HC.RM.Common.PayPal.Models.Transaction>() { transaction }
-            };
+            var payment = new HC.RM.Common.PayPal.Models.Payment(HC.RM.Common.PayPal.Models.PaymentIntent.Order, payer, transaction, "http://www.example.com/", "http://www.example.com/");
 
             return payment;
         }
@@ -90,6 +60,5 @@ namespace RM.MailshotsOnline.Test
             var executeResult = _service.ExecutePayment(createResult.Payer.Id, createResult);
             Assert.NotNull(executeResult);
         }
-    }
     }
 }
