@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Payer = HC.RM.Common.PayPal.Models.Payer;
+using Payment = HC.RM.Common.PayPal.Models.Payment;
+using Transaction = HC.RM.Common.PayPal.Models.Transaction;
 
 namespace RM.MailshotsOnline.Test
 {
@@ -18,15 +21,15 @@ namespace RM.MailshotsOnline.Test
             _service = new Service();
         }
 
-        private HC.RM.Common.PayPal.Models.Payment CreatePaymentObject()
+        private Payment CreatePaymentObject()
         {
-            var payer = new HC.RM.Common.PayPal.Models.Payer(HC.RM.Common.PayPal.Models.PayerPaymentMethod.paypal);
+            var payer = new Payer(HC.RM.Common.PayPal.Models.PayerPaymentMethod.paypal);
 
-            var transaction = new HC.RM.Common.PayPal.Models.Transaction("GBP", 132.00m, 110.00m, 22.00m, "Invoice number");
+            var transaction = new Transaction("GBP", 132.00m, 110.00m, 22.00m, "Invoice number");
             transaction.CustomField = "Custom field";
             transaction.Description = "Description";
 
-            var payment = new HC.RM.Common.PayPal.Models.Payment(HC.RM.Common.PayPal.Models.PaymentIntent.Order, payer, transaction, "http://www.example.com/", "http://www.example.com/");
+            var payment = new Payment(HC.RM.Common.PayPal.Models.PaymentIntent.order, payer, transaction, "http://localhost/", "http://localhost/");
 
             return payment;
         }
@@ -48,12 +51,7 @@ namespace RM.MailshotsOnline.Test
         {
             Assert.NotNull(_service);
 
-            // This should fail
             var payment = CreatePaymentObject();
-            var failResult = _service.ExecutePayment(null, payment);
-
-            // This should not fail
-            payment = CreatePaymentObject();
             var createResult = _service.CreatePayment(payment);
             Assert.IsNotNullOrEmpty(createResult.ApprovalUrl);
             // TODO: Authorise this autmagically

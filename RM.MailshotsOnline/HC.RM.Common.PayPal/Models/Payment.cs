@@ -28,6 +28,8 @@ namespace HC.RM.Common.PayPal.Models
             var transactionsList = new List<Transaction>();
             transactionsList.Add(transaction);
             this.Transactions = transactionsList;
+            this.ReturnUrl = returnUrl;
+            this.CancelUrl = cancelUrl;
         }
 
         /// <summary>
@@ -89,15 +91,29 @@ namespace HC.RM.Common.PayPal.Models
         internal Payment(PplPayment pplPayment)
         {
             this.Id = pplPayment.id;
-            this.CreateTime = DateTime.Parse(pplPayment.create_time);
-            this.UpdateTime = DateTime.Parse(pplPayment.update_time);
+            this.CreateTime = !string.IsNullOrEmpty(pplPayment.create_time)
+                ? DateTime.Parse(pplPayment.create_time) 
+                : DateTime.MinValue;
+            this.UpdateTime = !string.IsNullOrEmpty(pplPayment.update_time)
+                ? DateTime.Parse(pplPayment.update_time) 
+                : DateTime.MinValue;
             this.Intent = (PaymentIntent)Enum.Parse(typeof(PaymentIntent), pplPayment.intent);
             this.State = (PaymentState)Enum.Parse(typeof(PaymentState), pplPayment.state);
-            this.ReturnUrl = pplPayment.redirect_urls != null ? pplPayment.redirect_urls.return_url : null;
-            this.CancelUrl = pplPayment.redirect_urls != null ? pplPayment.redirect_urls.cancel_url : null;
-            this.Payer = pplPayment.payer != null ? new Payer(pplPayment.payer) : null;
-            this.Links = pplPayment.links != null ? pplPayment.links.ToHateoasLinks() : null;
-            this.Transactions = pplPayment.transactions != null ? pplPayment.transactions.ToTransactions() : null;
+            this.ReturnUrl = pplPayment.redirect_urls != null 
+                ? pplPayment.redirect_urls.return_url 
+                : null;
+            this.CancelUrl = pplPayment.redirect_urls != null 
+                ? pplPayment.redirect_urls.cancel_url 
+                : null;
+            this.Payer = pplPayment.payer != null 
+                ? new Payer(pplPayment.payer) 
+                : null;
+            this.Links = pplPayment.links != null 
+                ? pplPayment.links.ToHateoasLinks() 
+                : null;
+            this.Transactions = pplPayment.transactions != null 
+                ? pplPayment.transactions.ToTransactions() 
+                : null;
             this.CartId = pplPayment.cart;
         }
 
@@ -189,16 +205,30 @@ namespace HC.RM.Common.PayPal.Models
         {
             PplPayment pplPayment = new PplPayment();
 
-            pplPayment.create_time = this.CreateTime.ToUniversalTime().ToString("O");
+            pplPayment.create_time = this.CreateTime != DateTime.MinValue 
+                ? this.CreateTime.ToUniversalTime().ToString("O") 
+                : null;
             pplPayment.id = this.Id;
             pplPayment.intent = this.Intent.ToString();
-            pplPayment.links = this.Links.ToPplLinks();
-            pplPayment.payer = this.Payer.ToPaypalPayer();
-            pplPayment.redirect_urls = new RedirectUrls() { cancel_url = this.CancelUrl, return_url = this.ReturnUrl };
+            pplPayment.links = this.Links != null 
+                ? this.Links.ToPplLinks() 
+                : null;
+            pplPayment.payer = this.Payer != null
+                ? this.Payer.ToPaypalPayer()
+                : null;
+            pplPayment.redirect_urls = new RedirectUrls()
+            {
+                cancel_url = this.CancelUrl,
+                return_url = this.ReturnUrl
+            };
             pplPayment.state = this.State.ToString();
             pplPayment.token = this.Token;
-            pplPayment.update_time = this.UpdateTime.ToUniversalTime().ToString("O");
-            pplPayment.transactions = this.Transactions.ToPplTransactions();
+            pplPayment.update_time = this.UpdateTime != DateTime.MinValue 
+                ? this.UpdateTime.ToUniversalTime().ToString("O") 
+                : null;
+            pplPayment.transactions = this.Transactions != null
+                ? this.Transactions.ToPplTransactions()
+                : null;
             pplPayment.cart = this.CartId;
 
             return pplPayment;
@@ -210,9 +240,9 @@ namespace HC.RM.Common.PayPal.Models
     /// </summary>
     public enum PaymentIntent
     {
-        Sale = 1,
-        Authorisation = 2,
-        Order = 3
+        sale,
+        authorisation,
+        order
     }
 
     /// <summary>
