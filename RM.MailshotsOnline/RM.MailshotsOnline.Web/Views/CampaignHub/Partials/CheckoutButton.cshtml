@@ -1,0 +1,15 @@
+﻿@using RM.MailshotsOnline.Web.Extensions
+@using System.Web.Mvc;
+@model RM.MailshotsOnline.Entities.ViewModels.CampaignHubCheckoutViewModel
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div>@ViewBag.ErrorMessage</div>
+}
+
+@using (Html.BeginUmbracoForm("Checkout", "CampaignSurface"))
+{
+    @Html.ValidationSummary()
+    <p><label for="AgreesToTermsAndConditions">@Html.EditorFor(m => m.AgreesToTermsAndConditions) @Model.PageModel.IAgreeToLabel <a href="@Model.PageModel.TermsAndConditionsPage.Url()">@Model.PageModel.TermsAndConditionsLinkText</a></label></p>
+    <button class="big-button">@Model.PageModel.CheckoutButtonText</button>
+}

@@ -91,7 +91,7 @@ namespace RM.MailshotsOnline.Entities.PageModels
         public string ApprovedLabel { get; set; }
 
         public string UnapproveButtonText { get; set; }
-
+        
         #endregion
 
         #region Error messages
@@ -103,6 +103,16 @@ namespace RM.MailshotsOnline.Entities.PageModels
         public string NoCampaignMessage { get; set; }
 
         public string CampaignErrorMessage { get; set; }
+
+        #endregion
+
+        #region Terms and conditions
+
+        public string IAgreeToLabel { get; set; }
+
+        public string TermsAndConditionsLinkText { get; set; }
+
+        public ContentPage TermsAndConditionsPage { get; set; }
 
         #endregion
 

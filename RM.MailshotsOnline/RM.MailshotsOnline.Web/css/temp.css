@@ -308,6 +308,25 @@ div.checkbox label { display: inline-block; padding-left: 10px;}
     margin: 0;
 }
 
+
+
+
+
+p.approved span {
+    display: inline-block;
+    color: green;
+    font-weight:bold;
+    font-size:1.5em;
+    margin-right: 20px;
+    margin-left: 10px;
+}
+
+
+
+
+
+
+
 .clearfix:before,
 .clearfix:after {
     content: " "; /* 1 */
