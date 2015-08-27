@@ -10,6 +10,7 @@ define(['knockout', 'jquery'],
             this.showImageUpload = ko.observable(false);
             this.showThemePicker = ko.observable(false);
             this.showTemplatePicker = ko.observable(false);
+            this.rerender = ko.observable(false);
             this.zoom = ko.observable(1);
             this.viewingSide = ko.observable('front');
             // set to true to make images rescale to default when the components render

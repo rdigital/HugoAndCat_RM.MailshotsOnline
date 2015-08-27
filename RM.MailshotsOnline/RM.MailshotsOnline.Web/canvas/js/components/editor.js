@@ -1,6 +1,6 @@
-define(['knockout', 'komapping', 'components/side', 'components/tools', 'components/backgroundtools', 'components/options', 'components/upload', 'components/zoom', 'view_models/format', 'view_models/state'], 
+define(['knockout', 'komapping', 'components/side', 'components/tools', 'components/backgroundtools', 'components/options', 'components/upload', 'components/zoom', 'view_models/format', 'view_models/state', 'view_models/history'],
 
-    function(ko, mapping, sideComponent, toolsComponent, backgroundToolsComponent, optionsComponent, uploadComponent, zoomComponent, formatViewModel, stateViewModel) {
+    function(ko, mapping, sideComponent, toolsComponent, backgroundToolsComponent, optionsComponent, uploadComponent, zoomComponent, formatViewModel, stateViewModel, historyViewModel) {
         // register required components
         ko.components.register('tools-component', toolsComponent);
         ko.components.register('backgroundtools-component', backgroundToolsComponent);
@@ -52,6 +52,7 @@ define(['knockout', 'komapping', 'components/side', 'components/tools', 'compone
         editorViewModel.prototype.unfocus = function unfocus() {
             stateViewModel.selectElement(null);
             stateViewModel.backgroundSelected(null);
+            historyViewModel.pushToHistory();
         }
 
         /**

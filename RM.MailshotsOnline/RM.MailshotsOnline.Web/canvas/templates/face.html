@@ -1,4 +1,4 @@
-<div data-bind="style: flatStyles" class="face">
+<div data-bind="style: flatStyles, template: { afterRender: scale }" class="face">
     <div class="face-hover editable" data-bind="click: selectBackground, css: {'face-hover_active': backgroundSelected}"></div>
     <!-- ko foreach: elements -->
         <div data-bind="text: name" style="display: none;"></div>

@@ -1,7 +1,7 @@
 // user data view model, manages the user-defined data (content and styles) as
 // well as the format / template / theme IDs
-define(['knockout', 'komapping', 'jquery', 'temp/data'],
-    function(ko, komapping, $, tempData) {
+define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', 'view_models/state'],
+    function(ko, komapping, $, tempData, historyViewModel, stateViewModel) {
 
         function userViewModel() {
             // initialize this.objects
@@ -11,8 +11,25 @@ define(['knockout', 'komapping', 'jquery', 'temp/data'],
             window.user = this;
         }
 
+        userViewModel.prototype.cancelChanges = function cancelChanges() {
+            historyViewModel.cancelChanges();
+        }
+
+        userViewModel.prototype.applyChanges = function applyChanges() {
+            historyViewModel.pushToHistory();
+        }
+
+        userViewModel.prototype.fromJSON = function fromJSON(data) {
+            komapping.fromJSON(data, this.objects);
+            stateViewModel.viewingSide.valueHasMutated()
+        }
+
         userViewModel.prototype.toJSON = function toJSON() {
             return komapping.toJSON(this.objects, {'ignore': ["src"]})
+        }
+
+        userViewModel.prototype.toHistoryJSON = function toHistoryJSON() {
+            return komapping.toJSON(this.objects)
         }
 
         /**
@@ -21,6 +38,7 @@ define(['knockout', 'komapping', 'jquery', 'temp/data'],
         userViewModel.prototype.fetch = function fetch() {
             // XXX TEMP XXX
             komapping.fromJS(tempData.userData, this.objects);
+            setTimeout(this.applyChanges.bind(this),100)
             this.objects.themeID.subscribe(this.resetUserStyles.bind(this));
             return
             $.getJSON('/user_data', function(data) {
@@ -183,7 +201,7 @@ define(['knockout', 'komapping', 'jquery', 'temp/data'],
             return image;
         }
 
-        userViewModel.prototype.getFaceByName = function getElementByName(name) {
+        userViewModel.prototype.getFaceByName = function getFaceByName(name) {
             var face_array = this.get('faces') || [],
                 face = ko.utils.arrayFirst(face_array, function(face) {
                     return face.name() == name;

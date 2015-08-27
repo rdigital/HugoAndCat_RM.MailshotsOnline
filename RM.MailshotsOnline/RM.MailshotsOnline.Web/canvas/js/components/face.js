@@ -1,4 +1,4 @@
-define(['knockout', 'components/input', 'components/image', 'view_models/template', 'view_models/theme', 'view_models/user', 'view_models/state'], 
+define(['knockout', 'components/input', 'components/image', 'view_models/template', 'view_models/theme', 'view_models/user', 'view_models/state'],
 
     function(ko, inputComponent, imageComponent, templateViewModel, themeViewModel, userViewModel, stateViewModel) {
         // register required components
@@ -12,6 +12,9 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
             this.backgroundSelected = stateViewModel.backgroundSelected;
             this.selectedElement = stateViewModel.selectedElement;
             this.current_theme = ko.observable()
+            this.scale = function() {
+                stateViewModel.scaleElement.valueHasMutated();
+            };
 
             // if theme / template override passed in, process it
             this.override_theme = params.override_theme;
@@ -47,7 +50,7 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
 
         /**
          * returns a computed which evaluates to whether the background of this face is currently selected
-         * @return {ko.pureComputed} 
+         * @return {ko.pureComputed}
          */
         faceViewModel.prototype.getBackgroundSelectedComputed = function getBackgroundSelectedComputed() {
             return ko.pureComputed(function() {
@@ -57,7 +60,7 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
 
         /**
          * returns a computed which evaluates to whether the greyed out overlay should be displayed
-         * @return {ko.pureComputed} 
+         * @return {ko.pureComputed}
          */
         faceViewModel.prototype.getOverlayVisibleComputed = function getOverlayVisibleComputed() {
             return ko.pureComputed(function() {
@@ -67,7 +70,7 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
 
         /**
          * returns a computed which evaluates to an array of elements from the template which are on this face
-         * @return {ko.pureComputed} 
+         * @return {ko.pureComputed}
          */
         faceViewModel.prototype.getElementsComputed = function getElementsComputed() {
             return ko.pureComputed(function(){
@@ -75,13 +78,14 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
 
                 // bit hacky
                 // force redraw of everything when theme changes too, not just when template changes
-                if (this.current_theme() != this.themeViewModel.selected()) {
+                if (stateViewModel.rerender() || this.current_theme() != this.themeViewModel.selected()) {
+                    stateViewModel.rerender(false)
                     setTimeout( function() {
                         this.current_theme(this.themeViewModel.selected());
-                    }.bind(this), 0)
+                    }.bind(this), 10)
                     return []
                 };
-                
+                console.log(this.templateViewModel.getElementsByFace(face_name));
                 return this.templateViewModel.getElementsByFace(face_name)
             }, this)
         }
@@ -119,7 +123,7 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
 
         /**
          * returns a computed which evaluates to an object of property value pairs for the current face styles
-         * @return {ko.pureComputed} 
+         * @return {ko.pureComputed}
          */
         faceViewModel.prototype.getFlatStyles = function getFlatStyles(){
             // if we're overriding the theme, ignore userstyles
@@ -209,7 +213,7 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
         faceViewModel.prototype.selectBackground = function selectBackground() {
             this.backgroundSelected(this);
         }
-        
+
         return {
             viewModel: faceViewModel,
             template: { require: 'text!/canvas/templates/face.html' }

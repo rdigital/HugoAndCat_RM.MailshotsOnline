@@ -1,4 +1,4 @@
-define(['knockout', 'jquery', 'view_models/state'], 
+define(['knockout', 'jquery', 'view_models/state'],
 
     function(ko, $, stateViewModel) {
 
@@ -20,7 +20,7 @@ define(['knockout', 'jquery', 'view_models/state'],
         }
 
         zoomComponentViewModel.prototype.handleSubscriptions = function handleSubscriptions() {
-            this.scaleElement.subscribe(this.handleScale, this)
+            //this.scaleElement.subscribe(this.handleScale, this);
             $(window).resize(this.handleScale);
         }
 
