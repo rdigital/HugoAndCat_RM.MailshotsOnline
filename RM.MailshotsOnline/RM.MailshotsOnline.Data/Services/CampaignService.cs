@@ -41,7 +41,13 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>Collection of campaigns</returns>
         public IEnumerable<ICampaign> GetCampaigns(Func<ICampaign, bool> filter)
         {
-            return _context.Campaigns.Include("Mailshot").Include("CampaignDistributionLists").Include("DataSearches").Include("PostalOption").Include("CampaignDistributionLists.DistributionList").Where(filter);
+            return _context.Campaigns
+                .Include("Mailshot")
+                .Include("CampaignDistributionLists")
+                .Include("CampaignDistributionLists.DistributionList")
+                .Include("DataSearches")
+                .Include("PostalOption")
+                .Where(filter);
         }
 
         /// <summary>
@@ -61,7 +67,14 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>Campaign object</returns>
         public ICampaign GetCampaign(Guid campaignId)
         {
-            return _context.Campaigns.Include("Mailshot").Include("CampaignDistributionLists").Include("DataSearches").Include("PostalOption").Include("CampaignDistributionLists.DistributionList").FirstOrDefault(c => c.CampaignId == campaignId);
+            return _context.Campaigns
+                .Include("Mailshot")
+                .Include("Mailshot.Format")
+                .Include("CampaignDistributionLists")
+                .Include("CampaignDistributionLists.DistributionList")
+                .Include("DataSearches")
+                .Include("PostalOption")
+                .FirstOrDefault(c => c.CampaignId == campaignId);
         }
 
         /// <summary>
@@ -71,6 +84,7 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>Saved campaign object</returns>
         public ICampaign SaveCampaign(ICampaign campaign)
         {
+            campaign.UpdatedDate = DateTime.UtcNow;
             if (campaign.CampaignId == Guid.Empty)
             {
                 _context.Campaigns.Add((Campaign)campaign);

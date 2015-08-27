@@ -241,6 +241,40 @@ namespace RM.MailshotsOnline.Entities.DataModels
             }
         }
 
+        [NotMapped]
+        /// <summary>
+        /// Gets the total combined number of recipients
+        /// </summary>
+        public int TotalRecipientCount
+        {
+            get
+            {
+                return this.RentedDataRecipientCount + this.OwnDataRecipientCount;
+            }
+        }
+
+        [DefaultValue(false)]
+        /// <summary>
+        /// Gets or sets a value indicating if the user has approved the data sets for the campaign
+        /// </summary>
+        public bool DataSetsApproved { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating if the Campaign's mailshot design is approved
+        /// </summary>
+        public bool MailshotApproved
+        {
+            get
+            {
+                if (Mailshot != null)
+                {
+                    return !Mailshot.Draft;
+                }
+
+                return false;
+            }
+        }
+
         #region Explicit interface definition
 
         IMailshot ICampaign.Mailshot
@@ -251,7 +285,11 @@ namespace RM.MailshotsOnline.Entities.DataModels
 
         ICollection<IDataSearch> ICampaign.DataSearches
         {
-            get { return (ICollection<IDataSearch>)_dataSearches; }
+            get
+            {
+                var newSet = _dataSearches.Cast<IDataSearch>().ToList<IDataSearch>();
+                return newSet;
+            }
             set { _dataSearches = (ICollection<DataSearch>)value; }
         }
 
@@ -263,7 +301,15 @@ namespace RM.MailshotsOnline.Entities.DataModels
 
         IEnumerable<IDistributionList> ICampaign.DistributionLists
         {
-            get { return _campaignDistributionLists.Select(x => x.DistributionList); }
+            get
+            {
+                if (_campaignDistributionLists != null)
+                {
+                    return _campaignDistributionLists.Select(x => x.DistributionList);
+                }
+
+                return null;
+            }
         }
 
         IPostalOption ICampaign.PostalOption

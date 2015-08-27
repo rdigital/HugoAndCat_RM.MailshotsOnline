@@ -15,7 +15,6 @@ namespace RM.MailshotsOnline.Entities.JsonModels
             {
                 return PostageCost.HasValue 
                     && PrintingCost.HasValue
-                    && ServiceFee.HasValue
                     && PrintCount.HasValue;
             }
         }
@@ -37,7 +36,7 @@ namespace RM.MailshotsOnline.Entities.JsonModels
             }
         }
 
-        public decimal? ServiceFee { get; set; }
+        public decimal ServiceFee { get; set; }
 
         public decimal? PrintingRate { get; set; }
 
@@ -68,6 +67,8 @@ namespace RM.MailshotsOnline.Entities.JsonModels
 
         public decimal DataRentalRate { get; set; }
 
+        public decimal DataRentalFlatFee { get; set; }
+
         public decimal TotalTax
         {
             get
@@ -93,11 +94,12 @@ namespace RM.MailshotsOnline.Entities.JsonModels
         {
             get
             {
-                var subTotal = DataRentalCost;
+                var subTotal = ServiceFee;
 
-                if (ServiceFee.HasValue)
+                if (DataRentalCount.HasValue)
                 {
-                    subTotal += ServiceFee.Value;
+                    subTotal += DataRentalCost;
+                    subTotal += DataRentalFlatFee;
                 }
 
                 if (PostageCost.HasValue)

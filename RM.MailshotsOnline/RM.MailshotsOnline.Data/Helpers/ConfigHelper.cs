@@ -19,6 +19,22 @@ namespace RM.MailshotsOnline.Data.Helpers
         }
 
         /// <summary>
+        /// The flat fee for renting data
+        /// </summary>
+        public static decimal DataRenalFlatFee
+        {
+            get { return GetConfigValue("DataRenalFlatFee", 15.00m); }
+        }
+
+        /// <summary>
+        /// The flat fee charged per campaign
+        /// </summary>
+        public static decimal FeePerCampaign
+        {
+            get { return GetConfigValue("FeePerCampaign", 5.00m); }
+        }
+
+        /// <summary>
         /// Content Type Alias for the Mailshot Format items
         /// </summary>
         public static string FormatContentTypeAlias

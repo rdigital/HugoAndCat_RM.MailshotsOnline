@@ -475,6 +475,8 @@
     <Content Include="canvas\js\vendor\components-font-awesome\fonts\FontAwesome.otf" />
     <Content Include="canvas\js\vendor\jquery\dist\jquery.min.map" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="scripts\campaign-functions.js" />
+    <Content Include="scripts\campaign-hub.js" />
     <Content Include="scripts\campaignstest.js" />
     <Content Include="scripts\editor.js" />
     <Content Include="scripts\imagelibrarytest.js" />
@@ -2983,6 +2985,7 @@
     <Compile Include="Controllers\Api\MembersController.cs" />
     <Compile Include="Controllers\Api\PostageController.cs" />
     <Compile Include="Controllers\Api\ProofPdfController.cs" />
+    <Compile Include="Controllers\CampaignHubController.cs" />
     <Compile Include="Controllers\ContentPageController.cs" />
     <Compile Include="Controllers\CreateCanvasController.cs" />
     <Compile Include="Controllers\MailshotEditorController.cs" />
@@ -3002,6 +3005,8 @@
     <Compile Include="Controllers\SurfaceControllers\RegisterSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ResetPasswordSurfaceController.cs" />
     <Compile Include="Extensions\BasePageExtensions.cs" />
+    <Compile Include="Extensions\ModelExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\ControllersHelper.cs" />
     <Compile Include="Helpers\MembershipHelper.cs" />
     <Compile Include="Installers\ControllersInstaller.cs" />
@@ -3347,6 +3352,15 @@
     <Content Include="uSync\MediaType\Folder\PublicImageLibraryFolder\def.config" />
     <Content Include="Views\MyCampaignsAPITestPage.cshtml" />
     <Content Include="Views\CreateCanvas.cshtml" />
+    <Content Include="Views\CampaignHub.cshtml" />
+    <Content Include="uSync\DataTypeDefinition\Image Library Usage Count.config" />
+    <Content Include="uSync\DataTypeDefinition\Public Library Image.config" />
+    <Content Include="uSync\DocumentType\PostageOptionFolder\def.config" />
+    <Content Include="uSync\DocumentType\PostageOption\def.config" />
+    <Content Include="uSync\DocumentType\CreateCanvas\def.config" />
+    <Content Include="uSync\DocumentType\Basepage\CampaignHub\def.config" />
+    <Content Include="uSync\Template\CreateCanvas\CreateCanvas.config" />
+    <Content Include="uSync\Template\CampaignHub\CampaignHub.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -3378,7 +3392,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="uSync\Template\EditProfileBasePage\" />
-    <Folder Include="Views\CreateCanvas\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

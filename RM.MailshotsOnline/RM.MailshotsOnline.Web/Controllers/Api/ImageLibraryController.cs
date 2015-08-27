@@ -176,6 +176,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                         break;
                 }
 
+                //TODO: Get the expiry from config
                 BlobStorageHelper blobHelper = new BlobStorageHelper(ConfigHelper.PrivateStorageConnectionString, ConfigHelper.PrivateMediaBlobStorageContainer);
                 var accessUrl = blobHelper.GetBlobUrlWithSas(blobId, 60);
 

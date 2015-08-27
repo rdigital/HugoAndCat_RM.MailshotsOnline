@@ -98,6 +98,7 @@
     <Compile Include="MemberModels\ContactOptions.cs" />
     <Compile Include="MemberModels\Member.cs" />
     <Compile Include="PageModels\BasePage.cs" />
+    <Compile Include="PageModels\CampaignHub.cs" />
     <Compile Include="PageModels\ContentPage.cs" />
     <Compile Include="PageModels\CreateCanvas.cs" />
     <Compile Include="PageModels\Home.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="PageModels\Settings\Theme.cs" />
     <Compile Include="PageModels\Settings\ThemeFolder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CampaignStatusViewModel.cs" />
     <Compile Include="ViewModels\ImageUploadViewModel.cs" />
     <Compile Include="ViewModels\MarketingPreferencesViewModel.cs" />
     <Compile Include="ViewModels\ErrorViewModel.cs" />
@@ -132,8 +134,11 @@
     <Compile Include="ViewModels\PersonalDetailsViewModel.cs" />
     <Compile Include="ViewModels\ProcessedMailshotData.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
+    <Compile Include="ViewModels\RenameViewModel.cs" />
     <Compile Include="ViewModels\RequestResetPasswordViewModel.cs" />
     <Compile Include="ViewModels\ResetPasswordViewModel.cs" />
+    <Compile Include="ViewModels\SetApprovalViewModel.cs" />
+    <Compile Include="ViewModels\SetPostageViewModel.cs" />
     <Compile Include="ViewModels\SimplifiedRegisterViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

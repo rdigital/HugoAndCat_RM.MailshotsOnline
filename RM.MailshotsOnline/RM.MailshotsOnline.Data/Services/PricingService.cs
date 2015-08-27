@@ -112,6 +112,9 @@ namespace RM.MailshotsOnline.Data.Services
 
             result.TaxRate = ConfigHelper.TaxRate;
             result.DataRentalRate = ConfigHelper.PricePerRentedDataRecord;
+            result.DataRentalFlatFee = ConfigHelper.DataRenalFlatFee;
+            result.ServiceFee = ConfigHelper.FeePerCampaign;
+
             if (campaign.HasDataSearches)
             {
                 result.DataRentalCount = campaign.RentedDataRecipientCount;
@@ -124,7 +127,6 @@ namespace RM.MailshotsOnline.Data.Services
             
             if (campaign.Mailshot != null && campaign.Mailshot.Format != null)
             {
-                result.ServiceFee = campaign.Mailshot.Format.OnceOffPrice;
                 result.PrintingRate = campaign.Mailshot.Format.PricePerPrint;
             }
 

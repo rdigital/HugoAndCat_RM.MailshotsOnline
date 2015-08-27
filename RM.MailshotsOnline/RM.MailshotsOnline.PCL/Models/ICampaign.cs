@@ -109,5 +109,20 @@ namespace RM.MailshotsOnline.PCL.Models
         /// Gets the number of recipients (or rented data) the Campaign will be sent to
         /// </summary>
         int RentedDataRecipientCount { get; }
+
+        /// <summary>
+        /// Gets the total combined number of recipients
+        /// </summary>
+        int TotalRecipientCount { get; }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the user has approved the data sets for the campaign
+        /// </summary>
+        bool DataSetsApproved { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating if the Campaign's mailshot design is approved
+        /// </summary>
+        bool MailshotApproved { get; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Entities.DataModels;
+using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using System;
@@ -46,64 +47,34 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         [Authorize]
         public HttpResponseMessage Get(Guid id)
         {
-            // Confirm the user is logged in
-            var authResult = Authenticate();
-            if (authResult != null)
+            ICampaign originalCampaign;
+            // Make sure user can access campaign
+            var validateResponse = ValidateRequest("GetPriceBreakdown", id, out originalCampaign);
+            if (validateResponse != null)
             {
-                _logger.Error(this.GetType().Name, "Get", "Unauthenticated attempt to get campaign with ID {0}.", id);
-                return authResult;
-            }
-
-            // Confirm that the campaign exists
-            var campaign = _campaignService.GetCampaign(id);
-            if (campaign == null)
-            {
-                _logger.Error(this.GetType().Name, "Get", "Attempt to get unknown campaign with ID {0}.", id);
-                return ErrorMessage(HttpStatusCode.NotFound, "Campaign not found");
-            }
-
-            // Confirm that the user has access to the campaign
-            if (campaign.UserId != _loggedInMember.Id)
-            {
-                _logger.Error(this.GetType().Name, "Get", "Unauthorised attempt to get campaign with ID {0}.", id);
-                return ErrorMessage(HttpStatusCode.Forbidden, "No access to specified campaign");
+                return validateResponse;
             }
 
             // Return the campaign
-            var campaignData = (Campaign)campaign;
+            var campaignData = (Campaign)originalCampaign;
             return Request.CreateResponse(HttpStatusCode.OK, campaignData);
         }
 
         public HttpResponseMessage GetPriceBreakdown(Guid id)
         {
-            // Confirm the user is logged in
-            var authResult = Authenticate();
-            if (authResult != null)
+            ICampaign originalCampaign;
+            // Make sure user can access campaign
+            var validateResponse = ValidateRequest("GetPriceBreakdown", id, out originalCampaign);
+            if (validateResponse != null)
             {
-                _logger.Error(this.GetType().Name, "GetPriceBreakdown", "Unauthenticated attempt to get pricing for campaign with ID {0}.", id);
-                return authResult;
-            }
-
-            // Confirm that the campaign exists
-            var campaign = _campaignService.GetCampaign(id);
-            if (campaign == null)
-            {
-                _logger.Error(this.GetType().Name, "GetPriceBreakdown", "Attempt to get unknown campaign with ID {0}.", id);
-                return ErrorMessage(HttpStatusCode.NotFound, "Campaign not found");
-            }
-
-            // Confirm that the user has access to the campaign
-            if (campaign.UserId != _loggedInMember.Id)
-            {
-                _logger.Error(this.GetType().Name, "GetPriceBreakdown", "Unauthorised attempt to get campaign with ID {0}.", id);
-                return ErrorMessage(HttpStatusCode.Forbidden, "No access to specified campaign");
+                return validateResponse;
             }
 
             // Return the campaign price breakdown
             ICampaignPriceBreakdown priceBreakdown = null;
             try
             {
-                priceBreakdown = _pricingService.GetPriceBreakdown(campaign);
+                priceBreakdown = _pricingService.GetPriceBreakdown(originalCampaign);
             }
             catch (Exception ex)
             {
@@ -160,30 +131,150 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, savedCampaign);
         }
 
+        [HttpPost]
+        public HttpResponseMessage Rename(Guid id, RenameViewModel renameRequest)
+        {
+            ICampaign originalCampaign;
+            // Make sure user can access campaign
+            var validateResponse = ValidateRequest("Rename", id, out originalCampaign);
+            if (validateResponse != null)
+            {
+                return validateResponse;
+            }
+
+            // Confirm mailshot can be updated
+            var canUpdateMailshotResponse = ConfirmCanBeUpdated("Rename", originalCampaign);
+            if (canUpdateMailshotResponse != null)
+            {
+                return canUpdateMailshotResponse;
+            }
+
+            if (string.IsNullOrEmpty(renameRequest.Name))
+            {
+                return ErrorMessage(HttpStatusCode.BadRequest, "You must enter a name for the campaign.");
+            }
+
+            // Fill in the blanks
+            originalCampaign.UpdatedDate = DateTime.UtcNow;
+            originalCampaign.Name = renameRequest.Name;
+
+            // Save the changse
+            try
+            {
+                _campaignService.SaveCampaign(originalCampaign);
+            }
+            catch (Exception ex)
+            {
+                _logger.Exception(this.GetType().Name, "Update", ex);
+                _logger.Error(this.GetType().Name, "Update", "Unable to Rename campaign {0}: {1}", id, ex.Message);
+                return ErrorMessage(HttpStatusCode.InternalServerError, "Unable to Rename due to server error");
+            }
+
+            // Return the result
+            return Request.CreateResponse(HttpStatusCode.NoContent);
+        }
+
+        [HttpPost]
+        public HttpResponseMessage SetDataApproval(Guid id, SetApprovalViewModel approval)
+        {
+            ICampaign originalCampaign;
+            // Make sure user can access campaign
+            var validateResponse = ValidateRequest("SetDataApproval", id, out originalCampaign);
+            if (validateResponse != null)
+            {
+                return validateResponse;
+            }
+
+            // Confirm mailshot can be updated
+            var canUpdateMailshotResponse = ConfirmCanBeUpdated("SetDataApproval", originalCampaign);
+            if (canUpdateMailshotResponse != null)
+            {
+                return canUpdateMailshotResponse;
+            }
+
+            // Update data approval and check other properties to set status
+            originalCampaign.DataSetsApproved = approval.Approved;
+            return SaveAndReturnStatus("SetMailshotApproval", originalCampaign);
+        }
+
+        [HttpPost]
+        public HttpResponseMessage SetMailshotApproval(Guid id, SetApprovalViewModel approval)
+        {
+            ICampaign originalCampaign;
+            // Make sure user can access campaign
+            var validateResponse = ValidateRequest("SetMailshotApproval", id, out originalCampaign);
+            if (validateResponse != null)
+            {
+                return validateResponse;
+            }
+
+            // Confirm mailshot can be updated
+            var canUpdateMailshotResponse = ConfirmCanBeUpdated("SetMailshotApproval", originalCampaign);
+            if (canUpdateMailshotResponse != null)
+            {
+                return canUpdateMailshotResponse;
+            }
+
+            // Update mailshot status and check other properties to set status
+            if (originalCampaign.Mailshot == null)
+            {
+                return ErrorMessage(HttpStatusCode.Conflict, "No mailshot has been created for the current campaign.");
+            }
+
+            originalCampaign.Mailshot.Draft = !approval.Approved;
+            return SaveAndReturnStatus("SetMailshotApproval", originalCampaign);
+        }
+
+        public HttpResponseMessage SetPostalOption(Guid id, SetPostageViewModel postage)
+        {
+            ICampaign originalCampaign;
+            // Make sure user can access campaign
+            var validateResponse = ValidateRequest("SetPostalOption", id, out originalCampaign);
+            if (validateResponse != null)
+            {
+                return validateResponse;
+            }
+
+            // Confirm mailshot can be updated
+            var canUpdateMailshotResponse = ConfirmCanBeUpdated("SetPostalOption", originalCampaign);
+            if (canUpdateMailshotResponse != null)
+            {
+                return canUpdateMailshotResponse;
+            }
+
+            // Update mailshot status and check other properties to set status
+            if (originalCampaign.Mailshot == null)
+            {
+                return ErrorMessage(HttpStatusCode.Conflict, "No mailshot has been created for the current campaign.");
+            }
+
+            var postalOption = _pricingService.GetPostalOption(postage.PostalOptionId);
+            if (postage == null)
+            {
+                return ErrorMessage(HttpStatusCode.Conflict, "No postage option exists with that ID.");
+            }
+
+            originalCampaign.PostalOptionId = postalOption.PostalOptionId;
+            originalCampaign.PostalOption = postalOption;
+            return SaveAndReturnStatus("SetPostalOption", originalCampaign);
+        }
+
         [Authorize]
         public HttpResponseMessage Update(Guid id, Campaign campaign)
         {
-            // Confirm the user is logged in
-            var authResult = Authenticate();
-            if (authResult != null)
+            ICampaign originalCampaign;
+            // Make sure user can access campaign
+            var validateResponse = ValidateRequest("Update", id, out originalCampaign);
+            if (validateResponse != null)
             {
-                _logger.Error(this.GetType().Name, "Update", "Unauthenticated attempt to update campaign with ID {0}.", id);
-                return authResult;
+                return validateResponse;
             }
 
-            // Confirm that the original campaign exists
-            var originalCampaign = _campaignService.GetCampaign(id);
-            if (originalCampaign == null)
+            // Confirm mailshot can be updated
+            var canUpdateMailshotResponse = ConfirmCanBeUpdated("Update", originalCampaign);
+            if (canUpdateMailshotResponse != null)
             {
-                _logger.Error(this.GetType().Name, "Update", "Attempt to update unknown campaign with ID {0}.", id);
-                return ErrorMessage(HttpStatusCode.NotFound, "Campaign not found");
-            }
-
-            // Confirm that the user has access to the campaign
-            if (originalCampaign.UserId != _loggedInMember.Id)
-            {
-                _logger.Error(this.GetType().Name, "Update", "Unauthorised attempt to udpate campaign with ID {0}.", id);
-                return ErrorMessage(HttpStatusCode.Forbidden, "No access to specified campaign");
+                return canUpdateMailshotResponse;
             }
 
             // Confirm that the required fields are filled out
@@ -219,27 +310,12 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         [HttpGet]
         public HttpResponseMessage GetCopy(Guid id)
         {
-            // Confirm the user is logged in
-            var authResult = Authenticate();
-            if (authResult != null)
+            ICampaign originalCampaign;
+            // Make sure user can access campaign
+            var validateResponse = ValidateRequest("GetCopy", id, out originalCampaign);
+            if (validateResponse != null)
             {
-                _logger.Error(this.GetType().Name, "GetCopy", "Unauthenticated attempt to copy campaign with ID {0}.", id);
-                return authResult;
-            }
-
-            // Confirm that the original campaign exists
-            var originalCampaign = _campaignService.GetCampaign(id);
-            if (originalCampaign == null)
-            {
-                _logger.Error(this.GetType().Name, "GetCopy", "Attempt to copy unknown campaign with ID {0}.", id);
-                return ErrorMessage(HttpStatusCode.NotFound, "Campaign not found");
-            }
-
-            // Confirm that the user has access to the campaign
-            if (originalCampaign.UserId != _loggedInMember.Id)
-            {
-                _logger.Error(this.GetType().Name, "GetCopy", "Unauthorised attempt to copy campaign with ID {0}.", id);
-                return ErrorMessage(HttpStatusCode.Forbidden, "No access to specified campaign");
+                return validateResponse;
             }
 
             ICampaign newCampaign = new Campaign();
@@ -275,35 +351,19 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         [Authorize]
         public HttpResponseMessage Delete(Guid id)
         {
-            // Confirm the user is logged in
-            var authResult = Authenticate();
-            if (authResult != null)
+            ICampaign originalCampaign;
+            // Make sure user can access campaign
+            var validateResponse = ValidateRequest("Delete", id, out originalCampaign);
+            if (validateResponse != null)
             {
-                _logger.Error(this.GetType().Name, "Delete", "Unauthenticated attempt to delete campaign with ID {0}.", id);
-                return authResult;
+                return validateResponse;
             }
 
-            // Confirm that the original campaign exists
-            var originalCampaign = _campaignService.GetCampaign(id);
-            if (originalCampaign == null)
+            // Confirm mailshot can be updated
+            var canUpdateMailshotResponse = ConfirmCanBeUpdated("Delete", originalCampaign);
+            if (canUpdateMailshotResponse != null)
             {
-                _logger.Error(this.GetType().Name, "Delete", "Attempt to delete unknown campaign with ID {0}.", id);
-                return ErrorMessage(HttpStatusCode.NotFound, "Campaign not found");
-            }
-
-            // Confirm that the user has access to the campaign
-            if (originalCampaign.UserId != _loggedInMember.Id)
-            {
-                _logger.Error(this.GetType().Name, "Delete", "Unauthorised attempt to delete campaign with ID {0}.", id);
-                return ErrorMessage(HttpStatusCode.Forbidden, "No access to specified campaign");
-            }
-
-            // Confirm that the campaign can be updated
-            List<PCL.Enums.CampaignStatus> updatableStatuses = new List<PCL.Enums.CampaignStatus>() { PCL.Enums.CampaignStatus.Draft };
-            if (!updatableStatuses.Contains(originalCampaign.Status))
-            {
-                _logger.Error(this.GetType().Name, "Delete", "Attempt to delete in-progress campaign with ID {0}.", id);
-                return ErrorMessage(HttpStatusCode.Conflict, "Campaign is in process and can no longer be delete.");
+                return canUpdateMailshotResponse;
             }
 
             //TODO: Confirm: Delete mailshot too?
@@ -330,35 +390,19 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         [Authorize]
         public HttpResponseMessage LinkMailshotToCampaign(Guid id, Guid mailshotId)
         {
-            // Confirm the user is logged in
-            var authResult = Authenticate();
-            if (authResult != null)
+            ICampaign originalCampaign;
+            // Make sure user can access campaign
+            var validateResponse = ValidateRequest("LinkMailshotToCampaign", id, out originalCampaign);
+            if (validateResponse != null)
             {
-                _logger.Error(this.GetType().Name, "LinkMailshotToCampaign", "Unauthenticated attempt to update campaign with ID {0}.", id);
-                return authResult;
+                return validateResponse;
             }
 
-            // Confirm that the original campaign exists
-            var originalCampaign = _campaignService.GetCampaign(id);
-            if (originalCampaign == null)
+            // Confirm mailshot can be updated
+            var canUpdateMailshotResponse = ConfirmCanBeUpdated("LinkMailshotToCampaign", originalCampaign);
+            if (canUpdateMailshotResponse != null)
             {
-                _logger.Error(this.GetType().Name, "LinkMailshotToCampaign", "Attempt to link unknown campaign with ID {0}.", id);
-                return ErrorMessage(HttpStatusCode.NotFound, "Campaign not found");
-            }
-
-            // Confirm that the user has access to the campaign
-            if (originalCampaign.UserId != _loggedInMember.Id)
-            {
-                _logger.Error(this.GetType().Name, "LinkMailshotToCampaign", "Unauthorised attempt to udpate campaign with ID {0}.", id);
-                return ErrorMessage(HttpStatusCode.Forbidden, "No access to specified campaign");
-            }
-
-            // Confirm that the campaign can be updated
-            List<PCL.Enums.CampaignStatus> updatableStatuses = new List<PCL.Enums.CampaignStatus>() { PCL.Enums.CampaignStatus.Draft, PCL.Enums.CampaignStatus.Exception };
-            if (!updatableStatuses.Contains(originalCampaign.Status))
-            {
-                _logger.Error(this.GetType().Name, "LinkMailshotToCampaign", "Attempt to udpate in-progress campaign with ID {0}.", id);
-                return ErrorMessage(HttpStatusCode.Conflict, "Campaign is in process and can no longer be updated.");
+                return canUpdateMailshotResponse;
             }
 
             // Confirm that the mailshot exists
@@ -420,5 +464,95 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             return null;
         }
+
+        private HttpResponseMessage ValidateRequest(string methodName, Guid id, out ICampaign campaign)
+        {
+            campaign = null;
+
+            // Confirm the user is logged in
+            var authResult = Authenticate();
+            if (authResult != null)
+            {
+                _logger.Error(this.GetType().Name, methodName, "Unauthenticated attempt to update campaign with ID {0}.", id);
+                return authResult;
+            }
+
+            // Confirm that the original campaign exists
+            campaign = _campaignService.GetCampaign(id);
+            if (campaign == null)
+            {
+                _logger.Error(this.GetType().Name, methodName, "Attempt to link unknown campaign with ID {0}.", id);
+                return ErrorMessage(HttpStatusCode.NotFound, "Campaign not found");
+            }
+
+            // Confirm that the user has access to the campaign
+            if (campaign.UserId != _loggedInMember.Id)
+            {
+                _logger.Error(this.GetType().Name, methodName, "Unauthorised attempt to udpate campaign with ID {0}.", id);
+                return ErrorMessage(HttpStatusCode.Forbidden, "No access to specified campaign");
+            }
+
+            return null;
+        }
+
+        private HttpResponseMessage ConfirmCanBeUpdated(string methodName, ICampaign campaign)
+        {
+            // Confirm that the campaign can be updated
+            var updatableStatuses = new List<PCL.Enums.CampaignStatus>()
+            {
+                PCL.Enums.CampaignStatus.Draft,
+                PCL.Enums.CampaignStatus.ReadyToCheckout
+            };
+
+            if (!updatableStatuses.Contains(campaign.Status))
+            {
+                _logger.Error(this.GetType().Name, methodName, "Attempt to modify in-progress campaign with ID {0}.", campaign.CampaignId);
+                return ErrorMessage(HttpStatusCode.Conflict, "Campaign is in process and can no longer be modified.");
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Tries to save changes to a campaign then returns a summary of the status
+        /// </summary>
+        private HttpResponseMessage SaveAndReturnStatus(string methodName, ICampaign originalCampaign)
+        {
+            originalCampaign.UpdatedDate = DateTime.UtcNow;
+
+            if (originalCampaign.DataSetsApproved && originalCampaign.MailshotApproved && originalCampaign.PostalOption != null)
+            {
+                originalCampaign.Status = PCL.Enums.CampaignStatus.ReadyToCheckout;
+            }
+            else
+            {
+                originalCampaign.Status = PCL.Enums.CampaignStatus.Draft;
+            }
+
+            // Save the changse
+            try
+            {
+                _campaignService.SaveCampaign(originalCampaign);
+            }
+            catch (Exception ex)
+            {
+                _logger.Exception(this.GetType().Name, methodName, ex);
+                _logger.Error(this.GetType().Name, methodName, "Unable to update campaign {0}: {1}", originalCampaign.CampaignId, ex.Message);
+                return ErrorMessage(HttpStatusCode.InternalServerError, "Unable to update due to server error");
+            }
+
+            var response = new CampaignStatusViewModel()
+            {
+                DataSetsApproved = originalCampaign.DataSetsApproved,
+                MailshotApproved = originalCampaign.MailshotApproved,
+                PostageSet = originalCampaign.PostalOption != null,
+                CampaignStatus = originalCampaign.Status
+            };
+
+            // Return the result
+            return Request.CreateResponse(HttpStatusCode.OK, response);
+        }
+
+
     }
 }

@@ -159,3 +159,163 @@ div.checkbox label { display: inline-block; padding-left: 10px;}
 .image-viewer a {
     float:right;
 }
+
+
+
+
+
+.campaign-hub {
+    border: 1px solid grey;
+}
+
+.campaign-hub .left-column {
+    width: 65%;
+    float: left;
+    clear: both;
+    padding: 5px;
+    border-right: 1px solid grey;
+}
+
+.campaign-hub .left-column h2 a {
+    margin-left:5px;
+    font-size:0.5em;
+}
+
+.campaign-hub .left-column h2 input.titleEdit {
+    font-size: 1.0em;
+    font-weight: bold;
+}
+
+.campaign-hub .left-column .box {
+    background-color: #DDDDDD;
+    border-radius: 8px;
+    width: 48%;
+    float: left;
+    padding: 5px;
+}
+
+.campaign-hub .data-table {
+    border: 1px solid black;
+    background-color: #FFF;
+    padding:5px;
+    width: 80%;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+.campaign-hub .data-table th {
+    text-align: left;
+}
+
+.campaign-hub .data-table td.subheading {
+    color: #999999;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.campaign-hub div.buttonRow {
+    padding-left:15%;
+}
+
+.campaign-hub div.buttonRow button {
+    border: 1px solid white;
+    color: white;
+    font-weight: bold;
+    width:25%;
+    display: inline-block;
+    margin:0;
+    background-color: #666666;
+}
+
+.campaign-hub div.buttonRow button:hover {
+    background-color: #999999;
+}
+
+.campaign-hub button.big-button {
+    background: #0099ff;
+    color: white;
+    border: none;
+    padding: 5px 40px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    font-size:1.0em;
+    margin-top: 30px;
+    width: 80%;
+}
+
+.campaign-hub button.big-button:hover {
+    background: #00ccff;
+}
+
+.campaign-hub button.big-button:disabled, .campaign-hub button.big-button:hover:disabled {
+    background: #cccccc;
+}
+
+.campaign-hub .left-column .box.right {
+    margin-left: 5px;
+}
+
+.campaign-hub .preview {
+    width: 200px;
+    height: 200px;
+    margin: auto;
+    background: #EEE;
+    border: 1px solid #333;
+}
+
+.campaign-hub .preview.postcard {
+    width: 200px;
+    height: 130px;
+}
+
+.campaign-hub .preview.a4page {
+    width: 160px;
+    height: 200px;
+}
+
+.campaign-hub .right-column {
+    width: 31%;
+    float:left;
+    margin-left: 5px;
+    padding-left: 15px;
+}
+
+.campaign-hub table.costSummary {
+    width: 100%;
+}
+
+.campaign-hub table.costSummary th {
+    padding-top: 10px;
+    text-align: left;
+}
+
+.campaign-hub table.costSummary td {
+    vertical-align: bottom;
+}
+
+.campaign-hub table.costSummary td.money {
+    text-align: right;
+}
+
+.campaign-hub table.costSummary td.total {
+    font-weight: bold;
+    font-size: 1.1em;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    padding: 5px 0;
+    margin: 0;
+}
+
+.clearfix:before,
+.clearfix:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+p.center { text-align: center; }

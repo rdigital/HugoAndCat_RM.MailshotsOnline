@@ -11,6 +11,8 @@ namespace RM.MailshotsOnline.PCL.Models
 
         int? PrintCount { get; set; }
 
+        decimal DataRentalFlatFee { get; set; }
+
         decimal DataRentalCost { get; }
 
         int? DataRentalCount { get; set; }
@@ -25,7 +27,7 @@ namespace RM.MailshotsOnline.PCL.Models
 
         decimal? PostageRate { get; set; }
 
-        decimal? ServiceFee { get; set; }
+        decimal ServiceFee { get; set; }
 
         decimal? PrintingRate { get; set; }
 

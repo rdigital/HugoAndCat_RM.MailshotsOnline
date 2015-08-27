@@ -249,6 +249,10 @@
     <Compile Include="Migrations\201508241637432_FormatPriceUpdate.Designer.cs">
       <DependentUpon>201508241637432_FormatPriceUpdate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508271815535_AddCampaignDataApprovalFlag.cs" />
+    <Compile Include="Migrations\201508271815535_AddCampaignDataApprovalFlag.Designer.cs">
+      <DependentUpon>201508271815535_AddCampaignDataApprovalFlag.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CampaignService.cs" />
@@ -343,6 +347,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508241637432_FormatPriceUpdate.resx">
       <DependentUpon>201508241637432_FormatPriceUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508271815535_AddCampaignDataApprovalFlag.resx">
+      <DependentUpon>201508271815535_AddCampaignDataApprovalFlag.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

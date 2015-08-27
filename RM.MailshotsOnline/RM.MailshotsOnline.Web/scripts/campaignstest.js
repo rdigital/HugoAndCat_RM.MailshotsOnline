@@ -48,7 +48,7 @@
         //console.log(data);
         if (data.length > 0) {
             $noCampaignsMessage.hide();
-            $campaignList.html('<tr><th>Name</th><th>Updated</th><th>Status</th><th>Mailshot</th><th>Own data</th><th>Rented data</th><th>Postage</th><th></th><th></th><th></th></tr>').show();
+            $campaignList.html('<tr><th>Name</th><th>Updated</th><th>Status</th><th>Mailshot</th><th>Own data</th><th>Rented data</th><th>Postage</th><th></th><th></th><th></th><th></th></tr>').show();
             $loading.hide();
             for (i = 0; i < data.length; i++) {
                 var campaign = data[i];
@@ -130,7 +130,12 @@
                     });
                 var deleteCell = $(document.createElement('td')).append(deleteLink);
 
-                row.append(name, updated, status, mailshot, ownData, rentedData, postalOption, editCell, copyCell, deleteCell);
+                var hubLink = $(document.createElement('a'))
+                    .text('Hub')
+                    .attr('href', '/my-campaigns/campaign-hub/?campaignId=' + campaign.CampaignId);
+                var hubCell = $(document.createElement('td')).append(hubLink);
+
+                row.append(name, updated, status, mailshot, ownData, rentedData, postalOption, editCell, copyCell, deleteCell, hubCell);
 
                 $campaignList.append(row);
             }
