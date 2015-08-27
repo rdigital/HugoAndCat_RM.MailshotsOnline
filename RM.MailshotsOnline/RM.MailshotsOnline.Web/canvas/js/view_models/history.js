@@ -8,6 +8,9 @@ define(['require', 'knockout', 'view_models/user'],
             this.cancelChanges = this.cancelChanges.bind(this)
             this.undo = this.undo.bind(this)
             this.redo = this.redo.bind(this)
+
+            this.redoAvailable = this.getRedoAvailable();
+            this.undoAvailable = this.getUndoAvailable();
         }
 
         historyViewModel.prototype.pushToHistory = function pushToHistory() {
@@ -18,6 +21,11 @@ define(['require', 'knockout', 'view_models/user'],
 
         historyViewModel.prototype.cancelChanges = function cancelChanges() {
             userViewModel.fromJSON(this.historyIdx());
+        }
+
+        historyViewModel.prototype.reset = function reset() {
+            this.historyIdx(0);
+            require('view_models/user').fromJSON(this.history()[0]);
         }
 
         historyViewModel.prototype.undo = function undo() {
@@ -34,6 +42,18 @@ define(['require', 'knockout', 'view_models/user'],
                 this.historyIdx(idx+1);
                 require('view_models/user').fromJSON(this.history()[this.historyIdx()]);
             }
+        }
+
+        historyViewModel.prototype.getRedoAvailable = function getRedoAvailable() {
+            return ko.computed(function () {
+                return (this.historyIdx() < this.history().length - 1);
+            }, this)
+        }
+
+        historyViewModel.prototype.getUndoAvailable = function getUndoAvailable() {
+            return ko.computed(function () {
+                return (this.historyIdx() > 0);
+            }, this)
         }
 
         // testing

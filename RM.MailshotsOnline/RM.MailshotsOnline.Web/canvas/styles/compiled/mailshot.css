@@ -101,6 +101,8 @@ div, span {
       color: #c00; }
     .options-toolbar .toolbar-button:last-child {
       border-right: 1px solid #666; }
+    .options-toolbar .toolbar-button.disabled {
+      opacity: 0.5; }
 
 .tools {
   -webkit-touch-callout: none;

@@ -1,10 +1,13 @@
-define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/format', 'view_models/template', 'view_models/theme', 'view_models/state'], 
+define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/format', 'view_models/template', 'view_models/theme', 'view_models/state', 'view_models/history'],
 
-    function(ko, dropdownComponent, userViewModel, formatViewModel, templateViewModel, themeViewModel, stateViewModel) {
+    function(ko, dropdownComponent, userViewModel, formatViewModel, templateViewModel, themeViewModel, stateViewModel, historyViewModel) {
         // register required components
 
         // ViewModel
-        function optionsViewModel(params) {}
+        function optionsViewModel(params) {
+            this.redoAvailable = historyViewModel.redoAvailable;
+            this.undoAvailable = historyViewModel.undoAvailable;
+        }
 
         /**
          * unfocus the current element and toggle the template picker
@@ -43,6 +46,18 @@ define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/form
          */
         optionsViewModel.prototype.clearOutput = function clearOutput() {
             stateViewModel.output(null);
+        }
+
+        optionsViewModel.prototype.redo = function redo() {
+            historyViewModel.redo();
+        }
+
+        optionsViewModel.prototype.undo = function undo() {
+            historyViewModel.undo();
+        }
+
+        optionsViewModel.prototype.reset = function reset() {
+            historyViewModel.reset();
         }
 
         return {

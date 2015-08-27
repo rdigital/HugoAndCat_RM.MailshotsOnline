@@ -1,6 +1,6 @@
-define(['knockout', 'komapping', 'view_models/format', 'view_models/template', 'view_models/user', 'view_models/state'], 
+define(['knockout', 'komapping', 'view_models/format', 'view_models/template', 'view_models/user', 'view_models/state', 'view_models/history'],
 
-    function(ko, mapping, formatViewModel, templateViewModel, userViewModel, stateViewModel) {
+    function(ko, mapping, formatViewModel, templateViewModel, userViewModel, stateViewModel, historyViewModel) {
 
         // ViewModel
         function templateComponentViewModel(params) {
@@ -22,6 +22,7 @@ define(['knockout', 'komapping', 'view_models/format', 'view_models/template', '
                 userViewModel.objects.templateID(template.id);
             }
             stateViewModel.toggleTemplatePicker();
+            historyViewModel.pushToHistory();
         }
 
         /**

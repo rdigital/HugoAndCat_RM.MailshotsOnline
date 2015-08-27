@@ -85,7 +85,6 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
                     }.bind(this), 10)
                     return []
                 };
-                console.log(this.templateViewModel.getElementsByFace(face_name));
                 return this.templateViewModel.getElementsByFace(face_name)
             }, this)
         }

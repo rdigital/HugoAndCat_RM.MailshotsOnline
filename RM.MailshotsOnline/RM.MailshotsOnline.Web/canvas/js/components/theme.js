@@ -1,6 +1,6 @@
-define(['knockout', 'komapping', 'view_models/format', 'view_models/theme', 'view_models/user', 'view_models/state'], 
+define(['knockout', 'komapping', 'view_models/format', 'view_models/theme', 'view_models/user', 'view_models/state', 'view_models/history'],
 
-    function(ko, mapping, formatViewModel, themeViewModel, userViewModel, stateViewModel) {
+    function(ko, mapping, formatViewModel, themeViewModel, userViewModel, stateViewModel, historyViewModel) {
 
         // ViewModel
         function themeComponentViewModel(params) {
@@ -16,6 +16,7 @@ define(['knockout', 'komapping', 'view_models/format', 'view_models/theme', 'vie
             userViewModel.resetUserStyles();
             userViewModel.objects.themeID(theme.id);
             stateViewModel.toggleThemePicker();
+            historyViewModel.pushToHistory();
         }
 
         /**
