@@ -37,6 +37,7 @@ namespace RM.MailshotsOnline.Test
         [Test]
         public void CreatePaymentTest()
         {
+            Assert.Inconclusive();
             Assert.NotNull(_service);
 
             var payment = CreatePaymentObject();
@@ -49,6 +50,7 @@ namespace RM.MailshotsOnline.Test
         [Test]
         public void ExecutePaymentTest()
         {
+            Assert.Inconclusive();
             Assert.NotNull(_service);
 
             var payment = CreatePaymentObject();
