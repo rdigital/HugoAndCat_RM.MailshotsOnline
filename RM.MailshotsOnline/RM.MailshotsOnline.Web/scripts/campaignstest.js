@@ -62,6 +62,9 @@
                 if (statusText == "Draft") {
                     status.attr('class', 'draft');
                 }
+                if (statusText == "Ready") {
+                    status.attr('class', 'ready');
+                }
 
                 var mailshot = $(document.createElement('td'))
                 if (campaign.MailshotTitle != null) {
@@ -165,6 +168,9 @@
                 break;
             case 5:
                 status = "Fulfilled";
+                break;
+            case 6:
+                status = "Ready";
                 break;
             case -1:
                 status = "Exception";

@@ -251,10 +251,6 @@
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PayPal, Version=1.5.0.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PayPal.1.5.0\lib\net45\PayPal.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="SQLCE4Umbraco, Version=1.0.5675.23469, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\UmbracoCms.Core.7.2.8\lib\SQLCE4Umbraco.dll</HintPath>
@@ -3378,6 +3374,10 @@
     <ProjectReference Include="..\HC.RM.Common.Images\HC.RM.Common.Images.csproj">
       <Project>{b90ff7f0-d68b-47a3-90da-ee6776210f3a}</Project>
       <Name>HC.RM.Common.Images</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HC.RM.Common.PayPal\HC.RM.Common.PayPal.csproj">
+      <Project>{5cecfbd1-8591-4d0a-9032-2da879dbea75}</Project>
+      <Name>HC.RM.Common.PayPal</Name>
     </ProjectReference>
     <ProjectReference Include="..\RM.MailshotsOnline.Data\RM.MailshotsOnline.Data.csproj">
       <Project>{0d159929-5a8f-4e0c-84a6-3c7e9de5f5ad}</Project>

@@ -74,6 +74,12 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         public string TotalCostLabel { get; set; }
 
+        public BasePage ProfileUpdatePage { get; set; }
+
+        public BasePage PaymentConfirmationPage { get; set; }
+
+        public BasePage PaymentCancelledPage { get; set; }
+
         #endregion
 
         #region Buttons and labels

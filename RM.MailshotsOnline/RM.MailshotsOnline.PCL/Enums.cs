@@ -64,5 +64,15 @@ namespace RM.MailshotsOnline.PCL
             Purchased = 3,
             Fulfilled = 4
         }
+
+        public enum InvoiceStatus
+        {
+            Draft = 1,
+            Submitted = 2,
+            Processing = 3,
+            Paid = 4,
+            Cancelled = 5,
+            Refunded = 6
+        }
     }
 }

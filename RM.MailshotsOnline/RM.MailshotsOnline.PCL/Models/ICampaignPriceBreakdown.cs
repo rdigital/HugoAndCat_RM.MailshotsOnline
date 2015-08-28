@@ -33,6 +33,8 @@ namespace RM.MailshotsOnline.PCL.Models
 
         decimal? PrintingCost { get; }
 
+        decimal SubTotal { get; }
+
         decimal Total { get; }
     }
 }

@@ -46,6 +46,7 @@
     <Compile Include="Models\IContact.cs" />
     <Compile Include="Models\IDataSearch.cs" />
     <Compile Include="Models\IDistributionList.cs" />
+    <Compile Include="Models\IInvoice.cs" />
     <Compile Include="Models\IMailshotImageUse.cs" />
     <Compile Include="Models\IMedia.cs" />
     <Compile Include="Models\ITaggable.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Services\ICmsImageService.cs" />
     <Compile Include="Services\IEmailService.cs" />
     <Compile Include="Services\IImageLibraryService.cs" />
+    <Compile Include="Services\IInvoiceService.cs" />
     <Compile Include="Services\IMailshotSettingsService.cs" />
     <Compile Include="Services\IMailshotsService.cs" />
     <Compile Include="Services\IMembershipService.cs" />

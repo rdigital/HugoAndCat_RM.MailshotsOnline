@@ -18,6 +18,11 @@ namespace RM.MailshotsOnline.Data.Helpers
             get { return GetConfigValue("AppInsightsKey", "f4926bc4-a07f-420c-89f1-40e38682d0c6"); }
         }
 
+        public static string CurrencyCode
+        {
+            get { return GetConfigValue("CurrencyCode", "GBP"); }
+        }
+
         /// <summary>
         /// The flat fee for renting data
         /// </summary>

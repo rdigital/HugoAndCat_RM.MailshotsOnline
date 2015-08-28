@@ -130,5 +130,9 @@ namespace RM.MailshotsOnline.PCL.Models
         /// </summary>
         DateTime PasswordResetTokenExpiryDate { get; set; }
 
+        /// <summary>
+        /// Gets a value indicating whether all of the user's required details have been entered (they may have registered through the "light" registration process)
+        /// </summary>
+        bool AllDetailsEntered { get; }
     }
 }

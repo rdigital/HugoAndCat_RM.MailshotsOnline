@@ -37,6 +37,7 @@ namespace RM.MailshotsOnline.Data.DAL
         public DbSet<PostalOption> PostalOptions { get; set; }
         public DbSet<Template> Templates { get; set; }
         public DbSet<Theme> Themes { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

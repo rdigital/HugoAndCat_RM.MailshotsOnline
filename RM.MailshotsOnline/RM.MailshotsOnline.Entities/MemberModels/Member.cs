@@ -146,6 +146,27 @@ namespace RM.MailshotsOnline.Entities.MemberModels
         /// </summary>
         public DateTime PasswordResetTokenExpiryDate { get; set; }
 
+        /// <summary>
+        /// Gets a value indicating whether all of the user's required details have been entered (they may have registered through the "light" registration process)
+        /// </summary>
+        public bool AllDetailsEntered
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(EmailAddress)
+                    && !string.IsNullOrEmpty(Title)
+                    && !string.IsNullOrEmpty(FirstName)
+                    && !string.IsNullOrEmpty(LastName)
+                    && !string.IsNullOrEmpty(Postcode)
+                    && !string.IsNullOrEmpty(OrganisationName)
+                    && !string.IsNullOrEmpty(JobTitle)
+                    && !string.IsNullOrEmpty(Address1)
+                    && !string.IsNullOrEmpty(City)
+                    && !string.IsNullOrEmpty(Country)
+                    && !string.IsNullOrEmpty(WorkPhoneNumber);
+            }
+        }
+
         #region Explicit interface implementation
 
         /// <summary>

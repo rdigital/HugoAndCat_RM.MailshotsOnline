@@ -110,7 +110,11 @@ table#campaignList {
 }
 
 #campaignList .draft {
-    color: #272;
+    color: #C55;
+}
+
+#campaignList .ready {
+    color: #292;
 }
 
 #campaignList .empty {
