@@ -3,11 +3,17 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
     function(ko, elementViewModel, themeViewModel, userViewModel, stateViewModel) {
 
         function imageViewModel(params) {
+
             this.data = params.data;
             this.preview = params.preview;
+            //testing
+            if (!this.preview) {
+                window.image = this;
+            }
             this.isSelected = ko.observable(false);
             this.element = ko.observable();
             this.canvas = ko.observable();
+            this.imageObj = this.getImageObj();
             this.subscriptions = [];
 
             // if theme override passed in, process it
@@ -25,6 +31,9 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             this.adjusted_height = 0;
 
             this.flatStyles = this.getFlatStyles();
+            this.isEmpty = ko.computed(function() {
+                return (this.imageObj && this.imageObj.src) ? !(this.imageObj.src()) : false
+            }, this).extend({throttle: 100})
 
             // subscriptions
             this.handleSubscriptions();
@@ -332,7 +341,9 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
          * set image object content observable to equal base64 dump of canvas
          */
         imageViewModel.prototype.setContent = function setContent() {
-            this.imageObj.content(this.exportCanvas());
+            if (this.imageObj.src) {
+                this.imageObj.content(this.exportCanvas());
+            }
         }
 
         /**

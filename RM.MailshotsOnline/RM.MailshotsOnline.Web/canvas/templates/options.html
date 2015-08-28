@@ -3,6 +3,9 @@
 	<span class="toolbar-buttons">
 		<a data-bind="click: toggleTemplatePicker" class="toolbar-button">Layout</a>
 		<a data-bind="click: toggleThemePicker" class="toolbar-button">Theme</a>
+        <a data-bind="click: reset, css: {'disabled': !undoAvailable()}" class="toolbar-button">Reset</a>
+        <a data-bind="click: undo, css: {'disabled': !undoAvailable()}" class="toolbar-button">Undo</a>
+        <a data-bind="click: redo, css: {'disabled': !redoAvailable()}" class="toolbar-button">Redo</a>
 	</span>
     <span class="toolbar-button" data-bind="click: output" style="float: right; margin-right: 20px; border: none !important;">Output JSON</span>
 </div>

@@ -1,6 +1,6 @@
-define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 'view_models/user'],
+define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 'view_models/user', 'view_models/history'],
 
-    function(ko, $, koeditable, koelement, elementViewModel, userViewModel) {
+    function(ko, $, koeditable, koelement, elementViewModel, userViewModel, historyViewModel) {
 
         function inputViewModel(params) {
             // tracking for whether element is selected
