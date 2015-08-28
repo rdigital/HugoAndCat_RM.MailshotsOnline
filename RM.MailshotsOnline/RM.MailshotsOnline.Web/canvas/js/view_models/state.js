@@ -40,6 +40,7 @@ define(['knockout', 'jquery'],
          */
         stateViewModel.prototype.toggleThemePicker = function toggleThemePicker() {
             this.showThemePicker(!this.showThemePicker());
+            this.selectElement(null);
         }
 
         /**
@@ -47,6 +48,7 @@ define(['knockout', 'jquery'],
          */
         stateViewModel.prototype.toggleTemplatePicker = function toggleTemplatePicker() {
             this.showTemplatePicker(!this.showTemplatePicker());
+            this.selectElement(null);
         }
 
         // testing

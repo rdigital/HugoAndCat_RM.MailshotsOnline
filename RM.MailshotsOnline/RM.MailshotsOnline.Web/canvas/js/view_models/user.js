@@ -21,6 +21,7 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
 
         userViewModel.prototype.fromJSON = function fromJSON(data) {
             komapping.fromJSON(data, this.objects);
+            // force rerender
             stateViewModel.viewingSide.valueHasMutated()
         }
 
@@ -38,7 +39,7 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
         userViewModel.prototype.fetch = function fetch() {
             // XXX TEMP XXX
             komapping.fromJS(tempData.userData, this.objects);
-            setTimeout(this.applyChanges.bind(this),100)
+            setTimeout(this.applyChanges.bind(this),1000)
             this.objects.themeID.subscribe(this.resetUserStyles.bind(this));
             return
             $.getJSON('/user_data', function(data) {

@@ -28,7 +28,10 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
 
             this.colour = this.getStyleComputed('color');
             this.font = this.getStyleComputed('font-family');
-            $(window).resize(this.handleResize.bind(this));
+
+            this.handleResize = this.handleResize.bind(this);
+            $(window).resize(this.handleResize);
+            this.handleResize();
         }
 
         /**

@@ -27,7 +27,6 @@ define(['knockout', 'jquery', 'view_models/state'],
 
         zoomComponentViewModel.prototype.handleScale = function handleScale() {
             var el = this.scaleElement();
-            console.log(el)
             if (!el) {
                 return
             }

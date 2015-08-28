@@ -1,21 +1,30 @@
-define(['require', 'knockout', 'view_models/user'],
-    function(require, ko, userViewModel) {
+define(['require', 'knockout', 'view_models/user', 'view_models/state'],
+    function(require, ko, userViewModel, stateViewModel) {
         function historyViewModel() {
             this.history = ko.observableArray();
             this.historyIdx = ko.observable(0);
 
-            this.pushToHistory = this.pushToHistory.bind(this)
-            this.cancelChanges = this.cancelChanges.bind(this)
-            this.undo = this.undo.bind(this)
-            this.redo = this.redo.bind(this)
+            this.pushToHistory = this.pushToHistory.bind(this);
+            this.cancelChanges = this.cancelChanges.bind(this);
+            this.undo = this.undo.bind(this);
+            this.redo = this.redo.bind(this);
+
+            stateViewModel.selectedElement.subscribe(this.pushToHistory, this);
 
             this.redoAvailable = this.getRedoAvailable();
             this.undoAvailable = this.getUndoAvailable();
         }
 
         historyViewModel.prototype.pushToHistory = function pushToHistory() {
-            this.history(this.history.slice(0, this.historyIdx() +1))
-            this.history.push(require('view_models/user').toHistoryJSON());
+            var history_idx = this.historyIdx(),
+                current_history = this.history()[history_idx],
+                new_history = require('view_models/user').toHistoryJSON();
+
+            if (current_history == new_history) {
+                return
+            }
+            this.history(this.history.slice(0, history_idx+1));
+            this.history.push(new_history);
             this.historyIdx(this.history().length-1);
         }
 

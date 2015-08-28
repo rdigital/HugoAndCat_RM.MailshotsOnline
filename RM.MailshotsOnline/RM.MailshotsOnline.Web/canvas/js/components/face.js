@@ -78,8 +78,7 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
 
                 // bit hacky
                 // force redraw of everything when theme changes too, not just when template changes
-                if (stateViewModel.rerender() || this.current_theme() != this.themeViewModel.selected()) {
-                    stateViewModel.rerender(false)
+                if (this.current_theme() != this.themeViewModel.selected()) {
                     setTimeout( function() {
                         this.current_theme(this.themeViewModel.selected());
                     }.bind(this), 10)

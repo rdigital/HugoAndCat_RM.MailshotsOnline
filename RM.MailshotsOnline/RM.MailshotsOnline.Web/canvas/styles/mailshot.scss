@@ -23,6 +23,12 @@ div, span {
 }
 
 .options-toolbar {
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -236,6 +242,12 @@ div, span {
 }
 
 .side {
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 	position: absolute;
 	left: 0;
     top: 95px;
@@ -417,13 +429,15 @@ div, span {
 
 canvas {
 	cursor: pointer;
-	background: #4D4D4D;;
-	background-image: url(/canvas/images/img_placeholder.png);
-	background-repeat: no-repeat;
-	//background-size: contain;
-	background-position: 50% 50%;
-	&.canvas-populated {
-		background: #FFF;
+	background: transparent;
+	
+	&.canvas-empty {
+		background: #4D4D4D;
+		background-image: url(/canvas/images/img_placeholder.png);
+		background-repeat: no-repeat;
+		//background-size: contain;
+		background-position: 50% 50%;
+		
 	}
 }
 
@@ -485,6 +499,12 @@ canvas {
 	}
 }
 .unfocus-div {
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 	position: fixed;
     top: 0;
     left: 0;
