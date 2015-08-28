@@ -26,6 +26,9 @@ define(['knockout', 'jquery'],
         stateViewModel.prototype.selectElement = function selectElement(element) {
             // set the selected element
             this.selectedElement(element);
+            if (!element) {
+                window.getSelection().removeAllRanges()
+            }
         }
 
         /**
