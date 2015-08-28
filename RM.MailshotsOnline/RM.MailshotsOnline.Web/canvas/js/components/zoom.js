@@ -6,6 +6,7 @@ define(['knockout', 'jquery', 'view_models/state'],
         function zoomComponentViewModel() {
             this.zoom = stateViewModel.zoom;
             this.scaleElement = stateViewModel.scaleElement;
+            this.viewingSide = stateViewModel.viewingSide;
             this.availableZooms = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 
             // bound functions
@@ -26,15 +27,19 @@ define(['knockout', 'jquery', 'view_models/state'],
 
         zoomComponentViewModel.prototype.handleScale = function handleScale() {
             var el = this.scaleElement();
+            console.log(el)
             if (!el) {
                 return
             }
-            var window_height = $(window).height() - 150,
+            setTimeout(function () {
+                var window_height = $(window).height() - 150,
                 window_width = $(window).width() - 150,
                 width_factor = (Math.floor((window_width / el.width())*4))/4,
                 height_factor = (Math.floor((window_height / el.height())*4))/4;
 
-            this.zoom(Math.min(width_factor, height_factor));
+                this.zoom(Math.min(width_factor, height_factor));
+            }.bind(this), 100)
+            
         }
 
         zoomComponentViewModel.prototype.increaseZoom = function increaseZoom() {
