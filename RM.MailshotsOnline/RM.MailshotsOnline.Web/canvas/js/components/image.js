@@ -3,8 +3,13 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
     function(ko, elementViewModel, themeViewModel, userViewModel, stateViewModel) {
 
         function imageViewModel(params) {
+
             this.data = params.data;
             this.preview = params.preview;
+            //testing
+            if (!this.preview) {
+                window.image = this;
+            }
             this.isSelected = ko.observable(false);
             this.element = ko.observable();
             this.canvas = ko.observable();

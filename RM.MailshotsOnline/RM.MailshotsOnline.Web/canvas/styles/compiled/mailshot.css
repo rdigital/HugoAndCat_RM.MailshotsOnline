@@ -251,12 +251,6 @@ div, span {
     margin: 5px 0; }
 
 .side {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
   position: absolute;
   left: 0;
   top: 95px;

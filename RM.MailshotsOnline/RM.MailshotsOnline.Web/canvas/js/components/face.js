@@ -43,7 +43,7 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
             }, this)
             this.backgroundSelected.subscribe(function(selected) {
                 if (selected) {
-                    this.selectElement(null)
+                    stateViewModel.selectElement(null)
                 }
             }, this)
         }
