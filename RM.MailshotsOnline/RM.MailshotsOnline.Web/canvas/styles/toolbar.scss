@@ -1,0 +1,95 @@
+@import 'mixins';
+@import 'variables';
+@import 'fonts';
+
+.options-toolbar {
+	@include nohighlight();
+	@include transition(all);
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 50px;
+	z-index: 4;
+	background: $darkest-grey;
+	color: $light-grey;
+	transform: translate(0, -25px);
+	text-align: left;
+	&.options-toolbar_visible {
+		transform: translate(0, 0);
+	}
+	.toolbar-buttons {
+		text-align: left;
+		display: inline-block;
+	}
+	.toolbar-button-container {
+		@include transition(background);
+		height: 50px;
+		line-height: 50px;
+		cursor: pointer;
+		display: inline-block;
+		float: left;
+		&:hover {
+			background: $light-blue;
+			.toolbar-button_small {
+				border-color: transparent;
+			}
+		}
+		&.disabled {
+			color: $dark-grey;
+			cursor: auto;
+			&:hover {
+				background: transparent;
+				.toolbar-button_small {
+					border-color: $dark-grey;
+					cursor: auto;
+				}
+			}
+		}
+	}
+	.toolbar-button {
+		font-family: PFDin Regular;
+		text-align: center;
+		cursor: pointer;
+		position: relative;
+		font-size: 16px;
+		display: inline-block;
+		padding: 1px 16px;
+		min-width: 23px;
+		height: 30px;
+	    line-height: 30px;
+	    border-right: 1px solid $dark-grey;
+	    text-align: left;
+	    float: left;
+	    &.toolbar-button_small {
+	    	margin: 10px 0;
+		}
+		&.active {
+			background: $light-blue;
+			border-color: transparent;
+		}
+	    &.toolbar-button_large, &.toolbar-button_largest {
+	    	@include transition(color);
+	    	height: 50px;
+	    	line-height: 50px;
+	    	min-width: 150px;
+	    	padding-right: 50px;
+	    	&:hover {
+				color: $grey;
+				background: transparent;
+			}
+	    }
+	    &.toolbar-button_largest {
+	    	min-width: 220px;
+	    }
+	    &.toolbar-button_right {
+	    	float: right;
+	    	border-right: none;
+	    	border-left: 1px solid $dark-grey;
+	    }
+		&.toolbar-button_green {
+	    	background: $green;
+	    	border: none;
+	    }
+	}
+}

@@ -1,12 +1,10 @@
-@import url(https://fonts.googleapis.com/css?family=Droid+Sans:400,700);
-
 @mixin transition($type: background, $speed: .25s) {
     transition: $type $speed ease-in-out;
     -moz-transition: $type $speed ease-in-out;
     -webkit-transition: $type $speed ease-in-out;
 }
 
-@mixin rounded($radius: 5px) {
+@mixin borderradius($radius: 5px) {
     border-radius: $radius;
     -moz-border-radius: $radius;
     -webkit-border-radius: $radius;
@@ -41,69 +39,13 @@
     box-shadow: inset $x $y $blur $color;
 }
 
-@mixin placeholdercolor($color: #fff) {
-    &::-webkit-input-placeholder {
-       color: $color;
-    }
-    &:-moz-placeholder { /* Firefox 18- */
-       color: $color;
-    }
-    &::-moz-placeholder {  /* Firefox 19+ */
-       color: $color;
-    }
-    &:-ms-input-placeholder {
-       color: $color;
-    }
-}
-
-@mixin input($width: 250px, $height: 31px, $paddingright: 5px, $paddingleft: 5px) {
-    float: left;
-    background: #fff;
-    height: $height;
-    width: $width;
-    margin-right: 10px;
-    border-radius: 5px;
-    border: none;
-    border-bottom: 1px solid #A5A3A3;
-    border-right: 1px solid #A5A3A3;
-    font-family: 'Droid Sans', sans-serif;
-    box-sizing: border-box;
-    padding: 0 $paddingright 0 $paddingleft;
-    line-height: 20px;
-    font-size: 15px;
-    color: #777;
-    @include transition(all);
-    &:disabled {
-        border: none;
-        background: #ccc;
-    }
-    &.flash {
-        background: #FF6464;
-        color: #fff;
-        border-bottom: 1px solid #d00;
-        border-right: 1px solid #d00;
-        @include placeholdercolor;
-    }
-}
-
-@mixin submit() {
-    float: right;
-    outline: 0;
-    border: 0;
-    background: #1FBE4B;
-    color: #eee;
-    font-family: 'Droid Sans', sans-serif;
-    margin-left: 20px;
-    cursor: pointer;
-    height: 30px;
-    padding: 0 20px;
-    font-size: 17px;
-    @include transition(all);
-    @include rounded;
-    &:hover {
-        background: #8CFFB1;
-        color: #111;
-    }
+@mixin nohighlight() {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 @keyframes fadein {

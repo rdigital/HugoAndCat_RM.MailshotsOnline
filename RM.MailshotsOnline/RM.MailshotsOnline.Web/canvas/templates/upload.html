@@ -1,6 +1,6 @@
 <div class="modal-background" data-bind="click: toggleImageUpload"></div>
 <div class="uploadmodal">
-    <h2>Upload new image peow</h2>
+    <h2>Upload new image</h2>
     <div class="uploadmodal-preview" data-bind="event:{ dragover: dragOver, drop: drop}, style: { backgroundImage: 'url(\'' + (src() ? src() : '/canvas/images/upload.png') + '\')' }"></div>
     <!-- ko if: src() -->
     <a class="uploadmodal-button" data-bind="click: confirm">Use this image</a>

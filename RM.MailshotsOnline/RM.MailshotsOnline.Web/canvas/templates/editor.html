@@ -18,9 +18,10 @@
 		<!-- side picker -->
 		<div class="side-picker">
 			<!-- ko foreach: $parent.sides -->
-			<div class="side-picker-inner">
-				<span data-bind="text: $data"></span>
-				<side-component class="side side_small" params="{side: $data, preview: true}" data-bind="click: function() { if ($parent != $data) {$parents[1].toggleSide()} }"></side-component>
+			<div class="side-picker-inner" data-bind="css: {'side-picker-inner_selected': $data == $parent}, click: function() { if ($parent != $data) {$parents[1].toggleSide()} }">
+				
+				<side-component class="side side_small" params="{side: $data, preview: true}"></side-component>
+				<span data-bind="text: $data" class="side-label"></span>
 			</div>
 			<!-- /ko -->
 		</div>

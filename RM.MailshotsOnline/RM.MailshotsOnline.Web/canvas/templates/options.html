@@ -1,11 +1,23 @@
 <div class="options-toolbar options-toolbar_visible" data-bind="click: unfocus">
 	<!-- <dropdown-component params="{options: formats, selected: formatID, anchorClass: 'toolbar-button'}"></dropdown-component> -->
+	<a class="toolbar-button toolbar-button_largest">Campaign Design 1</a>
 	<span class="toolbar-buttons">
-		<a data-bind="click: toggleTemplatePicker" class="toolbar-button">Layout</a>
-		<a data-bind="click: toggleThemePicker" class="toolbar-button">Theme</a>
-        <a data-bind="click: reset, css: {'disabled': !undoAvailable()}" class="toolbar-button">Reset</a>
-        <a data-bind="click: undo, css: {'disabled': !undoAvailable()}" class="toolbar-button">Undo</a>
-        <a data-bind="click: redo, css: {'disabled': !redoAvailable()}" class="toolbar-button">Redo</a>
+		<a data-bind="click: toggleTemplatePicker" class="toolbar-button-container">
+			<span class="toolbar-button toolbar-button_small">Layout</span>
+		</a>
+		<a data-bind="click: toggleThemePicker" class="toolbar-button-container">
+			<span class="toolbar-button toolbar-button_small">Theme</span>
+		</a>
+        <a data-bind="click: reset, css: {'disabled': !undoAvailable()}" class="toolbar-button-container">
+        	<span class="toolbar-button toolbar-button_small">Reset</span>
+        </a>
+        <a data-bind="click: undo, css: {'disabled': !undoAvailable()}" class="toolbar-button-container">
+        	<span class="toolbar-button toolbar-button_small">Undo</span>
+        </a>
+        <a data-bind="click: redo, css: {'disabled': !redoAvailable()}" class="toolbar-button-container">
+        	<span class="toolbar-button toolbar-button_small">Redo</span>
+        </a>
 	</span>
-    <span class="toolbar-button" data-bind="click: output" style="float: right; margin-right: 20px; border: none !important;">Output JSON</span>
+	<span class="toolbar-button toolbar-button_large toolbar-button_right toolbar-button_green" data-bind="click: output">Done</span>
+	<span class="toolbar-button toolbar-button_large toolbar-button_right" data-bind="click: output">Preview</span>
 </div>
