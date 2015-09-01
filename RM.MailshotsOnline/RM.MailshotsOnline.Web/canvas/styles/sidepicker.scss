@@ -1,0 +1,42 @@
+@import 'mixins';
+@import 'variables';
+@import 'fonts';
+
+.side-picker {
+    position: fixed;
+    left: 0;
+    top: 50px;
+    bottom: 0;
+    width: 150px;
+    background: #FFF;
+    z-index: 100;
+    .side-picker-inner {
+        @include transition(background);
+        position: relative;
+        width: 100%;
+        height: 120px;
+        text-align: left;
+        padding-left: 10px;
+        border-bottom: 1px solid $light-grey;
+        cursor: pointer;
+        &:hover {
+            background-color: $light-grey;
+        }
+        &.side-picker-inner_selected {
+            background: $grey;
+            cursor: auto;
+            &:hover {
+                background-color: $grey;
+            }
+        }
+        .side-label {
+            position: absolute;
+            bottom: 14px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            text-transform: capitalize;
+            color: $dark-grey;
+        }
+    }
+}

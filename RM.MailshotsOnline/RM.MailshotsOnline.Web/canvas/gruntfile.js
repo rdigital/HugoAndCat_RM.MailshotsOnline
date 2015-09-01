@@ -8,7 +8,9 @@ module.exports = function(grunt) {
         },
         dist: {
             files: {
-                'styles/compiled/mailshot.css': 'styles/mailshot.scss'
+                'styles/compiled/mailshot.css': 'styles/mailshot.scss',
+                'styles/compiled/toolbar.css': 'styles/toolbar.scss',
+                'styles/compiled/sidepicker.css': 'styles/sidepicker.scss'
             }
         }
     },

@@ -1,0 +1,41 @@
+@import url(https://fonts.googleapis.com/css?family=Dosis:300,600,500);
+@import url(https://fonts.googleapis.com/css?family=Lusitana:400,700);
+@import url(https://fonts.googleapis.com/css?family=Fredoka+One);
+
+@font-face {
+  font-family: Chevin Bold;
+  src: local("Chevin Bold"),
+       local("Chevin-Bold"),
+       url(/canvas/fonts/chevin-bold.ttf);
+}
+@font-face {
+  font-family: Chevin Medium;
+  src: local("Chevin Medium"),
+       local("Chevin-Medium"),
+       url(/canvas/fonts/chevinmedium.ttf);
+  font-weight: bold;
+}
+@font-face {
+  font-family: Chevin Light;
+  src: local("Chevin Light"),
+       local("Chevin-Light"),
+       url(/canvas/fonts/chevinlight.ttf);
+}
+@font-face {
+  font-family: PFDin Bold;
+  src: local("PFDin Bold"),
+       local("PFDin-Bold"),
+       url(/canvas/fonts/PFDin-Bold.otf);
+}
+@font-face {
+  font-family: PFDin Italic;
+  src: local("PFDin Italic"),
+       local("PFDin-Italic"),
+       url(/canvas/fonts/PFDin-Italic.otf);
+}
+@font-face {
+  font-family: PFDin Regular;
+  src: local("PFDin Regular"),
+       local("PFDin-Regular"),
+       url(/canvas/fonts/PFDin-Regular.otf);
+}
