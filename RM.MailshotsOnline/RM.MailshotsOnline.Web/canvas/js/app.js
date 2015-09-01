@@ -24,6 +24,7 @@ require([
 		 */
 		this.unfocus = function unfocus() {
 			stateViewModel.selectElement(null);
+			stateViewModel.backgroundSelected(null);
 			historyViewModel.pushToHistory();
 		}
 

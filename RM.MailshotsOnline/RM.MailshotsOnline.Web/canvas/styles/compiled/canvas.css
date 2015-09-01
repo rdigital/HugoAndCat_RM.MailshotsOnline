@@ -76,7 +76,9 @@
   left: 150px;
   right: 0;
   bottom: 0;
-  z-index: 2; }
+  z-index: 2;
+  overflow: auto;
+  background: #F4F4F4; }
   .canvas-container.canvas-container_full {
     top: 0;
     left: 0; }
@@ -86,16 +88,18 @@
   left: 0;
   top: 50px;
   right: 0;
-  transform-origin: 50% 0;
+  transform-origin: 0 0;
   z-index: 2;
   pointer-events: none; }
   .side .side-inner {
     display: inline-block;
     pointer-events: all;
-    transform-origin: 50% 0; }
+    transform-origin: 0 0; }
     .side .side-inner > .face-component {
       display: inline-block;
       position: relative; }
+  .side.side_large .side-inner {
+    position: absolute; }
   .side.side_small {
     pointer-events: all;
     position: absolute;

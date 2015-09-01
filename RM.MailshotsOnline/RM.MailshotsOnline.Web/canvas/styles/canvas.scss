@@ -9,6 +9,8 @@
     right: 0;
     bottom: 0;
     z-index: 2;
+    overflow: auto;
+    background: $lightest-grey;
     &.canvas-container_full {
         top: 0;
         left: 0;
@@ -20,17 +22,22 @@
     left: 0;
     top: 50px;
     right: 0;
-    transform-origin: 50% 0;
+    transform-origin: 0 0;
     z-index: 2;
     pointer-events: none;
     .side-inner {
         display: inline-block;
         pointer-events: all;
-        transform-origin: 50% 0;
+        transform-origin: 0 0;
         > .face-component {
             display: inline-block;
             position: relative;
         }
+    }
+    &.side_large .side-inner {
+        position: absolute;
+        //margin-bottom: 30px;
+        //margin-right: 20px;
     }
     &.side_small {
         pointer-events: all;
