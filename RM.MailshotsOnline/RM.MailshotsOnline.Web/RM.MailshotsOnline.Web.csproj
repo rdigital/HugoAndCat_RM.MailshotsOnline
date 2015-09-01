@@ -397,6 +397,7 @@
     <Content Include="canvas\js\components\image.js" />
     <Content Include="canvas\js\components\input.js" />
     <Content Include="canvas\js\components\options.js" />
+    <Content Include="canvas\js\components\preview.js" />
     <Content Include="canvas\js\components\side.js" />
     <Content Include="canvas\js\components\slider.js" />
     <Content Include="canvas\js\components\template.js" />
@@ -489,6 +490,12 @@
     <Content Include="canvas\.bowerrc" />
     <Content Include="canvas\bower.json" />
     <Content Include="canvas\package.json" />
+    <Content Include="canvas\fonts\chevin-bold.ttf" />
+    <Content Include="canvas\fonts\chevinlight.ttf" />
+    <Content Include="canvas\fonts\chevinmedium.ttf" />
+    <Content Include="canvas\fonts\PFDin-Bold.otf" />
+    <Content Include="canvas\fonts\PFDin-Italic.otf" />
+    <Content Include="canvas\fonts\PFDin-Regular.otf" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\campaign-functions.js" />
     <Content Include="scripts\campaign-hub.js" />
