@@ -1,4 +1,3 @@
-<div class="unfocus-div" data-bind="click: unfocus"></div>
 <nav-component></nav-component>
 <options-component></options-component>
 <tools-component></tools-component>
@@ -14,17 +13,20 @@
 <!-- ko if: faces() && faces().length -->
 	<!-- main editor -->
 	<!-- ko with: viewingSide -->
-	<side-component class="side" params="{side: $data}" data-bind="style: {'transform': $parent.scale}"></side-component>
-		<!-- side picker -->
-		<div class="side-picker">
-			<!-- ko foreach: $parent.sides -->
-			<div class="side-picker-inner" data-bind="css: {'side-picker-inner_selected': $data == $parent}, click: function() { if ($parent != $data) {$parents[1].toggleSide()} }">
-				
-				<side-component class="side side_small" params="{side: $data, preview: true}"></side-component>
-				<span data-bind="text: $data" class="side-label"></span>
-			</div>
-			<!-- /ko -->
+	<div class="canvas-container">
+		<div class="unfocus-div" data-bind="click: unfocus"></div>
+		<side-component class="side" params="{side: $data}" data-bind="style: {'transform': $parent.scale}"></side-component>
+	</div>
+	<!-- side picker -->
+	<div class="side-picker">
+		<!-- ko foreach: $parent.sides -->
+		<div class="side-picker-inner" data-bind="css: {'side-picker-inner_selected': $data == $parent}, click: function() { if ($parent != $data) {$parents[1].toggleSide()} }">
+			
+			<side-component class="side side_small" params="{side: $data, preview: true}"></side-component>
+			<span data-bind="text: $data" class="side-label"></span>
 		</div>
+		<!-- /ko -->
+	</div>
 	<!-- /ko -->
 	<zoom-component></zoom-component>
 <!-- /ko -->

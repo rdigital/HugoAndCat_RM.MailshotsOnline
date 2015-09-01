@@ -5,11 +5,11 @@ require([
 		'components/theme',
 		'components/template',
 		'view_models/state',
+		'view_models/history',
 		'view_models/format',
 		'view_models/template',
 		'view_models/theme',
 		'view_models/user',
-		'view_models/history',
 		'domReady!'
 	],
 	function(ko, mapping, editorComponent, themeComponent, templateComponent, stateViewModel, historyViewModel) {

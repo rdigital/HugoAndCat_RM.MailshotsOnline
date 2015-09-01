@@ -74,13 +74,14 @@ body {
   background: #E4E4E4;
   text-align: center;
   font-family: Arial;
-  overflow-y: scroll;
+  overflow-y: hidden;
   height: 100%;
   min-height: 100%; }
 
 html {
   height: 100%;
-  min-height: 100%; }
+  min-height: 100%;
+  overflow: hidden; }
 
 div, span, a {
   box-sizing: border-box;
@@ -225,72 +226,6 @@ div, span, a {
   .dropdown .dropdown-colourswatch-button {
     width: 100%;
     margin: 5px 0; }
-
-.side {
-  position: absolute;
-  left: 0;
-  top: 95px;
-  right: 150px;
-  margin-bottom: 140px;
-  transform-origin: 50% 0;
-  z-index: 2;
-  pointer-events: none; }
-  .side .side-inner {
-    display: inline-block;
-    pointer-events: all;
-    transform-origin: 50% 0; }
-    .side .side-inner > .face-component {
-      display: inline-block;
-      position: relative; }
-  .side.side_small {
-    pointer-events: all;
-    position: absolute;
-    margin: 0;
-    top: 20px;
-    right: 38px;
-    left: auto;
-    bottom: auto;
-    transform-origin: 100% 0;
-    transform: scale(0.125);
-    cursor: pointer;
-    z-index: 1;
-    box-shadow: #414045 0px 4px 32px;
-    -moz-box-shadow: #414045 0px 4px 4px; }
-    .side.side_small > div {
-      pointer-events: none; }
-    .side.side_small .selected-overlay {
-      display: none !important; }
-    .side.side_small .editable.editable_active, .side.side_small .component.component_selected {
-      z-index: 0; }
-
-.face {
-  display: inline-block;
-  background: #FFF;
-  position: relative;
-  box-shadow: rgba(0, 0, 0, 0.32) 0px 0px 3px; }
-  .face .face_name {
-    position: absolute;
-    top: -30px;
-    left: 10px;
-    font-size: 14px;
-    color: #6D6D6D; }
-  .face .face-hover {
-    position: absolute;
-    z-index: 0;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    cursor: auto; }
-    .face .face-hover.face-hover_active:before {
-      border: 2px solid #6388ff;
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      pointer-events: none; }
 
 .editable {
   box-sizing: border-box;
