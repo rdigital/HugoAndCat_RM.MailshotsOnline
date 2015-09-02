@@ -1,0 +1,30 @@
+@import 'mixins';
+@import 'variables';
+@import 'fonts';
+
+.help {
+	@include transition(all);
+	@include borderradius(3px);
+	@include shadow(0, 2px, 0, $lightish-grey);
+	position: fixed;
+	top: 10px;
+	left: 10px;
+	width: 600px;
+	height: 90px;
+	background-color: #fff;
+    z-index: 999;
+    border-left: 4px solid $green;
+    opacity: 0;
+    pointer-events: none;
+    padding: 23px 23px;
+    text-align: left;
+    color: $dark-grey;
+    font-family: Chevin Medium;
+    &.help_error {
+    	border-color: $darkest-grey;
+    }
+    &.help_visible {
+    	opacity: 1;
+    	pointer-events: all;
+    }
+}

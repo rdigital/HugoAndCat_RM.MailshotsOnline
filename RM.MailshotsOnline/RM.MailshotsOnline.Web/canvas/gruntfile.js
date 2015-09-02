@@ -12,7 +12,8 @@ module.exports = function(grunt) {
                 'styles/compiled/toolbar.css': 'styles/toolbar.scss',
                 'styles/compiled/sidepicker.css': 'styles/sidepicker.scss',
                 'styles/compiled/canvas.css': 'styles/canvas.scss',
-                'styles/compiled/themepicker.css': 'styles/themepicker.scss'
+                'styles/compiled/themepicker.css': 'styles/themepicker.scss',
+                'styles/compiled/help.css': 'styles/help.scss'
             }
         }
     },

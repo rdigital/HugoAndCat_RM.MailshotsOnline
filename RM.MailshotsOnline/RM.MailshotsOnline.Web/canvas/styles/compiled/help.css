@@ -70,45 +70,34 @@
   font-family: PFDin Regular;
   src: local("PFDin Regular"), local("PFDin-Regular"), url(/canvas/fonts/PFDin-Regular.otf); }
 
-.side-picker {
+.help {
   transition: all 0.25s ease-in-out;
   -moz-transition: all 0.25s ease-in-out;
   -webkit-transition: all 0.25s ease-in-out;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  box-shadow: 0 2px 0 #DCDCDA !important;
+  -moz-box-shadow: 0 2px 0 #DCDCDA !important;
+  -webkit-box-shadow: 0 2px 0 #DCDCDA !important;
   position: fixed;
-  left: 0;
-  top: 50px;
-  bottom: 0;
-  width: 150px;
-  background: #FFF;
-  z-index: 100;
-  transform: translate(0, 0); }
-  .side-picker.side-picker_hidden {
-    transform: translate(-150px, 0); }
-  .side-picker .side-picker-inner {
-    transition: background 0.25s ease-in-out;
-    -moz-transition: background 0.25s ease-in-out;
-    -webkit-transition: background 0.25s ease-in-out;
-    position: relative;
-    width: 100%;
-    height: 120px;
-    text-align: left;
-    padding-left: 10px;
-    border-bottom: 1px solid #EFEFEF;
-    cursor: pointer; }
-    .side-picker .side-picker-inner:hover {
-      background-color: #EFEFEF; }
-    .side-picker .side-picker-inner.side-picker-inner_selected {
-      background: #C1C6C9;
-      cursor: auto; }
-      .side-picker .side-picker-inner.side-picker-inner_selected:hover {
-        background-color: #C1C6C9; }
-    .side-picker .side-picker-inner .side-label {
-      position: absolute;
-      bottom: 14px;
-      left: 0;
-      width: 100%;
-      text-align: center;
-      text-transform: capitalize;
-      color: #5E6166; }
+  top: 10px;
+  left: 10px;
+  width: 600px;
+  height: 90px;
+  background-color: #fff;
+  z-index: 999;
+  border-left: 4px solid #5EA83D;
+  opacity: 0;
+  pointer-events: none;
+  padding: 23px 23px;
+  text-align: left;
+  color: #5E6166;
+  font-family: Chevin Medium; }
+  .help.help_error {
+    border-color: #414045; }
+  .help.help_visible {
+    opacity: 1;
+    pointer-events: all; }
 
-/*# sourceMappingURL=sidepicker.css.map */
+/*# sourceMappingURL=help.css.map */

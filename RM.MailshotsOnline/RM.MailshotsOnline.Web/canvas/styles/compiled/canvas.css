@@ -70,6 +70,9 @@
   font-family: PFDin Regular;
   src: local("PFDin Regular"), local("PFDin-Regular"), url(/canvas/fonts/PFDin-Regular.otf); }
 
+body {
+  background: #F4F4F4; }
+
 .canvas-container {
   position: fixed;
   top: 50px;
@@ -86,7 +89,7 @@
 .side {
   position: absolute;
   left: 0;
-  top: 50px;
+  top: 70px;
   right: 0;
   transform-origin: 0 0;
   z-index: 2;
@@ -100,6 +103,9 @@
       position: relative; }
   .side.side_large .side-inner {
     position: absolute; }
+    .side.side_large .side-inner .face {
+      margin-bottom: 30px;
+      margin-right: 30px; }
   .side.side_small {
     pointer-events: all;
     position: absolute;
@@ -149,5 +155,20 @@
       right: 0;
       bottom: 0;
       pointer-events: none; }
+
+.selected-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 30px;
+  bottom: 30px;
+  background: rgba(255, 255, 255, 0.36);
+  pointer-events: none;
+  z-index: 108;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease-out; }
+  .selected-overlay.selected-overlay_visible {
+    opacity: 1; }
 
 /*# sourceMappingURL=canvas.css.map */

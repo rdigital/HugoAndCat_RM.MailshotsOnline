@@ -33,8 +33,8 @@ define(['knockout', 'jquery', 'view_models/state'],
                 return
             }
             setTimeout(function () {
-                var window_height = $(window).height() - 150,
-                window_width = $(window).width() - 150,
+                var window_height = $('.canvas-container').height() - 100,
+                window_width = $('.canvas-container').width() - 100,
                 width_factor = (Math.floor((window_width / el.width())*4))/4,
                 height_factor = (Math.floor((window_height / el.height())*4))/4;
 

@@ -3,6 +3,7 @@
 @import 'fonts';
 
 .side-picker {
+    @include transition(all);
     position: fixed;
     left: 0;
     top: 50px;
@@ -10,6 +11,10 @@
     width: 150px;
     background: #FFF;
     z-index: 100;
+    transform: translate(0, 0);
+    &.side-picker_hidden {
+        transform: translate(-150px, 0);
+    }
     .side-picker-inner {
         @include transition(background);
         position: relative;

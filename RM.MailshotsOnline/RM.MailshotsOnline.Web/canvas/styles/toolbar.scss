@@ -13,10 +13,10 @@
 	z-index: 4;
 	background: $darkest-grey;
 	color: $light-grey;
-	transform: translate(0, -25px);
+	transform: translate(0, 0);
 	text-align: left;
-	&.options-toolbar_visible {
-		transform: translate(0, 0);
+	&.options-toolbar_hidden {
+		transform: translate(0, -50px);
 	}
 	.toolbar-buttons {
 		text-align: left;

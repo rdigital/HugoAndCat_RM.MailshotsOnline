@@ -51,10 +51,10 @@ define(['knockout', 'jquery', 'components/face', 'view_models/format', 'view_mod
                 }
                 el = el[0];
                 var diff = this.canvas_container.width() - el.getBoundingClientRect().width;
-                if (diff > 20) {
+                if (diff > 100) {
                     return diff/2 + 'px'
                 } else {
-                    return '10px'
+                    return '50px'
                 }
             }, this)
         }
