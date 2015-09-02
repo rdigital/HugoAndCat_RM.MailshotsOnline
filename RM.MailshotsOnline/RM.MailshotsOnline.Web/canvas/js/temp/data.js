@@ -94,7 +94,8 @@ define([],
                                 	property: 'text-align',
                                 	value: 'left'
                                 }
-                            ]
+                            ],
+                            message: "This is your sub heading. Elaborate on your main heading here."
                         },
                         {
                             name: 'body',
@@ -186,7 +187,8 @@ define([],
                                     property: 'height',
                                     value: '450px'
                                 }
-                            ]
+                            ],
+                            message: "Choose a high quality image which helps convey your message to the reader."
                         },
                         {
                             name: 'Address',

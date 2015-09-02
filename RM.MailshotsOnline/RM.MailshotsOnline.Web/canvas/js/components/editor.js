@@ -64,7 +64,7 @@ define(['knockout', 'komapping', 'components/side', 'components/tools', 'compone
          * editor container
          */
         editorViewModel.prototype.unfocusConditional = function unfocusConditional(data, e) {
-            if (e.toElement.className == "canvas-container") {
+            if ($(e.originalEvent.target).hasClass('canvas-container')) {
                 this.unfocus();
             }
         }
