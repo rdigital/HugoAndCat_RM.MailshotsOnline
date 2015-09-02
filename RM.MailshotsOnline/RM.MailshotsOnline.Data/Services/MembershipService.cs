@@ -203,8 +203,6 @@ namespace RM.MailshotsOnline.Data.Services
             bool success = false;
             try
             {
-
-
                 var umbracoMember = _umbracoMemberService.GetByEmail(emailAddress);
 
                 if (umbracoMember != null)

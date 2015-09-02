@@ -146,6 +146,8 @@ namespace RM.MailshotsOnline.Entities.MemberModels
         /// </summary>
         public DateTime PasswordResetTokenExpiryDate { get; set; }
 
+        public string Salt { get; set; }
+
         /// <summary>
         /// Gets a value indicating whether all of the user's required details have been entered (they may have registered through the "light" registration process)
         /// </summary>
