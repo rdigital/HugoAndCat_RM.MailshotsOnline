@@ -191,3 +191,4 @@ ModelManifest.xml
 !**/App_Data/packages
 **/uSync.Archive/
 **/canvas/js/vendor/
+**/canvas/styles/compiled/
