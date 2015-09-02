@@ -277,7 +277,8 @@ define([],
                                     property: 'height',
                                     value: '200px'
                                 }
-                            ]
+                            ],
+                            message: "This is your headline, it should grab the readers' attention quickly with an engaging message. Try to keep it short and punchy"
                         },
                         {
                             name: 'sub-heading',
@@ -309,7 +310,8 @@ define([],
                                     property: 'text-align',
                                     value: 'left'
                                 }
-                            ]
+                            ],
+                            message: "This is your sub heading. Elaborate on your main heading here."
                         },
                         {
                             name: 'body',
@@ -462,7 +464,8 @@ define([],
                                     property: 'height',
                                     value: '60px'
                                 }
-                            ]
+                            ],
+                            message: "This is your headline, it should grab the readers' attention quickly with an engaging message. Try to keep it short and punchy"
                         },
                         {
                             name: 'sub-heading',
@@ -494,7 +497,8 @@ define([],
                                     property: 'text-align',
                                     value: 'left'
                                 }
-                            ]
+                            ],
+                            message: "This is your sub heading. Elaborate on your main heading here."
                         },
                         {
                             name: 'logo',
