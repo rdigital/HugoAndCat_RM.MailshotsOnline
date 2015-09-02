@@ -430,8 +430,10 @@
     <Content Include="canvas\js\view_models\theme.js" />
     <Content Include="canvas\js\view_models\user.js" />
     <Content Include="canvas\styles\compiled\canvas.css" />
+    <Content Include="canvas\styles\compiled\help.css" />
     <Content Include="canvas\styles\compiled\mailshot.css" />
     <Content Include="canvas\styles\compiled\sidepicker.css" />
+    <Content Include="canvas\styles\compiled\themepicker.css" />
     <Content Include="canvas\styles\compiled\toolbar.css" />
     <Content Include="canvas\styles\vendor\bootstrap.min.css" />
     <Content Include="canvas\templates\backgroundtools.html" />
@@ -496,6 +498,10 @@
     <Content Include="canvas\fonts\PFDin-Bold.otf" />
     <Content Include="canvas\fonts\PFDin-Italic.otf" />
     <Content Include="canvas\fonts\PFDin-Regular.otf" />
+    <Content Include="canvas\styles\help.scss" />
+    <Content Include="canvas\styles\themepicker.scss" />
+    <Content Include="canvas\styles\compiled\help.css.map" />
+    <Content Include="canvas\styles\compiled\themepicker.css.map" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\campaign-functions.js" />
     <Content Include="scripts\campaign-hub.js" />
