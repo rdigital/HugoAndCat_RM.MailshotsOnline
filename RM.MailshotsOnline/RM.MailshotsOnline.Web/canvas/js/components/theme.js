@@ -6,6 +6,7 @@ define(['knockout', 'komapping', 'view_models/format', 'view_models/theme', 'vie
         function themeComponentViewModel(params) {
             this.faces = formatViewModel.allFaces;
             this.themes = themeViewModel.objects;
+            this.viewingTheme = ko.observable(0);
         }
 
         /**
@@ -24,6 +25,7 @@ define(['knockout', 'komapping', 'view_models/format', 'view_models/theme', 'vie
          */
         themeComponentViewModel.prototype.toggleThemePicker = function toggleThemePicker() {
             stateViewModel.toggleThemePicker();
+
         }
 
         return {

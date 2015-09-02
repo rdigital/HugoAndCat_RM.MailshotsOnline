@@ -31,6 +31,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             this.adjusted_height = 0;
 
             this.flatStyles = this.getFlatStyles();
+            this.message = this.getMessageComputed();
             this.isEmpty = ko.computed(function() {
                 return (this.imageObj && this.imageObj.src) ? !(this.imageObj.src()) : false
             }, this).extend({throttle: 100})
@@ -409,6 +410,19 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
                 var styles = this.flatStyles();
                 ko.utils.extend(styles, this.getDimensions())
                 return styles
+            }, this)
+        }
+
+        imageViewModel.prototype.getMessageComputed = function getMessageComputed() {
+            return ko.pureComputed(function() {
+                if (this.data.message) {
+                    return {
+                        type: 'message',
+                        message: this.data.message
+                    }
+                } else {
+                    return null
+                }
             }, this)
         }
 

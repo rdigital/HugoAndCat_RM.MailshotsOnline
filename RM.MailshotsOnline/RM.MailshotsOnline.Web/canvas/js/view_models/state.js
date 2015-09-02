@@ -12,6 +12,8 @@ define(['knockout', 'jquery'],
             this.showTemplatePicker = ko.observable(false);
             this.rerender = ko.observable(false);
             this.zoom = ko.observable(1);
+            this.overrideZoom = ko.observable();
+            this.getZoom = this.getZoomComputed();
             this.viewingSide = ko.observable('front');
             // set to true to make images rescale to default when the components render
             this.repositionImages = false;
@@ -52,6 +54,12 @@ define(['knockout', 'jquery'],
         stateViewModel.prototype.toggleTemplatePicker = function toggleTemplatePicker() {
             this.showTemplatePicker(!this.showTemplatePicker());
             this.selectElement(null);
+        }
+
+        stateViewModel.prototype.getZoomComputed = function getZoomComputed() {
+            return ko.computed(function() {
+                return this.overrideZoom() || this.zoom();
+            }, this)
         }
 
         // testing

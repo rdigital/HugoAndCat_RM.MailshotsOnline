@@ -1,4 +1,4 @@
-<div class="side-inner" data-bind="style: {'transform': scale}, element: element">
+<div class="side-inner" data-bind="style: {'transform': scale, 'left': coordinates}, element: element">
 <!-- ko foreach: faces -->
 	<face-component params="{data: $data, override_theme: $parent.override_theme, override_template: $parent.override_template, preview: $parent.preview}" class="face-component"></face-component>
 <!-- /ko -->

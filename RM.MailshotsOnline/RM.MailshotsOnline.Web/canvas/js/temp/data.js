@@ -10,30 +10,6 @@ define([],
 
             this.formatData = [
                 {
-                    id: 1,
-                    name: 'A4 Format',
-                    faces: [
-                        {
-                            name:'Front',
-                            side:'front',
-                            width: 730,
-                            height: 900
-                        },
-                        {
-                            name:'Back Left',
-                            side:'back',
-                            width: 330,
-                            height: 900
-                        },
-                        {
-                            name:'Back Right',
-                            side:'back',
-                            width: 400,
-                            height: 900
-                        }
-                    ]
-                },
-                {
                     id: 2,
                     name: 'Card Format',
                     faces: [
@@ -85,7 +61,8 @@ define([],
                                     property: 'height',
                                     value: '125px'
                                 }
-                            ]
+                            ],
+                            message: "This is your headline, it should grab the readers' attention quickly with an engaging message. Try to keep it short and punchy"
                         },
                         {
                             name: 'sub-heading',
@@ -117,7 +94,8 @@ define([],
                                 	property: 'text-align',
                                 	value: 'left'
                                 }
-                            ]
+                            ],
+                            message: "This is your sub heading. Elaborate on your main heading here."
                         },
                         {
                             name: 'body',
@@ -209,7 +187,8 @@ define([],
                                     property: 'height',
                                     value: '450px'
                                 }
-                            ]
+                            ],
+                            message: "Choose a high quality image which helps convey your message to the reader."
                         },
                         {
                             name: 'Address',
@@ -298,7 +277,8 @@ define([],
                                     property: 'height',
                                     value: '200px'
                                 }
-                            ]
+                            ],
+                            message: "This is your headline, it should grab the readers' attention quickly with an engaging message. Try to keep it short and punchy"
                         },
                         {
                             name: 'sub-heading',
@@ -330,7 +310,8 @@ define([],
                                     property: 'text-align',
                                     value: 'left'
                                 }
-                            ]
+                            ],
+                            message: "This is your sub heading. Elaborate on your main heading here."
                         },
                         {
                             name: 'body',
@@ -483,7 +464,8 @@ define([],
                                     property: 'height',
                                     value: '60px'
                                 }
-                            ]
+                            ],
+                            message: "This is your headline, it should grab the readers' attention quickly with an engaging message. Try to keep it short and punchy"
                         },
                         {
                             name: 'sub-heading',
@@ -515,7 +497,8 @@ define([],
                                     property: 'text-align',
                                     value: 'left'
                                 }
-                            ]
+                            ],
+                            message: "This is your sub heading. Elaborate on your main heading here."
                         },
                         {
                             name: 'logo',

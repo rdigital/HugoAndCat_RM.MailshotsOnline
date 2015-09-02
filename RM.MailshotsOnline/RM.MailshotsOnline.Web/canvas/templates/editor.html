@@ -12,23 +12,32 @@
 <!-- /ko -->
 <!-- ko if: faces() && faces().length -->
 	<!-- main editor -->
-	<!-- ko with: viewingSide -->
-	<div class="canvas-container">
-		<div class="unfocus-div" data-bind="click: unfocus"></div>
-		<side-component class="side" params="{side: $data}" data-bind="style: {'transform': $parent.scale}"></side-component>
-	</div>
-	<!-- side picker -->
-	<div class="side-picker">
-		<!-- ko foreach: $parent.sides -->
-		<div class="side-picker-inner" data-bind="css: {'side-picker-inner_selected': $data == $parent}, click: function() { if ($parent != $data) {$parents[1].toggleSide()} }">
-			
-			<side-component class="side side_small" params="{side: $data, preview: true}"></side-component>
-			<span data-bind="text: $data" class="side-label"></span>
-		</div>
+
+	<div class="help" data-bind="css: {'help_error': (message()) && (message().type == 'error'), 'help_visible': message}">
+		<!--ko if: message() -->
+			<span data-bind="text: message().message"></span>
 		<!-- /ko -->
 	</div>
+
+	<!-- ko with: viewingSide -->
+		<div class="canvas-container" data-bind="click: $parent.unfocusConditional, css: {'canvas-container_selected': false}">
+			<side-component class="side side_large" params="{side: $data}" data-bind="style: {'transform': $parent.scale}"></side-component>
+		</div>
+
+		<!-- side picker -->
+		<div class="side-picker" data-bind="click: $parent.unfocus, css: {'side-picker_hidden': $parent.elementFocused}">
+			<!-- ko foreach: $parent.sides -->
+			<div class="side-picker-inner" data-bind="css: {'side-picker-inner_selected': $data == $parent}, click: function() { if ($parent != $data) {$parents[1].toggleSide()} }">
+				
+				<side-component class="side side_small" params="{side: $data, preview: true}"></side-component>
+				<span data-bind="text: $data" class="side-label"></span>
+			</div>
+			<!-- /ko -->
+		</div>
 	<!-- /ko -->
+
 	<zoom-component></zoom-component>
+
 <!-- /ko -->
 <!-- ko if: output -->
 	<div data-bind="click: clearOutput" style="position: absolute; bottom: 111px; right: 20px; font-weight: bold; color: #c00; cursor: pointer; z-index: 10;">X</div>

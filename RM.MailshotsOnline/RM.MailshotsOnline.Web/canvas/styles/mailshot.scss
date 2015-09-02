@@ -113,22 +113,7 @@ div, span, a {
 		min-height: 60px;
 	}
 }
-.selected-overlay {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background: rgba(255, 255, 255, 0.36);
-	pointer-events: none;
-	z-index: 108;
-	opacity: 0;
-	pointer-events: none;
-	transition: opacity .25s ease-out;
-	&.selected-overlay_visible {
-		opacity: 1;
-	}
-}
+
 .component.component_selected {
 	z-index: 110;
 }
@@ -307,7 +292,7 @@ canvas {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-	position: fixed;
+	position: absolute;
     top: 0;
     left: 0;
     right: 0;
@@ -403,64 +388,4 @@ canvas {
 	left: 0;
 	right: 0;
 	bottom: 0;
-}
-
-.theme-picker {
-	position: fixed;
-    top: 25px;
-    left: 50%;
-    margin-left: -422px;
-    width: 690px;
-    height: 234px;
-    background: #FFF;
-    z-index: 102;
-    padding: 20px;
-    padding-right: 0;
-    box-shadow: rgba(0, 0, 0, 0.18) 3px 3px 3px;
-    border: 1px solid #666;
-    border-top: none;
-	.theme-container {
-		position: relative;
-		width: 200px;
-		height: 200px;
-		margin-right: 20px;
-		margin-bottom: 20px;
-		float: left;
-		cursor: pointer;
-		.side {
-			transform: scale(0.33);
-			left: 0;
-		    top: 0;
-		    transform-origin: 0 0;
-		    margin-bottom: 0;
-		    .side-inner {
-		    	position: relative;
-		    	&:before {
-			    	content: '';
-			    	display: block;
-			    	position: absolute;
-			    	top: 0;
-			    	left: 0;
-			    	right: 0;
-			    	bottom: 0;
-			    	opacity: 0;
-			    	background: #000;
-			    	transition: opacity .25s ease-out;
-			    	z-index: 100;
-			    }
-			}
-		    .face {
-		    	pointer-events: none;
-		    }
-		}
-		&:hover .side-inner:before {
-    		opacity: 0.2;
-    	}
-    	.theme-name {
-    		position: absolute;
-    		bottom: 10px;
-    		text-align: center;
-    		width: 100%;
-    	}
-	}
 }

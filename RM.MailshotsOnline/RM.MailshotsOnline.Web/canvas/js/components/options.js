@@ -7,6 +7,7 @@ define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/form
         function optionsViewModel(params) {
             this.redoAvailable = historyViewModel.redoAvailable;
             this.undoAvailable = historyViewModel.undoAvailable;
+            this.hidden = this.getHiddenComputed();
         }
 
         /**
@@ -58,6 +59,15 @@ define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/form
 
         optionsViewModel.prototype.reset = function reset() {
             historyViewModel.reset();
+        }
+
+        optionsViewModel.prototype.getHiddenComputed = function regetHiddenComputedset() {
+            return ko.pureComputed(function() {
+                if (stateViewModel.selectedElement() || stateViewModel.backgroundSelected()) {
+                    return true
+                }
+                return false
+            }, this)
         }
 
         return {

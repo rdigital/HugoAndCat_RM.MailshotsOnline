@@ -22,6 +22,11 @@ define(['knockout', 'komapping', 'components/side', 'components/tools', 'compone
             this.output = stateViewModel.output;
             this.clearOutput = this.clearOutput.bind(this);
 
+            this.unfocusConditional = this.unfocusConditional.bind(this);
+
+            this.elementFocused = this.getHiddenComputed();
+            this.message = this.getMessageComputed();
+
             // subscriptions
             this.handleSubscriptions();
         }
@@ -52,6 +57,34 @@ define(['knockout', 'komapping', 'components/side', 'components/tools', 'compone
         editorViewModel.prototype.unfocus = function unfocus() {
             stateViewModel.selectElement(null);
             stateViewModel.backgroundSelected(null);
+        }
+
+        /**
+         * unfocus any currently selected element if clicking directly on the
+         * editor container
+         */
+        editorViewModel.prototype.unfocusConditional = function unfocusConditional(data, e) {
+            if ($(e.originalEvent.target).hasClass('canvas-container')) {
+                this.unfocus();
+            }
+        }
+
+        editorViewModel.prototype.getHiddenComputed = function getHiddenComputed() {
+            return ko.pureComputed(function() {
+                if (stateViewModel.selectedElement() || stateViewModel.backgroundSelected()) {
+                    return true
+                }
+                return false
+            }, this)
+        }
+
+        editorViewModel.prototype.getMessageComputed = function getMessageComputed() {
+            return ko.pureComputed(function() {
+                if (stateViewModel.selectedElement()) {
+                    return stateViewModel.selectedElement().message();
+                }
+                return null
+            }, this)
         }
 
         /**

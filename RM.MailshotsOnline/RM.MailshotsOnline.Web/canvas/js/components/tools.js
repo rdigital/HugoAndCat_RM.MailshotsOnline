@@ -112,8 +112,8 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
         }
 
         toolsViewModel.prototype.handleResize = function handleResize() {
-            this.window_width($(window).width())
-            this.window_height($(window).height())
+            this.window_width($('.canvas-container').width())
+            this.window_height($('.canvas-container').height())
         }
 
         toolsViewModel.prototype.calcAttachment = function calcAttachment() {

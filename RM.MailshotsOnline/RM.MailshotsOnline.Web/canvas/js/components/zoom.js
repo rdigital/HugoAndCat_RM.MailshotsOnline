@@ -5,12 +5,14 @@ define(['knockout', 'jquery', 'view_models/state'],
         // ViewModel
         function zoomComponentViewModel() {
             this.zoom = stateViewModel.zoom;
+            this.overrideZoom = stateViewModel.overrideZoom;
             this.scaleElement = stateViewModel.scaleElement;
             this.viewingSide = stateViewModel.viewingSide;
-            this.availableZooms = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
+            this.availableZooms = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5];
 
             // bound functions
             this.handleScale = this.handleScale.bind(this);
+            this.toggleZoom = this.toggleZoom.bind(this);
 
             // subscriptions
             this.handleSubscriptions();
@@ -31,14 +33,26 @@ define(['knockout', 'jquery', 'view_models/state'],
                 return
             }
             setTimeout(function () {
-                var window_height = $(window).height() - 150,
-                window_width = $(window).width() - 150,
+                var window_height = $('.canvas-container').height() - 100,
+                window_width = $('.canvas-container').width() - 100,
                 width_factor = (Math.floor((window_width / el.width())*4))/4,
                 height_factor = (Math.floor((window_height / el.height())*4))/4;
 
                 this.zoom(Math.min(width_factor, height_factor));
             }.bind(this), 100)
             
+        }
+
+        zoomComponentViewModel.prototype.toggleZoom = function toggleZoom() {
+            if (this.overrideZoom()) {
+                this.overrideZoom(null);
+            } else {
+                this.overrideZoom(this.availableZooms[this.availableZooms.length-1])
+            }
+        }
+
+        zoomComponentViewModel.prototype.getZoomAvailableComputed = function getZoomAvailableComputed() {
+            return this.zoom() != this.availableZooms[this.availableZooms.length-1]
         }
 
         zoomComponentViewModel.prototype.increaseZoom = function increaseZoom() {
