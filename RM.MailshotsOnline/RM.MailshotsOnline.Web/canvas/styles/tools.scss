@@ -1,0 +1,123 @@
+@import 'mixins';
+@import 'variables';
+@import 'fonts';
+
+
+.tools {
+	@include nohighlight();
+	font-family: PFDin Regular, Arial;
+	position: fixed;
+	background: #fff;
+	min-width: 260px;
+	min-height: 200px;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity .25s ease-out;
+	z-index: 109;
+	margin: 0 10px;
+	padding: 10px 0;
+	border: 1px solid rgba(0, 0, 0, 0.09);
+	color: $darkest-grey;
+	&.tools_visible {
+		opacity: 1;
+		pointer-events: all;
+	}
+	.tools-row {
+		text-align: left;
+		padding: 4px 20px;
+		height: 45px;
+		label {
+			display: inline-block;
+			width: 100px;
+			font-size: 14px;
+			color: #00024A;
+			vertical-align: top;
+		    height: 32px;
+		    line-height: 32px;
+		}
+	}
+	.tools-group {
+		margin-right: 5px;
+		display: inline-block;
+		&:last-child {
+			margin: 0;
+		}
+	}
+	.tools-button {
+		transition: all .25s ease-out;
+	    padding: 7px 9px;
+	    min-width: 35px;
+	    display: inline-block;
+	    text-align: center;
+	    font-weight: 200;
+	    cursor: pointer;
+	    font-size: 15px;
+	    line-height: 19px;
+	    float: left;
+	    border: 1px solid $grey;
+	    border-left: none;
+	    @include shadow(0px, 2px, 0, $lightish-grey);
+	    &:first-child {
+	    	border-left: 1px solid $grey;
+	    	border-top-left-radius: 2px;
+	    	border-bottom-left-radius: 2px;
+	    }
+	    &:last-child {
+	    	border-top-right-radius: 2px;
+	    	border-bottom-right-radius: 2px;
+	    }
+	    &.active {
+			background: #C4CFF7;
+			color: #00024A;
+		}
+	}
+	.dropdown:after {
+    	content: '';
+    	display: block;
+    	position: absolute;
+    	right: 35px;
+    	top: 0;
+    	bottom: 0;
+    	border-right: 1px solid $grey;
+	}
+	.tools-dropdown {
+		position: relative;
+		background: #FFF;
+	    border: 1px solid $grey;
+	    display: inline-block;
+	    text-align: left;
+	    color: $dark-grey;
+	    font-weight: 200;
+	    cursor: pointer;
+	    font-size: 14px;
+	    height: 35px;
+	    padding-left: 10px;
+	    padding-right: 45px;
+	    line-height: 35px;
+	    min-width: 70px;
+	    &.tools-dropdown_full {
+	    	width: 100%;
+	    }
+	    &:after {
+	    	transition: all .25s ease-out;
+	    	content: '^';
+	    	position: absolute;
+	    	right: 13px;
+		    top: -5px;
+		    transform: rotate(180deg);
+		    font-size: 20px;
+	    	color: $dark-grey;
+	    }
+	}
+	.dropdown.dropdown_active .tools-dropdown:after {
+		top: 4px;
+		transform: scaleY(-1) rotate(180deg);
+	}
+	.dropdown-options {
+		z-index: 1;
+		color: $dark-grey;
+	}
+	&.background-tools {
+		min-height: 60px;
+	}
+}

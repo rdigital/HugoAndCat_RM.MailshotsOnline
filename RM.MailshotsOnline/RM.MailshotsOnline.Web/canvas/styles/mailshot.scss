@@ -22,98 +22,6 @@ div, span, a {
 	-moz-box-sizing: border-box;
 }
 
-
-// tools
-.tools {
-	// prevent highlighting
-	-webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-	position: fixed;
-	background: #fff;
-	min-width: 300px;
-	min-height: 300px;
-	opacity: 0;
-	pointer-events: none;
-	transition: opacity .25s ease-out;
-	z-index: 109;
-	margin: 0 10px;
-	padding: 10px 0;
-	border: 2px solid #6388ff;
-	&.tools_visible {
-		opacity: 1;
-		pointer-events: all;
-	}
-	.tools-row {
-		text-align: left;
-		padding: 4px 20px;
-		height: 40px;
-		label {
-			display: inline-block;
-			width: 100px;
-			font-size: 14px;
-			color: #00024A;
-			vertical-align: top;
-		    height: 32px;
-		    line-height: 32px;
-		}
-	}
-	.tools-button {
-		transition: all .25s ease-out;
-	    background: #00024A;
-	    padding: 7px 9px;
-	    min-width: 34px;
-	    display: inline-block;
-	    text-align: center;
-	    color: #FFF;
-	    font-weight: 200;
-	    cursor: pointer;
-	    font-size: 15px;
-	    line-height: 19px;
-	    &.active {
-			background: #C4CFF7;
-			color: #00024A;
-		}
-	}
-	.tools-dropdown {
-		position: relative;
-		background: #FFF;
-	    border: 2px solid #00024A;
-	    min-width: 13px;
-	    display: inline-block;
-	    text-align: left;
-	    color: #00024A;
-	    font-weight: 200;
-	    cursor: pointer;
-	    font-size: 14px;
-	    height: 30px;
-	    padding-left: 10px;
-	    padding-right: 25px;
-	    line-height: 28px;
-	    min-width: 100px;
-	    &:after {
-	    	transition: all .25s ease-out;
-	    	content: '>';
-	    	position: absolute;
-	    	right: 7px;
-	    	top: 0;
-	    	transform: rotate(90deg);
-	    }
-	}
-	.dropdown.dropdown_active .tools-dropdown:after {
-		transform: scaleY(-1) rotate(90deg);
-	}
-	.dropdown-options {
-		z-index: 1;
-	}
-	&.background-tools {
-		min-height: 60px;
-	}
-}
-
 .component.component_selected {
 	z-index: 110;
 }
@@ -122,6 +30,9 @@ div, span, a {
 .dropdown {
 	display: inline-block;
 	position: relative;
+	&.dropdown_full {
+		width: 100%;
+	}
 	.dropdown-options {
 		transition: all .25s ease-out;
 		position: absolute;
@@ -154,15 +65,14 @@ div, span, a {
 		}
 	}
 	.dropdown-colourswatch {
-		transition: all .25s ease-out;
-		display: inline-block;
-		width: 20px;
-		height: 20px;
-		border-radius: 10px;
-		margin-top: 3.5px;
-		cursor: pointer;
-		margin-right: 3px;
-		border: 1px solid #424242;
+		transition: all 0.25s ease-out;
+	    display: inline-block;
+	    cursor: pointer;
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    right: 35px;
+	    bottom: 0;
 	}
 	.dropdown-colourswatch-button {
 		width: 100%;
@@ -194,7 +104,7 @@ div, span, a {
 		background: rgba(255, 255, 255, 0.1);
 	}
 	&:focus:before, &.editable_active:before {
-		border: 2px solid rgb(99, 136, 255);
+		border: 1px solid rgba(0, 0, 0, 0.09);
 		//background: inherit;
 	}
 	&.editable_active {
@@ -383,9 +293,10 @@ canvas {
 
 .picker-background {
 	z-index: 101;
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.3);
 }

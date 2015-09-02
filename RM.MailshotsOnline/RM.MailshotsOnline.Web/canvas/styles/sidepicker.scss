@@ -4,6 +4,7 @@
 
 .side-picker {
     @include transition(all);
+    @include nohighlight();
     position: fixed;
     left: 0;
     top: 50px;

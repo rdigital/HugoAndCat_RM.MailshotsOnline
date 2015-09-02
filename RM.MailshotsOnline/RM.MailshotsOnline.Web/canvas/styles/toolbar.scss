@@ -10,11 +10,12 @@
 	left: 0;
 	right: 0;
 	height: 50px;
-	z-index: 4;
+	z-index: 111;
 	background: $darkest-grey;
 	color: $light-grey;
 	transform: translate(0, 0);
 	text-align: left;
+	overflow: hidden;
 	&.options-toolbar_hidden {
 		transform: translate(0, -50px);
 	}
@@ -48,7 +49,7 @@
 		}
 	}
 	.toolbar-button {
-		font-family: PFDin Regular;
+		font-family: PFDin Regular, Arial;
 		text-align: center;
 		cursor: pointer;
 		position: relative;
