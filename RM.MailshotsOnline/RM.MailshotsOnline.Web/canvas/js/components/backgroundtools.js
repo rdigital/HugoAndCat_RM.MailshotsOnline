@@ -6,10 +6,8 @@ define(['knockout', 'components/colourpicker', 'view_models/state'],
         function backgroundToolsViewModel(params) {
             this.backgroundSelected = stateViewModel.backgroundSelected;
             this.attachment = {
-                'top': '100%',
-                'left': 0,
-                'margin-top': '20px',
-                'margin-left': 0
+                'top': 160,
+                'left': '50%',
             }
             this.colours = this.getColoursComputed();
             this.colour = this.getStyleComputed('background-color');

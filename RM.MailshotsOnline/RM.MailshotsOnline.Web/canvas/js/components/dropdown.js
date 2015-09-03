@@ -8,6 +8,7 @@ define(['knockout', 'jquery', 'koelement'],
             this.options = params.options
             this.action = params.action
             this.selectedObs = params.selected
+            this.full = params.full
             this.focusCallback = params.focusCallback
             this.anchorClass = params.anchorClass
             this.open = ko.observable(false);

@@ -1,6 +1,5 @@
 <nav-component></nav-component>
 <options-component></options-component>
-<tools-component></tools-component>
 <!-- ko if: showTemplatePicker -->
 	<template-component></template-component>
 <!-- /ko -->
@@ -20,7 +19,8 @@
 	</div>
 
 	<!-- ko with: viewingSide -->
-		<div class="canvas-container" data-bind="click: $parent.unfocusConditional, css: {'canvas-container_selected': false}">
+		<div class="canvas-container" data-bind="click: $parent.unfocusConditional, css: {'canvas-container_selected': false, 'canvas-container_focused': $parent.elementFocused}">
+			<tools-component></tools-component>
 			<side-component class="side side_large" params="{side: $data}" data-bind="style: {'transform': $parent.scale}"></side-component>
 		</div>
 
@@ -36,6 +36,9 @@
 		</div>
 	<!-- /ko -->
 
+	<!-- ko if: isBackgroundSelected -->
+	<backgroundtools-component></backgroundtools-component>
+	<!-- /ko -->
 	<zoom-component></zoom-component>
 
 <!-- /ko -->
