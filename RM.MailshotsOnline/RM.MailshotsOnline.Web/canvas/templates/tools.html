@@ -14,7 +14,7 @@
         <span class="tools-group">
             <span class="tools-button" data-bind="click: increaseFontSize"><span style="font-size: 20px;">A</span></span>
             <span class="tools-button" data-bind="click: decreaseFontSize"><span style="font-size: 12px;">A</span></span>
-            <span class="tools-button" data-bind="click: increaseFontSize"><b>+</b></span>
+            <span class="tools-button" data-bind="click: fitFontSize"><b class="fa fa-arrows"></b></span>
         </span>
     </div>
 
@@ -24,6 +24,10 @@
             <span class="tools-button fa fa-align-center" data-bind="click: function() {setStyle('text-align', 'center')}, css: {'active': alignment() == 'center'}"></span>
             <span class="tools-button fa fa-align-right" data-bind="click: function() {setStyle('text-align', 'right')}, css: {'active': alignment() == 'right'}"></span>
             <span class="tools-button fa fa-align-justify" data-bind="click: function() {setStyle('text-align', 'justify')}, css: {'active': alignment() == 'justify'}"></span>
+        </span>
+        <span class="tools-group">
+            <span class="tools-button fa fa-align-left" data-bind="click: function() {setStyle('text-align', 'left')}, css: {'active': alignment() == 'left'}"></span>
+            <span class="tools-button fa fa-align-center" data-bind="click: function() {setStyle('text-align', 'center')}, css: {'active': alignment() == 'center'}"></span>
         </span>
     </div>
 

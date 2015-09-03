@@ -170,6 +170,15 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
         /**
          * trigger an increase of font size for this element
          */
+        toolsViewModel.prototype.fitFontSize = function fitFontSize() {
+            if (this.selectedElement()) {
+                this.selectedElement().fitFontSize();
+            }
+        }
+
+        /**
+         * trigger an increase of font size for this element
+         */
         toolsViewModel.prototype.increaseFontSize = function increaseFontSize() {
             if (this.selectedElement()) {
                 this.selectedElement().increaseFontSize();

@@ -18,6 +18,7 @@
 	padding: 10px 0;
 	border: 1px solid rgba(0, 0, 0, 0.09);
 	color: $darkest-grey;
+	@include shadow(1px, 3px, 0, rgba(0, 0, 0, 0.17));
 	&.tools_visible {
 		opacity: 1;
 		pointer-events: all;
@@ -69,6 +70,10 @@
 	    &.active {
 			background: #C4CFF7;
 			color: #00024A;
+		}
+		.fa-arrows {
+			line-height: 19px;
+			transform: rotate(45deg);
 		}
 	}
 	.dropdown:after {

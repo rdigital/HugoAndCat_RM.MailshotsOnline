@@ -121,6 +121,17 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
             }
         }
 
+        inputViewModel.prototype.fitFontSize = function fitFontSize() {
+            var font_sizes = this.getFontSizes(),
+                idx = font_sizes.length-1;
+            this.setStyle('font-size', font_sizes[idx]);
+
+            var scrollVisible = this.scrollVisible();
+            while (scrollVisible) {
+                scrollVisible = this.decreaseFontSize()
+            }
+        }
+
         /**
          * if available, bumps the font size up to the next available size for the theme applied to this element
          * @return {Boolean} will be false when no more sizes are available (max size reached), otherwise true
@@ -129,6 +140,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
             var font_sizes = this.getFontSizes(),
                 font_size = this.getStyle('font-size')
                 index = font_sizes.indexOf(font_size || 0);
+
             if (index < font_sizes.length-1) {
                 this.setStyle('font-size', font_sizes[index+1])
                 return true
