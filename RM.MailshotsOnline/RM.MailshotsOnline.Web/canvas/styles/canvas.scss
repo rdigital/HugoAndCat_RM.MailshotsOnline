@@ -33,6 +33,7 @@ body {
         display: inline-block;
         pointer-events: all;
         transform-origin: 0 0;
+        pointer-events: none;
         > .face-component {
             display: inline-block;
             position: relative;
@@ -46,7 +47,7 @@ body {
         }
     }
     &.side_small {
-        pointer-events: all;
+        pointer-events: none;
         position: absolute;
         margin: 0;
         top: 20px;
@@ -60,7 +61,13 @@ body {
         box-shadow: $darkest-grey 0px 4px 32px;
         -moz-box-shadow: $darkest-grey 0px 4px 4px;
         > div {
+            pointer-events: none !important;
+        }
+        .face {
             pointer-events: none;
+            > * {
+                pointer-events: none;
+            }
         }
         .selected-overlay {
             display: none !important;
@@ -71,11 +78,19 @@ body {
     }
 }
 
+.face-component {
+    pointer-events: none;
+}
+
 .face {
     display: inline-block;
     background: #FFF;
     position: relative;
     @include shadow(1px, 3px, 0, $lightish-grey);
+    pointer-events: none;
+    > * {
+        pointer-events: all;
+    }
     .face_name {
         position: absolute;
         top: -30px;
