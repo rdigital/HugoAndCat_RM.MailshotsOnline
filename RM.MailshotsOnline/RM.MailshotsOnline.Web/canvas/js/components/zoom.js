@@ -47,10 +47,15 @@ define(['knockout', 'jquery', 'view_models/state'],
             }
             setTimeout(function () {
                 var window_height = $('.canvas-container').height() - 100,
-                window_width = $('.canvas-container').width() - 100,
-                width_factor = (Math.floor((window_width / el.width())*4))/4,
-                height_factor = (Math.floor((window_height / el.height())*4))/4;
+                    window_width = $('.canvas-container').width() - 100;
 
+                if (stateViewModel.selectedElement() || stateViewModel.backgroundSelected()) {
+                    window_height -= 50;
+                    window_width -= 150;
+                }
+                var width_factor = (Math.floor((window_width / el.width())*4))/4,
+                    height_factor = (Math.floor((window_height / el.height())*4))/4;
+                
                 this.zoom(Math.min(width_factor, height_factor));
             }.bind(this), 100)
             

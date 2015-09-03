@@ -17,6 +17,7 @@ define(['knockout', 'komapping', 'components/side', 'components/tools', 'compone
             this.showImageUpload = stateViewModel.showImageUpload;
             this.showThemePicker = stateViewModel.showThemePicker;
             this.showTemplatePicker = stateViewModel.showTemplatePicker;
+            this.isBackgroundSelected = stateViewModel.backgroundSelected;
 
             //testing
             this.output = stateViewModel.output;

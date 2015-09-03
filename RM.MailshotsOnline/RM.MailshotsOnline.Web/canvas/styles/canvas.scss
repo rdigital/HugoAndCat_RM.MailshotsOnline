@@ -7,7 +7,7 @@ body {
 }
 
 .canvas-container {
-    position: fixed;
+    position: absolute;
     top: 50px;
     left: 150px;
     right: 0;
@@ -15,9 +15,20 @@ body {
     z-index: 2;
     overflow: auto;
     background: $lightest-grey;
-    &.canvas-container_full {
+    .tools {
+        transform: translate(-150px, -50px);
+    }
+    &.canvas-container_focused {
         top: 0;
         left: 0;
+        .side {
+            transform: translate(150px, 50px);
+            right: 150px;
+
+        }
+        .tools {
+            transform: translate(0, 0);
+        }
     }
 }
 

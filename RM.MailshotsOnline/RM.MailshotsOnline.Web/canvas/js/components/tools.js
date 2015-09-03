@@ -31,6 +31,9 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
 
             this.handleResize = this.handleResize.bind(this);
             $(window).resize(this.handleResize);
+            $('.canvas-container').on('scroll', this.handleResize)
+            stateViewModel.zoom.subscribe(this.handleResize, this);
+            stateViewModel.overrideZoom.subscribe(this.handleResize, this);
             this.handleResize();
         }
 
@@ -112,46 +115,89 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
         }
 
         toolsViewModel.prototype.handleResize = function handleResize() {
-            this.window_width($('.canvas-container').width())
-            this.window_height($('.canvas-container').height())
+            //this.window_width($('.canvas-container')[0].scrollWidth)
+            //this.window_height($('.canvas-container')[0].scrollHeight)
+            this.window_width($(window).width());
+            this.window_height($(window).height());
+            this.window_width.valueHasMutated();
         }
 
         toolsViewModel.prototype.calcAttachment = function calcAttachment() {
             var coords = this.selectedElement().getCoords(),
                 right_margin = this.window_width() - coords.right,
                 bottom_margin = this.window_height() - coords.bottom,
-                attachment = {};
+                attachment = {},
+                container = $('.canvas-container'),
+                scrollHeight = container[0].scrollHeight,
+                scrollWidth = container[0].scrollWidth,
+                scrollTop = container.scrollTop(),
+                scrollLeft = container.scrollLeft();
 
-            // not enough horizontal room, try placing tools above or below
-            if (coords.left < coords.width && right_margin < coords.width) {
-                attachment.left = coords.left - 10;
-                attachment.right = 'auto';
-                if (coords.top > bottom_margin && coords.top > coords.height) {
-                    attachment.bottom = $(window).height() - coords.top + 10;
-                    attachment.top = 'auto';
+            // work out where the largest space is
+            var maxV = Math.max(coords.top, bottom_margin),
+                maxH = Math.max(coords.left, right_margin),
+                max = Math.max(maxV, maxH),
+                tools_height = $('.tools').height() + 20,
+                tools_width = $('.tools').width() + 20;
+
+
+            if (maxV < tools_height && maxH < tools_width) {
+                // not enough room for the tools, just place them in the top left
+                return {
+                    left: 50,
+                    top: 100,
+                    right: 'auto',
+                    bottom: 'auto'
+                }
+            }
+
+            // deal with horizontal case
+            if (maxH > tools_width) {
+                // have enough horizontal room
+                if (maxH == coords.left) {
+                    // attach to the left
+                    attachment.right = this.window_width() - coords.left - scrollLeft;
+                    attachment.left = 'auto';
                 } else {
-                    attachment.top = coords.bottom + 10;
+                    // attach to the right
+                    attachment.left = coords.right + scrollLeft;
+                    attachment.right = 'auto';
+                }
+                if (maxV > tools_height) {
+                    if (maxV == coords.top) {
+                        attachment.bottom = Math.min((this.window_height() - coords.bottom)-scrollTop, scrollHeight - 100);
+                        attachment.top = 'auto';
+                    } else {
+                        attachment.top = Math.max(coords.top + scrollTop, scrollTop + 100);
+                        attachment.bottom = 'auto'
+                    }
+                } else {
+                    attachment.top = Math.max(coords.top + scrollTop, scrollTop + 100);
                     attachment.bottom = 'auto';
                 }
                 return attachment
-            }
-
-            // horizontal attachment
-            if (coords.left > right_margin) {
-                attachment.right = $(window).width() - coords.left;
-                attachment.left = 'auto';
             } else {
-                attachment.left = coords.right;
+                // attach the left of the tools to either the left of the element or the screen edge
+                attachment.left = Math.max(coords.left + scrollLeft, scrollLeft + 10);
                 attachment.right = 'auto';
             }
 
-            // vertical attachment
-            if (coords.top > bottom_margin) {
-                attachment.bottom = bottom_margin;
-                attachment.top = 'auto';
+            if (maxV > tools_height) {
+                // have enough vertical room
+                if (maxV == coords.top) {
+                    // attach to the top
+                    attachment.bottom = (this.window_height() - coords.top) - scrollTop  + 10;
+                    attachment.top = 'auto';
+                } else {
+                    // attach to the bottom
+                    attachment.top = coords.bottom + 10 + scrollTop;
+                    attachment.bottom = 'auto';
+                }
+                return attachment
             } else {
-                attachment.top = coords.top;
-                attachment.bottom = 'auto';
+                // attach the top to the top of the element or the edge of the screen
+                attachment.top = Math.max((this.window_height() - coords.top) - scrollTop + 10, scrollTop + 100);
+                attachment.bottom = 'auto'
             }
             return attachment
         }
