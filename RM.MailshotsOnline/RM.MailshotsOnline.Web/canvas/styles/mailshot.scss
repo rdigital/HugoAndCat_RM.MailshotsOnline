@@ -114,6 +114,9 @@ div, span, a {
 		min-height: 20px !important;
 		height: 100%;
 		outline: none;
+		ol, ul {
+			margin: 5px 0;
+		}
 	}
 	&.editable_error {
 		&:before, &:focus:before, &.editable_active:before, &:hover:before {

@@ -194,6 +194,18 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             }
         }
 
+        toolsViewModel.prototype.orderedList = function orderedList() {
+            if (this.selectedElement()) {
+                this.selectedElement().orderedList();
+            }
+        }
+
+        toolsViewModel.prototype.unorderedList = function unorderedList() {
+            if (this.selectedElement()) {
+                this.selectedElement().unorderedList();
+            }
+        }
+
         /**
          * get computed which evaluates whether text is bold in the current context
          * @return {ko.pureComputed} 

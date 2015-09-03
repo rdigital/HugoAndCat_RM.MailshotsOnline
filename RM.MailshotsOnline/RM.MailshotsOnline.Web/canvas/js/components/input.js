@@ -86,6 +86,16 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
             this.getState();
         }
 
+        inputViewModel.prototype.orderedList = function orderedList() {
+            document.execCommand("insertOrderedList", false, null);
+            this.sizeAdjust();
+        }
+
+        inputViewModel.prototype.unorderedList = function unorderedList() {
+            document.execCommand("insertUnorderedList", false, null);
+            this.sizeAdjust();
+        }
+
         /**
          * checks the current state at the caret and triggers automatic font resizing on key up
          */
