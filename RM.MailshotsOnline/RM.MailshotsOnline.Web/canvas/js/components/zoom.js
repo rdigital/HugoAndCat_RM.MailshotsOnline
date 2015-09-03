@@ -25,6 +25,19 @@ define(['knockout', 'jquery', 'view_models/state'],
         zoomComponentViewModel.prototype.handleSubscriptions = function handleSubscriptions() {
             this.scaleElement.subscribe(this.handleScale, this);
             $(window).resize(this.handleScale);
+            // chrome blurry font rendering big hack
+            this.zoom.subscribe(function() {
+                $('canvas').hide();
+                setTimeout(function() {
+                    $('canvas').show();
+                }, 0)
+            })
+            this.overrideZoom.subscribe(function() {
+                $('canvas').hide();
+                setTimeout(function() {
+                    $('canvas').show();
+                }, 0)
+            })
         }
 
         zoomComponentViewModel.prototype.handleScale = function handleScale() {
