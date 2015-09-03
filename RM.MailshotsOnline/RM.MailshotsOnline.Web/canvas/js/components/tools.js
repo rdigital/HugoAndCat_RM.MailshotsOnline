@@ -111,7 +111,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                     return this.calcAttachment();
                 }
                 return {}
-            }, this)
+            }, this).extend({throttle: 100})
         }
 
         toolsViewModel.prototype.handleResize = function handleResize() {
