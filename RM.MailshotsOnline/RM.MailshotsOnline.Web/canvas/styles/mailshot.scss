@@ -74,9 +74,34 @@ div, span, a {
 	    right: 35px;
 	    bottom: 0;
 	}
-	.dropdown-colourswatch-button {
+	.dropdown-options-colour {
+		display: inline-block;
+		height: 17px;
+		width: 17px;
+		border: 1px solid $grey;
+	}
+	.dropdown-options-button {
 		width: 100%;
 		margin: 5px 0;
+		border: 1px solid $grey !important;
+	}
+}
+.colour-dropdown {
+	.dropdown-options {
+		width: 245px;
+		min-height: 320px;
+		left: 100%;
+	    top: -170px;
+	    border: 1px solid rgba(0, 0, 0, 0.18);
+	    padding: 20px;
+	}
+	.dropdown-options-label {
+		margin-bottom: 10px;
+		font-size: 16px;
+		font-family: Chevin Medium, Arial;
+	}
+	.dropdown-options-content {
+		margin-bottom: 20px;
 	}
 }
 
