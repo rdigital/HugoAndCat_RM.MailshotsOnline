@@ -385,6 +385,7 @@
     <Content Include="App_Plugins\PrivateImageViewer\imageviewer.controller.js" />
     <Content Include="App_Plugins\PrivateImageViewer\imageviewer.html" />
     <Content Include="canvas\app.html" />
+    <Content Include="canvas\fonts\icomoon.svg" />
     <Content Include="canvas\gruntfile.js" />
     <Content Include="canvas\images\img_placeholder.PNG" />
     <Content Include="canvas\images\upload.png" />
@@ -505,6 +506,9 @@
     <Content Include="canvas\styles\compiled\themepicker.css.map" />
     <Content Include="canvas\styles\tools.scss" />
     <Content Include="canvas\styles\compiled\tools.css.map" />
+    <Content Include="canvas\fonts\icomoon.eot" />
+    <Content Include="canvas\fonts\icomoon.ttf" />
+    <Content Include="canvas\fonts\icomoon.woff" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\campaign-functions.js" />
     <Content Include="scripts\campaign-hub.js" />
