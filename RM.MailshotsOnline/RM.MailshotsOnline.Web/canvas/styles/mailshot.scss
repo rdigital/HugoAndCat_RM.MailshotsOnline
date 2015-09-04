@@ -330,3 +330,30 @@ canvas {
     bottom: 0;
     background-color: rgba(0,0,0,0.3);
 }
+
+.zoom {
+	@include transition(all);
+	position: fixed;
+	bottom: 40px;
+	right: 40px;
+	z-index: 99999;
+	color: $dark-grey;
+	font-size: 30px;
+	cursor: pointer;
+	border: 3px solid $dark-grey;
+	padding: 10px;
+    @include borderradius(50%);
+    &:hover {
+    	color: $darkest-grey;
+    	border-color: $darkest-grey;
+    }
+    &.zoomout {
+    	background: #00B2FD;
+    	border-color: #00B2FD;
+    	color: #FFF;
+    	&:hover {
+    		background: #0083FD;
+    		border-color: #0083FD;
+    	}
+    }
+}

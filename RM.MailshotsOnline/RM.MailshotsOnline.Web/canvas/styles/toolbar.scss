@@ -91,6 +91,10 @@
 		&.toolbar-button_green {
 	    	background: $green;
 	    	border: none;
+	    	padding-left: 25px;
+	    	&:hover {
+	    		background-color: #3C9016;
+	    	}
 	    }
 	}
 }

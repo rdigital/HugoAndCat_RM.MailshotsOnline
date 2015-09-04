@@ -127,7 +127,8 @@ define([],
                                 	property: 'text-align',
                                 	value: 'left'
                                 }
-                            ]
+                            ],
+                            message: "Body copy placeholder message, to be confirmed"
                         },
                         {
                             name: 'cta',
@@ -159,7 +160,8 @@ define([],
                                 	property: 'text-align',
                                 	value: 'left'
                                 }
-                            ]
+                            ],
+                            message: "CTA copy placeholder message, to be confirmed"
                         },
                         {
                             name: 'logo',
@@ -343,7 +345,8 @@ define([],
                                     property: 'text-align',
                                     value: 'left'
                                 }
-                            ]
+                            ],
+                            message: "Body copy placeholder message, to be confirmed"
                         },
                         {
                             name: 'cta',
@@ -375,7 +378,8 @@ define([],
                                     property: 'text-align',
                                     value: 'left'
                                 }
-                            ]
+                            ],
+                            message: "CTA copy placeholder message, to be confirmed"
                         },
                         {
                             name: 'Address',
@@ -530,7 +534,8 @@ define([],
                                     property: 'text-align',
                                     value: 'left'
                                 }
-                            ]
+                            ],
+                            message: "Image copy placeholder message, to be confirmed"
                         },
                         {
                             name: 'Address',
@@ -1424,11 +1429,11 @@ define([],
                     },
                     {
                         name: 'sub-heading',
-                        content: 'Subline with a bit more detail goes here.',
+                        content: 'Sub-line with a bit more detail goes here.',
                     },
                     {
                         name: 'body',
-                        content: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+                        content: "Far far away, behind the word mountains, far from the countries, there live the blind texts. Separated they live in right at the coast of the Semantics, a large language ocean.  It is a paradisematic country.",
                     },
                     {
                         name: 'cta',

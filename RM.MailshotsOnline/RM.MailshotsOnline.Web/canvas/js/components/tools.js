@@ -15,7 +15,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
 
             this.isVisible = ko.pureComputed(function() {
                 return this.selectedElement() ? true : false;
-            }, this).extend({throttle: 10})
+            }, this).extend({throttle: 50})
 
             this.elementType = this.getElementTypeComputed();
             this.showScale = this.getScaleComputed();
@@ -111,7 +111,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                     return this.calcAttachment();
                 }
                 return {}
-            }, this).extend({throttle: 100})
+            }, this).extend({throttle: 50})
         }
 
         toolsViewModel.prototype.handleResize = function handleResize() {

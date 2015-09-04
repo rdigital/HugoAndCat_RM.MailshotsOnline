@@ -1,1 +1,3 @@
-<button data-bind="click: toggleZoom" style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">Zoom</button>
+<a class="zoom" data-bind="click: toggleZoom, css: {'zoomout': overrideZoom}">
+	<span class="icon-zoomin" data-bind="css: {'icon-zoomout': overrideZoom}"></span>
+</a>
