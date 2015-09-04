@@ -45,6 +45,7 @@ define(['knockout', 'jquery'],
          */
         stateViewModel.prototype.toggleThemePicker = function toggleThemePicker() {
             this.showThemePicker(!this.showThemePicker());
+            this.showTemplatePicker(false);
             this.selectElement(null);
         }
 
@@ -53,6 +54,7 @@ define(['knockout', 'jquery'],
          */
         stateViewModel.prototype.toggleTemplatePicker = function toggleTemplatePicker() {
             this.showTemplatePicker(!this.showTemplatePicker());
+            this.showThemePicker(false);
             this.selectElement(null);
         }
 
