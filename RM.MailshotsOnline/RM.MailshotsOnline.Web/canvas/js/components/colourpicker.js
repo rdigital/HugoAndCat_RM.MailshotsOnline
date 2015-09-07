@@ -9,6 +9,7 @@ define(['knockout', 'kospectrum'],
             this.focusCallback = params.focusCallback
             this.anchorClass = params.anchorClass
             this.open = ko.observable(false);
+            this.customShown = ko.observable(false);
             this.element = ko.observable();
 
             this.greys = ['#000000', '#434343', '#666666', '#CCCCCC', '#D9D9D9', '#FFFFFF'];
@@ -25,6 +26,8 @@ define(['knockout', 'kospectrum'],
                         ];
 
             this.hideOnDocClick = this.hideOnDocClick.bind(this);
+            this.showCustom = this.showCustom.bind(this);
+            this.hideCustom = this.hideCustom.bind(this);
 
             // computeds
             this.selected = this.getSelectedComputed();
@@ -90,6 +93,15 @@ define(['knockout', 'kospectrum'],
             if (this.focusCallback) {
                 this.focusCallback();
             }
+        }
+
+        colourPickerViewModel.prototype.showCustom = function showCustom() {
+            this.focusCallback();
+            this.customShown(true);
+        }
+
+        colourPickerViewModel.prototype.hideCustom = function hideCustom() {
+            this.customShown(false);
         }
 
         return {

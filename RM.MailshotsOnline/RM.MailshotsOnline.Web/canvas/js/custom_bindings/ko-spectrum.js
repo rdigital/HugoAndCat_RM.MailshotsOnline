@@ -14,12 +14,17 @@ define(['knockout', 'jquery', 'spectrum'],
                     },
 
                     hide: function(){
+                        if (value.hideCallback) {
+                            value.hideCallback();
+                        }
                         $(element).css('pointer-events', 'all')
                     },
 
                     move: function(color){
                         value.colour(color.toHexString().toUpperCase());
-                    }
+                    },
+
+                    appendTo: '.colour-dropdown .dropdown-options'
                 });
 
                 ko.utils.domNodeDisposal.addDisposeCallback(element, function() {

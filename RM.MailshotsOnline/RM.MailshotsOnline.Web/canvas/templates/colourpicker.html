@@ -3,6 +3,7 @@
 		<span class="dropdown-colourswatch" data-bind="style: {backgroundColor: selected}"></span>
 	</span>
 	<div class="dropdown-options" data-bind="css: {'dropdown-options_active': open}">
+		<!-- ko ifnot: customShown -->
 		<div class="dropdown-options-label">Theme Colours</div>
 		<div class="dropdown-options-content">
 			<!-- ko foreach: options -->
@@ -22,6 +23,16 @@
 				<!-- /ko -->
 			</div>
 		</div>
-		<div data-bind="spectrum: {colour: selectedObs, callback: focusCallback}" class="tools-button dropdown-options-button">Custom Colours</div>
+		<!-- /ko -->
+		<!-- ko if: customShown -->
+		<div class="colour-dropdown-info">
+			<div>
+				<div class="colour-swatch" data-bind="style: {backgroundColor: selectedObs}"></div>
+				<input type="text" data-bind="value: selectedObs"/>
+			</div>
+			<div data-bind="click: hideCustom" class="tools-button dropdown-options-button">Standard Colours</div>
+		</div>
+		<!-- /ko -->
+		<div data-bind="spectrum: {colour: selectedObs, callback: showCustom, hideCallback: hideCustom}" class="tools-button dropdown-options-button">Custom Colours</div>
 	</div>
 </div>

@@ -302,25 +302,6 @@ canvas {
 	}
 }
 
-.sp-container {
-	border: 1px solid #D1D1D1 !important;
-    background-color: #FFF !important;
-    box-shadow: rgba(0, 0, 0, 0.18) 3px 3px 3px;
-    .sp-button-container {
-    	display: none;
-    }
-    .sp-color, .sp-hue {
-    	border: 1px solid #D1D1D1;
-    }
-    .sp-slider {
-    	border: 1px solid #4A4A4A;
-	    background: rgba(255, 255, 255, 0.52);
-	    opacity: 1;
-	    border-radius: 3px;
-	    margin-top: 1px;
-    }
-}
-
 .picker-background {
 	z-index: 101;
     position: absolute;
