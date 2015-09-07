@@ -96,7 +96,9 @@ define(['knockout', 'kospectrum'],
         }
 
         colourPickerViewModel.prototype.showCustom = function showCustom() {
-            this.focusCallback();
+            if (this.focusCallback) {
+                this.focusCallback();
+            }
             this.customShown(true);
         }
 
