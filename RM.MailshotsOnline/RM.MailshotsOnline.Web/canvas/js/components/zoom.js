@@ -8,7 +8,13 @@ define(['knockout', 'jquery', 'view_models/state'],
             this.overrideZoom = stateViewModel.overrideZoom;
             this.scaleElement = stateViewModel.scaleElement;
             this.viewingSide = stateViewModel.viewingSide;
-            this.availableZooms = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5];
+            this.availableZooms = [0.125, 0.25, 0.375, 
+                                   0.5, 0.625, 0.75, 
+                                   0.875, 1, 1.125, 
+                                   1.25, 1.375, 1.5, 
+                                   1.625, 1.75, 1.875, 
+                                   2, 2.125, 2.25,
+                                   2.375, 2.5];
 
             // bound functions
             this.handleScale = this.handleScale.bind(this);
@@ -46,15 +52,15 @@ define(['knockout', 'jquery', 'view_models/state'],
                 return
             }
             setTimeout(function () {
-                var window_height = $('.canvas-container').height() - 100,
+                var window_height = $('.canvas-container').height() - 80,
                     window_width = $('.canvas-container').width() - 100;
 
                 if (stateViewModel.selectedElement() || stateViewModel.backgroundSelected()) {
                     window_height -= 50;
                     window_width -= 150;
                 }
-                var width_factor = (Math.floor((window_width / el.width())*4))/4,
-                    height_factor = (Math.floor((window_height / el.height())*4))/4;
+                var width_factor = (Math.floor((window_width / el.width())*8))/8,
+                    height_factor = (Math.floor((window_height / el.height())*8))/8;
                 
                 this.zoom(Math.min(width_factor, height_factor));
             }.bind(this), 100)
