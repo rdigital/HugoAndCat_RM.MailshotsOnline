@@ -1,0 +1,15 @@
+<div class="preview">
+	<div class="preview-modal">
+		<div class="preview-modal-close icon-close" data-bind="click: togglePreview"></div>
+		<div data-bind="template: {afterRender: doScale}">
+			<!-- ko foreach: sides -->
+				<div class="preview-side" data-bind="element: $parent.container">
+					<div class="preview-side-inner" data-bind="style: {transform: $parent.scale}">
+						<side-component class="side" params="{side: $data, preview: true}"></side-component>
+					</div>
+				</div>
+			<!-- /ko -->
+		</div>
+		<span class="toolbar-button toolbar-button_large toolbar-button_right toolbar-button_green">Download PDF  <span class="icon-download" style="position: absolute; right: 25px; font-size: 29px; top: 10px;"></span></span>
+	</div>
+</div>

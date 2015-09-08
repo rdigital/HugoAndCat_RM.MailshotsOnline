@@ -1,19 +1,24 @@
-define(['knockout', 'komapping', 'components/side', 'components/tools', 'components/backgroundtools', 'components/options', 'components/upload', 'components/zoom', 'view_models/format', 'view_models/state', 'view_models/history'],
+define(['knockout', 'komapping', 'components/side', 'components/tools', 'components/backgroundtools', 'components/options', 'components/upload', 'components/zoom', 'components/preview', 'components/sidepicker', 'view_models/format', 'view_models/state', 'view_models/history'],
 
-    function(ko, mapping, sideComponent, toolsComponent, backgroundToolsComponent, optionsComponent, uploadComponent, zoomComponent, formatViewModel, stateViewModel, historyViewModel) {
+    function(ko, mapping, sideComponent, toolsComponent, backgroundToolsComponent, optionsComponent, uploadComponent, zoomComponent, previewComponent, sidePickerComponent, formatViewModel, stateViewModel, historyViewModel) {
         // register required components
         ko.components.register('tools-component', toolsComponent);
         ko.components.register('backgroundtools-component', backgroundToolsComponent);
         ko.components.register('options-component', optionsComponent);
         ko.components.register('side-component', sideComponent);
+        ko.components.register('sidepicker-component', sidePickerComponent);
         ko.components.register('upload-component', uploadComponent);
         ko.components.register('zoom-component', zoomComponent);
+        ko.components.register('preview-component', previewComponent);
 
         // ViewModel
         function editorViewModel(params) {
             this.faces = formatViewModel.allFaces;
             this.sides = ['front', 'back']
             this.viewingSide = stateViewModel.viewingSide;
+            this.viewingFace = stateViewModel.viewingFace;
+            this.historyRerender = stateViewModel.historyRerender;
+            this.showPreview = stateViewModel.showPreview;
             this.showImageUpload = stateViewModel.showImageUpload;
             this.showThemePicker = stateViewModel.showThemePicker;
             this.showTemplatePicker = stateViewModel.showTemplatePicker;

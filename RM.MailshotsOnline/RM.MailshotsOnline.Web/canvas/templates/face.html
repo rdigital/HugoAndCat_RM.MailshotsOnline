@@ -13,6 +13,10 @@
             <div class="no-print_text" data-bind="text: name"></div>
         </div>
         <!-- /ko -->
+        <!-- ko if: type == 'fold' -->
+        <div class="fold" data-bind="style: $parent.getElementLayout($data)"></div>
+        <!-- /ko -->
     <!-- /ko -->
+    <div class="preview-face-name" data-bind="text: data.name"></div>
 </div>
 <div class="selected-overlay" data-bind="css: {'selected-overlay_visible': overlayVisible}"></div>

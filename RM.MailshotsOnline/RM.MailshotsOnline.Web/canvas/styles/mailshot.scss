@@ -140,6 +140,9 @@ div, span, a {
 		@include borderradius(50%);
 		font-weight: normal;
 		width: 19px;
+		line-height: 19px;
+		height: 20px;
+		animation: fadein .5s;
 	}
 	&:focus:before, &.editable_active:before {
 		border: 1px solid rgba(0, 0, 0, 0.09);
@@ -318,6 +321,9 @@ canvas {
 		vertical-align: middle;
 	}
 }
+.fold {
+	border-bottom: 2px dashed $dark-grey;
+}
 
 .picker-background {
 	z-index: 101;
@@ -334,7 +340,7 @@ canvas {
 	position: fixed;
 	bottom: 40px;
 	right: 40px;
-	z-index: 99999;
+	z-index: 500;
 	color: $dark-grey;
 	font-size: 30px;
 	cursor: pointer;

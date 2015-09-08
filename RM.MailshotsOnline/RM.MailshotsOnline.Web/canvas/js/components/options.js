@@ -7,7 +7,10 @@ define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/form
         function optionsViewModel(params) {
             this.redoAvailable = historyViewModel.redoAvailable;
             this.undoAvailable = historyViewModel.undoAvailable;
+            this.showPreview = stateViewModel.showPreview;
             this.hidden = this.getHiddenComputed();
+
+            this.togglePreview = stateViewModel.togglePreview.bind(this);
         }
 
         /**

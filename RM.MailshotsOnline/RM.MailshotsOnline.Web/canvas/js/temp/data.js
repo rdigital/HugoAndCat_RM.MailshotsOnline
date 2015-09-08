@@ -17,13 +17,20 @@ define([],
                             name:'Front',
                             side:'front',
                             width: 600,
-                            height: 450
+                            height: 450,
+                            default: true
                         },
                         {
                             name:'Back',
-                            side:'back',
+                            side:'front',
                             width: 600,
                             height: 450
+                        },
+                        {
+                            name:'Inside',
+                            side:'back',
+                            width: 600,
+                            height: 900
                         }
                     ]
                 }
@@ -35,6 +42,29 @@ define([],
                     format_id: 2,
                     name: 'Card Template',
                     elements: [
+                        {
+                            name: 'fold',
+                            face: 'Inside',
+                            type: 'fold',
+                            layout: [
+                                {
+                                    property: 'position',
+                                    value: 'absolute'
+                                },
+                                {
+                                    property: 'top',
+                                    value: '449px'
+                                },
+                                {
+                                    property: 'left',
+                                    value: '0'
+                                },
+                                {
+                                    property: 'right',
+                                    value: '0'
+                                }
+                            ]
+                        },
                         {
                             name: 'heading',
                             face: 'Front',
@@ -614,10 +644,20 @@ define([],
                     		styles: [
                     			{
 	                    			property: 'background-color',
-	                    			value: '#FFF'
+	                    			value: '#D4E5E6'
 			                    }
                     		]
-                    	}
+                    	},
+                        {
+                            name: 'Inside',
+                            styles: [
+                                {
+                                    property: 'background-color',
+                                    value: '#D4E5E6'
+                                }
+                            ]
+                        }
+                        
                     ],
                     colours: ['#D4E5E6', 'rgb(56, 63, 87)', 'rgb(50, 132, 134)', 'rgb(90, 93, 93)', '#FFF' ],
                     fonts: [
@@ -901,10 +941,19 @@ define([],
                     		styles: [
                     			{
 	                    			property: 'background-color',
-	                    			value: '#FFF'
+	                    			value: 'rgb(102, 154, 185)'
 			                    }
                     		]
-                    	}
+                    	},
+                        {
+                            name: 'Inside',
+                            styles: [
+                                {
+                                    property: 'background-color',
+                                    value: 'rgb(102, 154, 185)'
+                                }
+                            ]
+                        }
                     ],
                     fonts: [
                         {
@@ -1184,10 +1233,19 @@ define([],
                     		styles: [
                     			{
 	                    			property: 'background-color',
-	                    			value: '#FFF'
+	                    			value: 'rgb(255, 158, 50)'
 			                    }
                     		]
-                    	}
+                    	},
+                        {
+                            name: 'Inside',
+                            styles: [
+                                {
+                                    property: 'background-color',
+                                    value: 'rgb(255, 158, 50)'
+                                }
+                            ]
+                        }
                     ],
                     fonts: [
                         {

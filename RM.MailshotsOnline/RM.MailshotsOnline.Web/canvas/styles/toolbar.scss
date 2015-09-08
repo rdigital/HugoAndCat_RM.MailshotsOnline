@@ -48,53 +48,55 @@
 			}
 		}
 	}
-	.toolbar-button {
-		font-family: PFDin Regular, Arial;
-		text-align: center;
-		cursor: pointer;
-		position: relative;
-		font-size: 16px;
-		display: inline-block;
-		padding: 1px 16px;
-		min-width: 23px;
-		height: 30px;
-	    line-height: 30px;
-	    border-right: 1px solid $dark-grey;
-	    text-align: left;
-	    float: left;
-	    &.toolbar-button_small {
-	    	margin: 10px 0;
-		}
-		&.active {
-			background: $light-blue;
-			border-color: transparent;
-		}
-	    &.toolbar-button_large, &.toolbar-button_largest {
-	    	@include transition(color);
-	    	height: 50px;
-	    	line-height: 50px;
-	    	min-width: 150px;
-	    	padding-right: 50px;
-	    	&:hover {
-				color: $grey;
-				background: transparent;
-			}
-	    }
-	    &.toolbar-button_largest {
-	    	min-width: 220px;
-	    }
-	    &.toolbar-button_right {
-	    	float: right;
-	    	border-right: none;
-	    	border-left: 1px solid $dark-grey;
-	    }
-		&.toolbar-button_green {
-	    	background: $green;
-	    	border: none;
-	    	padding-left: 25px;
-	    	&:hover {
-	    		background-color: #3C9016;
-	    	}
-	    }
+}
+
+.toolbar-button {
+	font-family: PFDin Regular, Arial;
+	text-align: center;
+	cursor: pointer;
+	position: relative;
+	font-size: 16px;
+	display: inline-block;
+	padding: 1px 16px;
+	min-width: 23px;
+	height: 30px;
+    line-height: 30px;
+    border-right: 1px solid $dark-grey;
+    text-align: left;
+    float: left;
+    &.toolbar-button_small {
+    	margin: 10px 0;
 	}
+	&.active {
+		background: $light-blue;
+		border-color: transparent;
+	}
+    &.toolbar-button_large, &.toolbar-button_largest {
+    	@include transition(color);
+    	height: 50px;
+    	line-height: 50px;
+    	min-width: 150px;
+    	padding-right: 75px;
+    	&:hover {
+			color: $grey;
+			background: transparent;
+		}
+    }
+    &.toolbar-button_largest {
+    	min-width: 220px;
+    }
+    &.toolbar-button_right {
+    	float: right;
+    	border-right: none;
+    	border-left: 1px solid $dark-grey;
+    }
+	&.toolbar-button_green {
+    	background: $green;
+    	color: $light-grey;
+    	border: none;
+    	padding-left: 25px;
+    	&:hover {
+    		background-color: #3C9016;
+    	}
+    }
 }
