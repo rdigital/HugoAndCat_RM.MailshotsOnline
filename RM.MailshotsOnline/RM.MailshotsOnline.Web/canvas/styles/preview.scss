@@ -31,17 +31,22 @@
 		cursor: pointer;
 	}
 	.preview-side {
+		// floating this broke ie. Boo
+		position: absolute;
 		width: 50%;
-		float: left;
-		height: 100%;
+		top: 0;
+		bottom: 0;
 		padding: 14px;
-		position: relative;
+		&:first-child {
+			left: 0;
+			right: 50%;
+		}
+		&:last-child {
+			right: 0;
+			left: 50%;
+		}
 		.preview-side-inner {
 			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
 		}
 		.side {
 			position: absolute;
@@ -83,16 +88,22 @@
 			text-align: right;
 			.preview-side-inner {
 				transform-origin: 100% 0;
-				left: -1000px;
-				bottom: -1000px;
+				top: 0;
+				right: 20px;
+				.side-inner {
+					float: right;
+				}
 			}
 		}
 		&:last-child {
 			text-align: left;
 			.preview-side-inner {
 				transform-origin: 0 0;
-				right: -1000px;
-				bottom: -1000px;
+				top: 0;
+				left: 20px;
+			}
+			.side-inner {
+				float: left;
 			}
 		}
 	}

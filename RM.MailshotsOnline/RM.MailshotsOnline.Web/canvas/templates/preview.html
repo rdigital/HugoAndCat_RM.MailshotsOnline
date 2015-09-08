@@ -4,7 +4,7 @@
 		<div data-bind="template: {afterRender: doScale}">
 			<!-- ko foreach: sides -->
 				<div class="preview-side" data-bind="element: $parent.container">
-					<div class="preview-side-inner" data-bind="style: {transform: $parent.scale}">
+					<div class="preview-side-inner" data-bind="style: {transform: $parent.scale, width: $parent.width, height: $parent.height}">
 						<side-component class="side" params="{side: $data, preview: true}"></side-component>
 					</div>
 				</div>

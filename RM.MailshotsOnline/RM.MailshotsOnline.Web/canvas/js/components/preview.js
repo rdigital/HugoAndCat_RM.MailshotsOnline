@@ -10,6 +10,9 @@ define(['knockout', 'view_models/format', 'view_models/state'],
             this.container = ko.observable();
             this.scale = ko.observable();
 
+            this.width = ko.observable();
+            this.height = ko.observable();
+
             this.sideFaces = this.sideFaces.bind(this);
             this.doScale = this.doScale.bind(this);
             this.togglePreview = stateViewModel.togglePreview.bind(this);
@@ -31,9 +34,12 @@ define(['knockout', 'view_models/format', 'view_models/state'],
                 height = 0;
 
             ko.utils.arrayForEach(faces, function(face) {
-                height += face.height + 50;
+                height += face.height + 60;
                 width = Math.max(face.width, width);
             })
+
+            this.width(width + 'px');
+            this.height(height + 'px');
 
             var v_scale = (this.container().height() - 100) / height,
                 h_scale = (this.container().width() - 40) / width,
