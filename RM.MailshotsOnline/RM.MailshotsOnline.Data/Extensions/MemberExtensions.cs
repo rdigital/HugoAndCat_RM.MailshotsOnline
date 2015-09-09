@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using umbraco;
 using Umbraco.Core;
 using HC.RM.Common;
+using HC.RM.Common.PCL;
 
 namespace RM.MailshotsOnline.Data.Extensions
 {
@@ -118,7 +119,7 @@ namespace RM.MailshotsOnline.Data.Extensions
             umbracoMember.SetValue("mobilePhoneNumber", Encryption.Encrypt(member.MobilePhoneNumber, PrivateKey, member.Salt));
             umbracoMember.SetValue("passwordResetToken", member.PasswordResetToken.ToString());
             umbracoMember.SetValue("passwordResetTokenExpiryDate", member.PasswordResetTokenExpiryDate.ToString());
-            umbracoMember.Email = member.EmailAddress;
+            umbracoMember.Email = Encryption.Encrypt(member.EmailAddress, GenerateNonRandomSalt(umbracoMember));
             umbracoMember.Name = umbracoMember.Email;
 
             return umbracoMember;
@@ -130,6 +131,19 @@ namespace RM.MailshotsOnline.Data.Extensions
             CryptoService.GetBytes(salt);
 
             return Convert.ToBase64String(salt);
+        }
+
+        private static string GenerateNonRandomSalt(Umbraco.Core.Models.IMember umbracoMember)
+        {
+            var username = Guid.Parse(umbracoMember.Username).ToString("N");                            // 32 bytes
+            var createdDate = umbracoMember.CreateDate.ToUniversalTime().ToString("ddMMyyyymmssffff");  // 16 bytes
+            var id = umbracoMember.Id.ToString().PadRight(16, '0');                                     // 16 bytes
+
+            // just to make sure we're working with the correct length string
+            var input = (username + createdDate + id).Substring(0, 64);
+
+            // return alternate charcters of the concatenation of the above (so 32 bytes)
+            return new string(input.Where((c, index) => index % 2 == 0).ToArray());
         }
     }
 }
