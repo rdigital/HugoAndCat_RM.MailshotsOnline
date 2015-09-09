@@ -62,17 +62,77 @@ namespace RM.MailshotsOnline.Data.Services
             var invoice = new Invoice();
             invoice.CampaignId = campaign.CampaignId;
             invoice.UpdatedDate = DateTime.UtcNow;
-            invoice.DataRentalCount = priceBreakdown.DataRentalCount.HasValue ? priceBreakdown.DataRentalCount.Value : 0;
-            invoice.DataRentalFlatFee = priceBreakdown.DataRentalFlatFee;
-            invoice.DataRentalRate = priceBreakdown.DataRentalRate;
-            invoice.PostageRate = priceBreakdown.PostageRate.HasValue ? priceBreakdown.PostageRate.Value : 0;
-            invoice.PrintCount = priceBreakdown.PrintCount.HasValue ? priceBreakdown.PrintCount.Value : 0;
-            invoice.PrintingRate = priceBreakdown.PrintingRate.HasValue ? priceBreakdown.PrintingRate.Value : 0;
-            invoice.ServiceFee = priceBreakdown.ServiceFee;
             invoice.Status = PCL.Enums.InvoiceStatus.Draft;
-            invoice.TaxRate = priceBreakdown.TaxRate;
 
             var savedInvoice = Save(invoice);
+
+            if (savedInvoice != null)
+            {
+                var lineItems = new List<InvoiceLineItem>();
+                if (priceBreakdown.DataRentalCount.HasValue && priceBreakdown.DataRentalCount.Value > 0)
+                {
+                    // Add data costs
+                    lineItems.Add(new InvoiceLineItem()
+                    {
+                        Name = string.Format("Data rental for {0} items", priceBreakdown.DataRentalCount.Value),
+                        Quantity = priceBreakdown.DataRentalCount.Value,
+                        UnitCost = priceBreakdown.DataRentalRate,
+                        TaxRate = priceBreakdown.TaxRate,
+                        InvoiceId = savedInvoice.InvoiceId
+                    });
+
+                    lineItems.Add(new InvoiceLineItem()
+                    {
+                        Name = "Data rental fee",
+                        Quantity = 1,
+                        UnitCost = priceBreakdown.DataRentalFlatFee,
+                        TaxRate = priceBreakdown.TaxRate,
+                        InvoiceId = savedInvoice.InvoiceId
+                    });
+                }
+
+                if (priceBreakdown.PrintCount.HasValue && priceBreakdown.PrintCount.Value > 0)
+                {
+                    if (priceBreakdown.PostageRate.HasValue)
+                    {
+                        // Add postage
+                        lineItems.Add(new InvoiceLineItem()
+                        {
+                            Name = string.Format("Postage cost for {0} items", priceBreakdown.PrintCount.Value),
+                            Quantity = priceBreakdown.PrintCount.Value,
+                            UnitCost = priceBreakdown.PostageRate.Value,
+                            TaxRate = priceBreakdown.TaxRate,
+                            InvoiceId = savedInvoice.InvoiceId
+                        });
+                    }
+
+                    if (priceBreakdown.PrintingRate.HasValue)
+                    {
+                        // Add printing costs
+                        lineItems.Add(new InvoiceLineItem()
+                        {
+                            Name = string.Format("Printing cost for {0} items", priceBreakdown.PrintCount.Value),
+                            Quantity = priceBreakdown.PrintCount.Value,
+                            UnitCost = priceBreakdown.PrintingRate.Value,
+                            TaxRate = priceBreakdown.TaxRate,
+                            InvoiceId = savedInvoice.InvoiceId
+                        });
+                    }
+
+                    lineItems.Add(new InvoiceLineItem()
+                    {
+                        Name = string.Format("Service fee", priceBreakdown.ServiceFee),
+                        Quantity = 1,
+                        UnitCost = priceBreakdown.ServiceFee,
+                        TaxRate = priceBreakdown.TaxRate,
+                        InvoiceId = savedInvoice.InvoiceId
+                    });
+                }
+
+                savedInvoice.LineItems = lineItems;//.Cast<IInvoiceLineItem>();
+                savedInvoice = Save(savedInvoice);
+            }
+
             return savedInvoice;
         }
 
@@ -99,6 +159,16 @@ namespace RM.MailshotsOnline.Data.Services
                 _context.Invoices.Add((Invoice)invoice);
             }
 
+            if (invoice.LineItems != null)
+            {
+                foreach (var lineItem in invoice.LineItems)
+                {
+                    if (lineItem.InvoiceLineItemId == Guid.Empty)
+                    {
+                        _context.InvoiceLineItems.Add((InvoiceLineItem)lineItem);
+                    }
+                }
+            }
             _context.SaveChanges();
             return invoice;
         }

@@ -1,4 +1,5 @@
-﻿using RM.MailshotsOnline.PCL.Models;
+﻿using RM.MailshotsOnline.Data.Helpers;
+using RM.MailshotsOnline.PCL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,20 @@ namespace RM.MailshotsOnline.Web.Extensions
         public static bool NeedsDataAndDesign(this ICampaign campaign)
         {
             return !campaign.HasMailshotSet && !campaign.HasDataSearches && !campaign.HasDistributionLists;
+        }
+
+        public static HC.RM.Common.PayPal.Models.Transaction ToPaypalTransaction(this IInvoiceLineItem lineItem)
+        {
+            var result = new HC.RM.Common.PayPal.Models.Transaction(
+                lineItem.Name,
+                ConfigHelper.CurrencyCode,
+                lineItem.Total,
+                lineItem.SubTotal,
+                lineItem.TaxTotal,
+                lineItem.InvoiceId.ToString("N")
+                );
+
+            return result;
         }
     }
 }

@@ -41,6 +41,24 @@ namespace HC.RM.Common.PayPal.Models
         }
 
         /// <summary>
+        /// Creates a new Transaction object
+        /// </summary>
+        /// <param name="description">The description of the item</param>
+        /// <param name="currency">Three-letter currency code</param>
+        /// <param name="total">Total amount for the transaction</param>
+        /// <param name="subTotal">The sub-total before tax</param>
+        /// <param name="tax">The total tax</param>
+        /// <param name="invoiceNumber">The invoice number for the transaction</param>
+        public Transaction(string description, string currency, decimal total, decimal subTotal, decimal tax, string invoiceNumber)
+        {
+            this.Currency = currency;
+            this.Total = total;
+            this.SubTotal = subTotal;
+            this.Tax = tax;
+            this.InvoiceNumber = invoiceNumber;
+        }
+
+        /// <summary>
         /// Creates a new Transaction object from a PayPal Transaction
         /// </summary>
         /// <param name="transaction">The PayPal Transaction</param>

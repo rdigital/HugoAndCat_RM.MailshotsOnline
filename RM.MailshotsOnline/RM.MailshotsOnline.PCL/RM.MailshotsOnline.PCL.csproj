@@ -47,6 +47,7 @@
     <Compile Include="Models\IDataSearch.cs" />
     <Compile Include="Models\IDistributionList.cs" />
     <Compile Include="Models\IInvoice.cs" />
+    <Compile Include="Models\IInvoiceLineItem.cs" />
     <Compile Include="Models\IMailshotImageUse.cs" />
     <Compile Include="Models\IMedia.cs" />
     <Compile Include="Models\ITaggable.cs" />

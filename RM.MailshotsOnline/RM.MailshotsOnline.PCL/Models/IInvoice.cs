@@ -23,67 +23,12 @@ namespace RM.MailshotsOnline.PCL.Models
         ICampaign Campaign { get; set; }
 
         /// <summary>
-        /// Gets or sets the Print Count
-        /// </summary>
-        int PrintCount { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Data Rental flat fee
-        /// </summary>
-        decimal DataRentalFlatFee { get; set; }
-
-        /// <summary>
-        /// Gets the calculated Data Rental cost
-        /// </summary>
-        decimal DataRentalCost { get; }
-
-        /// <summary>
-        /// Gets the data rental count
-        /// </summary>
-        int DataRentalCount { get; set; }
-
-        /// <summary>
-        /// Gets or sets the data renal rate
-        /// </summary>
-        decimal DataRentalRate { get; set; }
-
-        /// <summary>
-        /// Gets or sets the tax rate applied
-        /// </summary>
-        decimal TaxRate { get; set; }
-
-        /// <summary>
         /// Gets the calculated total tax
         /// </summary>
         decimal TotalTax { get; }
 
         /// <summary>
-        /// Gets the calculated postage cost
-        /// </summary>
-        decimal PostageCost { get; }
-
-        /// <summary>
-        /// Gets or sets the postage rate
-        /// </summary>
-        decimal PostageRate { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Service Fee
-        /// </summary>
-        decimal ServiceFee { get; set; }
-
-        /// <summary>
-        /// Gets or sets the printing rate
-        /// </summary>
-        decimal PrintingRate { get; set; }
-
-        /// <summary>
-        /// Gets the calculated printing cost
-        /// </summary>
-        decimal PrintingCost { get; }
-
-        /// <summary>
-        /// Gets the calculated sub total
+        /// Gets the calculated sub total (before tax)
         /// </summary>
         decimal SubTotal { get; }
 
@@ -116,5 +61,10 @@ namespace RM.MailshotsOnline.PCL.Models
         /// Gets or sets the PayPal Order ID
         /// </summary>
         string PaypalOrderId { get; set; }
+
+        /// <summary>
+        /// The line items for the invoice
+        /// </summary>
+        IEnumerable<IInvoiceLineItem> LineItems { get; set; }
     }
 }

@@ -78,6 +78,7 @@
     <Compile Include="DataModels\DataSearch.cs" />
     <Compile Include="DataModels\DistributionList.cs" />
     <Compile Include="DataModels\Invoice.cs" />
+    <Compile Include="DataModels\InvoiceLineItem.cs" />
     <Compile Include="DataModels\Mailshot.cs" />
     <Compile Include="DataModels\MailshotContent.cs" />
     <Compile Include="DataModels\MailshotImageUse.cs" />
