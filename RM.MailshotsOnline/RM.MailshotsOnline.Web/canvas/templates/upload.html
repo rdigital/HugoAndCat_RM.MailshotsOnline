@@ -1,8 +1,27 @@
 <div class="modal-background" data-bind="click: toggleImageUpload"></div>
 <div class="uploadmodal">
-    <h2>Upload new image</h2>
-    <div class="uploadmodal-preview" data-bind="event:{ dragover: dragOver, drop: drop}, style: { backgroundImage: 'url(\'' + (src() ? src() : '/canvas/images/upload.png') + '\')' }"></div>
+    <div class="tabs">
+    	<div class="tab tab_selected">Upload</div>
+    	<div class="tab">My Images</div>
+    	<div class="tab">Library</div>
+    </div>
+    <div class="uploadmodal-preview" data-bind="click: clickUpload, event:{ dragover: dragOver, drop: drop}, style: { backgroundImage: 'url(\'' + (src() ? src() : '/canvas/images/upload.png') + '\')' }, css: {'uploadmodal-preview_populated': src()}"></div>
+    <input type="file" id="image-upload" accept="image/*" data-bind="file: {data: fileData, allowed: ['image/jpg', 'image/png', 'image/jpeg']}" style="opacity: 0;">
+
+    <div class="uploadmodal-info">
+    	<h2>Here are some tips for making your images look great in print</h2>
+    	<ul>
+    		<li>Choose high quality images</li>
+    		<li>We accept .JPG, .JPEG and .PNG files</li>
+    		<li>Minimum file size 150 KB</li>
+    		<li>Maximum file size 10 MB</li>
+    		<li>You can crop and resize after upload</li>
+    	</ul>
+    	<div class="uploadmodal-info-footer">
+    		Any images uploaded will automatically be added to My Images
+    	</div>
+    </div>
     <!-- ko if: src() -->
-    <a class="uploadmodal-button" data-bind="click: confirm">Use this image</a>
+    <a class="toolbar-button toolbar-button_large toolbar-button_green" data-bind="click: confirm">Use this image</a>
     <!-- /ko -->
 </div>

@@ -30,6 +30,30 @@ body {
             transform: translate(0, 0);
         }
     }
+    &.canvas-container_small {
+        width: 500px;
+        right: auto;
+        transform: translate(-190px, 0);
+        pointer-events: none;
+        .face {
+            pointer-events: none;
+            > * {
+                pointer-events: none;
+            }
+        }
+        .tools {
+            display: none !important;
+        }
+        .selected-overlay_visible {
+            display: none !important;
+        }
+    }
+}
+
+@media all and (max-width: 1100px) {
+    .canvas-container.canvas-container_small {
+        display: none;
+    }
 }
 
 .side {

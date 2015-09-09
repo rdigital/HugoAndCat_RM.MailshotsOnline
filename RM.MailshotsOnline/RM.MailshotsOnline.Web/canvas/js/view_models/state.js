@@ -22,6 +22,9 @@ define(['knockout', 'jquery'],
             this.repositionImages = false;
             // testing
             this.output = ko.observable();
+            this.selectedElement.subscribe(function() {
+                this.showImageUpload(false);
+            }, this)
         }
 
         /**
@@ -41,6 +44,10 @@ define(['knockout', 'jquery'],
          */
         stateViewModel.prototype.toggleImageUpload = function toggleImageUpload() {
             this.showImageUpload(!this.showImageUpload());
+            this.overrideZoom(null)
+            setTimeout(function(){
+                this.scaleElement.valueHasMutated();
+            }.bind(this), 0) 
         }
 
         /**

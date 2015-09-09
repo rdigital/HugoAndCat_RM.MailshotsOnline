@@ -1,9 +1,26 @@
-define(['knockout', 'view_models/state'],
+define(['knockout', 'jquery', 'kofile', 'view_models/state'],
 
-    function(ko, stateViewModel) {
+    function(ko, $, kofile, stateViewModel) {
 
         function imageUploadViewModel() {
             this.src = ko.observable();
+            this.fileData = ko.observable({
+                dataURL: ko.observable()
+            })
+            this.fileData.subscribe(this.loadFile, this);
+            this.src.subscribe(this.render, this);
+        }
+
+        imageUploadViewModel.prototype.clickUpload = function clickUpload(){
+            $('#image-upload').click();
+        }
+
+        imageUploadViewModel.prototype.loadFile = function loadFile(fileData){
+            this.src(fileData);                     
+        }
+
+        imageUploadViewModel.prototype.render = function render() {
+            stateViewModel.selectedElement().render(this.src(), true);
         }
 
         /**
@@ -46,7 +63,6 @@ define(['knockout', 'view_models/state'],
         imageUploadViewModel.prototype.confirm = function confirm() {
             var src = this.src();
             if (!src) { return }
-            stateViewModel.selectedElement().render(this.src(), true);
             this.toggleImageUpload();
         }
 
@@ -54,7 +70,9 @@ define(['knockout', 'view_models/state'],
          * toggles the image upload modal
          */
         imageUploadViewModel.prototype.toggleImageUpload = function toggleImageUpload() {
+            $('.canvas-container').css({opacity: 0})
             stateViewModel.toggleImageUpload()
+            $('.canvas-container').css({opacity: 1})
         }
 
         return {

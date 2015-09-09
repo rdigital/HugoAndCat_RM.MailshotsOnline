@@ -286,6 +286,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             this.image.src = src;
             if (new_upload) {
                 this.imageObj.src(src);
+                this.imageObj.scale(100);
             }
         };
 
