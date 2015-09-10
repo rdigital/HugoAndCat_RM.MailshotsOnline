@@ -3024,6 +3024,7 @@
     <Compile Include="Controllers\Api\ImageLibraryController.cs" />
     <Compile Include="Controllers\Api\MailshotsController.cs" />
     <Compile Include="Controllers\Api\MembersController.cs" />
+    <Compile Include="Controllers\Api\ModerationController.cs" />
     <Compile Include="Controllers\Api\PostageController.cs" />
     <Compile Include="Controllers\Api\ProofPdfController.cs" />
     <Compile Include="Controllers\CampaignHubController.cs" />
@@ -3035,7 +3036,9 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LogoutController.cs" />
     <Compile Include="Controllers\MarketingPreferencesController.cs" />
+    <Compile Include="Controllers\ModerationPageController.cs" />
     <Compile Include="Controllers\OrganisationDetailsController.cs" />
+    <Compile Include="Controllers\PaymentConfirmationController.cs" />
     <Compile Include="Controllers\PersonalDetailsController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
@@ -3043,6 +3046,7 @@
     <Compile Include="Controllers\SurfaceControllers\BaseSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\CampaignSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\LoginSurfaceController.cs" />
+    <Compile Include="Controllers\SurfaceControllers\ModerationSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ProfileSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\RegisterSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ResetPasswordSurfaceController.cs" />
@@ -3404,6 +3408,11 @@
     <Content Include="uSync\Template\CreateCanvas\CreateCanvas.config" />
     <Content Include="uSync\Template\CampaignHub\CampaignHub.config" />
     <Content Include="Views\CampaignHub\Partials\CheckoutButton.cshtml" />
+    <Content Include="Views\PaymentConfirmation.cshtml" />
+    <Content Include="Views\ModerationPage.cshtml" />
+    <Content Include="Views\Moderation\Partials\ApprovalConfirmation.cshtml" />
+    <Content Include="Views\Moderation\Partials\Complete.cshtml" />
+    <Content Include="Views\Moderation\Partials\RejectConfirmation.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

@@ -109,6 +109,8 @@
     <Compile Include="PageModels\Logout.cs" />
     <Compile Include="PageModels\MailshotEditor.cs" />
     <Compile Include="PageModels\EditProfileBasePage.cs" />
+    <Compile Include="PageModels\ModerationPage.cs" />
+    <Compile Include="PageModels\PaymentConfirmation.cs" />
     <Compile Include="PageModels\Profile\MarketingPreferences.cs" />
     <Compile Include="PageModels\Profile\Profile.cs" />
     <Compile Include="PageModels\Profile\OrganisationDetails.cs" />
@@ -129,6 +131,8 @@
     <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MailshotViewModel.cs" />
+    <Compile Include="ViewModels\ModerationApprovalViewModel.cs" />
+    <Compile Include="ViewModels\ModerationRejectionViewModel.cs" />
     <Compile Include="ViewModels\OrderResults.cs" />
     <Compile Include="ViewModels\PasswordViewModel.cs" />
     <Compile Include="ViewModels\PdfRenderJobViewModel.cs" />

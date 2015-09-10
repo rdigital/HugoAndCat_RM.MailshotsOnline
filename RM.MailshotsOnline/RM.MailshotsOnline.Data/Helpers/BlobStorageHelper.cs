@@ -4,6 +4,7 @@ using HC.RM.Common.PCL.Persistence;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage;
 using System;
+using System.Threading.Tasks;
 
 namespace RM.MailshotsOnline.Data.Helpers
 {
@@ -50,6 +51,22 @@ namespace RM.MailshotsOnline.Data.Helpers
             }
         }
 
+        public async Task<byte[]> FetchBytesAsync(string blobId)
+        {
+            var blobStream = await _blobService.DownloadToStreamAsync(blobId);
+            if (blobStream is MemoryStream)
+            {
+                return ((MemoryStream)blobStream).ToArray();
+            }
+
+            using (var ms = new MemoryStream())
+            {
+                blobStream.CopyTo(ms);
+                var result = ms.ToArray();
+                return result;
+            }
+        }
+
         public string GetBlobUrl(string blobId)
         {
             var blobUri = _blobService.GetBlobUri(_containerName, blobId);
@@ -64,6 +81,13 @@ namespace RM.MailshotsOnline.Data.Helpers
         public string StoreBytes(byte[] bytes, string filename, string mediaType)
         {
             var blobId = _blobService.Store(bytes, filename, mediaType);
+            var url = _blobService.GetBlobUri(_containerName, blobId);
+            return url.ToString();
+        }
+
+        public async Task<string> StoreBytesAsync(byte[] bytes, string filename, string mediaType)
+        {
+            var blobId = await _blobService.StoreAsync(bytes, filename, mediaType);
             var url = _blobService.GetBlobUri(_containerName, blobId);
             return url.ToString();
         }

@@ -1,13 +1,11 @@
-﻿using HC.RM.Common.Azure.Extensions;
-using HC.RM.Common.Azure.Persistence;
+﻿using HC.RM.Common.Network;
 using HC.RM.Common.Orders;
 using HC.RM.Common.PCL.Helpers;
-using HC.RM.Common.PCL.Persistence;
 using Newtonsoft.Json;
 using RM.MailshotsOnline.Data.Helpers;
 using RM.MailshotsOnline.Entities.ViewModels;
+using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
-using RM.MailshotsOnline.Web.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,14 +21,15 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
     public class ProofPdfController : ApiBaseController
     {
         private IMailshotsService _mailshotsService;
-
+        private ICampaignService _campaignService;
         private ISparqQueueService _sparqQueueService;
+        private IEmailService _emailService;
 
         private string _authenticationKey;
 
         private string _controllerName;
 
-        public ProofPdfController(ISparqQueueService sparqQueueService, IMailshotsService mailshotsService, IMembershipService membershipService, ILogger logger)
+        public ProofPdfController(ISparqQueueService sparqQueueService, IMailshotsService mailshotsService, IMembershipService membershipService, ILogger logger, ICampaignService campaignService, IEmailService emailService)
             : base(membershipService, logger)
         {
             _mailshotsService = mailshotsService;
@@ -39,6 +38,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             // Encrypt Signature and Validate Signature
             _authenticationKey = "SOMETHING";
             _controllerName = this.GetType().Name;
+            _campaignService = campaignService;
+            _emailService = emailService;
         }
 
         /// <summary>
@@ -139,9 +140,11 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
                 // Use the Sparq service to create a render PDF job
                 bool messageSent = false;
+                var baseUrl = string.Format("{0}://{1}:{2}", ConfigHelper.HostedScheme, ConfigHelper.HostedDomain, ConfigHelper.HostedPort);
+                var postbackUrl = string.Format("{0}/Umbraco/Api/ProofPdf/ProofReady/{1}", baseUrl, mailshot.MailshotId);
                 try
                 {
-                    messageSent = await _sparqQueueService.SendRenderJob(mailshot);
+                    messageSent = await _sparqQueueService.SendRenderJob(mailshot, postbackUrl);
                     _logger.Info(_controllerName, methodName, "Proof PDF requested for mailshot {0}", id);
                 }
                 catch (Exception ex)
@@ -188,7 +191,56 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         public async Task<HttpResponseMessage> ProofReady(Guid id, OrderResults orderResults)
         {
             string methodName = "ProofReady";
+            var result = await HandleProofResponse(id, orderResults, methodName);
 
+            if (result != null)
+            {
+                // Something went wrong - return the result
+                return result;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        [HttpPost]
+        [Route("SendProofForApproval/{id}", Name = "SendProofForApproval")]
+        public async Task<HttpResponseMessage> SendProofForApproval(Guid id, OrderResults orderResults)
+        {
+            string methodName = "ProofReady";
+            var campaign = _campaignService.GetCampaign(id);
+
+            var result = await HandleProofResponse(campaign.Mailshot.MailshotId, orderResults, methodName);
+
+            if (result != null)
+            {
+                // Something went wrong - return the result
+                return result;
+            }
+
+            // Get the updated mailshot from the DB
+            var mailshot = _mailshotsService.GetMailshot(campaign.MailshotId.Value);
+
+            // Send Email to Royal Mail for approval
+            var baseUrl = string.Format("{0}://{1}:{2}", ConfigHelper.HostedScheme, ConfigHelper.HostedDomain, ConfigHelper.HostedPort);
+            var approvalUrl = string.Format("{0}/moderation?moderationId={1}&action=approve", baseUrl, campaign.ModerationId);
+            var rejectUrl = string.Format("{0}/moderation?moderationId={1}&action=approve", baseUrl, campaign.ModerationId);
+            var recipients = new List<string>() { ConfigHelper.RoyalMailApprovalEmailAddress };
+            var sender = new System.Net.Mail.MailAddress(ConfigHelper.SystemEmailAddress);
+            _emailService.SendEmail(
+                recipients,
+                "A new MailshotsOnline campaign needs approval",
+                $@"Proof PDF: {mailshot.ProofPdfUrl}
+Approve: {approvalUrl}
+Reject: {rejectUrl}",
+                System.Net.Mail.MailPriority.Normal,
+                sender
+                );
+
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        private async Task<HttpResponseMessage> HandleProofResponse(Guid id, OrderResults orderResults, string methodName)
+        {
             _logger.Info(_controllerName, methodName, "Proof ready post sent for mailshot {0}. Order ID: {1}; Results: {2}", id, orderResults.OrderId, orderResults.Results);
 
             var mailshot = _mailshotsService.GetMailshot(id);
@@ -245,7 +297,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                     _logger.Warn(_controllerName, methodName, "Error rendering mailshot {0}, order number {1}: {2}", id, orderNumber, error.Message);
                 }
             }
-            
+
             if (string.IsNullOrEmpty(result.BlobId))
             {
                 _logger.Warn(_controllerName, methodName, "Proof ready post sent for mailshot {0} without blob ID.", id);
@@ -262,7 +314,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             byte[] pdfBytes = null;
             try
             {
-                pdfBytes = serviceLayerBlobHelper.FetchBytes(result.BlobId);
+                pdfBytes = await serviceLayerBlobHelper.FetchBytesAsync(result.BlobId);
             }
             catch (Exception ex)
             {
@@ -281,7 +333,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             try
             {
-                pdfUrl = appBlobHelper.StoreBytes(pdfBytes, blobFilename, blobMediaType);
+                pdfUrl = await appBlobHelper.StoreBytesAsync(pdfBytes, blobFilename, blobMediaType);
             }
             catch (Exception ex)
             {
@@ -294,9 +346,9 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             mailshot.ProofPdfUrl = pdfUrl;
             mailshot.ProofPdfStatus = PCL.Enums.PdfRenderStatus.Complete;
-            _mailshotsService.SaveMailshot(mailshot);
+            mailshot = _mailshotsService.SaveMailshot(mailshot);
 
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return null;
         }
     }
 }

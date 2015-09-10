@@ -29,20 +29,22 @@ namespace RM.MailshotsOnline.Data.Services
         /// Send a mailshot off for rendering and printing
         /// </summary>
         /// <param name="mailshot">Mailshot to be printed</param>
+        /// <param name="postbackUrl">The URL the service needs to post back to</param>
         /// <returns>True on success</returns>
-        public async Task<bool> SendRenderAndPrintJob(IMailshot mailshot)
+        public async Task<bool> SendRenderAndPrintJob(IMailshot mailshot, string postbackUrl)
         {
-            return await SendJob(mailshot, true);
+            return await SendJob(mailshot, true, postbackUrl);
         }
 
         /// <summary>
         /// Send a mailshot for rendering only
         /// </summary>
         /// <param name="mailshot">Mailshot to be rendered</param>
+        /// <param name="postbackUrl">The URL the service needs to post back to</param>
         /// <returns>True on success</returns>
-        public async Task<bool> SendRenderJob(IMailshot mailshot)
+        public async Task<bool> SendRenderJob(IMailshot mailshot, string postbackUrl)
         {
-            return await SendJob(mailshot, false);
+            return await SendJob(mailshot, false, postbackUrl);
         }
 
         /// <summary>
@@ -51,7 +53,7 @@ namespace RM.MailshotsOnline.Data.Services
         /// <param name="mailshot">Mailshot to send</param>
         /// <param name="printAfterRender">Set to true to the resulting PDF sent to St. Ive's for printing</param>
         /// <returns>True on success</returns>
-        private async Task<bool> SendJob(IMailshot mailshot, bool printAfterRender)
+        private async Task<bool> SendJob(IMailshot mailshot, bool printAfterRender, string postbackUrl)
         {
             var success = true;
             // Generate XML and XSL from Mailshot
@@ -77,7 +79,7 @@ namespace RM.MailshotsOnline.Data.Services
             {
                 // Create new message for queue
                 var baseUrl = string.Format("{0}://{1}:{2}", ConfigHelper.HostedScheme, ConfigHelper.HostedDomain, ConfigHelper.HostedPort);
-                var postbackUrl = string.Format("{0}/Umbraco/Api/ProofPdf/ProofReady/{1}", baseUrl, mailshot.MailshotId);
+                //var postbackUrl = string.Format("{0}/Umbraco/Api/ProofPdf/ProofReady/{1}", baseUrl, mailshot.MailshotId);
                 var ftpPostbackUrl = printAfterRender ? string.Format("{0}/Umbraco/Api/ProofPdf/PrintPdfReady/{1}", baseUrl, mailshot.MailshotId) : null;
                 var orderPriority = printAfterRender ? SparqOrderPriority.Low : SparqOrderPriority.High;
                 var orderType = printAfterRender ? SparqOrderType.RenderAndPrint : SparqOrderType.RenderOnly;

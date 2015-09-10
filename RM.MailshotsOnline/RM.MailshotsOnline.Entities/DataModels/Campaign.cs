@@ -275,6 +275,13 @@ namespace RM.MailshotsOnline.Entities.DataModels
             }
         }
 
+        /// <summary>
+        /// Gets or sets the Moderation ID of the campaign
+        /// </summary>
+        [Index]
+        [JsonIgnore]
+        public Guid ModerationId { get; set; }
+
         #region Explicit interface definition
 
         IMailshot ICampaign.Mailshot

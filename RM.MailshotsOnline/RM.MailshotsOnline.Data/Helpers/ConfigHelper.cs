@@ -62,6 +62,11 @@ namespace RM.MailshotsOnline.Data.Helpers
             get { return GetConfigValue("HostedScheme"); }
         }
 
+        public static string RoyalMailApprovalEmailAddress
+        {
+            get { return GetConfigValue("RoyalMailApprovalEmailAddress"); }
+        }
+
         public static string SparqServiceBlobContainer
         {
             get { return GetConfigValue("SparqServiceBlobContainer"); }
@@ -85,6 +90,14 @@ namespace RM.MailshotsOnline.Data.Helpers
         public static string StorageConnectionString
         {
             get { return GetConfigValue("StorageConnectionString"); }
+        }
+
+        /// <summary>
+        /// The System "From" email address
+        /// </summary>
+        public static string SystemEmailAddress
+        {
+            get { return GetConfigValue("SystemEmailAddress"); }
         }
 
         /// <summary>

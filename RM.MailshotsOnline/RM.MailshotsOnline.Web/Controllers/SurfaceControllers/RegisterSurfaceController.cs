@@ -1,10 +1,13 @@
-﻿using HC.RM.Common.PCL.Helpers;
+﻿using HC.RM.Common.Network;
+using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.Extensions;
+using RM.MailshotsOnline.Data.Helpers;
 using RM.MailshotsOnline.Entities.MemberModels;
 using RM.MailshotsOnline.Entities.PageModels;
 using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.PCL.Services;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Runtime.InteropServices;
 using System.Web.Mvc;
@@ -85,7 +88,8 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             TempData[CompletedFlag] = true;
             _logger.Info(this.GetType().Name, "RegisterForm", "New registration complete.");
-            _emailService.SendMail(ConfigurationManager.AppSettings["SystemEmailAddress"], model.ViewModel.Email,
+            var recipients = new List<string>() { model.ViewModel.Email };
+            _emailService.SendMail(ConfigHelper.SystemEmailAddress, model.ViewModel.Email,
                 "Welcome to the Royal Mail Business Portal",
                 emailBody.Replace("##firstName", model.ViewModel.FirstName)
                     .Replace("##email", model.ViewModel.Email));
