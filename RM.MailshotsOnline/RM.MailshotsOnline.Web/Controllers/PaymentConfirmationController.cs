@@ -51,7 +51,8 @@ namespace RM.MailshotsOnline.Web.Controllers
         {
             // Fetch the Glass model of the page
             var pageModel = GetModel<PaymentConfirmation>();
-            pageModel.DisplayCampaignErrorMessage = true;
+            pageModel.DisplayCampaignErrorMessage = false;
+            pageModel.DisplayPaypalErrorMessage = false;
 
             // Check to see if there's a Campaign in the query string
             Guid campaignId = Guid.Empty;

@@ -89,10 +89,15 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             TempData[CompletedFlag] = true;
             _logger.Info(this.GetType().Name, "RegisterForm", "New registration complete.");
             var recipients = new List<string>() { model.ViewModel.Email };
-            _emailService.SendMail(ConfigHelper.SystemEmailAddress, model.ViewModel.Email,
+            var sender = new System.Net.Mail.MailAddress(ConfigHelper.SystemEmailAddress);
+            _emailService.SendEmail(
+                recipients,
                 "Welcome to the Royal Mail Business Portal",
-                emailBody.Replace("##firstName", model.ViewModel.FirstName)
-                    .Replace("##email", model.ViewModel.Email));
+                emailBody
+                    .Replace("##firstName", model.ViewModel.FirstName)
+                    .Replace("##email", model.ViewModel.Email),
+                System.Net.Mail.MailPriority.Normal,
+                sender);
 
             return CurrentUmbracoPage();
         }

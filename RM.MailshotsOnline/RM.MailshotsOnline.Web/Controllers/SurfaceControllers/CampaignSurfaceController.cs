@@ -163,12 +163,15 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             if (!readyForPaypal)
             {
                 ModelState.AddModelError("PageModel", "There was an error passing the payment through to PayPal.");
+                invoice.Status = PCL.Enums.InvoiceStatus.Cancelled;
+                _invoiceService.Save(invoice);
                 return CurrentUmbracoPage();
             }
             else
             {
                 // Save results from PayPal then redirect the user
                 invoice.PaypalPaymentId = paymentResult.Id;
+                invoice.Status = PCL.Enums.InvoiceStatus.Submitted;
                 var transactionResult = paymentResult.Transactions.FirstOrDefault();
                 if (transactionResult != null)
                 {
