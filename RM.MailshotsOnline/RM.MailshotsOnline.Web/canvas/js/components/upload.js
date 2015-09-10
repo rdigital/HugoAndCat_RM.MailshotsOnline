@@ -71,12 +71,16 @@ define(['knockout', 'jquery', 'kofile', 'view_models/state'],
         }
 
         imageUploadViewModel.prototype.selectLibraryImage = function selectLibraryImage(image) {
-            this.libraryImage(image);
-            this.src(null);
+            if (image) {
+                this.libraryImage(image);
+                this.src(null);
+            }
         }
 
         imageUploadViewModel.prototype.renderLibraryImage = function renderLibraryImage() {
-            stateViewModel.selectedElement().render(this.libraryImage().Src, true);
+            if (this.libraryImage()) {
+                stateViewModel.selectedElement().render(this.libraryImage().Src, true);
+            }
         }
 
 
@@ -89,12 +93,13 @@ define(['knockout', 'jquery', 'kofile', 'view_models/state'],
         }
 
         imageUploadViewModel.prototype.loadFile = function loadFile(fileData){
-            this.src(fileData);                     
+            this.src(fileData);         
         }
 
         imageUploadViewModel.prototype.render = function render() {
             if (this.src()) {
                 stateViewModel.selectedElement().render(this.src(), true);
+                this.libraryImage(null);  
             }
         }
 
@@ -136,8 +141,6 @@ define(['knockout', 'jquery', 'kofile', 'view_models/state'],
          * Call to accept the dropped image and close the modal
          */
         imageUploadViewModel.prototype.confirm = function confirm() {
-            var src = this.src();
-            if (!src) { return }
             this.toggleImageUpload();
         }
 
