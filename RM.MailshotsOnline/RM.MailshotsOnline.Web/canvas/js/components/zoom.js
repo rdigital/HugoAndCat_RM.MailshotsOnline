@@ -36,13 +36,13 @@ define(['knockout', 'jquery', 'view_models/state'],
                 $('canvas').hide();
                 setTimeout(function() {
                     $('canvas').show();
-                }, 0)
+                }, 20)
             })
             this.overrideZoom.subscribe(function() {
                 $('canvas').hide();
                 setTimeout(function() {
                     $('canvas').show();
-                }, 0)
+                }, 20)
             })
         }
 
@@ -51,19 +51,19 @@ define(['knockout', 'jquery', 'view_models/state'],
             if (!el) {
                 return
             }
-            setTimeout(function () {
-                var window_height = $('.canvas-container').height() - 80,
-                    window_width = $('.canvas-container').width() - 100;
 
-                if (stateViewModel.selectedElement() || stateViewModel.backgroundSelected()) {
-                    window_height -= 50;
-                    window_width -= 150;
-                }
-                var width_factor = (Math.floor((window_width / el.width())*8))/8,
-                    height_factor = (Math.floor((window_height / el.height())*8))/8;
-                
-                this.zoom(Math.min(width_factor, height_factor));
-            }.bind(this), 100)
+            var window_height = $('.canvas-container').height() - 120,
+                window_width = $('.canvas-container').width() - 100;
+
+            if (stateViewModel.selectedElement() || stateViewModel.backgroundSelected()) {
+                window_height -= 50;
+                window_width -= 150;
+            }
+
+            var width_factor = (Math.floor((window_width / stateViewModel.viewingFace().width)*8))/8,
+                height_factor = (Math.floor((window_height / stateViewModel.viewingFace().height)*8))/8;
+            
+            this.zoom(Math.min(width_factor, height_factor));
             
         }
 

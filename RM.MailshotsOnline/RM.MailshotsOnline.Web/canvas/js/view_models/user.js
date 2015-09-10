@@ -26,7 +26,7 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
         }
 
         userViewModel.prototype.toJSON = function toJSON() {
-            return komapping.toJSON(this.objects, {'ignore': ["src"]})
+            return komapping.toJSON(this.objects)
         }
 
         userViewModel.prototype.toHistoryJSON = function toHistoryJSON() {

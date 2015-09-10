@@ -19,7 +19,7 @@
 
 	<!-- ko with: historyRerender -->
 		<!-- ko with: $parent.viewingFace -->
-			<div class="canvas-container" data-bind="click: $parents[1].unfocusConditional, css: {'canvas-container_selected': false, 'canvas-container_focused': $parents[1].elementFocused}">
+			<div class="canvas-container" data-bind="click: $parents[1].unfocusConditional, css: {'canvas-container_selected': false, 'canvas-container_focused': $parents[1].elementFocused, 'canvas-container_small': $parents[1].showImageUpload}">
 				<tools-component></tools-component>
 				<side-component class="side side_large" params="{side: side, face: $data}" data-bind="style: {'transform': $parents[1].scale}"></side-component>
 			</div>
@@ -37,7 +37,7 @@
 	<!-- ko if: isBackgroundSelected -->
 	<backgroundtools-component></backgroundtools-component>
 	<!-- /ko -->
-	<zoom-component></zoom-component>
+	<zoom-component data-bind="visible: !(showImageUpload())"></zoom-component>
 	<!-- ko if: showPreview -->
 	<preview-component></preview-component>
 	<!-- /ko -->

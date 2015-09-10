@@ -8,6 +8,7 @@ define(['knockout', 'jquery'],
             this.scaleElement = ko.observable();
             this.backgroundSelected = ko.observable();
             this.historyRerender = ko.observable(true);
+            this.imageTab = ko.observable();
             this.showPreview = ko.observable(false);
             this.showImageUpload = ko.observable(false);
             this.showThemePicker = ko.observable(false);
@@ -22,6 +23,9 @@ define(['knockout', 'jquery'],
             this.repositionImages = false;
             // testing
             this.output = ko.observable();
+            this.selectedElement.subscribe(function() {
+                this.showImageUpload(false);
+            }, this)
         }
 
         /**
@@ -36,11 +40,25 @@ define(['knockout', 'jquery'],
             }
         }
 
+        stateViewModel.prototype.toggleImageUpload = function toggleImageUpload() {
+            this.imageTab('upload');
+            this.toggleImage();
+        }
+
+        stateViewModel.prototype.toggleImageLibrary = function toggleImageLibrary() {
+            this.imageTab('library');
+            this.toggleImage();
+        }
+
         /**
          * toggle the image upload modal
          */
-        stateViewModel.prototype.toggleImageUpload = function toggleImageUpload() {
+        stateViewModel.prototype.toggleImage = function toggleImage() {
             this.showImageUpload(!this.showImageUpload());
+            this.overrideZoom(null)
+            setTimeout(function(){
+                this.scaleElement.valueHasMutated();
+            }.bind(this), 0) 
         }
 
         /**

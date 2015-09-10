@@ -9,33 +9,35 @@
 	bottom: 0;
 	z-index: 501;
 	background: $lightest-grey;
+	animation: fadein 0.25s;
 }
 
 .preview-modal {
 	position: absolute;
-	top: 40px;
-	left: 40px;
-	right: 40px;
-	bottom: 40px;
-	background: #FFF;
-	border: 1px solid $lightish-grey;
-	@include shadow(1px, 3px, 0, $lightish-grey);
+	top: 20px;
+	left: 20px;
+	right: 20px;
+	bottom: 20px;
+	background: transparent;
+	//border: 1px solid $lightish-grey;
+	//@include shadow(1px, 3px, 0, $lightish-grey);
 	.preview-modal-close {
 		position: absolute;
-		top: -15px;
-		right: -15px;
+		top: 15px;
+		right: 15px;
 		width: 30px;
 		height: 30px;
 		font-size: 30px;
 		color: $darkest-grey;
 		cursor: pointer;
+		z-index: 100;
 	}
 	.preview-side {
 		// floating this broke ie. Boo
 		position: absolute;
 		width: 50%;
 		top: 0;
-		bottom: 0;
+		bottom: 100px;
 		padding: 14px;
 		&:first-child {
 			left: 0;

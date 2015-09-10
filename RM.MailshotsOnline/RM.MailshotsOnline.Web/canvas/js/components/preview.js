@@ -12,6 +12,7 @@ define(['knockout', 'view_models/format', 'view_models/state'],
 
             this.width = ko.observable();
             this.height = ko.observable();
+            this.margin = ko.observable(0);
 
             this.sideFaces = this.sideFaces.bind(this);
             this.doScale = this.doScale.bind(this);
@@ -31,7 +32,9 @@ define(['knockout', 'view_models/format', 'view_models/state'],
             var side = this.sides[0],
                 faces = this.sideFaces(side),
                 width = 0,
-                height = 0;
+                height = 0,
+                container_height = this.container().height(),
+                container_width = this.container().width() - 40;
 
             ko.utils.arrayForEach(faces, function(face) {
                 height += face.height + 60;
@@ -41,9 +44,16 @@ define(['knockout', 'view_models/format', 'view_models/state'],
             this.width(width + 'px');
             this.height(height + 'px');
 
-            var v_scale = (this.container().height() - 100) / height,
-                h_scale = (this.container().width() - 40) / width,
-                scale = Math.min(v_scale, h_scale);
+            var v_scale = container_height / height,
+                h_scale = container_width / width,
+                scale = Math.min(v_scale, h_scale),
+                scaled_height = scale * height;
+
+            if (scaled_height < container_height) {
+                this.margin(((container_height - scaled_height) / 2) + 'px');
+            } else {
+                this.margin(0);
+            }
 
             this.scale('scale(' + scale + ')');
         }

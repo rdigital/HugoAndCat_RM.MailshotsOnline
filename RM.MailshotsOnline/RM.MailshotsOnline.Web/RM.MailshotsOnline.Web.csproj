@@ -388,6 +388,8 @@
     <Content Include="canvas\fonts\icomoon.svg" />
     <Content Include="canvas\gruntfile.js" />
     <Content Include="canvas\images\img_placeholder.PNG" />
+    <Content Include="canvas\images\library_image.PNG" />
+    <Content Include="canvas\images\own_image.PNG" />
     <Content Include="canvas\images\upload.png" />
     <Content Include="canvas\js\app.js" />
     <Content Include="canvas\js\components\backgroundtools.js" />
@@ -409,6 +411,7 @@
     <Content Include="canvas\js\components\zoom.js" />
     <Content Include="canvas\js\custom_bindings\ko-editable.js" />
     <Content Include="canvas\js\custom_bindings\ko-element.js" />
+    <Content Include="canvas\js\custom_bindings\ko-file.js" />
     <Content Include="canvas\js\custom_bindings\ko-spectrum.js" />
     <Content Include="canvas\js\require_config.js" />
     <Content Include="canvas\js\temp\data.js" />
@@ -439,6 +442,7 @@
     <Content Include="canvas\styles\compiled\themepicker.css" />
     <Content Include="canvas\styles\compiled\toolbar.css" />
     <Content Include="canvas\styles\compiled\tools.css" />
+    <Content Include="canvas\styles\compiled\upload.css" />
     <Content Include="canvas\styles\vendor\bootstrap.min.css" />
     <Content Include="canvas\templates\backgroundtools.html" />
     <Content Include="canvas\templates\colourpicker.html" />
@@ -515,6 +519,8 @@
     <Content Include="canvas\fonts\icomoon.woff" />
     <Content Include="canvas\styles\compiled\preview.css.map" />
     <Content Include="canvas\styles\preview.scss" />
+    <Content Include="canvas\styles\compiled\upload.css.map" />
+    <Content Include="canvas\styles\upload.scss" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\campaign-functions.js" />
     <Content Include="scripts\campaign-hub.js" />
