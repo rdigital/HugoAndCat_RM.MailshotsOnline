@@ -5,19 +5,21 @@ define(['knockout', 'jquery', 'koelement'],
 
         // ViewModel
         function dropdownViewModel(params) {
-            this.options = params.options
-            this.action = params.action
-            this.selectedObs = params.selected
-            this.full = params.full
-            this.focusCallback = params.focusCallback
-            this.anchorClass = params.anchorClass
+            this.options = params.options;
+            this.action = params.action;
+            this.selectedObs = params.selected;
+            this.placeholder = params.placeholder || '';
+            this.autohide = params.autohide;
+            this.full = params.full;
+            this.focusCallback = params.focusCallback;
+            this.anchorClass = params.anchorClass;
             this.open = ko.observable(false);
             this.element = ko.observable();
 
             this.hideOnDocClick = this.hideOnDocClick.bind(this);
 
             // computeds
-            this.selected = this.getSelectedComputed()
+            this.selected = this.getSelectedComputed();
 
             // subscriptions
             this.handleSubscriptions();
@@ -51,7 +53,9 @@ define(['knockout', 'jquery', 'koelement'],
                 },
                 write: function(data) {
                     this.selectedObs(data.value);
-                    //this.hide();
+                    if (this.autohide) {
+                        this.hide();
+                    }
                 }
             }, this)
         }

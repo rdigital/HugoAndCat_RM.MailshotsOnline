@@ -8,7 +8,7 @@
     <div class="uploadmodal-close icon-close" data-bind="click: toggleImageUpload"></div>
     <!-- ko if: selectedTab() == 'upload' -->
 	    <div class="uploadmodal-preview" data-bind="click: clickUpload, event:{ dragover: dragOver, drop: drop}, style: { backgroundImage: 'url(\'' + (src() ? src() : '/canvas/images/upload.png') + '\')' }, css: {'uploadmodal-preview_populated': src()}"></div>
-	    <input type="file" id="image-upload" accept="image/*" data-bind="file: {data: fileData, allowed: ['image/jpg', 'image/png', 'image/jpeg']}" style="opacity: 0;">
+	    <input type="file" id="image-upload" accept="image/*" data-bind="file: {data: fileData, allowed: ['image/jpg', 'image/png', 'image/jpeg', 'image/svg+xml']}" style="opacity: 0;">
 
 	    <div class="uploadmodal-info">
 	    	<h2>Here are some tips for making your images look great in print</h2>
@@ -29,8 +29,11 @@
     <!-- /ko -->
 
     <!-- ko if: selectedTab() == 'library' -->
+    	<div class="dropdown-row">
+            <dropdown-component params="{options: tags, selected: tag, anchorClass: 'tools-dropdown', placeholder: 'Select Category', autohide: true}"></dropdown-component>
+        </div>
     	<div class="library">
-	    	<!-- ko foreach: libraryImages() -->
+	    	<!-- ko foreach: libraryImagesFiltered() -->
 	    	<div class="library-image" data-bind="click: $parent.selectLibraryImage, css: {'library-image_selected': $parent.libraryImage() == $data}">
 	    		<div class="library-image-inner" data-bind="style: {backgroundImage: 'url(' + SmallSrc + ')'}"></div>
 	    	</div>

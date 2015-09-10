@@ -114,57 +114,58 @@
 			border-right: 1px solid $light-grey;
 		}
 	}
-	.dropdown:after {
-    	content: '';
-    	display: block;
-    	position: absolute;
-    	right: 35px;
-    	top: 0;
-    	bottom: 0;
-    	border-right: 1px solid $grey;
-	}
-	.tools-dropdown {
-		position: relative;
-		background: #FFF;
-	    border: 1px solid $grey;
-	    display: inline-block;
-	    text-align: left;
-	    color: $dark-grey;
-	    font-weight: 200;
-	    cursor: pointer;
-	    font-size: 14px;
-	    height: 35px;
-	    padding-left: 10px;
-	    padding-right: 45px;
-	    line-height: 35px;
-	    min-width: 70px;
-	    &.tools-dropdown_full {
-	    	width: 100%;
-	    }
-	    &:after {
-	    	transition: all .25s ease-out;
-	    	content: '^';
-	    	position: absolute;
-	    	right: 13px;
-		    top: -5px;
-		    transform: rotate(180deg);
-		    font-size: 20px;
-	    	color: $dark-grey;
-	    }
-	}
-	.dropdown.dropdown_active .tools-dropdown:after {
-		top: 4px;
-		transform: scaleY(-1) rotate(180deg);
-	}
-	.dropdown-options {
-		z-index: 1;
-		color: $dark-grey;
-	}
 	&.background-tools {
 		position: fixed;
 		min-height: 60px;
 		margin-left: -100px;
 	}
+}
+
+.dropdown:after {
+	content: '';
+	display: block;
+	position: absolute;
+	right: 35px;
+	top: 0;
+	bottom: 0;
+	border-right: 1px solid $grey;
+}
+.tools-dropdown {
+	position: relative;
+	background: #FFF;
+    border: 1px solid $grey;
+    display: inline-block;
+    text-align: left;
+    color: $dark-grey;
+    font-weight: 200;
+    cursor: pointer;
+    font-size: 14px;
+    height: 35px;
+    padding-left: 10px;
+    padding-right: 45px;
+    line-height: 35px;
+    min-width: 70px;
+    &.tools-dropdown_full {
+    	width: 100%;
+    }
+    &:after {
+    	transition: all .25s ease-out;
+    	content: '^';
+    	position: absolute;
+    	right: 13px;
+	    top: -5px;
+	    transform: rotate(180deg);
+	    font-size: 20px;
+    	color: $dark-grey;
+    }
+}
+.dropdown.dropdown_active .tools-dropdown:after {
+	top: 4px;
+	transform: scaleY(-1) rotate(180deg);
+}
+.dropdown-options {
+	z-index: 1;
+	color: $dark-grey;
 }
 
 .colour-dropdown .dropdown-options_active {

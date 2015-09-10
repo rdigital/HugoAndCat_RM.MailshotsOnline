@@ -95,6 +95,23 @@
 			margin-bottom: 6px;
 		}
 	}
+	.dropdown-row {
+		margin-top: 20px;
+		margin-left: 20px;
+	}
+	.dropdown {
+		display: block;
+		width: 400px;
+	}
+	.tools-dropdown {
+		display: block;
+		font-size: 16px;
+	}
+	.dropdown-options_active {
+		max-height: 200px;
+    	overflow: auto;
+    	font-size: 16px;
+	}
 }
 
 @media all and (max-width: 1100px) {
@@ -125,7 +142,7 @@
 
 .library {
 	position: absolute;
-	top: 80px;
+	top: 140px;
 	right: 20px;
 	left: 20px;
 	bottom: 80px;

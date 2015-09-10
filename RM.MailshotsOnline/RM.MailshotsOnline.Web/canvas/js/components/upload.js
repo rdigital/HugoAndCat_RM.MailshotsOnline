@@ -3,7 +3,6 @@ define(['knockout', 'jquery', 'kofile', 'view_models/state'],
     function(ko, $, kofile, stateViewModel) {
 
         function imageUploadViewModel(params) {
-            window.upload = this;
             this.src = ko.observable();
             this.libraryImage = ko.observable();
             this.fileData = ko.observable({
@@ -11,9 +10,14 @@ define(['knockout', 'jquery', 'kofile', 'view_models/state'],
             })
             this.selectedTab = ko.observable(stateViewModel.imageTab() || 'upload');
             this.libraryImages = ko.observableArray();
+            this.tag = ko.observable();
+
+
+            this.tags = this.getTagsComputed();
+            this.libraryImagesFiltered = this.getLibraryComputed();
+
 
             this.fileData.subscribe(this.loadFile, this);
-
             this.src.subscribe(this.render, this);
             this.libraryImage.subscribe(this.renderLibraryImage, this);
 
@@ -23,11 +27,44 @@ define(['knockout', 'jquery', 'kofile', 'view_models/state'],
             this.fetchLibrary();
         }
 
+        imageUploadViewModel.prototype.getTagsComputed = function getTagsComputed() {
+            return ko.pureComputed( function() {
+                var tags = [];
+                ko.utils.arrayForEach(this.libraryImages(), function(image) {
+                    ko.utils.arrayForEach(image.Tags, function(tag) {
+                        var match = ko.utils.arrayFirst(tags, function(existing) {
+                            return existing.name == tag
+                        })
+                        if (!match) {
+                            tags.push({
+                                name: tag,
+                                value: tag
+                            });
+                        }
+                    })
+                });
+                return tags.sort(function (a, b) {
+                    return a.name.localeCompare(b.name, 'en', {'sensitivity': 'base'})
+                });
+            }, this)
+        }
+
+        imageUploadViewModel.prototype.getLibraryComputed = function getLibraryComputed() {
+            return ko.pureComputed( function() {
+                var tag = this.tag();
+                if (tag) {
+                    return ko.utils.arrayFilter(this.libraryImages(), function(image) {
+                        return image.Tags.indexOf(tag) >= 0
+                    })
+                }
+                return this.libraryImages()
+            }, this)
+        }
+
         // XXX move this into it's own data model
         imageUploadViewModel.prototype.fetchLibrary = function fetchLibrary() {
             $.get('/Umbraco/Api/ImageLibrary/GetImages', function(data) {
                 this.libraryImages(data);
-                console.log(this.libraryImages()[0].SmallSrc)
             }.bind(this)).fail(function() {
                 console.log('There was an error fetching the image library');
             })
