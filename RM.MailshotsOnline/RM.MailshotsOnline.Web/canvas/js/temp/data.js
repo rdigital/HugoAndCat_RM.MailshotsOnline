@@ -275,6 +275,35 @@ define([],
                                     value: '100px'
                                 }
                             ]
+                        },
+                        {
+                            name: 'largeimage',
+                            face: 'Inside',
+                            type: 'image',
+                            theme_class: 'logo',
+                            layout: [
+                                {
+                                    property: 'position',
+                                    value: 'absolute'
+                                },
+                                {
+                                    property: 'top',
+                                    value: '450px'
+                                },
+                                {
+                                    property: 'left',
+                                    value: '0'
+                                },
+                                {
+                                    property: 'width',
+                                    value: '600px'
+                                },
+                                {
+                                    property: 'height',
+                                    value: '450px'
+                                }
+                            ],
+                            message: "Choose a high quality image which helps convey your message to the reader."
                         }
                     ]
                 },

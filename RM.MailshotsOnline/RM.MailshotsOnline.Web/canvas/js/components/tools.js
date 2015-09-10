@@ -365,6 +365,10 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             stateViewModel.toggleImageUpload();
         }
 
+        toolsViewModel.prototype.toggleImageLibrary = function toggleImageLibrary() {
+            stateViewModel.toggleImageLibrary();
+        }
+
         return {
             viewModel: toolsViewModel,
             template: { require: 'text!/canvas/templates/tools.html' }

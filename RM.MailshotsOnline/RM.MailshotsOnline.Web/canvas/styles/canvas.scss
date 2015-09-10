@@ -7,6 +7,8 @@ body {
 }
 
 .canvas-container {
+    
+    @include transition(transform, 0s);
     position: absolute;
     top: 50px;
     left: 150px;
@@ -15,6 +17,7 @@ body {
     z-index: 2;
     overflow: auto;
     background: $lightest-grey;
+    transform: translate(0, 0);
     .tools {
         transform: translate(-150px, -50px);
     }
@@ -31,6 +34,7 @@ body {
         }
     }
     &.canvas-container_small {
+        @include transition(transform);
         width: 500px;
         right: auto;
         transform: translate(-190px, 0);

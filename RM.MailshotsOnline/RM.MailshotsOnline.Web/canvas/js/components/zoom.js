@@ -36,13 +36,13 @@ define(['knockout', 'jquery', 'view_models/state'],
                 $('canvas').hide();
                 setTimeout(function() {
                     $('canvas').show();
-                }, 10)
+                }, 20)
             })
             this.overrideZoom.subscribe(function() {
                 $('canvas').hide();
                 setTimeout(function() {
                     $('canvas').show();
-                }, 10)
+                }, 20)
             })
         }
 

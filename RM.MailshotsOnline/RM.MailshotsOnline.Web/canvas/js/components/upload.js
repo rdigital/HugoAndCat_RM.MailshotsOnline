@@ -2,13 +2,49 @@ define(['knockout', 'jquery', 'kofile', 'view_models/state'],
 
     function(ko, $, kofile, stateViewModel) {
 
-        function imageUploadViewModel() {
+        function imageUploadViewModel(params) {
+            window.upload = this;
             this.src = ko.observable();
+            this.libraryImage = ko.observable();
             this.fileData = ko.observable({
                 dataURL: ko.observable()
             })
+            this.selectedTab = ko.observable(stateViewModel.imageTab() || 'upload');
+            this.libraryImages = ko.observableArray();
+
             this.fileData.subscribe(this.loadFile, this);
+
             this.src.subscribe(this.render, this);
+            this.libraryImage.subscribe(this.renderLibraryImage, this);
+
+            this.selectLibraryImage = this.selectLibraryImage.bind(this);
+            this.selectTab = this.selectTab.bind(this);
+
+            this.fetchLibrary();
+        }
+
+        // XXX move this into it's own data model
+        imageUploadViewModel.prototype.fetchLibrary = function fetchLibrary() {
+            $.get('/Umbraco/Api/ImageLibrary/GetImages', function(data) {
+                this.libraryImages(data);
+                console.log(this.libraryImages()[0].SmallSrc)
+            }.bind(this)).fail(function() {
+                console.log('There was an error fetching the image library');
+            })
+        }
+
+        imageUploadViewModel.prototype.selectLibraryImage = function selectLibraryImage(image) {
+            this.libraryImage(image);
+            this.src(null);
+        }
+
+        imageUploadViewModel.prototype.renderLibraryImage = function renderLibraryImage() {
+            stateViewModel.selectedElement().render(this.libraryImage().Src, true);
+        }
+
+
+        imageUploadViewModel.prototype.selectTab = function selectTab(tab) {
+            this.selectedTab(tab);
         }
 
         imageUploadViewModel.prototype.clickUpload = function clickUpload(){
@@ -20,7 +56,9 @@ define(['knockout', 'jquery', 'kofile', 'view_models/state'],
         }
 
         imageUploadViewModel.prototype.render = function render() {
-            stateViewModel.selectedElement().render(this.src(), true);
+            if (this.src()) {
+                stateViewModel.selectedElement().render(this.src(), true);
+            }
         }
 
         /**

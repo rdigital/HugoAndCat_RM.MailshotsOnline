@@ -63,7 +63,6 @@ define(['knockout', 'komapping', 'components/side', 'components/tools', 'compone
         editorViewModel.prototype.unfocus = function unfocus() {
             stateViewModel.selectElement(null);
             stateViewModel.backgroundSelected(null);
-            this.showImageUpload(false);
             stateViewModel.scaleElement.valueHasMutated();
         }
 

@@ -26,7 +26,7 @@
 	.tools-row {
 		text-align: left;
 		padding: 4px 20px;
-		height: 45px;
+		min-height: 45px;
 		label {
 			display: inline-block;
 			width: 100px;
@@ -78,6 +78,40 @@
 		.fa-arrows {
 			line-height: 19px;
 			transform: rotate(45deg);
+		}
+	}
+	.tools-label {
+		font-family: Chevin Bold, Arial;
+		text-align: left;
+		margin: 10px 20px;
+		color: $dark-grey;
+		font-size: 14px;
+	}
+	.tools-image {
+		display: table-cell;
+		vertical-align: bottom;
+		text-align: center;
+		width: 150px;
+		height: 115px;
+		background-position: 50% 0%;
+		background-repeat: no-repeat;
+		cursor: pointer;
+		font-family: Chevin Medium, Arial;
+		font-size: 15px;
+		color: $dark-grey;
+		&.tools-image_own {
+			background-image: url(/canvas/images/own_image.png);
+		}
+		&.tools-image_library {
+			background-image: url(/canvas/images/library_image.png);
+		}
+	}
+	.tools-image-spacer {
+		display: table-cell;
+		height: 115px;
+		width: 15px;
+		&.tools-image-spacer_border {
+			border-right: 1px solid $light-grey;
 		}
 	}
 	.dropdown:after {

@@ -47,17 +47,26 @@
     <!-- /ko -->
     <!-- ko if: elementType() == 'image' -->
         <!-- ko if: showScale() -->
+        <div class="tools-label">
+            Size:
+        </div>
         <div class="tools-row">
             <slider-component params="{min: 1, max: 400, current: selectedElement().imageObj.scale}"></slider-component>
         </div>
-        <div class="tools-row">
-            <span class="tools-button" data-bind="click: toggleImageUpload">Change Image</span>
+        <div class="tools-label">
+            Change Image:
         </div>
         <!-- /ko -->
         <!-- ko ifnot: showScale() -->
-        <div class="tools-row">
-            <span class="tools-button" data-bind="click: toggleImageUpload">Add Image</span>
+        <div class="tools-label">
+            Add Image:
         </div>
         <!-- /ko -->
+        <div class="tools-row">
+            <span class="tools-image tools-image_own" data-bind="click: toggleImageUpload">Use my own Image</span>
+            <span class="tools-image-spacer tools-image-spacer_border"></span>
+            <span class="tools-image-spacer"></span>
+            <span class="tools-image tools-image_library" data-bind="click: toggleImageLibrary">Choose from Library</span>
+        </div>
     <!-- /ko -->
 </div>

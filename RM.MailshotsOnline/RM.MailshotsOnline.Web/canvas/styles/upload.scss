@@ -29,6 +29,17 @@
     color: $dark-grey;
     border: 1px solid $lightish-grey;
     @include shadow(1px, 3px, 0, $lightish-grey);
+    .uploadmodal-close {
+		position: absolute;
+		top: 15px;
+		right: 15px;
+		width: 30px;
+		height: 30px;
+		font-size: 30px;
+		color: $darkest-grey;
+		cursor: pointer;
+		z-index: 100;
+	}
 	.uploadmodal-preview {
 		background-color: #FFF;
 		background-repeat: no-repeat;
@@ -98,7 +109,7 @@
 	border-bottom: 4px solid $darkest-grey;
 	font-family: Chevin Medium, Arial;
 	.tab {
-		display: inline-block;
+		float: left;
 		height: 56px;
 		min-width: 140px;
 		text-align: center;
@@ -108,6 +119,34 @@
 		&.tab_selected {
 			background: $darkest-grey;
 			color: #fff;
+		}
+	}
+}
+
+.library {
+	position: absolute;
+	top: 80px;
+	right: 20px;
+	left: 20px;
+	bottom: 80px;
+	overflow: auto;
+	.library-image {
+		@include transition(background);
+		display: inline-block;
+		width: 200px;
+		height: 150px;
+		background-color: $lightest-grey;
+		padding: 10px;
+		cursor: pointer;
+		&:hover, &.library-image_selected {
+			background-color: $selected-blue;
+		}
+		.library-image-inner {
+			background-size: contain;
+			background-position: 50% 50%;
+			background-repeat: no-repeat;
+			width: 100%;
+    		height: 100%;
 		}
 	}
 }
