@@ -180,7 +180,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 BlobStorageHelper blobHelper = new BlobStorageHelper(ConfigHelper.PrivateStorageConnectionString, ConfigHelper.PrivateMediaBlobStorageContainer);
                 var accessUrl = blobHelper.GetBlobUrlWithSas(blobId, 60);
 
-                result = Request.CreateResponse(HttpStatusCode.Moved);
+                result = Request.CreateResponse(HttpStatusCode.Found);
                 result.Headers.Location = new Uri(accessUrl);
             }
             else
