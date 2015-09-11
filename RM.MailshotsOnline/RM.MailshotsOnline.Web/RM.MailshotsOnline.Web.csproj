@@ -383,10 +383,6 @@
     <Content Include="App_Plugins\CryptoTextField\cryptoTextField.html" />
     <Content Include="App_Plugins\ImageUsageCount\usagecount.controller.js" />
     <Content Include="App_Plugins\ImageUsageCount\usagecount.html" />
-    <Content Include="App_Plugins\MembersDecrypted\backoffice\membersDecrypted\edit.html" />
-    <Content Include="App_Plugins\MembersDecrypted\backoffice\membersDecrypted\list.html" />
-    <Content Include="App_Plugins\MembersDecrypted\backoffice\membersDecrypted\membersDecrypted.edit.controller.js" />
-    <Content Include="App_Plugins\MembersDecrypted\backoffice\membersDecrypted\membersDecrypted.list.controller.js" />
     <Content Include="App_Plugins\PrivateImageViewer\imageviewer.controller.js" />
     <Content Include="App_Plugins\PrivateImageViewer\imageviewer.html" />
     <Content Include="canvas\app.html" />
@@ -507,7 +503,6 @@
     <Content Include="canvas\styles\themepicker.scss" />
     <Content Include="canvas\styles\compiled\help.css.map" />
     <Content Include="canvas\styles\compiled\themepicker.css.map" />
-    <Content Include="App_Plugins\MembersDecrypted\package.manifest" />
     <Content Include="App_Plugins\CryptoTextField\package.manifest" />
     <Content Include="App_Plugins\CryptoTextField\cryptoTextField.controller.js" />
     <Content Include="App_Plugins\CryptoTextField\cryptoText.resource.js" />
@@ -3255,7 +3250,9 @@
     <Content Include="Config\ExamineIndex.config" />
     <Content Include="Config\EmbeddedMedia.config" />
     <Content Include="Config\BaseRestExtensions.config" />
-    <Content Include="Config\applications.config" />
+    <Content Include="Config\applications.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Config\404handlers.config" />
     <Content Include="ApplicationInsights.config" />
     <Content Include="ApplicationInsights.QA.config">
