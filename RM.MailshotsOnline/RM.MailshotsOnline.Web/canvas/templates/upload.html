@@ -28,11 +28,24 @@
 	    <!-- /ko -->
     <!-- /ko -->
 
+    <!-- ko if: selectedTab() == 'my_images' -->
+    	<div class="library my-library" data-bind="css: {'library_loading': myImagesLoading}">
+	    	<!-- ko foreach: myImages() -->
+	    	<div class="library-image" data-bind="click: $parent.selectMyImage, css: {'library-image_selected': $parent.myImage() == $data}">
+	    		<div class="library-image-inner" data-bind="style: {backgroundImage: 'url(' + SmallSrc + ')'}"></div>
+	    	</div>
+	    	<!-- /ko -->
+	    </div>
+	    <!-- ko if: myImage() -->
+	    <a class="toolbar-button toolbar-button_large toolbar-button_green" data-bind="click: confirm">Use this image</a>
+	    <!-- /ko -->
+    <!-- /ko -->
+
     <!-- ko if: selectedTab() == 'library' -->
     	<div class="dropdown-row">
             <dropdown-component params="{options: tags, selected: tag, anchorClass: 'tools-dropdown', placeholder: 'Select Category', autohide: true}"></dropdown-component>
         </div>
-    	<div class="library">
+    	<div class="library" data-bind="css: {'library_loading': libraryLoading}">
 	    	<!-- ko foreach: libraryImagesFiltered() -->
 	    	<div class="library-image" data-bind="click: $parent.selectLibraryImage, css: {'library-image_selected': $parent.libraryImage() == $data}">
 	    		<div class="library-image-inner" data-bind="style: {backgroundImage: 'url(' + SmallSrc + ')'}"></div>

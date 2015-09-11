@@ -147,6 +147,14 @@
 	left: 20px;
 	bottom: 80px;
 	overflow: auto;
+	&.library_loading {
+		background-image: url(/canvas/images/loading.gif);
+		background-position: 50% 50%;
+		background-repeat: no-repeat;
+	}
+	&.my-library {
+		top: 80px;
+	}
 	.library-image {
 		@include transition(background);
 		display: inline-block;

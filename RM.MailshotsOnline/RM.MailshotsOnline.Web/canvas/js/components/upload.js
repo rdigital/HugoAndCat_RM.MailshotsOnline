@@ -4,13 +4,20 @@ define(['knockout', 'jquery', 'kofile', 'view_models/state'],
 
         function imageUploadViewModel(params) {
             this.src = ko.observable();
-            this.libraryImage = ko.observable();
             this.fileData = ko.observable({
                 dataURL: ko.observable()
             })
             this.selectedTab = ko.observable(stateViewModel.imageTab() || 'upload');
+
+            // XXX note to whoever has time, move these into their own data model so
+            // they can be persisted between opening up the image panel
+            this.libraryImage = ko.observable();
             this.libraryImages = ko.observableArray();
             this.tag = ko.observable();
+            this.libraryLoading = ko.observable(true);
+            this.myImage = ko.observable();
+            this.myImages = ko.observableArray();
+            this.myImagesLoading = ko.observable(true);
 
 
             this.tags = this.getTagsComputed();
@@ -20,11 +27,14 @@ define(['knockout', 'jquery', 'kofile', 'view_models/state'],
             this.fileData.subscribe(this.loadFile, this);
             this.src.subscribe(this.render, this);
             this.libraryImage.subscribe(this.renderLibraryImage, this);
+            this.myImage.subscribe(this.renderMyImage, this);
 
             this.selectLibraryImage = this.selectLibraryImage.bind(this);
             this.selectTab = this.selectTab.bind(this);
+            this.selectMyImage = this.selectMyImage.bind(this);
 
             this.fetchLibrary();
+            this.fetchMyImages();
         }
 
         imageUploadViewModel.prototype.getTagsComputed = function getTagsComputed() {
@@ -64,25 +74,50 @@ define(['knockout', 'jquery', 'kofile', 'view_models/state'],
         // XXX move this into it's own data model
         imageUploadViewModel.prototype.fetchLibrary = function fetchLibrary() {
             $.get('/Umbraco/Api/ImageLibrary/GetImages', function(data) {
+                this.libraryLoading(false);
                 this.libraryImages(data);
             }.bind(this)).fail(function() {
                 console.log('There was an error fetching the image library');
             })
         }
 
+        // XXX move this into it's own data model
+        imageUploadViewModel.prototype.fetchMyImages = function fetchMyImages() {
+            $.get('/Umbraco/Api/ImageLibrary/GetMyImages', function(data) {
+                this.myImagesLoading(false);
+                this.myImages(data);
+            }.bind(this)).fail(function() {
+                console.log('There was an error fetching my images');
+            })
+        }
+
         imageUploadViewModel.prototype.selectLibraryImage = function selectLibraryImage(image) {
             if (image) {
                 this.libraryImage(image);
-                this.src(null);
             }
         }
 
         imageUploadViewModel.prototype.renderLibraryImage = function renderLibraryImage() {
             if (this.libraryImage()) {
                 stateViewModel.selectedElement().render(this.libraryImage().Src, true);
+                this.myImage(null);
+                this.src(null);
             }
         }
 
+        imageUploadViewModel.prototype.selectMyImage = function selectMyImage(image) {
+            if (image) {
+                this.myImage(image);
+            }
+        }
+
+        imageUploadViewModel.prototype.renderMyImage = function renderMyImage() {
+            if (this.myImage()) {
+                stateViewModel.selectedElement().render(this.myImage().Src, true);
+                this.libraryImage(null);
+                this.src(null);
+            }
+        }
 
         imageUploadViewModel.prototype.selectTab = function selectTab(tab) {
             this.selectedTab(tab);
@@ -99,7 +134,8 @@ define(['knockout', 'jquery', 'kofile', 'view_models/state'],
         imageUploadViewModel.prototype.render = function render() {
             if (this.src()) {
                 stateViewModel.selectedElement().render(this.src(), true);
-                this.libraryImage(null);  
+                this.libraryImage(null);
+                this.myImage(null);
             }
         }
 
