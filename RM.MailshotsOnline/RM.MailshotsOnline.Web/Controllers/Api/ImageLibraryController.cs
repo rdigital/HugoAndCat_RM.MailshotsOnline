@@ -214,7 +214,16 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             {
                 try
                 {
-                    bytes = Convert.FromBase64String(imageUpload.ImageString);
+                    var base64String = imageUpload.ImageString;
+                    if (base64String.StartsWith("data:"))
+                    {
+                        var stringParts = base64String.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                        if (stringParts.Length == 2)
+                        {
+                            base64String = stringParts[1];
+                        }
+                    }
+                    bytes = Convert.FromBase64String(base64String);
                 }
                 catch (Exception ex)
                 {

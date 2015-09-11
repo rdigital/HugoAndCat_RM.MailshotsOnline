@@ -6,7 +6,7 @@
     	<div class="tab" data-bind="click: function(){selectTab('library')}, css: {'tab_selected': selectedTab() == 'library'}">Library</div>
     </div>
     <div class="uploadmodal-close icon-close" data-bind="click: toggleImageUpload"></div>
-    <!-- ko if: selectedTab() == 'upload' -->
+    <div data-bind="visible: (selectedTab() == 'upload')">
 	    <div class="uploadmodal-preview" data-bind="click: clickUpload, event:{ dragover: dragOver, drop: drop}, style: { backgroundImage: 'url(\'' + (src() ? src() : '/canvas/images/upload.png') + '\')' }, css: {'uploadmodal-preview_populated': src()}"></div>
 	    <input type="file" id="image-upload" accept="image/*" data-bind="file: {data: fileData, allowed: ['image/jpg', 'image/png', 'image/jpeg', 'image/svg+xml']}" style="opacity: 0;">
 
@@ -26,22 +26,22 @@
 	    <!-- ko if: src() -->
 	    <a class="toolbar-button toolbar-button_large toolbar-button_green" data-bind="click: confirm">Use this image</a>
 	    <!-- /ko -->
-    <!-- /ko -->
+    </div>
 
-    <!-- ko if: selectedTab() == 'my_images' -->
-    	<div class="library my-library" data-bind="css: {'library_loading': myImagesLoading}">
+    <div data-bind="visible: (selectedTab() == 'my_images')">
+		<div class="library my-library" data-bind="css: {'library_loading': myImagesLoading}">
 	    	<!-- ko foreach: myImages() -->
 	    	<div class="library-image" data-bind="click: $parent.selectMyImage, css: {'library-image_selected': $parent.myImage() == $data}">
-	    		<div class="library-image-inner" data-bind="style: {backgroundImage: 'url(' + SmallSrc + ')'}"></div>
+	    		<div class="library-image-inner" data-bind="style: {backgroundImage: 'url(' + SmallSrc + '&' + $parent.getRandomInt() + ')'}"></div>
 	    	</div>
 	    	<!-- /ko -->
 	    </div>
 	    <!-- ko if: myImage() -->
 	    <a class="toolbar-button toolbar-button_large toolbar-button_green" data-bind="click: confirm">Use this image</a>
 	    <!-- /ko -->
-    <!-- /ko -->
+    </div>
 
-    <!-- ko if: selectedTab() == 'library' -->
+    <div data-bind="visible: (selectedTab() == 'library')">
     	<div class="dropdown-row">
             <dropdown-component params="{options: tags, selected: tag, anchorClass: 'tools-dropdown', placeholder: 'Select Category', autohide: true}"></dropdown-component>
         </div>
@@ -55,5 +55,5 @@
 	    <!-- ko if: libraryImage() -->
 	    <a class="toolbar-button toolbar-button_large toolbar-button_green" data-bind="click: confirm">Use this image</a>
 	    <!-- /ko -->
-    <!-- /ko -->
+    </div>
 </div>

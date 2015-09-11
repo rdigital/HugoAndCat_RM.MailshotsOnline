@@ -19,22 +19,43 @@ define(['knockout', 'jquery', 'kofile', 'view_models/state'],
             this.myImages = ko.observableArray();
             this.myImagesLoading = ko.observable(true);
 
-
+            // computeds
             this.tags = this.getTagsComputed();
             this.libraryImagesFiltered = this.getLibraryComputed();
 
-
+            // subscriptions
             this.fileData.subscribe(this.loadFile, this);
             this.src.subscribe(this.render, this);
             this.libraryImage.subscribe(this.renderLibraryImage, this);
             this.myImage.subscribe(this.renderMyImage, this);
 
+            // bound functions
             this.selectLibraryImage = this.selectLibraryImage.bind(this);
             this.selectTab = this.selectTab.bind(this);
             this.selectMyImage = this.selectMyImage.bind(this);
+            this.dispose = this.dispose.bind(this);
 
             this.fetchLibrary();
             this.fetchMyImages();
+        }
+
+        imageUploadViewModel.prototype.dispose = function dispose() {
+            if (this.src()) {
+                console.log('do upload');
+                var data = {
+                    imageString: this.src(),
+                    name: this.getRandomInt().toString() 
+                };
+                $.post('/Umbraco/Api/ImageLibrary/UploadImage', data, function() {
+                    console.log('my image saved');
+                })
+            }
+        }
+
+        imageUploadViewModel.prototype.getRandomInt = function getRandomInt() {
+            var min = 0,
+                max = 99999999;
+            return Math.floor(Math.random() * (max - min)) + min;
         }
 
         imageUploadViewModel.prototype.getTagsComputed = function getTagsComputed() {
