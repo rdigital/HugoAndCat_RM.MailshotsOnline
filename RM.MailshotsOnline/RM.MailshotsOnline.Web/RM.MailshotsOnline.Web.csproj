@@ -380,8 +380,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Plugins\CryptoTextField\cryptoTextField.html" />
     <Content Include="App_Plugins\ImageUsageCount\usagecount.controller.js" />
     <Content Include="App_Plugins\ImageUsageCount\usagecount.html" />
+    <Content Include="App_Plugins\MembersDecrypted\backoffice\membersDecrypted\edit.html" />
+    <Content Include="App_Plugins\MembersDecrypted\backoffice\membersDecrypted\list.html" />
+    <Content Include="App_Plugins\MembersDecrypted\backoffice\membersDecrypted\membersDecrypted.edit.controller.js" />
+    <Content Include="App_Plugins\MembersDecrypted\backoffice\membersDecrypted\membersDecrypted.list.controller.js" />
     <Content Include="App_Plugins\PrivateImageViewer\imageviewer.controller.js" />
     <Content Include="App_Plugins\PrivateImageViewer\imageviewer.html" />
     <Content Include="canvas\app.html" />
@@ -502,6 +507,10 @@
     <Content Include="canvas\styles\themepicker.scss" />
     <Content Include="canvas\styles\compiled\help.css.map" />
     <Content Include="canvas\styles\compiled\themepicker.css.map" />
+    <Content Include="App_Plugins\MembersDecrypted\package.manifest" />
+    <Content Include="App_Plugins\CryptoTextField\package.manifest" />
+    <Content Include="App_Plugins\CryptoTextField\cryptoTextField.controller.js" />
+    <Content Include="App_Plugins\CryptoTextField\cryptoText.resource.js" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\campaign-functions.js" />
     <Content Include="scripts\campaign-hub.js" />
@@ -3008,11 +3017,13 @@
     <Compile Include="Attributes\RequireSecureConnectionFilter.cs" />
     <Compile Include="Controllers\Api\ApiBaseController.cs" />
     <Compile Include="Controllers\Api\CampaignController.cs" />
+    <Compile Include="Controllers\Api\CryptoApiController.cs" />
     <Compile Include="Controllers\Api\ImageLibraryController.cs" />
     <Compile Include="Controllers\Api\MailshotsController.cs" />
     <Compile Include="Controllers\Api\MembersController.cs" />
     <Compile Include="Controllers\Api\PostageController.cs" />
     <Compile Include="Controllers\Api\ProofPdfController.cs" />
+    <Compile Include="Controllers\BackOffice\DecryptedMemberListController.cs" />
     <Compile Include="Controllers\CampaignHubController.cs" />
     <Compile Include="Controllers\ContentPageController.cs" />
     <Compile Include="Controllers\CreateCanvasController.cs" />
@@ -3426,6 +3437,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="uSync\Template\EditProfileBasePage\" />
+    <Folder Include="Views\EncryptedMemberList\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
