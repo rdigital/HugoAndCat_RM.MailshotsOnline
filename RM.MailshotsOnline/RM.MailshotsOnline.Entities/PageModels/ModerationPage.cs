@@ -18,10 +18,14 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         public string ConfirmButtonText { get; set; }
 
+        public string PrintingCompleteMessage { get; set; }
+
         #endregion
 
         public bool DisplayApprovedMessage { get; set; }
 
         public bool DisplayRejectedMessage { get; set; }
+
+        public bool DisplayConfirmPrintingMessage { get; set; }
     }
 }

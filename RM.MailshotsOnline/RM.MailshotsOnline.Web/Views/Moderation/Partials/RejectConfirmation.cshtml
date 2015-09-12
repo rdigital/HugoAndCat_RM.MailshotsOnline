@@ -4,7 +4,7 @@
     <div>@ViewBag.ErrorMessage</div>
 }
 
-@using (Html.BeginUmbracoForm("Approve", "ModerationSurface"))
+@using (Html.BeginUmbracoForm("Reject", "ModerationSurface"))
 {
     @Html.ValidationSummary()
     @Html.TextAreaFor(m => Model.FeedbackMessage)

@@ -3044,6 +3044,7 @@
     <Compile Include="Controllers\MarketingPreferencesController.cs" />
     <Compile Include="Controllers\ModerationPageController.cs" />
     <Compile Include="Controllers\OrganisationDetailsController.cs" />
+    <Compile Include="Controllers\PaymentCancelledController.cs" />
     <Compile Include="Controllers\PaymentConfirmationController.cs" />
     <Compile Include="Controllers\PersonalDetailsController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
@@ -3419,6 +3420,7 @@
     <Content Include="Views\Moderation\Partials\ApprovalConfirmation.cshtml" />
     <Content Include="Views\Moderation\Partials\Complete.cshtml" />
     <Content Include="Views\Moderation\Partials\RejectConfirmation.cshtml" />
+    <Content Include="Views\Moderation\Partials\PrintConfirmation.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -3454,6 +3456,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="uSync\Template\EditProfileBasePage\" />
+    <Folder Include="Views\PaymentCancelled\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

@@ -255,7 +255,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
 
             originalCampaign.PostalOptionId = postalOption.PostalOptionId;
-            originalCampaign.PostalOption = postalOption;
+            //originalCampaign.PostalOption = postalOption;
             return SaveAndReturnStatus("SetPostalOption", originalCampaign);
         }
 
@@ -520,7 +520,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         {
             originalCampaign.UpdatedDate = DateTime.UtcNow;
 
-            if (originalCampaign.DataSetsApproved && originalCampaign.MailshotApproved && originalCampaign.PostalOption != null)
+            if (originalCampaign.DataSetsApproved && originalCampaign.MailshotApproved && originalCampaign.PostalOptionId.HasValue)
             {
                 originalCampaign.Status = PCL.Enums.CampaignStatus.ReadyToCheckout;
             }

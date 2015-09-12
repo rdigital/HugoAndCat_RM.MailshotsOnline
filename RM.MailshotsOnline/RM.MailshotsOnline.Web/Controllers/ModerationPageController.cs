@@ -57,6 +57,9 @@ namespace RM.MailshotsOnline.Web.Controllers
                 case "reject":
                     pageModel.DisplayRejectedMessage = true;
                     break;
+                case "confirmprinting":
+                    pageModel.DisplayConfirmPrintingMessage = true;
+                    break;
                 default:
                     noAction = true;
                     break;

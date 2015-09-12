@@ -18,5 +18,17 @@
         <div class="rich-text">
             @Umbraco.Field("campaignRejectedMessage")
         </div>
+        <div>
+            @Html.Action("ShowRejectionConfirmationForm", "ModerationSurface", new { model = Model })
+        </div>
+    }
+    else if (Model.DisplayConfirmPrintingMessage)
+    {
+        <div class="rich-text">
+            @Umbraco.Field("PrintingCompleteMessage")
+        </div>
+        <div>
+            @Html.Action("ShowPrintConfirmationButton", "ModerationSurface", new { model = Model })
+        </div>
     }
 </div>
