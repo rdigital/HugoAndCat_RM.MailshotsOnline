@@ -24,22 +24,6 @@ namespace RM.MailshotsOnline.Data.Helpers
         }
 
         /// <summary>
-        /// The flat fee for renting data
-        /// </summary>
-        public static decimal DataRenalFlatFee
-        {
-            get { return GetConfigValue("DataRenalFlatFee", 15.00m); }
-        }
-
-        /// <summary>
-        /// The flat fee charged per campaign
-        /// </summary>
-        public static decimal FeePerCampaign
-        {
-            get { return GetConfigValue("FeePerCampaign", 5.00m); }
-        }
-
-        /// <summary>
         /// Content Type Alias for the Mailshot Format items
         /// </summary>
         public static string FormatContentTypeAlias
@@ -65,6 +49,11 @@ namespace RM.MailshotsOnline.Data.Helpers
         public static string RoyalMailApprovalEmailAddress
         {
             get { return GetConfigValue("RoyalMailApprovalEmailAddress"); }
+        }
+
+        public static string SettingsFolderContentTypeAlias
+        {
+            get { return GetConfigValue("SettingsFolderContentTypeAlias", "SettingsFolder"); }
         }
 
         public static string SparqServiceBlobContainer
@@ -109,14 +98,6 @@ namespace RM.MailshotsOnline.Data.Helpers
         }
 
         /// <summary>
-        /// The price for each rented data record
-        /// </summary>
-        public static decimal PricePerRentedDataRecord
-        {
-            get { return GetConfigValue("PricePerRentedDataRecord", 0.1m); }
-        }
-
-        /// <summary>
         /// Content Type Alias for the Private Image items
         /// </summary>
         public static string PrivateImageContentTypeAlias
@@ -146,14 +127,6 @@ namespace RM.MailshotsOnline.Data.Helpers
         public static string PublicLibraryImageContentTypeAlias
         {
             get { return GetConfigValue("PublicLibraryImageContentTypeAlias", "PublicLibraryImage"); }
-        }
-
-        /// <summary>
-        /// The current tax rate
-        /// </summary>
-        public static decimal TaxRate
-        {
-            get { return GetConfigValue("TaxRate", 0.2m); }
         }
 
         /// <summary>

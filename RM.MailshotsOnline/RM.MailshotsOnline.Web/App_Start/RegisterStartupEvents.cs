@@ -22,9 +22,10 @@ namespace RM.MailshotsOnline.Web.App_Start
 {
     public class RegisterStartupEvents : ApplicationEventHandler
     {
-        private IMailshotSettingsService _settingsService;
+        private IMailshotSettingsService _mailshotSettingsService;
         private ICmsImageService _cmsImageService;
         private IPricingService _pricingService;
+        private ISettingsService _settingsService;
 
         /// <summary>
         /// Runs as the application is starting
@@ -165,6 +166,10 @@ namespace RM.MailshotsOnline.Web.App_Start
                 else if (item.ContentType.Alias.InvariantEquals(ConfigHelper.PostalOptionContentTypeAlias))
                 {
                     SavePostalOption(item);
+                }
+                else if (item.ContentType.Alias.InvariantEquals(ConfigHelper.SettingsFolderContentTypeAlias))
+                {
+                    SaveSettings(item);
                 }
             }
         }
@@ -374,7 +379,7 @@ namespace RM.MailshotsOnline.Web.App_Start
         /// </summary>
         private void SaveFormat(IContent item)
         {
-            _settingsService = _settingsService ?? new MailshotSettingsService();
+            _mailshotSettingsService = _mailshotSettingsService ?? new MailshotSettingsService();
 
             decimal pricePerPrint;
             decimal onceOffPrice;
@@ -396,11 +401,10 @@ namespace RM.MailshotsOnline.Web.App_Start
                 XslData = item.GetValue<string>("xslData"),
                 JsonIndex = item.GetValue<int>("jsonIndex"),
                 UpdatedDate = DateTime.UtcNow,
-                PricePerPrint = pricePerPrint,
-                OnceOffPrice = onceOffPrice
+                PricePerPrint = pricePerPrint
             };
 
-            _settingsService.AddOrUpdateFormat(format);
+            _mailshotSettingsService.AddOrUpdateFormat(format);
         }
 
         /// <summary>
@@ -408,7 +412,7 @@ namespace RM.MailshotsOnline.Web.App_Start
         /// </summary>
         private void SaveTemplate(IContent item)
         {
-            _settingsService = _settingsService ?? new MailshotSettingsService();
+            _mailshotSettingsService = _mailshotSettingsService ?? new MailshotSettingsService();
 
             var template = new Entities.DataModels.MailshotSettings.Template()
             {
@@ -420,7 +424,7 @@ namespace RM.MailshotsOnline.Web.App_Start
                 UpdatedDate = DateTime.UtcNow
             };
 
-            _settingsService.AddOrUpdateTemplate(template);
+            _mailshotSettingsService.AddOrUpdateTemplate(template);
         }
 
         /// <summary>
@@ -428,7 +432,7 @@ namespace RM.MailshotsOnline.Web.App_Start
         /// </summary>
         private void SaveTheme(IContent item)
         {
-            _settingsService = _settingsService ?? new MailshotSettingsService();
+            _mailshotSettingsService = _mailshotSettingsService ?? new MailshotSettingsService();
 
             var theme = new Theme()
             {
@@ -439,7 +443,29 @@ namespace RM.MailshotsOnline.Web.App_Start
                 UpdatedDate = DateTime.UtcNow
             };
 
-            _settingsService.AddOrUpdateTheme(theme);
+            _mailshotSettingsService.AddOrUpdateTheme(theme);
+        }
+
+        /// <summary>
+        /// Saves settings from the CMS to the database
+        /// </summary>
+        private void SaveSettings(IContent item)
+        {
+            _settingsService = _settingsService ?? new SettingsService();
+            try
+            {
+                decimal vatRate = decimal.Parse(item.GetValue<string>("vatRate"));
+                decimal msolFee = decimal.Parse(item.GetValue<string>("msolPerUseFee"));
+                decimal perDataUnit = decimal.Parse(item.GetValue<string>("pricePerRentedDataRecord"));
+                decimal dataServiceFee = decimal.Parse(item.GetValue<string>("dataRentalServicePerUseFee"));
+                _settingsService.UpdateCurrentSettings(vatRate, msolFee, perDataUnit, dataServiceFee, item.Id);
+            }
+            catch (Exception ex)
+            {
+                ILogger log = new Logger();
+                log.Exception(this.GetType().Name, "SaveSettings", ex);
+            }
+            
         }
 
         #endregion

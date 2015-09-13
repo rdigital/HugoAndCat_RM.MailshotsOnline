@@ -3421,6 +3421,12 @@
     <Content Include="Views\Moderation\Partials\Complete.cshtml" />
     <Content Include="Views\Moderation\Partials\RejectConfirmation.cshtml" />
     <Content Include="Views\Moderation\Partials\PrintConfirmation.cshtml" />
+    <Content Include="uSync\Template\PaymentConfirmation\PaymentConfirmation.config" />
+    <Content Include="uSync\Template\ModerationPage\ModerationPage.config" />
+    <Content Include="uSync\Template\Master\MyCampaignsAPITestPage\MyCampaignsAPITestPage.config" />
+    <Content Include="uSync\Template\Master\ImageLibraryAPITestPage\ImageLibraryAPITestPage.config" />
+    <Content Include="uSync\DocumentType\Basepage\PaymentConfirmation\def.config" />
+    <Content Include="uSync\DocumentType\Basepage\ModerationPage\def.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

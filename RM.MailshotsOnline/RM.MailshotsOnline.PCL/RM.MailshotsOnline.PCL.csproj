@@ -50,6 +50,7 @@
     <Compile Include="Models\IInvoiceLineItem.cs" />
     <Compile Include="Models\IMailshotImageUse.cs" />
     <Compile Include="Models\IMedia.cs" />
+    <Compile Include="Models\ISettingsFromCms.cs" />
     <Compile Include="Models\ITaggable.cs" />
     <Compile Include="Models\MailshotSettings\IFormat.cs" />
     <Compile Include="Models\IItem.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Services\IMailshotsService.cs" />
     <Compile Include="Services\IMembershipService.cs" />
     <Compile Include="Services\IPricingService.cs" />
+    <Compile Include="Services\ISettingsService.cs" />
     <Compile Include="Services\ISparqQueueService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

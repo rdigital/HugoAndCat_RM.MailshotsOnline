@@ -10,7 +10,5 @@ namespace RM.MailshotsOnline.PCL.Models.MailshotSettings
         Guid FormatId { get; set; }
 
         decimal PricePerPrint { get; set; }
-
-        decimal OnceOffPrice { get; set; }
     }
 }
