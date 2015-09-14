@@ -266,6 +266,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         }
 
         [HttpDelete]
+        [HttpPost]
         public HttpResponseMessage DeleteImage(int id)
         {
             var authResult = Authenticate();
