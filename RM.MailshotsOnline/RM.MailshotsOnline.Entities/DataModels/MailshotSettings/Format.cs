@@ -34,7 +34,5 @@ namespace RM.MailshotsOnline.Entities.DataModels.MailshotSettings
         public DateTime CreatedUtc { get; private set; }
 
         public decimal PricePerPrint { get; set; }
-
-        public decimal OnceOffPrice { get; set; }
     }
 }

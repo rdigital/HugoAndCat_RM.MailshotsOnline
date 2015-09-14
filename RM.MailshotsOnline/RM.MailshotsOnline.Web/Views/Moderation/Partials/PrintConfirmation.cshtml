@@ -1,0 +1,12 @@
+﻿@model RM.MailshotsOnline.Entities.ViewModels.ModerationPrintedViewModel
+@if (ViewBag.ErrorMessage != null)
+{
+    <div>@ViewBag.ErrorMessage</div>
+}
+
+@using (Html.BeginUmbracoForm("ConfirmPrinted", "ModerationSurface"))
+{
+    @Html.ValidationSummary()
+    @Html.HiddenFor(m => Model.ModerationId)
+    <button class="big-button">@Model.PageModel.ConfirmButtonText</button>
+}

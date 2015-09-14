@@ -36,6 +36,13 @@ namespace RM.MailshotsOnline.PCL.Services
         ICampaign GetCampaign(Guid campaignId);
 
         /// <summary>
+        /// Gets a specific campaign based on its moderation ID
+        /// </summary>
+        /// <param name="moderationId">The Moderation ID</param>
+        /// <returns></returns>
+        ICampaign GetCampaignByModerationId(Guid moderationId);
+
+        /// <summary>
         /// Saves a campaign to the database
         /// </summary>
         /// <param name="campaign">The campaign to save</param>

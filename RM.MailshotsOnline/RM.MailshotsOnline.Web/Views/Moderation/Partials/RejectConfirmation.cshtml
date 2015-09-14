@@ -1,0 +1,12 @@
+﻿@model RM.MailshotsOnline.Entities.ViewModels.ModerationRejectionViewModel
+@if (ViewBag.ErrorMessage != null)
+{
+    <div>@ViewBag.ErrorMessage</div>
+}
+
+@using (Html.BeginUmbracoForm("Reject", "ModerationSurface"))
+{
+    @Html.ValidationSummary()
+    @Html.TextAreaFor(m => Model.FeedbackMessage)
+    <button class="big-button">@Model.PageModel.ConfirmButtonText</button>
+}

@@ -205,7 +205,11 @@ namespace RM.MailshotsOnline.Entities.DataModels
         /// <summary>
         /// Gets or sets the postal option
         /// </summary>
-        public PostalOption PostalOption { get; set; }
+        public PostalOption PostalOption
+        {
+            get { return _postalOption; }
+            set { _postalOption = value; }
+        }
 
         [NotMapped]
         /// <summary>
@@ -274,6 +278,13 @@ namespace RM.MailshotsOnline.Entities.DataModels
                 return false;
             }
         }
+
+        /// <summary>
+        /// Gets or sets the Moderation ID of the campaign
+        /// </summary>
+        [Index]
+        [JsonIgnore]
+        public Guid ModerationId { get; set; }
 
         #region Explicit interface definition
 

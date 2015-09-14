@@ -37,13 +37,14 @@ namespace RM.MailshotsOnline.Web.Installers
                 Component.For<IMailshotsService>().ImplementedBy<MailshotsService>().LifestyleTransient(),
                 Component.For<IMembershipService>().ImplementedBy<MembershipService>().LifestyleTransient(),
                 Component.For<IPricingService>().ImplementedBy<PricingService>().LifestyleTransient(),
-                Component.For<IEmailService>().ImplementedBy<EmailService>().LifestyleTransient(),
+                //Component.For<IEmailService>().ImplementedBy<EmailService>().LifestyleTransient(),
                 Component.For<ISparqQueueService>().ImplementedBy<SparqQueueService>().LifestyleTransient(),
                 Component.For<IMailshotSettingsService>().ImplementedBy<MailshotSettingsService>().LifestyleTransient(),
                 Component.For<IImageLibraryService>().ImplementedBy<ImageLibraryService>().LifestyleSingleton(),
                 Component.For<ICmsImageService>().ImplementedBy<CmsImageService>().LifestyleTransient(),
                 Component.For<ICampaignService>().ImplementedBy<CampaignService>().LifestyleTransient(),
                 Component.For<IInvoiceService>().ImplementedBy<InvoiceService>().LifestyleTransient(),
+                Component.For<HC.RM.Common.Network.IEmailService>().ImplementedBy<HC.RM.Common.Network.SmtpService>().LifestyleTransient(),
 				Component.For<ILogger>().ImplementedBy<Logger>().LifestyleTransient());
         }
 

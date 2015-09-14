@@ -30,6 +30,7 @@
       <Setting name="HostedPort" />
       <Setting name="PublicMediaLibraryId"/>
       <Setting name="PrivateMediaLibraryId"/>
+      <Setting name="RoyalMailApprovalEmailAddress"/>
     </ConfigurationSettings>
     <Endpoints>
       <InputEndpoint name="HttpIn" protocol="http" port="80" />

@@ -257,17 +257,29 @@
     <Compile Include="Migrations\201508281159149_AddInvoices.Designer.cs">
       <DependentUpon>201508281159149_AddInvoices.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509091527296_AddInvoiceLines.cs" />
+    <Compile Include="Migrations\201509091527296_AddInvoiceLines.Designer.cs">
+      <DependentUpon>201509091527296_AddInvoiceLines.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509101322436_AddModerationId.cs" />
+    <Compile Include="Migrations\201509101322436_AddModerationId.Designer.cs">
+      <DependentUpon>201509101322436_AddModerationId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509131218111_AddSiteSettings.cs" />
+    <Compile Include="Migrations\201509131218111_AddSiteSettings.Designer.cs">
+      <DependentUpon>201509131218111_AddSiteSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CampaignService.cs" />
     <Compile Include="Services\CmsImageService.cs" />
-    <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\ImageLibraryService.cs" />
     <Compile Include="Services\InvoiceService.cs" />
     <Compile Include="Services\MailshotSettingsService.cs" />
     <Compile Include="Services\MailshotsService.cs" />
     <Compile Include="Services\MembershipService.cs" />
     <Compile Include="Services\PricingService.cs" />
+    <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Services\SparqQueueService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -358,6 +370,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508281159149_AddInvoices.resx">
       <DependentUpon>201508281159149_AddInvoices.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509091527296_AddInvoiceLines.resx">
+      <DependentUpon>201509091527296_AddInvoiceLines.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509101322436_AddModerationId.resx">
+      <DependentUpon>201509101322436_AddModerationId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509131218111_AddSiteSettings.resx">
+      <DependentUpon>201509131218111_AddSiteSettings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

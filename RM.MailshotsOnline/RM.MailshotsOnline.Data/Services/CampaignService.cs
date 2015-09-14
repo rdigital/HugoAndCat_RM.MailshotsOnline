@@ -78,6 +78,23 @@ namespace RM.MailshotsOnline.Data.Services
         }
 
         /// <summary>
+        /// Gets a specific campaign based on its moderation ID
+        /// </summary>
+        /// <param name="moderationId">The Moderation ID</param>
+        /// <returns></returns>
+        public ICampaign GetCampaignByModerationId(Guid moderationId)
+        {
+            return _context.Campaigns
+                .Include("Mailshot")
+                .Include("Mailshot.Format")
+                .Include("CampaignDistributionLists")
+                .Include("CampaignDistributionLists.DistributionList")
+                .Include("DataSearches")
+                .Include("PostalOption")
+                .FirstOrDefault(c => c.ModerationId == moderationId);
+        }
+
+        /// <summary>
         /// Saves a campaign to the database
         /// </summary>
         /// <param name="campaign">The campaign to save</param>
