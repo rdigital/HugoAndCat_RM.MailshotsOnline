@@ -1,6 +1,6 @@
-define(['knockout', 'jquery', 'kofile', 'view_models/state'],
+define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/state'],
 
-    function(ko, $, kofile, stateViewModel) {
+    function(ko, $, kofile, myImagesViewModel, stateViewModel) {
 
         function imageUploadViewModel(params) {
             this.src = ko.observable();
@@ -15,9 +15,9 @@ define(['knockout', 'jquery', 'kofile', 'view_models/state'],
             this.libraryImages = ko.observableArray();
             this.tag = ko.observable();
             this.libraryLoading = ko.observable(true);
-            this.myImage = ko.observable();
-            this.myImages = ko.observableArray();
-            this.myImagesLoading = ko.observable(true);
+            this.myImage = myImagesViewModel.selected;
+            this.myImages = myImagesViewModel.myImages;
+            this.myImagesLoading = myImagesViewModel.myImagesLoading;
 
             // computeds
             this.tags = this.getTagsComputed();
@@ -32,11 +32,10 @@ define(['knockout', 'jquery', 'kofile', 'view_models/state'],
             // bound functions
             this.selectLibraryImage = this.selectLibraryImage.bind(this);
             this.selectTab = this.selectTab.bind(this);
-            this.selectMyImage = this.selectMyImage.bind(this);
+            this.selectMyImage = myImagesViewModel.selectMyImage.bind(this);
             this.dispose = this.dispose.bind(this);
 
             this.fetchLibrary();
-            this.fetchMyImages();
         }
 
         imageUploadViewModel.prototype.dispose = function dispose() {
@@ -50,6 +49,7 @@ define(['knockout', 'jquery', 'kofile', 'view_models/state'],
                     console.log('my image saved');
                 })
             }
+            this.selectMyImage(null);
         }
 
         imageUploadViewModel.prototype.getRandomInt = function getRandomInt() {
@@ -102,16 +102,6 @@ define(['knockout', 'jquery', 'kofile', 'view_models/state'],
             })
         }
 
-        // XXX move this into it's own data model
-        imageUploadViewModel.prototype.fetchMyImages = function fetchMyImages() {
-            $.get('/Umbraco/Api/ImageLibrary/GetMyImages', function(data) {
-                this.myImagesLoading(false);
-                this.myImages(data);
-            }.bind(this)).fail(function() {
-                console.log('There was an error fetching my images');
-            })
-        }
-
         imageUploadViewModel.prototype.selectLibraryImage = function selectLibraryImage(image) {
             if (image) {
                 this.libraryImage(image);
@@ -123,12 +113,6 @@ define(['knockout', 'jquery', 'kofile', 'view_models/state'],
                 stateViewModel.selectedElement().render(this.libraryImage().Src, true);
                 this.myImage(null);
                 this.src(null);
-            }
-        }
-
-        imageUploadViewModel.prototype.selectMyImage = function selectMyImage(image) {
-            if (image) {
-                this.myImage(image);
             }
         }
 
