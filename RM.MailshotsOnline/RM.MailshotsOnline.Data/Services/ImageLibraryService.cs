@@ -48,8 +48,10 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>The list of all tags.</returns>
         public IEnumerable<string> GetTags()
         {
-            return _helper.TagQuery.GetAllTags(ContentConstants.Settings.DefaultMediaLibraryTagGroup)
-                .Select(x => x.Text);
+            var tags = UmbracoContext.Current.Application.Services.TagService.GetAllTags(ContentConstants.Settings.DefaultMediaLibraryTagGroup);
+            return tags.Select(t => t.Text);
+            //return _helper.TagQuery.GetAllTags(ContentConstants.Settings.DefaultMediaLibraryTagGroup)
+            //    .Select(x => x.Text);
         }
 
         /// <summary>
@@ -58,7 +60,10 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>The collection of images.</returns>
         public IEnumerable<IMedia> GetImages()
         {
-            return PopulateUsageCounts(_helper.TagQuery.GetMediaByTagGroup(ContentConstants.Settings.DefaultMediaLibraryTagGroup).Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage))));
+            var images = UmbracoContext.Current.Application.Services.TagService.GetTaggedMediaByTagGroup(ContentConstants.Settings.DefaultMediaLibraryTagGroup).Select(te => _helper.TypedMedia(te.EntityId));
+            var publicImages = images.Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage)));
+            return PopulateUsageCounts(publicImages);
+            //return PopulateUsageCounts(_helper.TagQuery.GetMediaByTagGroup(ContentConstants.Settings.DefaultMediaLibraryTagGroup).Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage))));
         }
 
         /// <summary>
@@ -68,8 +73,10 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>The collection of images.</returns>
         public IEnumerable<IMedia> GetImages(string tag)
         {
-
-            return PopulateUsageCounts(_helper.TagQuery.GetMediaByTag(tag, ContentConstants.Settings.DefaultMediaLibraryTagGroup).Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage))));
+            var images = UmbracoContext.Current.Application.Services.TagService.GetTaggedMediaByTag(tag, ContentConstants.Settings.DefaultMediaLibraryTagGroup).Select(te => _helper.TypedMedia(te.EntityId));
+            var publicImages = images.Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage)));
+            return PopulateUsageCounts(publicImages);
+            //return PopulateUsageCounts(_helper.TagQuery.GetMediaByTag(tag, ContentConstants.Settings.DefaultMediaLibraryTagGroup).Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage))));
         }
 
         /// <summary>
