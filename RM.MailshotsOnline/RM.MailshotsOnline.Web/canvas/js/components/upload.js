@@ -16,8 +16,8 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/sta
             this.tag = ko.observable();
             this.libraryLoading = ko.observable(true);
             this.myImage = myImagesViewModel.selected;
-            this.myImages = myImagesViewModel.myImages;
-            this.myImagesLoading = myImagesViewModel.myImagesLoading;
+            this.myImages = myImagesViewModel.objects;
+            this.myImagesLoading = myImagesViewModel.loading;
 
             // computeds
             this.tags = this.getTagsComputed();
@@ -32,7 +32,7 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/sta
             // bound functions
             this.selectLibraryImage = this.selectLibraryImage.bind(this);
             this.selectTab = this.selectTab.bind(this);
-            this.selectMyImage = myImagesViewModel.selectMyImage.bind(this);
+            this.selectMyImage = myImagesViewModel.selectMyImage;
             this.dispose = this.dispose.bind(this);
 
             this.fetchLibrary();
@@ -40,13 +40,14 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/sta
 
         imageUploadViewModel.prototype.dispose = function dispose() {
             if (this.src()) {
-                console.log('do upload');
                 var data = {
                     imageString: this.src(),
                     name: this.getRandomInt().toString() 
                 };
-                $.post('/Umbraco/Api/ImageLibrary/UploadImage', data, function() {
-                    console.log('my image saved');
+                $.post('/Umbraco/Api/ImageLibrary/UploadImage', data, function(image) {
+                    myImagesViewModel.addImage(image);
+                }).fail(function(error) {
+                    console.log('There was an error uploading image', error);
                 })
             }
             this.selectMyImage(null);
@@ -111,13 +112,14 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/sta
         imageUploadViewModel.prototype.renderLibraryImage = function renderLibraryImage() {
             if (this.libraryImage()) {
                 stateViewModel.selectedElement().render(this.libraryImage().Src, true);
-                this.myImage(null);
+                this.selectMyImage(null);
                 this.src(null);
             }
         }
 
         imageUploadViewModel.prototype.renderMyImage = function renderMyImage() {
             if (this.myImage()) {
+                console.log(this.myImage());
                 stateViewModel.selectedElement().render(this.myImage().Src, true);
                 this.libraryImage(null);
                 this.src(null);
@@ -140,7 +142,7 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/sta
             if (this.src()) {
                 stateViewModel.selectedElement().render(this.src(), true);
                 this.libraryImage(null);
-                this.myImage(null);
+                this.selectMyImage(null);
             }
         }
 
