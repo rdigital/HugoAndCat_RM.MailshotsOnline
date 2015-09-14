@@ -32,6 +32,8 @@ namespace RM.MailshotsOnline.Data.Services
         private readonly IMediaService _mediaService;
         private readonly ImageResizer _imageResizer = new ImageResizer();
 
+        private object searchLock = new object();
+
         public ImageLibraryService(ILogger logger, ICmsImageService cmsImageService)
 
         {
@@ -103,36 +105,41 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>The Media item</returns>
         public IMedia GetImageByBlobUrl(string blobUrl)
         {
-            var mediaSearcher = ExamineManager.Instance.SearchProviderCollection["MediaSearcher"] ?? ExamineManager.Instance.DefaultSearchProvider;
-            if (mediaSearcher != null)
+            lock(searchLock)
             {
-                var searchResults = mediaSearcher.Search(blobUrl, false);
-                if (searchResults != null)
+                var mediaSearcher = ExamineManager.Instance.SearchProviderCollection["MediaSearcher"] ?? ExamineManager.Instance.DefaultSearchProvider;
+                if (mediaSearcher != null)
                 {
-                    if (searchResults.TotalItemCount > 0)
+                    var searchResults = mediaSearcher.Search(blobUrl, false);
+                    if (searchResults != null)
                     {
-                        foreach (var searchResult in searchResults)
+                        if (searchResults.TotalItemCount > 0)
                         {
-                            var mediaId = searchResult.Id;
-                            return GetImage(mediaId, false);
+                            _logger.Info(this.GetType().Name, "GetImageByBlobUrl", "{0} search results for blob URL {1}", searchResults.Count(), blobUrl);
+                            foreach (var searchResult in searchResults)
+                            {
+                                _logger.Info(this.GetType().Name, "GetImageByBlobUrl", "Found image with Media ID {0} for URL {1}", searchResult.Id, blobUrl);
+                                var mediaId = searchResult.Id;
+                                return GetImage(mediaId, false);
+                            }
+                        }
+                        else
+                        {
+                            _logger.Info(this.GetType().Name, "GetImageByBlobUrl", "Search for blob ID {0} returned no results.", blobUrl);
                         }
                     }
                     else
                     {
-                        _logger.Info(this.GetType().Name, "GetImageByBlobUrl", "Search for blob ID {0} returned no results.", blobUrl);
+                        _logger.Error(this.GetType().Name, "GetImageByBlobUrl", "Examine searcher returned null result object.");
                     }
                 }
                 else
                 {
-                    _logger.Error(this.GetType().Name, "GetImageByBlobUrl", "Examine searcher returned null result object.");
+                    _logger.Error(this.GetType().Name, "GetImageByBlobUrl", "Unable to get examine media searcher.");
                 }
-            }
-            else
-            {
-                _logger.Error(this.GetType().Name, "GetImageByBlobUrl", "Unable to get examine media searcher.");
-            }
 
-            return null;
+                return null;
+            }
         }
 
         /// <summary>

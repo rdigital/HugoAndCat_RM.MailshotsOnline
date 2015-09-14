@@ -40,7 +40,7 @@ namespace RM.MailshotsOnline.Web.Installers
                 //Component.For<IEmailService>().ImplementedBy<EmailService>().LifestyleTransient(),
                 Component.For<ISparqQueueService>().ImplementedBy<SparqQueueService>().LifestyleTransient(),
                 Component.For<IMailshotSettingsService>().ImplementedBy<MailshotSettingsService>().LifestyleTransient(),
-                Component.For<IImageLibraryService>().ImplementedBy<ImageLibraryService>().LifestyleTransient(),
+                Component.For<IImageLibraryService>().ImplementedBy<ImageLibraryService>().LifestyleSingleton(),
                 Component.For<ICmsImageService>().ImplementedBy<CmsImageService>().LifestyleTransient(),
                 Component.For<ICampaignService>().ImplementedBy<CampaignService>().LifestyleTransient(),
                 Component.For<IInvoiceService>().ImplementedBy<InvoiceService>().LifestyleTransient(),
