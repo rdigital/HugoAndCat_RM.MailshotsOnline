@@ -82,24 +82,27 @@ namespace RM.MailshotsOnline.Data.Services
                 var orderPriority = printAfterRender ? SparqOrderPriority.Low : SparqOrderPriority.High;
                 var orderType = printAfterRender ? SparqOrderType.RenderAndPrint : SparqOrderType.RenderOnly;
                 var groupOrder = printAfterRender; // TODO: Confirm that this is correct
-                var order = new SparqOrder(mailshot.ProofPdfOrderNumber, // Order ID
-                                           Encoding.UTF8.GetBytes(xmlAndXsl.XmlData), // XML Bytes
-                                           Encoding.UTF8.GetBytes(xmlAndXsl.XslStylesheet), // XSL Bytes
-                                           baseUrl, // Base URL for additional assets
-                                           orderPriority, // Priority
-                                           orderType, // Order type
-                                           groupOrder, // Order is a group order
-                                           postbackUrl, // Proof is ready postback URL
-                                           ftpPostbackUrl); // Print PDF is ready postback URL
+
+                var order = new SparqOrder(mailshot.ProofPdfOrderNumber.ToString(),
+                    "",
+                    mailshot.FormatId.ToString(),
+                    Encoding.UTF8.GetBytes(xmlAndXsl.XmlData),
+                    Encoding.UTF8.GetBytes(xmlAndXsl.XslStylesheet),
+                    baseUrl,
+                    orderPriority,
+                    orderType,
+                    groupOrder,
+                    postbackUrl,
+                    ftpPostbackUrl);
 
                 _log.Info(this.GetType().Name, "SendJob", $@"Sending job with the following parameters:
-Mailshot ID: {mailshot.MailshotId},
-Base URL: {baseUrl},
-Postback URL: {postbackUrl},
-FTP postback URL: {ftpPostbackUrl},
-Order Priority: {orderPriority},
-Order Type: {orderType},
-Group Order: {groupOrder}");
+                    Mailshot ID: {mailshot.MailshotId},
+                    Base URL: {baseUrl},
+                    Postback URL: {postbackUrl},
+                    FTP postback URL: {ftpPostbackUrl},
+                    Order Priority: {orderPriority},
+                    Order Type: {orderType},
+                    Group Order: {groupOrder}");
 
                 // Send to queue
                 var message = new BrokeredMessage(order);
