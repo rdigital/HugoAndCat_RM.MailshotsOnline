@@ -348,6 +348,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         }
 
         [HttpDelete]
+        [HttpPost]
         [Authorize]
         public HttpResponseMessage Delete(Guid id)
         {
