@@ -83,11 +83,17 @@
 	    	background: $light-grey;
 	    }
 	}
-	.toolbar-button {
+	.button {
 	    position: absolute;
-		bottom: 25px;
-		right: 125px;
-		padding-right: 25px;
+	    bottom: 25px;
+		right: 25px;
+	    font-family: PFDin Regular, Arial;
+		text-align: center;
+		cursor: pointer;
+		font-size: 16px;
+		padding: 15px 25px;
+		background-color: $blue;
+		color: #fff;
 	}
 	ul {
 		margin-bottom: 20px;
@@ -154,6 +160,14 @@
 	}
 	&.my-library {
 		top: 80px;
+		.library-image {
+			height: 180px;
+			padding-bottom: 40px;
+		}
+		.library-image-delete {
+			float: right;
+			margin-top: 10px;
+		}
 	}
 	.library-image {
 		@include transition(background);
@@ -162,9 +176,10 @@
 		height: 150px;
 		background-color: $lightest-grey;
 		padding: 10px;
+		margin-bottom: 5px;
 		cursor: pointer;
 		&:hover, &.library-image_selected {
-			background-color: $selected-blue;
+			background-color: $blue;
 		}
 		.library-image-inner {
 			background-size: contain;

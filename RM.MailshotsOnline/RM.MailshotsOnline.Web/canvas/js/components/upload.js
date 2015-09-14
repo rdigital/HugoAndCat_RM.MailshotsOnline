@@ -15,9 +15,13 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/sta
             this.libraryImages = ko.observableArray();
             this.tag = ko.observable();
             this.libraryLoading = ko.observable(true);
+
+            // my image library
             this.myImage = myImagesViewModel.selected;
             this.myImages = myImagesViewModel.objects;
             this.myImagesLoading = myImagesViewModel.loading;
+            this.selectMyImage = myImagesViewModel.select;
+            this.removeMyImage = myImagesViewModel.remove;
 
             // computeds
             this.tags = this.getTagsComputed();
@@ -32,7 +36,6 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/sta
             // bound functions
             this.selectLibraryImage = this.selectLibraryImage.bind(this);
             this.selectTab = this.selectTab.bind(this);
-            this.selectMyImage = myImagesViewModel.selectMyImage;
             this.dispose = this.dispose.bind(this);
 
             this.fetchLibrary();
@@ -45,7 +48,7 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/sta
                     name: this.getRandomInt().toString() 
                 };
                 $.post('/Umbraco/Api/ImageLibrary/UploadImage', data, function(image) {
-                    myImagesViewModel.addImage(image);
+                    myImagesViewModel.add(image);
                 }).fail(function(error) {
                     console.log('There was an error uploading image', error);
                 })
@@ -119,7 +122,6 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/sta
 
         imageUploadViewModel.prototype.renderMyImage = function renderMyImage() {
             if (this.myImage()) {
-                console.log(this.myImage());
                 stateViewModel.selectedElement().render(this.myImage().Src, true);
                 this.libraryImage(null);
                 this.src(null);

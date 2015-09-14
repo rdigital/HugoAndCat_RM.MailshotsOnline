@@ -265,8 +265,13 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.Created, media);
         }
 
-        [HttpDelete]
         [HttpPost]
+        public HttpResponseMessage ProcessDeleteImage(int id)
+        {
+            return DeleteImage(id);
+        }
+
+        [HttpDelete]
         public HttpResponseMessage DeleteImage(int id)
         {
             var authResult = Authenticate();

@@ -10,8 +10,9 @@ define(['knockout', 'view_models/data', 'view_models/format', 'view_models/user'
             this.selected = ko.observable();
             this.loading = ko.observable(true);
 
-            this.selectMyImage = this.selectMyImage.bind(this);
-            this.addImage = this.addImage.bind(this);
+            this.select = this.select.bind(this);
+            this.add = this.add.bind(this);
+            this.remove = this.remove.bind(this);
 
             // fetch data
             this.fetch();
@@ -30,21 +31,22 @@ define(['knockout', 'view_models/data', 'view_models/format', 'view_models/user'
             })
         }
 
-        myImagesViewModel.prototype.addImage = function addImage(image) {
+        myImagesViewModel.prototype.add = function add(image) {
             this.objects.push(image);
         }
 
-        myImagesViewModel.prototype.selectMyImage = function selectMyImage(image) {
+        myImagesViewModel.prototype.select = function select(image) {
             this.selected(image);
         }
 
-        myImagesViewModel.prototype.deleteMyImage = function deleteMyImage(image) {
-            $.get('/Umbraco/Api/ImageLibrary/GetMyImages', function(data) {
-                this.myImagesLoading(false);
-                this.myImages(data);
+        myImagesViewModel.prototype.remove = function remove(image) {
+            this.objects.remove(image);
+            $.post('/Umbraco/Api/ImageLibrary/ProcessDeleteImage/' + image.ImageId, {}, function(data) {
+                console.log('Image deleted');
             }.bind(this)).fail(function() {
                 console.log('There was an error deleting this image');
             })
+            return false
         }
 
         var myImages = new myImagesViewModel();

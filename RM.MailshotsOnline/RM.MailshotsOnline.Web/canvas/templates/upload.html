@@ -24,7 +24,7 @@
 	    	</div>
 	    </div>
 	    <!-- ko if: src() -->
-	    <a class="toolbar-button toolbar-button_large toolbar-button_green" data-bind="click: confirm">Use this image</a>
+	    <a class="button" data-bind="click: confirm">Use this image</a>
 	    <!-- /ko -->
     </div>
 
@@ -33,11 +33,12 @@
 	    	<!-- ko foreach: myImages() -->
 	    	<div class="library-image" data-bind="click: $parent.selectMyImage, css: {'library-image_selected': $parent.myImage() == $data}">
 	    		<div class="library-image-inner" data-bind="style: {backgroundImage: 'url(' + SmallSrc + '&' + $parent.getRandomInt() + ')'}"></div>
+	    		<div class="library-image-delete" data-bind="click: $parent.removeMyImage, clickBubble: false">Delete</div>
 	    	</div>
 	    	<!-- /ko -->
 	    </div>
 	    <!-- ko if: myImage() -->
-	    <a class="toolbar-button toolbar-button_large toolbar-button_green" data-bind="click: confirm">Use this image</a>
+	    <a class="button" data-bind="click: confirm">Use this image</a>
 	    <!-- /ko -->
     </div>
 
@@ -53,7 +54,7 @@
 	    	<!-- /ko -->
 	    </div>
 	    <!-- ko if: libraryImage() -->
-	    <a class="toolbar-button toolbar-button_large toolbar-button_green" data-bind="click: confirm">Use this image</a>
+	    <a class="button" data-bind="click: confirm">Use this image</a>
 	    <!-- /ko -->
     </div>
 </div>
