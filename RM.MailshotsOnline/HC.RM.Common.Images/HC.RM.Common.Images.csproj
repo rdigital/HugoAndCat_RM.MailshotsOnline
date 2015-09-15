@@ -124,8 +124,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="AppInsightsAgent\InstallAgent.bat" />
-    <None Include="AppInsightsAgent\InstallAgent.ps1" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
