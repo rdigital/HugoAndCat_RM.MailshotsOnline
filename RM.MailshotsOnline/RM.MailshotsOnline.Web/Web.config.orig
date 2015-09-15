@@ -7,6 +7,7 @@
     <section name="Examine" type="Examine.Config.ExamineSettings, Examine" requirePermission="false" />
     <section name="ExamineLuceneIndexSets" type="Examine.LuceneEngine.Config.IndexSets, Examine" requirePermission="false" />
     <section name="log4net" type="log4net.Config.Log4NetConfigurationSectionHandler, log4net" requirePermission="false" />
+    <section name="paypal" type="PayPal.SDKConfigHandler, PayPal" />
     
     <sectionGroup name="umbracoConfiguration">
       <section name="settings" type="Umbraco.Core.Configuration.UmbracoSettings.UmbracoSettingsSection, Umbraco.Core" requirePermission="false" />
@@ -15,7 +16,7 @@
       <section name="dashBoard" type="Umbraco.Core.Configuration.Dashboard.DashboardSection, Umbraco.Core" requirePermission="false" />
     </sectionGroup>
     <section name="clientDependency" type="ClientDependency.Core.Config.ClientDependencySection, ClientDependency.Core" requirePermission="false" />
-  </configSections>
+  <!-- For more information on Entity Framework configuration, visit http://go.microsoft.com/fwlink/?LinkID=237468 --></configSections>
 
   <system.diagnostics>
     <trace>
@@ -45,8 +46,8 @@
       http://our.umbraco.org/documentation/using-umbraco/config-files/#webconfig
       -->
     <add key="umbracoConfigurationStatus" value="7.2.8" />
-    <add key="umbracoReservedUrls" value="~/config/splashes/booting.aspx,~/install/default.aspx,~/config/splashes/noNodes.aspx,~/VSEnterpriseHelper.axd" />
-    <add key="umbracoReservedPaths" value="~/umbraco,~/install/" />
+    <add key="umbracoReservedUrls" value="~/config/splashes/booting.aspx,~/install/default.aspx,~/config/splashes/noNodes.aspx,~/VSEnterpriseHelper.axd,~/imageUpload.aspx" />
+    <add key="umbracoReservedPaths" value="~/umbraco,~/install/,~/canvas" />
     <add key="umbracoPath" value="~/umbraco" />
     <add key="umbracoHideTopLevelNodeFromPath" value="true" />
     <add key="umbracoUseDirectoryUrls" value="true" />
@@ -61,27 +62,54 @@
 
     <add key="log4net.Config" value="config\log4net.config" />
     
+    <add key="AppInsightsKey" value="f4926bc4-a07f-420c-89f1-40e38682d0c6" />
+
+    <!--Content Constants-->
+    <add key="HeaderNavSettingsId" value="1121" />
+    <add key="LoginId" value="1084" />
+    <add key="DefaultMediaLibraryTagGroup" value="default" />
+    <add key="PublicMediaLibraryId" value="1217" />
+    <add key="PrivateMediaLibraryId" value="1218" />
+    <add key="PublicLibraryImageMediaTypeAlias" value="PublicLibraryImage" />
+    <add key="PublicImageLibraryFolderMediaTypeAlias" value="PublicImageLibraryFolder" />
+    <add key="PrivateLibraryImageMediaTypeAlias" value="PrivateLibraryImage" />
+    <add key="PrivateImageLibraryFolderMediaTypeAlias" value="PrivateImageLibraryFolder" />
+    <add key="ImageThumbnailSizeSmall" value="200" />
+    <add key="ImageThumbnailSizeLarge" value="1000" />
+
+    <!--Email-->
+    <add key="SystemEmailAddress" value="msol@hugoandcat.com" />
+    <add key="RoyalMailApprovalEmailAddress" value="ext-mradford@hugoandcat.com" />
+
+    <!--Password-->
+    <add key="PasswordExpiryDays" value="30" />
+
+    <!--Recaptcha keys-->
     <add key="RecaptchaSiteKey" value="6LecKwoTAAAAABNgC26LCUFC9bhTODQv8McHP25G" />
     <add key="RecaptchaSecretKey" value="6LecKwoTAAAAAGhIqpMwYOY_TR0jndw2SFmh887d" />
 
-    <add key="AppInsightsKey" value="f4926bc4-a07f-420c-89f1-40e38682d0c6" />
-
-<<<<<<< HEAD
-    <add key="SpoofUser" value="1" />
-
-    <add key="HeaderNavSettingsId" value="1121"/>
-=======
->>>>>>> 66d5051a8f76b5efec6ae89022b7f22e8ad16cbf
-
+    <!--Blob storage settings-->
+    <add key="StorageConnectionString" value="DefaultEndpointsProtocol=https;AccountName=mrhcrmmsol;AccountKey=EDu8h+0zzlP9T8roDBXdFd58ti0UQyQNeON0BsT87rfpRSaKxXQ6xCKymGhO/vtsZPygpHrAXY63HkSjQEO5ig==" />
+    <add key="PrivateMediaBlobStorageContainer" value="privateimages" />
+    <add key="PrivateStorageConnectionString" value="DefaultEndpointsProtocol=https;AccountName=mrhcrmmsol;AccountKey=EDu8h+0zzlP9T8roDBXdFd58ti0UQyQNeON0BsT87rfpRSaKxXQ6xCKymGhO/vtsZPygpHrAXY63HkSjQEO5ig==" />
+    
+    <!--Encryption-->
+    <add key="EncryptionKey" value="BGRpW0on1nD19ojuw2Rgopm1wWu9zCof" />
   </appSettings>
   <connectionStrings>
     <!--<add name="DefaultConnection" connectionString="Data Source=(LocalDb)\v11.0;AttachDbFilename=|DataDirectory|\aspnet-PalPicsService.Web-20150607093656.mdf;Initial Catalog=aspnet-PalPicsService.Web-20150607093656;Integrated Security=True" providerName="System.Data.SqlClient" />-->
     <remove name="DefaultConnection" />
+    <add name="DefaultConnection" connectionString="Data Source=.\local;Initial Catalog=mrhcrmmsol-sql;Integrated Security=SSPI" providerName="System.Data.SqlClient" />
     <remove name="umbracoDbDSN" />
     <add name="umbracoDbDSN" connectionString="Server=tcp:gpxfbusuk8.database.windows.net,1433;Database=mrhcrmmsol-umbraco;User ID=rmphoto@gpxfbusuk8;Password=ZA8X461t7yQwdTDUZDTl" providerName="System.Data.SqlClient" />
     <!-- Important: If you're upgrading Umbraco, do not clear the connection string / provider name during your web.config merge. -->
-    <add name="StorageContextEF" connectionString="Data Source=.\;Initial Catalog=mrhcrmmsol-sql;Integrated Security=SSPI" providerName="System.Data.SqlClient" />
+<<<<<<< HEAD
+    <add name="StorageContextEF" connectionString="Data Source=.\local;Initial Catalog=mrhcrmmsol-sql;Integrated Security=SSPI" providerName="System.Data.SqlClient" />
     <!--<add name="StorageContextEF" connectionString="Server=tcp:gpxfbusuk8.database.windows.net,1433;Database=mrhcrmmsol-sql;User ID=rmphoto@gpxfbusuk8;Password=ZA8X461t7yQwdTDUZDTl;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;" providerName="System.Data.SqlClient" />-->
+=======
+    <!--<add name="StorageContextEF" connectionString="Data Source=.\;Initial Catalog=mrhcrmmsol-sql;Integrated Security=SSPI" providerName="System.Data.SqlClient" />-->
+    <add name="StorageContextEF" connectionString="Server=tcp:gpxfbusuk8.database.windows.net,1433;Database=mrhcrmmsol-sql;User ID=rmphoto@gpxfbusuk8;Password=ZA8X461t7yQwdTDUZDTl;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;" providerName="System.Data.SqlClient" />
+>>>>>>> 9c4a85239133e162ed402f8bf22e77aa5dca382e
   </connectionStrings>
   
   <system.data>
@@ -93,8 +121,8 @@
 
   <system.net>
     <mailSettings>
-      <smtp>
-        <network defaultCredentials="false" host="mailtrap.io" port="25" userName="22279e8f853d5be3a" password="b988c57977de64" />
+      <smtp from="msol@hugoandcat.com">
+        <network defaultCredentials="false" host="mailtrap.io" port="25" userName="19410d69f9432f5eb" password="b4ebe84bfc77d0" />
       </smtp>
     </mailSettings>
   </system.net>
@@ -152,15 +180,16 @@
     </compilation>
 
     <authentication mode="Forms">
-      <forms name="yourAuthCookie" loginUrl="login.aspx" protection="All" path="/" />
+      <forms name="yourAuthCookie" loginUrl="login" protection="All" path="/" />
     </authentication>
     <authorization>
       <allow users="?" />
     </authorization>
     <!-- Membership Provider -->
-    <membership defaultProvider="UmbracoMembershipProvider" userIsOnlineTimeWindow="15">
+    <membership defaultProvider="EncryptedMembershipProvider" userIsOnlineTimeWindow="15">
       <providers>
         <clear />
+        <add name="EncryptedMembershipProvider" type="RM.MailshotsOnline.Web.Security.Providers.EncryptedMembershipProvider, RM.MailshotsOnline.Web" minRequiredNonalphanumericCharacters="0" minRequiredPasswordLength="4" useLegacyEncoding="true" enablePasswordRetrieval="false" enablePasswordReset="true" requiresQuestionAndAnswer="false" defaultMemberTypeAlias="Member" passwordFormat="Hashed" />
         <add name="UmbracoMembershipProvider" type="Umbraco.Web.Security.Providers.MembersMembershipProvider, Umbraco" minRequiredNonalphanumericCharacters="0" minRequiredPasswordLength="4" useLegacyEncoding="true" enablePasswordRetrieval="false" enablePasswordReset="true" requiresQuestionAndAnswer="false" defaultMemberTypeAlias="Member" passwordFormat="Hashed" />
         <add name="UsersMembershipProvider" type="Umbraco.Web.Security.Providers.UsersMembershipProvider, Umbraco" minRequiredNonalphanumericCharacters="0" minRequiredPasswordLength="4" useLegacyEncoding="true" enablePasswordRetrieval="false" enablePasswordReset="true" requiresQuestionAndAnswer="false" passwordFormat="Hashed" />
       </providers>
@@ -238,8 +267,10 @@
     <httpProtocol>
       <customHeaders>
         <remove name="X-Powered-By" />
+                <add name="cache-control" value="no-cache" />
       </customHeaders>
     </httpProtocol>
+        <caching enabled="false" />
     
   </system.webServer>
   
@@ -325,8 +356,20 @@
         <bindingRedirect oldVersion="0.0.0.0-2.7.0.0" newVersion="2.7.0.0" />
       </dependentAssembly>
       <dependentAssembly>
+        <assemblyIdentity name="Microsoft.WindowsAzure.ServiceRuntime" publicKeyToken="31bf3856ad364e35" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-2.7.0.0" newVersion="2.7.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
         <assemblyIdentity name="Microsoft.ApplicationInsights" publicKeyToken="31bf3856ad364e35" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-1.1.0.1899" newVersion="1.1.0.1899" />
+        <bindingRedirect oldVersion="0.0.0.0-1.3.0.4220" newVersion="1.0.0.4220" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="Microsoft.Practices.ServiceLocation" publicKeyToken="31bf3856ad364e35" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-1.3.0.0" newVersion="1.3.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="Microsoft.WindowsAzure.Storage" publicKeyToken="31bf3856ad364e35" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-5.0.0.0" newVersion="5.0.0.0" />
       </dependentAssembly>
     </assemblyBinding>
   </runtime>
@@ -343,17 +386,50 @@
   </location>
 
   <entityFramework codeConfigurationType="RM.MailshotsOnline.Data.DAL.AzureConfiguration, RM.MailshotsOnline.Data">
-    <defaultConnectionFactory type="System.Data.Entity.Infrastructure.LocalDbConnectionFactory, EntityFramework">
+    <defaultConnectionFactory type="System.Data.Entity.Infrastructure.SqlConnectionFactory, EntityFramework">
       <parameters>
-        <parameter value="mssqllocaldb" />
+        <parameter value="Data Source=.\;Initial Catalog=mrhcrmmsol-sql;Integrated Security=SSPI" />
       </parameters>
     </defaultConnectionFactory>
     <providers>
       <provider invariantName="System.Data.SqlClient" type="System.Data.Entity.SqlServer.SqlProviderServices, EntityFramework.SqlServer" />
     </providers>
   </entityFramework>
+  <paypal>
+    <settings>
+      <add name="mode" value="sandbox" />
+      <add name="clientId" value="Ad2BWMyoZ0aLgmibhj32uMQqf10arnBrxLVhGC8iHlUk94g416tVFlymH-4Gm3WuI04euvTrppulfwkR" />
+      <add name="clientSecret" value="ELzB0l-6sfPdKo0kpmaYc9rBvlCowLTnSAVIG9O3StGToaO-e7p1stjdy6JlybCibvomMxsIAoaknoff" />
+    </settings>
+  </paypal>
   <clientDependency>
     <!-- Full config documentation is here: https://github.com/Shazwazza/ClientDependency/wiki/Configuration -->
   </clientDependency>
+  <system.serviceModel>
+    <extensions>
+      <!-- In this extension section we are introducing all known service bus extensions. User can remove the ones they don't need. -->
+      <behaviorExtensions>
+        <add name="connectionStatusBehavior" type="Microsoft.ServiceBus.Configuration.ConnectionStatusElement, Microsoft.ServiceBus, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+        <add name="transportClientEndpointBehavior" type="Microsoft.ServiceBus.Configuration.TransportClientEndpointBehaviorElement, Microsoft.ServiceBus, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+        <add name="serviceRegistrySettings" type="Microsoft.ServiceBus.Configuration.ServiceRegistrySettingsElement, Microsoft.ServiceBus, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+      </behaviorExtensions>
+      <bindingElementExtensions>
+        <add name="netMessagingTransport" type="Microsoft.ServiceBus.Messaging.Configuration.NetMessagingTransportExtensionElement, Microsoft.ServiceBus,  Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+        <add name="tcpRelayTransport" type="Microsoft.ServiceBus.Configuration.TcpRelayTransportElement, Microsoft.ServiceBus, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+        <add name="httpRelayTransport" type="Microsoft.ServiceBus.Configuration.HttpRelayTransportElement, Microsoft.ServiceBus, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+        <add name="httpsRelayTransport" type="Microsoft.ServiceBus.Configuration.HttpsRelayTransportElement, Microsoft.ServiceBus, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+        <add name="onewayRelayTransport" type="Microsoft.ServiceBus.Configuration.RelayedOnewayTransportElement, Microsoft.ServiceBus, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+      </bindingElementExtensions>
+      <bindingExtensions>
+        <add name="basicHttpRelayBinding" type="Microsoft.ServiceBus.Configuration.BasicHttpRelayBindingCollectionElement, Microsoft.ServiceBus, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+        <add name="webHttpRelayBinding" type="Microsoft.ServiceBus.Configuration.WebHttpRelayBindingCollectionElement, Microsoft.ServiceBus, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+        <add name="ws2007HttpRelayBinding" type="Microsoft.ServiceBus.Configuration.WS2007HttpRelayBindingCollectionElement, Microsoft.ServiceBus, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+        <add name="netTcpRelayBinding" type="Microsoft.ServiceBus.Configuration.NetTcpRelayBindingCollectionElement, Microsoft.ServiceBus, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+        <add name="netOnewayRelayBinding" type="Microsoft.ServiceBus.Configuration.NetOnewayRelayBindingCollectionElement, Microsoft.ServiceBus, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+        <add name="netEventRelayBinding" type="Microsoft.ServiceBus.Configuration.NetEventRelayBindingCollectionElement, Microsoft.ServiceBus, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+        <add name="netMessagingBinding" type="Microsoft.ServiceBus.Messaging.Configuration.NetMessagingBindingCollectionElement, Microsoft.ServiceBus, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+      </bindingExtensions>
+    </extensions>
+  </system.serviceModel>
      
 </configuration>

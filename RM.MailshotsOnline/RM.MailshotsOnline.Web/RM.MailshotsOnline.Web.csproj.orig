@@ -24,6 +24,7 @@
     </NuGetPackageImportStamp>
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
     <UseGlobalApplicationHostFile />
+    <ApplicationInsightsResourceId />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -105,12 +106,20 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Glass.Mapper.Umb.CastleWindsor.3.0.4.5\lib\net45\Glass.Mapper.Umb.CastleWindsor.dll</HintPath>
     </Reference>
-    <Reference Include="HC.RM.Common.Azure, Version=1.0.13.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.Azure.1.0.13\lib\net45\HC.RM.Common.Azure.dll</HintPath>
+    <Reference Include="HC.RM.Common, Version=1.0.13.39, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.1.0.13.39\lib\net45\HC.RM.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HC.RM.Common.AzureWeb, Version=1.0.13.16, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.AzureWeb.1.0.13.16\lib\net45\HC.RM.Common.AzureWeb.dll</HintPath>
+    <Reference Include="HC.RM.Common.Azure, Version=1.0.13.39, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.Azure.1.0.13.39\lib\net45\HC.RM.Common.Azure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="HC.RM.Common.AzureWeb, Version=1.0.13.39, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.AzureWeb.1.0.13.39\lib\net45\HC.RM.Common.AzureWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="HC.RM.Common.PCL, Version=1.0.13.39, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.PCL.1.0.13.39\lib\portable-net45+win+wpa81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\HC.RM.Common.PCL.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="HtmlAgilityPack">
@@ -152,40 +161,65 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\UmbracoCms.Core.7.2.8\lib\Microsoft.ApplicationBlocks.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ApplicationInsights">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.1.1.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ApplicationInsights.Extensibility.DependencyCollector, Version=1.1.0.1909, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.1.1.0\lib\net45\Microsoft.ApplicationInsights.Extensibility.DependencyCollector.dll</HintPath>
+    <Reference Include="Microsoft.ApplicationInsights, Version=1.0.0.4220, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.1.0.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.ApplicationInsights.Extensibility.PerfCounterCollector, Version=1.1.0.1914, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.1.1.0\lib\net45\Microsoft.ApplicationInsights.Extensibility.PerfCounterCollector.dll</HintPath>
+    <Reference Include="Microsoft.ApplicationInsights.Extensibility.DependencyCollector, Version=1.0.0.4227, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.1.0.0\lib\net45\Microsoft.ApplicationInsights.Extensibility.DependencyCollector.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.ApplicationInsights.Extensibility.Web, Version=1.1.0.1909, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.1.1.0\lib\net45\Microsoft.ApplicationInsights.Extensibility.Web.dll</HintPath>
+    <Reference Include="Microsoft.ApplicationInsights.Extensibility.PerfCounterCollector, Version=1.0.0.4231, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.1.0.0\lib\net45\Microsoft.ApplicationInsights.Extensibility.PerfCounterCollector.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.ApplicationInsights.Web.TelemetryChannel, Version=1.1.0.1909, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.TelemetryChannel.1.1.0\lib\net45\Microsoft.ApplicationInsights.Web.TelemetryChannel.dll</HintPath>
+    <Reference Include="Microsoft.ApplicationInsights.Extensibility.Web, Version=1.0.0.4227, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.1.0.0\lib\net45\Microsoft.ApplicationInsights.Extensibility.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights.Web.TelemetryChannel, Version=1.0.0.4227, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.TelemetryChannel.1.0.0\lib\net45\Microsoft.ApplicationInsights.Web.TelemetryChannel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Data.Edm, Version=5.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Data.Edm.5.6.2\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    <Reference Include="Microsoft.Data.Edm, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.6.4\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Data.OData, Version=5.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Data.OData.5.6.2\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    <Reference Include="Microsoft.Data.OData, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.6.4\lib\net40\Microsoft.Data.OData.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Data.Services.Client, Version=5.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.2\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+    <Reference Include="Microsoft.Data.Services.Client, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.4\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Diagnostics.Instrumentation.Extensions.Intercept, Version=0.17.0.194, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.0.17.0\lib\net45\Microsoft.Diagnostics.Instrumentation.Extensions.Intercept.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ServiceBus, Version=2.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.ServiceBus.2.7.5\lib\net40-full\Microsoft.ServiceBus.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -202,8 +236,9 @@
     <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=2.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Storage">
-      <HintPath>..\packages\WindowsAzure.Storage.4.3.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.Storage.5.0.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="MiniProfiler">
       <HintPath>..\packages\MiniProfiler.2.1.0\lib\net40\MiniProfiler.dll</HintPath>
@@ -234,9 +269,11 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
-    <Reference Include="System.Spatial, Version=5.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\System.Spatial.5.6.2\lib\net40\System.Spatial.dll</HintPath>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Spatial, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.6.4\lib\net40\System.Spatial.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -289,6 +326,10 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Tamir.SharpSSH, Version=1.1.1.13, Culture=neutral">
+      <HintPath>..\packages\Tamir.SharpSSH.1.1.1.13\lib\Tamir.SharpSSH.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="TidyNet, Version=1.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\UmbracoCms.Core.7.2.8\lib\TidyNet.dll</HintPath>
@@ -339,6 +380,88 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Plugins\CryptoLabel\cryptoLabel.html" />
+    <Content Include="App_Plugins\ImageUsageCount\usagecount.controller.js" />
+    <Content Include="App_Plugins\ImageUsageCount\usagecount.html" />
+    <Content Include="App_Plugins\PrivateImageViewer\imageviewer.controller.js" />
+    <Content Include="App_Plugins\PrivateImageViewer\imageviewer.html" />
+    <Content Include="canvas\app.html" />
+    <Content Include="canvas\fonts\icomoon.svg" />
+    <Content Include="canvas\gruntfile.js" />
+    <Content Include="canvas\images\img_placeholder.PNG" />
+    <Content Include="canvas\images\library_image.PNG" />
+    <Content Include="canvas\images\own_image.PNG" />
+    <Content Include="canvas\images\upload.png" />
+    <Content Include="canvas\js\app.js" />
+    <Content Include="canvas\js\components\backgroundtools.js" />
+    <Content Include="canvas\js\components\colourpicker.js" />
+    <Content Include="canvas\js\components\dropdown.js" />
+    <Content Include="canvas\js\components\editor.js" />
+    <Content Include="canvas\js\components\face.js" />
+    <Content Include="canvas\js\components\image.js" />
+    <Content Include="canvas\js\components\input.js" />
+    <Content Include="canvas\js\components\options.js" />
+    <Content Include="canvas\js\components\preview.js" />
+    <Content Include="canvas\js\components\side.js" />
+    <Content Include="canvas\js\components\sidepicker.js" />
+    <Content Include="canvas\js\components\slider.js" />
+    <Content Include="canvas\js\components\template.js" />
+    <Content Include="canvas\js\components\theme.js" />
+    <Content Include="canvas\js\components\tools.js" />
+    <Content Include="canvas\js\components\upload.js" />
+    <Content Include="canvas\js\components\zoom.js" />
+    <Content Include="canvas\js\custom_bindings\ko-editable.js" />
+    <Content Include="canvas\js\custom_bindings\ko-element.js" />
+    <Content Include="canvas\js\custom_bindings\ko-file.js" />
+    <Content Include="canvas\js\custom_bindings\ko-spectrum.js" />
+    <Content Include="canvas\js\require_config.js" />
+    <Content Include="canvas\js\temp\data.js" />
+    <Content Include="canvas\js\vendor\components-font-awesome\css\font-awesome.css" />
+    <Content Include="canvas\js\vendor\components-font-awesome\css\font-awesome.min.css" />
+    <Content Include="canvas\js\vendor\components-font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="canvas\js\vendor\jquery\dist\jquery.min.js" />
+    <Content Include="canvas\js\vendor\knockout-mapping\build\output\knockout.mapping-latest.js" />
+    <Content Include="canvas\js\vendor\knockout\dist\knockout.js" />
+    <Content Include="canvas\js\vendor\requirejs-domready\domReady.js" />
+    <Content Include="canvas\js\vendor\requirejs-text\text.js" />
+    <Content Include="canvas\js\vendor\requirejs\require.js" />
+    <Content Include="canvas\js\vendor\spectrum\spectrum.css" />
+    <Content Include="canvas\js\vendor\spectrum\spectrum.js" />
+    <Content Include="canvas\js\view_models\data.js" />
+    <Content Include="canvas\js\view_models\element.js" />
+    <Content Include="canvas\js\view_models\format.js" />
+    <Content Include="canvas\js\view_models\history.js" />
+    <Content Include="canvas\js\view_models\state.js" />
+    <Content Include="canvas\js\view_models\template.js" />
+    <Content Include="canvas\js\view_models\theme.js" />
+    <Content Include="canvas\js\view_models\user.js" />
+    <Content Include="canvas\styles\compiled\canvas.css" />
+    <Content Include="canvas\styles\compiled\help.css" />
+    <Content Include="canvas\styles\compiled\mailshot.css" />
+    <Content Include="canvas\styles\compiled\preview.css" />
+    <Content Include="canvas\styles\compiled\sidepicker.css" />
+    <Content Include="canvas\styles\compiled\themepicker.css" />
+    <Content Include="canvas\styles\compiled\toolbar.css" />
+    <Content Include="canvas\styles\compiled\tools.css" />
+    <Content Include="canvas\styles\compiled\upload.css" />
+    <Content Include="canvas\styles\vendor\bootstrap.min.css" />
+    <Content Include="canvas\templates\backgroundtools.html" />
+    <Content Include="canvas\templates\colourpicker.html" />
+    <Content Include="canvas\templates\dropdown.html" />
+    <Content Include="canvas\templates\editor.html" />
+    <Content Include="canvas\templates\face.html" />
+    <Content Include="canvas\templates\image.html" />
+    <Content Include="canvas\templates\input.html" />
+    <Content Include="canvas\templates\options.html" />
+    <Content Include="canvas\templates\preview.html" />
+    <Content Include="canvas\templates\side.html" />
+    <Content Include="canvas\templates\sidepicker.html" />
+    <Content Include="canvas\templates\slider.html" />
+    <Content Include="canvas\templates\template.html" />
+    <Content Include="canvas\templates\theme.html" />
+    <Content Include="canvas\templates\tools.html" />
+    <Content Include="canvas\templates\upload.html" />
+    <Content Include="canvas\templates\zoom.html" />
     <Content Include="Config\grid.editors.config.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -348,7 +471,6 @@
     <Content Include="default.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="ReadMe.txt" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
     <Content Include="RM.MailshotsOnline.Web.dll.config">
@@ -357,12 +479,67 @@
     </Content>
     <Content Include="package.json" />
     <Content Include="Gruntfile.js" />
+    <Content Include="App_Plugins\PrivateImageViewer\package.manifest" />
+    <Content Include="App_Plugins\ImageUsageCount\package.manifest" />
+    <Content Include="canvas\styles\compiled\mailshot.css.map" />
+    <Content Include="canvas\js\vendor\components-font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="canvas\js\vendor\components-font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="canvas\js\vendor\components-font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="canvas\js\vendor\components-font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="canvas\js\vendor\components-font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="canvas\js\vendor\jquery\dist\jquery.min.map" />
+    <Content Include="canvas\styles\compiled\canvas.css.map" />
+    <Content Include="canvas\styles\compiled\sidepicker.css.map" />
+    <Content Include="canvas\styles\compiled\toolbar.css.map" />
+    <Content Include="canvas\styles\canvas.scss" />
+    <Content Include="canvas\styles\mailshot.scss" />
+    <Content Include="canvas\styles\sidepicker.scss" />
+    <Content Include="canvas\styles\toolbar.scss" />
+    <Content Include="canvas\styles\_fonts.scss" />
+    <Content Include="canvas\styles\_mixins.scss" />
+    <Content Include="canvas\styles\_variables.scss" />
+    <Content Include="canvas\.bowerrc" />
+    <Content Include="canvas\bower.json" />
+    <Content Include="canvas\package.json" />
+    <Content Include="canvas\fonts\chevin-bold.ttf" />
+    <Content Include="canvas\fonts\chevinlight.ttf" />
+    <Content Include="canvas\fonts\chevinmedium.ttf" />
+    <Content Include="canvas\fonts\PFDin-Bold.otf" />
+    <Content Include="canvas\fonts\PFDin-Italic.otf" />
+    <Content Include="canvas\fonts\PFDin-Regular.otf" />
+    <Content Include="canvas\styles\help.scss" />
+    <Content Include="canvas\styles\themepicker.scss" />
+    <Content Include="canvas\styles\compiled\help.css.map" />
+    <Content Include="canvas\styles\compiled\themepicker.css.map" />
+<<<<<<< HEAD
+    <Content Include="App_Plugins\CryptoLabel\package.manifest" />
+    <Content Include="App_Plugins\CryptoLabel\cryptoLabel.controller.js" />
+    <Content Include="App_Plugins\CryptoLabel\cryptoLabel.resource.js" />
+    <Content Include="AppInsightsAgent\InstallAgent.ps1" />
+    <Content Include="AppInsightsAgent\InstallAgent.bat" />
+=======
+    <Content Include="canvas\styles\tools.scss" />
+    <Content Include="canvas\styles\compiled\tools.css.map" />
+    <Content Include="canvas\fonts\icomoon.eot" />
+    <Content Include="canvas\fonts\icomoon.ttf" />
+    <Content Include="canvas\fonts\icomoon.woff" />
+    <Content Include="canvas\styles\compiled\preview.css.map" />
+    <Content Include="canvas\styles\preview.scss" />
+    <Content Include="canvas\styles\compiled\upload.css.map" />
+    <Content Include="canvas\styles\upload.scss" />
+>>>>>>> 9c4a85239133e162ed402f8bf22e77aa5dca382e
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="scripts\campaign-functions.js" />
+    <Content Include="scripts\campaign-hub.js" />
+    <Content Include="scripts\campaignstest.js" />
     <Content Include="scripts\editor.js" />
+    <Content Include="scripts\imagelibrarytest.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
+    <Content Include="scripts\loginfunctions.js" />
     <Content Include="scripts\logintest.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
+    <Content Include="imageUpload.aspx" />
     <Content Include="umbraco\Actions\delete.aspx" />
     <Content Include="umbraco\Actions\editContent.aspx" />
     <Content Include="umbraco\Actions\preview.aspx" />
@@ -2852,30 +3029,45 @@
     <Compile Include="App_Start\RegisterIoCEvents.cs" />
     <Compile Include="App_Start\RegisterStartupEvents.cs" />
     <Compile Include="App_Start\TelemetryConfig.cs" />
-    <Compile Include="Constants\ContentConstants.cs" />
+    <Compile Include="App_Start\UmbracoMessageHandler.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Attributes\RequireSecureConnectionFilter.cs" />
     <Compile Include="Controllers\Api\ApiBaseController.cs" />
+    <Compile Include="Controllers\Api\CampaignController.cs" />
+    <Compile Include="Controllers\Api\CryptoApiController.cs" />
+    <Compile Include="Controllers\Api\ImageLibraryController.cs" />
     <Compile Include="Controllers\Api\MailshotsController.cs" />
     <Compile Include="Controllers\Api\MembersController.cs" />
+    <Compile Include="Controllers\Api\ModerationController.cs" />
     <Compile Include="Controllers\Api\PostageController.cs" />
     <Compile Include="Controllers\Api\ProofPdfController.cs" />
+    <Compile Include="Controllers\CampaignHubController.cs" />
     <Compile Include="Controllers\ContentPageController.cs" />
+    <Compile Include="Controllers\CreateCanvasController.cs" />
     <Compile Include="Controllers\MailshotEditorController.cs" />
     <Compile Include="Controllers\GlassController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LogoutController.cs" />
     <Compile Include="Controllers\MarketingPreferencesController.cs" />
+    <Compile Include="Controllers\ModerationPageController.cs" />
     <Compile Include="Controllers\OrganisationDetailsController.cs" />
+    <Compile Include="Controllers\PaymentCancelledController.cs" />
+    <Compile Include="Controllers\PaymentConfirmationController.cs" />
     <Compile Include="Controllers\PersonalDetailsController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\ResetPasswordController.cs" />
     <Compile Include="Controllers\SurfaceControllers\BaseSurfaceController.cs" />
+    <Compile Include="Controllers\SurfaceControllers\CampaignSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\LoginSurfaceController.cs" />
+    <Compile Include="Controllers\SurfaceControllers\ModerationSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ProfileSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\RegisterSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ResetPasswordSurfaceController.cs" />
     <Compile Include="Extensions\BasePageExtensions.cs" />
+    <Compile Include="Extensions\ModelExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\ControllersHelper.cs" />
     <Compile Include="Helpers\MembershipHelper.cs" />
     <Compile Include="Installers\ControllersInstaller.cs" />
@@ -2884,6 +3076,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\Providers\EncryptedMembershipProvider.cs" />
     <Compile Include="Security\Providers\EncryptedMembershipExtensions.cs" />
+    <Compile Include="imageUpload.aspx.cs">
+      <DependentUpon>imageUpload.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="imageUpload.aspx.designer.cs">
+      <DependentUpon>imageUpload.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
@@ -3069,7 +3268,7 @@
     <Content Include="Config\log4net.config" />
     <Content Include="Config\FileSystemProviders.config" />
     <Content Include="Config\FileSystemProviders.QA.config">
-      <DependentUpon>Config\FileSystemProviders.config</DependentUpon>
+      <DependentUpon>FileSystemProviders.config</DependentUpon>
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Config\feedProxy.config" />
@@ -3077,14 +3276,10 @@
     <Content Include="Config\ExamineIndex.config" />
     <Content Include="Config\EmbeddedMedia.config" />
     <Content Include="Config\BaseRestExtensions.config" />
-    <Content Include="Config\applications.config" />
+    <Content Include="Config\applications.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Config\404handlers.config" />
-    <Content Include="AppInsightsAgent\InstallAgent.bat">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="AppInsightsAgent\InstallAgent.ps1">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="ApplicationInsights.config" />
     <Content Include="ApplicationInsights.QA.config">
       <DependentUpon>ApplicationInsights.config</DependentUpon>
@@ -3092,11 +3287,14 @@
     <Content Include="Views\Home.cshtml" />
     <Content Include="Views\ContentPage.cshtml" />
     <Content Include="Config\uSyncSettings.config" />
+    <Content Include="Config\uSyncSettings.Debug.config">
+      <DependentUpon>uSyncSettings.config</DependentUpon>
+    </Content>
     <Content Include="Config\uSyncSettings.Dev.config">
-      <DependentUpon>Config\uSyncSettings.config</DependentUpon>
+      <DependentUpon>uSyncSettings.config</DependentUpon>
     </Content>
     <Content Include="Config\uSyncSettings.QA.config">
-      <DependentUpon>Config\uSyncSettings.config</DependentUpon>
+      <DependentUpon>uSyncSettings.config</DependentUpon>
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Login\Partials\ShowLoginForm.cshtml" />
@@ -3189,7 +3387,10 @@
     <Content Include="Views\Profile\Partials\EditMarketingPreferences.cshtml" />
     <Content Include="Views\Profile\PersonalDetails.cshtml" />
     <Content Include="Views\Profile\MarketingPreferences.cshtml" />
-<<<<<<< HEAD
+    <Content Include="uSync\DocumentType\ThemeFolder\def.config" />
+    <Content Include="uSync\DocumentType\Theme\def.config" />
+    <Content Include="uSync\StyleSheet\fountain.config" />
+    <Content Include="uSync\Template\Master\MemberAPITestPage\MemberAPITestPage.config" />
     <Content Include="Views\Profile\Partials\EditOrganisationDetails.cshtml" />
     <Content Include="Views\Profile\Partials\EditPersonalDetails.cshtml" />
     <Content Include="Views\Profile\Partials\ChangePassword.cshtml" />
@@ -3202,12 +3403,43 @@
     <Content Include="uSync\DocumentType\EditProfileBasePage\PersonalDetails\def.config" />
     <Content Include="uSync\DocumentType\EditProfileBasePage\def.config" />
     <Content Include="uSync\DocumentType\Basepage\Profile\def.config" />
-=======
-    <Content Include="uSync\DocumentType\ThemeFolder\def.config" />
-    <Content Include="uSync\DocumentType\Theme\def.config" />
-    <Content Include="uSync\StyleSheet\fountain.config" />
-    <Content Include="uSync\Template\Master\MemberAPITestPage\MemberAPITestPage.config" />
->>>>>>> 2deb1e1d643e030a58d380ab72f5f156008bd8c1
+    <Content Include="Views\Register\Partials\RegisterComplete.cshtml" />
+    <Content Include="Views\Register\Partials\ShowRegisterForm.cshtml" />
+    <Content Include="Views\Register\Register.cshtml" />
+    <Content Include="uSync\Template\Profile\Profile.config" />
+    <Content Include="uSync\DataTypeDefinition\Private Image Viewer.config" />
+    <Content Include="Views\ImageLibraryAPITestPage.cshtml" />
+    <Content Include="uSync\MediaType\Image\PrivateLibraryImage\def.config" />
+    <Content Include="uSync\MediaType\Image\PublicLibraryImage\def.config" />
+    <Content Include="uSync\MediaType\Folder\PrivateImageLibraryFolder\def.config" />
+    <Content Include="uSync\MediaType\Folder\PublicImageLibraryFolder\def.config" />
+    <Content Include="Views\MyCampaignsAPITestPage.cshtml" />
+    <Content Include="Views\CreateCanvas.cshtml" />
+    <Content Include="Views\CampaignHub.cshtml" />
+    <Content Include="uSync\DataTypeDefinition\Image Library Usage Count.config" />
+    <Content Include="uSync\DataTypeDefinition\Public Library Image.config" />
+    <Content Include="uSync\DocumentType\PostageOptionFolder\def.config" />
+    <Content Include="uSync\DocumentType\PostageOption\def.config" />
+    <Content Include="uSync\DocumentType\CreateCanvas\def.config" />
+    <Content Include="uSync\DocumentType\Basepage\CampaignHub\def.config" />
+    <Content Include="uSync\Template\CreateCanvas\CreateCanvas.config" />
+    <Content Include="uSync\Template\CampaignHub\CampaignHub.config" />
+    <Content Include="Views\CampaignHub\Partials\CheckoutButton.cshtml" />
+    <Content Include="Views\PaymentConfirmation.cshtml" />
+    <Content Include="Views\ModerationPage.cshtml" />
+    <Content Include="Views\Moderation\Partials\ApprovalConfirmation.cshtml" />
+    <Content Include="Views\Moderation\Partials\Complete.cshtml" />
+    <Content Include="Views\Moderation\Partials\RejectConfirmation.cshtml" />
+    <Content Include="Views\Moderation\Partials\PrintConfirmation.cshtml" />
+    <Content Include="uSync\Template\PaymentConfirmation\PaymentConfirmation.config" />
+    <Content Include="uSync\Template\ModerationPage\ModerationPage.config" />
+    <Content Include="uSync\Template\Master\MyCampaignsAPITestPage\MyCampaignsAPITestPage.config" />
+    <Content Include="uSync\Template\Master\ImageLibraryAPITestPage\ImageLibraryAPITestPage.config" />
+    <Content Include="uSync\DocumentType\Basepage\PaymentConfirmation\def.config" />
+    <Content Include="uSync\DocumentType\Basepage\ModerationPage\def.config" />
+    <Content Include="Views\PaymentCancelled.cshtml" />
+    <Content Include="uSync\DocumentType\Basepage\PaymentCancelled\def.config" />
+    <Content Include="uSync\Template\PaymentCancelled\PaymentCancelled.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -3220,6 +3452,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HC.RM.Common.Images\HC.RM.Common.Images.csproj">
+      <Project>{b90ff7f0-d68b-47a3-90da-ee6776210f3a}</Project>
+      <Name>HC.RM.Common.Images</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HC.RM.Common.PayPal\HC.RM.Common.PayPal.csproj">
+      <Project>{5cecfbd1-8591-4d0a-9032-2da879dbea75}</Project>
+      <Name>HC.RM.Common.PayPal</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RM.MailshotsOnline.Data\RM.MailshotsOnline.Data.csproj">
       <Project>{0d159929-5a8f-4e0c-84a6-3c7e9de5f5ad}</Project>
       <Name>RM.MailshotsOnline.Data</Name>
@@ -3232,13 +3472,17 @@
       <Project>{bb08379a-7cb5-4142-ba89-3b3e2356b354}</Project>
       <Name>RM.MailshotsOnline.PCL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SparqTemp\SparqTemp.csproj">
-      <Project>{4a814c19-9e31-4a66-8453-6f0ccc391ce1}</Project>
-      <Name>SparqTemp</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="uSync\Template\EditProfileBasePage\" />
+<<<<<<< HEAD
+    <Folder Include="Views\EncryptedMemberList\" />
+=======
+    <Folder Include="Views\PaymentCancelled\" />
+>>>>>>> 9c4a85239133e162ed402f8bf22e77aa5dca382e
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -3281,11 +3525,11 @@
     <Error Condition="!Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.2.8\build\UmbracoCms.props'))" />
     <Error Condition="!Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.Agent.Intercept.0.17.0\build\Microsoft.ApplicationInsights.Agent.Intercept.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.Agent.Intercept.0.17.0\build\Microsoft.ApplicationInsights.Agent.Intercept.targets'))" />
-    <Error Condition="!Exists('..\packages\HC.RM.Common.Azure.1.0.13\build\HC.RM.Common.Azure.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\HC.RM.Common.Azure.1.0.13\build\HC.RM.Common.Azure.targets'))" />
+    <Error Condition="!Exists('..\packages\HC.RM.Common.Azure.1.0.13.39\build\HC.RM.Common.Azure.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\HC.RM.Common.Azure.1.0.13.39\build\HC.RM.Common.Azure.targets'))" />
   </Target>
   <Import Project="..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets" Condition="Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets')" />
   <Import Project="..\packages\Microsoft.ApplicationInsights.Agent.Intercept.0.17.0\build\Microsoft.ApplicationInsights.Agent.Intercept.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.Agent.Intercept.0.17.0\build\Microsoft.ApplicationInsights.Agent.Intercept.targets')" />
-  <Import Project="..\packages\HC.RM.Common.Azure.1.0.13\build\HC.RM.Common.Azure.targets" Condition="Exists('..\packages\HC.RM.Common.Azure.1.0.13\build\HC.RM.Common.Azure.targets')" />
+  <Import Project="..\packages\HC.RM.Common.Azure.1.0.13.39\build\HC.RM.Common.Azure.targets" Condition="Exists('..\packages\HC.RM.Common.Azure.1.0.13.39\build\HC.RM.Common.Azure.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

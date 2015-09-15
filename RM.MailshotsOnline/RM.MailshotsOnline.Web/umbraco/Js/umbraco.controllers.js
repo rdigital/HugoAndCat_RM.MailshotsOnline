@@ -6998,8 +6998,8 @@ function listViewController($rootScope, $scope, $routeParams, $injector, notific
         getIdCallback = function(selected) {
             return selected.key;
         };
-        createEditUrlCallback = function(item) {
-            return "/" + $scope.entityType + "/" + $scope.entityType + "/edit/" + item.key + "?page=" + $scope.options.pageNumber + "&listName=" + $scope.contentId;
+        createEditUrlCallback = function (item) {
+            return "/" + $scope.entityType + "/" + (window.overrideEntityType || $scope.entityType) + "/edit/" + item.key + "?page=" + $scope.options.pageNumber + "&listName=" + $scope.contentId;
         };
     }
     else {
