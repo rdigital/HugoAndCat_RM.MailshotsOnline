@@ -9,9 +9,25 @@ define(['knockout', 'kospectrum'],
             this.focusCallback = params.focusCallback
             this.anchorClass = params.anchorClass
             this.open = ko.observable(false);
+            this.customShown = ko.observable(false);
             this.element = ko.observable();
 
+            this.greys = ['#000000', '#434343', '#666666', '#CCCCCC', '#D9D9D9', '#FFFFFF'];
+            this.colours = ['#940A00', '#F71700', '#FA9F1E', '#FBFF3C', '#39FF3D', '#47FFFF',
+                            '#577CEC', '#3500F9', '#9A00FA', '#FA00FA', '#E3B9AD', '#F2CCCB',
+                            '#F9E6CB', '#FEF4CA', '#DAECD2', '#D1E0E3', '#CBD7F9', '#D2E1F5',
+                            '#D8D0EA', '#E8CFDC', '#D88168', '#E79B98', '#F5CE9A', '#FDE893',
+                            '#B7D9A6', '#A6C4C9', '#A7BFF6', '#A4C2EA', '#B6A4DA', '#D2A5BE',
+                            '#C7451B', '#DA6965', '#F1B563', '#FBDE5B', '#95C879', '#7AA4B0',
+                            '#7596EE', '#78A3DF', '#8F76C6', '#BF79A0', '#A02100', '#C71000',
+                            '#E1952A', '#ECC72B', '#6CAB48', '#4B808F', '#4A6EDC', '#4A7FC9',
+                            '#6843A9', '#A34A7A', '#591101', '#640400', '#754207', '#7D6210',
+                            '#2A500D', '#11333D', '#263E8A', '#153366', '#23054F', '#4A0F31'
+                        ];
+
             this.hideOnDocClick = this.hideOnDocClick.bind(this);
+            this.showCustom = this.showCustom.bind(this);
+            this.hideCustom = this.hideCustom.bind(this);
 
             // computeds
             this.selected = this.getSelectedComputed();
@@ -77,6 +93,17 @@ define(['knockout', 'kospectrum'],
             if (this.focusCallback) {
                 this.focusCallback();
             }
+        }
+
+        colourPickerViewModel.prototype.showCustom = function showCustom() {
+            if (this.focusCallback) {
+                this.focusCallback();
+            }
+            this.customShown(true);
+        }
+
+        colourPickerViewModel.prototype.hideCustom = function hideCustom() {
+            this.customShown(false);
         }
 
         return {

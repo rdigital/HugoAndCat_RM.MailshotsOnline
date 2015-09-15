@@ -4,6 +4,7 @@
 
 .side-picker {
     @include transition(all);
+    @include nohighlight();
     position: fixed;
     left: 0;
     top: 50px;
@@ -19,7 +20,7 @@
         @include transition(background);
         position: relative;
         width: 100%;
-        height: 120px;
+        min-height: 80px;
         text-align: left;
         padding-left: 10px;
         border-bottom: 1px solid $light-grey;

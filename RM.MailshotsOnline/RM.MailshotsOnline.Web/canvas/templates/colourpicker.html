@@ -1,11 +1,38 @@
-<div class="dropdown" data-bind="css: {'dropdown_active': open}, element: element">
+<div class="dropdown colour-dropdown" data-bind="css: {'dropdown_active': open}, element: element">
 	<span data-bind="css: anchorClass, click: toggle">
 		<span class="dropdown-colourswatch" data-bind="style: {backgroundColor: selected}"></span>
 	</span>
 	<div class="dropdown-options" data-bind="css: {'dropdown-options_active': open}">
-		<!-- ko foreach: options -->
-		<div data-bind="style: {backgroundColor: $data}, click: $parent.selected" class="dropdown-colourswatch"></div>
+		<!-- ko ifnot: customShown -->
+		<div class="dropdown-options-label">Theme Colours</div>
+		<div class="dropdown-options-content">
+			<!-- ko foreach: options -->
+			<div data-bind="style: {backgroundColor: $data}, click: $parent.selected" class="dropdown-options-colour"></div>
+			<!-- /ko -->
+		</div>
+		<div class="dropdown-options-label">More Colours</div>
+		<div class="dropdown-options-content">
+			<div>
+				<!-- ko foreach: greys -->
+				<div data-bind="style: {backgroundColor: $data}, click: $parent.selected" class="dropdown-options-colour"></div>
+				<!-- /ko -->
+			</div>
+			<div>
+				<!-- ko foreach: colours -->
+				<div data-bind="style: {backgroundColor: $data}, click: $parent.selected" class="dropdown-options-colour"></div>
+				<!-- /ko -->
+			</div>
+		</div>
 		<!-- /ko -->
-		<div data-bind="spectrum: {colour: selectedObs, callback: focusCallback}" class="tools-button dropdown-colourswatch-button">Custom</div>
+		<!-- ko if: customShown -->
+		<div class="colour-dropdown-info">
+			<div>
+				<div class="colour-swatch" data-bind="style: {backgroundColor: selectedObs}"></div>
+				<input type="text" data-bind="value: selectedObs"/>
+			</div>
+			<div data-bind="click: hideCustom" class="tools-button dropdown-options-button">Standard Colours</div>
+		</div>
+		<!-- /ko -->
+		<div data-bind="spectrum: {colour: selectedObs, callback: showCustom, hideCallback: hideCustom}" class="tools-button dropdown-options-button">Custom Colours</div>
 	</div>
 </div>

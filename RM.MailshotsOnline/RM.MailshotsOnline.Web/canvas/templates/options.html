@@ -8,16 +8,22 @@
 		<a data-bind="click: toggleThemePicker" class="toolbar-button-container">
 			<span class="toolbar-button toolbar-button_small">Theme</span>
 		</a>
-        <a data-bind="click: reset, css: {'disabled': !undoAvailable()}" class="toolbar-button-container">
-        	<span class="toolbar-button toolbar-button_small">Reset</span>
-        </a>
         <a data-bind="click: undo, css: {'disabled': !undoAvailable()}" class="toolbar-button-container">
-        	<span class="toolbar-button toolbar-button_small">Undo</span>
+        	<span class="toolbar-button toolbar-button_small"><span class="icon-backward" style="font-size: 24px; line-height: 30px;"></span></span>
         </a>
         <a data-bind="click: redo, css: {'disabled': !redoAvailable()}" class="toolbar-button-container">
-        	<span class="toolbar-button toolbar-button_small">Redo</span>
+        	<span class="toolbar-button toolbar-button_small"><span class="icon-forward" style="font-size: 24px; line-height: 30px;"></span></span>
+        </a>
+        <a data-bind="click: reset, css: {'disabled': !undoAvailable()}" class="toolbar-button-container">
+        	<span class="toolbar-button toolbar-button_small"><span class="icon-save" style="font-size: 24px; line-height: 30px;"></span></span>
         </a>
 	</span>
-	<span class="toolbar-button toolbar-button_large toolbar-button_right toolbar-button_green" data-bind="click: output">Done</span>
-	<span class="toolbar-button toolbar-button_large toolbar-button_right" data-bind="click: output">Preview</span>
+	<span class="toolbar-button toolbar-button_large toolbar-button_right toolbar-button_green" data-bind="click: output">Done  <span class="icon-tick" style="position: absolute;
+    right: 25px;
+    font-size: 29px;
+    top: 10px;"></span></span>
+	<span style="padding-left: 25px;" class="toolbar-button toolbar-button_large toolbar-button_right" data-bind="click: togglePreview">Preview <span class="icon-preview" style="position: absolute;
+    right: 25px;
+    font-size: 29px;
+    top: 10px;"></span></span>
 </div>

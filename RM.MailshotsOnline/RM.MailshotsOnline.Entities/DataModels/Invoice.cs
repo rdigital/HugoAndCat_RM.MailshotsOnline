@@ -27,6 +27,8 @@ namespace RM.MailshotsOnline.Entities.DataModels
 
         private decimal _totalTax;
 
+        private IEnumerable<InvoiceLineItem> _lineItems;
+
         /// <summary>
         /// Gets or sets the Invoice ID
         /// </summary>
@@ -83,9 +85,26 @@ namespace RM.MailshotsOnline.Entities.DataModels
         public string PaypalPaymentId { get; set; }
 
         /// <summary>
+        /// Gets or sets the line items
+        /// </summary>
+        [InverseProperty("Invoice")]
+        public IEnumerable<InvoiceLineItem> LineItems
+        {
+            get
+            {
+                return _lineItems;
+            }
+
+            set
+            {
+                _lineItems = value;
+            }
+        }
+
+        /// <summary>
         /// Gets the calculated Data Rental cost
         /// </summary>
-        public decimal DataRentalCost
+        /*public decimal DataRentalCost
         {
             get
             {
@@ -172,7 +191,7 @@ namespace RM.MailshotsOnline.Entities.DataModels
         /// <summary>
         /// Gets or sets the Service Fee
         /// </summary>
-        public decimal ServiceFee { get; set; }
+        public decimal ServiceFee { get; set; } */
 
         /// <summary>
         /// Gets the calculated sub total
@@ -181,7 +200,11 @@ namespace RM.MailshotsOnline.Entities.DataModels
         {
             get
             {
-                _subTotal = PrintingCost + PostageCost + DataRentalCost + ServiceFee;
+                _subTotal = 0; // PrintingCost + PostageCost + DataRentalCost + ServiceFee;
+                if (_lineItems != null)
+                {
+                    _subTotal = _lineItems.Sum(i => i.SubTotal);
+                }
                 return _subTotal;
             }
 
@@ -194,7 +217,7 @@ namespace RM.MailshotsOnline.Entities.DataModels
         /// <summary>
         /// Gets or sets the tax rate applied
         /// </summary>
-        public decimal TaxRate { get; set; }
+        /*public decimal TaxRate { get; set; }*/
 
         /// <summary>
         /// Gets the calculated total
@@ -220,7 +243,11 @@ namespace RM.MailshotsOnline.Entities.DataModels
         {
             get
             {
-                _totalTax = TaxRate * SubTotal;
+                _totalTax = 0; // TaxRate * SubTotal;
+                if (_lineItems != null)
+                {
+                    _totalTax = _lineItems.Sum(i => i.TaxTotal);
+                }
                 return _totalTax;
             }
 
@@ -236,6 +263,22 @@ namespace RM.MailshotsOnline.Entities.DataModels
         {
             get { return (ICampaign)_campaign; }
             set { _campaign = (Campaign)value; }
+        }
+
+        IEnumerable<IInvoiceLineItem> IInvoice.LineItems
+        {
+            get
+            {
+                if (_lineItems == null)
+                {
+                    return null;
+                }
+
+                var newSet = _lineItems.Cast<IInvoiceLineItem>();
+                return newSet;
+            }
+
+            set { _lineItems = value.Cast<InvoiceLineItem>(); }
         }
 
         #endregion

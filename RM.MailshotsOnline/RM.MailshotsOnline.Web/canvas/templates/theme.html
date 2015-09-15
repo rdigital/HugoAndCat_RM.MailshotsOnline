@@ -3,7 +3,7 @@
 	<!-- ko foreach: themes -->
 	<div class="theme-page">
 		<div class="theme-container" data-bind="click: $parent.selectTheme">
-			<side-component class="side" params="{side: 'front', override_theme: $data}"></side-component>
+			<side-component class="side" params="{side: 'front', override_theme: $data, show_default: true}"></side-component>
 			<div class="theme-name" data-bind="text: name"></div>
 		</div>
 	</div>

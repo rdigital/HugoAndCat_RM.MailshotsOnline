@@ -180,7 +180,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 BlobStorageHelper blobHelper = new BlobStorageHelper(ConfigHelper.PrivateStorageConnectionString, ConfigHelper.PrivateMediaBlobStorageContainer);
                 var accessUrl = blobHelper.GetBlobUrlWithSas(blobId, 60);
 
-                result = Request.CreateResponse(HttpStatusCode.Moved);
+                result = Request.CreateResponse(HttpStatusCode.Found);
                 result.Headers.Location = new Uri(accessUrl);
             }
             else
@@ -214,7 +214,16 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             {
                 try
                 {
-                    bytes = Convert.FromBase64String(imageUpload.ImageString);
+                    var base64String = imageUpload.ImageString;
+                    if (base64String.StartsWith("data:"))
+                    {
+                        var stringParts = base64String.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                        if (stringParts.Length == 2)
+                        {
+                            base64String = stringParts[1];
+                        }
+                    }
+                    bytes = Convert.FromBase64String(base64String);
                 }
                 catch (Exception ex)
                 {
@@ -254,6 +263,12 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
 
             return Request.CreateResponse(HttpStatusCode.Created, media);
+        }
+
+        [HttpPost]
+        public HttpResponseMessage ProcessDeleteImage(int id)
+        {
+            return DeleteImage(id);
         }
 
         [HttpDelete]

@@ -1,5 +1,7 @@
 ﻿using Glass.Mapper.Umb;
+using HC.RM.Common.Network;
 using HC.RM.Common.PCL.Helpers;
+using RM.MailshotsOnline.Data.Helpers;
 using RM.MailshotsOnline.Entities.PageModels;
 using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.PCL.Services;
@@ -69,9 +71,14 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             {
                 var resetLink = $"https://{Request.Url.Authority}/reset-password?token={token}";
 
-                _emailService.SendMail(ConfigurationManager.AppSettings["SystemEmailAddress"],
-                    model.RequestViewModel.Email, "Password reset",
-                    emailBody.Replace("##resetLink", $"<a href='{resetLink}'>{resetLink}</a>"));
+                var recipients = new List<string>() { model.RequestViewModel.Email };
+                var sender = new System.Net.Mail.MailAddress(ConfigHelper.SystemEmailAddress);
+                _emailService.SendEmail(
+                    recipients, 
+                    "Password reset",
+                    emailBody.Replace("##resetLink", $"<a href='{resetLink}'>{resetLink}</a>"),
+                    System.Net.Mail.MailPriority.Normal,
+                    sender);
 
                 _logger.Info(this.GetType().Name, "RequestRestForm", "Password reset email sent to {0}.", model.RequestViewModel.Email);
             }

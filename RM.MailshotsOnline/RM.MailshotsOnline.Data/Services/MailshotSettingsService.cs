@@ -33,7 +33,6 @@ namespace RM.MailshotsOnline.Data.Services
                 existingFormat.JsonIndex = format.JsonIndex;
                 existingFormat.XslData = format.XslData;
                 existingFormat.UpdatedDate = DateTime.UtcNow;
-                existingFormat.OnceOffPrice = format.OnceOffPrice;
                 existingFormat.PricePerPrint = format.PricePerPrint;
             }
             else

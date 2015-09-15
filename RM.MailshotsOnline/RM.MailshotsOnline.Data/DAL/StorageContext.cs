@@ -38,6 +38,8 @@ namespace RM.MailshotsOnline.Data.DAL
         public DbSet<Template> Templates { get; set; }
         public DbSet<Theme> Themes { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<InvoiceLineItem> InvoiceLineItems { get; set; }
+        public DbSet<SettingsFromCms> Settings { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -124,5 +124,10 @@ namespace RM.MailshotsOnline.PCL.Models
         /// Gets a value indicating if the Campaign's mailshot design is approved
         /// </summary>
         bool MailshotApproved { get; }
+
+        /// <summary>
+        /// Gets or sets the Moderation ID of the campaign
+        /// </summary>
+        Guid ModerationId { get; set; }
     }
 }

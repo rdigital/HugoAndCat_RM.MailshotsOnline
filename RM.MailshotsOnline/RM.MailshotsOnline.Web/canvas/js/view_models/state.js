@@ -7,6 +7,9 @@ define(['knockout', 'jquery'],
             this.selectedElement = ko.observable();
             this.scaleElement = ko.observable();
             this.backgroundSelected = ko.observable();
+            this.historyRerender = ko.observable(true);
+            this.imageTab = ko.observable();
+            this.showPreview = ko.observable(false);
             this.showImageUpload = ko.observable(false);
             this.showThemePicker = ko.observable(false);
             this.showTemplatePicker = ko.observable(false);
@@ -15,10 +18,14 @@ define(['knockout', 'jquery'],
             this.overrideZoom = ko.observable();
             this.getZoom = this.getZoomComputed();
             this.viewingSide = ko.observable('front');
+            this.viewingFace = ko.observable();
             // set to true to make images rescale to default when the components render
             this.repositionImages = false;
             // testing
             this.output = ko.observable();
+            this.selectedElement.subscribe(function() {
+                this.showImageUpload(false);
+            }, this)
         }
 
         /**
@@ -33,11 +40,25 @@ define(['knockout', 'jquery'],
             }
         }
 
+        stateViewModel.prototype.toggleImageUpload = function toggleImageUpload() {
+            this.imageTab('upload');
+            this.toggleImage();
+        }
+
+        stateViewModel.prototype.toggleImageLibrary = function toggleImageLibrary() {
+            this.imageTab('library');
+            this.toggleImage();
+        }
+
         /**
          * toggle the image upload modal
          */
-        stateViewModel.prototype.toggleImageUpload = function toggleImageUpload() {
+        stateViewModel.prototype.toggleImage = function toggleImage() {
             this.showImageUpload(!this.showImageUpload());
+            this.overrideZoom(null)
+            setTimeout(function(){
+                this.scaleElement.valueHasMutated();
+            }.bind(this), 0) 
         }
 
         /**
@@ -45,6 +66,7 @@ define(['knockout', 'jquery'],
          */
         stateViewModel.prototype.toggleThemePicker = function toggleThemePicker() {
             this.showThemePicker(!this.showThemePicker());
+            this.showTemplatePicker(false);
             this.selectElement(null);
         }
 
@@ -53,7 +75,12 @@ define(['knockout', 'jquery'],
          */
         stateViewModel.prototype.toggleTemplatePicker = function toggleTemplatePicker() {
             this.showTemplatePicker(!this.showTemplatePicker());
+            this.showThemePicker(false);
             this.selectElement(null);
+        }
+
+        stateViewModel.prototype.togglePreview = function togglePreview() {
+            this.showPreview(!this.showPreview());
         }
 
         stateViewModel.prototype.getZoomComputed = function getZoomComputed() {

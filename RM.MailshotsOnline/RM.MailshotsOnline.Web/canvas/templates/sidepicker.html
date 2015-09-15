@@ -1,0 +1,5 @@
+<div class="side-picker-inner" data-bind="css: {'side-picker-inner_selected': face == viewingFace()}, style: {height: height}, click: selectFace, element: container, template: { afterRender: doScale }">
+				
+	<side-component class="side side_small" params="{side: face.side, preview: true, face: face}" data-bind="element: element, style: {transform: scale, opacity: opacity}"></side-component>
+	<span data-bind="text: face.name" class="side-label"></span>
+</div>

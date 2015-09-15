@@ -1,0 +1,119 @@
+@import 'mixins';
+@import 'variables';
+
+.preview {
+	position: absolute;
+	top: 50px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 501;
+	background: $lightest-grey;
+	animation: fadein 0.25s;
+}
+
+.preview-modal {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	right: 20px;
+	bottom: 20px;
+	background: transparent;
+	//border: 1px solid $lightish-grey;
+	//@include shadow(1px, 3px, 0, $lightish-grey);
+	.preview-modal-close {
+		position: absolute;
+		top: 15px;
+		right: 15px;
+		width: 30px;
+		height: 30px;
+		font-size: 30px;
+		color: $darkest-grey;
+		cursor: pointer;
+		z-index: 100;
+	}
+	.preview-side {
+		// floating this broke ie. Boo
+		position: absolute;
+		width: 50%;
+		top: 0;
+		bottom: 100px;
+		padding: 14px;
+		&:first-child {
+			left: 0;
+			right: 50%;
+		}
+		&:last-child {
+			right: 0;
+			left: 50%;
+		}
+		.preview-side-inner {
+			position: absolute;
+		}
+		.side {
+			position: absolute;
+			top: 30px;
+			left: 30px;
+			right: 30px;
+			bottom: 30px;
+			pointer-events: none;
+			> div {
+	            pointer-events: none !important;
+	        }
+	        .face-component {
+	        	display: block !important;
+	        }
+	        .face {
+	            pointer-events: none;
+	            margin-bottom: 60px;
+	            > * {
+	                pointer-events: none;
+	            }
+	            .preview-face-name {
+	            	display: block;
+				    position: absolute;
+				    bottom: -50px;
+				    left: 0;
+				    right: 0;
+				    text-align: center;
+				    height: 50px;
+				    font-size: 30px;
+				    color: $dark-grey;
+				    line-height: 50px;
+				    font-family: PFDin Regular, Arial;
+	            }
+	        }
+	        .selected-overlay {
+	            display: none !important;
+	        }
+		}
+		&:first-child {
+			text-align: right;
+			.preview-side-inner {
+				transform-origin: 100% 0;
+				top: 0;
+				right: 20px;
+				.side-inner {
+					float: right;
+				}
+			}
+		}
+		&:last-child {
+			text-align: left;
+			.preview-side-inner {
+				transform-origin: 0 0;
+				top: 0;
+				left: 20px;
+			}
+			.side-inner {
+				float: left;
+			}
+		}
+	}
+	.toolbar-button {
+		position: absolute;
+	    bottom: 25px;
+	    left: 50%;
+	    margin-left: -98px;
+	}
+}

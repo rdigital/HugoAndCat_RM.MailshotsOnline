@@ -110,10 +110,16 @@ namespace RM.MailshotsOnline.Data.Services
                 result.PrintCount = campaign.OwnDataRecipientCount + campaign.RentedDataRecipientCount;
             }
 
-            result.TaxRate = ConfigHelper.TaxRate;
-            result.DataRentalRate = ConfigHelper.PricePerRentedDataRecord;
-            result.DataRentalFlatFee = ConfigHelper.DataRenalFlatFee;
-            result.ServiceFee = ConfigHelper.FeePerCampaign;
+            var siteSettings = _context.Settings.FirstOrDefault(s => s.Active == true);
+            if (siteSettings == null)
+            {
+                throw new Exception("Unable to get cost settings");
+            }
+
+            result.TaxRate = siteSettings.VatRate;
+            result.DataRentalRate = siteSettings.PricePerRentedDataRecord;
+            result.DataRentalFlatFee = siteSettings.DataRentalServiceFee;
+            result.ServiceFee = siteSettings.MsolPerUseFee;
 
             if (campaign.HasDataSearches)
             {

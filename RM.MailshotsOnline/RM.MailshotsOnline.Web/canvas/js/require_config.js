@@ -12,6 +12,7 @@ require.config(
         koeditable: 'custom_bindings/ko-editable',
         koelement: 'custom_bindings/ko-element',
         kospectrum: 'custom_bindings/ko-spectrum',
+        kofile: 'custom_bindings/ko-file',
         templates: "templates/"
     },
     shim: {

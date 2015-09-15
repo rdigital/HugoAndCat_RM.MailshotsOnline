@@ -18,6 +18,23 @@ namespace HC.RM.Common.PayPal.Models
         /// </summary>
         /// <param name="intent">The intent for the Payment</param>
         /// <param name="payer">The Payer object</param>
+        /// <param name="returnUrl">The Return URL</param>
+        /// <param name="cancelUrl">The Cancel URL</param>
+        public Payment(PaymentIntent intent, Payer payer, string returnUrl, string cancelUrl)
+        {
+            this.Intent = intent;
+            this.Payer = payer;
+            var transactionsList = new List<Transaction>();
+            this.Transactions = transactionsList;
+            this.ReturnUrl = returnUrl;
+            this.CancelUrl = cancelUrl;
+        }
+
+        /// <summary>
+        /// Creates a new Payment object
+        /// </summary>
+        /// <param name="intent">The intent for the Payment</param>
+        /// <param name="payer">The Payer object</param>
         /// <param name="transaction">The first Transaction object</param>
         /// <param name="returnUrl">The Return URL</param>
         /// <param name="cancelUrl">The Cancel URL</param>

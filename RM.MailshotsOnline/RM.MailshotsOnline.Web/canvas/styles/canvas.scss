@@ -7,7 +7,9 @@ body {
 }
 
 .canvas-container {
-    position: fixed;
+    
+    @include transition(transform, 0s);
+    position: absolute;
     top: 50px;
     left: 150px;
     right: 0;
@@ -15,9 +17,46 @@ body {
     z-index: 2;
     overflow: auto;
     background: $lightest-grey;
-    &.canvas-container_full {
+    transform: translate(0, 0);
+    .tools {
+        transform: translate(-150px, -50px);
+    }
+    &.canvas-container_focused {
         top: 0;
         left: 0;
+        .side {
+            transform: translate(150px, 50px);
+            right: 150px;
+
+        }
+        .tools {
+            transform: translate(0, 0);
+        }
+    }
+    &.canvas-container_small {
+        @include transition(transform);
+        width: 500px;
+        right: auto;
+        transform: translate(-190px, 0);
+        pointer-events: none;
+        .face {
+            pointer-events: none;
+            > * {
+                pointer-events: none;
+            }
+        }
+        .tools {
+            display: none !important;
+        }
+        .selected-overlay_visible {
+            display: none !important;
+        }
+    }
+}
+
+@media all and (max-width: 1100px) {
+    .canvas-container.canvas-container_small {
+        display: none;
     }
 }
 
@@ -33,6 +72,7 @@ body {
         display: inline-block;
         pointer-events: all;
         transform-origin: 0 0;
+        pointer-events: none;
         > .face-component {
             display: inline-block;
             position: relative;
@@ -46,7 +86,7 @@ body {
         }
     }
     &.side_small {
-        pointer-events: all;
+        pointer-events: none;
         position: absolute;
         margin: 0;
         top: 20px;
@@ -54,13 +94,19 @@ body {
         left: auto;
         bottom: auto;
         transform-origin: 100% 0;
-        transform: scale(0.125);
+        //transform: scale(0.125);
         cursor: pointer;
         z-index: 1;
         box-shadow: $darkest-grey 0px 4px 32px;
         -moz-box-shadow: $darkest-grey 0px 4px 4px;
         > div {
+            pointer-events: none !important;
+        }
+        .face {
             pointer-events: none;
+            > * {
+                pointer-events: none;
+            }
         }
         .selected-overlay {
             display: none !important;
@@ -71,13 +117,22 @@ body {
     }
 }
 
+.face-component {
+    pointer-events: none;
+}
+
 .face {
     display: inline-block;
     background: #FFF;
     position: relative;
-    box-shadow: rgba(0, 0, 0, 0.32) 0px 0px 3px;
-    //transform: scale(1.5, 1.5);
-    //transform-origin: 50% 0;
+    @include shadow(1px, 3px, 0, $lightish-grey);
+    pointer-events: none;
+    > * {
+        pointer-events: all;
+    }
+    .preview-face-name {
+        display: none;
+    }
     .face_name {
         position: absolute;
         top: -30px;
@@ -92,9 +147,9 @@ body {
         left: 0;
         right: 0;
         bottom: 0;
-        cursor: auto;
+        cursor: pointer;
         &.face-hover_active:before {
-            border: 2px solid rgb(99, 136, 255);
+            border: 1px solid rgba(0, 0, 0, 0.09);
             content: "";
             position: absolute;
             top: 0;

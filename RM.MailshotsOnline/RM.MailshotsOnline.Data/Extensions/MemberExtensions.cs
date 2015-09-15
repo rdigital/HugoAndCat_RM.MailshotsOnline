@@ -27,13 +27,16 @@ namespace RM.MailshotsOnline.Data.Extensions
         public static IMember ToMemberEntityModel(this Umbraco.Core.Models.IMember umbracoMember)
         {
             var salt = umbracoMember.GetValue<string>("salt");
-            var saltBytes = Convert.FromBase64String(salt);
+            byte[] saltBytes = null;
+            if (!string.IsNullOrEmpty(salt))
+            {
+                saltBytes = Convert.FromBase64String(salt);
+            }
 
             var emailSalt = umbracoMember.GetValue<string>("emailSalt");
             var emailSaltBytes = Convert.FromBase64String(emailSalt);
 
-            var title = Encryption.Decrypt(umbracoMember.GetValue<string>("title"), EncryptionKey, saltBytes);
-            var titleValue = ApplicationContext.Current.Services.DataTypeService.GetPreValues("Title Dropdown")
+            var title = saltBytes == null ? umbracoMember.GetValue<string>("title") : Encryption.Decrypt(umbracoMember.GetValue<string>("title"), PrivateKey, saltBytes);            var titleValue = ApplicationContext.Current.Services.DataTypeService.GetPreValues("Title Dropdown")
                 .FirstOrDefault(x => x.Key.Equals(title));
 
             if (!string.IsNullOrEmpty(titleValue.Value))
@@ -47,12 +50,12 @@ namespace RM.MailshotsOnline.Data.Extensions
                 Salt = salt,
                 EmailSalt = emailSalt,
                 Username = umbracoMember.Username,
-                EmailAddress = Encryption.Decrypt(umbracoMember.Email, EncryptionKey, emailSaltBytes),
+                EmailAddress = emailSaltBytes == null ? umbracoMember.Email : Encryption.Decrypt(umbracoMember.Email, EncryptionKey, emailSaltBytes,
                 IsApproved = umbracoMember.IsApproved,
                 IsLockedOut = umbracoMember.IsLockedOut,
                 Title = title,
-                FirstName = Encryption.Decrypt(umbracoMember.GetValue<string>("firstName"), EncryptionKey, saltBytes),
-                LastName = Encryption.Decrypt(umbracoMember.GetValue<string>("lastName"), EncryptionKey, saltBytes),
+                FirstName = saltBytes == null ? umbracoMember.GetValue<string>("firstName") : Encryption.Decrypt(umbracoMember.GetValue<string>("firstName"), PrivateKey, saltBytes),
+                LastName = saltBytes == null ? umbracoMember.GetValue<string>("lastName") : Encryption.Decrypt(umbracoMember.GetValue<string>("lastName"), PrivateKey, saltBytes),
                 RoyalMailMarketingPreferences = new ContactOptions()
                 {
                     Post = umbracoMember.GetValue<bool>("rmPost"),
@@ -67,18 +70,18 @@ namespace RM.MailshotsOnline.Data.Extensions
                     Phone = umbracoMember.GetValue<bool>("thirdPartyPhone"),
                     SmsAndOther = umbracoMember.GetValue<bool>("thirdPartySmsAndOther")
                 },
-                Postcode = Encryption.Decrypt(umbracoMember.GetValue<string>("postcode"), EncryptionKey, saltBytes),
-                OrganisationName = Encryption.Decrypt(umbracoMember.GetValue<string>("organisationName"), EncryptionKey, saltBytes),
-                JobTitle = Encryption.Decrypt(umbracoMember.GetValue<string>("jobTitle"), EncryptionKey, saltBytes),
-                FlatNumber = Encryption.Decrypt(umbracoMember.GetValue<string>("flatNumber"), EncryptionKey, saltBytes),
-                BuildingNumber = Encryption.Decrypt(umbracoMember.GetValue<string>("buildingNumber"), EncryptionKey, saltBytes),
-                BuildingName = Encryption.Decrypt(umbracoMember.GetValue<string>("buildingName"), EncryptionKey, saltBytes),
-                Address1 = Encryption.Decrypt(umbracoMember.GetValue<string>("address1"), EncryptionKey, saltBytes),
-                Address2 = Encryption.Decrypt(umbracoMember.GetValue<string>("address2"), EncryptionKey, saltBytes),
-                City = Encryption.Decrypt(umbracoMember.GetValue<string>("city"), EncryptionKey, saltBytes),
-                Country = Encryption.Decrypt(umbracoMember.GetValue<string>("country"), EncryptionKey, saltBytes),
-                WorkPhoneNumber = Encryption.Decrypt(umbracoMember.GetValue<string>("workPhoneNumber"), EncryptionKey, saltBytes),
-                MobilePhoneNumber = Encryption.Decrypt(umbracoMember.GetValue<string>("mobilePhoneNumber"), EncryptionKey, saltBytes),
+                Postcode = saltBytes == null ? umbracoMember.GetValue<string>("postcode") : Encryption.Decrypt(umbracoMember.GetValue<string>("postcode"), PrivateKey, saltBytes),
+                OrganisationName = saltBytes == null ? umbracoMember.GetValue<string>("organisationName") : Encryption.Decrypt(umbracoMember.GetValue<string>("organisationName"), PrivateKey, saltBytes),
+                JobTitle = saltBytes == null ? umbracoMember.GetValue<string>("jobTitle") : Encryption.Decrypt(umbracoMember.GetValue<string>("jobTitle"), PrivateKey, saltBytes),
+                FlatNumber = saltBytes == null ? umbracoMember.GetValue<string>("flatNumber") : Encryption.Decrypt(umbracoMember.GetValue<string>("flatNumber"), PrivateKey, saltBytes),
+                BuildingNumber = saltBytes == null ? umbracoMember.GetValue<string>("buildingNumber") : Encryption.Decrypt(umbracoMember.GetValue<string>("buildingNumber"), PrivateKey, saltBytes),
+                BuildingName = saltBytes == null ? umbracoMember.GetValue<string>("buildingName") : Encryption.Decrypt(umbracoMember.GetValue<string>("buildingName"), PrivateKey, saltBytes),
+                Address1 = saltBytes == null ? umbracoMember.GetValue<string>("address1") : Encryption.Decrypt(umbracoMember.GetValue<string>("address1"), PrivateKey, saltBytes),
+                Address2 = saltBytes == null ? umbracoMember.GetValue<string>("address2") : Encryption.Decrypt(umbracoMember.GetValue<string>("address2"), PrivateKey, saltBytes),
+                City = saltBytes == null ? umbracoMember.GetValue<string>("city") : Encryption.Decrypt(umbracoMember.GetValue<string>("city"), PrivateKey, saltBytes),
+                Country = saltBytes == null ? umbracoMember.GetValue<string>("country") : Encryption.Decrypt(umbracoMember.GetValue<string>("country"), PrivateKey, saltBytes),
+                WorkPhoneNumber = saltBytes == null ? umbracoMember.GetValue<string>("workPhoneNumber") : Encryption.Decrypt(umbracoMember.GetValue<string>("workPhoneNumber"), PrivateKey, saltBytes),
+                MobilePhoneNumber = saltBytes == null ? umbracoMember.GetValue<string>("mobilePhoneNumber") : Encryption.Decrypt(umbracoMember.GetValue<string>("mobilePhoneNumber"), PrivateKey, saltBytes),
                 PasswordResetToken = umbracoMember.GetValue<Guid>("passwordResetToken"),
                 PasswordResetTokenExpiryDate = umbracoMember.GetValue<DateTime>("passwordResetTokenExpiryDate")
             };

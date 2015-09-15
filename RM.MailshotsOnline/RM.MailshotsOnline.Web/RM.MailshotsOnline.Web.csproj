@@ -386,8 +386,11 @@
     <Content Include="App_Plugins\PrivateImageViewer\imageviewer.controller.js" />
     <Content Include="App_Plugins\PrivateImageViewer\imageviewer.html" />
     <Content Include="canvas\app.html" />
+    <Content Include="canvas\fonts\icomoon.svg" />
     <Content Include="canvas\gruntfile.js" />
     <Content Include="canvas\images\img_placeholder.PNG" />
+    <Content Include="canvas\images\library_image.PNG" />
+    <Content Include="canvas\images\own_image.PNG" />
     <Content Include="canvas\images\upload.png" />
     <Content Include="canvas\js\app.js" />
     <Content Include="canvas\js\components\backgroundtools.js" />
@@ -400,6 +403,7 @@
     <Content Include="canvas\js\components\options.js" />
     <Content Include="canvas\js\components\preview.js" />
     <Content Include="canvas\js\components\side.js" />
+    <Content Include="canvas\js\components\sidepicker.js" />
     <Content Include="canvas\js\components\slider.js" />
     <Content Include="canvas\js\components\template.js" />
     <Content Include="canvas\js\components\theme.js" />
@@ -408,6 +412,7 @@
     <Content Include="canvas\js\components\zoom.js" />
     <Content Include="canvas\js\custom_bindings\ko-editable.js" />
     <Content Include="canvas\js\custom_bindings\ko-element.js" />
+    <Content Include="canvas\js\custom_bindings\ko-file.js" />
     <Content Include="canvas\js\custom_bindings\ko-spectrum.js" />
     <Content Include="canvas\js\require_config.js" />
     <Content Include="canvas\js\temp\data.js" />
@@ -433,9 +438,12 @@
     <Content Include="canvas\styles\compiled\canvas.css" />
     <Content Include="canvas\styles\compiled\help.css" />
     <Content Include="canvas\styles\compiled\mailshot.css" />
+    <Content Include="canvas\styles\compiled\preview.css" />
     <Content Include="canvas\styles\compiled\sidepicker.css" />
     <Content Include="canvas\styles\compiled\themepicker.css" />
     <Content Include="canvas\styles\compiled\toolbar.css" />
+    <Content Include="canvas\styles\compiled\tools.css" />
+    <Content Include="canvas\styles\compiled\upload.css" />
     <Content Include="canvas\styles\vendor\bootstrap.min.css" />
     <Content Include="canvas\templates\backgroundtools.html" />
     <Content Include="canvas\templates\colourpicker.html" />
@@ -445,7 +453,9 @@
     <Content Include="canvas\templates\image.html" />
     <Content Include="canvas\templates\input.html" />
     <Content Include="canvas\templates\options.html" />
+    <Content Include="canvas\templates\preview.html" />
     <Content Include="canvas\templates\side.html" />
+    <Content Include="canvas\templates\sidepicker.html" />
     <Content Include="canvas\templates\slider.html" />
     <Content Include="canvas\templates\template.html" />
     <Content Include="canvas\templates\theme.html" />
@@ -506,6 +516,15 @@
     <Content Include="App_Plugins\CryptoLabel\cryptoLabel.resource.js" />
     <Content Include="AppInsightsAgent\InstallAgent.ps1" />
     <Content Include="AppInsightsAgent\InstallAgent.bat" />
+    <Content Include="canvas\styles\tools.scss" />
+    <Content Include="canvas\styles\compiled\tools.css.map" />
+    <Content Include="canvas\fonts\icomoon.eot" />
+    <Content Include="canvas\fonts\icomoon.ttf" />
+    <Content Include="canvas\fonts\icomoon.woff" />
+    <Content Include="canvas\styles\compiled\preview.css.map" />
+    <Content Include="canvas\styles\preview.scss" />
+    <Content Include="canvas\styles\compiled\upload.css.map" />
+    <Content Include="canvas\styles\upload.scss" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\campaign-functions.js" />
     <Content Include="scripts\campaign-hub.js" />
@@ -3016,6 +3035,7 @@
     <Compile Include="Controllers\Api\ImageLibraryController.cs" />
     <Compile Include="Controllers\Api\MailshotsController.cs" />
     <Compile Include="Controllers\Api\MembersController.cs" />
+    <Compile Include="Controllers\Api\ModerationController.cs" />
     <Compile Include="Controllers\Api\PostageController.cs" />
     <Compile Include="Controllers\Api\ProofPdfController.cs" />
     <Compile Include="Controllers\CampaignHubController.cs" />
@@ -3027,7 +3047,10 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LogoutController.cs" />
     <Compile Include="Controllers\MarketingPreferencesController.cs" />
+    <Compile Include="Controllers\ModerationPageController.cs" />
     <Compile Include="Controllers\OrganisationDetailsController.cs" />
+    <Compile Include="Controllers\PaymentCancelledController.cs" />
+    <Compile Include="Controllers\PaymentConfirmationController.cs" />
     <Compile Include="Controllers\PersonalDetailsController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
@@ -3035,6 +3058,7 @@
     <Compile Include="Controllers\SurfaceControllers\BaseSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\CampaignSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\LoginSurfaceController.cs" />
+    <Compile Include="Controllers\SurfaceControllers\ModerationSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ProfileSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\RegisterSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ResetPasswordSurfaceController.cs" />
@@ -3249,9 +3273,7 @@
     <Content Include="Config\ExamineIndex.config" />
     <Content Include="Config\EmbeddedMedia.config" />
     <Content Include="Config\BaseRestExtensions.config" />
-    <Content Include="Config\applications.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Config\applications.config" />
     <Content Include="Config\404handlers.config" />
     <Content Include="ApplicationInsights.config" />
     <Content Include="ApplicationInsights.QA.config">
@@ -3398,6 +3420,21 @@
     <Content Include="uSync\Template\CreateCanvas\CreateCanvas.config" />
     <Content Include="uSync\Template\CampaignHub\CampaignHub.config" />
     <Content Include="Views\CampaignHub\Partials\CheckoutButton.cshtml" />
+    <Content Include="Views\PaymentConfirmation.cshtml" />
+    <Content Include="Views\ModerationPage.cshtml" />
+    <Content Include="Views\Moderation\Partials\ApprovalConfirmation.cshtml" />
+    <Content Include="Views\Moderation\Partials\Complete.cshtml" />
+    <Content Include="Views\Moderation\Partials\RejectConfirmation.cshtml" />
+    <Content Include="Views\Moderation\Partials\PrintConfirmation.cshtml" />
+    <Content Include="uSync\Template\PaymentConfirmation\PaymentConfirmation.config" />
+    <Content Include="uSync\Template\ModerationPage\ModerationPage.config" />
+    <Content Include="uSync\Template\Master\MyCampaignsAPITestPage\MyCampaignsAPITestPage.config" />
+    <Content Include="uSync\Template\Master\ImageLibraryAPITestPage\ImageLibraryAPITestPage.config" />
+    <Content Include="uSync\DocumentType\Basepage\PaymentConfirmation\def.config" />
+    <Content Include="uSync\DocumentType\Basepage\ModerationPage\def.config" />
+    <Content Include="Views\PaymentCancelled.cshtml" />
+    <Content Include="uSync\DocumentType\Basepage\PaymentCancelled\def.config" />
+    <Content Include="uSync\Template\PaymentCancelled\PaymentCancelled.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -3433,7 +3470,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="uSync\Template\EditProfileBasePage\" />
-    <Folder Include="Views\EncryptedMemberList\" />
+
+    <Folder Include="Views\PaymentCancelled\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -3479,6 +3517,7 @@
     <Error Condition="!Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.2.8\build\UmbracoCms.props'))" />
     <Error Condition="!Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.Agent.Intercept.0.17.0\build\Microsoft.ApplicationInsights.Agent.Intercept.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.Agent.Intercept.0.17.0\build\Microsoft.ApplicationInsights.Agent.Intercept.targets'))" />
+    
     <Error Condition="!Exists('..\packages\HC.RM.Common.Azure.1.0.13.39\build\HC.RM.Common.Azure.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\HC.RM.Common.Azure.1.0.13.39\build\HC.RM.Common.Azure.targets'))" />
   </Target>
   <Import Project="..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets" Condition="Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets')" />

@@ -1,6 +1,6 @@
 // viewmodel to handle format data
-define(['knockout', 'view_models/data', 'view_models/user', 'temp/data'],
-    function(ko, dataViewModel, userViewModel, tempData) {
+define(['knockout', 'view_models/data', 'view_models/user', 'view_models/state', 'temp/data'],
+    function(ko, dataViewModel, userViewModel, stateViewModel, tempData) {
 
         // extends dataViewModel
         var formatViewModel = dataViewModel;
@@ -9,6 +9,17 @@ define(['knockout', 'view_models/data', 'view_models/user', 'temp/data'],
             this.fetchURL = '/formats';
             this.testData = tempData.formatData;
             this.selectedID = userViewModel.objects.formatID;
+            this.objects.subscribe(function() {
+                stateViewModel.viewingFace(this.getDefaultFace());
+            }, this)
+        }
+
+        formatViewModel.prototype.getDefaultFace = function getDefaultFace() {
+            var faces = this.getFaces(),
+                default_face = ko.utils.arrayFirst(faces, function(face) {
+                    return face.default == true
+                });
+            return default_face || faces[0]
         }
 
         formatViewModel.prototype.getFaces = function getFaces() {

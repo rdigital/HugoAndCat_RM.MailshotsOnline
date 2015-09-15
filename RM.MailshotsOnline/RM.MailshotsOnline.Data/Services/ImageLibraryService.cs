@@ -32,6 +32,8 @@ namespace RM.MailshotsOnline.Data.Services
         private readonly IMediaService _mediaService;
         private readonly ImageResizer _imageResizer = new ImageResizer();
 
+        private object searchLock = new object();
+
         public ImageLibraryService(ILogger logger, ICmsImageService cmsImageService)
 
         {
@@ -46,8 +48,8 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>The list of all tags.</returns>
         public IEnumerable<string> GetTags()
         {
-            return _helper.TagQuery.GetAllTags(Constants.Constants.Settings.DefaultMediaLibraryTagGroup)
-                .Select(x => x.Text);
+            var tags = UmbracoContext.Current.Application.Services.TagService.GetAllTags(ContentConstants.Settings.DefaultMediaLibraryTagGroup);
+            return tags.Select(t => t.Text);
         }
 
         /// <summary>
@@ -56,7 +58,11 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>The collection of images.</returns>
         public IEnumerable<IMedia> GetImages()
         {
-            return PopulateUsageCounts(_helper.TagQuery.GetMediaByTagGroup(Constants.Constants.Settings.DefaultMediaLibraryTagGroup).Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage))));
+            
+            var images = UmbracoContext.Current.Application.Services.TagService.GetTaggedMediaByTagGroup(ContentConstants.Settings.DefaultMediaLibraryTagGroup).Select(te => _helper.TypedMedia(te.EntityId));
+            var publicImages = images.Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage)));
+            return PopulateUsageCounts(publicImages);
+            //return PopulateUsageCounts(_helper.TagQuery.GetMediaByTagGroup(ContentConstants.Settings.DefaultMediaLibraryTagGroup).Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage))));
         }
 
         /// <summary>
@@ -66,8 +72,10 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>The collection of images.</returns>
         public IEnumerable<IMedia> GetImages(string tag)
         {
-
-            return PopulateUsageCounts(_helper.TagQuery.GetMediaByTag(tag, Constants.Constants.Settings.DefaultMediaLibraryTagGroup).Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage))));
+            
+            var images = UmbracoContext.Current.Application.Services.TagService.GetTaggedMediaByTag(tag, ContentConstants.Settings.DefaultMediaLibraryTagGroup).Select(te => _helper.TypedMedia(te.EntityId));
+            var publicImages = images.Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage)));
+            return PopulateUsageCounts(publicImages);
         }
 
         /// <summary>
@@ -103,6 +111,8 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>The Media item</returns>
         public IMedia GetImageByBlobUrl(string blobUrl)
         {
+            lock(searchLock)
+            {
             var mediaSearcher = ExamineManager.Instance.SearchProviderCollection["MediaSearcher"] ?? ExamineManager.Instance.DefaultSearchProvider;
             if (mediaSearcher != null)
             {
@@ -111,8 +121,10 @@ namespace RM.MailshotsOnline.Data.Services
                 {
                     if (searchResults.TotalItemCount > 0)
                     {
+                            _logger.Info(this.GetType().Name, "GetImageByBlobUrl", "{0} search results for blob URL {1}", searchResults.Count(), blobUrl);
                         foreach (var searchResult in searchResults)
                         {
+                                _logger.Info(this.GetType().Name, "GetImageByBlobUrl", "Found image with Media ID {0} for URL {1}", searchResult.Id, blobUrl);
                             var mediaId = searchResult.Id;
                             return GetImage(mediaId, false);
                         }
@@ -133,6 +145,7 @@ namespace RM.MailshotsOnline.Data.Services
             }
 
             return null;
+        }
         }
 
         /// <summary>
@@ -213,6 +226,7 @@ namespace RM.MailshotsOnline.Data.Services
                 return null;
             }
 
+
             var privateMediaFolder = _helper.ContentQuery.TypedMedia(Constants.Constants.MediaContent.PrivateMediaLibraryId);
             var memberMediaFolder = privateMediaFolder.Children.FirstOrDefault(x => x.Name.Equals(member.Username));
             int? memberMediaFolderId;
@@ -227,6 +241,7 @@ namespace RM.MailshotsOnline.Data.Services
             {
                 memberMediaFolderId = memberMediaFolder.Id;
             }
+
 
             var createdMedia = _mediaService.CreateMedia(name, (int)memberMediaFolderId, Constants.Constants.MediaContent.PrivateLibraryImageMediaTypeAlias);
             var convertedMedia = (PrivateLibraryImage) MediaFactory.Convert(createdMedia, typeof(PrivateLibraryImage));

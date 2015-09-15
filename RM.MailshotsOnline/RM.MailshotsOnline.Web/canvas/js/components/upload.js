@@ -1,9 +1,151 @@
-define(['knockout', 'view_models/state'],
+define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/state'],
 
-    function(ko, stateViewModel) {
+    function(ko, $, kofile, myImagesViewModel, stateViewModel) {
 
-        function imageUploadViewModel() {
+        function imageUploadViewModel(params) {
             this.src = ko.observable();
+            this.fileData = ko.observable({
+                dataURL: ko.observable()
+            })
+            this.selectedTab = ko.observable(stateViewModel.imageTab() || 'upload');
+
+            // XXX note to whoever has time, move these into their own data model so
+            // they can be persisted between opening up the image panel
+            this.libraryImage = ko.observable();
+            this.libraryImages = ko.observableArray();
+            this.tag = ko.observable();
+            this.libraryLoading = ko.observable(true);
+
+            // my image library
+            this.myImage = myImagesViewModel.selected;
+            this.myImages = myImagesViewModel.objects;
+            this.myImagesLoading = myImagesViewModel.loading;
+            this.selectMyImage = myImagesViewModel.select;
+            this.removeMyImage = myImagesViewModel.remove;
+
+            // computeds
+            this.tags = this.getTagsComputed();
+            this.libraryImagesFiltered = this.getLibraryComputed();
+
+            // subscriptions
+            this.fileData.subscribe(this.loadFile, this);
+            this.src.subscribe(this.render, this);
+            this.libraryImage.subscribe(this.renderLibraryImage, this);
+            this.myImage.subscribe(this.renderMyImage, this);
+
+            // bound functions
+            this.selectLibraryImage = this.selectLibraryImage.bind(this);
+            this.selectTab = this.selectTab.bind(this);
+            this.dispose = this.dispose.bind(this);
+
+            this.fetchLibrary();
+        }
+
+        imageUploadViewModel.prototype.dispose = function dispose() {
+            if (this.src()) {
+                var data = {
+                    imageString: this.src(),
+                    name: this.getRandomInt().toString() 
+                };
+                $.post('/Umbraco/Api/ImageLibrary/UploadImage', data, function(image) {
+                    myImagesViewModel.add(image);
+                }).fail(function(error) {
+                    console.log('There was an error uploading image', error);
+                })
+            }
+            this.selectMyImage(null);
+        }
+
+        imageUploadViewModel.prototype.getRandomInt = function getRandomInt() {
+            var min = 0,
+                max = 99999999;
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        imageUploadViewModel.prototype.getTagsComputed = function getTagsComputed() {
+            return ko.pureComputed( function() {
+                var tags = [];
+                ko.utils.arrayForEach(this.libraryImages(), function(image) {
+                    ko.utils.arrayForEach(image.Tags, function(tag) {
+                        var match = ko.utils.arrayFirst(tags, function(existing) {
+                            return existing.name == tag
+                        })
+                        if (!match) {
+                            tags.push({
+                                name: tag,
+                                value: tag
+                            });
+                        }
+                    })
+                });
+                return tags.sort(function (a, b) {
+                    return a.name.localeCompare(b.name, 'en', {'sensitivity': 'base'})
+                });
+            }, this)
+        }
+
+        imageUploadViewModel.prototype.getLibraryComputed = function getLibraryComputed() {
+            return ko.pureComputed( function() {
+                var tag = this.tag();
+                if (tag) {
+                    return ko.utils.arrayFilter(this.libraryImages(), function(image) {
+                        return image.Tags.indexOf(tag) >= 0
+                    })
+                }
+                return this.libraryImages()
+            }, this)
+        }
+
+        // XXX move this into it's own data model
+        imageUploadViewModel.prototype.fetchLibrary = function fetchLibrary() {
+            $.get('/Umbraco/Api/ImageLibrary/GetImages', function(data) {
+                this.libraryLoading(false);
+                this.libraryImages(data);
+            }.bind(this)).fail(function() {
+                console.log('There was an error fetching the image library');
+            })
+        }
+
+        imageUploadViewModel.prototype.selectLibraryImage = function selectLibraryImage(image) {
+            if (image) {
+                this.libraryImage(image);
+            }
+        }
+
+        imageUploadViewModel.prototype.renderLibraryImage = function renderLibraryImage() {
+            if (this.libraryImage()) {
+                stateViewModel.selectedElement().render(this.libraryImage().Src, true);
+                this.selectMyImage(null);
+                this.src(null);
+            }
+        }
+
+        imageUploadViewModel.prototype.renderMyImage = function renderMyImage() {
+            if (this.myImage()) {
+                stateViewModel.selectedElement().render(this.myImage().Src, true);
+                this.libraryImage(null);
+                this.src(null);
+            }
+        }
+
+        imageUploadViewModel.prototype.selectTab = function selectTab(tab) {
+            this.selectedTab(tab);
+        }
+
+        imageUploadViewModel.prototype.clickUpload = function clickUpload(){
+            $('#image-upload').click();
+        }
+
+        imageUploadViewModel.prototype.loadFile = function loadFile(fileData){
+            this.src(fileData);         
+        }
+
+        imageUploadViewModel.prototype.render = function render() {
+            if (this.src()) {
+                stateViewModel.selectedElement().render(this.src(), true);
+                this.libraryImage(null);
+                this.selectMyImage(null);
+            }
         }
 
         /**
@@ -44,9 +186,6 @@ define(['knockout', 'view_models/state'],
          * Call to accept the dropped image and close the modal
          */
         imageUploadViewModel.prototype.confirm = function confirm() {
-            var src = this.src();
-            if (!src) { return }
-            stateViewModel.selectedElement().render(this.src(), true);
             this.toggleImageUpload();
         }
 
@@ -54,7 +193,9 @@ define(['knockout', 'view_models/state'],
          * toggles the image upload modal
          */
         imageUploadViewModel.prototype.toggleImageUpload = function toggleImageUpload() {
+            $('.canvas-container').css({opacity: 0})
             stateViewModel.toggleImageUpload()
+            $('.canvas-container').css({opacity: 1})
         }
 
         return {

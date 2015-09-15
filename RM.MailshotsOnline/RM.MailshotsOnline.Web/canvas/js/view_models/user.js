@@ -22,11 +22,11 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
         userViewModel.prototype.fromJSON = function fromJSON(data) {
             komapping.fromJSON(data, this.objects);
             // force rerender
-            stateViewModel.viewingSide.valueHasMutated()
+            stateViewModel.historyRerender.valueHasMutated()
         }
 
         userViewModel.prototype.toJSON = function toJSON() {
-            return komapping.toJSON(this.objects, {'ignore': ["src"]})
+            return komapping.toJSON(this.objects)
         }
 
         userViewModel.prototype.toHistoryJSON = function toHistoryJSON() {

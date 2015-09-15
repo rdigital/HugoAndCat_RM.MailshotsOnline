@@ -17,13 +17,20 @@ define([],
                             name:'Front',
                             side:'front',
                             width: 600,
-                            height: 450
+                            height: 450,
+                            default: true
                         },
                         {
                             name:'Back',
-                            side:'back',
+                            side:'front',
                             width: 600,
                             height: 450
+                        },
+                        {
+                            name:'Inside',
+                            side:'back',
+                            width: 600,
+                            height: 900
                         }
                     ]
                 }
@@ -35,6 +42,29 @@ define([],
                     format_id: 2,
                     name: 'Card Template',
                     elements: [
+                        {
+                            name: 'fold',
+                            face: 'Inside',
+                            type: 'fold',
+                            layout: [
+                                {
+                                    property: 'position',
+                                    value: 'absolute'
+                                },
+                                {
+                                    property: 'top',
+                                    value: '449px'
+                                },
+                                {
+                                    property: 'left',
+                                    value: '0'
+                                },
+                                {
+                                    property: 'right',
+                                    value: '0'
+                                }
+                            ]
+                        },
                         {
                             name: 'heading',
                             face: 'Front',
@@ -127,7 +157,8 @@ define([],
                                 	property: 'text-align',
                                 	value: 'left'
                                 }
-                            ]
+                            ],
+                            message: "Body copy placeholder message, to be confirmed"
                         },
                         {
                             name: 'cta',
@@ -159,7 +190,8 @@ define([],
                                 	property: 'text-align',
                                 	value: 'left'
                                 }
-                            ]
+                            ],
+                            message: "CTA copy placeholder message, to be confirmed"
                         },
                         {
                             name: 'logo',
@@ -243,6 +275,35 @@ define([],
                                     value: '100px'
                                 }
                             ]
+                        },
+                        {
+                            name: 'largeimage',
+                            face: 'Inside',
+                            type: 'image',
+                            theme_class: 'logo',
+                            layout: [
+                                {
+                                    property: 'position',
+                                    value: 'absolute'
+                                },
+                                {
+                                    property: 'top',
+                                    value: '450px'
+                                },
+                                {
+                                    property: 'left',
+                                    value: '0'
+                                },
+                                {
+                                    property: 'width',
+                                    value: '600px'
+                                },
+                                {
+                                    property: 'height',
+                                    value: '450px'
+                                }
+                            ],
+                            message: "Choose a high quality image which helps convey your message to the reader."
                         }
                     ]
                 },
@@ -343,7 +404,8 @@ define([],
                                     property: 'text-align',
                                     value: 'left'
                                 }
-                            ]
+                            ],
+                            message: "Body copy placeholder message, to be confirmed"
                         },
                         {
                             name: 'cta',
@@ -375,7 +437,8 @@ define([],
                                     property: 'text-align',
                                     value: 'left'
                                 }
-                            ]
+                            ],
+                            message: "CTA copy placeholder message, to be confirmed"
                         },
                         {
                             name: 'Address',
@@ -530,7 +593,8 @@ define([],
                                     property: 'text-align',
                                     value: 'left'
                                 }
-                            ]
+                            ],
+                            message: "Image copy placeholder message, to be confirmed"
                         },
                         {
                             name: 'Address',
@@ -609,10 +673,20 @@ define([],
                     		styles: [
                     			{
 	                    			property: 'background-color',
-	                    			value: '#FFF'
+	                    			value: '#D4E5E6'
 			                    }
                     		]
-                    	}
+                    	},
+                        {
+                            name: 'Inside',
+                            styles: [
+                                {
+                                    property: 'background-color',
+                                    value: '#D4E5E6'
+                                }
+                            ]
+                        }
+                        
                     ],
                     colours: ['#D4E5E6', 'rgb(56, 63, 87)', 'rgb(50, 132, 134)', 'rgb(90, 93, 93)', '#FFF' ],
                     fonts: [
@@ -896,10 +970,19 @@ define([],
                     		styles: [
                     			{
 	                    			property: 'background-color',
-	                    			value: '#FFF'
+	                    			value: 'rgb(102, 154, 185)'
 			                    }
                     		]
-                    	}
+                    	},
+                        {
+                            name: 'Inside',
+                            styles: [
+                                {
+                                    property: 'background-color',
+                                    value: 'rgb(102, 154, 185)'
+                                }
+                            ]
+                        }
                     ],
                     fonts: [
                         {
@@ -1179,10 +1262,19 @@ define([],
                     		styles: [
                     			{
 	                    			property: 'background-color',
-	                    			value: '#FFF'
+	                    			value: 'rgb(255, 158, 50)'
 			                    }
                     		]
-                    	}
+                    	},
+                        {
+                            name: 'Inside',
+                            styles: [
+                                {
+                                    property: 'background-color',
+                                    value: 'rgb(255, 158, 50)'
+                                }
+                            ]
+                        }
                     ],
                     fonts: [
                         {
@@ -1424,11 +1516,11 @@ define([],
                     },
                     {
                         name: 'sub-heading',
-                        content: 'Subline with a bit more detail goes here.',
+                        content: 'Sub-line with a bit more detail goes here.',
                     },
                     {
                         name: 'body',
-                        content: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+                        content: "Far far away, behind the word mountains, far from the countries, there live the blind texts. Separated they live in right at the coast of the Semantics, a large language ocean.  It is a paradisematic country.",
                     },
                     {
                         name: 'cta',

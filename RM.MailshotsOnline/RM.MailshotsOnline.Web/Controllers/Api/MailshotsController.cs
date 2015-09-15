@@ -303,6 +303,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         /// <param name="id">ID of the mailshot to delete</param>
         /// <returns>HTTP No Content (204) on success</returns>
         [HttpDelete]
+        [HttpPost]
         public HttpResponseMessage Delete(Guid id)
         {
             // Confirm the user is logged in
