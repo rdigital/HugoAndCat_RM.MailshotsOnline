@@ -12,11 +12,15 @@ using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
+using HC.RM.Common;
+using RM.MailshotsOnline.Web.Controllers.Api;
 using umbraco.cms.businesslogic.web;
 using Umbraco.Core;
+using Umbraco.Core.Events;
 using Umbraco.Core.Models;
 using Umbraco.Core.Services;
 using Umbraco.Web.UI.Pages;
+using Constants = RM.MailshotsOnline.Data.Constants.Constants;
 
 namespace RM.MailshotsOnline.Web.App_Start
 {
@@ -49,6 +53,14 @@ namespace RM.MailshotsOnline.Web.App_Start
             MediaService.Saved += MediaService_Saved;
             MediaService.Trashing += MediaService_Trashing;
             MediaService.Deleting += MediaService_Deleting;
+            MemberService.Saving += MemberServiceOnSaving;
+        }
+
+        private void MemberServiceOnSaving(IMemberService sender, SaveEventArgs<IMember> saveEventArgs)
+        {
+            saveEventArgs.Cancel = true;
+
+            throw new Exception("Unable to save - members cannot be edited through the Umbraco back office.");
         }
 
         #region Event handlers
