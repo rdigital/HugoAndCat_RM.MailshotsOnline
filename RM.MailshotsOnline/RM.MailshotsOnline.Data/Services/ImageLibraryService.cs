@@ -262,6 +262,12 @@ namespace RM.MailshotsOnline.Data.Services
 
             _mediaService.Save(createdMedia);
 
+            createdMedia.SetValue("OriginalUrl", $"/Umbraco/Api/ImageLibrary/GetPrivateImageById/{createdMedia.Id}");
+            createdMedia.SetValue("SmallThumbUrl", $"/Umbraco/Api/ImageLibrary/GetPrivateImageById/{createdMedia.Id}?size=small");
+            createdMedia.SetValue("LargeThumbUrl", $"/Umbraco/Api/ImageLibrary/GetPrivateImageById/{createdMedia.Id}?size=medium");
+
+            _mediaService.Save(createdMedia);
+
             return convertedMedia;
         }
 

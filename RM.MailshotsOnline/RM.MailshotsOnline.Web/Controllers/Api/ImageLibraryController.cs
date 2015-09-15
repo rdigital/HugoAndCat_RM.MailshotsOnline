@@ -11,6 +11,8 @@ using RM.MailshotsOnline.Entities.JsonModels;
 using RM.MailshotsOnline.Data.Helpers;
 using System.Web;
 using Umbraco.Core.Security;
+using System.Threading.Tasks;
+using RM.MailshotsOnline.Web.Attributes;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
@@ -100,6 +102,112 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         {
             var results = _imageLibrary.GetTags();
             return Request.CreateResponse(HttpStatusCode.OK, results);
+        }
+
+        // Uncomment the method below in order to set the required CORS headers for the Umbraco Media container
+        /*[HttpPost]
+        public HttpResponseMessage SetCorsForContainer()
+        {
+            var blobHelper = new BlobStorageHelper(ConfigHelper.StorageConnectionString, "umbracomedia");
+            blobHelper.SetCorsAccess("umbracoMedia");
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }*/
+
+        [CacheControl(MaxAge = 3600)]
+        public async Task<HttpResponseMessage> GetPrivateImageById(int id)
+        {
+            return await GetPrivateImageById(id, "original");
+        }
+
+        [CacheControl(MaxAge = 3600)]
+        public async Task<HttpResponseMessage> GetPrivateImageById(int id, string size)
+        {
+            bool umbracoAccess = false;
+            // Check to see if the user is logged into Umbraco
+            var umbracoUser = UmbracoContext.Security.CurrentUser;
+
+            if (umbracoUser == null)
+            {
+                var authTicket = new HttpContextWrapper(HttpContext.Current).GetUmbracoAuthTicket();
+                if (authTicket != null)
+                {
+                    var userName = authTicket.Name;
+                    umbracoUser = UmbracoContext.Application.Services.UserService.GetByUsername(userName);
+                }
+            }
+
+            if (umbracoUser != null)
+            {
+                // TODO: Double check this is the way to do it
+                if (umbracoUser.UserType.Alias.ToLowerInvariant() == "admin")
+                {
+                    umbracoAccess = true;
+                }
+            }
+
+            // Check to see if the user is logged into the front-end site
+            if (!umbracoAccess)
+            {
+                var authResult = Authenticate();
+                if (authResult != null)
+                {
+                    return authResult;
+                }
+            }
+
+            HttpResponseMessage result = ErrorMessage(HttpStatusCode.NotFound, "Image not found");
+
+            var image = _imageLibrary.GetImage(id, false) as PrivateLibraryImage;
+            if (image == null)
+            {
+                return result;
+            }
+
+            var userAccess = false;
+            if (_loggedInMember != null)
+            {
+                userAccess = image.Username == _loggedInMember.Username;
+            }
+
+            if (userAccess || umbracoAccess)
+            {
+                string blobId;
+                switch (size.ToLowerInvariant())
+                {
+                    case "small":
+                        blobId = image.SmallThumbBlobId;
+                        break;
+                    case "medium":
+                    case "large":
+                        blobId = image.LargeThumbBlobId;
+                        break;
+                    case "original":
+                    default:
+                        blobId = image.OriginalBlobId;
+                        break;
+                }
+
+                // Get the blob bytes to return
+                BlobStorageHelper blobHelper = new BlobStorageHelper(ConfigHelper.PrivateStorageConnectionString, ConfigHelper.PrivateMediaBlobStorageContainer);
+                var blobBytes = await blobHelper.FetchBytesAsync(blobId);
+
+                //TODO: Get the proper image type
+                result = Request.CreateResponse(HttpStatusCode.OK);
+                result.Content = new ByteArrayContent(blobBytes);
+                result.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/jpg");
+                result.Headers.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue()
+                {
+                    Public = true,
+                    MaxAge = TimeSpan.FromSeconds(3600),
+                    NoCache = false
+                };
+            }
+            else
+            {
+                result = ErrorMessage(HttpStatusCode.Forbidden, "You do not have permission to view this image.");
+            }
+
+            return result;
         }
 
         [HttpGet]
