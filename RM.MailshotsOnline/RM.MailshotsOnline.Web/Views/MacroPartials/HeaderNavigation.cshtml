@@ -1,7 +1,8 @@
 ﻿@using RM.MailshotsOnline.Data.Constants
+@using Constants = RM.MailshotsOnline.Data.Constants.Constants
 @inherits Umbraco.Web.Macros.PartialViewMacroPage
 @{
-    var headerNavSettings = Umbraco.Content(ContentConstants.Settings.HeaderNavSettingsId);
+    var headerNavSettings = Umbraco.Content(Constants.Settings.HeaderNavSettingsId);
     var login = Umbraco.Content(headerNavSettings.loginPage);
     var logout = Umbraco.Content(headerNavSettings.logoutPage);
     var register = Umbraco.Content(headerNavSettings.registerPage);

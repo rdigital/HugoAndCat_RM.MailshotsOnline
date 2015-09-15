@@ -15,6 +15,7 @@ using umbraco.NodeFactory;
 using Umbraco.Web;
 using Umbraco.Web.Editors;
 using Umbraco.Web.WebApi;
+using RM.MailshotsOnline.Data.Constants;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
@@ -23,8 +24,6 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
     {
         private static IMembershipService _membershipService;
         private static ILogger _logger;
-
-        private static readonly string PrivateKey = ConfigurationManager.AppSettings["PrivateKey"];
 
         public CryptoApiController(IMembershipService membershipService, ILogger logger)
         {
@@ -46,10 +45,10 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             text = text.Replace('@', '/');
 
             // get node using nodeId ('uniqueid' in database)
-            //var node = uQuery.GetNodesByXPath($"//*[string(uniqueid) = '{nodeId}'").FirstOrDefault();
+            var node = ApplicationContext.Services.EntityService.GetByKey(new Guid(nodeId));
 
             // get value of the 'text' property
-            var email = "avEhulNMIZhlODcNp6qU6AnauPZZgFOZglUTHx3CqF6kaQOj5Aou0uAwATRPs7cJ";
+            var email = node.Name;
 
             //look up that member to find his salt
             var member = Members.GetByEmail(email);
@@ -61,7 +60,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                     var salt = member.GetPropertyValue("salt").ToString();
                     var saltBytes = Convert.FromBase64String(salt);
 
-                    var decrypted = Encryption.Decrypt(text, PrivateKey, saltBytes);
+                    var decrypted = Encryption.Decrypt(text, Constants.Encryption.EncryptionKey, saltBytes);
 
                     return decrypted;
                 }
@@ -69,6 +68,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 {
                     _logger.Error(this.GetType().Name, "GetDecrypted", $"Could not decrypt input text: {e.Message}",
                         new {text, nodeId});
+
+                    return "Could not decrypt!";
                 }
             }
 

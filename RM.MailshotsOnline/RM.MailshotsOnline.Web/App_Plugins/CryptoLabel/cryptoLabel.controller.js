@@ -1,5 +1,5 @@
 ﻿angular.module("umbraco")
-    .controller("RM.HC.CryptoTextField", function ($scope, $routeParams, cryptoTextResource) {
+    .controller("RM.HC.CryptoLabel", function ($scope, $routeParams, cryptoTextResource) {
 
     	var encrypted_contents = $scope.model.value;
     	$scope.model.value = '';

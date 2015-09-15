@@ -5,8 +5,11 @@ using RM.MailshotsOnline.Entities.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using HC.RM.Common;
+using RM.MailshotsOnline.Data.Constants;
 using Umbraco.Web.Mvc;
 
 namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
@@ -42,7 +45,11 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return CurrentUmbracoPage();
             }
 
-            var member = Services.MemberService.GetByEmail(model.Email);
+            var computedSalt = Encryption.ComputedSalt(model.Email, model.Email);
+            var b64Salt = Encoding.UTF8.GetBytes(computedSalt);
+            var encryptedEmail = Encryption.Encrypt(model.Email, Constants.Encryption.EncryptionKey, b64Salt);
+
+            var member = Services.MemberService.GetByEmail(encryptedEmail);
 
             if (member != null)
             {

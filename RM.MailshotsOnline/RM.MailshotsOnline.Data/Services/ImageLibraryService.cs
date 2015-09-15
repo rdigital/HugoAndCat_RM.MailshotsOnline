@@ -46,7 +46,7 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>The list of all tags.</returns>
         public IEnumerable<string> GetTags()
         {
-            return _helper.TagQuery.GetAllTags(ContentConstants.Settings.DefaultMediaLibraryTagGroup)
+            return _helper.TagQuery.GetAllTags(Constants.Constants.Settings.DefaultMediaLibraryTagGroup)
                 .Select(x => x.Text);
         }
 
@@ -56,7 +56,7 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>The collection of images.</returns>
         public IEnumerable<IMedia> GetImages()
         {
-            return PopulateUsageCounts(_helper.TagQuery.GetMediaByTagGroup(ContentConstants.Settings.DefaultMediaLibraryTagGroup).Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage))));
+            return PopulateUsageCounts(_helper.TagQuery.GetMediaByTagGroup(Constants.Constants.Settings.DefaultMediaLibraryTagGroup).Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage))));
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace RM.MailshotsOnline.Data.Services
         public IEnumerable<IMedia> GetImages(string tag)
         {
 
-            return PopulateUsageCounts(_helper.TagQuery.GetMediaByTag(tag, ContentConstants.Settings.DefaultMediaLibraryTagGroup).Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage))));
+            return PopulateUsageCounts(_helper.TagQuery.GetMediaByTag(tag, Constants.Constants.Settings.DefaultMediaLibraryTagGroup).Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage))));
         }
 
         /// <summary>
@@ -142,11 +142,11 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>The collection of images.</returns>
         public IEnumerable<IMedia> GetImages(IMember member)
         {
-            var privateMediaFolder = _helper.ContentQuery.TypedMedia(ContentConstants.MediaContent.PrivateMediaLibraryId);
+            var privateMediaFolder = _helper.ContentQuery.TypedMedia(Constants.Constants.MediaContent.PrivateMediaLibraryId);
             var memberMediaFolder = privateMediaFolder.Children.FirstOrDefault(x => x.Name.Equals(member.Username));
             if (memberMediaFolder != null)
             {
-                var privateImages = memberMediaFolder.Children().Where(x => x.ContentType.Alias == ContentConstants.MediaContent.PrivateLibraryImageMediaTypeAlias);
+                var privateImages = memberMediaFolder.Children().Where(x => x.ContentType.Alias == Constants.Constants.MediaContent.PrivateLibraryImageMediaTypeAlias);
                 return PopulateUsageCounts(privateImages.Select(x => MediaFactory.Convert(x, typeof(PrivateLibraryImage))));
             }
             else
@@ -177,8 +177,8 @@ namespace RM.MailshotsOnline.Data.Services
                 using (var stream = new MemoryStream(bytes))
                 {
                     original = System.Drawing.Image.FromStream(stream);
-                    smallThumb = _imageResizer.ResizeImageBytes(original, ContentConstants.Settings.ImageThumbnailSizeSmall);
-                    largeThumb = _imageResizer.ResizeImageBytes(original, ContentConstants.Settings.ImageThumbnailSizeLarge);
+                    smallThumb = _imageResizer.ResizeImageBytes(original, Constants.Constants.Settings.ImageThumbnailSizeSmall);
+                    largeThumb = _imageResizer.ResizeImageBytes(original, Constants.Constants.Settings.ImageThumbnailSizeLarge);
 
                     extension = original.RawFormat.ToFileExtension();
                     originalHeight = original.Height;
@@ -213,13 +213,13 @@ namespace RM.MailshotsOnline.Data.Services
                 return null;
             }
 
-            var privateMediaFolder = _helper.ContentQuery.TypedMedia(ContentConstants.MediaContent.PrivateMediaLibraryId);
+            var privateMediaFolder = _helper.ContentQuery.TypedMedia(Constants.Constants.MediaContent.PrivateMediaLibraryId);
             var memberMediaFolder = privateMediaFolder.Children.FirstOrDefault(x => x.Name.Equals(member.Username));
             int? memberMediaFolderId;
             if (memberMediaFolder == null)
             {
-                var createdFolder = _mediaService.CreateMedia(member.Username, ContentConstants.MediaContent.PrivateMediaLibraryId,
-                    ContentConstants.MediaContent.PrivateImageLibraryFolderMediaTypeAlias);
+                var createdFolder = _mediaService.CreateMedia(member.Username, Constants.Constants.MediaContent.PrivateMediaLibraryId,
+                    Constants.Constants.MediaContent.PrivateImageLibraryFolderMediaTypeAlias);
                 _mediaService.Save(createdFolder);
                 memberMediaFolderId = createdFolder?.Id;
             }
@@ -228,7 +228,7 @@ namespace RM.MailshotsOnline.Data.Services
                 memberMediaFolderId = memberMediaFolder.Id;
             }
 
-            var createdMedia = _mediaService.CreateMedia(name, (int)memberMediaFolderId, ContentConstants.MediaContent.PrivateLibraryImageMediaTypeAlias);
+            var createdMedia = _mediaService.CreateMedia(name, (int)memberMediaFolderId, Constants.Constants.MediaContent.PrivateLibraryImageMediaTypeAlias);
             var convertedMedia = (PrivateLibraryImage) MediaFactory.Convert(createdMedia, typeof(PrivateLibraryImage));
 
             convertedMedia.OriginalBlobId = originalFilename;
