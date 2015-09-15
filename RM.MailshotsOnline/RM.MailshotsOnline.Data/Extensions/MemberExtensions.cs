@@ -40,7 +40,8 @@ namespace RM.MailshotsOnline.Data.Extensions
                 emailSaltBytes = Convert.FromBase64String(emailSalt);
             }
 
-            var title = saltBytes == null ? umbracoMember.GetValue<string>("title") : Encryption.Decrypt(umbracoMember.GetValue<string>("title"), EncryptionKey, saltBytes);            var titleValue = ApplicationContext.Current.Services.DataTypeService.GetPreValues("Title Dropdown")
+            var title = saltBytes == null ? umbracoMember.GetValue<string>("title") : Encryption.Decrypt(umbracoMember.GetValue<string>("title"), EncryptionKey, saltBytes);
+            var titleValue = ApplicationContext.Current.Services.DataTypeService.GetPreValues("Title Dropdown")
                 .FirstOrDefault(x => x.Key.Equals(title));
 
             if (!string.IsNullOrEmpty(titleValue.Value))

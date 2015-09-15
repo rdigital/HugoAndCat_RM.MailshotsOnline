@@ -380,6 +380,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Plugins\CryptoTitleLabel\cryptoTitleLabel.controller.js" />
+    <Content Include="App_Plugins\CryptoTitleLabel\cryptoTitleLabel.html" />
+    <Content Include="App_Plugins\CryptoTitleLabel\cryptoTitleLabel.resource.js" />
     <Content Include="App_Plugins\CryptoLabel\cryptoLabel.html" />
     <Content Include="App_Plugins\ImageUsageCount\usagecount.controller.js" />
     <Content Include="App_Plugins\ImageUsageCount\usagecount.html" />
@@ -525,6 +528,7 @@
     <Content Include="canvas\styles\preview.scss" />
     <Content Include="canvas\styles\compiled\upload.css.map" />
     <Content Include="canvas\styles\upload.scss" />
+    <Content Include="App_Plugins\CryptoTitleLabel\package.manifest" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\campaign-functions.js" />
     <Content Include="scripts\campaign-hub.js" />
@@ -3435,6 +3439,8 @@
     <Content Include="Views\PaymentCancelled.cshtml" />
     <Content Include="uSync\DocumentType\Basepage\PaymentCancelled\def.config" />
     <Content Include="uSync\Template\PaymentCancelled\PaymentCancelled.config" />
+    <Content Include="uSync\DataTypeDefinition\Label %28Cryptographic%29.config" />
+    <Content Include="uSync\DataTypeDefinition\Title Label %28Cryptographic%29.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -3470,7 +3476,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="uSync\Template\EditProfileBasePage\" />
-
     <Folder Include="Views\PaymentCancelled\" />
   </ItemGroup>
   <ItemGroup>
@@ -3517,7 +3522,6 @@
     <Error Condition="!Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.2.8\build\UmbracoCms.props'))" />
     <Error Condition="!Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.Agent.Intercept.0.17.0\build\Microsoft.ApplicationInsights.Agent.Intercept.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.Agent.Intercept.0.17.0\build\Microsoft.ApplicationInsights.Agent.Intercept.targets'))" />
-    
     <Error Condition="!Exists('..\packages\HC.RM.Common.Azure.1.0.13.39\build\HC.RM.Common.Azure.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\HC.RM.Common.Azure.1.0.13.39\build\HC.RM.Common.Azure.targets'))" />
   </Target>
   <Import Project="..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets" Condition="Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets')" />
