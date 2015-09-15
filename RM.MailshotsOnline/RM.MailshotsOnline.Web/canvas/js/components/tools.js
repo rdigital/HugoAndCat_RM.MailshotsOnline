@@ -10,12 +10,19 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
         function toolsViewModel(params) {
             this.element = ko.observable();
             this.selectedElement = stateViewModel.selectedElement;
-            this.window_width = ko.observable(0)
-            this.window_height = ko.observable(0)
+            this.window_width = ko.observable(0);
+            this.window_height = ko.observable(0);
+            this.personalizing = ko.observable(false);
 
             this.isVisible = ko.pureComputed(function() {
-                return this.selectedElement() ? true : false;
+                if (this.selectedElement()) {
+                    return true
+                }
+                this.personalizing(false);
+                return false
             }, this).extend({throttle: 50})
+
+            this.caretPosition = 0;
 
             this.elementType = this.getElementTypeComputed();
             this.showScale = this.getScaleComputed();
@@ -24,14 +31,20 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             this.fonts = this.getFontsComputed();
             this.colours = this.getColoursComputed();
 
-            this.focusInput = this.focusInput.bind(this)
-
             this.colour = this.getStyleComputed('color');
             this.font = this.getStyleComputed('font-family');
 
+            // bound methods
+            this.focusInput = this.focusInput.bind(this);
+            this.focusToolsInput = this.focusToolsInput.bind(this)
             this.handleResize = this.handleResize.bind(this);
+            this.setCaretPosition = this.setCaretPosition.bind(this);
+
             $(window).resize(this.handleResize);
             $('.canvas-container').on('scroll', this.handleResize)
+
+            // subscriptions
+            this.selectedElement.subscribe(this.closePersonalization, this);
             stateViewModel.zoom.subscribe(this.handleResize, this);
             stateViewModel.overrideZoom.subscribe(this.handleResize, this);
             this.handleResize();
@@ -367,6 +380,136 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
 
         toolsViewModel.prototype.toggleImageLibrary = function toggleImageLibrary() {
             stateViewModel.toggleImageLibrary();
+        }
+
+        toolsViewModel.prototype.togglePersonalization = function togglePersonalization() {
+            this.personalizing(!this.personalizing());
+        }
+
+        toolsViewModel.prototype.closePersonalization = function closePersonalization() {
+            this.personalizing(false);
+        }
+
+        toolsViewModel.prototype.getCaretPosition = function getCaretPosition(element) {
+            var caretOffset = 0,
+                range = window.getSelection().getRangeAt(0),
+                preCaretRange = range.cloneRange();
+            preCaretRange.selectNodeContents(element);
+            preCaretRange.setEnd(range.endContainer, range.endOffset);
+            caretOffset = preCaretRange.toString().length;
+            return caretOffset;
+        }
+
+        toolsViewModel.prototype.getTextNodes = function getTextNodes(node) {
+            var textNodes = [];
+            if (node.nodeType == 3) {
+                textNodes.push(node);
+            } else {
+                var childNodes = node.childNodes;
+                for (var i = 0, len = childNodes.length; i < len; ++i) {
+                    textNodes.push.apply(textNodes, getTextNodes(childNodes[i]));
+                }
+            }
+            return textNodes;
+        }
+
+        toolsViewModel.prototype.setCaretPosition = function setCaretPosition(data, e) {
+            var el = stateViewModel.selectedElement().element(),
+                relatedTarget = e.relatedTarget;
+            if (!el) {
+                return
+            }
+            el = el[0];
+            if (relatedTarget && el != relatedTarget && relatedTarget.hasClass('editable')) {
+                return
+            }
+            var range = document.createRange(),
+                sel = window.getSelection(),
+                childNodes = this.getTextNodes(el),
+                nodeIdx = 0,
+                caretPosition = this.caretPosition;
+            
+            while (nodeIdx < childNodes.length && caretPosition > $(childNodes[nodeIdx]).text().length) {
+                caretPosition -= $(childNodes[nodeIdx]).text().length;
+                nodeIdx += 1;
+            }
+
+            var node = childNodes[nodeIdx];
+            range.setStart(node, caretPosition);
+            range.collapse(true);
+            sel.removeAllRanges();
+            sel.addRange(range);
+            el.focus();
+            this.caretPosition = 0;
+        }
+
+        toolsViewModel.prototype.focusToolsInput = function focusToolsInput(data, e) {
+            var el = stateViewModel.selectedElement().element();
+            if (el) {
+                var caretPosition = this.getCaretPosition(el[0]);
+                if (caretPosition) {
+                    this.caretPosition = caretPosition;
+                }
+            }
+            e.target.focus();
+        }
+
+        toolsViewModel.prototype.insertPersonalization = function insertPersonalization() {
+            setTimeout(function() {
+                var isIE = this.isIE();
+                if (isIE){
+                    var html = '<span contenteditable="true" class="dynamic-field" class="editable"><span contenteditable="false" class="dynamic-field-nohighlight">[First Name]</span></span>&nbsp;'
+                } else {
+                    var html = '<span contenteditable="true" class="dynamic-field" class="editable"><span class="dynamic-field-content" data-content="[First Name]"></span></span>&nbsp;'
+                }
+                
+                if (isIE) {
+                    var sel = window.getSelection();
+                    if (sel.getRangeAt && sel.rangeCount) {
+                        range = sel.getRangeAt(0);
+                        range.deleteContents();
+
+                        var el = document.createElement("div");
+                        el.innerHTML = html;
+                        var frag = document.createDocumentFragment(), node, lastNode;
+                        while ( (node = el.firstChild) ) {
+                            lastNode = frag.appendChild(node);
+                        }
+                        var firstNode = frag.firstChild;
+                        range.insertNode(frag);
+
+                        // Preserve the selection
+                        if (lastNode) {
+                            range = range.cloneRange();
+                            range.setStartAfter(lastNode);
+                            range.collapse(true);
+                            sel.removeAllRanges();
+                            sel.addRange(range);
+                        }
+                    }
+                } else {
+                    document.execCommand('insertHTML', false, html);
+                }
+                /*
+                */
+                var el = this.selectedElement();
+                el.sizeAdjust();
+                el.userData.content(el.element().html());
+                this.closePersonalization();
+            }.bind(this), 0)
+        }
+
+        toolsViewModel.prototype.isIE = function isIE() {
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+
+            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+                return true
+            } else {
+                return false
+            }
+
+            return false;
         }
 
         return {

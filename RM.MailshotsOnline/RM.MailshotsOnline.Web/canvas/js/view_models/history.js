@@ -16,16 +16,18 @@ define(['require', 'knockout', 'view_models/user', 'view_models/state'],
         }
 
         historyViewModel.prototype.pushToHistory = function pushToHistory() {
-            var history_idx = this.historyIdx(),
-                current_history = this.history()[history_idx],
-                new_history = require('view_models/user').toHistoryJSON();
+            setTimeout(function() {
+                var history_idx = this.historyIdx(),
+                    current_history = this.history()[history_idx],
+                    new_history = require('view_models/user').toHistoryJSON();
 
-            if (current_history == new_history) {
-                return
-            }
-            this.history(this.history.slice(0, history_idx+1));
-            this.history.push(new_history);
-            this.historyIdx(this.history().length-1);
+                if (current_history == new_history) {
+                    return
+                }
+                this.history(this.history.slice(0, history_idx+1));
+                this.history.push(new_history);
+                this.historyIdx(this.history().length-1);
+            }.bind(this), 100)
         }
 
         historyViewModel.prototype.cancelChanges = function cancelChanges() {

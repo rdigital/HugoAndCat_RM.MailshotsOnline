@@ -112,6 +112,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
             var bold = document.queryCommandState("bold"),
                 italic = document.queryCommandState("italic"),
                 underline = document.queryCommandState("underline");
+            console.log(bold);
             this.isBold(bold);
             this.isUnderline(underline);
             this.isItalic(italic);

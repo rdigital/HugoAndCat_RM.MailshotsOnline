@@ -1,7 +1,5 @@
 @import 'mixins';
 @import 'variables';
-@import 'fonts';
-
 
 .tools {
 	@include nohighlight();
@@ -17,7 +15,7 @@
 	margin: 0 10px;
 	padding: 10px 0;
 	border: 1px solid rgba(0, 0, 0, 0.09);
-	color: $darkest-grey;
+	color: $dark-grey;
 	@include shadow(1px, 3px, 0, rgba(0, 0, 0, 0.17));
 	&.tools_visible {
 		display: block;
@@ -27,14 +25,19 @@
 		text-align: left;
 		padding: 4px 20px;
 		min-height: 45px;
+		.tools-left {
+			width: 55px;
+			height: 35px;
+			float: left;
+		}
+		.tools-right {
+			width: 160px;
+			height: 35px;
+			float: right;
+		}
 		label {
-			display: inline-block;
-			width: 100px;
 			font-size: 14px;
-			color: #00024A;
-			vertical-align: top;
-		    height: 32px;
-		    line-height: 32px;
+		    line-height: 35px;
 		}
 	}
 	.tools-group {
@@ -43,6 +46,12 @@
 		&:last-child {
 			margin: 0;
 		}
+	}
+	.tools-input {
+		width: 100%;
+		padding: 7px 9px;
+		line-height: 19px;
+		border: 1px solid $grey;
 	}
 	.tools-button {
 		transition: all .25s ease-out;
