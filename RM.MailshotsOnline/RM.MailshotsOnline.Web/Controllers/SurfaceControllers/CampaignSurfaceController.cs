@@ -122,7 +122,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             var cancelPageId = (int)CurrentPage.GetProperty("paymentCancelledPage").Value;
             var cancelPageUrl = Umbraco.NiceUrlWithDomain(cancelPageId);
-            var cancelUrl = string.Format("{0}?campaignId={1}", cancelPageUrl, campaignId);
+            var cancelUrl = string.Format("{0}?campaignId={1}&invoiceId={2}", cancelPageUrl, campaignId, invoice.InvoiceId);
 
 
             // Generate PayPal payment
