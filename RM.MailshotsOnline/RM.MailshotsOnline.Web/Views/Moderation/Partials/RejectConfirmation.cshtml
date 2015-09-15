@@ -7,6 +7,10 @@
 @using (Html.BeginUmbracoForm("Reject", "ModerationSurface"))
 {
     @Html.ValidationSummary()
-    @Html.TextAreaFor(m => Model.FeedbackMessage)
-    <button class="big-button">@Model.PageModel.ConfirmButtonText</button>
+    <div>
+        @Html.TextAreaFor(m => Model.FeedbackMessage, new { @cols = 90, @rows = 10 })
+    </div>
+    <div>
+        <button class="big-button">@Model.PageModel.ConfirmButtonText</button>
+    </div>
 }

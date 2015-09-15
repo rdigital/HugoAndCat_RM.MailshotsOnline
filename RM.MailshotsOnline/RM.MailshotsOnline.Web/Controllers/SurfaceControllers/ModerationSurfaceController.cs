@@ -32,16 +32,16 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         }
 
         [ChildActionOnly]
-        public ActionResult ShowPrintConfirmationButton(ModerationPage pageModel)
+        public ActionResult ShowPrintConfirmationButton(ModerationPage model)
         {
             if (TempData[CompletedFlag] != null && (bool)TempData[CompletedFlag])
             {
-                return Complete(pageModel);
+                return Complete(model);
             }
 
             Guid moderationId = Guid.Parse(Request.QueryString["moderationId"]);
-            var viewModel = new ModerationPrintedViewModel() { PageModel = pageModel, ModerationId = moderationId };
-            return PartialView("~/Views/Moderation/Partials/RejectConfirmation.cshtml", viewModel);
+            var viewModel = new ModerationPrintedViewModel() { PageModel = model, ModerationId = moderationId };
+            return PartialView("~/Views/Moderation/Partials/PrintConfirmation.cshtml", viewModel);
         }
 
         public ActionResult ConfirmPrinted(ModerationPrintedViewModel viewModel)
@@ -155,16 +155,16 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         }
 
         [ChildActionOnly]
-        public ActionResult ShowRejectionConfirmationForm(ModerationPage pageModel)
+        public ActionResult ShowRejectionConfirmationForm(ModerationPage model)
         {
             if (TempData[CompletedFlag] != null && (bool)TempData[CompletedFlag])
             {
-                return Complete(pageModel);
+                return Complete(model);
             }
 
             Guid moderationId = Guid.Parse(Request.QueryString["moderationId"]);
-            var viewModel = new ModerationRejectionViewModel() { PageModel = pageModel, ModerationId = moderationId };
-            return PartialView("~/Views/Moderation/Partials/ApprovalConfirmation.cshtml", viewModel);
+            var viewModel = new ModerationRejectionViewModel() { PageModel = model, ModerationId = moderationId };
+            return PartialView("~/Views/Moderation/Partials/RejectConfirmation.cshtml", viewModel);
         }
 
         public ActionResult Reject(ModerationRejectionViewModel viewModel)
@@ -203,15 +203,15 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         }
 
         [ChildActionOnly]
-        public ActionResult ShowApprovalConfirmationButton(ModerationPage pageModel)
+        public ActionResult ShowApprovalConfirmationButton(ModerationPage model)
         {
             if (TempData[CompletedFlag] != null && (bool)TempData[CompletedFlag])
             {
-                return Complete(pageModel);
+                return Complete(model);
             }
 
             Guid moderationId = Guid.Parse(Request.QueryString["moderationId"]);
-            var viewModel = new ModerationApprovalViewModel() { PageModel = pageModel, ModerationId = moderationId };
+            var viewModel = new ModerationApprovalViewModel() { PageModel = model, ModerationId = moderationId };
             return PartialView("~/Views/Moderation/Partials/ApprovalConfirmation.cshtml", viewModel);
         }
 
