@@ -18,19 +18,16 @@ using Umbraco.Web.WebApi;
 using RM.MailshotsOnline.Data.Constants;
 using RM.MailshotsOnline.Data.Extensions;
 using Umbraco.Core.Models;
-using IMember = Umbraco.Core.Models.IMember;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
     [Umbraco.Web.Mvc.PluginController("Cryptography")]
     public class CryptoApiController : UmbracoAuthorizedJsonController
     {
-        private static IMembershipService _membershipService;
         private static ILogger _logger;
 
-        public CryptoApiController(IMembershipService membershipService, ILogger logger)
+        public CryptoApiController(ILogger logger)
         {
-            _membershipService = membershipService;
             _logger = logger;
         }
 
@@ -50,31 +47,32 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             // get node using nodeId
             var member = GetEntityByNodeId(nodeId);
 
-            try
+            if (member == null)
             {
-                return Decrypt(text, member);
-            }
-            catch (Exception e)
-            {
-                _logger.Error(this.GetType().Name, "GetDecrypted", $"Could not decrypt input text: {e.Message}",
-                    new { text, nodeId });
-
                 return "Could not decrypt!";
             }
+
+            return Decrypt(text, member);
         }
 
         public string GetDecryptedTitle(string id, string nodeId)
         {
             var member = GetEntityByNodeId(nodeId);
 
+            if (member == null)
+            {
+                return "Could not decrypt!";
+            }
+
+            var titleId = Decrypt(id, member);
+
             try
             {
-                var titleId = Decrypt(id, member);
                 return ApplicationContext.Services.DataTypeService.GetPreValues("Title Dropdown").FirstOrDefault(x => x.Key.Equals(titleId)).Value;
             }
             catch (Exception e)
             {
-                _logger.Error(this.GetType().Name, "GetDecryptedTitle", $"Could not decrypt input text: {e.Message}",
+                _logger.Error(this.GetType().Name, "GetDecryptedTitle", $"Could not retrieve title value: {e.Message}",
                     new { id, nodeId });
 
                 return "Could not decrypt!";
@@ -94,12 +92,20 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 return "Could not decrypt!";
             }
 
-            var salt = member.GetPropertyValue("salt").ToString();
-            var saltBytes = Convert.FromBase64String(salt);
+            try
+            {
+                var salt = member.GetPropertyValue<string>("salt");
+                var saltBytes = Convert.FromBase64String(salt);
 
-            var decrypted = Encryption.Decrypt(text, Constants.Encryption.EncryptionKey, saltBytes);
+                return Encryption.Decrypt(text, Constants.Encryption.EncryptionKey, saltBytes);
+            }
+            catch (Exception e)
+            {
+                _logger.Error(this.GetType().Name, "Decrypt", $"Could not decrypt input text: {e.Message}",
+                    new { text, member.Id });
 
-            return decrypted;
+                return "Could not decrypt!";
+            }
         }
 
         /// <summary>
