@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\UmbracoCms.7.2.8\build\UmbracoCms.props" Condition="Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -434,6 +434,7 @@
     <Content Include="canvas\js\view_models\element.js" />
     <Content Include="canvas\js\view_models\format.js" />
     <Content Include="canvas\js\view_models\history.js" />
+    <Content Include="canvas\js\view_models\myimages.js" />
     <Content Include="canvas\js\view_models\state.js" />
     <Content Include="canvas\js\view_models\template.js" />
     <Content Include="canvas\js\view_models\theme.js" />
