@@ -2,7 +2,7 @@
 
 namespace RM.MailshotsOnline.Data.Constants
 {
-    public static class ContentConstants
+    public static class Constants
     {
         public static class Settings
         {
@@ -26,6 +26,11 @@ namespace RM.MailshotsOnline.Data.Constants
             public static readonly int PrivateMediaLibraryId = Helpers.ConfigHelper.GetConfigValue("PrivateMediaLibraryId", 1177);
             public static readonly string PrivateLibraryImageMediaTypeAlias = Helpers.ConfigHelper.GetConfigValue("PrivateLibraryImageMediaTypeAlias");
             public static readonly string PrivateImageLibraryFolderMediaTypeAlias = Helpers.ConfigHelper.GetConfigValue("PrivateImageLibraryFolderMediaTypeAlias");
+        }
+
+        public static class Encryption
+        {
+            public static readonly string EncryptionKey = ConfigurationManager.AppSettings["EncryptionKey"];
         }
     }
 }

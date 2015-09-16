@@ -1,5 +1,7 @@
-﻿using HC.RM.Common.Network;
+﻿using HC.RM.Common;
+using HC.RM.Common.Network;
 using HC.RM.Common.PCL.Helpers;
+using RM.MailshotsOnline.Data.Constants;
 using RM.MailshotsOnline.Data.Extensions;
 using RM.MailshotsOnline.Data.Helpers;
 using RM.MailshotsOnline.Entities.MemberModels;
@@ -10,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Web.Mvc;
 using System.Web.Security;
 using umbraco;
@@ -61,7 +64,11 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return CurrentUmbracoPage();
             }
 
-            if (Members.GetByEmail(model.ViewModel.Email) != null)
+            var computedSalt = Encryption.ComputedSalt(model.ViewModel.Email, model.ViewModel.Email);
+            var b64Salt = Encoding.UTF8.GetBytes(computedSalt);
+            var encryptedEmail = Encryption.Encrypt(model.ViewModel.Email, Constants.Encryption.EncryptionKey, b64Salt);
+
+            if (Members.GetByEmail(encryptedEmail) != null)
             {
                 _logger.Info(this.GetType().Name, "RegisterForm", "Duplicate registration attempted.");
                 ModelState.AddModelError("ViewModel.Email", model.AlreadyRegisteredMessage);

@@ -130,7 +130,15 @@ namespace RM.MailshotsOnline.PCL.Models
         /// </summary>
         DateTime PasswordResetTokenExpiryDate { get; set; }
 
+        /// <summary>
+        /// The random salt
+        /// </summary>
         string Salt { get; set; }
+
+        /// <summary>
+        /// The salt computed using this member's email address
+        /// </summary>
+        string EmailSalt { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether all of the user's required details have been entered (they may have registered through the "light" registration process)

@@ -20,6 +20,8 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         public string PrintingCompleteMessage { get; set; }
 
+        public string ThankYouMessage { get; set; }
+
         #endregion
 
         public bool DisplayApprovedMessage { get; set; }

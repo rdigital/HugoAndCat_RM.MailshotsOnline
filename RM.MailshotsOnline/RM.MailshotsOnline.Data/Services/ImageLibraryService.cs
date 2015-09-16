@@ -48,10 +48,8 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>The list of all tags.</returns>
         public IEnumerable<string> GetTags()
         {
-            var tags = UmbracoContext.Current.Application.Services.TagService.GetAllTags(ContentConstants.Settings.DefaultMediaLibraryTagGroup);
+            var tags = UmbracoContext.Current.Application.Services.TagService.GetAllTags(Constants.Constants.Settings.DefaultMediaLibraryTagGroup);
             return tags.Select(t => t.Text);
-            //return _helper.TagQuery.GetAllTags(ContentConstants.Settings.DefaultMediaLibraryTagGroup)
-            //    .Select(x => x.Text);
         }
 
         /// <summary>
@@ -60,10 +58,11 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>The collection of images.</returns>
         public IEnumerable<IMedia> GetImages()
         {
-            var images = UmbracoContext.Current.Application.Services.TagService.GetTaggedMediaByTagGroup(ContentConstants.Settings.DefaultMediaLibraryTagGroup).Select(te => _helper.TypedMedia(te.EntityId));
+
+            var images = UmbracoContext.Current.Application.Services.TagService.GetTaggedMediaByTagGroup(Constants.Constants.Settings.DefaultMediaLibraryTagGroup).Select(te => _helper.TypedMedia(te.EntityId));
             var publicImages = images.Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage)));
             return PopulateUsageCounts(publicImages);
-            //return PopulateUsageCounts(_helper.TagQuery.GetMediaByTagGroup(ContentConstants.Settings.DefaultMediaLibraryTagGroup).Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage))));
+            //return PopulateUsageCounts(_helper.TagQuery.GetMediaByTagGroup(Constants.Settings.DefaultMediaLibraryTagGroup).Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage))));
         }
 
         /// <summary>
@@ -73,10 +72,10 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>The collection of images.</returns>
         public IEnumerable<IMedia> GetImages(string tag)
         {
-            var images = UmbracoContext.Current.Application.Services.TagService.GetTaggedMediaByTag(tag, ContentConstants.Settings.DefaultMediaLibraryTagGroup).Select(te => _helper.TypedMedia(te.EntityId));
+
+            var images = UmbracoContext.Current.Application.Services.TagService.GetTaggedMediaByTag(tag, Constants.Constants.Settings.DefaultMediaLibraryTagGroup).Select(te => _helper.TypedMedia(te.EntityId));
             var publicImages = images.Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage)));
             return PopulateUsageCounts(publicImages);
-            //return PopulateUsageCounts(_helper.TagQuery.GetMediaByTag(tag, ContentConstants.Settings.DefaultMediaLibraryTagGroup).Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage))));
         }
 
         /// <summary>
@@ -112,7 +111,7 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>The Media item</returns>
         public IMedia GetImageByBlobUrl(string blobUrl)
         {
-            lock(searchLock)
+            lock (searchLock)
             {
                 var mediaSearcher = ExamineManager.Instance.SearchProviderCollection["MediaSearcher"] ?? ExamineManager.Instance.DefaultSearchProvider;
                 if (mediaSearcher != null)
@@ -156,11 +155,11 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>The collection of images.</returns>
         public IEnumerable<IMedia> GetImages(IMember member)
         {
-            var privateMediaFolder = _helper.ContentQuery.TypedMedia(ContentConstants.MediaContent.PrivateMediaLibraryId);
+            var privateMediaFolder = _helper.ContentQuery.TypedMedia(Constants.Constants.MediaContent.PrivateMediaLibraryId);
             var memberMediaFolder = privateMediaFolder.Children.FirstOrDefault(x => x.Name.Equals(member.Username));
             if (memberMediaFolder != null)
             {
-                var privateImages = memberMediaFolder.Children().Where(x => x.ContentType.Alias == ContentConstants.MediaContent.PrivateLibraryImageMediaTypeAlias);
+                var privateImages = memberMediaFolder.Children().Where(x => x.ContentType.Alias == Constants.Constants.MediaContent.PrivateLibraryImageMediaTypeAlias);
                 return PopulateUsageCounts(privateImages.Select(x => MediaFactory.Convert(x, typeof(PrivateLibraryImage))));
             }
             else
@@ -186,21 +185,22 @@ namespace RM.MailshotsOnline.Data.Services
             int originalHeight = 0;
             int originalWidth = 0;
             string extension;
+
             try
             {
                 using (var stream = new MemoryStream(bytes))
                 {
                     original = System.Drawing.Image.FromStream(stream);
-                    smallThumb = _imageResizer.ResizeImageBytes(original, ContentConstants.Settings.ImageThumbnailSizeSmall);
-                    largeThumb = _imageResizer.ResizeImageBytes(original, ContentConstants.Settings.ImageThumbnailSizeLarge);
+                    smallThumb = _imageResizer.ResizeImageBytes(original, Constants.Constants.Settings.ImageThumbnailSizeSmall);
+                    largeThumb = _imageResizer.ResizeImageBytes(original, Constants.Constants.Settings.ImageThumbnailSizeLarge);
 
                     extension = original.RawFormat.ToFileExtension();
                     originalHeight = original.Height;
                     originalWidth = original.Width;
                 }
                 //original = _imageResizer.GetImage(bytes);
-                //smallThumb = _imageResizer.ResizeImageBytes(original, ContentConstants.Settings.ImageThumbnailSizeSmall);
-                //largeThumb = _imageResizer.ResizeImageBytes(original, ContentConstants.Settings.ImageThumbnailSizeLarge);
+                //smallThumb = _imageResizer.ResizeImageBytes(original, Constants.Settings.ImageThumbnailSizeSmall);
+                //largeThumb = _imageResizer.ResizeImageBytes(original, Constants.Settings.ImageThumbnailSizeLarge);
             }
             catch (Exception e)
             {
@@ -227,13 +227,13 @@ namespace RM.MailshotsOnline.Data.Services
                 return null;
             }
 
-            var privateMediaFolder = _helper.ContentQuery.TypedMedia(ContentConstants.MediaContent.PrivateMediaLibraryId);
+            var privateMediaFolder = _helper.ContentQuery.TypedMedia(Constants.Constants.MediaContent.PrivateMediaLibraryId);
             var memberMediaFolder = privateMediaFolder.Children.FirstOrDefault(x => x.Name.Equals(member.Username));
             int? memberMediaFolderId;
             if (memberMediaFolder == null)
             {
-                var createdFolder = _mediaService.CreateMedia(member.Username, ContentConstants.MediaContent.PrivateMediaLibraryId,
-                    ContentConstants.MediaContent.PrivateImageLibraryFolderMediaTypeAlias);
+                var createdFolder = _mediaService.CreateMedia(member.Username, Constants.Constants.MediaContent.PrivateMediaLibraryId,
+                    Constants.Constants.MediaContent.PrivateImageLibraryFolderMediaTypeAlias);
                 _mediaService.Save(createdFolder);
                 memberMediaFolderId = createdFolder?.Id;
             }
@@ -242,8 +242,8 @@ namespace RM.MailshotsOnline.Data.Services
                 memberMediaFolderId = memberMediaFolder.Id;
             }
 
-            var createdMedia = _mediaService.CreateMedia(name, (int)memberMediaFolderId, ContentConstants.MediaContent.PrivateLibraryImageMediaTypeAlias);
-            var convertedMedia = (PrivateLibraryImage) MediaFactory.Convert(createdMedia, typeof(PrivateLibraryImage));
+            var createdMedia = _mediaService.CreateMedia(name, (int)memberMediaFolderId, Constants.Constants.MediaContent.PrivateLibraryImageMediaTypeAlias);
+            var convertedMedia = (PrivateLibraryImage)MediaFactory.Convert(createdMedia, typeof(PrivateLibraryImage));
 
             convertedMedia.OriginalBlobId = originalFilename;
             convertedMedia.SmallThumbBlobId = smallThumbFilename;
@@ -259,6 +259,12 @@ namespace RM.MailshotsOnline.Data.Services
             convertedMedia.Type = extension.Trim(".");
 
             createdMedia.SetValues(convertedMedia);
+
+            _mediaService.Save(createdMedia);
+
+            createdMedia.SetValue("OriginalUrl", $"/Umbraco/Api/ImageLibrary/GetPrivateImageById/{createdMedia.Id}");
+            createdMedia.SetValue("SmallThumbUrl", $"/Umbraco/Api/ImageLibrary/GetPrivateImageById/{createdMedia.Id}?size=small");
+            createdMedia.SetValue("LargeThumbUrl", $"/Umbraco/Api/ImageLibrary/GetPrivateImageById/{createdMedia.Id}?size=medium");
 
             _mediaService.Save(createdMedia);
 

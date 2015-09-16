@@ -32,16 +32,16 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         }
 
         [ChildActionOnly]
-        public ActionResult ShowPrintConfirmationButton(ModerationPage pageModel)
+        public ActionResult ShowPrintConfirmationButton(ModerationPage model)
         {
             if (TempData[CompletedFlag] != null && (bool)TempData[CompletedFlag])
             {
-                return Complete(pageModel);
+                return Complete(model);
             }
 
             Guid moderationId = Guid.Parse(Request.QueryString["moderationId"]);
-            var viewModel = new ModerationPrintedViewModel() { PageModel = pageModel, ModerationId = moderationId };
-            return PartialView("~/Views/Moderation/Partials/RejectConfirmation.cshtml", viewModel);
+            var viewModel = new ModerationPrintedViewModel() { PageModel = model, ModerationId = moderationId };
+            return PartialView("~/Views/Moderation/Partials/PrintConfirmation.cshtml", viewModel);
         }
 
         public ActionResult ConfirmPrinted(ModerationPrintedViewModel viewModel)
@@ -155,16 +155,16 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         }
 
         [ChildActionOnly]
-        public ActionResult ShowRejectionConfirmationForm(ModerationPage pageModel)
+        public ActionResult ShowRejectionConfirmationForm(ModerationPage model)
         {
             if (TempData[CompletedFlag] != null && (bool)TempData[CompletedFlag])
             {
-                return Complete(pageModel);
+                return Complete(model);
             }
 
             Guid moderationId = Guid.Parse(Request.QueryString["moderationId"]);
-            var viewModel = new ModerationRejectionViewModel() { PageModel = pageModel, ModerationId = moderationId };
-            return PartialView("~/Views/Moderation/Partials/ApprovalConfirmation.cshtml", viewModel);
+            var viewModel = new ModerationRejectionViewModel() { PageModel = model, ModerationId = moderationId };
+            return PartialView("~/Views/Moderation/Partials/RejectConfirmation.cshtml", viewModel);
         }
 
         public ActionResult Reject(ModerationRejectionViewModel viewModel)
@@ -198,20 +198,59 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             Log.Info(this.GetType().Name, "Reject", "Campaign with ID {0} has been rejected.  Reason: {1}", campaign.CampaignId, viewModel.FeedbackMessage);
 
+            // Cancel invoice and Void PayPal order
+            // Get the invoice
+            var campaignInvoices = _invoiceService.GetInvoicesForCampaign(campaign);
+            if (campaignInvoices == null || !campaignInvoices.Any())
+            {
+                Log.Warn(this.GetType().Name, "Reject", "No invoices found for campaign ID {0}", campaign.CampaignId);
+                ModelState.AddModelError("ModerationId", "No invoices found for the campaign.");
+                return CurrentUmbracoPage();
+            }
+
+            var invoice = campaignInvoices.FirstOrDefault(i => i.Status == PCL.Enums.InvoiceStatus.Submitted);
+            if (invoice == null)
+            {
+                Log.Warn(this.GetType().Name, "Reject", "No submitted invoices found for campaign ID {0}", campaign.CampaignId);
+                ModelState.AddModelError("ModerationId", "No invoices found for the campaign.");
+                return CurrentUmbracoPage();
+            }
+
+            if (!string.IsNullOrEmpty(invoice.PaypalOrderId))
+            {
+                // Void PayPal order
+                var paypalService = new PayPalService();
+                Order order = null;
+                try
+                {
+                    order = paypalService.GetOrder(invoice.PaypalOrderId);
+                    paypalService.VoidOrder(order);
+                }
+                catch (Exception ex)
+                {
+                    Log.Exception(this.GetType().Name, "Reject", ex);
+                    Log.Error(this.GetType().Name, "Reject", "Unable to cancel PayPal order {0}.", invoice.PaypalOrderId);
+                }
+            }
+
+            // Update invoice
+            invoice.Status = PCL.Enums.InvoiceStatus.Cancelled;
+            _invoiceService.Save(invoice);
+
             TempData[CompletedFlag] = true;
             return CurrentUmbracoPage();
         }
 
         [ChildActionOnly]
-        public ActionResult ShowApprovalConfirmationButton(ModerationPage pageModel)
+        public ActionResult ShowApprovalConfirmationButton(ModerationPage model)
         {
             if (TempData[CompletedFlag] != null && (bool)TempData[CompletedFlag])
             {
-                return Complete(pageModel);
+                return Complete(model);
             }
 
             Guid moderationId = Guid.Parse(Request.QueryString["moderationId"]);
-            var viewModel = new ModerationApprovalViewModel() { PageModel = pageModel, ModerationId = moderationId };
+            var viewModel = new ModerationApprovalViewModel() { PageModel = model, ModerationId = moderationId };
             return PartialView("~/Views/Moderation/Partials/ApprovalConfirmation.cshtml", viewModel);
         }
 

@@ -14,6 +14,8 @@ using System.Text;
 using RM.MailshotsOnline.PCL.Models;
 using HC.RM.Common.Azure.Extensions;
 using HC.RM.Common.PCL.Helpers;
+using HC.RM.Common;
+using RM.MailshotsOnline.Data.Constants;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
@@ -64,7 +66,12 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 return Request.CreateResponse(HttpStatusCode.BadRequest, errorResponse);
             }
 
-            var member = Services.MemberService.GetByEmail(login.Email);
+            var computedSalt = Encryption.ComputedSalt(login.Email, login.Email);
+            var b64Salt = Encoding.UTF8.GetBytes(computedSalt);
+            var encryptedEmail = Encryption.Encrypt(login.Email, Constants.Encryption.EncryptionKey, b64Salt);
+
+            var member = Services.MemberService.GetByEmail(encryptedEmail);
+
             if (member == null)
             {
                 _logger.Error(this.GetType().Name, "Login", "Invalid login attempt with email address {0}.", login.Email);
@@ -121,7 +128,11 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 return Request.CreateResponse(HttpStatusCode.BadRequest, errorResponse);
             }
 
-            if (Members.GetByEmail(registration.Email) != null)
+            var computedSalt = Encryption.ComputedSalt(registration.Email, registration.Email);
+            var b64Salt = Encoding.UTF8.GetBytes(computedSalt);
+            var encryptedEmail = Encryption.Encrypt(registration.Email, Constants.Encryption.EncryptionKey, b64Salt);
+            
+            if (Members.GetByEmail(encryptedEmail) != null)
             {
                 _logger.Error(this.GetType().Name, "Register", "Attempt to register with email {0} which has already been used.", registration.Email);
                 //TODO: Get the error messages out of Umbraco somewhere

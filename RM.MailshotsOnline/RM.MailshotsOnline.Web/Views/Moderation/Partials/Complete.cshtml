@@ -1,8 +1,8 @@
-﻿@model RM.MailshotsOnline.Entities.PageModels.Register.ModerationPage
+﻿@model RM.MailshotsOnline.Entities.PageModels.ModerationPage
 @{
     Layout = null;
 }
 
 <div class="rich-text">
-    @Umbraco.Field("thankYouMessage")
+    @Html.Raw(Model.ThankYouMessage)
 </div>

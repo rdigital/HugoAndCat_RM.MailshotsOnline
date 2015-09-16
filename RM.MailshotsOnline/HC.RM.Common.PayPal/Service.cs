@@ -88,6 +88,30 @@ namespace HC.RM.Common.PayPal
         }
 
         /// <summary>
+        /// Voids an order.  Note: Can only void orders that haven't been captured
+        /// </summary>
+        /// <param name="order">Order to void</param>
+        /// <returns>Voided Order object</returns>
+        public Order VoidOrder(Order order)
+        {
+            var context = ApiContext;
+            var pplOrder = PplOrder.Get(context, order.Id);
+            if (pplOrder == null)
+            {
+                return null;
+            }
+
+            var pplResult = pplOrder.Void(context);
+            if (pplResult == null)
+            {
+                return null;
+            }
+
+            var result = new Order(pplResult);
+            return result;
+        }
+
+        /// <summary>
         /// Authorizes an order
         /// </summary>
         /// <param name="order">Order to Authorize</param>

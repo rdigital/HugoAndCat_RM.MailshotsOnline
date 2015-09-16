@@ -145,8 +145,16 @@ namespace RM.MailshotsOnline.Entities.MemberModels
         /// Gets or sets the expiry date of the password reset token
         /// </summary>
         public DateTime PasswordResetTokenExpiryDate { get; set; }
-
+        
+        /// <summary>
+        /// Random salt
+        /// </summary>
         public string Salt { get; set; }
+
+        /// <summary>
+        /// Salt computed usin this membe's email address
+        /// </summary>
+        public string EmailSalt { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether all of the user's required details have been entered (they may have registered through the "light" registration process)

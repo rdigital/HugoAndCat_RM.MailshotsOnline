@@ -34,14 +34,14 @@ namespace RM.MailshotsOnline.PCL.Services
         /// </summary>
         /// <param name="token">The token</param>
         /// <param name="password">The new password</param>
-        /// <returns>Success</returns>
+        /// <returns>Success/failure</returns>
         bool RedeemPasswordResetToken(string token, string password);
 
         /// <summary>
         /// Retrieve a member by password reset token
         /// </summary>
         /// <param name="token">The password reset token in the form a GUID</param>
-        /// <returns></returns>
+        /// <returns>The member</returns>
         IMember GetMemberByPasswordResetToken(string token);
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace RM.MailshotsOnline.PCL.Services
         /// </summary>
         /// <param name="emailAddress">The member to update</param>
         /// <param name="member">The new set of details</param>
-        /// <returns>Success</returns>
+        /// <returns>Success/failure</returns>
         bool Save(string emailAddress, IMember member);
     }
 }

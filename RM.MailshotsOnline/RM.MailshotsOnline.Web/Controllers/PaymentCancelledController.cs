@@ -77,11 +77,16 @@ namespace RM.MailshotsOnline.Web.Controllers
                 return ReturnView(pageModel);
             }
 
-            string paymentId = Request.QueryString["paymentId"];
-            var invoice = campaignInvoices.FirstOrDefault(i => i.Status == PCL.Enums.InvoiceStatus.Submitted && i.PaypalPaymentId == paymentId);
+            IInvoice invoice = null;
+            Guid invoiceId = Guid.Empty;
+            if (Guid.TryParse(Request.QueryString["invoiceId"], out invoiceId))
+            {
+                invoice = campaignInvoices.FirstOrDefault(i => i.Status == PCL.Enums.InvoiceStatus.Submitted && i.InvoiceId == invoiceId);
+            }
+            
             if (invoice == null)
             {
-                _logger.Warn(this.GetType().Name, "Index", "No invoices found for campaign ID {0} with PayPal payment ID {1}", campaignId, paymentId);
+                _logger.Warn(this.GetType().Name, "Index", "No invoices found for campaign ID {0} with invoice ID {1}", campaignId, invoiceId);
                 pageModel.DisplayCampaignErrorMessage = true;
                 return ReturnView(pageModel);
             }
