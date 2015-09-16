@@ -33,6 +33,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             this.fonts = this.getFontsComputed();
             this.colours = this.getColoursComputed();
             this.colour = this.getStyleComputed('color');
+            this.backgroundColour = this.getStyleComputed('background-color');
             this.font = this.getStyleComputed('font-family');
 
             // bound methods
