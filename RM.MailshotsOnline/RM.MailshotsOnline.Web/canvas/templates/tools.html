@@ -37,8 +37,8 @@
             <span class="tools-group">
                 <colourpicker-component params="{options: colours, selected: colour, focusCallback: focusInput, anchorClass: 'tools-dropdown'}"></colourpicker-component>
             </span>
-            <span class="tools-group">
-                <div class="tools-button" data-bind="click: togglePersonalization">
+            <span class="tools-group" style="float: right;">
+                <div class="tools-button" data-bind="click: togglePersonalization" style="font-size: 13px; width: 140px;">
                     Add personalization
                 </div>
             </span>
@@ -51,7 +51,7 @@
                 <label>Field:</label>
             </div>
             <div class="tools-right">
-                <dropdown-component params="{options: fonts, selected: font, full: true, focusCallback: focusInput, anchorClass: 'tools-dropdown tools-dropdown_full'}"></dropdown-component>
+                <dropdown-component params="{options: peronalizationOptions, selected: personalizationField, full: true, focusCallback: focusInput, anchorClass: 'tools-dropdown tools-dropdown_full', autohide: true}"></dropdown-component>
             </div>
         </div>
         <div class="tools-row">
@@ -59,10 +59,15 @@
                 <label>Fallback:</label>
             </div>
             <div class="tools-right">
-                <input type="text" class="tools-input" data-bind="click: focusToolsInput, event: {blur: setCaretPosition}, clickBubble: false"/>
+                <input type="text" class="tools-input" data-bind="click: focusToolsInput, event: {blur: setCaretPosition}, clickBubble: false, value: personalizationFallback"/>
             </div>
         </div>
-        <button data-bind="click: insertPersonalization">meow</button>
+        <!-- ko ifnot: personalizationEl -->
+        <button data-bind="click: insertPersonalization">Insert</button>
+        <!-- /ko -->
+        <!-- ko if: personalizationEl -->
+        <button data-bind="click: insertPersonalization">Update</button>
+        <!-- /ko -->
         <!-- /ko -->
     
     <!-- /ko -->

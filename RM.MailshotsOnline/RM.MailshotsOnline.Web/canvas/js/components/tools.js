@@ -12,25 +12,26 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             this.selectedElement = stateViewModel.selectedElement;
             this.window_width = ko.observable(0);
             this.window_height = ko.observable(0);
+
             this.personalizing = ko.observable(false);
-
-            this.isVisible = ko.pureComputed(function() {
-                if (this.selectedElement()) {
-                    return true
-                }
-                this.personalizing(false);
-                return false
-            }, this).extend({throttle: 50})
-
+            this.peronalizationOptions = ko.observableArray([
+                {name: 'First Name', value: 'FirstName'},
+                {name: 'Last Name', value: 'LastName'},
+                {name: 'Title', value: 'Title'}
+            ]);
+            this.personalizationField = ko.observable('FirstName');
+            this.personalizationFallback = ko.observable('');
+            this.personalizationEl = ko.observable(null);
             this.caretPosition = 0;
 
+            // computeds
+            this.isVisible = this.getIsVisibleComputed();
             this.elementType = this.getElementTypeComputed();
             this.showScale = this.getScaleComputed();
             this.attachment = this.getAttachmentComputed();
             this.alignment = this.getAlignmentComputed();
             this.fonts = this.getFontsComputed();
             this.colours = this.getColoursComputed();
-
             this.colour = this.getStyleComputed('color');
             this.font = this.getStyleComputed('font-family');
 
@@ -39,7 +40,10 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             this.focusToolsInput = this.focusToolsInput.bind(this)
             this.handleResize = this.handleResize.bind(this);
             this.setCaretPosition = this.setCaretPosition.bind(this);
+            this.showPersonalization = this.showPersonalization.bind(this);
+            this.closeEditPersonalization = this.closeEditPersonalization.bind(this);
 
+            // resize handlers
             $(window).resize(this.handleResize);
             $('.canvas-container').on('scroll', this.handleResize)
 
@@ -48,6 +52,21 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             stateViewModel.zoom.subscribe(this.handleResize, this);
             stateViewModel.overrideZoom.subscribe(this.handleResize, this);
             this.handleResize();
+
+            // handle event triggered by clicking a personalization element
+            // (can't be handled by framework unfortunately)
+            $(window).on('personalization', this.showPersonalization);
+            $(window).on('closeEditPersonalization', this.closeEditPersonalization);
+        }
+
+        toolsViewModel.prototype.getIsVisibleComputed = function getIsVisibleComputed() {
+            return ko.pureComputed(function() {
+                if (this.selectedElement()) {
+                    return true
+                }
+                this.personalizing(false);
+                return false
+            }, this).extend({throttle: 50})
         }
 
         /**
@@ -388,6 +407,22 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
 
         toolsViewModel.prototype.closePersonalization = function closePersonalization() {
             this.personalizing(false);
+            this.personalizationField('FirstName');
+            this.personalizationFallback('');
+            this.personalizationEl(null);
+        }
+
+        toolsViewModel.prototype.closeEditPersonalization = function closeEditPersonalization() {
+            if (this.personalizationEl()) {
+                this.closePersonalization();
+            }
+        }
+
+        toolsViewModel.prototype.showPersonalization = function showPersonalization(e, target, field, fallback) {
+            this.personalizing(true);
+            this.personalizationField(field);
+            this.personalizationFallback(fallback);
+            this.personalizationEl(target);
         }
 
         toolsViewModel.prototype.getCaretPosition = function getCaretPosition(element) {
@@ -456,42 +491,49 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
 
         toolsViewModel.prototype.insertPersonalization = function insertPersonalization() {
             setTimeout(function() {
-                var isIE = this.isIE();
+                var field = this.personalizationField(),
+                    fallback = this.personalizationFallback(),
+                    isIE = this.isIE(),
+                    content = (fallback != '') ? '['+ field + '/' + fallback +']' : '['+ field + ']';
                 if (isIE){
-                    var html = '<span contenteditable="true" class="dynamic-field" class="editable"><span contenteditable="false" class="dynamic-field-nohighlight">[First Name]</span></span>&nbsp;'
+                    var innerHTML = '<span contenteditable="false" class="dynamic-field-content" data-content="'+ content +'" data-field="'+ field +'" data-fallback="'+ fallback +'"></span>',
+                        html = '<span contenteditable="false" class="dynamic-field" class="editable">' + innerHTML + '</span>&#8202;'
                 } else {
-                    var html = '<span contenteditable="true" class="dynamic-field" class="editable"><span class="dynamic-field-content" data-content="[First Name]"></span></span>&nbsp;'
+                    var innerHTML = '<span class="dynamic-field-content" data-content="'+ content +'" data-field="'+ field +'" data-fallback="'+ fallback +'"></span>',
+                        html = '<span contenteditable="true" class="dynamic-field" class="editable">' + innerHTML + '</span>&#8202;'
                 }
-                
-                if (isIE) {
-                    var sel = window.getSelection();
-                    if (sel.getRangeAt && sel.rangeCount) {
-                        range = sel.getRangeAt(0);
-                        range.deleteContents();
 
-                        var el = document.createElement("div");
-                        el.innerHTML = html;
-                        var frag = document.createDocumentFragment(), node, lastNode;
-                        while ( (node = el.firstChild) ) {
-                            lastNode = frag.appendChild(node);
-                        }
-                        var firstNode = frag.firstChild;
-                        range.insertNode(frag);
+                if (this.personalizationEl()) {
+                    $(this.personalizationEl()).replaceWith(innerHTML);
+                } else {
+                    if (document.queryCommandSupported('insertHTML')) {
+                        document.execCommand('insertHTML', false, html);
+                    } else {
+                        var sel = window.getSelection();
+                        if (sel.getRangeAt && sel.rangeCount) {
+                            range = sel.getRangeAt(0);
+                            range.deleteContents();
 
-                        // Preserve the selection
-                        if (lastNode) {
-                            range = range.cloneRange();
-                            range.setStartAfter(lastNode);
-                            range.collapse(true);
-                            sel.removeAllRanges();
-                            sel.addRange(range);
+                            var el = document.createElement("div");
+                            el.innerHTML = html;
+                            var frag = document.createDocumentFragment(), node, lastNode;
+                            while ( (node = el.firstChild) ) {
+                                lastNode = frag.appendChild(node);
+                            }
+                            var firstNode = frag.firstChild;
+                            range.insertNode(frag);
+
+                            if (lastNode) {
+                                range = range.cloneRange();
+                                range.setStartAfter(lastNode);
+                                range.collapse(true);
+                                sel.removeAllRanges();
+                                sel.addRange(range);
+                            }
                         }
                     }
-                } else {
-                    document.execCommand('insertHTML', false, html);
                 }
-                /*
-                */
+
                 var el = this.selectedElement();
                 el.sizeAdjust();
                 el.userData.content(el.element().html());

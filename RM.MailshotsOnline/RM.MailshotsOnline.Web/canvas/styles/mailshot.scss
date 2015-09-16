@@ -161,6 +161,10 @@ div, span, a {
 		ol, ul {
 			margin: 5px 0;
 		}
+		p {
+			margin-top: 0px !important;
+			margin-bottom: 0px !important;
+		}
 	}
 	&.editable_error {
 		&:before, &:focus:before, &.editable_active:before, &:hover:before {
