@@ -53,14 +53,9 @@ namespace RM.MailshotsOnline.Web.App_Start
             MediaService.Saved += MediaService_Saved;
             MediaService.Trashing += MediaService_Trashing;
             MediaService.Deleting += MediaService_Deleting;
-            MemberService.Saving += MemberServiceOnSaving;
-        }
 
-        private void MemberServiceOnSaving(IMemberService sender, SaveEventArgs<IMember> saveEventArgs)
-        {
-            saveEventArgs.Cancel = true;
-
-            throw new Exception("Unable to save - members cannot be edited through the Umbraco back office.");
+            // it might be possible to prevent members being saved through the umbraco backoffice...
+            //MemberService.Saving += MemberServiceOnSaving;
         }
 
         #region Event handlers
