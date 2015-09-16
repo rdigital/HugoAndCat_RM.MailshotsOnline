@@ -1,6 +1,10 @@
 <div class="tools background-tools" data-bind="css: {'tools_visible': backgroundSelected}, style: attachment, event: {mousedown: function() {return false}}">
     <div class="tools-row">
-        <label>Background</label>
-        <colourpicker-component params="{options: colours, selected: colour, anchorClass: 'tools-dropdown'}"></colourpicker-component>
+        <div class="tools-left">
+            <label>Colour:</label>
+        </div>
+        <div class="tools-right">
+        	<colourpicker-component params="{options: colours, selected: colour, anchorClass: 'tools-dropdown'}"></colourpicker-component>
+        </div>
     </div>
 </div>

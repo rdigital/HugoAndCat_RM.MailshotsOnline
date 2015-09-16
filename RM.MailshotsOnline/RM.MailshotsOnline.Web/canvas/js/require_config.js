@@ -8,7 +8,6 @@ require.config(
         spectrum: "vendor/spectrum/spectrum",
         domReady: "vendor/requirejs-domready/domReady",
         text: "vendor/requirejs-text/text",
-        quill: 'vendor/quill/dist/quill.min',
         koeditable: 'custom_bindings/ko-editable',
         koelement: 'custom_bindings/ko-element',
         kospectrum: 'custom_bindings/ko-spectrum',

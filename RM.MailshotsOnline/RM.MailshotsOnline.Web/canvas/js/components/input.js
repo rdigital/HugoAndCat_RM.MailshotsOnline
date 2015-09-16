@@ -55,7 +55,15 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
          * this is useful when the contenteditable div is smaller than its container
          */
         inputViewModel.prototype.clickSetFocus = function clickSetFocus(data, e) {
-            if ($(e.target).hasClass('editable')) {
+            var target = $(e.target);
+            if (target.hasClass('dynamic-field-content') || target.hasClass('dynamic-field-nohighlight')) {
+                // the personalization elements are inserted outside of the framework, so cannot have bound functions
+                // on them. Simplest way to handle the click is by firing an event and listening for it in the tools component
+                $(window).trigger('personalization', [target, target.attr('data-field'), target.attr('data-fallback')])
+            } else {
+                $(window).trigger('closeEditPersonalization');
+            }
+            if (target.hasClass('editable')) {
                 this.setFocus();
                 this.getState();
             }

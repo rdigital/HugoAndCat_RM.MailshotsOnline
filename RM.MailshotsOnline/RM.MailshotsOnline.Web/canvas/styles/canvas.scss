@@ -1,6 +1,5 @@
 @import 'mixins';
 @import 'variables';
-@import 'fonts';
 
 body {
     background: $lightest-grey;
@@ -175,5 +174,36 @@ body {
     transition: opacity .25s ease-out;
     &.selected-overlay_visible {
         opacity: 1;
+    }
+}
+
+.dynamic-field {
+    //@include nohighlight();
+    @include transition(background);
+    cursor: pointer;
+    &:hover {
+        background: rgba(0, 0, 0, 0.09);
+        //outline: 1px solid $darkest-grey;
+    }
+    .dynamic-field-content {
+        margin-right: -0.1pc;
+        &:before {
+            content: attr(data-content);
+        }
+    }
+    .dynamic-field-nohighlight {
+        @include nohighlight();
+        &:before {
+            content: attr(data-content);
+        }
+    }
+}
+
+.preview-side, .theme-container {
+    .dynamic-field-content:before {
+        content: attr(data-fallback) !important;
+    }
+    .dynamic-field-nohighlight:before {
+        content: attr(data-fallback) !important;
     }
 }
