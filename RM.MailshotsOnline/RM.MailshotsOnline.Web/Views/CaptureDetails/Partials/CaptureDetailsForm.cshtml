@@ -1,0 +1,111 @@
+﻿@model RM.MailshotsOnline.Entities.ViewModels.CaptureDetailsViewModel
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div>@ViewBag.ErrorMessage</div>
+}
+
+@using (Html.BeginUmbracoForm("CaptureDetails", "CaptureDetailsSurface"))
+{
+    @Html.HiddenFor(m => m.CampaignId)
+    <p><a href="@Model.PageModel.BackToCampaignUrl">&lt; @Model.PageModel.BackToCampaignLinkText</a></p>
+    <h2>@Model.PageModel.DetailsPrompt</h2>
+    <h3>@Model.PageModel.ChooseAddressSubtitle</h3>
+
+    <div>
+        * @Model.PageModel.RequiredFieldPrompt
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.OrganisationName)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.OrganisationName, Model.PageModel.BusinessNameLabel + " *")
+        @Html.EditorFor(m => m.OrganisationName)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.JobTitle)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.JobTitle, Model.PageModel.JobTitleLabel + " *")
+        @Html.EditorFor(m => m.JobTitle)
+    </div>
+
+    <h3>@Model.PageModel.OrganisationAddressSubtitle</h3>
+
+    <div>
+        @Html.ValidationMessageFor(m => m.FlatNumber)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.FlatNumber, Model.PageModel.FlatNumberLabel)
+        @Html.EditorFor(m => m.FlatNumber)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.BuildingNumber)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.BuildingNumber, Model.PageModel.BuildingNumberLabel + " *")
+        @Html.EditorFor(m => m.BuildingNumber)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.BuildingName)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.BuildingName, Model.PageModel.BuildingNameLabel)
+        @Html.EditorFor(m => m.BuildingName)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.StreetAddress1)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.StreetAddress1, Model.PageModel.StreetAddress1Label + " *")
+        @Html.EditorFor(m => m.StreetAddress1)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.StreetAddress2)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.StreetAddress2, Model.PageModel.StreetAddress2Label)
+        @Html.EditorFor(m => m.StreetAddress2)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.Town)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Town, Model.PageModel.TownLabel + " *")
+        @Html.EditorFor(m => m.Town)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.Postcode)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Postcode, Model.PageModel.PostcodeLabel + " *")
+        @Html.EditorFor(m => m.Postcode)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.Country)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Country, Model.PageModel.CountryLabel + " *")
+        @Html.EditorFor(m => m.Country)
+    </div>
+
+    <h3>@Model.PageModel.TelephoneNumbersSubtitle</h3>
+
+    <div>
+        @Html.ValidationMessageFor(m => m.WorkPhone)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.WorkPhone, Model.PageModel.WorkPhoneLabel + " *")
+        @Html.EditorFor(m => m.WorkPhone)
+    </div>
+    <div>
+        @Html.ValidationMessageFor(m => m.Mobile)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Mobile, Model.PageModel.MobileNumberLabel)
+        @Html.EditorFor(m => m.Mobile)
+    </div>
+
+
+    <input type="submit" value="@Model.PageModel.ContinueToPaymentButton &gt;" />
+}

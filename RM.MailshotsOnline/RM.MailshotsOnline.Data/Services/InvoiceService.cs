@@ -36,10 +36,12 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>Invoice object</returns>
         public IInvoice CreateInvoiceForCampaign(ICampaign campaign)
         {
+            var existingDraftInvoice = _context.Invoices.FirstOrDefault(i => i.CampaignId == campaign.CampaignId && i.Status == PCL.Enums.InvoiceStatus.Draft);
             List<PCL.Enums.InvoiceStatus> acceptableStatuses = new List<PCL.Enums.InvoiceStatus>()
             {
                 PCL.Enums.InvoiceStatus.Cancelled,
-                PCL.Enums.InvoiceStatus.Refunded
+                PCL.Enums.InvoiceStatus.Refunded,
+                PCL.Enums.InvoiceStatus.Draft
             };
 
             var existingInvoice = _context.Invoices.FirstOrDefault(i => i.CampaignId == campaign.CampaignId && !acceptableStatuses.Contains(i.Status));
@@ -59,7 +61,24 @@ namespace RM.MailshotsOnline.Data.Services
                 throw new ArgumentException("The campaign pricing is not complete - a new invoice cannot be created.", "campaign");
             }
 
-            var invoice = new Invoice();
+            Invoice invoice;
+            if (existingDraftInvoice != null)
+            {
+                var existingLineItems = _context.InvoiceLineItems.Where(li => li.InvoiceId == existingDraftInvoice.InvoiceId);
+                foreach (var lineItem in existingLineItems)
+                {
+                    _context.InvoiceLineItems.Remove(lineItem);
+                }
+
+                existingDraftInvoice.LineItems = new List<InvoiceLineItem>();
+                _context.SaveChanges();
+                invoice = existingDraftInvoice;
+            }
+            else
+            {
+                invoice = new Invoice();
+            }
+
             invoice.CampaignId = campaign.CampaignId;
             invoice.UpdatedDate = DateTime.UtcNow;
             invoice.Status = PCL.Enums.InvoiceStatus.Draft;
