@@ -169,14 +169,11 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 _invoiceService.Save(invoice);
 
                 // Confirm that the user has entered all their details
-                //TODO: Remove this debug bit
-                //TODO: Seriously, remember to remove this!!!
-                if (!LoggedInMember.AllDetailsEntered || true)
+                if (!LoggedInMember.AllDetailsEntered)
                 {
                     var profileUpdatePageId = (int)CurrentPage.GetProperty("profileUpdatePage").Value;
                     var profileUpdatePageUrl = Umbraco.NiceUrl(profileUpdatePageId);
-
-                    //return Redirect(string.Format("{0}?returnUrl={1}", profileUpdatePageUrl, HttpUtility.UrlEncode(thisPageUrl)));
+                    
                     return Redirect(string.Format("{0}?campaignId={1}", profileUpdatePageUrl, campaignId));
                 }
 
