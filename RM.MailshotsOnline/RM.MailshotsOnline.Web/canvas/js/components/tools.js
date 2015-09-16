@@ -541,6 +541,13 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             }.bind(this), 0)
         }
 
+        toolsViewModel.prototype.deletePersonalization = function deletePersonalization() {
+            if (this.personalizationEl()) {
+                $(this.personalizationEl()).remove();
+                this.closePersonalization();
+            }
+        }
+
         toolsViewModel.prototype.isIE = function isIE() {
             var ua = window.navigator.userAgent;
             var msie = ua.indexOf("MSIE ");

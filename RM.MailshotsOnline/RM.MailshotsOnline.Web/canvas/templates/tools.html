@@ -13,7 +13,7 @@
                 <span class="tools-button" data-bind="click: italic, css: {'active': isItalic()}"><i>I</i></span>
             </span>
 
-            <span class="tools-group">
+            <span class="tools-group tools-group_right">
                 <span class="tools-button" data-bind="click: increaseFontSize"><span style="font-size: 20px;">A</span></span>
                 <span class="tools-button" data-bind="click: decreaseFontSize"><span style="font-size: 12px;">A</span></span>
                 <span class="tools-button" data-bind="click: fitFontSize"><b class="fa fa-arrows"></b></span>
@@ -27,7 +27,7 @@
                 <span class="tools-button fa fa-align-right" data-bind="click: function() {setStyle('text-align', 'right')}, css: {'active': alignment() == 'right'}"></span>
                 <span class="tools-button fa fa-align-justify" data-bind="click: function() {setStyle('text-align', 'justify')}, css: {'active': alignment() == 'justify'}"></span>
             </span>
-            <span class="tools-group">
+            <span class="tools-group tools-group_right">
                 <span class="tools-button fa fa-list-ul" data-bind="click: unorderedList"></span>
                 <span class="tools-button fa fa-list-ol" data-bind="click: orderedList"></span>
             </span>
@@ -37,7 +37,7 @@
             <span class="tools-group">
                 <colourpicker-component params="{options: colours, selected: colour, focusCallback: focusInput, anchorClass: 'tools-dropdown'}"></colourpicker-component>
             </span>
-            <span class="tools-group" style="float: right;">
+            <span class="tools-group tools-group_right">
                 <div class="tools-button" data-bind="click: togglePersonalization" style="font-size: 13px; width: 140px;">
                     Add personalization
                 </div>
@@ -62,11 +62,26 @@
                 <input type="text" class="tools-input" data-bind="click: focusToolsInput, event: {blur: setCaretPosition}, clickBubble: false, value: personalizationFallback"/>
             </div>
         </div>
+        <div class="tools-row"></div>
         <!-- ko ifnot: personalizationEl -->
-        <button data-bind="click: insertPersonalization">Insert</button>
+        <div class="tools-row">
+            <span class="tools-group">
+                <div class="tools-button tools-button-cancel" data-bind="click: closePersonalization">Back</div>
+            </span>
+            <span class="tools-group tools-group_right">
+                <div class="tools-button" data-bind="click: insertPersonalization">Insert</div>
+            </span>
+        </div>
         <!-- /ko -->
         <!-- ko if: personalizationEl -->
-        <button data-bind="click: insertPersonalization">Update</button>
+        <div class="tools-row">
+            <span class="tools-group">
+                <div class="tools-button tools-button-cancel" data-bind="click: deletePersonalization">Remove</div>
+            </span>
+            <span class="tools-group tools-group_right">
+                <div class="tools-button" data-bind="click: insertPersonalization">Update</div>
+            </span>
+        </div>
         <!-- /ko -->
         <!-- /ko -->
     

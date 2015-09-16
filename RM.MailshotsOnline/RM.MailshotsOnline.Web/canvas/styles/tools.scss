@@ -7,7 +7,7 @@
 	position: absolute;
 	background: #fff;
 	min-width: 262px;
-	min-height: 200px;
+	min-height: 202px;
 	display: none;
 	pointer-events: none;
 	//transition: opacity .25s ease-out;
@@ -46,6 +46,9 @@
 		&:last-child {
 			margin: 0;
 		}
+		&.tools-group_right {
+			float: right;
+		}
 	}
 	.tools-input {
 		width: 100%;
@@ -83,6 +86,14 @@
 	    &.active {
 			background: #C4CFF7;
 			color: #00024A;
+		}
+		&.tools-button-wide {
+			min-width: 100px;
+		}
+		&.tools-button-cancel {
+			border-color: transparent;
+			color: $red;
+			@include shadow(0, 0, 0, transparent)
 		}
 		.fa-arrows {
 			line-height: 19px;
