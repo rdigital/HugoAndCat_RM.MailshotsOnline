@@ -21,7 +21,7 @@ define(['knockout', 'jquery'],
                 var value = ko.unwrap(valueAccessor()),
                     htmlLazy = allBindingsAccessor().htmlLazy;
 
-                $(element).on("input", function () {
+                $(element).on("blur", function () {
                     if (this.isContentEditable && ko.isWriteableObservable(htmlLazy)) {
                         htmlLazy(this.innerHTML);
                     }

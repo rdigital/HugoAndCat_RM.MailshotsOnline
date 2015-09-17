@@ -1,15 +1,24 @@
 // viewmodel to handle format data
-define(['knockout', 'view_models/data', 'view_models/user', 'temp/data'],
-    function(ko, dataViewModel, userViewModel, tempData) {
+define(['knockout', 'view_models/data', 'view_models/user'],
+    function(ko, dataViewModel, userViewModel) {
+
+        function themeViewModel() {
+            this.objects = ko.observableArray([]);
+            this.selected = this.getSelectedComputed();
+            this.fetchURL = '/umbraco/api/MailshotSettings/GetThemes';
+            this.selectedID = ko.pureComputed(function () {
+                if (userViewModel.ready()) {
+                    return userViewModel.objects.themeID();
+                }
+            }, this)
+
+            // fetch data
+            this.fetch();
+        }
 
         // extends dataViewModel
-        var themeViewModel = dataViewModel;
-
-        themeViewModel.prototype.getVars = function getVars() {
-            this.fetchURL = '/themes';
-            this.testData = tempData.themeData;
-            this.selectedID = userViewModel.objects.themeID;
-        }
+        themeViewModel.prototype = Object.create(dataViewModel.prototype);
+        themeViewModel.prototype.constructor = themeViewModel;
 
         /**
          * try to get style info from themeData by class name

@@ -9,6 +9,8 @@ using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using Umbraco.Core;
 using Umbraco.Core.Services;
+using HC.RM.Common;
+using System.Text;
 
 namespace RM.MailshotsOnline.Data.Services
 {
@@ -213,6 +215,23 @@ namespace RM.MailshotsOnline.Data.Services
                     UmbracoMemberService.Save(umbracoMember);
 
                     success = true;
+                }
+                else
+                {
+                    // Encrypt email
+                    var computedSalt = Encryption.ComputedSalt(emailAddress, emailAddress);
+                    var b64Salt = Encoding.UTF8.GetBytes(computedSalt);
+                    var encryptedEmail = Encryption.Encrypt(emailAddress, Constants.Constants.Encryption.EncryptionKey, b64Salt);
+
+                    umbracoMember = _umbracoMemberService.GetByEmail(encryptedEmail);
+
+                    if (umbracoMember != null)
+                    {
+                        umbracoMember = umbracoMember.UpdateValues(member);
+                        _umbracoMemberService.Save(umbracoMember);
+
+                        success = true;
+                    }
                 }
             }
             catch (Exception ex)

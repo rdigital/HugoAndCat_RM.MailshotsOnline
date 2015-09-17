@@ -6,10 +6,6 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
 
             this.data = params.data;
             this.preview = params.preview;
-            //testing
-            if (!this.preview) {
-                window.image = this;
-            }
             this.isSelected = ko.observable(false);
             this.element = ko.observable();
             this.canvas = ko.observable();
@@ -30,18 +26,16 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             this.adjusted_width = 0;
             this.adjusted_height = 0;
 
+            // computeds
             this.flatStyles = this.getFlatStyles();
             this.message = this.getMessageComputed();
-            this.isEmpty = ko.computed(function() {
-                return (this.imageObj && this.imageObj.src) ? !(this.imageObj.src()) : false
-            }, this).extend({throttle: 100})
+            this.isEmpty = this.getIsEmptyComputed();
 
             // subscriptions
             this.handleSubscriptions();
 
             // bound functions
             this.dispose = this.dispose.bind(this);
-            // setup function is called after render of the canvas
             this.setup = this.setup.bind(this);
         }
 
@@ -111,13 +105,14 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
         /**
          * returns a computed which contains image data (source, position, scale) from
          * theme and user data combined.
-         * @return {ko.pureComputed} contains image data in object
+         * @return {ko.pureComputed} [contains image data in object]
          */
         imageViewModel.prototype.getImageObj = function getImageObj() {
             var image = { img_position: {} },
                 themeImage = themeViewModel.getImageByName(this.data.theme_class),
                 userImage = userViewModel.getOrSetImageByName(this.data.name);
 
+            // content is only defined on the user data
             image.content = userImage.content;
 
             // if we are overriding the template, return new observables containing the values from
@@ -130,47 +125,14 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
                 return image
             }
 
-            image.src = ko.pureComputed({
-                read: function() {
-                    var src = ko.utils.unwrapObservable(userImage.src);
-                    return (src === null) ? (themeImage.src || '') : src
-                },
-                write: function(new_val) {
-                    userImage.src(new_val)
-                }
-            })
+            // set the required properties on the image based on a combination of
+            // theme and user data
+            image.src = this.getSrcComputed(themeImage, userImage)
+            image.scale = this.getScaleComputed(themeImage, userImage)
+            image.img_position.top = this.getTopComputed(themeImage, userImage)
+            image.img_position.left = this.getLeftComputed(themeImage, userImage)
 
-            image.scale = ko.pureComputed({
-                read: function() {
-                    var scale = ko.utils.unwrapObservable(userImage.scale);
-                    return (scale === null) ? (themeImage.scale || 100) : scale
-                },
-                write: function(new_val) {
-                    userImage.scale(new_val)
-                }
-            })
-
-            image.img_position.top = ko.pureComputed({
-                read: function() {
-                    var top = ko.utils.unwrapObservable(userImage.img_position.top);
-                    return (top === null) ? (themeImage.img_position.top || 0) : top
-                },
-                write: function(new_val) {
-                    userImage.img_position.top(new_val)
-                }
-            })
-
-            image.img_position.left = ko.pureComputed({
-                read: function() {
-                    var left = ko.utils.unwrapObservable(userImage.img_position.left);
-                    return (left === null) ? (themeImage.img_position.left || 0) : left
-                },
-                write: function(new_val) {
-                    userImage.img_position.left(new_val)
-                }
-            })
-
-            // forcibly reset image position / scale to that of the theme if we are user
+            // forcibly reset image position / scale to that of the theme if user
             // has not provided their own image
             var src = ko.utils.unwrapObservable(userImage.src)
             if (!src) {
@@ -182,6 +144,54 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             return image;
         }
 
+        imageViewModel.prototype.getSrcComputed = function getSrcComputed(themeImage, userImage) {
+            return ko.pureComputed({
+                read: function() {
+                    var src = ko.utils.unwrapObservable(userImage.src);
+                    return (src === null) ? (themeImage.src || '') : src
+                },
+                write: function(new_val) {
+                    userImage.src(new_val)
+                }
+            })
+        }
+
+        imageViewModel.prototype.getScaleComputed = function getScaleComputed(themeImage, userImage) {
+            return ko.pureComputed({
+                read: function() {
+                    var scale = ko.utils.unwrapObservable(userImage.scale);
+                    return (scale === null) ? (themeImage.scale || 100) : scale
+                },
+                write: function(new_val) {
+                    userImage.scale(new_val)
+                }
+            })
+        }
+
+        imageViewModel.prototype.getTopComputed = function getTopComputed(themeImage, userImage) {
+            return ko.pureComputed({
+                read: function() {
+                    var top = ko.utils.unwrapObservable(userImage.img_position.top);
+                    return (top === null) ? (themeImage.img_position.top || 0) : top
+                },
+                write: function(new_val) {
+                    userImage.img_position.top(new_val)
+                }
+            })
+        }
+
+        imageViewModel.prototype.getLeftComputed = function getLeftComputed(themeImage, userImage) {
+            return ko.pureComputed({
+                read: function() {
+                    var left = ko.utils.unwrapObservable(userImage.img_position.left);
+                    return (left === null) ? (themeImage.img_position.left || 0) : left
+                },
+                write: function(new_val) {
+                    userImage.img_position.left(new_val)
+                }
+            })
+        }
+
         /**
          * this is the factor by which to scale the canvas compared to the size at which it is
          * displayed. This results in higher resolution exports.
@@ -191,7 +201,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
 
         /**
          * set the old_scale instance variable before changing the scale
-         * @param {Integer} old_scale the previous scale value 
+         * @param {Integer} old_scale [the previous scale value ]
          */
         imageViewModel.prototype.setOldScale = function setOldScale(old_scale) {
             this.old_scale = old_scale;
@@ -199,7 +209,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
 
         /**
          * redraw the image at the provided scale
-         * @param  {Integer} new_scale new scale (0 - 400) to render at
+         * @param  {Integer} new_scale [new scale (0 - 400) to render at]
          */
         imageViewModel.prototype.redrawScale = function redrawScale(new_scale) {
             // temp, fix subscription issue
@@ -241,6 +251,9 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
          * sets dragging to true on initial mousedown
          */
         imageViewModel.prototype.dragStart = function dragStart(data, e) {
+            if (!this.image) {
+                return
+            }
             this.offsetX = e.offsetX;
             this.offsetY = e.offsetY;
             this.dragging = true;
@@ -255,13 +268,12 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
 
         /**
          * render an image to the canvas
-         * @param  {String} src    image src
-         * @param  {Element} canvas canvas HTML element
+         * @param  {String} src    [image src]
+         * @param  {Element} canvas [canvas HTML element]
          */
         imageViewModel.prototype.render = function render(src, new_upload) {
             this.image = new Image()
-            // XXX temporary, force cross origin allowance on images
-            //this.image.crossOrigin = "Anonymous";
+            this.image.crossOrigin = "Anonymous";
             var canvas = this.canvas();
 
             this.image.onload = function(){
@@ -291,7 +303,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
         };
 
         /**
-         * rerender and image which has already been drawn to the canvas
+         * rerender an image which has already been drawn to the canvas
          */
         imageViewModel.prototype.rerender = function rerender() {
             if (this.imageObj.src && this.imageObj.src()) {
@@ -425,6 +437,12 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
                     return null
                 }
             }, this)
+        }
+
+        imageViewModel.prototype.getIsEmptyComputed = function getIsEmptyComputed() {
+            return ko.pureComputed(function() {
+                return (this.imageObj && this.imageObj.src) ? !(this.imageObj.src()) : false
+            }, this).extend({throttle: 100})
         }
 
         return {

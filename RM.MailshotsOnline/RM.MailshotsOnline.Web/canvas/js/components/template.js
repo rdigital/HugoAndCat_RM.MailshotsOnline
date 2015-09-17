@@ -5,7 +5,7 @@ define(['knockout', 'komapping', 'view_models/format', 'view_models/template', '
         // ViewModel
         function templateComponentViewModel(params) {
             this.faces = formatViewModel.allFaces;
-            this.templates = templateViewModel.availableTemplates;
+            this.templates = templateViewModel.objects;
             this.currentTemplate = userViewModel.objects.templateID;
         }
 

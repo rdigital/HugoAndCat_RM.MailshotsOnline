@@ -4,6 +4,8 @@ define(['knockout', 'jquery'],
     function(ko, $) {
 
         function stateViewModel() {
+            this.mailshotID = this.getUrlVars()['mailshotId'];
+            this.formatID = this.getUrlVars()['formatId'];
             this.selectedElement = ko.observable();
             this.scaleElement = ko.observable();
             this.backgroundSelected = ko.observable();
@@ -26,6 +28,18 @@ define(['knockout', 'jquery'],
             this.selectedElement.subscribe(function() {
                 this.showImageUpload(false);
             }, this)
+        }
+
+        /**
+         * get variables from the URL
+         * @return {Object} [key value pairs for the URL variables] 
+         */
+        stateViewModel.prototype.getUrlVars = function getUrlVars() {
+            var vars = {},
+                parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+                    vars[key] = value;
+                });
+            return vars;
         }
 
         /**

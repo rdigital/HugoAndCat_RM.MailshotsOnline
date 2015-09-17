@@ -3043,12 +3043,14 @@
     <Compile Include="Controllers\Api\CryptoApiController.cs" />
     <Compile Include="Controllers\Api\ImageLibraryController.cs" />
     <Compile Include="Controllers\Api\MailshotsController.cs" />
+    <Compile Include="Controllers\Api\MailshotSettingsController.cs" />
     <Compile Include="Controllers\Api\MembersController.cs" />
     <Compile Include="Controllers\Api\ModerationController.cs" />
     <Compile Include="Controllers\Api\PostageController.cs" />
     <Compile Include="Controllers\Api\ProofPdfController.cs" />
     <Compile Include="Controllers\BackOffice\MemberSearchTreeController.cs" />
     <Compile Include="Controllers\CampaignHubController.cs" />
+    <Compile Include="Controllers\CaptureDetailsController.cs" />
     <Compile Include="Controllers\ContentPageController.cs" />
     <Compile Include="Controllers\CreateCanvasController.cs" />
     <Compile Include="Controllers\MailshotEditorController.cs" />
@@ -3067,6 +3069,7 @@
     <Compile Include="Controllers\ResetPasswordController.cs" />
     <Compile Include="Controllers\SurfaceControllers\BaseSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\CampaignSurfaceController.cs" />
+    <Compile Include="Controllers\SurfaceControllers\CaptureDetailsSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\LoginSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ModerationSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ProfileSurfaceController.cs" />
@@ -3447,6 +3450,9 @@
     <Content Include="uSync\Template\PaymentCancelled\PaymentCancelled.config" />
     <Content Include="uSync\DataTypeDefinition\Label %28Cryptographic%29.config" />
     <Content Include="uSync\DataTypeDefinition\Title Label %28Cryptographic%29.config" />
+    <Content Include="Views\CaptureDetails.cshtml" />
+    <Content Include="Views\CaptureDetails\Partials\CaptureDetailsForm.cshtml" />
+    <Content Include="uSync\DocumentType\Basepage\CaptureDetails\def.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -3482,7 +3488,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="uSync\Template\EditProfileBasePage\" />
-    <Folder Include="Views\PaymentCancelled\" />
+    <Folder Include="Views\MailshotSettings\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

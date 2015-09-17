@@ -223,6 +223,39 @@ define([],
                             message: "Choose a high quality image which helps convey your message to the reader."
                         },
                         {
+                            name: 'offer',
+                            face: 'Front',
+                            type: 'roundel',
+                            theme_class: 'roundel',
+                            layout: [
+                                {
+                                    property: 'position',
+                                    value: 'absolute'
+                                },
+                                {
+                                    property: 'top',
+                                    value: '20px'
+                                },
+                                {
+                                    property: 'right',
+                                    value: '30px'
+                                },
+                                {
+                                    property: 'width',
+                                    value: '125px'
+                                },
+                                {
+                                    property: 'height',
+                                    value: '125px'
+                                },
+                                {
+                                    property: 'z-index',
+                                    value: '110'
+                                }
+                            ],
+                            message: "Write about an offer here."
+                        },
+                        {
                             name: 'Address',
                             face: 'Back',
                             type: 'noprint',
@@ -312,6 +345,29 @@ define([],
                     format_id: 2,
                     name: 'Card Template 2',
                     elements: [
+                        {
+                            name: 'fold',
+                            face: 'Inside',
+                            type: 'fold',
+                            layout: [
+                                {
+                                    property: 'position',
+                                    value: 'absolute'
+                                },
+                                {
+                                    property: 'top',
+                                    value: '449px'
+                                },
+                                {
+                                    property: 'left',
+                                    value: '0'
+                                },
+                                {
+                                    property: 'right',
+                                    value: '0'
+                                }
+                            ]
+                        },
                         {
                             name: 'heading',
                             face: 'Front',
@@ -501,6 +557,29 @@ define([],
                     format_id: 2,
                     name: 'Card Template 3',
                     elements: [
+                        {
+                            name: 'fold',
+                            face: 'Inside',
+                            type: 'fold',
+                            layout: [
+                                {
+                                    property: 'position',
+                                    value: 'absolute'
+                                },
+                                {
+                                    property: 'top',
+                                    value: '449px'
+                                },
+                                {
+                                    property: 'left',
+                                    value: '0'
+                                },
+                                {
+                                    property: 'right',
+                                    value: '0'
+                                }
+                            ]
+                        },
                         {
                             name: 'heading',
                             face: 'Front',
@@ -700,6 +779,56 @@ define([],
                     	}
                     ],
                     classes: [
+                        {
+                            name: 'roundel',
+                            font_sizes: ['22px', '23px', '24px', '25px', '26px', '27px', '28px', '29px', '30px', '31px', '32px', '33px', '34px', '35px', '36px', '37px', '38px', '39px', '40px', '41px', '42px', '43px', '44px', '45px', '46px', '48px', '50px', '52px'],
+                            styles: [
+                                {
+                                    property: 'text-align',
+                                    value: 'center'
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '48px'
+                                },
+                                {
+                                    property: 'font-weight',
+                                    value: 300
+                                },
+                                {
+                                    property: 'color',
+                                    value: '#FFFFFF'
+                                },
+                                {
+                                    property: 'background-color',
+                                    value: 'rgb(18, 115, 10)'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Dosis', sans-serif"
+                                },
+                                {
+                                    property: 'border-radius',
+                                    value: "50%"
+                                },
+                                {
+                                    property: '-moz-border-radius',
+                                    value: "50%"
+                                },
+                                {
+                                    property: '-webkit-border-radius',
+                                    value: "50%"
+                                },
+                                {
+                                    property: 'padding',
+                                    value: '25px 15px'
+                                },
+                                {
+                                    property: 'transform',
+                                    value: 'rotate(10deg)'
+                                }
+                            ]
+                        },
                         {
                             name: 'heading',
                             font_sizes: ['22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px', '38px', '40px', '42px', '44px', '46px', '48px', '50px', '52px'],
@@ -1506,8 +1635,6 @@ define([],
                 formatID: 2,
                 templateID: 5,
                 themeID: 3,
-                side: 'front',
-                face: 'Front',
                 faces: [],
                 elements: [
                     {

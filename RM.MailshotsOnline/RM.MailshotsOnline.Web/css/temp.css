@@ -342,3 +342,5 @@ p.approved span {
 }
 
 p.center { text-align: center; }
+
+span.required { color: red; }

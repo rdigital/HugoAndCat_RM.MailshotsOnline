@@ -71,9 +71,12 @@ define(['knockout', 'komapping', 'components/side', 'components/tools', 'compone
          * editor container
          */
         editorViewModel.prototype.unfocusConditional = function unfocusConditional(data, e) {
-            if ($(e.originalEvent.target).hasClass('canvas-container')) {
+            if ($(e.target).hasClass('canvas-container')) {
+                this.unfocus();
+                // for some bizarre reason we have to call this twice in ie
                 this.unfocus();
             }
+            return true
         }
 
         editorViewModel.prototype.getHiddenComputed = function getHiddenComputed() {

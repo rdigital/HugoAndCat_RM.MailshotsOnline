@@ -8,9 +8,7 @@ define(['knockout', 'jquery'],
             this.max = params.max;
             this.current = params.current;
             this.dragging = false;
-            this.left_percent = ko.computed(function() {
-                return Math.round((this.current() / (this.max - this.min)) * 100)
-            }, this)
+            this.left_percent = this.getLeftPercentComputed();
         }
 
         /**
@@ -47,6 +45,11 @@ define(['knockout', 'jquery'],
             this.dragging = false;
         }
 
+        sliderViewModel.prototype.getLeftPercentComputed = function getLeftPercentComputed() {
+            return ko.pureComputed(function() {
+                return Math.round((this.current() / (this.max - this.min)) * 100)
+            }, this)
+        }
 
         return {
             viewModel: sliderViewModel,

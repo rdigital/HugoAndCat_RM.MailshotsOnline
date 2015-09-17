@@ -10,31 +10,70 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
         function toolsViewModel(params) {
             this.element = ko.observable();
             this.selectedElement = stateViewModel.selectedElement;
-            this.window_width = ko.observable(0)
-            this.window_height = ko.observable(0)
+            this.window_width = ko.observable(0);
+            this.window_height = ko.observable(0);
 
-            this.isVisible = ko.pureComputed(function() {
-                return this.selectedElement() ? true : false;
-            }, this).extend({throttle: 50})
+            // personalization specific variables
+            this.personalizing = ko.observable(false);
+            this.peronalizationOptions = ko.observableArray([
+                {name: 'First Name', value: 'FirstName'},
+                {name: 'Last Name', value: 'LastName'},
+                {name: 'Title', value: 'Title'}
+            ]);
+            this.personalizationField = ko.observable('FirstName');
+            this.personalizationFallback = ko.observable('');
+            this.personalizationEl = ko.observable(null);
+            this.caretPosition = 0;
 
+            // computeds
+            this.isVisible = this.getIsVisibleComputed();
             this.elementType = this.getElementTypeComputed();
             this.showScale = this.getScaleComputed();
             this.attachment = this.getAttachmentComputed();
             this.alignment = this.getAlignmentComputed();
             this.fonts = this.getFontsComputed();
             this.colours = this.getColoursComputed();
-
-            this.focusInput = this.focusInput.bind(this)
-
             this.colour = this.getStyleComputed('color');
+            this.backgroundColour = this.getStyleComputed('background-color');
             this.font = this.getStyleComputed('font-family');
 
+            // bound methods
+            this.focusInput = this.focusInput.bind(this);
+            this.focusToolsInput = this.focusToolsInput.bind(this)
             this.handleResize = this.handleResize.bind(this);
+            this.setCaretPosition = this.setCaretPosition.bind(this);
+            this.showPersonalization = this.showPersonalization.bind(this);
+            this.closeEditPersonalization = this.closeEditPersonalization.bind(this);
+
+            // resize handlers
             $(window).resize(this.handleResize);
             $('.canvas-container').on('scroll', this.handleResize)
+
+            // subscriptions
+            this.selectedElement.subscribe(this.closePersonalization, this);
             stateViewModel.zoom.subscribe(this.handleResize, this);
             stateViewModel.overrideZoom.subscribe(this.handleResize, this);
             this.handleResize();
+
+            // handle event triggered by clicking a personalization element
+            // (can't be handled by framework unfortunately)
+            $(window).on('personalization', this.showPersonalization);
+            $(window).on('closeEditPersonalization', this.closeEditPersonalization);
+        }
+
+        /**
+         * returns a computed which evaluates to whether the tools pane is
+         * currently displayed or not
+         * @return {[ko.pureComputed]}
+         */
+        toolsViewModel.prototype.getIsVisibleComputed = function getIsVisibleComputed() {
+            return ko.pureComputed(function() {
+                if (this.selectedElement()) {
+                    return true
+                }
+                this.personalizing(false);
+                return false
+            }, this).extend({throttle: 50})
         }
 
         /**
@@ -114,14 +153,21 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             }, this).extend({throttle: 50})
         }
 
+        /**
+         * update observables with the new window dimensions upon resize
+         * this triggers a repositioning of the tools pane
+         */
         toolsViewModel.prototype.handleResize = function handleResize() {
-            //this.window_width($('.canvas-container')[0].scrollWidth)
-            //this.window_height($('.canvas-container')[0].scrollHeight)
             this.window_width($(window).width());
             this.window_height($(window).height());
             this.window_width.valueHasMutated();
         }
 
+        /**
+         * calculate where to place the tools pane in relation to the canvas container
+         * such that it is visible alongside the element the user is editing
+         * @return {[Object]} [top / left / right / bottom coordinates]
+         */
         toolsViewModel.prototype.calcAttachment = function calcAttachment() {
             var coords = this.selectedElement().getCoords(),
                 right_margin = this.window_width() - coords.right,
@@ -182,6 +228,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                 attachment.right = 'auto';
             }
 
+            // deal with vertical case if not enough horizontal room
             if (maxV > tools_height) {
                 // have enough vertical room
                 if (maxV == coords.top) {
@@ -365,8 +412,218 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             stateViewModel.toggleImageUpload();
         }
 
+        /**
+         * toggle the image library modal
+         */
         toolsViewModel.prototype.toggleImageLibrary = function toggleImageLibrary() {
             stateViewModel.toggleImageLibrary();
+        }
+
+        /**
+         * toggle the insert personalization pane
+         */
+        toolsViewModel.prototype.togglePersonalization = function togglePersonalization() {
+            this.personalizing(!this.personalizing());
+        }
+
+        /**
+         * close the personalization pain and reset values
+         */
+        toolsViewModel.prototype.closePersonalization = function closePersonalization() {
+            this.personalizing(false);
+            this.personalizationField('FirstName');
+            this.personalizationFallback('');
+            this.personalizationEl(null);
+        }
+
+        /**
+         * close the edit personalization pane
+         */
+        toolsViewModel.prototype.closeEditPersonalization = function closeEditPersonalization() {
+            if (this.personalizationEl()) {
+                this.closePersonalization();
+            }
+        }
+
+        /**
+         * show the insert personalization pane
+         */
+        toolsViewModel.prototype.showPersonalization = function showPersonalization(e, target, field, fallback) {
+            this.personalizing(true);
+            this.personalizationField(field);
+            this.personalizationFallback(fallback);
+            this.personalizationEl(target);
+        }
+
+        /**
+         * get the caret position in the HTML field we are currently editing
+         * @param  {element} element [the HTML element we are editing]
+         * @return {Integer}         [the current caret offset]
+         */
+        toolsViewModel.prototype.getCaretPosition = function getCaretPosition(element) {
+            var caretOffset = 0,
+                range = window.getSelection().getRangeAt(0),
+                preCaretRange = range.cloneRange();
+            preCaretRange.selectNodeContents(element);
+            preCaretRange.setEnd(range.endContainer, range.endOffset);
+            caretOffset = preCaretRange.toString().length;
+            return caretOffset;
+        }
+
+        /**
+         * recursively get all of the text nodes within an element
+         * @param  {element} node [the HTML element to get child nodes from]
+         * @return {[element]}      [all children / grandchildren etc]
+         */
+        toolsViewModel.prototype.getTextNodes = function getTextNodes(node) {
+            var textNodes = [];
+            if (node.nodeType == 3) {
+                textNodes.push(node);
+            } else {
+                var childNodes = node.childNodes;
+                for (var i = 0, len = childNodes.length; i < len; ++i) {
+                    textNodes.push.apply(textNodes, getTextNodes(childNodes[i]));
+                }
+            }
+            return textNodes;
+        }
+
+        /**
+         * set the caret position back to where the user was last editing
+         * @param {Object} data [current knockout context]
+         * @param {Event} e     [the blur event of the external input field]
+         */
+        toolsViewModel.prototype.setCaretPosition = function setCaretPosition(data, e) {
+            var el = stateViewModel.selectedElement().element(),
+                relatedTarget = e.relatedTarget;
+            if (!el) {
+                return
+            }
+            el = el[0];
+            if (relatedTarget && el != relatedTarget && relatedTarget.hasClass('editable')) {
+                return
+            }
+            var range = document.createRange(),
+                sel = window.getSelection(),
+                childNodes = this.getTextNodes(el),
+                nodeIdx = 0,
+                caretPosition = this.caretPosition;
+            
+            while (nodeIdx < childNodes.length && caretPosition > $(childNodes[nodeIdx]).text().length) {
+                caretPosition -= $(childNodes[nodeIdx]).text().length;
+                nodeIdx += 1;
+            }
+
+            var node = childNodes[nodeIdx];
+            range.setStart(node, caretPosition);
+            range.collapse(true);
+            sel.removeAllRanges();
+            sel.addRange(range);
+            el.focus();
+            this.caretPosition = 0;
+        }
+
+        /**
+         * on focusing on an input in the tools panel, store the caret position
+         * from the HTML element the user is editing
+         * @param {Object} data [current knockout context]
+         * @param {Event} e     [the click event on the input]
+         */
+        toolsViewModel.prototype.focusToolsInput = function focusToolsInput(data, e) {
+            var el = stateViewModel.selectedElement().element();
+            if (el) {
+                var caretPosition = this.getCaretPosition(el[0]);
+                if (caretPosition) {
+                    this.caretPosition = caretPosition;
+                }
+            }
+            e.target.focus();
+        }
+
+        /**
+         * HERE BE DRAGONS
+         * insert uneditable but stylable placeholder element into the
+         * HTML element the user is currently editing which represent the
+         * personalization the user has added
+         * lots of browser specific slop here, be careful
+         */
+        toolsViewModel.prototype.insertPersonalization = function insertPersonalization() {
+            setTimeout(function() {
+                var field = this.personalizationField(),
+                    fallback = this.personalizationFallback(),
+                    isIE = this.isIE(),
+                    content = (fallback != '') ? '['+ field + '/' + fallback +']' : '['+ field + ']';
+                if (isIE){
+                    var innerHTML = '<span contenteditable="false" class="dynamic-field-content" data-content="'+ content +'" data-field="'+ field +'" data-fallback="'+ fallback +'"></span>',
+                        html = '<span contenteditable="false" class="dynamic-field" class="editable">' + innerHTML + '</span>&#8202;'
+                } else {
+                    var innerHTML = '<span class="dynamic-field-content" data-content="'+ content +'" data-field="'+ field +'" data-fallback="'+ fallback +'"></span>',
+                        html = '<span contenteditable="true" class="dynamic-field" class="editable">' + innerHTML + '</span>&#8202;'
+                }
+
+                if (this.personalizationEl()) {
+                    $(this.personalizationEl()).replaceWith(innerHTML);
+                } else {
+                    if (document.queryCommandSupported('insertHTML')) {
+                        document.execCommand('insertHTML', false, html);
+                    } else {
+                        var sel = window.getSelection();
+                        if (sel.getRangeAt && sel.rangeCount) {
+                            range = sel.getRangeAt(0);
+                            range.deleteContents();
+
+                            var el = document.createElement("div");
+                            el.innerHTML = html;
+                            var frag = document.createDocumentFragment(), node, lastNode;
+                            while ( (node = el.firstChild) ) {
+                                lastNode = frag.appendChild(node);
+                            }
+                            var firstNode = frag.firstChild;
+                            range.insertNode(frag);
+
+                            if (lastNode) {
+                                range = range.cloneRange();
+                                range.setStartAfter(lastNode);
+                                range.collapse(true);
+                                sel.removeAllRanges();
+                                sel.addRange(range);
+                            }
+                        }
+                    }
+                }
+
+                var el = this.selectedElement();
+                el.sizeAdjust();
+                el.userData.content(el.element().html());
+                this.closePersonalization();
+            }.bind(this), 0)
+        }
+
+        /**
+         * delete the personalization placeholder from the HTML input
+         */
+        toolsViewModel.prototype.deletePersonalization = function deletePersonalization() {
+            if (this.personalizationEl()) {
+                $(this.personalizationEl()).remove();
+                this.closePersonalization();
+            }
+        }
+
+        /**
+         * returns whether we are viewing the canvas in
+         * @return {Boolean} [whether the browser is IE]
+         */
+        toolsViewModel.prototype.isIE = function isIE() {
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+
+            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+                return true
+            } else {
+                return false
+            }
+
+            return false;
         }
 
         return {

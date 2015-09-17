@@ -86,6 +86,7 @@ div, span, a {
 	}
 }
 .colour-dropdown {
+	float: right;
 	.dropdown-options {
 		width: 245px;
 		min-height: 320px;
@@ -138,9 +139,9 @@ div, span, a {
 		background-color: #fff;
 		@include borderradius(50%);
 		font-weight: normal;
-		width: 19px;
+		width: 20px;
 		line-height: 19px;
-		height: 20px;
+		height: 19px;
 		animation: fadein .5s;
 	}
 	&:focus:before, &.editable_active:before {
@@ -158,8 +159,13 @@ div, span, a {
 		min-height: 20px !important;
 		height: 100%;
 		outline: none;
+		word-wrap: break-word;
 		ol, ul {
 			margin: 5px 0;
+		}
+		p {
+			margin-top: 0px !important;
+			margin-bottom: 0px !important;
 		}
 	}
 	&.editable_error {
@@ -173,6 +179,9 @@ div, span, a {
 			bottom: 0;
 			pointer-events: none;
 		}
+	}
+	b, strong {
+		font-weight: bold !important;
 	}
 }
 
@@ -300,12 +309,22 @@ canvas {
     	border-color: $darkest-grey;
     }
     &.zoomout {
-    	background: #00B2FD;
-    	border-color: #00B2FD;
+    	background: $blue;
+    	border-color: $blue;
     	color: #FFF;
     	&:hover {
     		background: #0083FD;
     		border-color: #0083FD;
     	}
     }
+}
+
+.button {
+    font-family: PFDin Regular, Arial;
+	text-align: center;
+	cursor: pointer;
+	font-size: 16px;
+	padding: 15px 25px;
+	background-color: $blue;
+	color: #fff;
 }

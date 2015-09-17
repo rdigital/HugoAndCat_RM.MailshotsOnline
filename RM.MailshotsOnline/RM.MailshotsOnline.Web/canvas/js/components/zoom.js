@@ -22,10 +22,6 @@ define(['knockout', 'jquery', 'view_models/state'],
 
             // subscriptions
             this.handleSubscriptions();
-
-            setTimeout(function() {
-                this.handleScale();
-            }.bind(this), 100)
         }
 
         zoomComponentViewModel.prototype.handleSubscriptions = function handleSubscriptions() {
