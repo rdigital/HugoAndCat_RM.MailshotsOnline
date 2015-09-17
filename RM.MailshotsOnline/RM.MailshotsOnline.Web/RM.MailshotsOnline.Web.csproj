@@ -3039,7 +3039,7 @@
     <Compile Include="Attributes\RequireSecureConnectionFilter.cs" />
     <Compile Include="Controllers\Api\ApiBaseController.cs" />
     <Compile Include="Controllers\Api\CampaignController.cs" />
-    <Compile Include="Controllers\Api\MemberSearchController.cs" />
+    <Compile Include="Controllers\Api\MemberSearchApiController.cs" />
     <Compile Include="Controllers\Api\CryptoApiController.cs" />
     <Compile Include="Controllers\Api\ImageLibraryController.cs" />
     <Compile Include="Controllers\Api\MailshotsController.cs" />
