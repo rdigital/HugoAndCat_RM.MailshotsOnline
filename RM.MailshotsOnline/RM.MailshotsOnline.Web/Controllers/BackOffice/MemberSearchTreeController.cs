@@ -12,7 +12,7 @@ using Umbraco.Web.Trees;
 namespace RM.MailshotsOnline.Web.Controllers.BackOffice
 {
     [Tree("member", "memberSearch", "Member Search")]
-    [PluginController("CustomMember")]
+    [PluginController("MemberSearch")]
     public class MemberSearchTreeController : TreeController
     {
         protected override TreeNodeCollection GetTreeNodes(string id, FormDataCollection queryStrings)

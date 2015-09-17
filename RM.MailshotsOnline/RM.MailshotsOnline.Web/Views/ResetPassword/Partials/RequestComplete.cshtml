@@ -4,6 +4,7 @@
     var helper = new Umbraco.Web.UmbracoHelper(Umbraco.Web.UmbracoContext.Current);
     var requestCompleteContinutPage = helper.Content(Model.RequestCompleteContinuePage.Id).Url;
 }
+
 <div>
     <div>
         @Html.Raw(Model.RequestCompleteMessage)

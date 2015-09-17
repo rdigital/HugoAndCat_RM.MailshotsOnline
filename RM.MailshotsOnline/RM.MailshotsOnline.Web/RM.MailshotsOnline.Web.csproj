@@ -386,6 +386,7 @@
     <Content Include="App_Plugins\CryptoLabel\cryptoLabel.html" />
     <Content Include="App_Plugins\ImageUsageCount\usagecount.controller.js" />
     <Content Include="App_Plugins\ImageUsageCount\usagecount.html" />
+    <Content Include="App_Plugins\MemberSearch\BackOffice\memberSearch\edit.html" />
     <Content Include="App_Plugins\PrivateImageViewer\imageviewer.controller.js" />
     <Content Include="App_Plugins\PrivateImageViewer\imageviewer.html" />
     <Content Include="canvas\app.html" />
@@ -3038,6 +3039,7 @@
     <Compile Include="Attributes\RequireSecureConnectionFilter.cs" />
     <Compile Include="Controllers\Api\ApiBaseController.cs" />
     <Compile Include="Controllers\Api\CampaignController.cs" />
+    <Compile Include="Controllers\Api\MemberSearchController.cs" />
     <Compile Include="Controllers\Api\CryptoApiController.cs" />
     <Compile Include="Controllers\Api\ImageLibraryController.cs" />
     <Compile Include="Controllers\Api\MailshotsController.cs" />
