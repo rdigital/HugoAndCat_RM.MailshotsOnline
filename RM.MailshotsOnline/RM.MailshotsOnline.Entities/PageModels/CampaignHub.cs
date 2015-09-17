@@ -46,6 +46,8 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         public string DesignGetStartedPrompt { get; set; }
 
+        public BasePage CreateCanvasPage { get; set; }
+
         #endregion
 
         #region Campaign Summary

@@ -102,12 +102,25 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>Number of times the image has been linked to a Mailshot</returns>
         public int GetImageUsageCount(int umbracoImageId)
         {
-            var linkCount = (from m in _context.MailshotImageUse
-                             join c in _context.CmsImages on m.CmsImageId equals c.CmsImageId
-                             where c.UmbracoMediaId == umbracoImageId
-                             select m.MailshotId).Count();
+            var image = _context.CmsImages.FirstOrDefault(i => i.UmbracoMediaId == umbracoImageId);
+            if (image == null)
+            {
+                return 0;
+            }
 
-            return linkCount;
+            var links = _context.MailshotImageUse.Where(iu => iu.CmsImageId == image.CmsImageId);
+            if (links == null)
+            {
+                return 0;
+            }
+
+            return links.Count();
+            //var linkCount = (from m in _context.MailshotImageUse
+            //                 join c in _context.CmsImages on m.CmsImageId equals c.CmsImageId
+            //                 where c.UmbracoMediaId == umbracoImageId
+            //                 select m.MailshotId).Count();
+
+            //return linkCount;
         }
 
         /// <summary>

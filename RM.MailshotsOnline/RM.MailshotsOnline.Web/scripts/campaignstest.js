@@ -137,7 +137,7 @@
 
                 var hubLink = $(document.createElement('a'))
                     .text('Hub')
-                    .attr('href', '/campaigns/campaign-hub/?campaignId=' + campaign.CampaignId);
+                    .attr('href', 'campaign-hub/?campaignId=' + campaign.CampaignId);
                 var hubCell = $(document.createElement('td')).append(hubLink);
 
                 //row.append(name, updated, status, mailshot, ownData, rentedData, postalOption, editCell, copyCell, deleteCell, hubCell);

@@ -172,7 +172,9 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             }
 
             // Redirect the user to the create-canvas page with the appropriate QS parameters
-            return Redirect(string.Format("/create-canvas/?formatId={0}&mailshotId={1}", format.JsonIndex, savedMailshot.MailshotId));
+            var canvasPageId = (int)CurrentPage.GetProperty("createCanvasPage").Value;
+            var canvasPageUrl = Umbraco.NiceUrlWithDomain(canvasPageId);
+            return Redirect($"{canvasPageUrl}?formatId={format.JsonIndex}&mailshotId={savedMailshot.MailshotId}");
         }
 
         [ChildActionOnly]

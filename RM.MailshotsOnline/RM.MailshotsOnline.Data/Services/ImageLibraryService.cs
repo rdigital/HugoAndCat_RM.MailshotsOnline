@@ -58,7 +58,6 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>The collection of images.</returns>
         public IEnumerable<IMedia> GetImages()
         {
-
             var images = UmbracoContext.Current.Application.Services.TagService.GetTaggedMediaByTagGroup(Constants.Constants.Settings.DefaultMediaLibraryTagGroup).Select(te => _helper.TypedMedia(te.EntityId));
             var publicImages = images.Select(x => MediaFactory.Convert(x, typeof(PublicLibraryImage)));
             return PopulateUsageCounts(publicImages);
@@ -83,13 +82,21 @@ namespace RM.MailshotsOnline.Data.Services
         /// </summary>
         /// <param name="mediaId">The Umbraco media ID of the image to fetch</param>
         /// <param name="publicImage">Indicates if this is a public image</param>
+        /// <param name="includeImageUsageCount">Include the image usage count</param>
         /// <returns>The Media item</returns>
-        public IMedia GetImage(int mediaId, bool publicImage)
+        public IMedia GetImage(int mediaId, bool publicImage, bool includeImageUsageCount = true)
         {
-            var requiredType = publicImage ? typeof(PublicLibraryImage) : typeof(PrivateLibraryImage);
-            IMedia image = MediaFactory.Convert(_helper.TypedMedia(mediaId), requiredType);
-            image.MailshotUses = _cmsImageService.GetImageUsageCount(mediaId);
-            return image;
+            lock(searchLock)
+            {
+                var requiredType = publicImage ? typeof(PublicLibraryImage) : typeof(PrivateLibraryImage);
+                IMedia image = MediaFactory.Convert(_helper.TypedMedia(mediaId), requiredType);
+                if (includeImageUsageCount)
+                {
+                    image.MailshotUses = _cmsImageService.GetImageUsageCount(mediaId);
+                }
+
+                return image;
+            }
         }
 
         /// <summary>

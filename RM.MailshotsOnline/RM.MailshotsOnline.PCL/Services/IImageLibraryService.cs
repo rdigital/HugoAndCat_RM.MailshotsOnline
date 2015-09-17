@@ -45,8 +45,9 @@ namespace RM.MailshotsOnline.PCL.Services
         /// </summary>
         /// <param name="mediaId">The Umbraco media ID of the image to fetch</param>
         /// <param name="publicImage">Indicates if this is a public image</param>
+        /// <param name="includeImageUsageCount">Include the image usage count</param>
         /// <returns>The Media item</returns>
-        IMedia GetImage(int mediaId, bool publicImage);
+        IMedia GetImage(int mediaId, bool publicImage, bool includeImageUsageCount = true);
 
         /// <summary>
         /// Gets a media item (base class)

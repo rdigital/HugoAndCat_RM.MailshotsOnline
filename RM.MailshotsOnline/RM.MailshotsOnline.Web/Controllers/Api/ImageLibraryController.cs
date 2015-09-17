@@ -113,14 +113,12 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK);
         }*/
 
-        [CacheControl(MaxAge = 3600)]
-        public async Task<HttpResponseMessage> GetPrivateImageById(int id)
+        public HttpResponseMessage GetPrivateImageById(int id)
         {
-            return await GetPrivateImageById(id, "original");
+            return GetPrivateImageById(id, "original");
         }
 
-        [CacheControl(MaxAge = 3600)]
-        public async Task<HttpResponseMessage> GetPrivateImageById(int id, string size)
+        public HttpResponseMessage GetPrivateImageById(int id, string size)
         {
             bool umbracoAccess = false;
             // Check to see if the user is logged into Umbraco
@@ -157,7 +155,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             HttpResponseMessage result = ErrorMessage(HttpStatusCode.NotFound, "Image not found");
 
-            var image = _imageLibrary.GetImage(id, false) as PrivateLibraryImage;
+            var image = _imageLibrary.GetImage(id, false, false) as PrivateLibraryImage;
             if (image == null)
             {
                 return result;
@@ -189,7 +187,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
                 // Get the blob bytes to return
                 BlobStorageHelper blobHelper = new BlobStorageHelper(ConfigHelper.PrivateStorageConnectionString, ConfigHelper.PrivateMediaBlobStorageContainer);
-                var blobBytes = await blobHelper.FetchBytesAsync(blobId);
+                var blobBytes = blobHelper.FetchBytes(blobId);
 
                 //TODO: Get the proper image type
                 result = Request.CreateResponse(HttpStatusCode.OK);
