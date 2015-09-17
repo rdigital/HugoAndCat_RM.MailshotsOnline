@@ -223,12 +223,12 @@ namespace RM.MailshotsOnline.Data.Services
                     var b64Salt = Encoding.UTF8.GetBytes(computedSalt);
                     var encryptedEmail = Encryption.Encrypt(emailAddress, Constants.Constants.Encryption.EncryptionKey, b64Salt);
 
-                    umbracoMember = _umbracoMemberService.GetByEmail(encryptedEmail);
+                    umbracoMember = UmbracoMemberService.GetByEmail(encryptedEmail);
 
                     if (umbracoMember != null)
                     {
                         umbracoMember = umbracoMember.UpdateValues(member);
-                        _umbracoMemberService.Save(umbracoMember);
+                        UmbracoMemberService.Save(umbracoMember);
 
                         success = true;
                     }
