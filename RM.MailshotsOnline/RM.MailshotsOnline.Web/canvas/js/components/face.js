@@ -75,6 +75,9 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
         faceViewModel.prototype.getElementsComputed = function getElementsComputed() {
             return ko.pureComputed(function(){
                 var face_name = this.data.name;
+                if (!(userViewModel.ready() && themeViewModel.objects())) {
+                    return {}
+                }
 
                 // bit hacky
                 // force redraw of everything when theme changes too, not just when template changes
@@ -134,6 +137,9 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
                 return ko.observable(styles);
             }
             return ko.pureComputed(function(){
+                if (!(userViewModel.ready() && themeViewModel.objects())) {
+                    return {}
+                }
                 var styles = {},
                     themeStyles = this.themeViewModel.getFaceStylesByName(this.data.name),
                     userStyles = userViewModel.getFaceStylesByName(this.data.name);

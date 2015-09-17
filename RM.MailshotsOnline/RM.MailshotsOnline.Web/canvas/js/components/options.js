@@ -1,15 +1,17 @@
 define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/format', 'view_models/template', 'view_models/theme', 'view_models/state', 'view_models/history'],
 
     function(ko, dropdownComponent, userViewModel, formatViewModel, templateViewModel, themeViewModel, stateViewModel, historyViewModel) {
-        // register required components
 
         // ViewModel
         function optionsViewModel(params) {
             this.redoAvailable = historyViewModel.redoAvailable;
             this.undoAvailable = historyViewModel.undoAvailable;
             this.showPreview = stateViewModel.showPreview;
+
+            // computeds
             this.hidden = this.getHiddenComputed();
 
+            // bound methods
             this.togglePreview = stateViewModel.togglePreview.bind(this);
         }
 
@@ -62,6 +64,10 @@ define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/form
 
         optionsViewModel.prototype.reset = function reset() {
             historyViewModel.reset();
+        }
+
+        optionsViewModel.prototype.save = function save() {
+            userViewModel.save();
         }
 
         optionsViewModel.prototype.getHiddenComputed = function regetHiddenComputedset() {

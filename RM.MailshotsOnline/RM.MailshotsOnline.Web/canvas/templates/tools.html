@@ -1,4 +1,42 @@
 <div class="tools" data-bind="css: {'tools_visible': isVisible}, style: attachment, click: focusInput, element: element, event: {mousedown: function() {return false}}">
+    <!-- ko if: elementType() == 'roundel' -->
+
+        <div class="tools-row">
+            <dropdown-component params="{options: fonts, selected: font, full: true, focusCallback: focusInput, anchorClass: 'tools-dropdown tools-dropdown_full'}"></dropdown-component>
+        </div>
+
+        <div class="tools-row">
+            <span class="tools-group">
+                <span class="tools-button" data-bind="click: bold, css: {'active': isBold()}"><b>B</b></span>
+                <span class="tools-button" data-bind="click: underline, css: {'active': isUnderline()}"><u>U</u></span>
+                <span class="tools-button" data-bind="click: italic, css: {'active': isItalic()}"><i>I</i></span>
+            </span>
+
+            <span class="tools-group tools-group_right">
+                <span class="tools-button" data-bind="click: increaseFontSize"><span style="font-size: 20px;">A</span></span>
+                <span class="tools-button" data-bind="click: decreaseFontSize"><span style="font-size: 12px;">A</span></span>
+                <span class="tools-button" data-bind="click: fitFontSize"><b class="fa fa-arrows"></b></span>
+            </span>
+        </div>
+
+        <div class="tools-row">
+            <div class="tools-left">
+                <label>Text:</label>
+            </div>
+            <div class="tools-right">
+                <colourpicker-component params="{options: colours, selected: colour, focusCallback: focusInput, anchorClass: 'tools-dropdown'}"></colourpicker-component>
+            </div>
+        </div>
+        <div class="tools-row">
+            <div class="tools-left">
+                <label>Background:</label>
+            </div>
+            <div class="tools-right">
+                <colourpicker-component params="{options: colours, selected: backgroundColour, focusCallback: focusInput, anchorClass: 'tools-dropdown'}"></colourpicker-component>
+            </div>
+        </div>
+
+    <!-- /ko -->
     <!-- ko if: elementType() == 'html' -->
 
         <!-- ko ifnot: personalizing -->

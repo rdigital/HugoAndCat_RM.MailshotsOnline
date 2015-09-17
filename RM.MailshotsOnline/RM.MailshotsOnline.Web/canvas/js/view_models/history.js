@@ -4,13 +4,16 @@ define(['require', 'knockout', 'view_models/user', 'view_models/state'],
             this.history = ko.observableArray();
             this.historyIdx = ko.observable(0);
 
+            // bound methods
             this.pushToHistory = this.pushToHistory.bind(this);
             this.cancelChanges = this.cancelChanges.bind(this);
             this.undo = this.undo.bind(this);
             this.redo = this.redo.bind(this);
 
+            // subscriptions
             stateViewModel.selectedElement.subscribe(this.pushToHistory, this);
 
+            // computeds
             this.redoAvailable = this.getRedoAvailable();
             this.undoAvailable = this.getUndoAvailable();
         }
@@ -56,13 +59,13 @@ define(['require', 'knockout', 'view_models/user', 'view_models/state'],
         }
 
         historyViewModel.prototype.getRedoAvailable = function getRedoAvailable() {
-            return ko.computed(function () {
+            return ko.pureComputed(function () {
                 return (this.historyIdx() < this.history().length - 1);
             }, this)
         }
 
         historyViewModel.prototype.getUndoAvailable = function getUndoAvailable() {
-            return ko.computed(function () {
+            return ko.pureComputed(function () {
                 return (this.historyIdx() > 0);
             }, this)
         }
