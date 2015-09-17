@@ -58,6 +58,7 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
                 $.getJSON('/Umbraco/Api/Mailshots/Get/' + stateViewModel.mailshotID, function(data) {
                     komapping.fromJSON(data.ContentText, this.objects);
                     this.ready(true);
+                    setTimeout(this.applyChanges.bind(this),1000)
                 }.bind(this))
             } else {
                 // XXX TEMP XXX

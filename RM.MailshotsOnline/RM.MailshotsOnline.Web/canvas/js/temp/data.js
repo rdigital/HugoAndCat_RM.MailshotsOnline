@@ -1635,8 +1635,6 @@ define([],
                 formatID: 2,
                 templateID: 5,
                 themeID: 3,
-                side: 'front',
-                face: 'Front',
                 faces: [],
                 elements: [
                     {
