@@ -9,6 +9,8 @@ namespace RM.MailshotsOnline.PCL.Models.MailshotSettings
     {
         Guid FormatId { get; set; }
 
+        string XslData { get; set; }
+
         decimal PricePerPrint { get; set; }
     }
 }

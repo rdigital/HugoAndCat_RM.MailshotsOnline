@@ -46,6 +46,11 @@ namespace RM.MailshotsOnline.Data.Helpers
             get { return GetConfigValue("HostedScheme"); }
         }
 
+        public static string MailshotDefaultContentTypeAlias
+        {
+            get { return GetConfigValue("MailshotDefaultContentTypeAlias", "MailshotDefaultContent"); }
+        }
+
         public static string RoyalMailApprovalEmailAddress
         {
             get { return GetConfigValue("RoyalMailApprovalEmailAddress"); }

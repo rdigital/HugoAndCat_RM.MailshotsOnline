@@ -9,8 +9,6 @@ namespace RM.MailshotsOnline.PCL.Models.MailshotSettings
     {
         string Name { get; set; }
 
-        string XslData { get; set; }
-
         int JsonIndex { get; set; }
 
         string JsonData { get; set; }

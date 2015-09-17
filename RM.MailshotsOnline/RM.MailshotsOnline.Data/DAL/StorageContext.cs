@@ -31,6 +31,7 @@ namespace RM.MailshotsOnline.Data.DAL
         public DbSet<DistributionList> DistributionLists { get; set; }
         public DbSet<Format> Formats { get; set; }
         public DbSet<MailshotContent> MailshotContents { get; set; }
+        public DbSet<MailshotDefaultContent> MailshotDefaultContent { get; set; }
         public DbSet<MailshotImageUse> MailshotImageUse { get; set; }
         public DbSet<Mailshot> Mailshots { get; set; }
         public DbSet<Order> Orders { get; set; }

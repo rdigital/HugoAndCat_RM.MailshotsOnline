@@ -172,6 +172,10 @@ namespace RM.MailshotsOnline.Web.App_Start
                 {
                     SaveTheme(item);
                 }
+                else if (item.ContentType.Alias.InvariantEquals(ConfigHelper.MailshotDefaultContentTypeAlias))
+                {
+                    SaveDefaultContent(item);
+                }
                 else if (item.ContentType.Alias.InvariantEquals(ConfigHelper.PostalOptionContentTypeAlias))
                 {
                     SavePostalOption(item);
@@ -450,6 +454,26 @@ namespace RM.MailshotsOnline.Web.App_Start
             };
 
             _mailshotSettingsService.AddOrUpdateTheme(theme);
+        }
+
+        /// <summary>
+        /// Saves default mailshot content to the DB
+        /// </summary>
+        /// <param name="item"></param>
+        private void SaveDefaultContent(IContent item)
+        {
+            _mailshotSettingsService = _mailshotSettingsService ?? new MailshotSettingsService();
+
+            var defaultContent = new MailshotDefaultContent()
+            {
+                UmbracoPageId = item.Id,
+                Name = item.Name,
+                JsonData = item.GetValue<string>("jsonData").TrimStart(_trimCharacters).TrimEnd(_trimCharacters),
+                JsonIndex = item.GetValue<int>("jsonIndex"),
+                UpdatedDate = DateTime.UtcNow
+            };
+
+            _mailshotSettingsService.AddOrUpdateMailshotDefaultContent(defaultContent);
         }
 
         /// <summary>

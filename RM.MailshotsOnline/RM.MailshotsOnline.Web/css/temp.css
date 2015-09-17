@@ -94,6 +94,13 @@ label {
     color: rgb(140, 46, 11);
 }
 
+
+/* My Campaigns */
+
+.my-campaigns #addCampaignForm {
+    display: none;
+}
+
 table#campaignList {
     width: 100%;
 }

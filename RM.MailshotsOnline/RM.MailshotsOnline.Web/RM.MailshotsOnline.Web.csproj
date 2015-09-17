@@ -3451,6 +3451,9 @@
     <Content Include="Views\CaptureDetails.cshtml" />
     <Content Include="Views\CaptureDetails\Partials\CaptureDetailsForm.cshtml" />
     <Content Include="uSync\DocumentType\Basepage\CaptureDetails\def.config" />
+    <Content Include="Views\CampaignHub\Partials\StartDesignButton.cshtml" />
+    <Content Include="uSync\DocumentType\MailshotDefaultContentFolder\def.config" />
+    <Content Include="uSync\DocumentType\MailshotDefaultContent\def.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
