@@ -248,6 +248,10 @@ define([],
                                     property: 'height',
                                     value: '125px'
                                 },
+                                {
+                                    property: 'z-index',
+                                    value: '110'
+                                }
                             ],
                             message: "Write about an offer here."
                         },

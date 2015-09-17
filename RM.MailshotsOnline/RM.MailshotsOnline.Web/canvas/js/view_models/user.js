@@ -6,15 +6,28 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
         function userViewModel() {
             // initialize this.objects
             this.objects = komapping.fromJS({});
+            this.name = ko.observable('TEST123');
+            this.id = ko.observable();
+            this.saving = ko.observable(false);
 
+            // bound methods
+            this.save = this.save.bind(this);
+
+            // fetch user data from the server
             this.fetch();
             window.user = this;
         }
 
+        /**
+         * cancel any changes not yet written to the history
+         */
         userViewModel.prototype.cancelChanges = function cancelChanges() {
             historyViewModel.cancelChanges();
         }
 
+        /**
+         * push changes to the history
+         */
         userViewModel.prototype.applyChanges = function applyChanges() {
             historyViewModel.pushToHistory();
         }
@@ -45,6 +58,33 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
             $.getJSON('/user_data', function(data) {
                 komapping.fromJS(data, this.objects);
             }.bind(this))
+        }
+
+        userViewModel.prototype.save = function save() {
+            if (this.saving()) {
+                return
+            }
+            this.saving(true);
+
+            var data = {
+                name: this.name(),
+                templateId: this.get('templateID'),
+                formatId: this.get('formatID'),
+                themeId: this.get('themeID'),
+                contentText: this.toJSON(),
+                draft: true
+            };
+            var url = (this.id()) ? '/Umbraco/Api/Mailshots/Update/' + this.id() : '/Umbraco/Api/Mailshots/Save';
+            
+            $.post(url, data, function(response) {
+                    console.log('save successful')
+                }.bind(this))
+                .fail(function() {
+                    console.log('error saving user data');
+                })
+                .always(function() {
+                    this.saving(false);
+                }.bind(this))
         }
 
         userViewModel.prototype.resetUserFontSizes = function resetUserFontSizes() {

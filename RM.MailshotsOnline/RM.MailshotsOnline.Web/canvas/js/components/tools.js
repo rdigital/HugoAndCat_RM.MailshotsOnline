@@ -13,6 +13,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             this.window_width = ko.observable(0);
             this.window_height = ko.observable(0);
 
+            // personalization specific variables
             this.personalizing = ko.observable(false);
             this.peronalizationOptions = ko.observableArray([
                 {name: 'First Name', value: 'FirstName'},
@@ -60,6 +61,11 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             $(window).on('closeEditPersonalization', this.closeEditPersonalization);
         }
 
+        /**
+         * returns a computed which evaluates to whether the tools pane is
+         * currently displayed or not
+         * @return {[ko.pureComputed]}
+         */
         toolsViewModel.prototype.getIsVisibleComputed = function getIsVisibleComputed() {
             return ko.pureComputed(function() {
                 if (this.selectedElement()) {
@@ -147,14 +153,21 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             }, this).extend({throttle: 50})
         }
 
+        /**
+         * update observables with the new window dimensions upon resize
+         * this triggers a repositioning of the tools pane
+         */
         toolsViewModel.prototype.handleResize = function handleResize() {
-            //this.window_width($('.canvas-container')[0].scrollWidth)
-            //this.window_height($('.canvas-container')[0].scrollHeight)
             this.window_width($(window).width());
             this.window_height($(window).height());
             this.window_width.valueHasMutated();
         }
 
+        /**
+         * calculate where to place the tools pane in relation to the canvas container
+         * such that it is visible alongside the element the user is editing
+         * @return {[Object]} [top / left / right / bottom coordinates]
+         */
         toolsViewModel.prototype.calcAttachment = function calcAttachment() {
             var coords = this.selectedElement().getCoords(),
                 right_margin = this.window_width() - coords.right,
@@ -215,6 +228,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                 attachment.right = 'auto';
             }
 
+            // deal with vertical case if not enough horizontal room
             if (maxV > tools_height) {
                 // have enough vertical room
                 if (maxV == coords.top) {
@@ -398,14 +412,23 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             stateViewModel.toggleImageUpload();
         }
 
+        /**
+         * toggle the image library modal
+         */
         toolsViewModel.prototype.toggleImageLibrary = function toggleImageLibrary() {
             stateViewModel.toggleImageLibrary();
         }
 
+        /**
+         * toggle the insert personalization pane
+         */
         toolsViewModel.prototype.togglePersonalization = function togglePersonalization() {
             this.personalizing(!this.personalizing());
         }
 
+        /**
+         * close the personalization pain and reset values
+         */
         toolsViewModel.prototype.closePersonalization = function closePersonalization() {
             this.personalizing(false);
             this.personalizationField('FirstName');
@@ -413,12 +436,18 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             this.personalizationEl(null);
         }
 
+        /**
+         * close the edit personalization pane
+         */
         toolsViewModel.prototype.closeEditPersonalization = function closeEditPersonalization() {
             if (this.personalizationEl()) {
                 this.closePersonalization();
             }
         }
 
+        /**
+         * show the insert personalization pane
+         */
         toolsViewModel.prototype.showPersonalization = function showPersonalization(e, target, field, fallback) {
             this.personalizing(true);
             this.personalizationField(field);
@@ -426,6 +455,11 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             this.personalizationEl(target);
         }
 
+        /**
+         * get the caret position in the HTML field we are currently editing
+         * @param  {element} element [the HTML element we are editing]
+         * @return {Integer}         [the current caret offset]
+         */
         toolsViewModel.prototype.getCaretPosition = function getCaretPosition(element) {
             var caretOffset = 0,
                 range = window.getSelection().getRangeAt(0),
@@ -436,6 +470,11 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             return caretOffset;
         }
 
+        /**
+         * recursively get all of the text nodes within an element
+         * @param  {element} node [the HTML element to get child nodes from]
+         * @return {[element]}      [all children / grandchildren etc]
+         */
         toolsViewModel.prototype.getTextNodes = function getTextNodes(node) {
             var textNodes = [];
             if (node.nodeType == 3) {
@@ -449,6 +488,11 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             return textNodes;
         }
 
+        /**
+         * set the caret position back to where the user was last editing
+         * @param {Object} data [current knockout context]
+         * @param {Event} e     [the blur event of the external input field]
+         */
         toolsViewModel.prototype.setCaretPosition = function setCaretPosition(data, e) {
             var el = stateViewModel.selectedElement().element(),
                 relatedTarget = e.relatedTarget;
@@ -479,6 +523,12 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             this.caretPosition = 0;
         }
 
+        /**
+         * on focusing on an input in the tools panel, store the caret position
+         * from the HTML element the user is editing
+         * @param {Object} data [current knockout context]
+         * @param {Event} e     [the click event on the input]
+         */
         toolsViewModel.prototype.focusToolsInput = function focusToolsInput(data, e) {
             var el = stateViewModel.selectedElement().element();
             if (el) {
@@ -490,6 +540,13 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             e.target.focus();
         }
 
+        /**
+         * HERE BE DRAGONS
+         * insert uneditable but stylable placeholder element into the
+         * HTML element the user is currently editing which represent the
+         * personalization the user has added
+         * lots of browser specific slop here, be careful
+         */
         toolsViewModel.prototype.insertPersonalization = function insertPersonalization() {
             setTimeout(function() {
                 var field = this.personalizationField(),
@@ -542,6 +599,9 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             }.bind(this), 0)
         }
 
+        /**
+         * delete the personalization placeholder from the HTML input
+         */
         toolsViewModel.prototype.deletePersonalization = function deletePersonalization() {
             if (this.personalizationEl()) {
                 $(this.personalizationEl()).remove();
@@ -549,6 +609,10 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             }
         }
 
+        /**
+         * returns whether we are viewing the canvas in
+         * @return {Boolean} [whether the browser is IE]
+         */
         toolsViewModel.prototype.isIE = function isIE() {
             var ua = window.navigator.userAgent;
             var msie = ua.indexOf("MSIE ");
