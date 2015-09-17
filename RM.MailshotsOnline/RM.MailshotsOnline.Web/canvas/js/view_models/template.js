@@ -7,7 +7,11 @@ define(['knockout', 'view_models/data', 'view_models/user', 'view_models/state']
             this.selected = this.getSelectedComputed();
             this.formatID = stateViewModel.formatID;
             this.fetchURL = '/Umbraco/Api/MailshotSettings/GetTemplatesForFormat/' + this.formatID;
-            this.selectedID = userViewModel.objects.templateID;
+            this.selectedID = ko.pureComputed(function () {
+                if (userViewModel.ready()) {
+                    return userViewModel.objects.templateID();
+                }
+            }, this)
 
             // fetch data
             this.fetch();

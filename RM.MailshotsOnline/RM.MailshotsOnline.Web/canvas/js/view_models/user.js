@@ -6,6 +6,7 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
         function userViewModel() {
             // initialize this.objects
             this.objects = komapping.fromJS({});
+            this.ready = ko.observable(false);
             this.name = ko.observable('TEST123');
             this.saving = ko.observable(false);
 
@@ -53,14 +54,19 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
          * fetch userData JSON from server and store it in this.objects
          */
         userViewModel.prototype.fetch = function fetch() {
-            // XXX TEMP XXX
-            komapping.fromJS(tempData.userData, this.objects);
-            setTimeout(this.applyChanges.bind(this),1000)
-            this.objects.themeID.subscribe(this.resetUserStyles.bind(this));
-            return
-            $.getJSON('/user_data', function(data) {
-                komapping.fromJS(data, this.objects);
-            }.bind(this))
+            if (stateViewModel.mailshotID) {
+                $.getJSON('/Umbraco/Api/Mailshots/Get/' + stateViewModel.mailshotID, function(data) {
+                    komapping.fromJSON(data.ContentText, this.objects);
+                    this.ready(true);
+                }.bind(this))
+            } else {
+                // XXX TEMP XXX
+                this.ready(true);
+                komapping.fromJS(tempData.userData, this.objects);
+                setTimeout(this.applyChanges.bind(this),1000)
+                this.objects.themeID.subscribe(this.resetUserStyles.bind(this));
+                return
+            }
         }
 
         userViewModel.prototype.save = function save() {

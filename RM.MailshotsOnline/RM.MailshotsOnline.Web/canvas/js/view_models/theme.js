@@ -5,8 +5,12 @@ define(['knockout', 'view_models/data', 'view_models/user'],
         function themeViewModel() {
             this.objects = ko.observableArray([]);
             this.selected = this.getSelectedComputed();
-
-            this.getVars();
+            this.fetchURL = '/umbraco/api/MailshotSettings/GetThemes';
+            this.selectedID = ko.pureComputed(function () {
+                if (userViewModel.ready()) {
+                    return userViewModel.objects.themeID();
+                }
+            }, this)
 
             // fetch data
             this.fetch();
@@ -15,11 +19,6 @@ define(['knockout', 'view_models/data', 'view_models/user'],
         // extends dataViewModel
         themeViewModel.prototype = Object.create(dataViewModel.prototype);
         themeViewModel.prototype.constructor = themeViewModel;
-
-        themeViewModel.prototype.getVars = function getVars() {
-            this.fetchURL = '/umbraco/api/MailshotSettings/GetThemes';
-            this.selectedID = userViewModel.objects.themeID;
-        }
 
         /**
          * try to get style info from themeData by class name

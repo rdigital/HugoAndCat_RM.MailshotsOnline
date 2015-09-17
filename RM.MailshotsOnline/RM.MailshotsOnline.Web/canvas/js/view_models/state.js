@@ -4,8 +4,8 @@ define(['knockout', 'jquery'],
     function(ko, $) {
 
         function stateViewModel() {
-            this.mailshotID = this.getUrlVars()['mailshot_id'];
-            this.formatID = this.getUrlVars()['format_id'];
+            this.mailshotID = this.getUrlVars()['mailshotId'];
+            this.formatID = this.getUrlVars()['formatId'];
             this.selectedElement = ko.observable();
             this.scaleElement = ko.observable();
             this.backgroundSelected = ko.observable();
