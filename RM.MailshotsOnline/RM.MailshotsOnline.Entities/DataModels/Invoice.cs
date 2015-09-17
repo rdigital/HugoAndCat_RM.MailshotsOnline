@@ -85,6 +85,11 @@ namespace RM.MailshotsOnline.Entities.DataModels
         public string PaypalPaymentId { get; set; }
 
         /// <summary>
+        /// Gets or sets the PayPal approval URL
+        /// </summary>
+        public string PaypalApprovalUrl { get; set; }
+
+        /// <summary>
         /// Gets or sets the line items
         /// </summary>
         [InverseProperty("Invoice")]

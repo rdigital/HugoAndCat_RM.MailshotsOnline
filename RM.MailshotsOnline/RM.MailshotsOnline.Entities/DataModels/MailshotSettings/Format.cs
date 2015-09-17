@@ -26,6 +26,8 @@ namespace RM.MailshotsOnline.Entities.DataModels.MailshotSettings
 
         public string XslData { get; set; }
 
+        public string JsonData { get; set; }
+
         public DateTime UpdatedDate { get; set; }
 
         public DateTime CreatedDate { get { return CreatedUtc; } }

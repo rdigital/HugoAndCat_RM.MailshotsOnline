@@ -65,16 +65,6 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             var thisPageUrl = string.Format("{0}?campaignId={1}", CurrentPage.Url, campaignId);
 
-            // Confirm that the user has entered all their details
-            if (!LoggedInMember.AllDetailsEntered)
-            {
-                // TODO: Create the interstitial page for this
-                var profileUpdatePageId = (int)CurrentPage.GetProperty("profileUpdatePage").Value;
-                var profileUpdatePageUrl = Umbraco.NiceUrl(profileUpdatePageId);
-
-                return Redirect(string.Format("{0}?returnUrl={1}", profileUpdatePageUrl, HttpUtility.UrlEncode(thisPageUrl)));
-            }
-
             // Logged in owner owns campaign?
             if (campaign.UserId != LoggedInMember.Id)
             {
@@ -108,14 +98,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return CurrentUmbracoPage();
             }
 
-            var baseUrl = Request.Url.ToString();
-            var token = "?";
-            if (baseUrl.Contains("?"))
-            {
-                token = "&";
-            }
-
-            // TODO: Generate these properly
+            // Generate these properly
             var returnPageId = (int)CurrentPage.GetProperty("paymentConfirmationPage").Value;
             var returnPageUrl = Umbraco.NiceUrlWithDomain(returnPageId);
             var returnUrl = string.Format("{0}?campaignId={1}", returnPageUrl, campaignId);
@@ -157,6 +140,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             }
             else if (string.IsNullOrEmpty(paymentResult.ApprovalUrl))
             {
+                Log.Error(this.GetType().Name, "Checkout", "PayPal payment {0} does not include an Approval URL.", paymentResult.Id);
                 readyForPaypal = false;
             }
 
@@ -171,7 +155,8 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             {
                 // Save results from PayPal then redirect the user
                 invoice.PaypalPaymentId = paymentResult.Id;
-                invoice.Status = PCL.Enums.InvoiceStatus.Submitted;
+                invoice.Status = PCL.Enums.InvoiceStatus.Draft;
+                invoice.PaypalApprovalUrl = paymentResult.ApprovalUrl;
                 var transactionResult = paymentResult.Transactions.FirstOrDefault();
                 if (transactionResult != null)
                 {
@@ -181,6 +166,18 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                         invoice.PaypalOrderId = order.Id;
                     }
                 }
+                _invoiceService.Save(invoice);
+
+                // Confirm that the user has entered all their details
+                if (!LoggedInMember.AllDetailsEntered)
+                {
+                    var profileUpdatePageId = (int)CurrentPage.GetProperty("profileUpdatePage").Value;
+                    var profileUpdatePageUrl = Umbraco.NiceUrl(profileUpdatePageId);
+                    
+                    return Redirect(string.Format("{0}?campaignId={1}", profileUpdatePageUrl, campaignId));
+                }
+
+                invoice.Status = PCL.Enums.InvoiceStatus.Submitted;
                 _invoiceService.Save(invoice);
 
                 return Redirect(paymentResult.ApprovalUrl);
