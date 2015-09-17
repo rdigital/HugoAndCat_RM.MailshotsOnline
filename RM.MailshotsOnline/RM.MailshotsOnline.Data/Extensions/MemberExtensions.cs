@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,13 +12,13 @@ using umbraco;
 using Umbraco.Core;
 using HC.RM.Common;
 using HC.RM.Common.PCL;
+using RM.MailshotsOnline.Data.Services;
 
 namespace RM.MailshotsOnline.Data.Extensions
 {
     public static class MemberExtensions
     {
-        private static readonly string EncryptionKey = Constants.Constants.Encryption.EncryptionKey;
-        private static readonly RNGCryptoServiceProvider CryptoService = new RNGCryptoServiceProvider();
+        private static readonly CryptographicService CryptographicService = new CryptographicService();
 
         /// <summary>
         /// Convert an Umbraco IMember into a H&C IMember
@@ -27,20 +28,10 @@ namespace RM.MailshotsOnline.Data.Extensions
         public static IMember ToMemberEntityModel(this Umbraco.Core.Models.IMember umbracoMember)
         {
             var salt = umbracoMember.GetValue<string>("salt");
-            byte[] saltBytes = null;
-            if (!string.IsNullOrEmpty(salt))
-            {
-                saltBytes = Convert.FromBase64String(salt);
-            }
-
+            var saltBytes = Convert.FromBase64String(salt);
             var emailSalt = umbracoMember.GetValue<string>("emailSalt");
-            byte[] emailSaltBytes = null;
-            if (!string.IsNullOrEmpty(emailSalt))
-            {
-                emailSaltBytes = Convert.FromBase64String(emailSalt);
-            }
 
-            var title = saltBytes == null ? umbracoMember.GetValue<string>("title") : Encryption.Decrypt(umbracoMember.GetValue<string>("title"), EncryptionKey, saltBytes);
+            var title = CryptographicService.Decrypt(umbracoMember.GetValue<string>("title"), saltBytes);
             var titleValue = ApplicationContext.Current.Services.DataTypeService.GetPreValues("Title Dropdown")
                 .FirstOrDefault(x => x.Key.Equals(title));
 
@@ -55,12 +46,12 @@ namespace RM.MailshotsOnline.Data.Extensions
                 Salt = salt,
                 EmailSalt = emailSalt,
                 Username = umbracoMember.Username,
-                EmailAddress = emailSaltBytes == null ? umbracoMember.Email : Encryption.Decrypt(umbracoMember.Email, EncryptionKey, emailSaltBytes),
+                EmailAddress = CryptographicService.Decrypt(umbracoMember.Email, emailSalt),
                 IsApproved = umbracoMember.IsApproved,
                 IsLockedOut = umbracoMember.IsLockedOut,
                 Title = title,
-                FirstName = saltBytes == null ? umbracoMember.GetValue<string>("firstName") : Encryption.Decrypt(umbracoMember.GetValue<string>("firstName"), EncryptionKey, saltBytes),
-                LastName = saltBytes == null ? umbracoMember.GetValue<string>("lastName") : Encryption.Decrypt(umbracoMember.GetValue<string>("lastName"), EncryptionKey, saltBytes),
+                FirstName = CryptographicService.Decrypt(umbracoMember.GetValue<string>("firstName"), saltBytes),
+                LastName = CryptographicService.Decrypt(umbracoMember.GetValue<string>("lastName"), saltBytes),
                 RoyalMailMarketingPreferences = new ContactOptions()
                 {
                     Post = umbracoMember.GetValue<bool>("rmPost"),
@@ -75,18 +66,18 @@ namespace RM.MailshotsOnline.Data.Extensions
                     Phone = umbracoMember.GetValue<bool>("thirdPartyPhone"),
                     SmsAndOther = umbracoMember.GetValue<bool>("thirdPartySmsAndOther")
                 },
-                Postcode = saltBytes == null ? umbracoMember.GetValue<string>("postcode") : Encryption.Decrypt(umbracoMember.GetValue<string>("postcode"), EncryptionKey, saltBytes),
-                OrganisationName = saltBytes == null ? umbracoMember.GetValue<string>("organisationName") : Encryption.Decrypt(umbracoMember.GetValue<string>("organisationName"), EncryptionKey, saltBytes),
-                JobTitle = saltBytes == null ? umbracoMember.GetValue<string>("jobTitle") : Encryption.Decrypt(umbracoMember.GetValue<string>("jobTitle"), EncryptionKey, saltBytes),
-                FlatNumber = saltBytes == null ? umbracoMember.GetValue<string>("flatNumber") : Encryption.Decrypt(umbracoMember.GetValue<string>("flatNumber"), EncryptionKey, saltBytes),
-                BuildingNumber = saltBytes == null ? umbracoMember.GetValue<string>("buildingNumber") : Encryption.Decrypt(umbracoMember.GetValue<string>("buildingNumber"), EncryptionKey, saltBytes),
-                BuildingName = saltBytes == null ? umbracoMember.GetValue<string>("buildingName") : Encryption.Decrypt(umbracoMember.GetValue<string>("buildingName"), EncryptionKey, saltBytes),
-                Address1 = saltBytes == null ? umbracoMember.GetValue<string>("address1") : Encryption.Decrypt(umbracoMember.GetValue<string>("address1"), EncryptionKey, saltBytes),
-                Address2 = saltBytes == null ? umbracoMember.GetValue<string>("address2") : Encryption.Decrypt(umbracoMember.GetValue<string>("address2"), EncryptionKey, saltBytes),
-                City = saltBytes == null ? umbracoMember.GetValue<string>("city") : Encryption.Decrypt(umbracoMember.GetValue<string>("city"), EncryptionKey, saltBytes),
-                Country = saltBytes == null ? umbracoMember.GetValue<string>("country") : Encryption.Decrypt(umbracoMember.GetValue<string>("country"), EncryptionKey, saltBytes),
-                WorkPhoneNumber = saltBytes == null ? umbracoMember.GetValue<string>("workPhoneNumber") : Encryption.Decrypt(umbracoMember.GetValue<string>("workPhoneNumber"), EncryptionKey, saltBytes),
-                MobilePhoneNumber = saltBytes == null ? umbracoMember.GetValue<string>("mobilePhoneNumber") : Encryption.Decrypt(umbracoMember.GetValue<string>("mobilePhoneNumber"), EncryptionKey, saltBytes),
+                Postcode = CryptographicService.Decrypt(umbracoMember.GetValue<string>("postcode"), saltBytes),
+                OrganisationName = CryptographicService.Decrypt(umbracoMember.GetValue<string>("organisationName"), saltBytes),
+                JobTitle = CryptographicService.Decrypt(umbracoMember.GetValue<string>("jobTitle"), saltBytes),
+                FlatNumber = CryptographicService.Decrypt(umbracoMember.GetValue<string>("flatNumber"), saltBytes),
+                BuildingNumber = CryptographicService.Decrypt(umbracoMember.GetValue<string>("buildingNumber"), saltBytes),
+                BuildingName = CryptographicService.Decrypt(umbracoMember.GetValue<string>("buildingName"), saltBytes),
+                Address1 = CryptographicService.Decrypt(umbracoMember.GetValue<string>("address1"), saltBytes),
+                Address2 = CryptographicService.Decrypt(umbracoMember.GetValue<string>("address2"), saltBytes),
+                City = CryptographicService.Decrypt(umbracoMember.GetValue<string>("city"), saltBytes),
+                Country = CryptographicService.Decrypt(umbracoMember.GetValue<string>("country"), saltBytes),
+                WorkPhoneNumber = CryptographicService.Decrypt(umbracoMember.GetValue<string>("workPhoneNumber"), saltBytes),
+                MobilePhoneNumber = CryptographicService.Decrypt(umbracoMember.GetValue<string>("mobilePhoneNumber"), saltBytes),
                 PasswordResetToken = umbracoMember.GetValue<Guid>("passwordResetToken"),
                 PasswordResetTokenExpiryDate = umbracoMember.GetValue<DateTime>("passwordResetTokenExpiryDate")
             };
@@ -102,21 +93,19 @@ namespace RM.MailshotsOnline.Data.Extensions
         {
             if (member.Salt == null)
             {
-                member.Salt = GenerateSalt();
+                member.Salt = CryptographicService.GenerateRandomSaltB64();
             }
 
             if (member.EmailSalt == null)
             {
-                var emailSalt = Encryption.ComputedSalt(member.EmailAddress, member.EmailAddress);
-                var emailSaltBytes = Encoding.UTF8.GetBytes(emailSalt);
-                member.EmailSalt = Convert.ToBase64String(emailSaltBytes);
+                member.EmailSalt = CryptographicService.GenerateEmailSalt(member.EmailAddress);
             }
 
             umbracoMember.SetValue("salt", member.Salt);
             umbracoMember.SetValue("emailSalt", member.EmailSalt);
-            umbracoMember.SetValue("title", Encryption.Encrypt(member.Title, EncryptionKey, member.Salt));
-            umbracoMember.SetValue("firstName", Encryption.Encrypt(member.FirstName, EncryptionKey, member.Salt));
-            umbracoMember.SetValue("lastName", Encryption.Encrypt(member.LastName, EncryptionKey, member.Salt));
+            umbracoMember.SetValue("title", CryptographicService.Encrypt(member.Title, member.Salt));
+            umbracoMember.SetValue("firstName", CryptographicService.Encrypt(member.FirstName, member.Salt));
+            umbracoMember.SetValue("lastName", CryptographicService.Encrypt(member.LastName, member.Salt));
             umbracoMember.SetValue("rmPost", member.RoyalMailMarketingPreferences.Post);
             umbracoMember.SetValue("rmEmail", member.RoyalMailMarketingPreferences.Email);
             umbracoMember.SetValue("rmPhone", member.RoyalMailMarketingPreferences.Phone);
@@ -125,32 +114,26 @@ namespace RM.MailshotsOnline.Data.Extensions
             umbracoMember.SetValue("thirdPartyEmail", member.ThirdPartyMarketingPreferences.Email);
             umbracoMember.SetValue("thirdPartyPhone", member.ThirdPartyMarketingPreferences.Phone);
             umbracoMember.SetValue("thirdPartySmsAndOther", member.ThirdPartyMarketingPreferences.SmsAndOther);
-            umbracoMember.SetValue("postcode", Encryption.Encrypt(member.Postcode, EncryptionKey, member.Salt));
-            umbracoMember.SetValue("organisationName", Encryption.Encrypt(member.OrganisationName, EncryptionKey, member.Salt));
-            umbracoMember.SetValue("jobTitle", Encryption.Encrypt(member.JobTitle, EncryptionKey, member.Salt));
-            umbracoMember.SetValue("flatNumber", Encryption.Encrypt(member.FlatNumber, EncryptionKey, member.Salt));
-            umbracoMember.SetValue("buildingName", Encryption.Encrypt(member.BuildingName, EncryptionKey, member.Salt));
-            umbracoMember.SetValue("buildingNumber", Encryption.Encrypt(member.BuildingNumber, EncryptionKey, member.Salt));
-            umbracoMember.SetValue("address1", Encryption.Encrypt(member.Address1, EncryptionKey, member.Salt));
-            umbracoMember.SetValue("address2", Encryption.Encrypt(member.Address2, EncryptionKey, member.Salt));
-            umbracoMember.SetValue("city", Encryption.Encrypt(member.City, EncryptionKey, member.Salt));
-            umbracoMember.SetValue("country", Encryption.Encrypt(member.Country, EncryptionKey, member.Salt));
-            umbracoMember.SetValue("workPhoneNumber", Encryption.Encrypt(member.WorkPhoneNumber, EncryptionKey, member.Salt));
-            umbracoMember.SetValue("mobilePhoneNumber", Encryption.Encrypt(member.MobilePhoneNumber, EncryptionKey, member.Salt));
+            umbracoMember.SetValue("postcode", CryptographicService.Encrypt(member.Postcode, member.Salt));
+            umbracoMember.SetValue("organisationName", CryptographicService.Encrypt(member.OrganisationName, member.Salt));
+            umbracoMember.SetValue("jobTitle", CryptographicService.Encrypt(member.JobTitle, member.Salt));
+            umbracoMember.SetValue("flatNumber", CryptographicService.Encrypt(member.FlatNumber, member.Salt));
+            umbracoMember.SetValue("buildingName", CryptographicService.Encrypt(member.BuildingName, member.Salt));
+            umbracoMember.SetValue("buildingNumber", CryptographicService.Encrypt(member.BuildingNumber, member.Salt));
+            umbracoMember.SetValue("address1", CryptographicService.Encrypt(member.Address1, member.Salt));
+            umbracoMember.SetValue("address2", CryptographicService.Encrypt(member.Address2, member.Salt));
+            umbracoMember.SetValue("city", CryptographicService.Encrypt(member.City, member.Salt));
+            umbracoMember.SetValue("country", CryptographicService.Encrypt(member.Country, member.Salt));
+            umbracoMember.SetValue("workPhoneNumber", CryptographicService.Encrypt(member.WorkPhoneNumber, member.Salt));
+            umbracoMember.SetValue("mobilePhoneNumber", CryptographicService.Encrypt(member.MobilePhoneNumber, member.Salt));
             umbracoMember.SetValue("passwordResetToken", member.PasswordResetToken.ToString());
             umbracoMember.SetValue("passwordResetTokenExpiryDate", member.PasswordResetTokenExpiryDate.ToString());
-            umbracoMember.Email = Encryption.Encrypt(member.EmailAddress, EncryptionKey, member.EmailSalt);
+            umbracoMember.Email = CryptographicService.Encrypt(member.EmailAddress, member.EmailSalt);
             umbracoMember.Name = umbracoMember.Email;
 
             return umbracoMember;
         }
 
-        private static string GenerateSalt()
-        {
-            var salt = new byte[16];
-            CryptoService.GetBytes(salt);
-
-            return Convert.ToBase64String(salt);
-        }
+        
     }
 }

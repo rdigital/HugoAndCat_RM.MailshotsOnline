@@ -29,7 +29,7 @@ namespace RM.MailshotsOnline.Data.Media_Conversion
         /// <para>Converts a media item into the given type if a media converter for that type has 
         /// been registered.</para>
         /// 
-        /// <para>Conversters are registered in the constructor for this class.</para>
+        /// <para>Converters are registered in the constructor for this class.</para>
         /// 
         /// <para>Conversions for the given type and all its base classes are looked up and applied to
         /// our media one by one (i.e. most-base first, derived last).</para>
@@ -62,7 +62,7 @@ namespace RM.MailshotsOnline.Data.Media_Conversion
         public static IMedia Convert(Umbraco.Core.Models.IMedia content, Type type)
         {
             // Create a new instance of our type
-            var newMedia = (IMedia)Activator.CreateInstance(type);
+            var newMedia = (IMedia) Activator.CreateInstance(type);
             var mediaConverters = GetMediaConverters(type, new Stack<IMediaConverter>());
 
             // this is awesome:
@@ -85,10 +85,10 @@ namespace RM.MailshotsOnline.Data.Media_Conversion
         /// <para>Converts a media item into the given type if a media converter for that type has 
         /// been registered.</para>
         /// 
-        /// <para>Conversters are registered in the constructor for this class.</para>
+        /// <para>Converters are registered in the constructor for this class.</para>
         /// 
         /// <para>Conversions for the given type and all its base classes are looked up and applied to
-        /// our media one by one (i.e. most-base first, derived last).</para>
+        /// our media one by one (i.e. most-base first, most-derived last).</para>
         /// </summary>
         /// <param name="contentId">The ID of the content item to convert.</param>
         /// <param name="type">The type to convert the item into.</param>

@@ -66,6 +66,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ICampaignService.cs" />
     <Compile Include="Services\ICmsImageService.cs" />
+    <Compile Include="Services\ICryptographicService.cs" />
     <Compile Include="Services\IImageLibraryService.cs" />
     <Compile Include="Services\IInvoiceService.cs" />
     <Compile Include="Services\IMailshotSettingsService.cs" />

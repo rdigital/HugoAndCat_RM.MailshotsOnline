@@ -1,8 +1,13 @@
 ﻿@model RM.MailshotsOnline.Entities.PageModels.ResetPassword
 
+@{
+    var helper = new Umbraco.Web.UmbracoHelper(Umbraco.Web.UmbracoContext.Current);
+    var resetCompleteContinuePage = helper.Content(Model.RequestCompleteContinuePage.Id).Url;
+}
+
 <div>
     <div>
         @Html.Raw(Model.ResetCompleteMessage)
     </div>
-    <a href="@Model.ResetCompleteContinuePage.Url">@Model.ResetCompleteContinuePage.Name</a>
+    <a href="@resetCompleteContinuePage">@Model.ResetCompleteContinuePage.Name</a>
 </div>
