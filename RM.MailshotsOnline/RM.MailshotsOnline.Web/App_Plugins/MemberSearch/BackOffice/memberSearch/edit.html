@@ -1,0 +1,76 @@
+﻿<style type="text/css">
+    #member-search-results {
+        min-width: 800px;
+    }
+    #member-search-results thead, #member-search-results tbody tr:nth-child(even) {
+        background-color: #eee;
+    }
+</style>
+
+<script>
+    
+    $(document).ready(function () {
+
+        var table = $('#member-search-results');
+        var tbody = table.find('tbody');
+        var message = $("#member-search-message");
+        table.hide();
+        message.hide();
+
+        $("#member-search-button").click(function () {
+            tbody.empty();
+            message.hide();
+            var query = $("#member-search-query").val();
+            if (query != "") {
+                $.ajax({
+                    url: "backoffice/Membersearch/MemberSearchApi/GetSearchResults?query=" + query,
+                    type: "GET",
+                    success: function(results) {
+                        drawResults(results);
+                    },
+                    statusCode: {
+                        500: function(response) {
+                            message.text("Couldn't retrieve search results!");
+                            message.show();
+                            console.log(response);
+                        }
+                    }
+                });
+            }
+
+            function drawResults(results) {
+                if (results != undefined) {
+                    if (results.length == 0) {
+                        table.hide();
+                        message.text("No results!");
+                        message.show();
+                        return;
+                    } else {
+                        $.each(results, function (index, value) {
+                            var link = "/umbraco/#/member/member/edit/" + value.NodeId;
+                            tbody.append('<tr><td><a href="' + link + '">' + value.FirstName + '</a></td>' +
+                                '<td><a href="' + link + '">' + value.LastName + '</a></td>' +
+                                '<td><a href="' + link + '">' + value.EmailAddress + '</a></td><tr>');
+                        });
+                        table.show();
+                    }
+                } else {
+                    table.hide();
+                    message.text("No results!");
+                    message.show();
+                }
+            }
+        });
+    });
+
+</script>
+
+<input type="text" placeholder="First name, surname or email" id="member-search-query"/>
+<button id="member-search-button">Search</button>
+
+<table id="member-search-results">
+    <thead><tr><td>First name</td><td>Last name</td><td>Email address</td></tr></thead>
+    <tbody></tbody>
+</table>
+
+<div id="member-search-message"></div>
