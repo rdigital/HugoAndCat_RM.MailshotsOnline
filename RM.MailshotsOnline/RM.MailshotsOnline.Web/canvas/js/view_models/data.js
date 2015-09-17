@@ -9,19 +9,12 @@ define(['knockout', 'komapping', 'jquery'],
     	 * View model, not to be instanciated directly, but rather used as a base
     	 * for extension by other viewmodels with similar properties (e.g. themes)
     	 */
-        function dataViewModel() {
-            // this.objects contains the data returned from the server
-            this.objects = ko.observableArray([]);
-            // use selection by ID (instead of direct ref to object)
-            // in case we want to use routing to describe selections
-            this.selected = ko.pureComputed(function(){
+        function dataViewModel() {}
+
+        dataViewModel.prototype.getSelectedComputed = function getSelectedComputed() {
+            return ko.pureComputed(function(){
                 return this.getObjByID(this.objects, this.selectedID);
             }, this);
-
-            this.getVars();
-
-            // fetch data
-            this.fetch();
         }
 
         dataViewModel.prototype.toJSON = function toJSON() {
@@ -43,15 +36,7 @@ define(['knockout', 'komapping', 'jquery'],
         }
 
         dataViewModel.prototype.fetch = function fetch() {
-            // fetch data from server using fetchURL
-            //console.log('fetching data from ' + this.fetchURL);
-            // XXX TEMP XXX
-            //setTimeout(function(){
-            //	this.objects(this.testData || {});
-            //}.bind(this), 2000)
-            this.objects(this.testData || {});
-            //console.log(this.objects());
-            return
+            console.log('fetching data from ' + this.fetchURL);
             $.getJSON(this.fetchURL, function(data) {
                 this.objects(data);
             }.bind(this))

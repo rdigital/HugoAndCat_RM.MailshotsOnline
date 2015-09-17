@@ -2,16 +2,27 @@
 define(['knockout', 'view_models/data', 'view_models/user', 'view_models/state', 'temp/data'],
     function(ko, dataViewModel, userViewModel, stateViewModel, tempData) {
 
-        // extends dataViewModel
-        var formatViewModel = dataViewModel;
+        function formatViewModel() {
+            // this.objects contains the data returned from the server
+            this.objects = ko.observableArray([]);
+            this.selected = ko.observable();
 
-        formatViewModel.prototype.getVars = function getVars() {
-            this.fetchURL = '/formats';
-            this.testData = tempData.formatData;
-            this.selectedID = userViewModel.objects.formatID;
-            this.objects.subscribe(function() {
+            this.selectedID = stateViewModel.formatID;
+            this.selected.subscribe(function() {
                 stateViewModel.viewingFace(this.getDefaultFace());
             }, this)
+
+            // fetch data
+            this.fetch();
+        }
+
+        formatViewModel.prototype.fetch = function fetch() {
+            // fetch data from server using fetchURL
+            var fetchURL = "/Umbraco/Api/MailshotSettings/GetFormat/" + this.selectedID; 
+            console.log('fetching data from ' + fetchURL);
+            $.getJSON(fetchURL, function(data) {
+                this.selected(data);
+            }.bind(this))
         }
 
         formatViewModel.prototype.getDefaultFace = function getDefaultFace() {

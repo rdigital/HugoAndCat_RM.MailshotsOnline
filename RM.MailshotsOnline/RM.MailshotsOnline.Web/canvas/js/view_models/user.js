@@ -7,7 +7,6 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
             // initialize this.objects
             this.objects = komapping.fromJS({});
             this.name = ko.observable('TEST123');
-            this.id = ko.observable();
             this.saving = ko.observable(false);
 
             // bound methods
@@ -32,6 +31,10 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
             historyViewModel.pushToHistory();
         }
 
+        /**
+         * populate the user data model from the provided JSON
+         * @param  {String} data [json string representing the entire user model state]
+         */
         userViewModel.prototype.fromJSON = function fromJSON(data) {
             komapping.fromJSON(data, this.objects);
             // force rerender
@@ -68,16 +71,15 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
 
             var data = {
                 name: this.name(),
-                templateId: this.get('templateID'),
-                formatId: this.get('formatID'),
-                themeId: this.get('themeID'),
                 contentText: this.toJSON(),
                 draft: true
             };
-            var url = (this.id()) ? '/Umbraco/Api/Mailshots/Update/' + this.id() : '/Umbraco/Api/Mailshots/Save';
+            var url = (stateViewModel.mailshotID) ? '/Umbraco/Api/Mailshots/Update/' + stateViewModel.mailshotID : '/Umbraco/Api/Mailshots/Save';
             
             $.post(url, data, function(response) {
-                    console.log('save successful')
+                    if (response.id) {
+                        stateViewModel.mailshotID = response.id;
+                    }
                 }.bind(this))
                 .fail(function() {
                     console.log('error saving user data');
