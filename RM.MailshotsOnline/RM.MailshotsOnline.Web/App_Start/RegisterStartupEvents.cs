@@ -31,6 +31,8 @@ namespace RM.MailshotsOnline.Web.App_Start
         private IPricingService _pricingService;
         private ISettingsService _settingsService;
 
+        private readonly char[] _trimCharacters = new char[] { '"' };
+
         /// <summary>
         /// Runs as the application is starting
         /// </summary>
@@ -389,16 +391,10 @@ namespace RM.MailshotsOnline.Web.App_Start
             _mailshotSettingsService = _mailshotSettingsService ?? new MailshotSettingsService();
 
             decimal pricePerPrint;
-            decimal onceOffPrice;
 
             if (!decimal.TryParse(item.GetValue<string>("pricePerPrint"), out pricePerPrint))
             {
                 pricePerPrint = 0;
-            }
-
-            if (!decimal.TryParse(item.GetValue<string>("onceOffPrice"), out onceOffPrice))
-            {
-                onceOffPrice = 0;
             }
 
             var format = new Format()
@@ -408,7 +404,8 @@ namespace RM.MailshotsOnline.Web.App_Start
                 XslData = item.GetValue<string>("xslData"),
                 JsonIndex = item.GetValue<int>("jsonIndex"),
                 UpdatedDate = DateTime.UtcNow,
-                PricePerPrint = pricePerPrint
+                PricePerPrint = pricePerPrint,
+                JsonData = item.GetValue<string>("jsonData").TrimStart(_trimCharacters).TrimEnd(_trimCharacters)
             };
 
             _mailshotSettingsService.AddOrUpdateFormat(format);
@@ -428,7 +425,8 @@ namespace RM.MailshotsOnline.Web.App_Start
                 XslData = item.GetValue<string>("xslData"),
                 JsonIndex = item.GetValue<int>("jsonIndex"),
                 FormatUmbracoPageId = item.GetValue<int>("format"),
-                UpdatedDate = DateTime.UtcNow
+                UpdatedDate = DateTime.UtcNow,
+                JsonData = item.GetValue<string>("jsonData").TrimStart(_trimCharacters).TrimEnd(_trimCharacters)
             };
 
             _mailshotSettingsService.AddOrUpdateTemplate(template);
@@ -447,7 +445,8 @@ namespace RM.MailshotsOnline.Web.App_Start
                 Name = item.Name,
                 XslData = item.GetValue<string>("xslData"),
                 JsonIndex = item.GetValue<int>("jsonIndex"),
-                UpdatedDate = DateTime.UtcNow
+                UpdatedDate = DateTime.UtcNow,
+                JsonData = item.GetValue<string>("jsonData").TrimStart(_trimCharacters).TrimEnd(_trimCharacters)
             };
 
             _mailshotSettingsService.AddOrUpdateTheme(theme);

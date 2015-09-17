@@ -13,6 +13,8 @@ namespace RM.MailshotsOnline.PCL.Models.MailshotSettings
 
         int JsonIndex { get; set; }
 
+        string JsonData { get; set; }
+
         int UmbracoPageId { get; set; }
     }
 }

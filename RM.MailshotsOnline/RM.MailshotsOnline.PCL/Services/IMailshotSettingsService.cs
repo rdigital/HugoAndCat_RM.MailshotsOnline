@@ -27,6 +27,12 @@ namespace RM.MailshotsOnline.PCL.Services
         void AddOrUpdateTheme(ITheme theme);
 
         /// <summary>
+        /// Gets all formats
+        /// </summary>
+        /// <returns>Collection of IFormat objects</returns>
+        IEnumerable<IFormat> GetFormats();
+
+        /// <summary>
         /// Fetches a Format object based on it's JSON index
         /// </summary>
         /// <param name="index">JSON index</param>
@@ -42,10 +48,23 @@ namespace RM.MailshotsOnline.PCL.Services
         ITemplate GetTemplateByJsonIndex(int index, int formatIndex);
 
         /// <summary>
+        /// Gets the templates that are applicable to a format
+        /// </summary>
+        /// <param name="formatIndex">JSON index of the Format</param>
+        /// <returns>Collection of Template objects</returns>
+        IEnumerable<ITemplate> GetTemplatesForFormat(int formatIndex);
+
+        /// <summary>
         /// Fetches a Theme based on its JSON index
         /// </summary>
         /// <param name="index">JSON index</param>
         /// <returns>Theme Object</returns>
         ITheme GetThemeByJsonIndex(int index);
+
+        /// <summary>
+        /// Fetches all themes
+        /// </summary>
+        /// <returns>Collection of Theme objects</returns>
+        IEnumerable<ITheme> GetThemes();
     }
 }
