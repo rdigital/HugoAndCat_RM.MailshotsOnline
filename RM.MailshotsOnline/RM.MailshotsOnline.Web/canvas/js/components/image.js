@@ -256,7 +256,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
          * sets dragging to true on initial mousedown
          */
         imageViewModel.prototype.dragStart = function dragStart(data, e) {
-            if (!this.image) {
+            if (!this.image || !this.isSelected()) {
                 return
             }
             this.offsetX = e.offsetX;
