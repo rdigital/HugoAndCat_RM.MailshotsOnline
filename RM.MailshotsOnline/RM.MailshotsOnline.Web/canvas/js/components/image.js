@@ -273,7 +273,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
          */
         imageViewModel.prototype.render = function render(src, new_upload) {
             this.image = new Image()
-            this.image.crossOrigin = "Anonymous";
+            //this.image.crossOrigin = "Anonymous";
             var canvas = this.canvas();
 
             this.image.onload = function(){
