@@ -396,6 +396,7 @@
     <Content Include="canvas\images\library_image.PNG" />
     <Content Include="canvas\images\loading.gif" />
     <Content Include="canvas\images\own_image.PNG" />
+    <Content Include="canvas\images\saving.gif" />
     <Content Include="canvas\images\upload.png" />
     <Content Include="canvas\js\app.js" />
     <Content Include="canvas\js\components\backgroundtools.js" />
