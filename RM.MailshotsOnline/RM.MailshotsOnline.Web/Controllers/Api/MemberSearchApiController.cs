@@ -30,7 +30,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             _logger = logger;
         }
 
-        public List<MemberResult> GetSearchResults(string query)
+        public IEnumerable<MemberResult> GetSearchResults(string query)
         {
             query = query.ToLower();
 
@@ -51,8 +51,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                                 LastName = x.LastName,
                                 NodeId = GetNodeId(x)
                             })
-                    .OrderBy(x => x.EmailAddress)
-                    .ToList();
+                    .OrderBy(x => x.EmailAddress);
 
             return results;
         }
