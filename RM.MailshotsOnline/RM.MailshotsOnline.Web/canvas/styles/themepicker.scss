@@ -32,6 +32,7 @@
 		    .side-inner {
 		    	position: relative;
 		    	&:before {
+		    		@include transition(opacity);
 			    	content: '';
 			    	display: block;
 			    	position: absolute;
@@ -41,7 +42,6 @@
 			    	bottom: 0;
 			    	opacity: 0;
 			    	background: #000;
-			    	transition: opacity .25s ease-out;
 			    	z-index: 100;
 			    }
 			}
@@ -64,31 +64,3 @@
 	}
 }
 
-@keyframes slidein {
-    0% { transform: translate(0, -230px); }
-    100%   { transform: translate(0, 0); }
-}
-
-/* Firefox < 16 */
-@-moz-keyframes slidein {
-    0% { transform: translate(0, -230px); }
-    100%   { transform: translate(0, 0); }
-}
-
-/* Safari, Chrome and Opera > 12.1 */
-@-webkit-keyframes slidein {
-    0% { transform: translate(0, -230px); }
-    100%   { transform: translate(0, 0); }
-}
-
-/* Internet Explorer */
-@-ms-keyframes slidein {
-    0% { transform: translate(0, -230px); }
-    100%   { transform: translate(0, 0); }
-}
-
-/* Opera < 12.1 */
-@-o-keyframes slidein {
-    0% { transform: translate(0, -230px); }
-    100%   { transform: translate(0, 0); }
-}

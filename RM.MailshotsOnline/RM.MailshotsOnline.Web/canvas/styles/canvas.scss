@@ -51,6 +51,9 @@ body {
             display: none !important;
         }
     }
+    .face-component {
+        animation: fadein .25s;
+    }
 }
 
 @media all and (max-width: 1100px) {
