@@ -7,6 +7,8 @@ define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/form
             this.redoAvailable = historyViewModel.redoAvailable;
             this.undoAvailable = historyViewModel.undoAvailable;
             this.showPreview = stateViewModel.showPreview;
+            this.uploadingImages = stateViewModel.uploadingImages;
+            this.saving = stateViewModel.saving;
 
             // computeds
             this.hidden = this.getHiddenComputed();
@@ -67,6 +69,9 @@ define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/form
         }
 
         optionsViewModel.prototype.save = function save() {
+            if (this.saving() || this.uploadingImages().length) {
+                return
+            }
             userViewModel.save();
         }
 

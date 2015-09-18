@@ -23,6 +23,7 @@ define(['knockout', 'jquery'],
             this.viewingFace = ko.observable();
             this.ready = ko.observable(false);
             this.saving = ko.observable(false);
+            this.uploadingImages = ko.observableArray();
             // set to true to make images rescale to default when the components render
             this.repositionImages = false;
             // testing

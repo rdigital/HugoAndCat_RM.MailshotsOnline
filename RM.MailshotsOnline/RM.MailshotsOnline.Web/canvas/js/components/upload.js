@@ -49,6 +49,7 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/his
                 element.setUrlSrc(null);
             }
             if (this.src()) {
+
                 // we are uploading a new image
                 var name = this.getRandomInt().toString(),
                     data = {
@@ -58,12 +59,17 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/his
                     post = $.post('/Umbraco/Api/ImageLibrary/UploadImage', data, function(image) {
                         myImagesViewModel.add(image);
                         element.setUrlSrc(image.Src);
-                        historyViewModel.replaceUrlSrc(name, image.Src);
                     }).fail(function(error) {
                         console.log('There was an error uploading image', error);
                         element.setUrlSrc(null);
-                        historyViewModel.replaceUrlSrc(name, null);
+                    }).always(function() {
+                        stateViewModel.uploadingImages.remove(name);
+                        historyViewModel.replaceUrlSrc(name, element.setUrlSrc());
                     })
+
+                // push the unique identifier for this upload onto the upload trackin array
+                stateViewModel.uploadingImages.push(name);
+                
                 // temporarily set the URL source to be the ranomly generated
                 // number. Upon completion, we can swap out this integer in the history
                 // so that undeoing / redoing changes made while the image was uploading
