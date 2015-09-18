@@ -207,3 +207,22 @@ body {
         content: attr(data-fallback) !important;
     }
 }
+
+.loading {
+    @include transition(opacity);
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: $lightest-grey;
+    z-index: 1000;
+    opacity: 1;
+    background-image: url(/canvas/images/loading.gif);
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    &.loading_complete {
+        opacity: 0;
+        pointer-events: none;
+    }
+}

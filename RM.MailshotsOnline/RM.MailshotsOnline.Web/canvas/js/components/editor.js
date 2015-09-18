@@ -15,6 +15,7 @@ define(['knockout', 'komapping', 'components/side', 'components/tools', 'compone
         function editorViewModel(params) {
             this.faces = formatViewModel.allFaces;
             this.sides = ['front', 'back']
+            this.ready = stateViewModel.ready;
             this.viewingSide = stateViewModel.viewingSide;
             this.viewingFace = stateViewModel.viewingFace;
             this.historyRerender = stateViewModel.historyRerender;

@@ -6,9 +6,9 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
         function userViewModel() {
             // initialize this.objects
             this.objects = komapping.fromJS({});
-            this.ready = ko.observable(false);
+            this.ready = stateViewModel.ready;
             this.name = ko.observable('TEST123');
-            this.saving = ko.observable(false);
+            this.saving = stateViewModel.saving;
 
             // bound methods
             this.save = this.save.bind(this);
@@ -43,11 +43,23 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
         }
 
         userViewModel.prototype.toJSON = function toJSON() {
-            return komapping.toJSON(this.objects)
+            var mapping = {
+                include: ['writeSrc'],
+                ignore: ['urlSrc', 'src']
+            }
+            var userObject = komapping.toJS(this.objects, mapping);
+            ko.utils.arrayForEach(userObject.elements, function(el) {
+                if ('writeSrc' in el) {
+                    el.src = el.writeSrc;
+                    delete el.writeSrc;
+                }
+            })
+            return JSON.stringify(userObject);
+
         }
 
         userViewModel.prototype.toHistoryJSON = function toHistoryJSON() {
-            return komapping.toJSON(this.objects)
+            return komapping.toJSON(this.objects, {ignore: ['writeSrc']});
         }
 
         /**
@@ -230,6 +242,13 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
                 elem = komapping.fromJS(new_elem);
                 this.objects.elements.push(elem);
             }
+            // add on the temporary urlSrc observable, used so that we can
+            // use the base64 version of an image to display it on a canvas immediately
+            // but silently upload in the background and maintain a URL
+            elem.urlSrc = elem.urlSrc || ko.observable('');
+            elem.writeSrc = ko.pureComputed(function() {
+                return this.urlSrc() || this.src(); 
+            }, elem)
             return elem
         }
 

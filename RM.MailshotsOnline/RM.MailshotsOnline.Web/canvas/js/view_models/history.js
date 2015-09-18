@@ -70,6 +70,14 @@ define(['require', 'knockout', 'view_models/user', 'view_models/state'],
             }, this)
         }
 
+        historyViewModel.prototype.replaceUrlSrc = function replaceUrlSrc(placeholder, src) {
+            var subbed_history = []
+            ko.utils.arrayForEach(this.history(), function(historyItem) {
+                subbed_history.push(historyItem.replace('"urlSrc":"' + placeholder + '"', '"urlSrc":"' + src + '"'));
+            })
+            this.history(subbed_history);
+        }
+
         // testing
         window.historyModel = new historyViewModel()
         // return instance of viewmodel, so all places where AMD is used

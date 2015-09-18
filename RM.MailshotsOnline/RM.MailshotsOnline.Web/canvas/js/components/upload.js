@@ -1,6 +1,6 @@
-define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/state'],
+define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/history', 'view_models/state'],
 
-    function(ko, $, kofile, myImagesViewModel, stateViewModel) {
+    function(ko, $, kofile, myImagesViewModel, historyViewModel, stateViewModel) {
 
         function imageUploadViewModel(params) {
             this.src = ko.observable();
@@ -8,6 +8,7 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/sta
                 dataURL: ko.observable()
             })
             this.selectedTab = ko.observable(stateViewModel.imageTab() || 'upload');
+            this.selectedElement = stateViewModel.selectedElement()
 
             // XXX note to whoever has time, move these into their own data model so
             // they can be persisted between opening up the image panel
@@ -42,16 +43,32 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/sta
         }
 
         imageUploadViewModel.prototype.dispose = function dispose() {
+            var element = this.selectedElement;
+            if (this.src() || this.libraryImage() || this.myImage()) {
+                // we are updating the image, set element src to null
+                element.setUrlSrc(null);
+            }
             if (this.src()) {
-                var data = {
-                    imageString: this.src(),
-                    name: this.getRandomInt().toString() 
-                };
-                $.post('/Umbraco/Api/ImageLibrary/UploadImage', data, function(image) {
-                    myImagesViewModel.add(image);
-                }).fail(function(error) {
-                    console.log('There was an error uploading image', error);
-                })
+                // we are uploading a new image
+                var name = this.getRandomInt().toString(),
+                    data = {
+                        imageString: this.src(),
+                        name: this.getRandomInt().toString() 
+                    },
+                    post = $.post('/Umbraco/Api/ImageLibrary/UploadImage', data, function(image) {
+                        myImagesViewModel.add(image);
+                        element.setUrlSrc(image.Src);
+                        historyViewModel.replaceUrlSrc(name, image.Src);
+                    }).fail(function(error) {
+                        console.log('There was an error uploading image', error);
+                        element.setUrlSrc(null);
+                        historyViewModel.replaceUrlSrc(name, null);
+                    })
+                // temporarily set the URL source to be the ranomly generated
+                // number. Upon completion, we can swap out this integer in the history
+                // so that undeoing / redoing changes made while the image was uploading
+                // does not lose the URL
+                element.setUrlSrc(name);
             }
             this.selectMyImage(null);
         }
@@ -114,7 +131,7 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/sta
 
         imageUploadViewModel.prototype.renderLibraryImage = function renderLibraryImage() {
             if (this.libraryImage()) {
-                stateViewModel.selectedElement().render(this.libraryImage().Src, true);
+                this.selectedElement.render(this.libraryImage().Src, true);
                 this.selectMyImage(null);
                 this.src(null);
             }
@@ -122,7 +139,7 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/sta
 
         imageUploadViewModel.prototype.renderMyImage = function renderMyImage() {
             if (this.myImage()) {
-                stateViewModel.selectedElement().render(this.myImage().Src, true);
+                this.selectedElement.render(this.myImage().Src, true);
                 this.libraryImage(null);
                 this.src(null);
             }
@@ -142,7 +159,7 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/sta
 
         imageUploadViewModel.prototype.render = function render() {
             if (this.src()) {
-                stateViewModel.selectedElement().render(this.src(), true);
+                this.selectedElement.render(this.src(), true);
                 this.libraryImage(null);
                 this.selectMyImage(null);
             }

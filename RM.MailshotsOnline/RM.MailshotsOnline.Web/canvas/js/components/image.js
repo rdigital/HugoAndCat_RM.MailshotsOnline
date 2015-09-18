@@ -37,6 +37,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             // bound functions
             this.dispose = this.dispose.bind(this);
             this.setup = this.setup.bind(this);
+            this.setUrlSrc = this.setUrlSrc.bind(this);
         }
 
         // extend the element model
@@ -114,6 +115,10 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
 
             // content is only defined on the user data
             image.content = userImage.content;
+
+            // temporary urlSrc field to track the returned URL of an image after 
+            // it is uploaded in the background
+            image.urlSrc = userImage.urlSrc;
 
             // if we are overriding the template, return new observables containing the values from
             // userdata, so as to not be updating the user view model
@@ -264,6 +269,10 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
          */
         imageViewModel.prototype.dragEnd = function dragEnd() {
             this.dragging = false;
+        }
+
+        imageViewModel.prototype.setUrlSrc = function setUrlSrc(src) {
+            this.imageObj.urlSrc(src);
         }
 
         /**
