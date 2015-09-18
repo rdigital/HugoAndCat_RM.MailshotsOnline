@@ -232,7 +232,7 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
                     name: name,
                     content: '',
                     styles: [],
-                    src: null,
+                    src: '',
                     scale: null,
                     img_position: {
                         top: null,

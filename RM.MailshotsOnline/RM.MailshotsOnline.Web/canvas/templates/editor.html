@@ -26,7 +26,7 @@
 		<!-- /ko -->
 
 		<!-- side picker -->
-		<div class="side-picker" data-bind="click: $parent.unfocus, css: {'side-picker_hidden': $parent.elementFocused}">
+		<div class="side-picker" data-bind="click: $parent.unfocus, css: {'side-picker_hidden': $parent.elementFocused() || !$parent.ready()}">
 			<!-- ko foreach: $parent.faces -->
 			<sidepicker-component params="{face: $data, unfocus: $parents[1].unfocus}"></sidepicker-component>
 			<!-- /ko -->
