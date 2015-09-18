@@ -46,6 +46,124 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         }
 
         [ChildActionOnly]
+        public ActionResult ShowDeleteDesignButton(CampaignHub model)
+        {
+            return PartialView("~/Views/CampaignHub/Partials/DeleteDesignButton.cshtml", model);
+        }
+
+        public ActionResult DeleteDesign(CampaignHub model)
+        {
+            // Fetch the campaign
+            ICampaign campaign = null;
+            Guid campaignId = Guid.Empty;
+            try
+            {
+                if (Guid.TryParse(Request.QueryString["campaignId"], out campaignId))
+                {
+                    campaign = _campaignService.GetCampaign(campaignId);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(this.GetType().Name, "EditDesign", ex);
+                Log.Error(this.GetType().Name, "EditDesign", "Unable to get campaign");
+                ModelState.AddModelError("PageModel", "Unable to get campaign");
+                return CurrentUmbracoPage();
+            }
+
+            if (campaign == null)
+            {
+                ModelState.AddModelError("PageModel", "Unable to get campaign");
+                return CurrentUmbracoPage();
+            }
+
+            if (campaign.UserId != LoggedInMember.Id)
+            {
+                Log.Error(this.GetType().Name, "EditDesign", "Unauthorised attempt to get campaign");
+                ModelState.AddModelError("PageModel", "Unable to get campaign");
+                return CurrentUmbracoPage();
+            }
+
+            IMailshot mailshot = null;
+            if (campaign.MailshotId.HasValue)
+            {
+                mailshot = _mailshotService.GetMailshot(campaign.MailshotId.Value);
+            }
+
+            if (mailshot == null)
+            {
+                Log.Error(this.GetType().Name, "EditDesign", "Unable to get mailshot");
+                ModelState.AddModelError("PageModel", "Unable to get mailshot");
+                return CurrentUmbracoPage();
+            }
+
+            campaign.MailshotId = null;
+            _campaignService.SaveCampaign(campaign);
+
+            _mailshotService.Delete(mailshot);
+
+            return CurrentUmbracoPage();
+        }
+
+        [ChildActionOnly]
+        public ActionResult ShowEditDesignButton(CampaignHub model)
+        {
+            return PartialView("~/Views/CampaignHub/Partials/EditButton.cshtml", model);
+        }
+
+        public ActionResult EditDesign(CampaignHub model)
+        {
+            // Fetch the campaign
+            ICampaign campaign = null;
+            Guid campaignId = Guid.Empty;
+            try
+            {
+                if (Guid.TryParse(Request.QueryString["campaignId"], out campaignId))
+                {
+                    campaign = _campaignService.GetCampaign(campaignId);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(this.GetType().Name, "EditDesign", ex);
+                Log.Error(this.GetType().Name, "EditDesign", "Unable to get campaign");
+                ModelState.AddModelError("PageModel", "Unable to get campaign");
+                return CurrentUmbracoPage();
+            }
+
+            if (campaign == null)
+            {
+                ModelState.AddModelError("PageModel", "Unable to get campaign");
+                return CurrentUmbracoPage();
+            }
+
+            if (campaign.UserId != LoggedInMember.Id)
+            {
+                Log.Error(this.GetType().Name, "EditDesign", "Unauthorised attempt to get campaign");
+                ModelState.AddModelError("PageModel", "Unable to get campaign");
+                return CurrentUmbracoPage();
+            }
+
+            IMailshot mailshot = null;
+            if (campaign.MailshotId.HasValue)
+            {
+                mailshot = _mailshotService.GetMailshot(campaign.MailshotId.Value);
+            }
+
+            if (mailshot == null)
+            {
+                Log.Error(this.GetType().Name, "EditDesign", "Unable to get mailshot");
+                ModelState.AddModelError("PageModel", "Unable to get mailshot");
+                return CurrentUmbracoPage();
+            }
+
+            // Redirect the user to the create-canvas page with the appropriate QS parameters
+            var canvasPageId = (int)CurrentPage.GetProperty("createCanvasPage").Value;
+            var canvasPageUrl = Umbraco.NiceUrlWithDomain(canvasPageId);
+            return Redirect($"{canvasPageUrl}?formatId={mailshot.Format.JsonIndex}&mailshotId={mailshot.MailshotId}");
+        }
+
+        [ChildActionOnly]
         public ActionResult ShowStartDesignButton(CampaignHub model)
         {
             var viewModel = new StartDesignViewModel() { PageModel = model };

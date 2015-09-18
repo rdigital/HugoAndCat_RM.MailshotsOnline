@@ -229,6 +229,10 @@ div.checkbox label { display: inline-block; padding-left: 10px;}
     padding-left:15%;
 }
 
+.campaign-hub div.buttonRow form {
+    display: inline;
+}
+
 .campaign-hub div.buttonRow button {
     border: 1px solid white;
     color: white;

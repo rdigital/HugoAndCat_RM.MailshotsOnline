@@ -135,5 +135,7 @@ namespace RM.MailshotsOnline.Entities.PageModels
         public IMember LoggedInMember { get; set; }
 
         public IEnumerable<IPostalOption> PostalOptions { get; set; }
+
+        public IMailshot Mailshot { get; set; }
     }
 }

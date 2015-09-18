@@ -105,15 +105,16 @@
                     {
                         <p>@Model.Campaign.Mailshot.Format.Name</p>
                         <div class="preview @Model.Campaign.Mailshot.Format.Name.ToLowerInvariant().Replace(" ","")">&nbsp;</div>
-                        <p class="center"><a href="#remove">@Model.RemoveButtonText</a></p>
                         if (Model.Campaign.Status == RM.MailshotsOnline.PCL.Enums.CampaignStatus.Draft || Model.Campaign.Status == RM.MailshotsOnline.PCL.Enums.CampaignStatus.ReadyToCheckout)
                         {
                             if (Model.Campaign.Mailshot.Draft)
                             {
                             <div class="buttonRow">
-                                <button>@Model.EditButtonText</button>
-                                <button>@Model.PreviewButtonText</button>
-                                <button>@Model.DownloadButtonText</button>
+                                @Html.Action("ShowEditDesignButton", "CampaignSurface", new { model = Model })
+                                @Html.Action("ShowDeleteDesignButton", "CampaignSurface", new { model = Model })
+                                <button id="previewDesign">@Model.PreviewButtonText</button>
+                                <input type="hidden" id="mailshotId" value="@Model.Mailshot.MailshotId" />
+                                <input type="hidden" id="previewPdfUrl" value="@Model.Mailshot.ProofPdfUrl" />
                             </div>
                             <button class="big-button" id="designApproval">@Model.ApproveButtonText</button>
                             }

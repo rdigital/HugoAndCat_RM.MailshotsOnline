@@ -3456,6 +3456,8 @@
     <Content Include="Views\CampaignHub\Partials\StartDesignButton.cshtml" />
     <Content Include="uSync\DocumentType\MailshotDefaultContentFolder\def.config" />
     <Content Include="uSync\DocumentType\MailshotDefaultContent\def.config" />
+    <Content Include="Views\CampaignHub\Partials\EditButton.cshtml" />
+    <Content Include="Views\CampaignHub\Partials\DeleteDesignButton.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

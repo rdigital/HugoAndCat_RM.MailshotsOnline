@@ -1,4 +1,42 @@
-﻿$(function () {
+﻿function PreviewDesign(mailshotId, successCallback, failureCallback) {
+    $.ajax({
+        url: '/Umbraco/Api/ProofPdf/CreateProof/' + mailshotId,
+        type: 'POST',
+        success: function (createProofData) {
+            AwaitPreview(mailshotId, successCallback, failureCallback);
+        },
+        statusCode: {
+            400: function (response) { failureCallback(response); },
+            401: function (response) { failureCallback(response); },
+            403: function (response) { failureCallback(response); },
+            404: function (response) { failureCallback(response); },
+            409: function (response) { failureCallback(response); },
+            500: function (response) { failureCallback(response); }
+        }
+    });
+}
+
+function AwaitPreview(mailshotId, successCallback, failureCallback) {
+    $.ajax({
+        url: '/Umbraco/Api/ProofPdf/Get/' + mailshotId,
+        type: 'GET',
+        success: function (result) {
+            if (typeof (successCallback) != 'undefined') {
+                successCallback(result);
+            }
+        },
+        statusCode: {
+            412: function () {
+                window.setTimeout(function () { AwaitPreview(mailshotId, successCallback, failureCallback); }, 1000);
+            },
+            400: function (response) { failureCallback(response); },
+            500: function (response) { failureCallback(response); },
+            404: function (response) { failureCallback(response); }
+        }
+    })
+}
+
+$(function () {
     var $campaignId = $('#campaignId');
     var $campaignTitle = $('#campaignTitle');
     var $editTitleButton = $('#editTitle');
@@ -8,6 +46,32 @@
     var $unapproveData = $('#unapproveData');
     var $unapproveDesign = $('#unapproveDesign');
     var $postalOptions = $('#postalOptions');
+    var $previewDesign = $('#previewDesign');
+
+    $previewDesign.on('click', function (event) {
+        event.preventDefault();
+        var proofPdfUrl = $('#previewPdfUrl').val();
+        if (proofPdfUrl.length > 0) {
+            window.open(proofPdfUrl);
+        }
+        else {
+            $previewDesign.attr('disabled', 'disabled').text('Creating');
+            var mailshotId = $('#mailshotId').val();
+            PreviewDesign(
+                mailshotId,
+                function (data) {
+                    console.log(data);
+                    $('#previewPdfUrl').val(data.url);
+                    window.open(data.url);
+                    $previewDesign.removeAttr('disabled').text('Preview');
+                },
+                function (response) {
+                    console.log(response);
+                    alert("Unable to generate preview PDF.");
+                    $previewDesign.removeAttr('disabled').text('Preview');
+                });
+        }
+    });
 
     $postalOptions.on('change', function (event) {
         $postalOptions.attr('disabled', 'disabled');
