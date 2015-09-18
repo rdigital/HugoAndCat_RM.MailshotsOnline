@@ -81,3 +81,34 @@
     50% { opacity: 0; }
     100%   { opacity: 1; }
 }
+
+
+
+@keyframes slidein {
+    0% { transform: translate(0, -230px); }
+    100%   { transform: translate(0, 0); }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes slidein {
+    0% { transform: translate(0, -230px); }
+    100%   { transform: translate(0, 0); }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes slidein {
+    0% { transform: translate(0, -230px); }
+    100%   { transform: translate(0, 0); }
+}
+
+/* Internet Explorer */
+@-ms-keyframes slidein {
+    0% { transform: translate(0, -230px); }
+    100%   { transform: translate(0, 0); }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes slidein {
+    0% { transform: translate(0, -230px); }
+    100%   { transform: translate(0, 0); }
+}
