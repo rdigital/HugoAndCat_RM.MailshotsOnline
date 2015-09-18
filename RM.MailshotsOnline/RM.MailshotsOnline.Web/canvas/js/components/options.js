@@ -77,7 +77,7 @@ define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/form
 
         optionsViewModel.prototype.getHiddenComputed = function regetHiddenComputedset() {
             return ko.pureComputed(function() {
-                if (stateViewModel.selectedElement() || stateViewModel.backgroundSelected()) {
+                if (!stateViewModel.ready() || stateViewModel.selectedElement() || stateViewModel.backgroundSelected()) {
                     return true
                 }
                 return false
