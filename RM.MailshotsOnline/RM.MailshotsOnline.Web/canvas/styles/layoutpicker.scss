@@ -1,7 +1,12 @@
 @import 'mixins';
 @import 'variables';
 
+.layout-preview {
+	animation: fadein .75s;
+}
+
 .layout-icons {
+	@include nohighlight();
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -10,6 +15,7 @@
 	background: #FFF;
 	z-index: 105;
 	border-right: 1px solid $grey;
+	animation: slideinleft 1s;
 	.layout-icon {
 		padding: 20px;
 		border-bottom: 1px solid $grey;

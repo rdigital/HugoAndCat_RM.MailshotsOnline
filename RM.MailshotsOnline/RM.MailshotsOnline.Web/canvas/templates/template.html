@@ -15,24 +15,26 @@
 		</div>
 		<!-- /ko -->
 	</div>
-	<!-- ko foreach: templates -->
-	<div class="preview-modal layout-container" data-bind="css: {'layout-container_previewing': id == $parent.previewingTemplate()}">
-		<div data-bind="template: {afterRender: $parent.doScale}">
-			<!-- ko foreach: $parent.sides -->
-				<div class="preview-side" data-bind="element: $parents[1].container, style: {transform: 'translate(0, ' + $parents[1].margin() + ')'}">
-					<div class="preview-side-inner" data-bind="style: {transform: $parents[1].scale, width: $parents[1].width, height: $parents[1].height}">
-						<!-- ko if: $parent.id == $parents[1].currentTemplate() --> 
-						<side-component class="side" params="{side: $data, override_template: $parent}"></side-component>
-						<!-- /ko -->
-						<!-- ko ifnot: $parent.id == $parents[1].currentTemplate() --> 
-						<side-component class="side" params="{side: $data, override_template: $parent, preview: true}"></side-component>
-						<!-- /ko -->
+	<div class="layout-preview">
+		<!-- ko foreach: templates -->
+		<div class="preview-modal layout-container" data-bind="css: {'layout-container_previewing': id == $parent.previewingTemplate()}">
+			<div data-bind="template: {afterRender: $parent.doScale}">
+				<!-- ko foreach: $parent.sides -->
+					<div class="preview-side" data-bind="element: $parents[1].container, style: {transform: 'translate(0, ' + $parents[1].margin() + ')'}">
+						<div class="preview-side-inner" data-bind="style: {transform: $parents[1].scale, width: $parents[1].width, height: $parents[1].height}">
+							<!-- ko if: $parent.id == $parents[1].currentTemplate() --> 
+							<side-component class="side" params="{side: $data, override_template: $parent}"></side-component>
+							<!-- /ko -->
+							<!-- ko ifnot: $parent.id == $parents[1].currentTemplate() --> 
+							<side-component class="side" params="{side: $data, override_template: $parent, preview: true}"></side-component>
+							<!-- /ko -->
+						</div>
 					</div>
-				</div>
-			<!-- /ko -->
+				<!-- /ko -->
+			</div>
+			<span class="button" data-bind="click: $parent.selectTemplate">Use this layout <span class="icon-tick" style="position: absolute; right: 20px; font-size: 29px; top: 10px;"></span></span>
 		</div>
-		<span class="button" data-bind="click: $parent.selectTemplate">Use this layout <span class="icon-tick" style="position: absolute; right: 20px; font-size: 29px; top: 10px;"></span></span>
+		<!-- /ko -->
 	</div>
-	<!-- /ko -->
 </div>
 

@@ -49,6 +49,12 @@ define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/form
         optionsViewModel.prototype.unfocus = function unfocus() {
             stateViewModel.selectElement(null);
             stateViewModel.backgroundSelected(null);
+            if (this.showThemePicker()) {
+                stateViewModel.toggleThemePicker();
+            }
+            if (this.showTemplatePicker()) {
+                stateViewModel.toggleTemplatePicker();
+            }
         }
 
         /**
