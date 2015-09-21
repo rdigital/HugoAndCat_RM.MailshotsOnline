@@ -6,8 +6,14 @@
     <ul>
         @foreach (var child in home.Children)
         {
-            if (child.DisplayInNavigation)
+            if (child.DisplayInNavigation && !Umbraco.MemberIsLoggedOn())
             {
+                <!-- Public page -->
+                <li class="@(child.IsAncestorOrSelf(CurrentPage) ? "selected" : null)"><a href="@child.Url">@child.Name</a></li>
+            }
+            else if (child.DisplayWhenLoggedIn && Umbraco.MemberIsLoggedOn())
+            {
+                <!-- Logged on page -->
                 <li class="@(child.IsAncestorOrSelf(CurrentPage) ? "selected" : null)"><a href="@child.Url">@child.Name</a></li>
             }
         }

@@ -121,10 +121,10 @@ namespace RM.MailshotsOnline.Business.Processors
             foreach (var jsonElement in jsonContent.Elements)
             {
                 var content = jsonElement.Content;
-                if (!string.IsNullOrWhiteSpace(jsonElement.Src))
-                {
-                    content = jsonElement.Src;
-                }
+                //if (!string.IsNullOrWhiteSpace(jsonElement.Src))
+                //{
+                //    content = jsonElement.Src;
+                //}
 
                 if (!string.IsNullOrEmpty(content))
                 {
