@@ -20,6 +20,12 @@ namespace RM.MailshotsOnline.Entities.PageModels
         public virtual bool DisplayInNavigation { get; set; }
 
         /// <summary>
+        /// Page should display in navigation when the user is logged in
+        /// </summary>
+        [UmbracoPropertyValue("displayWhenLoggedIn", "false")]
+        public virtual bool DisplayWhenLoggedIn { get; set; }
+
+        /// <summary>
         /// Meta data description
         /// </summary>
         [UmbracoPropertyValue("metaDescription", "")]
