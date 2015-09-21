@@ -1,0 +1,144 @@
+html {
+	font-size: 62.5%;
+	-webkit-font-smoothing: antialiased;
+}
+
+body {
+	@include font-size(16);
+	color: $text-grey;
+	font-family: $DINRegular;
+	line-height: 1.2;
+}
+
+h1, h2, h3, h4 {
+	font-family: $ChevinBold;
+	font-weight: normal;
+	margin-bottom: 20px;
+}
+
+h5, h6 {
+	font-family: $DINRegular;
+	margin-bottom: 10px;
+}
+
+a {
+	color: $RM-red;
+	outline: none;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+p {
+	line-height: 1.5;
+	margin-bottom: 20px;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+strong,
+.strong {
+	font-family: $DINBold;
+	font-weight: normal;
+}
+
+input[type="checkbox"], input[type="radio"], select{
+	cursor: pointer;
+}
+
+// icon tweaks
+
+.icon-cancel {
+	position: relative;
+}
+
+.icon-cancel .path2:before {
+	margin: 0;
+	left: 0;
+	position: absolute;
+	top: 0;
+}
+
+.icon-arrows {
+	position: relative;
+}
+
+.icon-arrows .path2:before {
+	margin: 0;
+	left: 0;
+	position: absolute;
+	top: 0;
+}
+
+.icon-loading {
+	width: 1.06em;
+	height: 1.04em;
+	position: relative;
+
+	.path2:before {
+		margin: 0;
+		left: 0;
+		position: absolute;
+		top: 0;
+	}
+}
+
+.icon-close {
+	position: relative;
+	&.inverted {
+		
+		:before {
+			color: $white;
+		}
+
+		.path2:before,
+		.path3:before {
+			color: $RM-red;
+		}
+
+	}
+
+}
+
+.icon-close .path2:before,
+.icon-close .path3:before {
+	margin: 0;
+	left: 0;
+	position: absolute;
+	top: 0;
+}
+
+.icon-edit {
+	position: relative;
+}
+
+.icon-edit .path2:before,
+.icon-edit .path3:before {
+	margin: 0;
+	left: 0;
+	position: absolute;
+	top: 0;
+}
+
+.icon-question {
+	position: relative;
+}
+
+.icon-question .path2:before {
+	margin: 0;
+	left: 0;
+	position: absolute;
+	top: 0;
+}
+
+.icon-warning-tri {
+	position: relative;
+}
+
+.icon-warning-tri .path2:before {
+	margin: 0;
+	left: 0;
+	position: absolute;
+	top: 0;
+}
