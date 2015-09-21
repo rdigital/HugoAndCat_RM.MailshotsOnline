@@ -396,6 +396,7 @@
     <Content Include="canvas\images\library_image.PNG" />
     <Content Include="canvas\images\loading.gif" />
     <Content Include="canvas\images\own_image.PNG" />
+    <Content Include="canvas\images\saving.gif" />
     <Content Include="canvas\images\upload.png" />
     <Content Include="canvas\js\app.js" />
     <Content Include="canvas\js\components\backgroundtools.js" />
@@ -3053,6 +3054,9 @@
     <Compile Include="Controllers\CaptureDetailsController.cs" />
     <Compile Include="Controllers\ContentPageController.cs" />
     <Compile Include="Controllers\CreateCanvasController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\ListDetailController.cs" />
+    <Compile Include="Controllers\ListsController.cs" />
     <Compile Include="Controllers\MailshotEditorController.cs" />
     <Compile Include="Controllers\GlassController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -3060,6 +3064,8 @@
     <Compile Include="Controllers\LogoutController.cs" />
     <Compile Include="Controllers\MarketingPreferencesController.cs" />
     <Compile Include="Controllers\ModerationPageController.cs" />
+    <Compile Include="Controllers\MyOrdersController.cs" />
+    <Compile Include="Controllers\MyImagesController.cs" />
     <Compile Include="Controllers\OrganisationDetailsController.cs" />
     <Compile Include="Controllers\PaymentCancelledController.cs" />
     <Compile Include="Controllers\PaymentConfirmationController.cs" />
@@ -3458,6 +3464,28 @@
     <Content Include="uSync\DocumentType\MailshotDefaultContent\def.config" />
     <Content Include="Views\CampaignHub\Partials\EditButton.cshtml" />
     <Content Include="Views\CampaignHub\Partials\DeleteDesignButton.cshtml" />
+    <Content Include="Views\ListDetail.cshtml" />
+    <Content Include="Views\ListDetailEmpty.cshtml" />
+    <Content Include="Views\Lists.cshtml" />
+    <Content Include="Views\ListsEmpty.cshtml" />
+    <Content Include="Views\Dashboard.cshtml" />
+    <Content Include="Views\MyImages.cshtml" />
+    <Content Include="Views\MyOrders.cshtml" />
+    <Content Include="uSync\Template\Dashboard\Dashboard.config" />
+    <Content Include="uSync\Template\ListDetailEmpty\ListDetailEmpty.config" />
+    <Content Include="uSync\Template\ListDetail\ListDetail.config" />
+    <Content Include="uSync\Template\ListsEmpty\ListsEmpty.config" />
+    <Content Include="uSync\Template\Lists\Lists.config" />
+    <Content Include="uSync\Template\MyImages\MyImages.config" />
+    <Content Include="uSync\Template\MyOrders\MyAccounts.config" />
+    <Content Include="uSync\Template\MyOrders\MyOrders.config" />
+    <Content Include="uSync\DocumentType\Basepage\Dashboard\def.config" />
+    <Content Include="uSync\DocumentType\Basepage\ListDetail\def.config" />
+    <Content Include="uSync\DocumentType\Basepage\Lists\def.config" />
+    <Content Include="uSync\DocumentType\Basepage\MyImages\def.config" />
+    <Content Include="uSync\DocumentType\Basepage\MyOrders\def.config" />
+    <Content Include="uSync\Template\CaptureDetails\CaptureDetails.config" />
+    <Content Include="uSync\Template\CaptureDetails\CaptureDetails.config.orig" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -3493,7 +3521,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="uSync\Template\EditProfileBasePage\" />
+    <Folder Include="Views\Dashboard\" />
+    <Folder Include="Views\ListDetail\" />
+    <Folder Include="Views\Lists\" />
     <Folder Include="Views\MailshotSettings\" />
+    <Folder Include="Views\MyAccounts\" />
+    <Folder Include="Views\MyImages\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
