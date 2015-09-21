@@ -6,6 +6,7 @@ define(['knockout', 'jquery', 'view_models/state'],
         function zoomComponentViewModel() {
             this.zoom = stateViewModel.zoom;
             this.overrideZoom = stateViewModel.overrideZoom;
+            this.fitToWidth = stateViewModel.fitToWidth;
             this.scaleElement = stateViewModel.scaleElement;
             this.viewingSide = stateViewModel.viewingSide;
             this.availableZooms = [0.125, 0.25, 0.375, 
@@ -26,6 +27,7 @@ define(['knockout', 'jquery', 'view_models/state'],
 
         zoomComponentViewModel.prototype.handleSubscriptions = function handleSubscriptions() {
             this.scaleElement.subscribe(this.handleScale, this);
+            this.fitToWidth.subscribe(this.handleScale, this);
             $(window).resize(this.handleScale);
             // chrome blurry font rendering big hack
             this.zoom.subscribe(function() {
@@ -49,17 +51,21 @@ define(['knockout', 'jquery', 'view_models/state'],
             }
 
             var window_height = $('.canvas-container').height() - 120,
-                window_width = $('.canvas-container').width() - 100;
+                window_width = $('.canvas-container').width() - 150;
 
             if (stateViewModel.selectedElement() || stateViewModel.backgroundSelected()) {
                 window_height -= 50;
                 window_width -= 150;
             }
 
-            var width_factor = (Math.floor((window_width / stateViewModel.viewingFace().width)*8))/8,
-                height_factor = (Math.floor((window_height / stateViewModel.viewingFace().height)*8))/8;
+            var width_factor = (Math.floor((window_width / stateViewModel.viewingFace().width)*16))/16,
+                height_factor = (Math.floor((window_height / stateViewModel.viewingFace().height)*16))/16;
             
-            this.zoom(Math.min(width_factor, height_factor));
+            if (this.fitToWidth()) {
+                this.zoom(width_factor);
+            } else {
+                this.zoom(Math.min(width_factor, height_factor));
+            }
             
         }
 

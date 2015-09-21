@@ -2,11 +2,11 @@
 	<!-- <dropdown-component params="{options: formats, selected: formatID, anchorClass: 'toolbar-button'}"></dropdown-component> -->
 	<a class="toolbar-button toolbar-button_largest">Campaign Design 1</a>
 	<span class="toolbar-buttons">
-		<a data-bind="click: toggleTemplatePicker" class="toolbar-button-container">
-			<span class="toolbar-button toolbar-button_small">Layout</span>
+		<a data-bind="click: toggleTemplatePicker, css: {'toolbar-button-container_active': showTemplatePicker}" class="toolbar-button-container">
+			<span class="toolbar-button toolbar-button_small toolbar-button_padright">Layout<i class="fa fa-chevron-down"></i></span>
 		</a>
-		<a data-bind="click: toggleThemePicker" class="toolbar-button-container">
-			<span class="toolbar-button toolbar-button_small">Theme</span>
+		<a data-bind="click: toggleThemePicker, css: {'toolbar-button-container_active': showThemePicker}" class="toolbar-button-container">
+			<span class="toolbar-button toolbar-button_small toolbar-button_padright">Theme<i class="fa fa-chevron-down"></i></span>
 		</a>
         <a data-bind="click: undo, css: {'disabled': !undoAvailable()}" class="toolbar-button-container">
         	<span class="toolbar-button toolbar-button_small"><span class="icon-backward" style="font-size: 24px; line-height: 30px;"></span></span>

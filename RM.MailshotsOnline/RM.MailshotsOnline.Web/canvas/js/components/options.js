@@ -9,6 +9,8 @@ define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/form
             this.showPreview = stateViewModel.showPreview;
             this.uploadingImages = stateViewModel.uploadingImages;
             this.saving = stateViewModel.saving;
+            this.showThemePicker = stateViewModel.showThemePicker;
+            this.showTemplatePicker = stateViewModel.showTemplatePicker;
 
             // computeds
             this.hidden = this.getHiddenComputed();

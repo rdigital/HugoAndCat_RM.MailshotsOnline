@@ -18,6 +18,7 @@ define(['knockout', 'jquery'],
             this.rerender = ko.observable(false);
             this.zoom = ko.observable(1);
             this.overrideZoom = ko.observable();
+            this.fitToWidth = ko.observable(false);
             this.getZoom = this.getZoomComputed();
             this.viewingSide = ko.observable('front');
             this.viewingFace = ko.observable();

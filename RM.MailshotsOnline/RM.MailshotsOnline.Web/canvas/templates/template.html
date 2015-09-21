@@ -1,14 +1,25 @@
-<div class="picker-background" data-bind="click: toggleTemplatePicker"></div>
-<div class="theme-picker">
+<!-- <div data-bind="click: toggleTemplatePicker"></div> -->
+<div class="preview">
+	<div class="layout-icons">
+		<!-- ko foreach: templates -->
+		<div class="layout-icon" data-bind="click: $parent.previewTemplate, css: {'layout-icon_active': id == $parent.previewingTemplate()}">
+			<div class="layout-icon-image"></div>
+			<div data-bind="text: name"></div>
+		</div>
+		<!-- /ko -->
+	</div>
 	<!-- ko foreach: templates -->
-	<div class="theme-container" data-bind="click: $parent.selectTemplate">
-		<!-- ko if: id == $parent.currentTemplate() -->
-		<side-component class="side" params="{side: 'front', preview: true, show_default: true}"></side-component>
-		<!-- /ko -->
-		<!-- ko ifnot: id == $parent.currentTemplate() -->
-		<side-component class="side" params="{side: 'front', override_template: $data, show_default: true}"></side-component>
-		<!-- /ko -->
-		<div class="theme-name" data-bind="text: name"></div>
+	<div class="preview-modal layout-container" data-bind="css: {'layout-container_previewing': id == $parent.previewingTemplate()}">
+		<div data-bind="template: {afterRender: $parent.doScale}">
+			<!-- ko foreach: $parent.sides -->
+				<div class="preview-side" data-bind="element: $parents[1].container, style: {transform: 'translate(0, ' + $parents[1].margin() + ')'}">
+					<div class="preview-side-inner" data-bind="style: {transform: $parents[1].scale, width: $parents[1].width, height: $parents[1].height}">
+						<side-component class="side" params="{side: $data, override_template: $parent, preview: true}"></side-component>
+					</div>
+				</div>
+			<!-- /ko -->
+		</div>
+		<span class="button" data-bind="click: $parent.selectTemplate">Use this layout</span>
 	</div>
 	<!-- /ko -->
 </div>

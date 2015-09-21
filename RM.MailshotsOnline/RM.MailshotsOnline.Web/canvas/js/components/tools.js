@@ -305,7 +305,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
          */
         toolsViewModel.prototype.isBold = function isBold() {
             return ko.pureComputed( function() {
-                if (this.selectedElement()) {
+                if (this.selectedElement() && this.selectedElement().isBold) {
                     return this.selectedElement().isBold();
                 }
                 return false
@@ -328,7 +328,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
          */
         toolsViewModel.prototype.isItalic = function isItalic() {
             return ko.pureComputed( function() {
-                if (this.selectedElement()) {
+                if (this.selectedElement() && this.selectedElement().isItalic) {
                     return this.selectedElement().isItalic();
                 }
                 return false
@@ -351,7 +351,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
          */
         toolsViewModel.prototype.isUnderline = function isUnderline() {
             return ko.pureComputed( function() {
-                if (this.selectedElement()) {
+                if (this.selectedElement() && this.selectedElement().isUnderline) {
                     return this.selectedElement().isUnderline();
                 }
                 return false
