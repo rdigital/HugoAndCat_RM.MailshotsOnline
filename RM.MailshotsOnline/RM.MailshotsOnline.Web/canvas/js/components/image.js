@@ -322,6 +322,9 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             if (this.imageObj.src && this.imageObj.src()) {
 
                 if (!this.image) {
+                    if (this.override_template && this.override_template.selectedID() == userViewModel.objects.templateID()) {
+                        return this.render(this.imageObj.src(), false);
+                    }
                     if (this.override_template || stateViewModel.repositionImages) {
                         return this.render(this.imageObj.src(), true);
                     }

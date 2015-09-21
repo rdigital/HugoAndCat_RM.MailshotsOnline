@@ -3,7 +3,14 @@
 	<div class="layout-icons">
 		<!-- ko foreach: templates -->
 		<div class="layout-icon" data-bind="click: $parent.previewTemplate, css: {'layout-icon_active': id == $parent.previewingTemplate()}">
-			<div class="layout-icon-image"></div>
+			<div class="layout-icon-image">
+				<!-- ko if: id == $parent.previewingTemplate() -->
+				<img src="/canvas/images/temp_layout_icon_active.png"/>
+				<!-- /ko -->
+				<!-- ko ifnot: id == $parent.previewingTemplate() -->
+				<img src="/canvas/images/temp_layout_icon.png"/>
+				<!-- /ko -->
+			</div>
 			<div data-bind="text: name"></div>
 		</div>
 		<!-- /ko -->
@@ -14,12 +21,17 @@
 			<!-- ko foreach: $parent.sides -->
 				<div class="preview-side" data-bind="element: $parents[1].container, style: {transform: 'translate(0, ' + $parents[1].margin() + ')'}">
 					<div class="preview-side-inner" data-bind="style: {transform: $parents[1].scale, width: $parents[1].width, height: $parents[1].height}">
+						<!-- ko if: $parent.id == $parents[1].currentTemplate() --> 
+						<side-component class="side" params="{side: $data, override_template: $parent}"></side-component>
+						<!-- /ko -->
+						<!-- ko ifnot: $parent.id == $parents[1].currentTemplate() --> 
 						<side-component class="side" params="{side: $data, override_template: $parent, preview: true}"></side-component>
+						<!-- /ko -->
 					</div>
 				</div>
 			<!-- /ko -->
 		</div>
-		<span class="button" data-bind="click: $parent.selectTemplate">Use this layout</span>
+		<span class="button" data-bind="click: $parent.selectTemplate">Use this layout <span class="icon-tick" style="position: absolute; right: 20px; font-size: 29px; top: 10px;"></span></span>
 	</div>
 	<!-- /ko -->
 </div>

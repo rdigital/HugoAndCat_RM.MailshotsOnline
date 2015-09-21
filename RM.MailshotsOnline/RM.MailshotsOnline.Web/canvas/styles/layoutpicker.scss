@@ -9,26 +9,26 @@
 	width: 170px;
 	background: #FFF;
 	z-index: 105;
+	border-right: 1px solid $grey;
 	.layout-icon {
 		padding: 20px;
 		border-bottom: 1px solid $grey;
 		cursor: pointer;
+		font-family: 'Chevin Light', Arial;
+		color: $darkest-grey;
 		.layout-icon-image {
-			height: 70px;
+			min-height: 70px;
 			padding-bottom: 10px;
-			background-image: url('/canvas/images/temp_layout_icon.png');
-			background-size: contain;
-			background-repeat: no-repeat;
-			background-position: 50% 50%;
+			text-align: center;
+			img {
+				display: inline-block;
+			}
 		}
 		&.layout-icon_active {
 			background: $blue;
 			cursor: auto;
 			border-color: transparent;
 			color: #FFF;
-			.layout-icon-image {
-				background-image: url('/canvas/images/temp_layout_icon_active.png');
-			}
 		}
 	}
 }
