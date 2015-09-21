@@ -97,6 +97,41 @@ namespace RM.MailshotsOnline.Data.Services
         }
 
         /// <summary>
+        /// Adds or updates default content for a Mailshot
+        /// </summary>
+        /// <param name="defaultContent">The Mailshot Default Content to save</param>
+        public void AddOrUpdateMailshotDefaultContent(IMailshotDefaultContent defaultContent)
+        {
+            var existingContent = _context.MailshotDefaultContent.FirstOrDefault(c => c.UmbracoPageId == defaultContent.UmbracoPageId);
+            if (existingContent != null)
+            {
+                // Update values and save
+                existingContent.JsonData = defaultContent.JsonData;
+                existingContent.JsonIndex = defaultContent.JsonIndex;
+                existingContent.Name = defaultContent.Name;
+                existingContent.UpdatedDate = DateTime.UtcNow;
+            }
+            else
+            {
+                // Add default content
+                _context.MailshotDefaultContent.Add((MailshotDefaultContent)defaultContent);
+            }
+
+            _context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Fetches the default mailshot content that matches the given index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public IMailshotDefaultContent GetMailshotDefaultContent(int index)
+        {
+            return _context.MailshotDefaultContent.FirstOrDefault(c => c.JsonIndex == index);
+        }
+
+
+        /// <summary>
         /// Gets all formats
         /// </summary>
         /// <returns>Collection of IFormat objects</returns>

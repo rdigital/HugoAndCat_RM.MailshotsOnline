@@ -12,6 +12,10 @@ using System.Web;
 using System.Web.Mvc;
 using PayPalService = HC.RM.Common.PayPal.Service;
 using RM.MailshotsOnline.Data.Helpers;
+using RM.MailshotsOnline.PCL.Models.MailshotSettings;
+using RM.MailshotsOnline.Entities.JsonModels;
+using Newtonsoft.Json;
+using RM.MailshotsOnline.Entities.DataModels;
 
 namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 {
@@ -21,13 +25,274 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         private readonly ICampaignService _campaignService;
         private readonly IPricingService _pricingService;
         private readonly IInvoiceService _invoiceService;
+        private readonly IMailshotsService _mailshotService;
+        private readonly IMailshotSettingsService _settingsService;
 
-        public CampaignSurfaceController(IMembershipService membershipService, ILogger logger, ICampaignService campaignService, IPricingService pricingService, IInvoiceService invoiceService) 
+        public CampaignSurfaceController(
+            IMembershipService membershipService, 
+            ILogger logger, 
+            ICampaignService campaignService, 
+            IPricingService pricingService, 
+            IInvoiceService invoiceService,
+            IMailshotsService mailshotsService,
+            IMailshotSettingsService mailshotSettingsService) 
             : base(membershipService, logger)
         {
             _campaignService = campaignService;
             _pricingService = pricingService;
             _invoiceService = invoiceService;
+            _mailshotService = mailshotsService;
+            _settingsService = mailshotSettingsService;
+        }
+
+        [ChildActionOnly]
+        public ActionResult ShowDeleteDesignButton(CampaignHub model)
+        {
+            return PartialView("~/Views/CampaignHub/Partials/DeleteDesignButton.cshtml", model);
+        }
+
+        public ActionResult DeleteDesign(CampaignHub model)
+        {
+            // Fetch the campaign
+            ICampaign campaign = null;
+            Guid campaignId = Guid.Empty;
+            try
+            {
+                if (Guid.TryParse(Request.QueryString["campaignId"], out campaignId))
+                {
+                    campaign = _campaignService.GetCampaign(campaignId);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(this.GetType().Name, "EditDesign", ex);
+                Log.Error(this.GetType().Name, "EditDesign", "Unable to get campaign");
+                ModelState.AddModelError("PageModel", "Unable to get campaign");
+                return CurrentUmbracoPage();
+            }
+
+            if (campaign == null)
+            {
+                ModelState.AddModelError("PageModel", "Unable to get campaign");
+                return CurrentUmbracoPage();
+            }
+
+            if (campaign.UserId != LoggedInMember.Id)
+            {
+                Log.Error(this.GetType().Name, "EditDesign", "Unauthorised attempt to get campaign");
+                ModelState.AddModelError("PageModel", "Unable to get campaign");
+                return CurrentUmbracoPage();
+            }
+
+            IMailshot mailshot = null;
+            if (campaign.MailshotId.HasValue)
+            {
+                mailshot = _mailshotService.GetMailshot(campaign.MailshotId.Value);
+            }
+
+            if (mailshot == null)
+            {
+                Log.Error(this.GetType().Name, "EditDesign", "Unable to get mailshot");
+                ModelState.AddModelError("PageModel", "Unable to get mailshot");
+                return CurrentUmbracoPage();
+            }
+
+            campaign.MailshotId = null;
+            _campaignService.SaveCampaign(campaign);
+
+            _mailshotService.Delete(mailshot);
+
+            return CurrentUmbracoPage();
+        }
+
+        [ChildActionOnly]
+        public ActionResult ShowEditDesignButton(CampaignHub model)
+        {
+            return PartialView("~/Views/CampaignHub/Partials/EditButton.cshtml", model);
+        }
+
+        public ActionResult EditDesign(CampaignHub model)
+        {
+            // Fetch the campaign
+            ICampaign campaign = null;
+            Guid campaignId = Guid.Empty;
+            try
+            {
+                if (Guid.TryParse(Request.QueryString["campaignId"], out campaignId))
+                {
+                    campaign = _campaignService.GetCampaign(campaignId);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(this.GetType().Name, "EditDesign", ex);
+                Log.Error(this.GetType().Name, "EditDesign", "Unable to get campaign");
+                ModelState.AddModelError("PageModel", "Unable to get campaign");
+                return CurrentUmbracoPage();
+            }
+
+            if (campaign == null)
+            {
+                ModelState.AddModelError("PageModel", "Unable to get campaign");
+                return CurrentUmbracoPage();
+            }
+
+            if (campaign.UserId != LoggedInMember.Id)
+            {
+                Log.Error(this.GetType().Name, "EditDesign", "Unauthorised attempt to get campaign");
+                ModelState.AddModelError("PageModel", "Unable to get campaign");
+                return CurrentUmbracoPage();
+            }
+
+            IMailshot mailshot = null;
+            if (campaign.MailshotId.HasValue)
+            {
+                mailshot = _mailshotService.GetMailshot(campaign.MailshotId.Value);
+            }
+
+            if (mailshot == null)
+            {
+                Log.Error(this.GetType().Name, "EditDesign", "Unable to get mailshot");
+                ModelState.AddModelError("PageModel", "Unable to get mailshot");
+                return CurrentUmbracoPage();
+            }
+
+            // Redirect the user to the create-canvas page with the appropriate QS parameters
+            var canvasPageId = (int)CurrentPage.GetProperty("createCanvasPage").Value;
+            var canvasPageUrl = Umbraco.NiceUrlWithDomain(canvasPageId);
+            return Redirect($"{canvasPageUrl}?formatId={mailshot.Format.JsonIndex}&mailshotId={mailshot.MailshotId}");
+        }
+
+        [ChildActionOnly]
+        public ActionResult ShowStartDesignButton(CampaignHub model)
+        {
+            var viewModel = new StartDesignViewModel() { PageModel = model };
+            Guid campaignId = Guid.Empty;
+            if (Guid.TryParse(Request.QueryString["campaignId"], out campaignId))
+            {
+                viewModel.CampaignId = campaignId;
+            }
+
+            return PartialView("~/Views/CampaignHub/Partials/StartDesignButton.cshtml", viewModel);
+        }
+
+        public ActionResult StartDesign(StartDesignViewModel viewModel)
+        {
+            // Fetch the campaign
+            ICampaign campaign = null;
+            try
+            {
+                campaign = _campaignService.GetCampaign(viewModel.CampaignId);
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(this.GetType().Name, "StartDesign", ex);
+                Log.Error(this.GetType().Name, "StartDesign", "Unable to get campaign");
+                ModelState.AddModelError("PageModel", "Unable to get campaign");
+                return CurrentUmbracoPage();
+            }
+
+            if (campaign.UserId != LoggedInMember.Id)
+            {
+                Log.Error(this.GetType().Name, "StartDesign", "Unauthorised attempt to get campaign with ID {0}", viewModel.CampaignId);
+                ModelState.AddModelError("PageModel", "Not able to modify campaign");
+                return CurrentUmbracoPage();
+            }
+
+            // Create new Mailshot
+            // TODO: Include the ability to choose the format.  For now hard-coding to Layout 2 (Card)
+            var defaultContent = _settingsService.GetMailshotDefaultContent(1);
+            IFormat format = null;
+            ITemplate template = null;
+            ITheme theme = null;
+            MailshotEditorContent parsedContent = null;
+            try
+            {
+                parsedContent = JsonConvert.DeserializeObject<MailshotEditorContent>(defaultContent.JsonData);
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(this.GetType().Name, "StartDesign", ex);
+                Log.Error(this.GetType().Name, "StartDesign", "Unable to parse the default content for the mailshot");
+                ModelState.AddModelError("PageModel", "Default content error");
+                return CurrentUmbracoPage();
+            }
+
+            format = _settingsService.GetFormatByJsonIndex(parsedContent.FormatId);
+            template = _settingsService.GetTemplateByJsonIndex(parsedContent.TemplateId, parsedContent.FormatId);
+            theme = _settingsService.GetThemeByJsonIndex(parsedContent.ThemeId);
+
+            if (format == null)
+            {
+                Log.Error(this.GetType().Name, "StartDesign", "Unable to get default format");
+                ModelState.AddModelError("PageModel", "Unable to get default format");
+                return CurrentUmbracoPage();
+            }
+
+            if (template == null)
+            {
+                Log.Error(this.GetType().Name, "StartDesign", "Unable to get default template");
+                ModelState.AddModelError("PageModel", "Unable to get default template");
+                return CurrentUmbracoPage();
+            }
+
+            if (theme == null)
+            {
+                Log.Error(this.GetType().Name, "StartDesign", "Unable to get default theme");
+                ModelState.AddModelError("PageModel", "Unable to get default theme");
+                return CurrentUmbracoPage();
+            }
+
+            // Save the mailshot
+            Mailshot mailshotData = new Mailshot();
+
+            mailshotData.Content = new MailshotContent() { Content = defaultContent.JsonData };
+            mailshotData.UserId = LoggedInMember.Id;
+            mailshotData.UpdatedDate = DateTime.UtcNow;
+            mailshotData.FormatId = format.FormatId;
+            mailshotData.TemplateId = template.TemplateId;
+            mailshotData.ThemeId = theme.ThemeId;
+            mailshotData.Name = campaign.Name;
+            mailshotData.Draft = true;
+
+            var linkedImages = parsedContent.Elements.Where(e => !string.IsNullOrEmpty(e.Src)).Select(e => e.Src);
+
+            IMailshot savedMailshot = null;
+
+            try
+            {
+                savedMailshot = _mailshotService.SaveMailshot(mailshotData);
+                _mailshotService.UpdateLinkedImages(savedMailshot, linkedImages);
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(this.GetType().Name, "StartDesign", ex);
+                Log.Error(this.GetType().Name, "StartDesign", "Error when attempting to save new mailshot: {0}", ex.Message);
+            }
+
+            if (savedMailshot == null)
+            {
+                ModelState.AddModelError("PageModel", "Unable to create new design.");
+                return CurrentUmbracoPage();
+            }
+
+            // Assign the mailshot to the campaign and save
+            campaign.MailshotId = savedMailshot.MailshotId;
+            try
+            {
+                _campaignService.SaveCampaign(campaign);
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(this.GetType().Name, "StartDesign", ex);
+                ModelState.AddModelError("PageModel", "Unable to update campaign with new design.");
+                return CurrentUmbracoPage();
+            }
+
+            // Redirect the user to the create-canvas page with the appropriate QS parameters
+            var canvasPageId = (int)CurrentPage.GetProperty("createCanvasPage").Value;
+            var canvasPageUrl = Umbraco.NiceUrlWithDomain(canvasPageId);
+            return Redirect($"{canvasPageUrl}?formatId={format.JsonIndex}&mailshotId={savedMailshot.MailshotId}");
         }
 
         [ChildActionOnly]

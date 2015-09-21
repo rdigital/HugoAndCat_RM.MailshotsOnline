@@ -27,6 +27,19 @@ namespace RM.MailshotsOnline.PCL.Services
         void AddOrUpdateTheme(ITheme theme);
 
         /// <summary>
+        /// Adds or updates default content for a Mailshot
+        /// </summary>
+        /// <param name="defaultContent">The Mailshot Default Content to save</param>
+        void AddOrUpdateMailshotDefaultContent(IMailshotDefaultContent defaultContent);
+
+        /// <summary>
+        /// Fetches the default mailshot content that matches the given index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        IMailshotDefaultContent GetMailshotDefaultContent(int index);
+
+        /// <summary>
         /// Gets all formats
         /// </summary>
         /// <returns>Collection of IFormat objects</returns>

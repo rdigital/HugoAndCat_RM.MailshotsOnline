@@ -1,0 +1,13 @@
+﻿@model RM.MailshotsOnline.Entities.ViewModels.StartDesignViewModel
+@{
+    Layout = null;
+}
+
+@using (Html.BeginUmbracoForm("StartDesign", "CampaignSurface"))
+{
+    <p>@Model.PageModel.DesignSectionPrompt</p>
+    <button class="big-button">@Model.PageModel.DesignGetStartedPrompt</button>
+    <div>
+        @Html.HiddenFor(m => m.CampaignId)
+    </div>
+}

@@ -1,0 +1,9 @@
+﻿@model RM.MailshotsOnline.Entities.PageModels.CampaignHub
+@{
+    Layout = null;
+}
+
+@using (Html.BeginUmbracoForm("EditDesign", "CampaignSurface"))
+{
+    <button>@Model.EditButtonText</button>
+}

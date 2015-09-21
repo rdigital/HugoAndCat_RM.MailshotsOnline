@@ -60,6 +60,7 @@
     <Compile Include="Models\IContactOptions.cs" />
     <Compile Include="Models\IOrder.cs" />
     <Compile Include="Models\IPostalOption.cs" />
+    <Compile Include="Models\MailshotSettings\IMailshotDefaultContent.cs" />
     <Compile Include="Models\MailshotSettings\IMailshotSetting.cs" />
     <Compile Include="Models\MailshotSettings\ITemplate.cs" />
     <Compile Include="Models\MailshotSettings\ITheme.cs" />

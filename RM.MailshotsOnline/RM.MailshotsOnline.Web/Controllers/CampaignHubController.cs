@@ -16,15 +16,17 @@ namespace RM.MailshotsOnline.Web.Controllers
     public class CampaignHubController : GlassController
     {
         private readonly ICampaignService _campaignService;
+        private readonly IMailshotsService _mailshotService;
         private readonly IMembershipService _membershipService;
         private readonly IPricingService _pricingService;
 
-        public CampaignHubController(IUmbracoService umbracoService, ILogger logger, ICampaignService campaignService, IMembershipService membershipService, IPricingService pricingService)
+        public CampaignHubController(IUmbracoService umbracoService, ILogger logger, ICampaignService campaignService, IMembershipService membershipService, IPricingService pricingService, IMailshotsService mailshotService)
             : base(umbracoService, logger)
         {
             _campaignService = campaignService;
             _membershipService = membershipService;
             _pricingService = pricingService;
+            _mailshotService = mailshotService;
         }
 
 
@@ -64,6 +66,12 @@ namespace RM.MailshotsOnline.Web.Controllers
 
             var priceSummary = _pricingService.GetPriceBreakdown(campaign);
             pageModel.PriceBreakdown = priceSummary;
+
+            if (campaign.MailshotId.HasValue)
+            {
+                var mailshot = _mailshotService.GetMailshot(campaign.MailshotId.Value);
+                pageModel.Mailshot = mailshot;
+            }
 
             return View("~/Views/CampaignHub.cshtml", pageModel);
         }

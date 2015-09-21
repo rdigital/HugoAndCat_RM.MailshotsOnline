@@ -5,10 +5,8 @@ using System.Text;
 
 namespace RM.MailshotsOnline.PCL.Models.MailshotSettings
 {
-    public interface ITheme : IMailshotSetting
+    public interface IMailshotDefaultContent : IMailshotSetting
     {
-        Guid ThemeId { get; set; }
-
-        string XslData { get; set; }
+        Guid MailshotDefaultContentId { get; set; }
     }
 }

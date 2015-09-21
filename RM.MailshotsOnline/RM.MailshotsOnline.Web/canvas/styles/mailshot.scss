@@ -24,6 +24,9 @@ div, span, a {
 
 .component.component_selected {
 	z-index: 110;
+	&.image-component canvas {
+		cursor: move;
+	}
 }
 
 // dropdowns

@@ -37,6 +37,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             // bound functions
             this.dispose = this.dispose.bind(this);
             this.setup = this.setup.bind(this);
+            this.setUrlSrc = this.setUrlSrc.bind(this);
         }
 
         // extend the element model
@@ -114,6 +115,10 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
 
             // content is only defined on the user data
             image.content = userImage.content;
+
+            // temporary urlSrc field to track the returned URL of an image after 
+            // it is uploaded in the background
+            image.urlSrc = userImage.urlSrc;
 
             // if we are overriding the template, return new observables containing the values from
             // userdata, so as to not be updating the user view model
@@ -251,7 +256,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
          * sets dragging to true on initial mousedown
          */
         imageViewModel.prototype.dragStart = function dragStart(data, e) {
-            if (!this.image) {
+            if (!this.image || !this.isSelected()) {
                 return
             }
             this.offsetX = e.offsetX;
@@ -266,6 +271,10 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             this.dragging = false;
         }
 
+        imageViewModel.prototype.setUrlSrc = function setUrlSrc(src) {
+            this.imageObj.urlSrc(src);
+        }
+
         /**
          * render an image to the canvas
          * @param  {String} src    [image src]
@@ -273,8 +282,12 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
          */
         imageViewModel.prototype.render = function render(src, new_upload) {
             this.image = new Image()
-            this.image.crossOrigin = "Anonymous";
             var canvas = this.canvas();
+
+            // allow cross origin images in the canvas
+            if (src.indexOf('http') == 0) {
+                this.image.crossOrigin = "Anonymous";
+            }
 
             this.image.onload = function(){
                 if (new_upload) {

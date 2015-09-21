@@ -14,9 +14,18 @@
         <a data-bind="click: redo, css: {'disabled': !redoAvailable()}" class="toolbar-button-container">
         	<span class="toolbar-button toolbar-button_small"><span class="icon-forward" style="font-size: 24px; line-height: 30px;"></span></span>
         </a>
-        <a data-bind="click: save, css: {'disabled': !undoAvailable()}" class="toolbar-button-container">
+        <!-- ko ifnot: saving -->
+        <a data-bind="click: save, css: {'disabled': uploadingImages().length}" class="toolbar-button-container">
         	<span class="toolbar-button toolbar-button_small"><span class="icon-save" style="font-size: 24px; line-height: 30px;"></span></span>
         </a>
+        <!-- /ko -->
+        <!-- ko if: saving -->
+        <a class="toolbar-button-container disabled">
+            <span class="toolbar-button toolbar-button_small">
+                <span class="save-spinner"></span>
+            </span>
+        </a>
+        <!-- /ko -->
 	</span>
 	<span class="toolbar-button toolbar-button_large toolbar-button_right toolbar-button_green" data-bind="click: output">Done  <span class="icon-tick" style="position: absolute;
     right: 25px;

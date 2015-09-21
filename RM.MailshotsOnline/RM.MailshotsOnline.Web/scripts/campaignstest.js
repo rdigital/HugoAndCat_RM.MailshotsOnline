@@ -9,6 +9,7 @@
     var $formTitle = $('#addCampaignForm h2');
     var $readonlyFields = $('#readonlyFields');
     var $noCampaignsMessage = $('#noCampaignsMessage');
+    var $newCampaignButton = $('#newCampaignButton');
 
     function GetMyCampaigns(callback) {
         $myCampaigns.show();
@@ -48,7 +49,8 @@
         //console.log(data);
         if (data.length > 0) {
             $noCampaignsMessage.hide();
-            $campaignList.html('<tr><th>Name</th><th>Updated</th><th>Status</th><th>Mailshot</th><th>Own data</th><th>Rented data</th><th>Postage</th><th></th><th></th><th></th><th></th></tr>').show();
+            //$campaignList.html('<tr><th>Name</th><th>Updated</th><th>Status</th><th>Mailshot</th><th>Own data</th><th>Rented data</th><th>Postage</th><th></th><th></th><th></th><th></th></tr>').show();
+            $campaignList.html('<tr><th>Name</th><th>Updated</th><th>Status</th><th>Mailshot</th><th>Own data</th><th>Rented data</th><th>Postage</th><th></th><th></th><th></th></tr>').show();
             $loading.hide();
             for (i = 0; i < data.length; i++) {
                 var campaign = data[i];
@@ -100,16 +102,16 @@
                     postalOption.text('None selected').attr('class','empty');
                 }
 
-                var editLink = $(document.createElement('a'))
-                    .text('Open')
-                    .attr('class', 'openLink')
-                    .attr('href', '#/Edit/' + campaign.CampaignId)
-                    .data('campaignId', campaign.CampaignId)
-                    .on('click', function (event) {
-                        event.preventDefault();
-                        LoadCampaign($(this).data('campaignId'));
-                    });
-                var editCell = $(document.createElement('td')).append(editLink);
+                //var editLink = $(document.createElement('a'))
+                //    .text('Open')
+                //    .attr('class', 'openLink')
+                //    .attr('href', '#/Edit/' + campaign.CampaignId)
+                //    .data('campaignId', campaign.CampaignId)
+                //    .on('click', function (event) {
+                //        event.preventDefault();
+                //        LoadCampaign($(this).data('campaignId'));
+                //    });
+                //var editCell = $(document.createElement('td')).append(editLink);
 
                 var copyLink = $(document.createElement('a'))
                     .text('Copy')
@@ -135,10 +137,11 @@
 
                 var hubLink = $(document.createElement('a'))
                     .text('Hub')
-                    .attr('href', '/campaigns/campaign-hub/?campaignId=' + campaign.CampaignId);
+                    .attr('href', 'campaign-hub/?campaignId=' + campaign.CampaignId);
                 var hubCell = $(document.createElement('td')).append(hubLink);
 
-                row.append(name, updated, status, mailshot, ownData, rentedData, postalOption, editCell, copyCell, deleteCell, hubCell);
+                //row.append(name, updated, status, mailshot, ownData, rentedData, postalOption, editCell, copyCell, deleteCell, hubCell);
+                row.append(name, updated, status, mailshot, ownData, rentedData, postalOption, copyCell, deleteCell, hubCell);
 
                 $campaignList.append(row);
             }
@@ -276,7 +279,7 @@
     }
 
     function DisplayCampaignForm() {
-        $addCampaignForm.show();
+        //$addCampaignForm.show();
         $formTitle.text('Add a campaign');
         $saveCampaignButton.removeAttr('disabled').text('Save');
         $('#campaignName').val('');
@@ -400,6 +403,12 @@
         })
     }
 
+    function CreateNewCampaign() {
+        $('#campaignName').val('New Campaign');
+        CreateCampaign(function (data) {
+            window.location.assign('/campaigns/campaign-hub/?campaignId=' + data.CampaignId);
+        })
+    }
 
     function ExecuteCampaignCall(url, successCallback) {
         var name = $('#campaignName').val();
@@ -451,7 +460,6 @@
 
 
     function CreateCampaign(successCallback) {
-
         return ExecuteCampaignCall('/Umbraco/Api/Campaign/Save', successCallback);
     }
 
@@ -520,5 +528,11 @@
     $('#cancelButton').on('click', function (event) {
         event.preventDefault();
         DisplayCampaignForm();
+    });
+
+    $newCampaignButton.on('click', function (event) {
+        $newCampaignButton.attr('disabled', 'disabled');
+        event.preventDefault();
+        CreateNewCampaign();
     });
 });

@@ -9,6 +9,8 @@ namespace RM.MailshotsOnline.PCL.Models.MailshotSettings
     {
         Guid TemplateId { get; set; }
 
+        string XslData { get; set; }
+
         int FormatUmbracoPageId { get; set; }
     }
 }
