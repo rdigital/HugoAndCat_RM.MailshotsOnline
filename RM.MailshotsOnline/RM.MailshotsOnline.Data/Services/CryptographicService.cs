@@ -28,6 +28,8 @@ namespace RM.MailshotsOnline.Data.Services
 
         public string GenerateEmailSalt(string email)
         {
+            email = email.ToLower();
+
             var salt = Encryption.ComputedSalt(email, email);
             var saltBytes = Encoding.GetBytes(salt);
 

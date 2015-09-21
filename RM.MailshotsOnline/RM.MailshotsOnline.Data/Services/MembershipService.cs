@@ -50,6 +50,8 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns></returns>
         public IMember CreateMember(IMember member, string password)
         {
+            member.EmailAddress = member.EmailAddress.ToLower();
+
             if (UmbracoMemberService.Exists(member.EmailAddress))
             {
                 return null;

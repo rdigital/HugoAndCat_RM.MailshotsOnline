@@ -11,7 +11,13 @@ namespace RM.MailshotsOnline.Entities.ViewModels
     public class SimplifiedRegisterViewModel
     {
         [Required(ErrorMessage = "Please enter a valid email address")]
-        public string Email { get; set; }
+        public string Email
+        {
+            get { return _email; }
+            set { _email = value.ToLower(); }
+        }
+
+        private string _email;
 
         [Required(ErrorMessage = "Please select your title")]
         public string Title { get; set; }
