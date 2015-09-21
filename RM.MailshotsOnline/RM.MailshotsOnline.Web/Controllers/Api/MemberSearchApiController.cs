@@ -65,8 +65,9 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                     UmbracoContext.Application.Services.EntityService.GetKeyForId(member.Id, UmbracoObjectTypes.Member)
                         .Result;
             }
-            catch
+            catch(Exception e)
             {
+                _logger.Error(this.GetType().ToString(), "GetNodeId", $"Unable to get node using Node ID for member {member.EmailAddress}: " + e.Message);
                 return "#";
             }
 

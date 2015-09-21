@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Web.Mvc;
 using System.Web.Security;
+using RM.MailshotsOnline.Data.Services;
 using umbraco;
 using Umbraco.Web.Mvc;
 
@@ -26,19 +27,21 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         private readonly IEmailService _emailService;
         private const string CompletedFlag = "RegistrationComplete";
         private readonly ILogger _logger;
+        private readonly ICryptographicService _cryptographicService;
 
-        public RegisterSurfaceController(IMembershipService membershipService, IEmailService emailService, ILogger logger)
+        public RegisterSurfaceController(IMembershipService membershipService, IEmailService emailService, ILogger logger, ICryptographicService cryptographicService)
         {
             _membershipService = membershipService;
             _emailService = emailService;
             _logger = logger;
+            _cryptographicService = cryptographicService;
         }
 
         // GET: Register
         [ChildActionOnly]
         public ActionResult ShowRegisterForm(Register model)
         {
-            if (TempData[CompletedFlag] != null && (bool) TempData[CompletedFlag])
+            if (TempData[CompletedFlag] != null && (bool)TempData[CompletedFlag])
             {
                 return Complete(model);
             }
@@ -72,6 +75,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             {
                 _logger.Info(this.GetType().Name, "RegisterForm", "Duplicate registration attempted.");
                 ModelState.AddModelError("ViewModel.Email", model.AlreadyRegisteredMessage);
+
                 return CurrentUmbracoPage();
             }
 
@@ -84,17 +88,33 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 _logger.Info(this.GetType().Name, "RegisterForm", "Registration attempt with low quality password.");
                 ModelState.AddModelError("PasswordError",
                     model.PasswordErrorMessage);
+
                 return CurrentUmbracoPage();
             }
             catch (Exception ex)
             {
                 _logger.Error(this.GetType().Name, "RegisterForm", "Registration attempt failed with error: {0}", ex.Message);
                 ModelState.AddModelError("PasswordError", "There was an error and you have not been registered.  Please try again later.");
+
                 return CurrentUmbracoPage();
             }
 
+            try
+            {
+                var encryptedEmailAddress = _cryptographicService.EncryptEmailAddress(model.ViewModel.Email);
+                var newMember = UmbracoContext.Application.Services.MemberService.GetByEmail(encryptedEmailAddress);
+
+                Members.Login(newMember.Username, model.ViewModel.Password);
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(this.GetType().Name, "RegisterForm", "Registration succeeded but couldn't automatically log the new user in: {0}", ex.Message);
+            }
+
             TempData[CompletedFlag] = true;
+
             _logger.Info(this.GetType().Name, "RegisterForm", "New registration complete.");
+
             var recipients = new List<string>() { model.ViewModel.Email };
             var sender = new System.Net.Mail.MailAddress(ConfigHelper.SystemEmailAddress);
             _emailService.SendEmail(
