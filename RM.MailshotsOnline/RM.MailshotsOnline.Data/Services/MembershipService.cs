@@ -221,9 +221,8 @@ namespace RM.MailshotsOnline.Data.Services
                 else
                 {
                     // Encrypt email
-                    var computedSalt = Encryption.ComputedSalt(emailAddress, emailAddress);
-                    var b64Salt = Encoding.UTF8.GetBytes(computedSalt);
-                    var encryptedEmail = Encryption.Encrypt(emailAddress, Constants.Constants.Encryption.EncryptionKey, b64Salt);
+                    var emailSalt = CryptographicService.GenerateEmailSalt(emailAddress);
+                    var encryptedEmail = CryptographicService.Encrypt(emailAddress, emailSalt);
 
                     umbracoMember = UmbracoMemberService.GetByEmail(encryptedEmail);
 
