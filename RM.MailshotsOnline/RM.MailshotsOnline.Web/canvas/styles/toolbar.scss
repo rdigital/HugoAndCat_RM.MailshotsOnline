@@ -71,7 +71,7 @@
 		}
 	}
 	.toolbar-button {
-		@include transition(color);
+		@include transition(all);
 		font-family: PFDin Regular, Arial;
 		text-align: center;
 		cursor: pointer;
@@ -114,6 +114,14 @@
 				background: transparent;
 			}
 	    }
+	    &.toolbar-button_active {
+			background: $blue !important;
+			border-color: transparent !important;
+			color: $lightest-grey !important;
+			.fa:before {
+				content: "\f077" !important;
+			}
+		}
 	    &.toolbar-button_largest {
 	    	min-width: 220px;
 	    }

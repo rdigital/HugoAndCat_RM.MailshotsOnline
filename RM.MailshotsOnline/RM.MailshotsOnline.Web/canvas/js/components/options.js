@@ -55,6 +55,9 @@ define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/form
             if (this.showTemplatePicker()) {
                 stateViewModel.toggleTemplatePicker();
             }
+            if (this.showPreview()) {
+                this.togglePreview();
+            }
         }
 
         /**
