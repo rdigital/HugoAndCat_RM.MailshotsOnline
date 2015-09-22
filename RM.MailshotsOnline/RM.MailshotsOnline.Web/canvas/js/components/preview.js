@@ -9,6 +9,7 @@ define(['knockout', 'view_models/format', 'view_models/state'],
             this.showPreview = stateViewModel.showPreview;
             this.container = ko.observable();
             this.scale = ko.observable();
+            this.ms_scale = ko.observable();
 
             this.width = ko.observable();
             this.height = ko.observable();
@@ -56,6 +57,7 @@ define(['knockout', 'view_models/format', 'view_models/state'],
             }
 
             this.scale('scale(' + scale + ')');
+            this.ms_scale('scale(' + scale + ', ' + scale + ')');
         };
 
         return {
