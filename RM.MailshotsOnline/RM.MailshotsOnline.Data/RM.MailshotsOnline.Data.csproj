@@ -300,6 +300,10 @@
     <Compile Include="Services\MailshotsService.cs" />
     <Compile Include="Services\MembershipService.cs" />
     <Compile Include="Services\PricingService.cs" />
+    <Compile Include="Services\Reporting\IMembershipReportGenerator.cs" />
+    <Compile Include="Services\Reporting\ITransactionsReportGenerator.cs" />
+    <Compile Include="Services\Reporting\MembershipReportGenerator.cs" />
+    <Compile Include="Services\Reporting\ReportingService.cs" />
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Services\SparqQueueService.cs" />
   </ItemGroup>

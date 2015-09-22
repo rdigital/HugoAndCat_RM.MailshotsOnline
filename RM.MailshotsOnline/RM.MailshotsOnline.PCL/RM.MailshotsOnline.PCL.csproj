@@ -50,6 +50,7 @@
     <Compile Include="Models\IInvoiceLineItem.cs" />
     <Compile Include="Models\IMailshotImageUse.cs" />
     <Compile Include="Models\IMedia.cs" />
+    <Compile Include="Models\Reporting\IReport.cs" />
     <Compile Include="Models\ISettingsFromCms.cs" />
     <Compile Include="Models\ITaggable.cs" />
     <Compile Include="Models\MailshotSettings\IFormat.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Services\IMailshotsService.cs" />
     <Compile Include="Services\IMembershipService.cs" />
     <Compile Include="Services\IPricingService.cs" />
+    <Compile Include="Services\Reporting\IReportGenerator.cs" />
     <Compile Include="Services\ISettingsService.cs" />
     <Compile Include="Services\ISparqQueueService.cs" />
   </ItemGroup>
