@@ -69,6 +69,13 @@ body {
     }
 }
 
+// hide overlay in ie9 and 10
+@media screen\0 {
+    .selected-overlay_visible {
+        display: none !important;
+    }
+}
+
 
 @media all and (max-width: 1100px) {
     .canvas-container.canvas-container_small {

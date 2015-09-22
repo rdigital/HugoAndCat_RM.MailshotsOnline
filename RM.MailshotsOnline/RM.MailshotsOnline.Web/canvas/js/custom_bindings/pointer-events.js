@@ -49,21 +49,6 @@ define(['jquery'],
         // register on all elements (and all future elements) matching the selector
         $(document).on(this.options.mouseEvents.join(" "), this.options.selector, function(e){
            if($(this).css('pointer-events') == 'none'){
-                 // peak at the element below
-                 var origDisplayAttribute = $(this).css('display');
-                 $(this).css('display','none');
-
-                 var underneathElem = document.elementFromPoint(e.clientX, e.clientY);
-
-                if(origDisplayAttribute)
-                    $(this)
-                        .css('display', origDisplayAttribute);
-                else
-                    $(this).css('display','');
-
-                 // fire the mouse event on the element below
-                e.target = underneathElem;
-                $(underneathElem).trigger(e);
 
                 return false;
             }
