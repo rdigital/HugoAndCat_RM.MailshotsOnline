@@ -3,8 +3,8 @@
 		<div class="preview-modal-close icon-close" data-bind="click: togglePreview"></div>
 		<div data-bind="template: {afterRender: doScale}">
 			<!-- ko foreach: sides -->
-				<div class="preview-side" data-bind="element: $parent.container, style: {transform: 'translate(0, ' + $parent.margin() + ')'}">
-					<div class="preview-side-inner" data-bind="style: {transform: $parent.scale, width: $parent.width, height: $parent.height}">
+				<div class="preview-side" data-bind="element: $parent.container, style: {'transform': 'translate(0, ' + $parent.margin() + ')', '-ms-transform': 'translate(0, ' + $parent.margin() + ')'}">
+					<div class="preview-side-inner" data-bind="style: {'transform': $parent.scale, '-ms-transform': $parent.ms_scale, 'width': $parent.width, 'height': $parent.height}">
 						<side-component class="side" params="{side: $data, preview: true}"></side-component>
 					</div>
 				</div>

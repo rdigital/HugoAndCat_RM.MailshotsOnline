@@ -55,6 +55,7 @@
 		padding: 7px 9px;
 		line-height: 19px;
 		border: 1px solid $grey;
+		box-sizing: border-box;
 	}
 	.tools-button {
 		transition: all .25s ease-out;
@@ -66,6 +67,8 @@
 	    cursor: pointer;
 	    font-size: 15px;
 	    line-height: 19px;
+	    height: 35px;
+	    overflow: hidden;
 	    float: left;
 	    border: 1px solid $grey;
 	    border-left: none;
