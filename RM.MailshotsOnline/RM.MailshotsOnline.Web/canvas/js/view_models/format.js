@@ -28,7 +28,7 @@ define(['knockout', 'jquery', 'view_models/state'],
         formatViewModel.prototype.getDefaultFace = function getDefaultFace() {
             var faces = this.getFaces(),
                 default_face = ko.utils.arrayFirst(faces, function(face) {
-                    return face.default == true;
+                    return face.default_face == true;
                 });
             return default_face || faces[0];
         };

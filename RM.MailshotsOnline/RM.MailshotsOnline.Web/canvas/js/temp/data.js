@@ -18,7 +18,7 @@ define([],
                             side:'front',
                             width: 600,
                             height: 450,
-                            default: true
+                            default_face: true
                         },
                         {
                             name:'Back',

@@ -1,6 +1,6 @@
 // viewmodel to handle my images data
-define(['knockout', 'view_models/data', 'view_models/format', 'view_models/user', 'temp/data'],
-    function(ko, dataViewModel, userViewModel, tempData) {
+define(['knockout', 'view_models/data', 'view_models/format', 'view_models/user'],
+    function(ko, dataViewModel, userViewModel) {
 
         function myImagesViewModel() {
             // this.objects contains the data returned from the server
