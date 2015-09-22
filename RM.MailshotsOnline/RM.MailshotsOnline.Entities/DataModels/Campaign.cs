@@ -30,6 +30,11 @@ namespace RM.MailshotsOnline.Entities.DataModels
         private ICollection<CampaignDistributionList> _campaignDistributionLists;
 
         /// <summary>
+        /// The invoices (concrete models)
+        /// </summary>
+        private IEnumerable<Invoice> _invoices;
+
+        /// <summary>
         /// The chosen postal option (concrete model)
         /// </summary>
         private PostalOption _postalOption;
@@ -286,6 +291,17 @@ namespace RM.MailshotsOnline.Entities.DataModels
         [JsonIgnore]
         public Guid ModerationId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the campaign's invoices
+        /// </summary>
+        [JsonIgnore]
+        [InverseProperty("Campaign")]
+        public IEnumerable<Invoice> Invoices
+        {
+            get { return _invoices; }
+            set { _invoices = value; }
+        }
+
         #region Explicit interface definition
 
         IMailshot ICampaign.Mailshot
@@ -327,6 +343,12 @@ namespace RM.MailshotsOnline.Entities.DataModels
         {
             get { return _postalOption; }
             set { _postalOption = (PostalOption)value; }
+        }
+
+        IEnumerable<IInvoice> ICampaign.Invoices
+        {
+            get { return _invoices; }
+            set { _invoices = (IEnumerable<Invoice>)value; }
         }
 
         #endregion

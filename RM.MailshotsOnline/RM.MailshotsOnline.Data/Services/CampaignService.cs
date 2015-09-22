@@ -61,6 +61,25 @@ namespace RM.MailshotsOnline.Data.Services
         }
 
         /// <summary>
+        /// Gets orders (campaigns that are in progress or completed) for a given user ID
+        /// </summary>
+        /// <param name="userId">The ID of the user to search on</param>
+        /// <returns>Collection of Campaigns</returns>
+        public IEnumerable<ICampaign> GetOrdersForUser(int userId)
+        {
+            var inProgressOrCompletedStatuses = new List<PCL.Enums.CampaignStatus>()
+            {
+                PCL.Enums.CampaignStatus.Exception,
+                PCL.Enums.CampaignStatus.Fulfilled,
+                PCL.Enums.CampaignStatus.PendingModeration,
+                PCL.Enums.CampaignStatus.ReadyForFulfilment,
+                PCL.Enums.CampaignStatus.SentForFulfilment
+            };
+
+            return _context.Campaigns.Include("Invoices").Where(c => c.UserId == userId && inProgressOrCompletedStatuses.Contains(c.Status)).OrderByDescending(c => c.UpdatedDate);
+        }
+
+        /// <summary>
         /// Gets a specific campaign
         /// </summary>
         /// <param name="campaignId">ID of the campaign to find</param>
