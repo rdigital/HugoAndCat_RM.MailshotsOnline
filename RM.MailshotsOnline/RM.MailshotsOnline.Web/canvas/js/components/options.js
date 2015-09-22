@@ -25,7 +25,7 @@ define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/form
         optionsViewModel.prototype.toggleTemplatePicker = function toggleTemplatePicker() {
             this.unfocus();
             stateViewModel.toggleTemplatePicker();
-        }
+        };
 
         /**
          * unfocus the current element and toggle the theme picker
@@ -33,7 +33,7 @@ define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/form
         optionsViewModel.prototype.toggleThemePicker = function toggleThemePicker() {
             this.unfocus();
             stateViewModel.toggleThemePicker();
-        }
+        };
 
         /**
          * unfocus the current element and show the user output json (TESTING)
@@ -41,7 +41,7 @@ define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/form
         optionsViewModel.prototype.output = function output() {
             this.unfocus();
             stateViewModel.output(userViewModel.toJSON());
-        }
+        };
 
         /**
          * unfocus the current element
@@ -58,45 +58,45 @@ define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/form
             if (this.showPreview()) {
                 this.togglePreview();
             }
-        }
+        };
 
         /**
          * clear the user output json (TESTING)
          */
         optionsViewModel.prototype.clearOutput = function clearOutput() {
             stateViewModel.output(null);
-        }
+        };
 
         optionsViewModel.prototype.redo = function redo() {
             historyViewModel.redo();
-        }
+        };
 
         optionsViewModel.prototype.undo = function undo() {
             historyViewModel.undo();
-        }
+        };
 
         optionsViewModel.prototype.reset = function reset() {
             historyViewModel.reset();
-        }
+        };
 
         optionsViewModel.prototype.save = function save() {
             if (this.saving() || this.uploadingImages().length) {
-                return
+                return;
             }
             userViewModel.save();
-        }
+        };
 
         optionsViewModel.prototype.getHiddenComputed = function regetHiddenComputedset() {
             return ko.pureComputed(function() {
                 if (!stateViewModel.ready() || stateViewModel.selectedElement() || stateViewModel.backgroundSelected()) {
-                    return true
+                    return true;
                 }
-                return false
-            }, this)
-        }
+                return false;
+            }, this);
+        };
 
         return {
             viewModel: optionsViewModel,
             template: { require: 'text!/canvas/templates/options.html' }
-        }
+        };
 });

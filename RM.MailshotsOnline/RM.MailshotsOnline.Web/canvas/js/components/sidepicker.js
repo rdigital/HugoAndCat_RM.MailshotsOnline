@@ -1,6 +1,6 @@
-define(['knockout', 'jquery', 'koelement', 'view_models/state'],
+define(['knockout', 'koelement', 'view_models/state'],
 
-    function(ko, $, koelement, stateViewModel) {
+    function(ko, koelement, stateViewModel) {
         // register required components
 
         // ViewModel
@@ -24,20 +24,20 @@ define(['knockout', 'jquery', 'koelement', 'view_models/state'],
                 this.viewingFace(this.face);
             }
             this.unfocus();
-        }
+        };
 
         sidePickerViewModel.prototype.doScale = function doScale() {
             var el_width = this.face.width,
                 el_height = this.face.height,
                 scale = this.width / el_width;
             this.scale('scale(' + scale + ')');
-            this.height(((el_height * scale) + 60) + 'px')
+            this.height(((el_height * scale) + 60) + 'px');
             this.opacity(1);
-        }
+        };
 
 
         return {
             viewModel: sidePickerViewModel,
             template: { require: 'text!/canvas/templates/sidepicker.html' }
-        }
+        };
 });

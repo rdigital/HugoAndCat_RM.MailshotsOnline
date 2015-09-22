@@ -19,7 +19,7 @@ define(['knockout', 'jquery', 'components/face', 'view_models/format', 'view_mod
                     this.face = formatViewModel.getDefaultFace();
                 }
                 return (this.face) ? [this.face] : formatViewModel.getFacesBySide(this.name);
-            }, this)
+            }, this);
 
             if (!this.preview) {
                 window.side = this;
@@ -30,7 +30,7 @@ define(['knockout', 'jquery', 'components/face', 'view_models/format', 'view_mod
             this.zoom = stateViewModel.getZoom;
             this.scale = ko.pureComputed(function() {
                 if (!this.preview) {
-                    return 'scale(' + this.zoom() + ')'
+                    return 'scale(' + this.zoom() + ')';
                 }
             }, this);
 
@@ -46,13 +46,13 @@ define(['knockout', 'jquery', 'components/face', 'view_models/format', 'view_mod
         sideViewModel.prototype.getCoordinatesComputed = function getCoordinatesComputed() {
             return ko.pureComputed(function(){
                 if (this.preview) {
-                    return 'auto'
+                    return 'auto';
                 }
                 this.zoom();
                 this.resize();
                 var el = this.element();
                 if (!el) {
-                    return 0
+                    return 0;
                 }
                 el = el[0];
                 var diff = this.canvas_container.width() - el.getBoundingClientRect().width;
@@ -60,15 +60,14 @@ define(['knockout', 'jquery', 'components/face', 'view_models/format', 'view_mod
                     diff -= 150;
                 }
                 if (diff > 100) {
-                    return diff/2 + 'px'
-                } else {
-                    return '50px'
+                    return diff/2 + 'px';
                 }
-            }, this)
-        }
+                return '50px';
+            }, this);
+        };
 
         return {
             viewModel: sideViewModel,
             template: { require: 'text!/canvas/templates/side.html' }
-        }
+        };
 });

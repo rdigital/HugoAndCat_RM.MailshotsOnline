@@ -1,6 +1,6 @@
-define(['knockout', 'komapping', 'view_models/format', 'view_models/template', 'view_models/user', 'view_models/state', 'view_models/history'],
+define(['knockout', 'view_models/format', 'view_models/template', 'view_models/user', 'view_models/state', 'view_models/history'],
 
-    function(ko, mapping, formatViewModel, templateViewModel, userViewModel, stateViewModel, historyViewModel) {
+    function(ko, formatViewModel, templateViewModel, userViewModel, stateViewModel, historyViewModel) {
 
         // ViewModel
         function templateComponentViewModel(params) {
@@ -38,25 +38,25 @@ define(['knockout', 'komapping', 'view_models/format', 'view_models/template', '
             }
             stateViewModel.toggleTemplatePicker();
             historyViewModel.pushToHistory();
-        }
+        };
 
         templateComponentViewModel.prototype.previewTemplate = function previewTemplate(template) {
             this.previewingTemplate(template.id);
-        }
+        };
 
         /**
          * toggle the template picker modal
          */
         templateComponentViewModel.prototype.toggleTemplatePicker = function toggleTemplatePicker() {
             stateViewModel.toggleTemplatePicker();
-        }
+        };
 
         templateComponentViewModel.prototype.sideFaces = function sideFaces(side) {
-            ret = ko.utils.arrayFilter(this.faces(), function(face) {
-                return face.side == side
-            })
-            return ret
-        }
+            var ret = ko.utils.arrayFilter(this.faces(), function(face) {
+                return face.side == side;
+            });
+            return ret;
+        };
 
         templateComponentViewModel.prototype.doScale = function doScale() {
             var side = this.sides[0],
@@ -69,7 +69,7 @@ define(['knockout', 'komapping', 'view_models/format', 'view_models/template', '
             ko.utils.arrayForEach(faces, function(face) {
                 height += face.height + 60;
                 width = Math.max(face.width, width);
-            })
+            });
 
             this.width(width + 'px');
             this.height(height + 'px');
@@ -86,10 +86,10 @@ define(['knockout', 'komapping', 'view_models/format', 'view_models/template', '
             }
 
             this.scale('scale(' + scale + ')');
-        }
+        };
 
         return {
             viewModel: templateComponentViewModel,
             template: { require: 'text!/canvas/templates/template.html' }
-        }
+        };
 });

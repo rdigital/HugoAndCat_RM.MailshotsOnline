@@ -19,40 +19,40 @@ define(['knockout', 'jquery'],
             var delta = e.offsetX / $(e.target).width(),
                 diff = this.max - this.min;
             this.current(this.min + delta*diff);
-        }
+        };
 
         /**
          * handle the drag move event
          */
         sliderViewModel.prototype.dragMove = function dragMove(data, e) {
             if (!this.dragging) {
-                return
+                return;
             }
             this.resize(data, e);
-        }
+        };
 
         /**
          * handle the drag start event on the slider (set dragging to true)
          */
         sliderViewModel.prototype.dragStart = function dragStart(data, e) {
             this.dragging = true;
-        }
+        };
 
         /**
          * handle the drag end event on the slider (set dragging to false)
          */
         sliderViewModel.prototype.dragEnd = function dragEnd() {
             this.dragging = false;
-        }
+        };
 
         sliderViewModel.prototype.getLeftPercentComputed = function getLeftPercentComputed() {
             return ko.pureComputed(function() {
-                return Math.round((this.current() / (this.max - this.min)) * 100)
-            }, this)
-        }
+                return Math.round((this.current() / (this.max - this.min)) * 100);
+            }, this);
+        };
 
         return {
             viewModel: sliderViewModel,
             template: { require: 'text!/canvas/templates/slider.html' }
-        }
+        };
 });

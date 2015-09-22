@@ -1,6 +1,6 @@
-define(['knockout', 'jquery', 'koelement'],
+define(['knockout', 'jquery'],
 
-    function(ko, $, koelement) {
+    function(ko, $) {
         // register required components
 
         // ViewModel
@@ -35,8 +35,8 @@ define(['knockout', 'jquery', 'koelement'],
                 } else {
                     $(document).off('mousedown', this.hideOnDocClick);
                 }
-            }, this)
-        }
+            }, this);
+        };
 
         /**
          * returns read / write computed to get / set currently selected value
@@ -49,7 +49,7 @@ define(['knockout', 'jquery', 'koelement'],
                         obj = ko.utils.arrayFirst(this.options(), function(option) {
                             return option.value == val;
                         });
-                    return (obj) ? obj.name : ''
+                    return obj ? obj.name : '';
                 },
                 write: function(data) {
                     this.selectedObs(data.value);
@@ -57,18 +57,18 @@ define(['knockout', 'jquery', 'koelement'],
                         this.hide();
                     }
                 }
-            }, this)
-        }
+            }, this);
+        };
 
         /**
          * hides the dropdown on a click anywhere outside of the dropdown
          */
         dropdownViewModel.prototype.hideOnDocClick = function hideOnDocClick(e) {
             if ($.contains(this.element()[0], e.target) ) {
-                return
+                return;
             }
             this.hide();
-        }
+        };
 
         /**
          * toggles the dropdown and set the focus back to the selected element
@@ -78,7 +78,7 @@ define(['knockout', 'jquery', 'koelement'],
             if (this.focusCallback) {
                 this.focusCallback();
             }
-        }
+        };
 
         /**
          * hides the dropdown and set the focus back to the selected element
@@ -88,10 +88,10 @@ define(['knockout', 'jquery', 'koelement'],
             if (this.focusCallback) {
                 this.focusCallback();
             }
-        }
+        };
 
         return {
             viewModel: dropdownViewModel,
             template: { require: 'text!/canvas/templates/dropdown.html' }
-        }
+        };
 });
