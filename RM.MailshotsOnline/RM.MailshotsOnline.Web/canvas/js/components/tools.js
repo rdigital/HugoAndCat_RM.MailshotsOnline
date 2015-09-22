@@ -39,7 +39,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
 
             // bound methods
             this.focusInput = this.focusInput.bind(this);
-            this.focusToolsInput = this.focusToolsInput.bind(this)
+            this.focusToolsInput = this.focusToolsInput.bind(this);
             this.handleResize = this.handleResize.bind(this);
             this.setCaretPosition = this.setCaretPosition.bind(this);
             this.showPersonalization = this.showPersonalization.bind(this);
@@ -47,7 +47,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
 
             // resize handlers
             $(window).resize(this.handleResize);
-            $('.canvas-container').on('scroll', this.handleResize)
+            $('.canvas-container').on('scroll', this.handleResize);
 
             // subscriptions
             this.selectedElement.subscribe(this.closePersonalization, this);
@@ -69,12 +69,12 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
         toolsViewModel.prototype.getIsVisibleComputed = function getIsVisibleComputed() {
             return ko.pureComputed(function() {
                 if (this.selectedElement()) {
-                    return true
+                    return true;
                 }
                 this.personalizing(false);
-                return false
-            }, this).extend({throttle: 50})
-        }
+                return false;
+            }, this).extend({throttle: 50});
+        };
 
         /**
          * set the focus to the editable div within this component
@@ -83,7 +83,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             if (this.selectedElement() && this.selectedElement().setFocus) {
                 this.selectedElement().setFocus();
             }
-        }
+        };
 
         /**
          * get computed which evaluates the currently selected element type
@@ -93,8 +93,8 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             return ko.pureComputed(function() {
                 var el = this.selectedElement();
                 return el ? el.data.type : '';
-            }, this)
-        }
+            }, this);
+        };
 
         /**
          * get computed which evaluates whether to show the scale slider
@@ -104,12 +104,12 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             return ko.pureComputed(function() {
                 if (this.elementType() == 'image') {
                     if (this.selectedElement().imageObj.src && this.selectedElement().imageObj.src()) {
-                        return true
+                        return true;
                     }
                 }
-                return false
-            }, this)
-        }
+                return false;
+            }, this);
+        };
 
         /**
          * get computed which evaluates the available fonts for the selected element
@@ -120,9 +120,9 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                 if (this.selectedElement()) {
                     return this.selectedElement().getFonts();
                 }
-                return []
-            }, this)
-        }
+                return [];
+            }, this);
+        };
 
         /**
          * get computed which evaluates the available colours for the selected element
@@ -133,9 +133,9 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                 if (this.selectedElement()) {
                     return this.selectedElement().getColours();
                 }
-                return []
-            }, this)
-        }
+                return [];
+            }, this);
+        };
 
         /**
          * get computed which evaluates the best available attachment position for the tools menu
@@ -149,9 +149,9 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                 if (this.selectedElement()) {
                     return this.calcAttachment();
                 }
-                return {}
-            }, this).extend({throttle: 50})
-        }
+                return {};
+            }, this).extend({throttle: 50});
+        };
 
         /**
          * update observables with the new window dimensions upon resize
@@ -161,7 +161,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             this.window_width($(window).width());
             this.window_height($(window).height());
             this.window_width.valueHasMutated();
-        }
+        };
 
         /**
          * calculate where to place the tools pane in relation to the canvas container
@@ -194,7 +194,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                     top: 100,
                     right: 'auto',
                     bottom: 'auto'
-                }
+                };
             }
 
             // deal with horizontal case
@@ -215,18 +215,18 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                         attachment.top = 'auto';
                     } else {
                         attachment.top = Math.max(coords.top + scrollTop, scrollTop + 100);
-                        attachment.bottom = 'auto'
+                        attachment.bottom = 'auto';
                     }
                 } else {
                     attachment.top = Math.max(coords.top + scrollTop, scrollTop + 100);
                     attachment.bottom = 'auto';
                 }
-                return attachment
-            } else {
-                // attach the left of the tools to either the left of the element or the screen edge
-                attachment.left = Math.max(coords.left + scrollLeft, scrollLeft + 10);
-                attachment.right = 'auto';
+                return attachment;
             }
+
+            // attach the left of the tools to either the left of the element or the screen edge
+            attachment.left = Math.max(coords.left + scrollLeft, scrollLeft + 10);
+            attachment.right = 'auto';
 
             // deal with vertical case if not enough horizontal room
             if (maxV > tools_height) {
@@ -240,14 +240,14 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                     attachment.top = coords.bottom + 10 + scrollTop;
                     attachment.bottom = 'auto';
                 }
-                return attachment
-            } else {
-                // attach the top to the top of the element or the edge of the screen
-                attachment.top = Math.max((this.window_height() - coords.top) - scrollTop + 10, scrollTop + 100);
-                attachment.bottom = 'auto'
+                return attachment;
             }
-            return attachment
-        }
+            // attach the top to the top of the element or the edge of the screen
+            attachment.top = Math.max((this.window_height() - coords.top) - scrollTop + 10, scrollTop + 100);
+            attachment.bottom = 'auto';
+            
+            return attachment;
+        };
 
         /**
          * set a user defined style on the current element
@@ -258,7 +258,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             if (this.selectedElement()) {
                 this.selectedElement().setStyle(property, value);
             }
-        }
+        };
 
         /**
          * trigger an increase of font size for this element
@@ -267,7 +267,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             if (this.selectedElement()) {
                 this.selectedElement().fitFontSize();
             }
-        }
+        };
 
         /**
          * trigger an increase of font size for this element
@@ -276,7 +276,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             if (this.selectedElement()) {
                 this.selectedElement().increaseFontSize();
             }
-        }
+        };
 
         /**
          * trigger an decrease of font size for this element
@@ -285,19 +285,19 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             if (this.selectedElement()) {
                 this.selectedElement().decreaseFontSize();
             }
-        }
+        };
 
         toolsViewModel.prototype.orderedList = function orderedList() {
             if (this.selectedElement()) {
                 this.selectedElement().orderedList();
             }
-        }
+        };
 
         toolsViewModel.prototype.unorderedList = function unorderedList() {
             if (this.selectedElement()) {
                 this.selectedElement().unorderedList();
             }
-        }
+        };
 
         /**
          * get computed which evaluates whether text is bold in the current context
@@ -308,19 +308,19 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                 if (this.selectedElement() && this.selectedElement().isBold) {
                     return this.selectedElement().isBold();
                 }
-                return false
-            }, this)
-        }
+                return false;
+            }, this);
+        };
 
         /**
          * set text to bold at caret / selection
          */
         toolsViewModel.prototype.bold = function bold() {
-            var el = this.selectedElement()
+            var el = this.selectedElement();
             if (el) {
                 setTimeout(el.bold.bind(el),0);
             }
-        }
+        };
 
         /**
          * get computed which evaluates whether text is italic in the current context
@@ -331,19 +331,19 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                 if (this.selectedElement() && this.selectedElement().isItalic) {
                     return this.selectedElement().isItalic();
                 }
-                return false
-            }, this)
-        }
+                return false;
+            }, this);
+        };
 
         /**
          * set text to italic at caret / selection
          */
         toolsViewModel.prototype.italic = function italic() {
-            var el = this.selectedElement()
+            var el = this.selectedElement();
             if (el) {
                 setTimeout(el.italic.bind(el),0);
             }
-        }
+        };
 
         /**
          * get computed which evaluates whether text is underlined in the current context
@@ -354,19 +354,19 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                 if (this.selectedElement() && this.selectedElement().isUnderline) {
                     return this.selectedElement().isUnderline();
                 }
-                return false
-            }, this)
-        }
+                return false;
+            }, this);
+        };
 
         /**
          * set text to underlined at caret / selection
          */
         toolsViewModel.prototype.underline = function underline() {
-            var el = this.selectedElement()
+            var el = this.selectedElement();
             if (el) {
                 setTimeout(el.underline.bind(el),0);
             }
-        }
+        };
 
         /**
          * get computed which evaluates the current text aligment of the element
@@ -377,9 +377,9 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                 if (this.selectedElement()) {
                     return this.selectedElement().getStyle('text-align');
                 }
-                return
-            }, this)
-        }
+                return;
+            }, this);
+        };
 
         /**
          * computed generator for styles. Provide a style property name and the returned computed
@@ -389,11 +389,11 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
         toolsViewModel.prototype.getStyleComputed = function getStyleComputed(property) {
             return ko.pureComputed( {
                 read: function() {
-                    var el = this.selectedElement()
+                    var el = this.selectedElement();
                     if (el) {
                         return el.getStyle(property);
                     }
-                    return
+                    return;
                 },
                 write: function(val) {
                     var el = this.selectedElement();
@@ -402,29 +402,29 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                         el.setFocus();
                     }
                 }
-            }, this)
-        }
+            }, this);
+        };
 
         /**
          * toggle the image upload modal
          */
         toolsViewModel.prototype.toggleImageUpload = function toggleImageUpload() {
             stateViewModel.toggleImageUpload();
-        }
+        };
 
         /**
          * toggle the image library modal
          */
         toolsViewModel.prototype.toggleImageLibrary = function toggleImageLibrary() {
             stateViewModel.toggleImageLibrary();
-        }
+        };
 
         /**
          * toggle the insert personalization pane
          */
         toolsViewModel.prototype.togglePersonalization = function togglePersonalization() {
             this.personalizing(!this.personalizing());
-        }
+        };
 
         /**
          * close the personalization pain and reset values
@@ -434,7 +434,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             this.personalizationField('FirstName');
             this.personalizationFallback('');
             this.personalizationEl(null);
-        }
+        };
 
         /**
          * close the edit personalization pane
@@ -443,7 +443,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             if (this.personalizationEl()) {
                 this.closePersonalization();
             }
-        }
+        };
 
         /**
          * show the insert personalization pane
@@ -453,7 +453,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             this.personalizationField(field);
             this.personalizationFallback(fallback);
             this.personalizationEl(target);
-        }
+        };
 
         /**
          * get the caret position in the HTML field we are currently editing
@@ -468,7 +468,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             preCaretRange.setEnd(range.endContainer, range.endOffset);
             caretOffset = preCaretRange.toString().length;
             return caretOffset;
-        }
+        };
 
         /**
          * recursively get all of the text nodes within an element
@@ -486,7 +486,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                 }
             }
             return textNodes;
-        }
+        };
 
         /**
          * set the caret position back to where the user was last editing
@@ -497,11 +497,11 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             var el = stateViewModel.selectedElement().element(),
                 relatedTarget = e.relatedTarget;
             if (!el) {
-                return
+                return;
             }
             el = el[0];
             if (relatedTarget && el != relatedTarget && relatedTarget.hasClass('editable')) {
-                return
+                return;
             }
             var range = document.createRange(),
                 sel = window.getSelection(),
@@ -521,7 +521,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             sel.addRange(range);
             el.focus();
             this.caretPosition = 0;
-        }
+        };
 
         /**
          * on focusing on an input in the tools panel, store the caret position
@@ -538,7 +538,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                 }
             }
             e.target.focus();
-        }
+        };
 
         /**
          * HERE BE DRAGONS
@@ -555,10 +555,10 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                     content = (fallback != '') ? '['+ field + '/' + fallback +']' : '['+ field + ']';
                 if (isIE){
                     var innerHTML = '<span contenteditable="false" class="dynamic-field-content" data-content="'+ content +'" data-field="'+ field +'" data-fallback="'+ fallback +'"></span>',
-                        html = '<span contenteditable="false" class="dynamic-field" class="editable">' + innerHTML + '</span>&#8202;'
+                        html = '<span contenteditable="false" class="dynamic-field" class="editable">' + innerHTML + '</span>&#8202;';
                 } else {
                     var innerHTML = '<span class="dynamic-field-content" data-content="'+ content +'" data-field="'+ field +'" data-fallback="'+ fallback +'"></span>',
-                        html = '<span contenteditable="true" class="dynamic-field" class="editable">' + innerHTML + '</span>&#8202;'
+                        html = '<span contenteditable="true" class="dynamic-field" class="editable">' + innerHTML + '</span>&#8202;';
                 }
 
                 if (this.personalizationEl()) {
@@ -596,8 +596,8 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                 el.sizeAdjust();
                 el.userData.content(el.element().html());
                 this.closePersonalization();
-            }.bind(this), 0)
-        }
+            }.bind(this), 0);
+        };
 
         /**
          * delete the personalization placeholder from the HTML input
@@ -607,7 +607,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                 $(this.personalizationEl()).remove();
                 this.closePersonalization();
             }
-        }
+        };
 
         /**
          * returns whether we are viewing the canvas in
@@ -618,16 +618,14 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             var msie = ua.indexOf("MSIE ");
 
             if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
-                return true
-            } else {
-                return false
+                return true;
             }
 
             return false;
-        }
+        };
 
         return {
             viewModel: toolsViewModel,
             template: { require: 'text!/canvas/templates/tools.html' }
-        }
+        };
 });

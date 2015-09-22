@@ -70,7 +70,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
                         this.setContent();
                     }
                 }, this)
-            )
+            );
 
             if (this.preview) {
                 this.subscriptions.push(
@@ -94,14 +94,14 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
                     }, this)
                 );
             }
-        }
+        };
 
         /**
          * select the image element
          */
         imageViewModel.prototype.select = function select() {
             this.isSelected(true);
-        }
+        };
 
         /**
          * returns a computed which contains image data (source, position, scale) from
@@ -127,75 +127,75 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
                 image.scale = ko.observable(ko.utils.unwrapObservable(userImage.scale));
                 image.img_position.top = ko.observable(ko.utils.unwrapObservable(userImage.img_position.top));
                 image.img_position.left = ko.observable(ko.utils.unwrapObservable(userImage.img_position.left));
-                return image
+                return image;
             }
 
             // set the required properties on the image based on a combination of
             // theme and user data
-            image.src = this.getSrcComputed(themeImage, userImage)
-            image.scale = this.getScaleComputed(themeImage, userImage)
-            image.img_position.top = this.getTopComputed(themeImage, userImage)
-            image.img_position.left = this.getLeftComputed(themeImage, userImage)
+            image.src = this.getSrcComputed(themeImage, userImage);
+            image.scale = this.getScaleComputed(themeImage, userImage);
+            image.img_position.top = this.getTopComputed(themeImage, userImage);
+            image.img_position.left = this.getLeftComputed(themeImage, userImage);
 
             // forcibly reset image position / scale to that of the theme if user
             // has not provided their own image
-            var src = ko.utils.unwrapObservable(userImage.src)
+            var src = ko.utils.unwrapObservable(userImage.src);
             if (!src) {
-                image.scale(themeImage.scale || 100)
-                image.img_position.top(themeImage.img_position.top || 0)
-                image.img_position.left(themeImage.img_position.left || 0)
+                image.scale(themeImage.scale || 100);
+                image.img_position.top(themeImage.img_position.top || 0);
+                image.img_position.left(themeImage.img_position.left || 0);
             }
 
             return image;
-        }
+        };
 
         imageViewModel.prototype.getSrcComputed = function getSrcComputed(themeImage, userImage) {
             return ko.pureComputed({
                 read: function() {
                     var src = ko.utils.unwrapObservable(userImage.src);
-                    return (src === null) ? (themeImage.src || '') : src
+                    return (src === null) ? (themeImage.src || '') : src;
                 },
                 write: function(new_val) {
-                    userImage.src(new_val)
+                    userImage.src(new_val);
                 }
-            })
-        }
+            });
+        };
 
         imageViewModel.prototype.getScaleComputed = function getScaleComputed(themeImage, userImage) {
             return ko.pureComputed({
                 read: function() {
                     var scale = ko.utils.unwrapObservable(userImage.scale);
-                    return (scale === null) ? (themeImage.scale || 100) : scale
+                    return (scale === null) ? (themeImage.scale || 100) : scale;
                 },
                 write: function(new_val) {
-                    userImage.scale(new_val)
+                    userImage.scale(new_val);
                 }
-            })
-        }
+            });
+        };
 
         imageViewModel.prototype.getTopComputed = function getTopComputed(themeImage, userImage) {
             return ko.pureComputed({
                 read: function() {
                     var top = ko.utils.unwrapObservable(userImage.img_position.top);
-                    return (top === null) ? (themeImage.img_position.top || 0) : top
+                    return (top === null) ? (themeImage.img_position.top || 0) : top;
                 },
                 write: function(new_val) {
-                    userImage.img_position.top(new_val)
+                    userImage.img_position.top(new_val);
                 }
-            })
-        }
+            });
+        };
 
         imageViewModel.prototype.getLeftComputed = function getLeftComputed(themeImage, userImage) {
             return ko.pureComputed({
                 read: function() {
                     var left = ko.utils.unwrapObservable(userImage.img_position.left);
-                    return (left === null) ? (themeImage.img_position.left || 0) : left
+                    return (left === null) ? (themeImage.img_position.left || 0) : left;
                 },
                 write: function(new_val) {
-                    userImage.img_position.left(new_val)
+                    userImage.img_position.left(new_val);
                 }
-            })
-        }
+            });
+        };
 
         /**
          * this is the factor by which to scale the canvas compared to the size at which it is
@@ -210,7 +210,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
          */
         imageViewModel.prototype.setOldScale = function setOldScale(old_scale) {
             this.old_scale = old_scale;
-        }
+        };
 
         /**
          * redraw the image at the provided scale
@@ -219,7 +219,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
         imageViewModel.prototype.redrawScale = function redrawScale(new_scale) {
             // temp, fix subscription issue
             if (!this.isSelected()) {
-                return
+                return;
             };
 
             var scale_diff = (new_scale - this.old_scale) / 100;
@@ -233,14 +233,14 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             var top_diff = (scale_diff * this.adjusted_height / 2) / this.scaleFactor;
             this.imageObj.img_position.top(this.imageObj.img_position.top() - top_diff );
             this.rerender();
-        }
+        };
 
         /**
          * drag event handler, moves the image in line with mouse movement
          */
         imageViewModel.prototype.dragMove = function dragMove(data, e) {
             if (!this.dragging) {
-                return
+                return;
             }
             var diffX = e.offsetX - this.offsetX,
                 diffY = e.offsetY - this.offsetY;
@@ -249,31 +249,31 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
 
             this.imageObj.img_position.left(this.imageObj.img_position.left() + diffX);
             this.imageObj.img_position.top(this.imageObj.img_position.top() + diffY);
-            this.rerender()
-        }
+            this.rerender();
+        };
 
         /**
          * sets dragging to true on initial mousedown
          */
         imageViewModel.prototype.dragStart = function dragStart(data, e) {
             if (!this.image || !this.isSelected()) {
-                return
+                return;
             }
             this.offsetX = e.offsetX;
             this.offsetY = e.offsetY;
             this.dragging = true;
-        }
+        };
 
         /**
          * sets dragging to false on mouseout or mouseup
          */
         imageViewModel.prototype.dragEnd = function dragEnd() {
             this.dragging = false;
-        }
+        };
 
         imageViewModel.prototype.setUrlSrc = function setUrlSrc(src) {
             this.imageObj.urlSrc(src);
-        }
+        };
 
         /**
          * render an image to the canvas
@@ -281,7 +281,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
          * @param  {Element} canvas [canvas HTML element]
          */
         imageViewModel.prototype.render = function render(src, new_upload) {
-            this.image = new Image()
+            this.image = new Image();
             var canvas = this.canvas();
 
             // allow cross origin images in the canvas
@@ -305,7 +305,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
                     this.imageObj.img_position.left(width_offset);
                     this.imageObj.img_position.top(height_offset);
                 }
-                this.rerender()
+                this.rerender();
             }.bind(this);
             
             this.image.src = src;
@@ -333,7 +333,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
                 var canvas = this.canvas(),
                     ctx = canvas[0].getContext("2d"),
                     canvas_width = canvas.width(),
-                    canvas_height = canvas.height()
+                    canvas_height = canvas.height();
 
                 // clear the canvas
                 //ctx.clearRect(0, 0, canvas_width * this.scaleFactor, canvas_height * this.scaleFactor);
@@ -346,7 +346,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
                     base_scale = Math.max(width_factor, height_factor),
                     user_scale = (this.imageObj.scale() || 100) / 100,
                     width = this.image.width * base_scale * user_scale * this.scaleFactor,
-                    height = this.image.height * base_scale * user_scale * this.scaleFactor
+                    height = this.image.height * base_scale * user_scale * this.scaleFactor;
 
                 this.adjusted_width = this.image.width * base_scale * this.scaleFactor;
                 this.adjusted_height = this.image.height * base_scale * this.scaleFactor;
@@ -365,7 +365,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
                 );
 
             }
-        }
+        };
 
         /**
          * set image object content observable to equal base64 dump of canvas
@@ -374,7 +374,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             if (this.imageObj.src) {
                 this.imageObj.content(this.exportCanvas());
             }
-        }
+        };
 
         /**
          * export the canvas to png
@@ -382,7 +382,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
          */
         imageViewModel.prototype.exportCanvas = function() {
             return this.canvas() ? this.canvas()[0].toDataURL(): '';
-        }
+        };
 
         /**
          * get X and Y dimensions of the canvas.
@@ -396,10 +396,10 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
                 return style.property == 'height';
             });
             return {
-                width: (width) ? width.value : '100%',
-                height: (height) ? height.value : '100%'
-            }
-        }
+                width: width ? width.value : '100%',
+                height: height ? height.value : '100%'
+            };
+        };
 
         /**
          * get X and Y dimensions of the canvas, then multiply by a scale
@@ -423,8 +423,8 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             return {
                 width: widthOutput,
                 height: heightOutput
-            }
-        }
+            };
+        };
 
         /**
          * Returns flattened CSS styles with layout (width / height) also included
@@ -437,10 +437,10 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             //
             return ko.pureComputed( function() {
                 var styles = this.flatStyles();
-                ko.utils.extend(styles, this.getDimensions())
-                return styles
-            }, this)
-        }
+                ko.utils.extend(styles, this.getDimensions());
+                return styles;
+            }, this);
+        };
 
         imageViewModel.prototype.getMessageComputed = function getMessageComputed() {
             return ko.pureComputed(function() {
@@ -448,22 +448,21 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
                     return {
                         type: 'message',
                         message: this.data.message
-                    }
-                } else {
-                    return null
+                    };
                 }
-            }, this)
-        }
+                return null;
+            }, this);
+        };
 
         imageViewModel.prototype.getIsEmptyComputed = function getIsEmptyComputed() {
             return ko.pureComputed(function() {
-                return (this.imageObj && this.imageObj.src) ? !(this.imageObj.src()) : false
-            }, this).extend({throttle: 100})
-        }
+                return (this.imageObj && this.imageObj.src) ? !(this.imageObj.src()) : false;
+            }, this).extend({throttle: 100});
+        };
 
         return {
             viewModel: imageViewModel,
             template: { require: 'text!/canvas/templates/image.html' }
-        }
+        };
     }
 );

@@ -48,7 +48,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
             if (this.element()) {
                 this.element().focus();
             }
-        }
+        };
 
         /**
          * call from knockout click binding to set focus to contenteditable div from parent container
@@ -59,7 +59,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
             if (target.hasClass('dynamic-field-content') || target.hasClass('dynamic-field-nohighlight')) {
                 // the personalization elements are inserted outside of the framework, so cannot have bound functions
                 // on them. Simplest way to handle the click is by firing an event and listening for it in the tools component
-                $(window).trigger('personalization', [target, target.attr('data-field'), target.attr('data-fallback')])
+                $(window).trigger('personalization', [target, target.attr('data-field'), target.attr('data-fallback')]);
             } else {
                 $(window).trigger('closeEditPersonalization');
             }
@@ -67,7 +67,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
                 this.setFocus();
                 this.getState();
             }
-        }
+        };
 
         /**
          * executes bold command on the document
@@ -76,7 +76,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
             document.execCommand("Bold", false, null);
             this.getState();
             this.sizeAdjust();
-        }
+        };
 
         /**
          * executes underline command on the document
@@ -84,7 +84,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
         inputViewModel.prototype.underline = function underline() {
             document.execCommand("Underline", false, null);
             this.getState();
-        }
+        };
 
         /**
          * executes italic command on the document
@@ -92,17 +92,17 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
         inputViewModel.prototype.italic = function italic() {
             document.execCommand("Italic", false, null);
             this.getState();
-        }
+        };
 
         inputViewModel.prototype.orderedList = function orderedList() {
             document.execCommand("insertOrderedList", false, null);
             this.sizeAdjust();
-        }
+        };
 
         inputViewModel.prototype.unorderedList = function unorderedList() {
             document.execCommand("insertUnorderedList", false, null);
             this.sizeAdjust();
-        }
+        };
 
         /**
          * checks the current state at the caret and triggers automatic font resizing on key up
@@ -110,7 +110,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
         inputViewModel.prototype.handleKeyup = function handleKeyup() {
             this.getState();
             this.sizeAdjust();
-        }
+        };
 
         /**
          * gets the current inline styles (bold, italic, underline) applied at the caret / selection
@@ -123,8 +123,8 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
             this.isBold(bold);
             this.isUnderline(underline);
             this.isItalic(italic);
-            return true
-        }
+            return true;
+        };
 
         /**
          * Call to automatically adjust font size downward if the element has overflown
@@ -134,10 +134,10 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
             var scrollVisible = this.scrollVisible();
             if (scrollVisible) {
                 while (scrollVisible) {
-                    scrollVisible = this.decreaseFontSize()
+                    scrollVisible = this.decreaseFontSize();
                 }
             }
-        }
+        };
 
         inputViewModel.prototype.fitFontSize = function fitFontSize() {
             var font_sizes = this.getFontSizes(),
@@ -146,9 +146,9 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
 
             var scrollVisible = this.scrollVisible();
             while (scrollVisible) {
-                scrollVisible = this.decreaseFontSize()
+                scrollVisible = this.decreaseFontSize();
             }
-        }
+        };
 
         /**
          * if available, bumps the font size up to the next available size for the theme applied to this element
@@ -156,17 +156,16 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
          */
         inputViewModel.prototype.increaseFontSize = function increaseFontSize() {
             var font_sizes = this.getFontSizes(),
-                font_size = this.getStyle('font-size')
+                font_size = this.getStyle('font-size'),
                 index = font_sizes.indexOf(font_size || 0);
 
             if (index < font_sizes.length-1) {
-                this.setStyle('font-size', font_sizes[index+1])
-                return true
-            } else {
-                console.log('no more sizes');
-                return false
+                this.setStyle('font-size', font_sizes[index+1]);
+                return true;
             }
-        }
+            console.log('no more sizes');
+            return false;
+        };
 
         /**
          * if available, drops the font size down to the previous available size for the theme applied to this element
@@ -174,16 +173,15 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
          */
         inputViewModel.prototype.decreaseFontSize = function decreaseFontSize() {
             var font_sizes = this.getFontSizes(),
-                font_size = this.getStyle('font-size')
+                font_size = this.getStyle('font-size'),
                 index = font_sizes.indexOf(font_size || 0);
             if (index > 0) {
-                this.setStyle('font-size', font_sizes[index-1])
+                this.setStyle('font-size', font_sizes[index-1]);
                 return this.scrollVisible();
-            } else {
-                console.log('no more sizes');
-                return false
             }
-        }
+            console.log('no more sizes');
+            return false;
+        };
 
         /**
          * Check whether the current text area has overflown
@@ -192,13 +190,13 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
         inputViewModel.prototype.scrollVisible = function scrollVisible() {
             var el = this.element();
             if (el) {
-                el = el[0]
+                el = el[0];
                 if (el.scrollHeight > el.clientHeight) {
-                    return true
-                };
+                    return true;
+                }
             }
-            return false
-        }
+            return false;
+        };
 
         /**
          * version of sizeAdjustPreview for template / theme previews. Does not effect the underlying user viewmodel
@@ -214,8 +212,8 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
                         scrollVisible = this.decreaseFontSizeInline();
                     }
                 }
-            }.bind(this), 10)
-        }
+            }.bind(this), 10);
+        };
 
         /**
          * version of decreaseFontSize for template / theme previews. Does not effect the underlying user viewmodel
@@ -228,13 +226,12 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
                 font_size = this.element().css('font-size') || this.getStyle('font-size'),
                 index = font_sizes.indexOf(font_size || 0);
             if (index > 0) {
-                this.element().css('font-size', font_sizes[index-1])
+                this.element().css('font-size', font_sizes[index-1]);
                 return this.scrollVisible();
-            } else {
-                console.log('no more sizes');
-                return false
             }
-        }
+            console.log('no more sizes');
+            return false;
+        };
 
         /**
          * returns a computed which evaluates to a boolean. True if element is overflowing
@@ -253,8 +250,8 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
                     font_family();
                 }
                 return this.scrollVisible();
-            }, this).extend({throttle: 100})
-        }
+            }, this).extend({throttle: 100});
+        };
 
         /**
          * returns a computed that only allows setting the value of isSelected to true. This allows us to maintain
@@ -271,8 +268,8 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
                         this.isSelected(val);
                     }
                 }
-            }, this)
-        }
+            }, this);
+        };
 
         /**
          * hook onto paste events in the content editable div. This cancels the paste event and inserts the text
@@ -284,7 +281,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
             var text = e.originalEvent.clipboardData.getData("text/plain");
             document.execCommand("insertHTML", false, text);
             this.handleKeyup();
-        }
+        };
 
         inputViewModel.prototype.getMessageComputed = function getMessageComputed() {
             return ko.pureComputed(function() {
@@ -292,22 +289,22 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
                     return {
                         type: 'error',
                         message: "You've run out of room in this text field. Try reducing the amount of text, or use a smaller font size if available."
-                    }
-                } else if (this.data.message) {
+                    };
+                }
+                if (this.data.message) {
                     return {
                         type: 'message',
                         message: this.data.message
-                    }
-                } else {
-                    return null
+                    };
                 }
-            }, this)
-        }
+                return null;
+            }, this);
+        };
 
         //return
         return {
             viewModel: inputViewModel,
             template: { require: 'text!/canvas/templates/input.html' }
-        }
+        };
     }
 );

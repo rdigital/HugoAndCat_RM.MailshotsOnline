@@ -34,20 +34,20 @@ define(['knockout', 'jquery', 'view_models/state'],
                 $('.canvas-container canvas').hide();
                 setTimeout(function() {
                     $('.canvas-container canvas').show();
-                }, 20)
-            })
+                }, 20);
+            });
             this.overrideZoom.subscribe(function() {
                 $('.canvas-container canvas').hide();
                 setTimeout(function() {
                     $('.canvas-container canvas').show();
-                }, 20)
-            })
-        }
+                }, 20);
+            });
+        };
 
         zoomComponentViewModel.prototype.handleScale = function handleScale() {
             var el = this.scaleElement();
             if (!el) {
-                return
+                return;
             }
 
             var window_height = $('.canvas-container').height() - 120,
@@ -67,40 +67,40 @@ define(['knockout', 'jquery', 'view_models/state'],
                 this.zoom(Math.min(width_factor, height_factor));
             }
             
-        }
+        };
 
         zoomComponentViewModel.prototype.toggleZoom = function toggleZoom() {
             if (this.overrideZoom()) {
                 this.overrideZoom(null);
             } else {
-                this.overrideZoom(this.availableZooms[this.availableZooms.length-1])
+                this.overrideZoom(this.availableZooms[this.availableZooms.length-1]);
             }
-        }
+        };
 
         zoomComponentViewModel.prototype.getZoomAvailableComputed = function getZoomAvailableComputed() {
-            return this.zoom() != this.availableZooms[this.availableZooms.length-1]
-        }
+            return this.zoom() != this.availableZooms[this.availableZooms.length-1];
+        };
 
         zoomComponentViewModel.prototype.increaseZoom = function increaseZoom() {
             var idx = this.availableZooms.indexOf(this.zoom());
             if (idx < this.availableZooms.length -1) {
                 this.zoom(this.availableZooms[idx+1]);
-                return true
+                return true;
             }
-            return false
-        }
+            return false;
+        };
 
         zoomComponentViewModel.prototype.decreaseZoom = function decreaseZoom() {
             var idx = this.availableZooms.indexOf(this.zoom());
             if (idx >0) {
                 this.zoom(this.availableZooms[idx-1]);
-                return true
+                return true;
             }
-            return false
-        }
+            return false;
+        };
 
         return {
             viewModel: zoomComponentViewModel,
             template: { require: 'text!/canvas/templates/zoom.html' }
-        }
+        };
 });

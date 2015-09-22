@@ -1,5 +1,5 @@
-define(['knockout', 'jquery', 'view_models/state', 'view_models/theme', 'view_models/user'],
-    function(ko, $, stateViewModel, themeViewModel, userViewModel) {
+define(['knockout', 'view_models/state', 'view_models/theme', 'view_models/user'],
+    function(ko, stateViewModel, themeViewModel, userViewModel) {
 
         // ViewModel
         function elementViewModel(params) {
@@ -31,7 +31,7 @@ define(['knockout', 'jquery', 'view_models/state', 'view_models/theme', 'view_mo
                     this.isSelected(selected == this);
                 }.bind(this))
             );
-        }
+        };
 
         /**
          * called to dispose of subscriptions on destroy
@@ -39,8 +39,8 @@ define(['knockout', 'jquery', 'view_models/state', 'view_models/theme', 'view_mo
         elementViewModel.prototype.dispose = function dispose() {
             ko.utils.arrayForEach(this.subscriptions, function(sub) {
                 sub.dispose();
-            })
-        }
+            });
+        };
 
         /**
          * get the coordinates of the top, left, right and bottom edges of the element
@@ -55,8 +55,8 @@ define(['knockout', 'jquery', 'view_models/state', 'view_models/theme', 'view_mo
             }
             var coords = el.getBoundingClientRect();
 
-            return coords
-        }
+            return coords;
+        };
 
         /**
          * returns a computed which flattens the styles from theme and user data into
@@ -75,7 +75,7 @@ define(['knockout', 'jquery', 'view_models/state', 'view_models/theme', 'view_mo
 
                 // ignore user defined font-size if we are overriding the template
                 if (this.override_template) {
-                    delete userStyles['font-size']
+                    delete userStyles['font-size'];
                 }
 
                 // merge theme and user defined styles
@@ -97,8 +97,8 @@ define(['knockout', 'jquery', 'view_models/state', 'view_models/theme', 'view_mo
                     }
                 }
                 return styles;
-            }, this)
-        }
+            }, this);
+        };
 
         /**
          * Set user defined style for this element
@@ -107,7 +107,7 @@ define(['knockout', 'jquery', 'view_models/state', 'view_models/theme', 'view_mo
          */
         elementViewModel.prototype.setStyle = function setStyle(property, value) {
             userViewModel.setStyle(property, value, this.data.name);
-        }
+        };
 
         /**
          * get css style value by property name, check for user defined first then fall back to theme
@@ -117,11 +117,11 @@ define(['knockout', 'jquery', 'view_models/state', 'view_models/theme', 'view_mo
         elementViewModel.prototype.getStyle = function getStyle(property) {
             var userStyle = userViewModel.getStyle(property, this.data.name);
             if (userStyle) {
-                return userStyle
+                return userStyle;
             }
             var themeStyle = this.themeViewModel.getStyle(property, this.data.theme_class);
-            return themeStyle
-        }
+            return themeStyle;
+        };
 
         /**
          * get the available font sizes for this element from the theme
@@ -129,7 +129,7 @@ define(['knockout', 'jquery', 'view_models/state', 'view_models/theme', 'view_mo
          */
         elementViewModel.prototype.getFontSizes = function getFontSizes() {
             return this.themeViewModel.getFontSizes(this.data.theme_class);
-        }
+        };
 
         /**
          * get available font families for this element from the theme
@@ -137,7 +137,7 @@ define(['knockout', 'jquery', 'view_models/state', 'view_models/theme', 'view_mo
          */
         elementViewModel.prototype.getFonts = function getFonts() {
             return this.themeViewModel.getFonts();
-        }
+        };
 
         /**
          * get recommended theme colours for this element
@@ -145,7 +145,7 @@ define(['knockout', 'jquery', 'view_models/state', 'view_models/theme', 'view_mo
          */
         elementViewModel.prototype.getColours = function getColours() {
             return this.themeViewModel.getColours();
-        }
+        };
 
         /**
          * sets this.themeViewModel to be the override theme if one is provided
@@ -157,9 +157,9 @@ define(['knockout', 'jquery', 'view_models/state', 'view_models/theme', 'view_mo
             } else {
                 this.themeViewModel = themeViewModel;
             }
-        }
+        };
 
         //return
-        return elementViewModel
+        return elementViewModel;
     }
 );

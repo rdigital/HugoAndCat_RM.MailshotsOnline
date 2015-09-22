@@ -1,7 +1,7 @@
 // view model which describes the state of the app at any given time
 // and handles fecthing / persisting of data
-define(['knockout', 'jquery'],
-    function(ko, $) {
+define(['knockout'],
+    function(ko) {
 
         function stateViewModel() {
             this.mailshotID = this.getUrlVars()['mailshotId'];
@@ -31,7 +31,7 @@ define(['knockout', 'jquery'],
             this.output = ko.observable();
             this.selectedElement.subscribe(function() {
                 this.showImageUpload(false);
-            }, this)
+            }, this);
         }
 
         /**
@@ -44,7 +44,7 @@ define(['knockout', 'jquery'],
                     vars[key] = value;
                 });
             return vars;
-        }
+        };
 
         /**
          * Set a particular element as the currently selected one
@@ -54,30 +54,30 @@ define(['knockout', 'jquery'],
             // set the selected element
             this.selectedElement(element);
             if (!element) {
-                window.getSelection().removeAllRanges()
+                window.getSelection().removeAllRanges();
             }
-        }
+        };
 
         stateViewModel.prototype.toggleImageUpload = function toggleImageUpload() {
             this.imageTab('upload');
             this.toggleImage();
-        }
+        };
 
         stateViewModel.prototype.toggleImageLibrary = function toggleImageLibrary() {
             this.imageTab('library');
             this.toggleImage();
-        }
+        };
 
         /**
          * toggle the image upload modal
          */
         stateViewModel.prototype.toggleImage = function toggleImage() {
             this.showImageUpload(!this.showImageUpload());
-            this.overrideZoom(null)
+            this.overrideZoom(null);
             setTimeout(function(){
                 this.scaleElement.valueHasMutated();
-            }.bind(this), 0) 
-        }
+            }.bind(this), 0);
+        };
 
         /**
          * toggle the theme picker modal
@@ -86,7 +86,7 @@ define(['knockout', 'jquery'],
             this.showThemePicker(!this.showThemePicker());
             this.showTemplatePicker(false);
             this.selectElement(null);
-        }
+        };
 
         /**
          * toggle the template picker modal
@@ -95,22 +95,22 @@ define(['knockout', 'jquery'],
             this.showTemplatePicker(!this.showTemplatePicker());
             this.showThemePicker(false);
             this.selectElement(null);
-        }
+        };
 
         stateViewModel.prototype.togglePreview = function togglePreview() {
             this.showPreview(!this.showPreview());
-        }
+        };
 
         stateViewModel.prototype.getZoomComputed = function getZoomComputed() {
             return ko.computed(function() {
                 return this.overrideZoom() || this.zoom();
-            }, this)
-        }
+            }, this);
+        };
 
         // testing
-        window.state = new stateViewModel()
+        window.state = new stateViewModel();
         // return instance of viewmodel, so all places where AMD is used
         // to load the viewmodel will get the same instance
         return window.state;
     }
-)
+);
