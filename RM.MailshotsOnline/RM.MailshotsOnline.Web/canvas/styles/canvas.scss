@@ -5,6 +5,14 @@ body {
     background: $lightest-grey;
 }
 
+.editor {
+    @include transition(opacity, 0.5s);
+    opacity: 1;
+    &.editor_hidden {
+        opacity: 0;
+    }
+}
+
 .canvas-container {
     
     @include transition(transform, 0s);
