@@ -1,14 +1,14 @@
-define(['knockout', 'components/colourpicker', 'view_models/state'],
+define(['knockout', 'view_models/state'],
 
-    function(ko, colourpickerComponent, stateViewModel) {
+    function(ko, stateViewModel) {
 
         // ViewModel
         function backgroundToolsViewModel(params) {
             this.backgroundSelected = stateViewModel.backgroundSelected;
             this.attachment = {
-                'top': 160,
-                'left': '50%',
-            }
+                'top': '160px',
+                'left': '50%'
+            };
             this.colours = this.getColoursComputed();
             this.colour = this.getStyleComputed('background-color');
         }
@@ -22,9 +22,9 @@ define(['knockout', 'components/colourpicker', 'view_models/state'],
                 if (this.backgroundSelected()) {
                     return this.backgroundSelected().getColours();
                 }
-                return []
-            }, this)
-        }
+                return [];
+            }, this);
+        };
 
         /**
          * computed generator for styles. Provide a style property name and the returned computed
@@ -38,7 +38,7 @@ define(['knockout', 'components/colourpicker', 'view_models/state'],
                     if (face) {
                         return face.getStyle(property);
                     }
-                    return
+                    return;
                 },
                 write: function(val) {
                     var face = this.backgroundSelected();
@@ -46,11 +46,11 @@ define(['knockout', 'components/colourpicker', 'view_models/state'],
                         face.setStyle(property, val);
                     }
                 }
-            }, this)
-        }
+            }, this);
+        };
 
         return {
             viewModel: backgroundToolsViewModel,
             template: { require: 'text!/canvas/templates/backgroundtools.html' }
-        }
+        };
 });

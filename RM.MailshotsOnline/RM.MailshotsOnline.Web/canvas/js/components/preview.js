@@ -22,11 +22,11 @@ define(['knockout', 'view_models/format', 'view_models/state'],
         }
 
         previewViewModel.prototype.sideFaces = function sideFaces(side) {
-            ret = ko.utils.arrayFilter(this.faces(), function(face) {
-                return face.side == side
-            })
-            return ret
-        }
+            var ret = ko.utils.arrayFilter(this.faces(), function(face) {
+                return face.side == side;
+            });
+            return ret;
+        };
 
         previewViewModel.prototype.doScale = function doScale() {
             var side = this.sides[0],
@@ -39,7 +39,7 @@ define(['knockout', 'view_models/format', 'view_models/state'],
             ko.utils.arrayForEach(faces, function(face) {
                 height += face.height + 60;
                 width = Math.max(face.width, width);
-            })
+            });
 
             this.width(width + 'px');
             this.height(height + 'px');
@@ -56,10 +56,10 @@ define(['knockout', 'view_models/format', 'view_models/state'],
             }
 
             this.scale('scale(' + scale + ')');
-        }
+        };
 
         return {
             viewModel: previewViewModel,
             template: { require: 'text!/canvas/templates/preview.html' }
-        }
+        };
 });

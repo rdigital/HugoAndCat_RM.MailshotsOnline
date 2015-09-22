@@ -10,7 +10,7 @@ define(['knockout', 'view_models/data', 'view_models/user'],
                 if (userViewModel.ready()) {
                     return userViewModel.objects.themeID();
                 }
-            }, this)
+            }, this);
 
             // fetch data
             this.fetch();
@@ -33,8 +33,8 @@ define(['knockout', 'view_models/data', 'view_models/user'],
                     return theme_class.name == name;
                 });
             }
-            return class_obj
-        }
+            return class_obj;
+        };
 
         /**
          * get styles from the current theme by class name
@@ -50,7 +50,7 @@ define(['knockout', 'view_models/data', 'view_models/user'],
                 });
             }
             return styles;
-        }
+        };
 
         /**
          * get specific styles from the current theme by class name and property name
@@ -61,7 +61,7 @@ define(['knockout', 'view_models/data', 'view_models/user'],
         themeViewModel.prototype.getStyle = function getStyle(property, name) {
             var styles = this.getStylesByName(name);
             return styles[property];
-        }
+        };
 
         /**
          * get face object from theme's array of faces by face name
@@ -76,13 +76,13 @@ define(['knockout', 'view_models/data', 'view_models/user'],
                     return face.name == name;
                 });
             }
-            return face_obj
-        }
+            return face_obj;
+        };
 
         themeViewModel.prototype.getFaceStyle = function getFaceStyle(property, name) {
             var styles = this.getFaceStylesByName(name);
             return ko.utils.unwrapObservable(styles[property]);
-        }
+        };
 
         /**
          * get face specific styles from theme by face name
@@ -98,7 +98,7 @@ define(['knockout', 'view_models/data', 'view_models/user'],
                 });
             }
             return styles;
-        }
+        };
 
         /**
          * get the image source, position and scale for this class name
@@ -114,7 +114,7 @@ define(['knockout', 'view_models/data', 'view_models/user'],
                 image.scale = themeData.scale;
             }
             return image;
-        }
+        };
 
         /**
          * get the available font sizes for a class by name
@@ -123,8 +123,8 @@ define(['knockout', 'view_models/data', 'view_models/user'],
          */
         themeViewModel.prototype.getFontSizes = function getFontSizes(name) {
             var classObj = this.getClassByName(name);
-            return classObj.font_sizes
-        }
+            return classObj.font_sizes;
+        };
 
         /**
          * get the available fonts for a theme
@@ -133,10 +133,10 @@ define(['knockout', 'view_models/data', 'view_models/user'],
         themeViewModel.prototype.getFonts = function getFonts() {
             var selected = this.selected();
             if (selected) {
-                return selected.fonts
+                return selected.fonts;
             }
-            return []
-        }
+            return [];
+        };
 
         /**
          * get the available colours for this theme
@@ -145,16 +145,16 @@ define(['knockout', 'view_models/data', 'view_models/user'],
         themeViewModel.prototype.getColours = function getColours() {
             var selected = this.selected();
             if (selected) {
-                return selected.colours
+                return selected.colours;
             }
-            return []
-        }
+            return [];
+        };
 
         // for testing
         window.theme = new themeViewModel();
 
         // return instance of viewmodel, so all places where AMD is used
         // to load the viewmodel will get the same instance
-        return window.theme
+        return window.theme;
     }
-)
+);

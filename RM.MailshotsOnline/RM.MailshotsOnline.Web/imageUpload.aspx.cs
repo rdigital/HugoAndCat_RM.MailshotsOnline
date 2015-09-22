@@ -24,7 +24,7 @@ namespace RM.MailshotsOnline.Web
         protected void Page_Load(object sender, EventArgs e)
         {
             _logger = new Logger();
-            _membershipService = new MembershipService();
+            _membershipService = new MembershipService(new CryptographicService());
             _cmsImageService = new CmsImageService();
             _imageLibrary = new ImageLibraryService(_logger, _cmsImageService);
 

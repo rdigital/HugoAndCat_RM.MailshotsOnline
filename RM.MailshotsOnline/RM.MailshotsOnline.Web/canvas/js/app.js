@@ -26,7 +26,7 @@ require([
 			stateViewModel.selectElement(null);
 			stateViewModel.backgroundSelected(null);
 			historyViewModel.pushToHistory();
-		}
+		};
 
 		// apply bindings
 		ko.applyBindings();
