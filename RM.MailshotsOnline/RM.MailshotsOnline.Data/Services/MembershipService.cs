@@ -9,7 +9,6 @@ using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using Umbraco.Core;
 using Umbraco.Core.Services;
-using HC.RM.Common;
 using System.Text;
 
 namespace RM.MailshotsOnline.Data.Services
