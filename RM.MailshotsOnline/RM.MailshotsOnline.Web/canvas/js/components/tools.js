@@ -161,7 +161,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             this.window_width($(window).width());
             this.window_height($(window).height());
             this.window_width.valueHasMutated();
-        };
+        }
 
         /**
          * calculate where to place the tools pane in relation to the canvas container
@@ -202,30 +202,30 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                 // have enough horizontal room
                 if (maxH == coords.left) {
                     // attach to the left
-                    attachment.right = this.window_width() - coords.left - scrollLeft;
+                    attachment.right = this.window_width() - coords.left - scrollLeft + 'px';
                     attachment.left = 'auto';
                 } else {
                     // attach to the right
-                    attachment.left = coords.right + scrollLeft;
+                    attachment.left = coords.right + scrollLeft + 'px';
                     attachment.right = 'auto';
                 }
                 if (maxV > tools_height) {
                     if (maxV == coords.top) {
-                        attachment.bottom = Math.min((this.window_height() - coords.bottom)-scrollTop, scrollHeight - 100);
+                        attachment.bottom = Math.min((this.window_height() - coords.bottom)-scrollTop, scrollHeight - 100) + 'px';
                         attachment.top = 'auto';
                     } else {
-                        attachment.top = Math.max(coords.top + scrollTop, scrollTop + 100);
+                        attachment.top = Math.max(coords.top + scrollTop, scrollTop + 100) + 'px';
                         attachment.bottom = 'auto';
                     }
                 } else {
-                    attachment.top = Math.max(coords.top + scrollTop, scrollTop + 100);
+                    attachment.top = Math.max(coords.top + scrollTop, scrollTop + 100) + 'px';
                     attachment.bottom = 'auto';
                 }
                 return attachment;
             }
 
             // attach the left of the tools to either the left of the element or the screen edge
-            attachment.left = Math.max(coords.left + scrollLeft, scrollLeft + 10);
+            attachment.left = Math.max(coords.left + scrollLeft, scrollLeft + 10) + 'px';
             attachment.right = 'auto';
 
             // deal with vertical case if not enough horizontal room
@@ -233,19 +233,19 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                 // have enough vertical room
                 if (maxV == coords.top) {
                     // attach to the top
-                    attachment.bottom = (this.window_height() - coords.top) - scrollTop  + 10;
+                    attachment.bottom = (this.window_height() - coords.top) - scrollTop  + 10 + 'px';
                     attachment.top = 'auto';
                 } else {
                     // attach to the bottom
-                    attachment.top = coords.bottom + 10 + scrollTop;
+                    attachment.top = coords.bottom + 10 + scrollTop + 'px';
                     attachment.bottom = 'auto';
                 }
                 return attachment;
+            } else {
+                // attach the top to the top of the element or the edge of the screen
+                attachment.top = Math.max((this.window_height() - coords.top) - scrollTop + 10, scrollTop + 100) + 'px';
+                attachment.bottom = 'auto';
             }
-            // attach the top to the top of the element or the edge of the screen
-            attachment.top = Math.max((this.window_height() - coords.top) - scrollTop + 10, scrollTop + 100);
-            attachment.bottom = 'auto';
-            
             return attachment;
         };
 
@@ -410,21 +410,21 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
          */
         toolsViewModel.prototype.toggleImageUpload = function toggleImageUpload() {
             stateViewModel.toggleImageUpload();
-        };
+        }
 
         /**
          * toggle the image library modal
          */
         toolsViewModel.prototype.toggleImageLibrary = function toggleImageLibrary() {
             stateViewModel.toggleImageLibrary();
-        };
+        }
 
         /**
          * toggle the insert personalization pane
          */
         toolsViewModel.prototype.togglePersonalization = function togglePersonalization() {
             this.personalizing(!this.personalizing());
-        };
+        }
 
         /**
          * close the personalization pain and reset values
@@ -434,7 +434,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             this.personalizationField('FirstName');
             this.personalizationFallback('');
             this.personalizationEl(null);
-        };
+        }
 
         /**
          * close the edit personalization pane
@@ -443,7 +443,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             if (this.personalizationEl()) {
                 this.closePersonalization();
             }
-        };
+        }
 
         /**
          * show the insert personalization pane
@@ -453,7 +453,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             this.personalizationField(field);
             this.personalizationFallback(fallback);
             this.personalizationEl(target);
-        };
+        }
 
         /**
          * get the caret position in the HTML field we are currently editing
@@ -468,7 +468,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             preCaretRange.setEnd(range.endContainer, range.endOffset);
             caretOffset = preCaretRange.toString().length;
             return caretOffset;
-        };
+        }
 
         /**
          * recursively get all of the text nodes within an element
@@ -486,7 +486,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                 }
             }
             return textNodes;
-        };
+        }
 
         /**
          * set the caret position back to where the user was last editing
@@ -497,11 +497,11 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             var el = stateViewModel.selectedElement().element(),
                 relatedTarget = e.relatedTarget;
             if (!el) {
-                return;
+                return
             }
             el = el[0];
             if (relatedTarget && el != relatedTarget && relatedTarget.hasClass('editable')) {
-                return;
+                return
             }
             var range = document.createRange(),
                 sel = window.getSelection(),
@@ -521,7 +521,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             sel.addRange(range);
             el.focus();
             this.caretPosition = 0;
-        };
+        }
 
         /**
          * on focusing on an input in the tools panel, store the caret position
@@ -538,7 +538,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                 }
             }
             e.target.focus();
-        };
+        }
 
         /**
          * HERE BE DRAGONS
@@ -555,10 +555,10 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                     content = (fallback != '') ? '['+ field + '/' + fallback +']' : '['+ field + ']';
                 if (isIE){
                     var innerHTML = '<span contenteditable="false" class="dynamic-field-content" data-content="'+ content +'" data-field="'+ field +'" data-fallback="'+ fallback +'"></span>',
-                        html = '<span contenteditable="false" class="dynamic-field" class="editable">' + innerHTML + '</span>&#8202;';
+                        html = '<span contenteditable="false" class="dynamic-field" class="editable">' + innerHTML + '</span>&#8202;'
                 } else {
                     var innerHTML = '<span class="dynamic-field-content" data-content="'+ content +'" data-field="'+ field +'" data-fallback="'+ fallback +'"></span>',
-                        html = '<span contenteditable="true" class="dynamic-field" class="editable">' + innerHTML + '</span>&#8202;';
+                        html = '<span contenteditable="true" class="dynamic-field" class="editable">' + innerHTML + '</span>&#8202;'
                 }
 
                 if (this.personalizationEl()) {
@@ -596,8 +596,8 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                 el.sizeAdjust();
                 el.userData.content(el.element().html());
                 this.closePersonalization();
-            }.bind(this), 0);
-        };
+            }.bind(this), 0)
+        }
 
         /**
          * delete the personalization placeholder from the HTML input
@@ -607,7 +607,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                 $(this.personalizationEl()).remove();
                 this.closePersonalization();
             }
-        };
+        }
 
         /**
          * returns whether we are viewing the canvas in
@@ -618,14 +618,16 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             var msie = ua.indexOf("MSIE ");
 
             if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
-                return true;
+                return true
+            } else {
+                return false
             }
 
             return false;
-        };
+        }
 
         return {
             viewModel: toolsViewModel,
             template: { require: 'text!/canvas/templates/tools.html' }
-        };
+        }
 });
