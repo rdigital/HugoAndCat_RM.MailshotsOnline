@@ -422,6 +422,7 @@
     <Content Include="canvas\js\custom_bindings\ko-element.js" />
     <Content Include="canvas\js\custom_bindings\ko-file.js" />
     <Content Include="canvas\js\custom_bindings\ko-spectrum.js" />
+    <Content Include="canvas\js\custom_bindings\pointer-events.js" />
     <Content Include="canvas\js\require_config.js" />
     <Content Include="canvas\js\temp\data.js" />
     <Content Include="canvas\js\vendor\components-font-awesome\css\font-awesome.css" />
