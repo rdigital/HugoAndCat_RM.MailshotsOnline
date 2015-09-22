@@ -31,15 +31,15 @@ define(['knockout', 'jquery', 'view_models/state'],
             $(window).resize(this.handleScale);
             // chrome blurry font rendering big hack
             this.zoom.subscribe(function() {
-                $('canvas').hide();
+                $('.canvas-container canvas').hide();
                 setTimeout(function() {
-                    $('canvas').show();
+                    $('.canvas-container canvas').show();
                 }, 20)
             })
             this.overrideZoom.subscribe(function() {
-                $('canvas').hide();
+                $('.canvas-container canvas').hide();
                 setTimeout(function() {
-                    $('canvas').show();
+                    $('.canvas-container canvas').show();
                 }, 20)
             })
         }
