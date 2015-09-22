@@ -55,6 +55,9 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         [HttpPost]
         public ActionResult RegisterForm(Register model)
         {
+            model.ViewModel.Email = model.ViewModel.Email.ToLower();
+            model.ViewModel.ConfirmEmail = model.ViewModel.ConfirmEmail.ToLower();
+
             var emailBody = string.Empty;
             if (UmbracoContext.PageId.HasValue)
             {
@@ -67,9 +70,8 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return CurrentUmbracoPage();
             }
 
-            var computedSalt = Encryption.ComputedSalt(model.ViewModel.Email, model.ViewModel.Email);
-            var b64Salt = Encoding.UTF8.GetBytes(computedSalt);
-            var encryptedEmail = Encryption.Encrypt(model.ViewModel.Email, Constants.Encryption.EncryptionKey, b64Salt);
+            var emailSalt = _cryptographicService.GenerateEmailSalt(model.ViewModel.Email);
+            var encryptedEmail = _cryptographicService.Encrypt(model.ViewModel.Email, emailSalt);
 
             if (Members.GetByEmail(encryptedEmail) != null)
             {

@@ -112,3 +112,37 @@
     0% { transform: translate(0, -230px); }
     100%   { transform: translate(0, 0); }
 }
+
+@keyframes slideinleft {
+    0% { transform: translate(-100%, 0); }
+    50%   { transform: translate(-100%, 0); }
+    100%   { transform: translate(0, 0); }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes slideinleft {
+    0% { transform: translate(-100%, 0); }
+    50%   { transform: translate(-100%, 0); }
+    100%   { transform: translate(0, 0); }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes slideinleft {
+    0% { transform: translate(-100%, 0); }
+    50%   { transform: translate(-100%, 0); }
+    100%   { transform: translate(0, 0); }
+}
+
+/* Internet Explorer */
+@-ms-keyframes slideinleft {
+    0% { transform: translate(-100%, 0); }
+    50%   { transform: translate(-100%, 0); }
+    100%   { transform: translate(0, 0); }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes slideinleft {
+    0% { transform: translate(-100%, 0); }
+    50%   { transform: translate(-100%, 0); }
+    100%   { transform: translate(0, 0); }
+}

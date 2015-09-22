@@ -18,6 +18,18 @@
 	&.options-toolbar_hidden {
 		transform: translate(0, -50px);
 	}
+	&.disabled {
+		cursor: pointer;
+		.toolbar-button-container {
+			background-color: transparent !important;
+			pointer-events: none;
+		}
+		.toolbar-button {
+			border-color: $dark-grey !important;
+			color: $dark-grey !important;
+			pointer-events: none;
+		}
+	}
 	.toolbar-buttons {
 		text-align: left;
 		display: inline-block;
@@ -29,10 +41,21 @@
 		cursor: pointer;
 		display: inline-block;
 		float: left;
+
 		&:hover {
-			background: $light-blue;
+			background: $blue;
 			.toolbar-button_small {
 				border-color: transparent;
+			}
+		}
+		&.toolbar-button-container_active {
+			background: $blue !important;
+			.toolbar-button_small {
+				border-color: transparent !important;
+				color: $lightest-grey !important;
+			}
+			.fa:before {
+				content: "\f077" !important;
 			}
 		}
 		&.disabled {
@@ -47,55 +70,75 @@
 			}
 		}
 	}
+	.toolbar-button {
+		@include transition(all);
+		font-family: PFDin Regular, Arial;
+		text-align: center;
+		cursor: pointer;
+		position: relative;
+		font-size: 16px;
+		display: inline-block;
+		padding: 1px 16px;
+		min-width: 23px;
+		height: 30px;
+	    line-height: 30px;
+	    border-right: 1px solid $dark-grey;
+	    text-align: left;
+	    float: left;
+	    &.toolbar-button_small {
+	    	margin: 10px 0;
+	    	&.toolbar-button_padright {
+	    		padding-right: 40px;
+	    	}
+	    	.fa {
+	    		position: absolute;
+	    		top: 10px;
+	    		right: 10px;
+	    		font-size: 10px;
+	    		:before {
+	    			content: "\f078";
+	    		}
+	    	}
+		}
+		&.active {
+			background: $light-blue;
+			border-color: transparent;
+		}
+	    &.toolbar-button_large, &.toolbar-button_largest {
+	    	height: 50px;
+	    	line-height: 50px;
+	    	min-width: 150px;
+	    	padding-right: 75px;
+	    	&:hover {
+				color: $grey;
+				background: transparent;
+			}
+	    }
+	    &.toolbar-button_active {
+			background: $blue !important;
+			border-color: transparent !important;
+			color: $lightest-grey !important;
+			.fa:before {
+				content: "\f077" !important;
+			}
+		}
+	    &.toolbar-button_largest {
+	    	min-width: 220px;
+	    }
+	    &.toolbar-button_right {
+	    	float: right;
+	    	border-right: none;
+	    	border-left: 1px solid $dark-grey;
+	    	padding-left: 25px;
+	    }
+	    .save-spinner {
+	    	display: inline-block;
+	    	background-repeat: no-repeat;
+	    	background-position: 50% 100%;
+	    	width: 24px;
+	    	height: 25px;
+	    	background-image: url('/canvas/images/saving.gif');
+	    }
+	}
 }
 
-.toolbar-button {
-	font-family: PFDin Regular, Arial;
-	text-align: center;
-	cursor: pointer;
-	position: relative;
-	font-size: 16px;
-	display: inline-block;
-	padding: 1px 16px;
-	min-width: 23px;
-	height: 30px;
-    line-height: 30px;
-    border-right: 1px solid $dark-grey;
-    text-align: left;
-    float: left;
-    &.toolbar-button_small {
-    	margin: 10px 0;
-	}
-	&.active {
-		background: $light-blue;
-		border-color: transparent;
-	}
-    &.toolbar-button_large, &.toolbar-button_largest {
-    	@include transition(color);
-    	height: 50px;
-    	line-height: 50px;
-    	min-width: 150px;
-    	padding-right: 75px;
-    	&:hover {
-			color: $grey;
-			background: transparent;
-		}
-    }
-    &.toolbar-button_largest {
-    	min-width: 220px;
-    }
-    &.toolbar-button_right {
-    	float: right;
-    	border-right: none;
-    	border-left: 1px solid $dark-grey;
-    	padding-left: 25px;
-    }
-    .save-spinner {
-    	display: inline-block;
-    	background-repeat: no-repeat;
-    	background-position: 50% 100%;
-    	width: 24px;
-    	height: 25px;
-    	background-image: url('/canvas/images/saving.gif');
-    }
-}

@@ -1,0 +1,53 @@
+@import 'mixins';
+@import 'variables';
+
+.layout-preview {
+	animation: fadein .75s;
+}
+
+.layout-icons {
+	@include nohighlight();
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 170px;
+	background: #FFF;
+	z-index: 105;
+	border-right: 1px solid $grey;
+	animation: slideinleft 1s;
+	.layout-icon {
+		padding: 20px;
+		border-bottom: 1px solid $grey;
+		cursor: pointer;
+		font-family: 'Chevin Light', Arial;
+		color: $darkest-grey;
+		.layout-icon-image {
+			min-height: 70px;
+			padding-bottom: 10px;
+			text-align: center;
+			img {
+				display: inline-block;
+			}
+		}
+		&.layout-icon_active {
+			background: $blue;
+			cursor: auto;
+			border-color: transparent;
+			color: #FFF;
+		}
+	}
+}
+
+.layout-container {
+	@include transition(opacity);
+	opacity: 0;
+	pointer-events: none;
+	left: 190px;
+	&.layout-container_previewing {
+		opacity: 1;
+		pointer-events: all;
+	}
+}
+
+

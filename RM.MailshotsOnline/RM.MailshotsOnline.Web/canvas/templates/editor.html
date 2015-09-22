@@ -8,39 +8,41 @@
 <!-- ko if: showImageUpload -->
 	<upload-component></upload-component>
 <!-- /ko -->
+<!-- ko if: showPreview -->
+	<preview-component></preview-component>
+<!-- /ko -->
 <!-- ko if: faces() && faces().length -->
-	<!-- main editor -->
+	<div class="editor" data-bind="css: {editor_hidden: showTemplatePicker() || showPreview()}">
+		<!-- main editor -->
 
-	<div class="help" data-bind="css: {'help_error': (message()) && (message().type == 'error'), 'help_visible': message}">
-		<!--ko if: message() -->
-			<span data-bind="text: message().message"></span>
-		<!-- /ko -->
-	</div>
-
-	<!-- ko with: historyRerender -->
-		<!-- ko with: $parent.viewingFace -->
-			<div class="canvas-container" data-bind="event: {'mousedown': $parents[1].unfocusConditional}, css: {'canvas-container_selected': false, 'canvas-container_focused': $parents[1].elementFocused, 'canvas-container_small': $parents[1].showImageUpload}">
-				<tools-component></tools-component>
-				<side-component class="side side_large" params="{side: side, face: $data}" data-bind="style: {'transform': $parents[1].scale}"></side-component>
-			</div>
-		<!-- /ko -->
-
-		<!-- side picker -->
-		<div class="side-picker" data-bind="click: $parent.unfocus, css: {'side-picker_hidden': $parent.elementFocused() || !$parent.ready()}">
-			<!-- ko foreach: $parent.faces -->
-			<sidepicker-component params="{face: $data, unfocus: $parents[1].unfocus}"></sidepicker-component>
+		<div class="help" data-bind="css: {'help_error': (message()) && (message().type == 'error'), 'help_visible': message}">
+			<!--ko if: message() -->
+				<span data-bind="text: message().message"></span>
 			<!-- /ko -->
 		</div>
-	<!-- /ko -->
-	
 
-	<!-- ko if: isBackgroundSelected -->
-	<backgroundtools-component></backgroundtools-component>
-	<!-- /ko -->
-	<zoom-component data-bind="visible: !(showImageUpload())"></zoom-component>
-	<!-- ko if: showPreview -->
-	<preview-component></preview-component>
-	<!-- /ko -->
+		<!-- ko with: historyRerender -->
+			<!-- ko with: $parent.viewingFace -->
+				<div class="canvas-container" data-bind="event: {'mousedown': $parents[1].unfocusConditional}, css: {'canvas-container_selected': false, 'canvas-container_focused': $parents[1].elementFocused, 'canvas-container_small': $parents[1].showImageUpload}">
+					<tools-component></tools-component>
+					<side-component class="side side_large" params="{side: side, face: $data}" data-bind="style: {'transform': $parents[1].scale}"></side-component>
+				</div>
+			<!-- /ko -->
+
+			<!-- side picker -->
+			<div class="side-picker" data-bind="click: $parent.unfocus, css: {'side-picker_hidden': $parent.elementFocused() || !$parent.ready()}">
+				<!-- ko foreach: $parent.faces -->
+				<sidepicker-component params="{face: $data, unfocus: $parents[1].unfocus}"></sidepicker-component>
+				<!-- /ko -->
+			</div>
+		<!-- /ko -->
+		
+
+		<!-- ko if: isBackgroundSelected -->
+		<backgroundtools-component></backgroundtools-component>
+		<!-- /ko -->
+		<zoom-component data-bind="visible: !(showImageUpload())"></zoom-component>
+	</div>
 
 <!-- /ko -->
 <!-- ko if: output -->

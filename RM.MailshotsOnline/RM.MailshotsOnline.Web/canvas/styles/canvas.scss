@@ -5,6 +5,14 @@ body {
     background: $lightest-grey;
 }
 
+.editor {
+    @include transition(opacity, 0.5s);
+    opacity: 1;
+    &.editor_hidden {
+        opacity: 0;
+    }
+}
+
 .canvas-container {
     
     @include transition(transform, 0s);
@@ -55,6 +63,7 @@ body {
         animation: fadein .25s;
     }
 }
+
 
 @media all and (max-width: 1100px) {
     .canvas-container.canvas-container_small {
@@ -184,6 +193,7 @@ body {
     //@include nohighlight();
     @include transition(background);
     cursor: pointer;
+    display: inline-block;
     &:hover {
         background: rgba(0, 0, 0, 0.09);
         //outline: 1px solid $darkest-grey;

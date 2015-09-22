@@ -1,12 +1,12 @@
-<div class="options-toolbar" data-bind="click: unfocus, css: {'options-toolbar_hidden': hidden}">
+<div class="options-toolbar" data-bind="click: unfocus, css: {'options-toolbar_hidden': hidden, 'disabled': showTemplatePicker() || showThemePicker() || showPreview()}">
 	<!-- <dropdown-component params="{options: formats, selected: formatID, anchorClass: 'toolbar-button'}"></dropdown-component> -->
 	<a class="toolbar-button toolbar-button_largest">Campaign Design 1</a>
 	<span class="toolbar-buttons">
-		<a data-bind="click: toggleTemplatePicker" class="toolbar-button-container">
-			<span class="toolbar-button toolbar-button_small">Layout</span>
+		<a data-bind="click: toggleTemplatePicker, css: {'toolbar-button-container_active': showTemplatePicker}, clickBubble: false" class="toolbar-button-container">
+			<span class="toolbar-button toolbar-button_small toolbar-button_padright">Layout<i class="fa fa-chevron-down"></i></span>
 		</a>
-		<a data-bind="click: toggleThemePicker" class="toolbar-button-container">
-			<span class="toolbar-button toolbar-button_small">Theme</span>
+		<a data-bind="click: toggleThemePicker, css: {'toolbar-button-container_active': showThemePicker}, clickBubble: false" class="toolbar-button-container">
+			<span class="toolbar-button toolbar-button_small toolbar-button_padright">Theme<i class="fa fa-chevron-down"></i></span>
 		</a>
         <a data-bind="click: undo, css: {'disabled': !undoAvailable()}" class="toolbar-button-container">
         	<span class="toolbar-button toolbar-button_small"><span class="icon-backward" style="font-size: 24px; line-height: 30px;"></span></span>
@@ -27,11 +27,11 @@
         </a>
         <!-- /ko -->
 	</span>
-	<span class="toolbar-button toolbar-button_large toolbar-button_right toolbar-button_green" data-bind="click: output">Done  <span class="icon-tick" style="position: absolute;
+	<span class="toolbar-button toolbar-button_large toolbar-button_right" data-bind="click: output">Done  <span class="icon-tick" style="position: absolute;
     right: 25px;
     font-size: 29px;
     top: 10px;"></span></span>
-	<span style="padding-left: 25px;" class="toolbar-button toolbar-button_large toolbar-button_right" data-bind="click: togglePreview">Preview <span class="icon-preview" style="position: absolute;
+	<span style="padding-left: 25px;" class="toolbar-button toolbar-button_large toolbar-button_right" data-bind="click: togglePreview, clickBubble: false, css: {'toolbar-button_active': showPreview}">Preview <span class="icon-preview" style="position: absolute;
     right: 25px;
     font-size: 29px;
     top: 10px;"></span></span>

@@ -10,6 +10,8 @@ using System.Web;
 using System.Web.Mvc;
 using HC.RM.Common;
 using RM.MailshotsOnline.Data.Constants;
+using RM.MailshotsOnline.Data.Services;
+using RM.MailshotsOnline.PCL.Services;
 using Umbraco.Web.Mvc;
 
 namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
@@ -18,16 +20,18 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
     {
         private const string BadLoginFlag = "BadLogin";
         private readonly ILogger _log;
+        private readonly ICryptographicService _cryptographicService;
 
-        public LoginSurfaceController(ILogger logger)
+        public LoginSurfaceController(ILogger logger, ICryptographicService cryptographicService)
         {
             _log = logger;
+            _cryptographicService = cryptographicService;
         }
 
         [ChildActionOnly]
         public ActionResult ShowLoginForm(Login model)
         {
-            if (TempData[BadLoginFlag] != null && (bool) TempData[BadLoginFlag])
+            if (TempData[BadLoginFlag] != null && (bool)TempData[BadLoginFlag])
             {
                 ViewBag.ErrorMessage = model.BadLoginMessage;
             }
@@ -45,9 +49,8 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return CurrentUmbracoPage();
             }
 
-            var computedSalt = Encryption.ComputedSalt(model.Email, model.Email);
-            var b64Salt = Encoding.UTF8.GetBytes(computedSalt);
-            var encryptedEmail = Encryption.Encrypt(model.Email, Constants.Encryption.EncryptionKey, b64Salt);
+            var emailSalt = _cryptographicService.GenerateEmailSalt(model.Email);
+            var encryptedEmail = _cryptographicService.Encrypt(model.Email, emailSalt);
 
             var member = Services.MemberService.GetByEmail(encryptedEmail);
 
@@ -64,10 +67,8 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
                     return Redirect("/");
                 }
-                else
-                {
-                    _log.Warn(this.GetType().Name, "LoginForm", "Bad login request for email {0}.", model.Email);
-                }
+
+                _log.Warn(this.GetType().Name, "LoginForm", "Bad login request for email {0}.", model.Email);
             }
 
             TempData[BadLoginFlag] = true;

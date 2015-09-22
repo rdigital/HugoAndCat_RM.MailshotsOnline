@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Template>
+  <Name>My Images</Name>
+  <Alias>MyImages</Alias>
+<<<<<<< HEAD
+  <Design><![CDATA[]]></Design>
+=======
+  <Design><![CDATA[@inherits Glass.Mapper.Umb.Web.Ui.GlassViewPage<RM.MailshotsOnline.Entities.PageModels.MyImages>
+@{
+    Layout = "Master.cshtml";
+}
+
+<div class="content">
+    <h1>@Model.Name</h1>
+    <h2>My Images page</h2>
+</div>]]></Design>
+>>>>>>> 0031220f687b825aa228f0dcaca7fa288b69eb22
+</Template>

@@ -10,7 +10,13 @@ namespace RM.MailshotsOnline.Entities.ViewModels
     public class LoginViewModel
     {
         [Required]
-        public string Email { get; set; }
+        public string Email
+        {
+            get { return _email; }
+            set { _email = value.ToLower(); }
+        }
+
+        private string _email;
 
         [Required]
         public string Password { get; set; }

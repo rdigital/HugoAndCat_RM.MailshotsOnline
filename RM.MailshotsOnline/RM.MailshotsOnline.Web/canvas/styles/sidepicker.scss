@@ -36,12 +36,13 @@
         }
         .side-label {
             position: absolute;
-            bottom: 14px;
+            bottom: 10px;
             left: 0;
             width: 100%;
             text-align: center;
             text-transform: capitalize;
-            color: $dark-grey;
+            font-family: 'Chevin Light', Arial;
+            color: $darkest-grey;
         }
     }
 }
