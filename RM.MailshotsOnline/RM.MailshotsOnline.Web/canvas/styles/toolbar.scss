@@ -13,10 +13,12 @@
 	background: $darkest-grey;
 	color: $light-grey;
 	transform: translate(0, 0);
+	-ms-transform: translate(0, 0);
 	text-align: left;
 	overflow: hidden;
 	&.options-toolbar_hidden {
 		transform: translate(0, -50px);
+		-ms-transform: translate(0, -50px);
 	}
 	&.disabled {
 		cursor: pointer;

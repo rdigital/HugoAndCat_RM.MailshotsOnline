@@ -9,4 +9,4 @@ define(['knockout', 'jquery'],
         }
     };
   }
-)
+);

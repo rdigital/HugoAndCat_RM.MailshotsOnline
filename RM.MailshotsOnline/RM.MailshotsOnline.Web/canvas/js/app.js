@@ -1,6 +1,8 @@
 require([
+		'jquery',
 		'knockout',
 		'komapping',
+		'pointerevents',
 		'components/editor',
 		'components/theme',
 		'components/template',
@@ -12,7 +14,7 @@ require([
 		'view_models/user',
 		'domReady!'
 	],
-	function(ko, mapping, editorComponent, themeComponent, templateComponent, stateViewModel, historyViewModel) {
+	function($, ko, mapping, pointerevents, editorComponent, themeComponent, templateComponent, stateViewModel, historyViewModel) {
 		// register components
 		ko.components.register('editor-component', editorComponent);
 		ko.components.register('theme-component', themeComponent);
@@ -26,9 +28,13 @@ require([
 			stateViewModel.selectElement(null);
 			stateViewModel.backgroundSelected(null);
 			historyViewModel.pushToHistory();
-		}
+		};
 
 		// apply bindings
 		ko.applyBindings();
+
+		$(document).ready(function(){
+	        pointerevents.initialize({});
+	    });
 	}
 );

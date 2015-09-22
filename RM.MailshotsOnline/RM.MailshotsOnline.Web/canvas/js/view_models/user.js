@@ -23,14 +23,14 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
          */
         userViewModel.prototype.cancelChanges = function cancelChanges() {
             historyViewModel.cancelChanges();
-        }
+        };
 
         /**
          * push changes to the history
          */
         userViewModel.prototype.applyChanges = function applyChanges() {
             historyViewModel.pushToHistory();
-        }
+        };
 
         /**
          * populate the user data model from the provided JSON
@@ -39,28 +39,28 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
         userViewModel.prototype.fromJSON = function fromJSON(data) {
             komapping.fromJSON(data, this.objects);
             // force rerender
-            stateViewModel.historyRerender.valueHasMutated()
-        }
+            stateViewModel.historyRerender.valueHasMutated();
+        };
 
         userViewModel.prototype.toJSON = function toJSON() {
             var mapping = {
                 include: ['writeSrc'],
                 ignore: ['urlSrc', 'src']
-            }
+            };
             var userObject = komapping.toJS(this.objects, mapping);
             ko.utils.arrayForEach(userObject.elements, function(el) {
-                if ('writeSrc' in el) {
+                if (el.hasOwnProperty('writeSrc')) {
                     el.src = el.writeSrc;
                     delete el.writeSrc;
                 }
-            })
+            });
             return JSON.stringify(userObject);
 
-        }
+        };
 
         userViewModel.prototype.toHistoryJSON = function toHistoryJSON() {
             return komapping.toJSON(this.objects, {ignore: ['writeSrc']});
-        }
+        };
 
         /**
          * fetch userData JSON from server and store it in this.objects
@@ -70,21 +70,21 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
                 $.getJSON('/Umbraco/Api/Mailshots/Get/' + stateViewModel.mailshotID, function(data) {
                     komapping.fromJSON(data.ContentText, this.objects);
                     this.ready(true);
-                    setTimeout(this.applyChanges.bind(this),1000)
-                }.bind(this))
+                    setTimeout(this.applyChanges.bind(this),1000);
+                }.bind(this));
             } else {
                 // XXX TEMP XXX
                 this.ready(true);
                 komapping.fromJS(tempData.userData, this.objects);
-                setTimeout(this.applyChanges.bind(this),1000)
+                setTimeout(this.applyChanges.bind(this),1000);
                 this.objects.themeID.subscribe(this.resetUserStyles.bind(this));
-                return
+                return;
             }
-        }
+        };
 
         userViewModel.prototype.save = function save() {
             if (this.saving()) {
-                return
+                return;
             }
             this.saving(true);
 
@@ -105,25 +105,25 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
                 })
                 .always(function() {
                     this.saving(false);
-                }.bind(this))
-        }
+                }.bind(this));
+        };
 
         userViewModel.prototype.resetUserFontSizes = function resetUserFontSizes() {
             ko.utils.arrayForEach(this.get('elements') || [], function(element) {
                 element.styles.remove(function(style) {
-                    return style.property() == 'font-size'
-                })
-            })
-        }
+                    return style.property() == 'font-size';
+                });
+            });
+        };
 
         userViewModel.prototype.resetUserStyles = function resetUserStyles() {
             ko.utils.arrayForEach(this.get('elements') || [], function(element) {
-                element.styles([])
-            })
+                element.styles([]);
+            });
             ko.utils.arrayForEach(this.get('faces') || [], function(face) {
-                face.styles([])
-            })
-        }
+                face.styles([]);
+            });
+        };
 
 
         /**
@@ -133,8 +133,8 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
          */
         userViewModel.prototype.get = function get(key) {
         	var val = this.objects[key];
-        	return (val) ? ko.utils.unwrapObservable(val) : null
-        }
+        	return val ? ko.utils.unwrapObservable(val) : null;
+        };
 
         /**
          * try to get element info from userData by name
@@ -146,8 +146,8 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
                 element = ko.utils.arrayFirst(elem_array, function(element) {
                     return element.name() == name;
                 });
-            return element || null
-        }
+            return element || null;
+        };
 
         /**
          * try to get element info from userData by name
@@ -163,12 +163,12 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
                         name: name,
                         content: '',
                         styles: []
-                    },
-                    elem = komapping.fromJS(new_elem);
+                    };
+                elem = komapping.fromJS(new_elem);
                 this.objects.elements.push(elem);
             }
-            return elem
-        }
+            return elem;
+        };
 
         /**
          * get user defined styles for an element by element name
@@ -186,7 +186,7 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
                 elem.styles = ko.observableArray();
             }
             return styles;
-        }
+        };
 
         /**
          * Find element by name, then set the css property to be value by updating userData
@@ -213,17 +213,17 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
                 });
                 elem.styles.push(new_style);
             }
-        }
+        };
 
         userViewModel.prototype.getStyle = function getStyle(property, name) {
             var styles = this.getStylesByName(name);
             return ko.utils.unwrapObservable(styles[property]);
-        }
+        };
 
         userViewModel.prototype.getStyleObs = function getStyleObs(property, name) {
             var styles = this.getStylesByName(name);
             return styles[property];
-        }
+        };
 
         userViewModel.prototype.getOrSetImageByName = function getOrSetImageByName(name) {
             var elem = this.getElementByName(name);
@@ -238,7 +238,7 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
                         top: null,
                         left: null
                     }
-                },
+                };
                 elem = komapping.fromJS(new_elem);
                 this.objects.elements.push(elem);
             }
@@ -248,9 +248,9 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
             elem.urlSrc = elem.urlSrc || ko.observable('');
             elem.writeSrc = ko.pureComputed(function() {
                 return this.urlSrc() || this.src(); 
-            }, elem)
-            return elem
-        }
+            }, elem);
+            return elem;
+        };
 
         /**
          * get the image source, position and scale for an element by name
@@ -268,15 +268,15 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
                 image.content = elem.content;
             }
             return image;
-        }
+        };
 
         userViewModel.prototype.getFaceByName = function getFaceByName(name) {
             var face_array = this.get('faces') || [],
                 face = ko.utils.arrayFirst(face_array, function(face) {
                     return face.name() == name;
                 });
-            return face || null
-        }
+            return face || null;
+        };
 
         userViewModel.prototype.getOrSetFaceByName = function getOrSetFaceByName(name) {
             var face = this.getFaceByName(name);
@@ -284,12 +284,12 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
                 var new_face = {
                         name: name,
                         styles: []
-                    },
-                    face = komapping.fromJS(new_face);
+                    };
+                face = komapping.fromJS(new_face);
                 this.objects.faces.push(face);
             }
-            return face
-        }
+            return face;
+        };
 
         userViewModel.prototype.setFaceStyle = function setFaceStyle(property, value, name) {
             var face = this.getOrSetFaceByName(name),
@@ -310,12 +310,12 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
                 });
                 face.styles.push(new_style);
             }
-        }
+        };
 
         userViewModel.prototype.getFaceStyle = function getFaceStyle(property, name) {
             var styles = this.getFaceStylesByName(name);
             return ko.utils.unwrapObservable(styles[property]);
-        }
+        };
 
         userViewModel.prototype.getFaceStylesByName = function getFaceStylesByName(name) {
             var face = this.getOrSetFaceByName(name),
@@ -328,8 +328,8 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
                 face.styles = ko.observableArray();
             }
             return styles;
-        }
+        };
 
         return new userViewModel();
     }
-)
+);
