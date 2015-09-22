@@ -103,8 +103,8 @@
 
 /* Internet Explorer */
 @-ms-keyframes slidein {
-    0% { transform: translate(0, -230px); }
-    100%   { transform: translate(0, 0); }
+    0% { -ms-transform: translate(0, -230px); }
+    100%   { -ms-transform: translate(0, 0); }
 }
 
 /* Opera < 12.1 */
@@ -135,9 +135,9 @@
 
 /* Internet Explorer */
 @-ms-keyframes slideinleft {
-    0% { transform: translate(-100%, 0); }
-    50%   { transform: translate(-100%, 0); }
-    100%   { transform: translate(0, 0); }
+    0% { -ms-transform: translate(-100%, 0); }
+    50%   { -ms-transform: translate(-100%, 0); }
+    100%   { -ms-transform: translate(0, 0); }
 }
 
 /* Opera < 12.1 */

@@ -30,7 +30,14 @@ define(['knockout', 'jquery', 'components/face', 'view_models/format', 'view_mod
             this.zoom = stateViewModel.getZoom;
             this.scale = ko.pureComputed(function() {
                 if (!this.preview) {
-                    return 'scale(' + this.zoom() + ')';
+                    var scale = this.zoom()
+                    return 'scale(' + scale + ')';
+                }
+            }, this);
+            this.ms_scale = ko.pureComputed(function() {
+                if (!this.preview) {
+                    var scale = this.zoom()
+                    return 'scale(' + scale + ', ' + scale + ')';
                 }
             }, this);
 

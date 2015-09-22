@@ -621,7 +621,7 @@ define([],
                                 },
                                 {
                                     property: 'top',
-                                    value: '390'
+                                    value: '390px'
                                 },
                                 {
                                     property: 'left',
