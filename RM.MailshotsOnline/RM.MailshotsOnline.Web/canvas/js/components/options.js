@@ -9,6 +9,8 @@ define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/form
             this.showPreview = stateViewModel.showPreview;
             this.uploadingImages = stateViewModel.uploadingImages;
             this.saving = stateViewModel.saving;
+            this.showThemePicker = stateViewModel.showThemePicker;
+            this.showTemplatePicker = stateViewModel.showTemplatePicker;
 
             // computeds
             this.hidden = this.getHiddenComputed();
@@ -47,6 +49,15 @@ define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/form
         optionsViewModel.prototype.unfocus = function unfocus() {
             stateViewModel.selectElement(null);
             stateViewModel.backgroundSelected(null);
+            if (this.showThemePicker()) {
+                stateViewModel.toggleThemePicker();
+            }
+            if (this.showTemplatePicker()) {
+                stateViewModel.toggleTemplatePicker();
+            }
+            if (this.showPreview()) {
+                this.togglePreview();
+            }
         }
 
         /**
