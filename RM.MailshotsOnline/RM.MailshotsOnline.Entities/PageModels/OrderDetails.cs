@@ -1,4 +1,5 @@
 ﻿using Glass.Mapper.Umb.Configuration.Attributes;
+using RM.MailshotsOnline.PCL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,10 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         public string BillingAddressLabel { get; set; }
 
-        //public MyOrders MyOrdersPage { get; set; }
+        public MyOrders MyOrdersPage { get; set; }
+
+        public bool DisplayCampaignErrorMessage { get; set; }
+
+        public ICampaign Campaign { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace RM.MailshotsOnline.Web.Controllers
             _campaignService = campaignService;
         }
 
-        // GET: MyAccounts
+        // GET: MyOrders
         public override ActionResult Index(RenderModel model)
         {
             // Fetch the Glass model of the page

@@ -4,7 +4,8 @@
 @{
     Layout = "Master.cshtml";
     Html.RequiresCss("~/css/orders.css", 2);
-    var orderDetailsUrl = Model.OrderDetailsPage.Url(); //.CampaignHubPage.Url();
+    var orderDetailsPage = Umbraco.Content(Model.OrderDetailsPage);
+    var orderDetailsUrl = orderDetailsPage.Url;// Model.OrderDetailsPage.Url(); //.CampaignHubPage.Url();
 }
 
 <div class="content my-orders">

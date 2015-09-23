@@ -43,6 +43,13 @@ namespace RM.MailshotsOnline.PCL.Services
         ICampaign GetCampaign(Guid campaignId);
 
         /// <summary>
+        /// Gets a specific campaign (including the attached invoices)
+        /// </summary>
+        /// <param name="campaignId">ID of the campaign</param>
+        /// <returns>Campaign object</returns>
+        ICampaign GetCampaignWithInvoices(Guid campaignId);
+
+        /// <summary>
         /// Gets a specific campaign based on its moderation ID
         /// </summary>
         /// <param name="moderationId">The Moderation ID</param>

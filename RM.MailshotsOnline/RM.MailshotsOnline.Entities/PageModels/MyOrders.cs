@@ -33,9 +33,7 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         public string NoOrdersMessage { get; set; }
 
-        public BasePage CampaignHubPage { get; set; }
-
-        public OrderDetails OrderDetailsPage { get; set; }
+        public int OrderDetailsPage { get; set; }
 
         #endregion
 

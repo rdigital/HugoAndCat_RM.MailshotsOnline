@@ -101,6 +101,25 @@ namespace RM.MailshotsOnline.Data.Services
         }
 
         /// <summary>
+        /// Gets a specific campaign (including the attached invoices)
+        /// </summary>
+        /// <param name="campaignId">ID of the campaign</param>
+        /// <returns>Campaign object</returns>
+        public ICampaign GetCampaignWithInvoices(Guid campaignId)
+        {
+            return _context.Campaigns
+                .Include("Mailshot")
+                .Include("Mailshot.Format")
+                .Include("CampaignDistributionLists")
+                .Include("CampaignDistributionLists.DistributionList")
+                .Include("DataSearches")
+                .Include("PostalOption")
+                .Include("Invoices")
+                .Include("Invoices.LineItems")
+                .FirstOrDefault(c => c.CampaignId == campaignId);
+        }
+
+        /// <summary>
         /// Gets a specific campaign based on its moderation ID
         /// </summary>
         /// <param name="moderationId">The Moderation ID</param>

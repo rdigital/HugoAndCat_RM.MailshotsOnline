@@ -3078,6 +3078,7 @@
     <Compile Include="Controllers\ModerationPageController.cs" />
     <Compile Include="Controllers\MyOrdersController.cs" />
     <Compile Include="Controllers\MyImagesController.cs" />
+    <Compile Include="Controllers\OrderDetailsController.cs" />
     <Compile Include="Controllers\OrganisationDetailsController.cs" />
     <Compile Include="Controllers\PaymentCancelledController.cs" />
     <Compile Include="Controllers\PaymentConfirmationController.cs" />
@@ -3534,12 +3535,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="uSync\Template\EditProfileBasePage\" />
-    <Folder Include="Views\Dashboard\" />
-    <Folder Include="Views\ListDetail\" />
-    <Folder Include="Views\Lists\" />
-    <Folder Include="Views\MailshotSettings\" />
-    <Folder Include="Views\MyAccounts\" />
-    <Folder Include="Views\MyImages\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
