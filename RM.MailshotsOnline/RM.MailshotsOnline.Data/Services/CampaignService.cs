@@ -76,7 +76,11 @@ namespace RM.MailshotsOnline.Data.Services
                 PCL.Enums.CampaignStatus.SentForFulfilment
             };
 
-            return _context.Campaigns.Include("Invoices").Where(c => c.UserId == userId && inProgressOrCompletedStatuses.Contains(c.Status)).OrderByDescending(c => c.UpdatedDate);
+            return _context.Campaigns
+                .Include("Invoices")
+                .Include("Invoices.LineItems")
+                .Where(c => c.UserId == userId && inProgressOrCompletedStatuses.Contains(c.Status))
+                .OrderByDescending(c => c.UpdatedDate);
         }
 
         /// <summary>

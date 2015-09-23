@@ -117,8 +117,9 @@
     <Compile Include="PageModels\MailshotEditor.cs" />
     <Compile Include="PageModels\EditProfileBasePage.cs" />
     <Compile Include="PageModels\ModerationPage.cs" />
-    <Compile Include="PageModels\MyAccounts.cs" />
+    <Compile Include="PageModels\MyOrders.cs" />
     <Compile Include="PageModels\MyImages.cs" />
+    <Compile Include="PageModels\OrderDetails.cs" />
     <Compile Include="PageModels\PaymentCancelled.cs" />
     <Compile Include="PageModels\PaymentConfirmation.cs" />
     <Compile Include="PageModels\Profile\MarketingPreferences.cs" />

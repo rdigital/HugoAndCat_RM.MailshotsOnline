@@ -133,6 +133,6 @@ namespace RM.MailshotsOnline.PCL.Models
         /// <summary>
         /// Gets or sets the campaign's invoices
         /// </summary>
-        IEnumerable<IInvoice> Invoices { get; set; }
+        ICollection<IInvoice> Invoices { get; set; }
     }
 }

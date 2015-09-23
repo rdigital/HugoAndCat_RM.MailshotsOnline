@@ -32,7 +32,7 @@ namespace RM.MailshotsOnline.Entities.DataModels
         /// <summary>
         /// The invoices (concrete models)
         /// </summary>
-        private IEnumerable<Invoice> _invoices;
+        private ICollection<Invoice> _invoices;
 
         /// <summary>
         /// The chosen postal option (concrete model)
@@ -296,7 +296,7 @@ namespace RM.MailshotsOnline.Entities.DataModels
         /// </summary>
         [JsonIgnore]
         [InverseProperty("Campaign")]
-        public IEnumerable<Invoice> Invoices
+        public virtual ICollection<Invoice> Invoices
         {
             get { return _invoices; }
             set { _invoices = value; }
@@ -345,10 +345,18 @@ namespace RM.MailshotsOnline.Entities.DataModels
             set { _postalOption = (PostalOption)value; }
         }
 
-        IEnumerable<IInvoice> ICampaign.Invoices
+        ICollection<IInvoice> ICampaign.Invoices
         {
-            get { return _invoices; }
-            set { _invoices = (IEnumerable<Invoice>)value; }
+            get
+            {
+                if (_invoices == null)
+                {
+                    return null;
+                }
+
+                return _invoices.Cast<IInvoice>().ToList();
+            }
+            set { _invoices = (ICollection<Invoice>)value; }
         }
 
         #endregion

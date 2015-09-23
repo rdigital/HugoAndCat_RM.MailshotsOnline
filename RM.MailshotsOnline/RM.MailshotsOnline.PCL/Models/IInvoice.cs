@@ -70,6 +70,6 @@ namespace RM.MailshotsOnline.PCL.Models
         /// <summary>
         /// The line items for the invoice
         /// </summary>
-        IEnumerable<IInvoiceLineItem> LineItems { get; set; }
+        ICollection<IInvoiceLineItem> LineItems { get; set; }
     }
 }

@@ -25,6 +25,16 @@ namespace RM.MailshotsOnline.Web.Extensions
             return !campaign.HasMailshotSet && !campaign.HasDataSearches && !campaign.HasDistributionLists;
         }
 
+        public static IInvoice LatestInvoice(this ICampaign campaign)
+        {
+            if (campaign.Invoices != null && campaign.Invoices.Any())
+            {
+                return campaign.Invoices.OrderByDescending(i => i.UpdatedDate).FirstOrDefault();
+            }
+
+            return null;
+        }
+
         public static HC.RM.Common.PayPal.Models.Transaction ToPaypalTransaction(this IInvoiceLineItem lineItem)
         {
             var result = new HC.RM.Common.PayPal.Models.Transaction(

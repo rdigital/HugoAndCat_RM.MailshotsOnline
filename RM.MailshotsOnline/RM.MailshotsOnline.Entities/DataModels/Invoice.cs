@@ -27,7 +27,7 @@ namespace RM.MailshotsOnline.Entities.DataModels
 
         private decimal _totalTax;
 
-        private IEnumerable<InvoiceLineItem> _lineItems;
+        private ICollection<InvoiceLineItem> _lineItems;
 
         /// <summary>
         /// Gets or sets the Invoice ID
@@ -92,8 +92,9 @@ namespace RM.MailshotsOnline.Entities.DataModels
         /// <summary>
         /// Gets or sets the line items
         /// </summary>
+        [JsonIgnore]
         [InverseProperty("Invoice")]
-        public IEnumerable<InvoiceLineItem> LineItems
+        public virtual ICollection<InvoiceLineItem> LineItems
         {
             get
             {
@@ -270,7 +271,7 @@ namespace RM.MailshotsOnline.Entities.DataModels
             set { _campaign = (Campaign)value; }
         }
 
-        IEnumerable<IInvoiceLineItem> IInvoice.LineItems
+        ICollection<IInvoiceLineItem> IInvoice.LineItems
         {
             get
             {
@@ -280,10 +281,10 @@ namespace RM.MailshotsOnline.Entities.DataModels
                 }
 
                 var newSet = _lineItems.Cast<IInvoiceLineItem>();
-                return newSet;
+                return newSet.ToList();
             }
 
-            set { _lineItems = value.Cast<InvoiceLineItem>(); }
+            set { _lineItems = value.Cast<InvoiceLineItem>().ToList(); }
         }
 
         #endregion

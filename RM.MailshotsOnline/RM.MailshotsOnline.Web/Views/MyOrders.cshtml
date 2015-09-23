@@ -1,9 +1,31 @@
-﻿@inherits Glass.Mapper.Umb.Web.Ui.GlassViewPage<RM.MailshotsOnline.Entities.PageModels.MyOrders>
+﻿@using RM.MailshotsOnline.Web.Extensions
+@inherits Glass.Mapper.Umb.Web.Ui.GlassViewPage<RM.MailshotsOnline.Entities.PageModels.MyOrders>
 @{
     Layout = "Master.cshtml";
+    var orderDetailsUrl = Model.OrderDetailsPage.Url(); //.CampaignHubPage.Url();
 }
 
-<div class="content">
-    <h1>@Model.Name</h1>
-    <h2>My Accounts page</h2>
+<div class="content my-orders">
+    @if (Model.Campaigns.Count() > 0)
+    {
+        <h1>@Model.Name (@Model.ActiveCampaignCount @Model.ActiveLabel)</h1>
+        foreach (var campaign in Model.Campaigns)
+        {
+            <div class="order">
+                <div class="preview"></div>
+                <h2><a href="@string.Format("{0}?campaignId={1}", orderDetailsUrl, campaign.CampaignId)">@campaign.Name</a></h2>
+                <div class="status">Status: @campaign.Status.ToString()</div>
+                <div class="info">
+                    <span>@Model.OrderPlacedLabel @campaign.LatestInvoice().CreatedDate.ToString("dd/MM/yy")</span>
+                    <span>@Model.OrderNumberLabel @campaign.LatestInvoice().PaypalOrderId <!-- TODO: Get the proper client-facing order number --></span>
+                    <span>@Model.TotalLabel &pound;@campaign.LatestInvoice().Total.ToString("F2")</span>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <h1>@Model.Name</h1>
+        <div>@Umbraco.Field("noOrdersMessage")</div>
+    }
 </div>
