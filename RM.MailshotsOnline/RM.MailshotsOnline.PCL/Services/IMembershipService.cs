@@ -58,5 +58,11 @@ namespace RM.MailshotsOnline.PCL.Services
         /// <param name="member">The new set of details</param>
         /// <returns>Success/failure</returns>
         bool Save(string emailAddress, IMember member);
+
+        /// <summary>
+        /// Gets all active users.
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<IMember> GetAllActiveMembers();
     }
 }

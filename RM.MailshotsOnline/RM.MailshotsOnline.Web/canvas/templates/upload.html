@@ -1,7 +1,7 @@
 <div class="modal-background" data-bind="click: toggleImageUpload"></div>
 <div class="uploadmodal">
     <div class="tabs">
-    	<div class="tab" data-bind="click: function(){selectTab('upload')}, css: {'tab_selected': selectedTab() == 'upload'}">Upload</div>
+    	<div class="tab tab-upload" data-bind="click: function(){selectTab('upload')}, css: {'tab_selected': selectedTab() == 'upload'}">Upload</div>
     	<div class="tab" data-bind="click: function(){selectTab('my_images')}, css: {'tab_selected': selectedTab() == 'my_images'}">My Images</div>
     	<div class="tab" data-bind="click: function(){selectTab('library')}, css: {'tab_selected': selectedTab() == 'library'}">Library</div>
     </div>

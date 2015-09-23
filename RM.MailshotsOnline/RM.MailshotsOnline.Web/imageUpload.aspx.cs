@@ -1,6 +1,7 @@
 ﻿using HC.RM.Common.Azure;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.Services;
+using RM.MailshotsOnline.Entities.JsonModels;
 using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using System;
@@ -36,12 +37,21 @@ namespace RM.MailshotsOnline.Web
             else
             {
                 _loggedInMember = _membershipService.GetCurrentMember();
+                if (this.IsPostBack)
+                {
+                    SaveImage();
+                }
             }
 
-            this.saveButton.ServerClick += SaveButton_ServerClick;
+            //this.saveButton.ServerClick += SaveButton_ServerClick;
         }
 
-        private void SaveButton_ServerClick(object sender, EventArgs e)
+        //private void SaveButton_ServerClick(object sender, EventArgs e)
+        //{
+        //    SaveImage();
+        //}
+
+        private void SaveImage()
         {
             bool valid = true;
             string errorMessage = string.Empty;
@@ -90,9 +100,10 @@ namespace RM.MailshotsOnline.Web
                 {
                     errorMessageParagraph.InnerText = "Error saving image";
                 }
-
+                var privateImage = media as PrivateLibraryImage;
                 success.Visible = true;
                 formArea.Visible = false;
+                imageResult.Value = privateImage.Src;
             }
             else
             {

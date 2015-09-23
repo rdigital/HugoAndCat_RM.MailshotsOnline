@@ -55,5 +55,10 @@ namespace RM.MailshotsOnline.Test.Mocks
         {
             throw new NotImplementedException();
         }
+
+        public IEnumerable<IMember> GetAllActiveMembers()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
