@@ -29,6 +29,7 @@
         </div>
         <div id="success" runat="server" visible="false">
             <input type="hidden" id="imageResult" runat="server" />
+            <input type="hidden" id="imageResultSmall" runat="server" />
         </div>
     </form>
     

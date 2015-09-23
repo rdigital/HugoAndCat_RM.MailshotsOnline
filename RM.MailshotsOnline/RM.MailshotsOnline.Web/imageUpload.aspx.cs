@@ -42,14 +42,7 @@ namespace RM.MailshotsOnline.Web
                     SaveImage();
                 }
             }
-
-            //this.saveButton.ServerClick += SaveButton_ServerClick;
         }
-
-        //private void SaveButton_ServerClick(object sender, EventArgs e)
-        //{
-        //    SaveImage();
-        //}
 
         private void SaveImage()
         {
@@ -104,6 +97,7 @@ namespace RM.MailshotsOnline.Web
                 success.Visible = true;
                 formArea.Visible = false;
                 imageResult.Value = privateImage.Src;
+                imageResultSmall.Value = privateImage.SmallSrc;
             }
             else
             {
