@@ -143,9 +143,16 @@
         <!-- /ko -->
         <div class="tools-row">
             <span class="tools-image tools-image_own" data-bind="click: toggleImageUpload">Use my own Image</span>
+            <span class="tools-image tools-image_own_old_ie" data-bind="click: ieClickImageUpload">Upload an Image</span>
             <span class="tools-image-spacer tools-image-spacer_border"></span>
             <span class="tools-image-spacer"></span>
             <span class="tools-image tools-image_library" data-bind="click: toggleImageLibrary">Choose from Library</span>
         </div>
     <!-- /ko -->
 </div>
+
+<!--[if IE ]>
+<div data-bind="template: { afterRender: oldIeSetup }" style="opacity: 0; position: absolute; top: -10000px">
+<iframe src="/imageUpload.aspx" id="uploadIframe"></iframe>
+</div>
+<![endif]-->

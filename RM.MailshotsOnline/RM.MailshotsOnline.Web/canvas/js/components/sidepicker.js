@@ -25,6 +25,7 @@ define(['knockout', 'koelement', 'view_models/state'],
                 this.viewingFace(this.face);
             }
             this.unfocus();
+            return false;
         };
 
         sidePickerViewModel.prototype.doScale = function doScale() {

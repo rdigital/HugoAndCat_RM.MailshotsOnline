@@ -12,7 +12,7 @@ define(['jquery'],
         // set defaults
         this.options = {
             selector: '*',
-            mouseEvents: ['click','dblclick','mousedown','mouseup'],
+            mouseEvents: ['click', 'dblclick', 'mousemove', 'mouseover', 'mouseleave', 'mouseenter', 'mouseout', 'blur', 'focus'],
             usePolyfillIf: function(){
                 if(navigator.appName == 'Microsoft Internet Explorer')
                 {
@@ -49,7 +49,7 @@ define(['jquery'],
         // register on all elements (and all future elements) matching the selector
         $(document).on(this.options.mouseEvents.join(" "), this.options.selector, function(e){
            if($(this).css('pointer-events') == 'none'){
-
+                window.el = this;
                 return false;
             }
             return true;

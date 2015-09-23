@@ -196,7 +196,9 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/his
             if(!src.type.match(/image.*/)){
                 return;
             }
-
+            if (!window.FileReader) {
+                return
+            }
             var reader = new FileReader();
             reader.onload = function(e){
                 this.src(e.target.result);

@@ -6,6 +6,7 @@
 <head runat="server">
     <title></title>
     <link href="/css/temp.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="/canvas/js/vendor/jquery/dist/jquery.min.js"></script>
 </head>
 <body>
     <div id="loginError" runat="server" visible="false">
@@ -30,5 +31,16 @@
             <p>Your image uploaded.  JavaScript to refresh TBC.  In the mean time, hit F5!</p>
         </div>
     </form>
+    
+    <script type="text/javascript">
+        $(document).ready( function() {
+            $('#fileUpload').change(function() {
+                if ($(this).val() !== '') {
+                    $('#form1').submit();
+                    window.parent.checkUpload();
+                }
+            })
+        })
+    </script>
 </body>
 </html>
