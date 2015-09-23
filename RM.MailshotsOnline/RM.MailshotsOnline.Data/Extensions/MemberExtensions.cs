@@ -79,7 +79,8 @@ namespace RM.MailshotsOnline.Data.Extensions
                 WorkPhoneNumber = CryptographicService.Decrypt(umbracoMember.GetValue<string>("workPhoneNumber"), saltBytes),
                 MobilePhoneNumber = CryptographicService.Decrypt(umbracoMember.GetValue<string>("mobilePhoneNumber"), saltBytes),
                 PasswordResetToken = umbracoMember.GetValue<Guid>("passwordResetToken"),
-                PasswordResetTokenExpiryDate = umbracoMember.GetValue<DateTime>("passwordResetTokenExpiryDate")
+                PasswordResetTokenExpiryDate = umbracoMember.GetValue<DateTime>("passwordResetTokenExpiryDate"),
+                Updated = umbracoMember.UpdateDate
             };
         }
 

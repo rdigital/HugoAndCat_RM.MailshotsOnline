@@ -144,5 +144,10 @@ namespace RM.MailshotsOnline.PCL.Models
         /// Gets a value indicating whether all of the user's required details have been entered (they may have registered through the "light" registration process)
         /// </summary>
         bool AllDetailsEntered { get; }
+
+        /// <summary>
+        /// Last updated date
+        /// </summary>
+        DateTime Updated { get; set; }
     }
 }

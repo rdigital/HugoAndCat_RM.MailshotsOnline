@@ -30,7 +30,8 @@ namespace RM.MailshotsOnline.Data.Constants
 
         public static class Encryption
         {
-            public static readonly string EncryptionKey = ConfigurationManager.AppSettings["EncryptionKey"];
+            public static readonly string EncryptionKey = Helpers.ConfigHelper.GetConfigValue("EncryptionKey");
+            public static readonly string EmailSaltPadding = Helpers.ConfigHelper.GetConfigValue("EmailSaltPadding");
         }
     }
 }
