@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RM.MailshotsOnline.PCL.Models.Reporting;
 
 namespace RM.MailshotsOnline.Entities.DataModels.Reports
 {
-    public class MembershipReportEntity
+    public class MembershipReportEntity : IMembershipReportEntity
     {
         public string UserReference { get; set; }
 

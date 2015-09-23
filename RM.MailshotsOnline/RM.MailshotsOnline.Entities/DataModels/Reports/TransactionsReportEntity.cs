@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RM.MailshotsOnline.Entities.DataModels.Reports
 {
-    public class TransactionReportEntity
+    public class TransactionsReportEntity
     {
         public string Stuff { get; set; }
 

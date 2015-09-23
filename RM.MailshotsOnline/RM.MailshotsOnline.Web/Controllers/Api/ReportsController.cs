@@ -4,37 +4,51 @@ using System.Web.Mvc;
 using System;
 using System.Collections;
 using System.IO;
+using System.Net.Http.Headers;
 using CsvHelper;
 using RM.MailshotsOnline.Data.Services.Reporting;
+using RM.MailshotsOnline.Entities.DataModels.Reports;
+using RM.MailshotsOnline.PCL.Models.Reporting;
+using RM.MailshotsOnline.PCL.Services.Reporting;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
     public class ReportsController : ApiBaseController
     {
+        private static IReportingService _reportingService;
+
+        public ReportsController(IReportingService reportingService)
+        {
+            _reportingService = reportingService;
+        }
+
         [HttpGet]
         public HttpResponseMessage GetReport(string type)
         {
             // Check to see if the user is logged into the front-end site
-            var authResult = Authenticate();
-            if (authResult != null)
-            {
-                return authResult;
-            }
+            //var authResult = Authenticate();
+            //if (authResult != null)
+            //{
+            //    return authResult;
+            //}
 
+            IReport report;
             switch (type.ToLower())
             {
                 case "membership":
-                    return CreateCsvResponse(ReportingService.MembershipReportGenerator.Generate()?.Members);
+                    report = _reportingService.MembershipReportGenerator.Generate();
+                    return CreateCsvResponse(report, ((MembershipReport)report).Members);
                 case "transactions":
-                    return CreateCsvResponse(ReportingService.TransactionsReportGenerator.Generate()?.Transactions);
+                    report = _reportingService.TransactionsReportGenerator.Generate();
+                    return CreateCsvResponse(report, ((TransactionsReport)report).Transactions);
                 default:
                     return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
         }
 
-        private HttpResponseMessage CreateCsvResponse(IEnumerable e)
+        private HttpResponseMessage CreateCsvResponse(IReport report, IEnumerable data)
         {
-            if (e == null)
+            if (report == null)
             {
                 return new HttpResponseMessage(HttpStatusCode.NoContent);
             }
@@ -45,7 +59,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 using (var streamWriter = new StreamWriter(memoryStream))
                 using (var csvWriter = new CsvWriter(streamWriter))
                 {
-                    csvWriter.WriteRecords(e);
+                    csvWriter.WriteRecords(data);
                 }
 
                 csvBytes = memoryStream.ToArray();
@@ -58,8 +72,15 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             var result = Request.CreateResponse(HttpStatusCode.OK);
             result.Content = new ByteArrayContent(csvBytes);
-            result.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/csv");
-            result.Headers.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue()
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("text/csv");
+            result.Content.Headers.ContentDisposition =
+                new ContentDispositionHeaderValue("attachment")
+                {
+                    FileName = $"{report.Name} - {report.CreatedDate.ToString("yyyyMMddHHmmss")}.csv",
+                    Size = csvBytes.Length,
+                    CreationDate = report.CreatedDate
+                };
+            result.Headers.CacheControl = new CacheControlHeaderValue()
             {
                 Public = true,
                 MaxAge = TimeSpan.FromSeconds(3600),

@@ -90,8 +90,8 @@
     <Compile Include="DataModels\Order.cs" />
     <Compile Include="DataModels\PostalOption.cs" />
     <Compile Include="DataModels\PublicLibraryImage.cs" />
-    <Compile Include="DataModels\Reports\TransactionReportEntity.cs" />
-    <Compile Include="DataModels\Reports\TransactionReport.cs" />
+    <Compile Include="DataModels\Reports\TransactionsReportEntity.cs" />
+    <Compile Include="DataModels\Reports\TransactionsReport.cs" />
     <Compile Include="DataModels\Reports\MembershipReport.cs" />
     <Compile Include="DataModels\Reports\MembershipReportEntity.cs" />
     <Compile Include="DataModels\Reports\Report.cs" />

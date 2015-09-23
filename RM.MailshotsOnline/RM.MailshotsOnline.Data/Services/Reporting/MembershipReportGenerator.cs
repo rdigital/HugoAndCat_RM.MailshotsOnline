@@ -19,7 +19,7 @@ namespace RM.MailshotsOnline.Data.Services.Reporting
             _membershipService = membershipService;
         }
 
-        public MembershipReport Generate()
+        public IMembershipReport Generate()
         {
             var members = _membershipService.GetAllActiveMembers().Select(x => new MembershipReportEntity()
             {

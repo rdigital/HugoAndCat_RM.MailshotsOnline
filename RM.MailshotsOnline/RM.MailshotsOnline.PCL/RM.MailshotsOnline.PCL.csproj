@@ -50,6 +50,7 @@
     <Compile Include="Models\IInvoiceLineItem.cs" />
     <Compile Include="Models\IMailshotImageUse.cs" />
     <Compile Include="Models\IMedia.cs" />
+    <Compile Include="Models\Reporting\IMembershipReport.cs" />
     <Compile Include="Models\Reporting\IReport.cs" />
     <Compile Include="Models\ISettingsFromCms.cs" />
     <Compile Include="Models\ITaggable.cs" />
@@ -65,6 +66,10 @@
     <Compile Include="Models\MailshotSettings\IMailshotSetting.cs" />
     <Compile Include="Models\MailshotSettings\ITemplate.cs" />
     <Compile Include="Models\MailshotSettings\ITheme.cs" />
+    <Compile Include="Models\Reporting\IMembershipReportEntity.cs" />
+    <Compile Include="Models\Reporting\ITransactionsReport.cs" />
+    <Compile Include="Models\Reporting\ITransactionsReportEntity.cs" />
+    <Compile Include="Services\Reporting\IReportingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ICampaignService.cs" />
     <Compile Include="Services\ICmsImageService.cs" />
@@ -75,9 +80,11 @@
     <Compile Include="Services\IMailshotsService.cs" />
     <Compile Include="Services\IMembershipService.cs" />
     <Compile Include="Services\IPricingService.cs" />
+    <Compile Include="Services\Reporting\IMembershipReportGenerator.cs" />
     <Compile Include="Services\Reporting\IReportGenerator.cs" />
     <Compile Include="Services\ISettingsService.cs" />
     <Compile Include="Services\ISparqQueueService.cs" />
+    <Compile Include="Services\Reporting\ITransactionsReportGenerator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
