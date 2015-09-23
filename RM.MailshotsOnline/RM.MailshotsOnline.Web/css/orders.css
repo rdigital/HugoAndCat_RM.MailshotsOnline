@@ -2,5 +2,39 @@
 }
 
 .my-orders .order {
+    border: 1px solid black;
+    padding: 10px;
+    margin-bottom: 10px;
+    min-height: 100px;
+    clear:both;
+}
 
+.my-orders .order .preview {
+    display: block;
+    height: 100px;
+    width: 200px;
+    float: left;
+    border: 1px solid grey;
+    margin-right: 10px;
+    background-color: #DDDDDD;
+}
+
+.my-orders .order h2 {
+    margin-top:0;
+    margin-bottom: 0.5em;
+}
+
+.my-orders .order .status {
+    border-bottom: 1px solid grey;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.my-orders .order .info span {
+    display: inline-block;
+    margin-right: 30px;
+}
+
+.my-orders .order .actions {
+    float:right;
 }

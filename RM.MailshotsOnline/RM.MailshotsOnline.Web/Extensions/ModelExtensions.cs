@@ -1,4 +1,5 @@
 ﻿using RM.MailshotsOnline.Data.Helpers;
+using RM.MailshotsOnline.Entities.PageModels;
 using RM.MailshotsOnline.PCL.Models;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,30 @@ namespace RM.MailshotsOnline.Web.Extensions
             }
 
             return null;
+        }
+
+        public static string GetStatusText(this MyOrders myOrdersPage, ICampaign campaign)
+        {
+            string result = myOrdersPage.ProcessingStatusText;
+            switch (campaign.Status)
+            {
+                case PCL.Enums.CampaignStatus.Cancelled:
+                    result = myOrdersPage.CancelledStatusText;
+                    break;
+                case PCL.Enums.CampaignStatus.Draft:
+                case PCL.Enums.CampaignStatus.ReadyToCheckout:
+                case PCL.Enums.CampaignStatus.ReadyForFulfilment:
+                    result = myOrdersPage.ProcessingStatusText;
+                    break;
+                case PCL.Enums.CampaignStatus.SentForFulfilment:
+                    result = myOrdersPage.DespatchedStatusText;
+                    break;
+                case PCL.Enums.CampaignStatus.Exception:
+                    result = myOrdersPage.FailedChecksStatusText;
+                    break;
+            }
+
+            return result;
         }
 
         public static HC.RM.Common.PayPal.Models.Transaction ToPaypalTransaction(this IInvoiceLineItem lineItem)

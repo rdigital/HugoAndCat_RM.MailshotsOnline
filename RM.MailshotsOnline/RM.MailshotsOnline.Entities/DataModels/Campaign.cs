@@ -302,6 +302,21 @@ namespace RM.MailshotsOnline.Entities.DataModels
             set { _invoices = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the date the campaign was ordered
+        /// </summary>
+        public DateTime? OrderPlacedDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date the campaign was cancelled
+        /// </summary>
+        public DateTime? CancelledDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date the campaign was despatched
+        /// </summary>
+        public DateTime? OrderDespatchedDate { get; set; }
+
         #region Explicit interface definition
 
         IMailshot ICampaign.Mailshot

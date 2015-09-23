@@ -14,6 +14,6 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         public string BillingAddressLabel { get; set; }
 
-        public MyOrders MyOrdersPage { get; set; }
+        //public MyOrders MyOrdersPage { get; set; }
     }
 }
