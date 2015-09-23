@@ -28,7 +28,7 @@
             </div>
         </div>
         <div id="success" runat="server" visible="false">
-            <p>Your image uploaded.  JavaScript to refresh TBC.  In the mean time, hit F5!</p>
+            <input type="hidden" id="imageResult" runat="server" />
         </div>
     </form>
     
