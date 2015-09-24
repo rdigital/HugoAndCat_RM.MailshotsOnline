@@ -1,5 +1,26 @@
 ﻿$(function () {
 
+    function ResetPassword() {
+        var resetRequest = {
+            Email: $('#resetEmail').val()
+        };
+
+        $.ajax({
+            url: '/Umbraco/Api/Members/SendPasswordResetLink',
+            type: 'POST',
+            data: resetRequest,
+            success: function (data) {
+                console.log(data);
+                alert("Please check your email");
+            },
+            statusCode: {
+                400: function (response) { HandleError(response); },
+                404: function (response) { HandleError(response); },
+                500: function (response) { HandleError(response); }
+            }
+        })
+    }
+
     function Logout() {
         $.ajax({
             url: '/Umbraco/Api/Members/Logout',
@@ -77,5 +98,10 @@
     $('#register').on('click', function (event) {
         event.preventDefault();
         Register();
+    });
+
+    $('#resetPassword').on('click', function (event) {
+        event.preventDefault();
+        ResetPassword();
     });
 });
