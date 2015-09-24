@@ -9,16 +9,22 @@ using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using Umbraco.Core;
 using Umbraco.Core.Services;
-using HC.RM.Common;
 using System.Text;
 
 namespace RM.MailshotsOnline.Data.Services
 {
     public class MembershipService : IMembershipService
     {
-        // this UmbracoMemberService could be replaced with a custom version, containing methods that perform encryption of input values.
+        // this UmbracoMemberService could be replaced with a custom version, containing methods
+        // that perform encryption of input values and decryption of output values.
         private static readonly IMemberService UmbracoMemberService = ApplicationContext.Current.Services.MemberService;
-        private static readonly CryptographicService CryptographicService = new CryptographicService();
+
+        private static ICryptographicService _cryptographicService;
+
+        public MembershipService(ICryptographicService cryptographicService)
+        {
+            _cryptographicService = cryptographicService;
+        }
 
         /// <summary>
         /// Retrieve the domain entity for the current user.
@@ -50,6 +56,8 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns></returns>
         public IMember CreateMember(IMember member, string password)
         {
+            member.EmailAddress = member.EmailAddress.ToLower();
+
             if (UmbracoMemberService.Exists(member.EmailAddress))
             {
                 return null;
@@ -219,9 +227,8 @@ namespace RM.MailshotsOnline.Data.Services
                 else
                 {
                     // Encrypt email
-                    var computedSalt = Encryption.ComputedSalt(emailAddress, emailAddress);
-                    var b64Salt = Encoding.UTF8.GetBytes(computedSalt);
-                    var encryptedEmail = Encryption.Encrypt(emailAddress, Constants.Constants.Encryption.EncryptionKey, b64Salt);
+                    var emailSalt = _cryptographicService.GenerateEmailSalt(emailAddress);
+                    var encryptedEmail = _cryptographicService.Encrypt(emailAddress, emailSalt);
 
                     umbracoMember = UmbracoMemberService.GetByEmail(encryptedEmail);
 
@@ -236,7 +243,7 @@ namespace RM.MailshotsOnline.Data.Services
             }
             catch (Exception ex)
             {
-
+                
             }
 
             return success;
@@ -273,13 +280,13 @@ namespace RM.MailshotsOnline.Data.Services
         private Umbraco.Core.Models.IMember GetUmbracoMember(IMember member)
         {
             return
-                UmbracoMemberService.GetByEmail(CryptographicService.Encrypt(member.EmailAddress,
-                    CryptographicService.GenerateEmailSalt(member.EmailAddress)));
+                UmbracoMemberService.GetByEmail(_cryptographicService.Encrypt(member.EmailAddress,
+                    _cryptographicService.GenerateEmailSalt(member.EmailAddress)));
         }
 
         private Umbraco.Core.Models.IMember GetUmbracoMember(string plaintextEmail)
         {
-            var encryptedEmail = CryptographicService.EncryptEmailAddress(plaintextEmail);
+            var encryptedEmail = _cryptographicService.EncryptEmailAddress(plaintextEmail);
 
             return UmbracoMemberService.GetByEmail(encryptedEmail);
         }

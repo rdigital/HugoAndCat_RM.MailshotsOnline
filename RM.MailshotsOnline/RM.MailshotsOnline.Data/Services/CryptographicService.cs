@@ -15,10 +15,8 @@ namespace RM.MailshotsOnline.Data.Services
         private static readonly string EncryptionKey = Constants.Constants.Encryption.EncryptionKey;
         private static readonly RNGCryptoServiceProvider RandomNumberGenerator = new RNGCryptoServiceProvider();
 
-
         public CryptographicService()
         {
-            
         }
 
         public string EncryptEmailAddress(string email)
@@ -28,6 +26,8 @@ namespace RM.MailshotsOnline.Data.Services
 
         public string GenerateEmailSalt(string email)
         {
+            email = email.ToLower();
+
             var salt = Encryption.ComputedSalt(email, email);
             var saltBytes = Encoding.GetBytes(salt);
 

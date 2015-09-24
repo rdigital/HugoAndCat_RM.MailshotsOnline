@@ -397,6 +397,8 @@
     <Content Include="canvas\images\loading.gif" />
     <Content Include="canvas\images\own_image.PNG" />
     <Content Include="canvas\images\saving.gif" />
+    <Content Include="canvas\images\temp_layout_icon.PNG" />
+    <Content Include="canvas\images\temp_layout_icon_active.PNG" />
     <Content Include="canvas\images\upload.png" />
     <Content Include="canvas\js\app.js" />
     <Content Include="canvas\js\components\backgroundtools.js" />
@@ -420,6 +422,7 @@
     <Content Include="canvas\js\custom_bindings\ko-element.js" />
     <Content Include="canvas\js\custom_bindings\ko-file.js" />
     <Content Include="canvas\js\custom_bindings\ko-spectrum.js" />
+    <Content Include="canvas\js\custom_bindings\pointer-events.js" />
     <Content Include="canvas\js\require_config.js" />
     <Content Include="canvas\js\temp\data.js" />
     <Content Include="canvas\js\vendor\components-font-awesome\css\font-awesome.css" />
@@ -444,6 +447,7 @@
     <Content Include="canvas\js\view_models\user.js" />
     <Content Include="canvas\styles\compiled\canvas.css" />
     <Content Include="canvas\styles\compiled\help.css" />
+    <Content Include="canvas\styles\compiled\layoutpicker.css" />
     <Content Include="canvas\styles\compiled\mailshot.css" />
     <Content Include="canvas\styles\compiled\preview.css" />
     <Content Include="canvas\styles\compiled\sidepicker.css" />
@@ -533,6 +537,8 @@
     <Content Include="canvas\styles\compiled\upload.css.map" />
     <Content Include="canvas\styles\upload.scss" />
     <Content Include="App_Plugins\CryptoTitleLabel\package.manifest" />
+    <Content Include="canvas\styles\layoutpicker.scss" />
+    <Content Include="canvas\styles\compiled\layoutpicker.css.map" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\campaign-functions.js" />
     <Content Include="scripts\campaign-hub.js" />

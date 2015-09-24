@@ -21,9 +21,12 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 {
     public class MembersController : ApiBaseController
     {
-        public MembersController(IMembershipService membershipService, ILogger logger)
+        private readonly ICryptographicService _cryptographicService;
+
+        public MembersController(IMembershipService membershipService, ILogger logger, ICryptographicService cryptographicService)
             : base(membershipService, logger)
         {
+            _cryptographicService = cryptographicService;
         }
         
         /// <summary>
@@ -66,9 +69,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 return Request.CreateResponse(HttpStatusCode.BadRequest, errorResponse);
             }
 
-            var computedSalt = Encryption.ComputedSalt(login.Email, login.Email);
-            var b64Salt = Encoding.UTF8.GetBytes(computedSalt);
-            var encryptedEmail = Encryption.Encrypt(login.Email, Constants.Encryption.EncryptionKey, b64Salt);
+            var emailSalt = _cryptographicService.GenerateEmailSalt(login.Email);
+            var encryptedEmail = _cryptographicService.Encrypt(login.Email, emailSalt);
 
             var member = Services.MemberService.GetByEmail(encryptedEmail);
 
@@ -128,9 +130,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 return Request.CreateResponse(HttpStatusCode.BadRequest, errorResponse);
             }
 
-            var computedSalt = Encryption.ComputedSalt(registration.Email, registration.Email);
-            var b64Salt = Encoding.UTF8.GetBytes(computedSalt);
-            var encryptedEmail = Encryption.Encrypt(registration.Email, Constants.Encryption.EncryptionKey, b64Salt);
+            var emailSalt = _cryptographicService.GenerateEmailSalt(registration.Email);
+            var encryptedEmail = _cryptographicService.Encrypt(registration.Email, emailSalt);
             
             if (Members.GetByEmail(encryptedEmail) != null)
             {

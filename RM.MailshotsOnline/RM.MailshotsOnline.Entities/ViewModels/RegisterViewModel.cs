@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,11 +19,26 @@ namespace RM.MailshotsOnline.Entities.ViewModels
 
         [EmailAddress(ErrorMessage = "Please enter a valid email address")]
         [Required(ErrorMessage = "Please enter a valid email address")]
-        public string Email { get; set; }
+        public string Email
+        {
+            get { return _email; }
+            set { _email = value.ToLower(); }
+        }
+
+        private string _email;
 
         [Required(ErrorMessage = "Please re-enter a valid email address")]
-        [Compare("Email", ErrorMessage = "The email addresses entered do not match. Please check and try again")]
-        public string ConfirmEmail { get; set; }
+        [CompareCaseInsensitive("Email", ErrorMessage = "The email addresses entered do not match. Please check and try again")]
+        public string ConfirmEmail
+        {
+            get { return _confirmEmail; }
+            set
+            {
+                _confirmEmail = value.ToLower();
+            }
+        }
+
+        private string _confirmEmail;
 
         [Required(ErrorMessage = "Please select your title")]
         public string Title { get; set; }
