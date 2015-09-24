@@ -51,5 +51,20 @@ namespace RM.MailshotsOnline.PCL.Models
         /// The date the settings set was updated
         /// </summary>
         DateTime UpdatedDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the estimated time taken for the moderation process
+        /// </summary>
+        int ModerationTimeEstimate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the estimated time taken for the printing / despatch time
+        /// </summary>
+        int PrintingTimeEstimate { get; set; }
+
+        /// <summary>
+        /// Gets or sets a list of public holidays
+        /// </summary>
+        string PublicHolidays { get; set; }
     }
 }

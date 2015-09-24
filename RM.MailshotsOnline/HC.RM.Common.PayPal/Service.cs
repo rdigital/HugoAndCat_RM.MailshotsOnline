@@ -137,7 +137,8 @@ namespace HC.RM.Common.PayPal
 
             var pplCapture = new PplCapture()
             {
-                is_final_capture = true
+                is_final_capture = true,
+                amount = pplOrder.amount
             };
 
             var capture = PplOrder.Capture(context, order.Id, pplCapture);

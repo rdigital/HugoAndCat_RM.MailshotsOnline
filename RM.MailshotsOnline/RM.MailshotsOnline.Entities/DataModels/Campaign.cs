@@ -30,6 +30,11 @@ namespace RM.MailshotsOnline.Entities.DataModels
         private ICollection<CampaignDistributionList> _campaignDistributionLists;
 
         /// <summary>
+        /// The invoices (concrete models)
+        /// </summary>
+        private ICollection<Invoice> _invoices;
+
+        /// <summary>
         /// The chosen postal option (concrete model)
         /// </summary>
         private PostalOption _postalOption;
@@ -286,6 +291,32 @@ namespace RM.MailshotsOnline.Entities.DataModels
         [JsonIgnore]
         public Guid ModerationId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the campaign's invoices
+        /// </summary>
+        [JsonIgnore]
+        [InverseProperty("Campaign")]
+        public virtual ICollection<Invoice> Invoices
+        {
+            get { return _invoices; }
+            set { _invoices = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the date the campaign was ordered
+        /// </summary>
+        public DateTime? OrderPlacedDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date the campaign was cancelled
+        /// </summary>
+        public DateTime? CancelledDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date the campaign was despatched
+        /// </summary>
+        public DateTime? OrderDespatchedDate { get; set; }
+
         #region Explicit interface definition
 
         IMailshot ICampaign.Mailshot
@@ -327,6 +358,20 @@ namespace RM.MailshotsOnline.Entities.DataModels
         {
             get { return _postalOption; }
             set { _postalOption = (PostalOption)value; }
+        }
+
+        ICollection<IInvoice> ICampaign.Invoices
+        {
+            get
+            {
+                if (_invoices == null)
+                {
+                    return null;
+                }
+
+                return _invoices.Cast<IInvoice>().ToList();
+            }
+            set { _invoices = (ICollection<Invoice>)value; }
         }
 
         #endregion

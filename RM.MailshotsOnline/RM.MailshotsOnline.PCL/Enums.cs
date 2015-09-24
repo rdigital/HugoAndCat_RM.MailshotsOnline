@@ -18,7 +18,8 @@ namespace RM.MailshotsOnline.PCL
             SentForFulfilment = 4,
             Fulfilled = 5,
             ReadyToCheckout = 6,
-            Exception = -1
+            Exception = -1,
+            Cancelled = 7
         }
 
         /// <summary>

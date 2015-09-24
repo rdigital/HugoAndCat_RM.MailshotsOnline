@@ -10,6 +10,14 @@ namespace RM.MailshotsOnline.PCL.Services
     {
         ISettingsFromCms GetCurrentSettings();
 
-        ISettingsFromCms UpdateCurrentSettings(decimal vatRate, decimal msolFee, decimal pricePerRentedDataUnit, decimal dataServiceFee, int umbracoContentId);
+        ISettingsFromCms UpdateCurrentSettings(
+            decimal vatRate, 
+            decimal msolFee, 
+            decimal pricePerRentedDataUnit, 
+            decimal dataServiceFee, 
+            int umbracoContentId, 
+            int moderationTimeEstimate, 
+            int printingTimeEstimate,
+            string publicHolidayDates);
     }
 }

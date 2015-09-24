@@ -65,6 +65,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             campaign.Status = PCL.Enums.CampaignStatus.Fulfilled;
             campaign.SystemNotes += string.Format("{0}{1:yyyy-MM-dd HH:mm:ss} - Campaign has been printed.", Environment.NewLine, DateTime.UtcNow);
+            campaign.OrderDespatchedDate = DateTime.UtcNow;
             _campaignService.SaveCampaign(campaign);
 
             Log.Info(this.GetType().Name, "ConfirmPrinted", "Campaign with ID {0} has been printed", campaign.CampaignId);
@@ -208,7 +209,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return CurrentUmbracoPage();
             }
 
-            var invoice = campaignInvoices.FirstOrDefault(i => i.Status == PCL.Enums.InvoiceStatus.Submitted);
+            var invoice = campaignInvoices.FirstOrDefault(i => i.Status == PCL.Enums.InvoiceStatus.Processing);
             if (invoice == null)
             {
                 Log.Warn(this.GetType().Name, "Reject", "No submitted invoices found for campaign ID {0}", campaign.CampaignId);
