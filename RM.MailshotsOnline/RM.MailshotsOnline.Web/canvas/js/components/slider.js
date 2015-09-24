@@ -1,9 +1,10 @@
-define(['knockout', 'jquery'],
+define(['knockout', 'jquery', 'koelement'],
 
-    function(ko, $) {
+    function(ko, $, koelement) {
 
         // ViewModel
         function sliderViewModel(params) {
+            this.element = ko.observable();
             this.min = params.min;
             this.max = params.max;
             this.current = params.current;
@@ -16,7 +17,7 @@ define(['knockout', 'jquery'],
          * according to the min, max and percentage moved
          */
         sliderViewModel.prototype.resize = function resize(data, e) {
-            var delta = e.offsetX / $(e.target).width(),
+            var delta = e.offsetX / this.element().width(),
                 diff = this.max - this.min;
             this.current(this.min + delta*diff);
         };
@@ -29,6 +30,7 @@ define(['knockout', 'jquery'],
                 return;
             }
             this.resize(data, e);
+            return false;
         };
 
         /**
@@ -36,6 +38,7 @@ define(['knockout', 'jquery'],
          */
         sliderViewModel.prototype.dragStart = function dragStart(data, e) {
             this.dragging = true;
+            return false;
         };
 
         /**
@@ -43,6 +46,7 @@ define(['knockout', 'jquery'],
          */
         sliderViewModel.prototype.dragEnd = function dragEnd() {
             this.dragging = false;
+            return false;
         };
 
         sliderViewModel.prototype.getLeftPercentComputed = function getLeftPercentComputed() {
