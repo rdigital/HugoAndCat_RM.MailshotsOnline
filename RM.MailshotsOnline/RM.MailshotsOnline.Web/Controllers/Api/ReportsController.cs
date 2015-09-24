@@ -10,10 +10,11 @@ using RM.MailshotsOnline.Data.Services.Reporting;
 using RM.MailshotsOnline.Entities.DataModels.Reports;
 using RM.MailshotsOnline.PCL.Models.Reporting;
 using RM.MailshotsOnline.PCL.Services.Reporting;
+using Umbraco.Web.WebApi;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
-    public class ReportsController : ApiBaseController
+    public class ReportsController : UmbracoAuthorizedApiController
     {
         private static IReportingService _reportingService;
 
@@ -32,16 +33,20 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             //    return authResult;
             //}
 
-            IReport report;
             switch (type.ToLower())
             {
                 case "membership":
-                    report = _reportingService.MembershipReportGenerator.Generate();
-                    return CreateCsvResponse(report, ((MembershipReport)report).Members);
+
+                    var membershipReport = _reportingService.MembershipReportGenerator.Generate();
+                    return CreateCsvResponse(membershipReport, membershipReport.Members);
+
                 case "transactions":
-                    report = _reportingService.TransactionsReportGenerator.Generate();
-                    return CreateCsvResponse(report, ((TransactionsReport)report).Transactions);
+
+                    var transactionsReport = _reportingService.TransactionsReportGenerator.Generate();
+                    return CreateCsvResponse(transactionsReport, transactionsReport.Transactions);
+
                 default:
+
                     return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
         }
