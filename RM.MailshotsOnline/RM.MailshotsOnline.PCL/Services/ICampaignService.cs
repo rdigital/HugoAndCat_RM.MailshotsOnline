@@ -29,11 +29,25 @@ namespace RM.MailshotsOnline.PCL.Services
         IEnumerable<ICampaign> GetCampaignsForUser(int userId);
 
         /// <summary>
+        /// Gets orders (campaigns that are in progress or completed) for a given user ID
+        /// </summary>
+        /// <param name="userId">The ID of the user to search on</param>
+        /// <returns>Collection of Campaigns</returns>
+        IEnumerable<ICampaign> GetOrdersForUser(int userId);
+
+        /// <summary>
         /// Gets a specific campaign
         /// </summary>
         /// <param name="campaignId">ID of the campaign to find</param>
         /// <returns>Campaign object</returns>
         ICampaign GetCampaign(Guid campaignId);
+
+        /// <summary>
+        /// Gets a specific campaign (including the attached invoices)
+        /// </summary>
+        /// <param name="campaignId">ID of the campaign</param>
+        /// <returns>Campaign object</returns>
+        ICampaign GetCampaignWithInvoices(Guid campaignId);
 
         /// <summary>
         /// Gets a specific campaign based on its moderation ID

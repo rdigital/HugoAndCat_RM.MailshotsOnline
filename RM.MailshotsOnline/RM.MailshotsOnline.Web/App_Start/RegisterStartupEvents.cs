@@ -371,7 +371,8 @@ namespace RM.MailshotsOnline.Web.App_Start
                     Currency = item.GetValue<string>("Currency"),
                     PricePerUnit = item.GetValue<decimal>("PricePerUnit"),
                     Tax = item.GetValue<decimal>("Tax"),
-                    TaxCode = item.GetValue<string>("TaxCode")
+                    TaxCode = item.GetValue<string>("TaxCode"),
+                    DeliveryTime = item.GetValue<int>("deliveryTime")
                 };
             }
             else
@@ -382,6 +383,7 @@ namespace RM.MailshotsOnline.Web.App_Start
                 postalOption.PricePerUnit = item.GetValue<decimal>("PricePerUnit");
                 postalOption.Tax = item.GetValue<decimal>("Tax");
                 postalOption.TaxCode = item.GetValue<string>("TaxCode");
+                postalOption.DeliveryTime = item.GetValue<int>("deliveryTime");
             }
 
             _pricingService.SavePostalOption(postalOption);
@@ -488,7 +490,10 @@ namespace RM.MailshotsOnline.Web.App_Start
                 decimal msolFee = decimal.Parse(item.GetValue<string>("msolPerUseFee"));
                 decimal perDataUnit = decimal.Parse(item.GetValue<string>("pricePerRentedDataRecord"));
                 decimal dataServiceFee = decimal.Parse(item.GetValue<string>("dataRentalServicePerUseFee"));
-                _settingsService.UpdateCurrentSettings(vatRate, msolFee, perDataUnit, dataServiceFee, item.Id);
+                int moderationTimeEstimate = int.Parse(item.GetValue<string>("moderationTimeEstimate"));
+                int printingTimeEstimate = int.Parse(item.GetValue<string>("printingTimeEstimate"));
+                var publicHolidayDates = item.GetValue<string>("publicHolidayDates");
+                _settingsService.UpdateCurrentSettings(vatRate, msolFee, perDataUnit, dataServiceFee, item.Id, moderationTimeEstimate, printingTimeEstimate, publicHolidayDates);
             }
             catch (Exception ex)
             {

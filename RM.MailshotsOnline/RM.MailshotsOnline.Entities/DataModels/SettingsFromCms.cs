@@ -69,5 +69,20 @@ namespace RM.MailshotsOnline.Entities.DataModels
         /// The date the settings set was updated
         /// </summary>
         public DateTime UpdatedDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the estimated time taken for the moderation process
+        /// </summary>
+        public int ModerationTimeEstimate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the estimated time taken for the printing / despatch time
+        /// </summary>
+        public int PrintingTimeEstimate { get; set; }
+
+        /// <summary>
+        /// Gets or sets a list of public holidays
+        /// </summary>
+        public string PublicHolidays { get; set; }
     }
 }

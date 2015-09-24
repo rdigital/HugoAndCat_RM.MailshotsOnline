@@ -129,5 +129,25 @@ namespace RM.MailshotsOnline.PCL.Models
         /// Gets or sets the Moderation ID of the campaign
         /// </summary>
         Guid ModerationId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the campaign's invoices
+        /// </summary>
+        ICollection<IInvoice> Invoices { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date the campaign was ordered
+        /// </summary>
+        DateTime? OrderPlacedDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date the campaign was cancelled
+        /// </summary>
+        DateTime? CancelledDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date the campaign was despatched
+        /// </summary>
+        DateTime? OrderDespatchedDate { get; set; }
     }
 }

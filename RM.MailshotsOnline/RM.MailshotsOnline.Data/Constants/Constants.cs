@@ -6,7 +6,7 @@ namespace RM.MailshotsOnline.Data.Constants
     {
         public static class Settings
         {
-            public static readonly int HeaderNavSettingsId = int.Parse(ConfigurationManager.AppSettings["HeaderNavSettingsId"]);
+            public static readonly int HeaderNavSettingsId = Helpers.ConfigHelper.GetConfigValue("HeaderNavSettingsId", 1121);
             public static readonly string DefaultMediaLibraryTagGroup = ConfigurationManager.AppSettings["DefaultMediaLibraryTagGroup"];
             public static readonly int ImageThumbnailSizeSmall = int.Parse(ConfigurationManager.AppSettings["ImageThumbnailSizeSmall"]);
             public static readonly int ImageThumbnailSizeLarge = int.Parse(ConfigurationManager.AppSettings["ImageThumbnailSizeLarge"]);

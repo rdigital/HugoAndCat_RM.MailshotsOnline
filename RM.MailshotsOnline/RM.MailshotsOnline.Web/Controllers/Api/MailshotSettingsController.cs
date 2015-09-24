@@ -1,4 +1,5 @@
 ﻿using HC.RM.Common.PCL.Helpers;
+using RM.MailshotsOnline.Data.Helpers;
 using RM.MailshotsOnline.PCL.Models.MailshotSettings;
 using RM.MailshotsOnline.PCL.Services;
 using System;
@@ -63,6 +64,27 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
             var arrayString = string.Join(",", themes.Select(f => f.JsonData));
             return JsonResponse($"[{arrayString}]");
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetContent(int? id)
+        {
+            IMailshotDefaultContent content = null;
+            if (id.HasValue)
+            {
+                content = _settingsService.GetMailshotDefaultContent(id.Value);
+            }
+            else
+            {
+                content = _settingsService.GetMailshotDefaultContent(ConfigHelper.DefaultMailshotContentJsonIndex);
+            }
+
+            if (content == null)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Content not found");
+            }
+
+            return JsonResponse(content.JsonData);
         }
 
         private HttpResponseMessage JsonResponse(string value)

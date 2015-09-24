@@ -166,6 +166,7 @@ namespace RM.MailshotsOnline.Web.Controllers
             _invoiceService.Save(invoice);
 
             campaign.Status = PCL.Enums.CampaignStatus.PendingModeration;
+            campaign.OrderPlacedDate = DateTime.UtcNow;
             campaign.ModerationId = Guid.NewGuid();
             _campaignService.SaveCampaign(campaign);
 
