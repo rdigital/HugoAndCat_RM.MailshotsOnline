@@ -36,7 +36,7 @@ define(['knockout', 'komapping', 'jquery'],
         };
 
         dataViewModel.prototype.fetch = function fetch() {
-            console.log('fetching data from ' + this.fetchURL);
+            //console.log('fetching data from ' + this.fetchURL);
             $.getJSON(this.fetchURL, function(data) {
                 this.objects(data);
             }.bind(this));
