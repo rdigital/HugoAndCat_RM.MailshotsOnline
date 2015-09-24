@@ -22,8 +22,7 @@ define(['knockout'],
 
           reader = (valueAccessor()['reader']);
         }
-        return
-        if (!FileReader) {
+        if (typeof(FileReader) == 'undefined') {
           return
         }
         reader || (reader = new FileReader());

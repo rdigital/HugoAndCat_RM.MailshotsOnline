@@ -261,7 +261,8 @@ body {
     //@include nohighlight();
     @include transition(background);
     cursor: pointer;
-    display: inline-block;
+    display: inline;
+    word-break: break-all;
     &:hover {
         background: rgba(0, 0, 0, 0.09);
         //outline: 1px solid $darkest-grey;
@@ -306,4 +307,18 @@ body {
         opacity: 0;
         pointer-events: none;
     }
+}
+
+.uploading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.7);
+    z-index: 9999;
+    opacity: 1;
+    background-image: url(/canvas/images/loading_map.gif);
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
 }

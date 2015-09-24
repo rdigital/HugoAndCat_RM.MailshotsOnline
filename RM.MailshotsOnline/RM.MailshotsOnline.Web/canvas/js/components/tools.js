@@ -12,6 +12,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             this.selectedElement = stateViewModel.selectedElement;
             this.window_width = ko.observable(0);
             this.window_height = ko.observable(0);
+            this.uploading = ko.observable(false);
 
             // personalization specific variables
             this.personalizing = ko.observable(false);
@@ -44,6 +45,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             this.setCaretPosition = this.setCaretPosition.bind(this);
             this.showPersonalization = this.showPersonalization.bind(this);
             this.closeEditPersonalization = this.closeEditPersonalization.bind(this);
+            this.oldIeSetup = this.oldIeSetup.bind(this);
 
             // resize handlers
             $(window).resize(this.handleResize);
@@ -627,10 +629,41 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
         }
 
         toolsViewModel.prototype.oldIeSetup = function oldIeSetup() {
-            var iframe = $('#uploadIframe')[0].contentWindow;
-            window.checkUpload = function() {
-                alert('check');
+            $(window).on('checkIeUpload', {self:this}, this.checkIeUpload.bind(this));
+            window.fireUpload = function() {
+                $(window).trigger('checkIeUpload')
             }
+        }
+
+        toolsViewModel.prototype.checkIeUpload = function checkIeUpload(e) {
+            var iframe = $('#uploadIframe')[0].contentWindow,
+                i = 0,
+                self = e.data.self;
+            function timeout(self) {
+                self.uploading(true);
+                setTimeout(function () {
+                    // check for success
+                    var result = iframe.$('#imageResult');
+                    if (result && result.val()) {
+                        self.selectedElement().setUrlSrc(result.val());
+                        self.selectedElement().render(result.val(), true);
+                        i = 0;
+                        $('#uploadIframe')[0].src = $('#uploadIframe')[0].src;
+                        self.uploading(false);
+                        return
+                    }
+                    i++;
+                    if (i < 90) {
+                        timeout(self);
+                    } else {
+                        i = 0;
+                        $('#uploadIframe')[0].src = $('#uploadIframe')[0].src;
+                        self.uploading(false);
+                        console.log('error uploading image')
+                    }
+                }.bind(this), 1000);
+            }
+            timeout(self);
         }
 
         toolsViewModel.prototype.ieClickImageUpload = function ieClickImageUpload() {
