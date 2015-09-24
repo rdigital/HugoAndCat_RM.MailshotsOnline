@@ -554,7 +554,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                     isIE = this.isIE(),
                     content = (fallback != '') ? '['+ field + '/' + fallback +']' : '['+ field + ']';
                 if (isIE){
-                    var innerHTML = '<span contenteditable="false" class="dynamic-field-content" data-content="'+ content +'" data-field="'+ field +'" data-fallback="'+ fallback +'"></span>',
+                    var innerHTML = '<span contenteditable="false" unselectable="on" class="dynamic-field-content" data-content="'+ content +'" data-field="'+ field +'" data-fallback="'+ fallback +'"></span>',
                         html = '<span contenteditable="false" class="dynamic-field" class="editable">' + innerHTML + '</span>&#8202;'
                 } else {
                     var innerHTML = '<span class="dynamic-field-content" data-content="'+ content +'" data-field="'+ field +'" data-fallback="'+ fallback +'"></span>',
@@ -626,8 +626,23 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             return false;
         }
 
+        toolsViewModel.prototype.oldIeSetup = function oldIeSetup() {
+            var iframe = $('#uploadIframe')[0].contentWindow;
+            window.checkUpload = function() {
+                alert('check');
+            }
+        }
+
+        toolsViewModel.prototype.ieClickImageUpload = function ieClickImageUpload() {
+            var iframe = $('#uploadIframe')[0].contentWindow,
+                name = Math.floor(Math.random() * 99999999);
+            iframe.$('#nameInput').val(name.toString());
+            iframe.$('#fileUpload').click();
+        }
+
         return {
             viewModel: toolsViewModel,
             template: { require: 'text!/canvas/templates/tools.html' }
         }
-});
+    }
+);

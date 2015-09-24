@@ -26,6 +26,14 @@
         padding-left: 10px;
         border-bottom: 1px solid $light-grey;
         cursor: pointer;
+        .side-picker-clicker {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1000;
+        }
         &:hover {
             background-color: $light-grey;
         }

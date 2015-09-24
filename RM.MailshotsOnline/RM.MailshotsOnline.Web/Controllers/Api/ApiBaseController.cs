@@ -37,6 +37,15 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             _logger = logger;
         }
 
+        public ApiBaseController(ILogger logger)
+        {
+            _logger = logger;
+        }
+
+        public ApiBaseController()
+        {
+        }
+
         internal HttpResponseMessage Authenticate()
         {
             HttpResponseMessage result = null;

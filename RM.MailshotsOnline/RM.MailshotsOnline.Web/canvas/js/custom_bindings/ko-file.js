@@ -22,7 +22,10 @@ define(['knockout'],
 
           reader = (valueAccessor()['reader']);
         }
-
+        return
+        if (!FileReader) {
+          return
+        }
         reader || (reader = new FileReader());
         reader.onloadend = function() {
           fileContents(reader.result);

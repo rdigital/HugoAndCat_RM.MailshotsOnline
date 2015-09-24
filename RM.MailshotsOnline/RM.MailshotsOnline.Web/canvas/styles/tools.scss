@@ -101,6 +101,7 @@
 		.fa-arrows {
 			line-height: 19px;
 			transform: rotate(45deg);
+			-ms-transform: rotate(45deg);
 		}
 	}
 	.tools-label {
@@ -124,6 +125,10 @@
 		color: $dark-grey;
 		&.tools-image_own {
 			background-image: url(/canvas/images/own_image.png);
+		}
+		&.tools-image_own_old_ie {
+			background-image: url(/canvas/images/own_image.png);
+			display: none;
 		}
 		&.tools-image_library {
 			background-image: url(/canvas/images/library_image.png);
@@ -177,6 +182,7 @@
     	position: absolute;
     	right: 13px;
 	    top: -5px;
+	    -ms-transform: rotate(180deg);
 	    transform: rotate(180deg);
 	    font-size: 20px;
     	color: $dark-grey;
@@ -185,6 +191,7 @@
 .dropdown.dropdown_active .tools-dropdown:after {
 	top: 4px;
 	transform: scaleY(-1) rotate(180deg);
+	-ms-transform: scaleY(-1) rotate(180deg);
 }
 .dropdown-options {
 	z-index: 1;
