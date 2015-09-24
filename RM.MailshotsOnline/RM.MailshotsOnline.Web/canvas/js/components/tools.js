@@ -1,6 +1,6 @@
-define(['knockout', 'components/dropdown', 'components/slider', 'components/colourpicker', 'view_models/state'],
+define(['knockout', 'components/dropdown', 'components/slider', 'components/colourpicker', 'view_models/myimages', 'view_models/state'],
 
-    function(ko, dropdownComponent, sliderComponent, colourpickerComponent, stateViewModel) {
+    function(ko, dropdownComponent, sliderComponent, colourpickerComponent, myImagesViewModel, stateViewModel) {
         // register required components
         ko.components.register('dropdown-component', dropdownComponent);
         ko.components.register('colourpicker-component', colourpickerComponent);
@@ -647,6 +647,10 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                     if (result && result.val()) {
                         self.selectedElement().setUrlSrc(result.val());
                         self.selectedElement().render(result.val(), true);
+                        myImagesViewModel.add({
+                            Src: result.val(),
+                            SmallSrc: iframe.$('#imageResultSmall').val()
+                        });
                         i = 0;
                         $('#uploadIframe')[0].src = $('#uploadIframe')[0].src;
                         self.uploading(false);

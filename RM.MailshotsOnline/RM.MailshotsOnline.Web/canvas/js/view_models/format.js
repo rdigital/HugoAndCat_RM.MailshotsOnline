@@ -19,7 +19,7 @@ define(['knockout', 'jquery', 'view_models/state'],
         formatViewModel.prototype.fetch = function fetch() {
             // fetch data from server using fetchURL
             var fetchURL = "/Umbraco/Api/MailshotSettings/GetFormat/" + this.selectedID; 
-            console.log('fetching data from ' + fetchURL);
+            //console.log('fetching data from ' + fetchURL);
             $.getJSON(fetchURL, function(data) {
                 this.selected(data);
             }.bind(this));
