@@ -201,7 +201,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             // Create new Mailshot
             // TODO: Include the ability to choose the format.  For now hard-coding to Layout 2 (Card)
-            var defaultContent = _settingsService.GetMailshotDefaultContent(1);
+            var defaultContent = _settingsService.GetMailshotDefaultContent(ConfigHelper.DefaultMailshotContentJsonIndex);
             IFormat format = null;
             ITemplate template = null;
             ITheme theme = null;
