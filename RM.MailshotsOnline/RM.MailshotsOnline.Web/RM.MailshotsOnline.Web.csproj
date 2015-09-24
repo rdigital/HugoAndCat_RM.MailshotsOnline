@@ -399,6 +399,7 @@
     <Content Include="canvas\images\img_placeholder.PNG" />
     <Content Include="canvas\images\library_image.PNG" />
     <Content Include="canvas\images\loading.gif" />
+    <Content Include="canvas\images\loading_map.gif" />
     <Content Include="canvas\images\own_image.PNG" />
     <Content Include="canvas\images\saving.gif" />
     <Content Include="canvas\images\temp_layout_icon.PNG" />

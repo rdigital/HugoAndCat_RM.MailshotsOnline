@@ -272,6 +272,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
         };
 
         imageViewModel.prototype.setUrlSrc = function setUrlSrc(src) {
+            console.log(src)
             this.imageObj.urlSrc(src);
         };
 

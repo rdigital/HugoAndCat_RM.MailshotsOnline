@@ -37,8 +37,8 @@
         $(document).ready( function() {
             $('#fileUpload').change(function() {
                 if ($(this).val() !== '') {
+                    window.parent.fireUpload();
                     $('#form1').submit();
-                    window.parent.checkUpload();
                 }
             })
         })
