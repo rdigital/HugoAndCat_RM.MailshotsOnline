@@ -11,6 +11,7 @@ define(['knockout'],
             this.backgroundSelected = ko.observable();
             this.historyRerender = ko.observable(true);
             this.imageTab = ko.observable();
+            this.showAuth = ko.observable(false);
             this.showPreview = ko.observable(false);
             this.showImageUpload = ko.observable(false);
             this.showThemePicker = ko.observable(false);
@@ -96,6 +97,10 @@ define(['knockout'],
             this.showThemePicker(false);
             this.selectElement(null);
         };
+
+        stateViewModel.prototype.toggleAuth = function toggleAuth() {
+            this.toggleAuth(!this.toggleAuth());
+        }
 
         stateViewModel.prototype.togglePreview = function togglePreview() {
             this.showPreview(!this.showPreview());

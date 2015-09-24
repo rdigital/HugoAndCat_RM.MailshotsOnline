@@ -11,6 +11,9 @@
 <!-- ko if: showPreview -->
 	<preview-component></preview-component>
 <!-- /ko -->
+<!-- ko if: showAuth -->
+	<auth-component></auth-component>
+<!-- /ko -->
 <!-- ko if: faces() && faces().length -->
 	<div class="editor" data-bind="css: {editor_hidden: showTemplatePicker() || showPreview()}">
 		<!-- main editor -->

@@ -338,9 +338,9 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
                     canvas_height = canvas.height();
 
                 // clear the canvas
-                //ctx.clearRect(0, 0, canvas_width * this.scaleFactor, canvas_height * this.scaleFactor);
-                ctx.fillStyle = "white";
-                ctx.fillRect(0, 0, canvas_width * this.scaleFactor, canvas_height * this.scaleFactor);
+                ctx.clearRect(0, 0, canvas_width * this.scaleFactor, canvas_height * this.scaleFactor);
+                //ctx.fillStyle = "white";
+                //ctx.fillRect(0, 0, canvas_width * this.scaleFactor, canvas_height * this.scaleFactor);
 
                 // work out scale to apply to image
                 var width_factor = canvas_width / this.image.width,

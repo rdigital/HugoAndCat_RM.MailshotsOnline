@@ -17,7 +17,8 @@ module.exports = function(grunt) {
                 'styles/compiled/tools.css': 'styles/tools.scss',
                 'styles/compiled/preview.css': 'styles/preview.scss',
                 'styles/compiled/upload.css': 'styles/upload.scss',
-                'styles/compiled/layoutpicker.css': 'styles/layoutpicker.scss'
+                'styles/compiled/layoutpicker.css': 'styles/layoutpicker.scss',
+                'styles/compiled/auth.css': 'styles/auth.scss'
             }
         }
     },
