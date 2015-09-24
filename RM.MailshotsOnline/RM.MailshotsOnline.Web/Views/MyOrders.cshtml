@@ -28,7 +28,8 @@
                 </div>
                 <h2><a href="@string.Format("{0}?campaignId={1}", orderDetailsUrl, campaign.CampaignId)">@campaign.Name</a></h2>
                 <div class="status @campaign.Status.ToString()">
-                    <p>@Model.GetStatusText(campaign)</p>
+                    <h3>@Model.GetStatusText(campaign)</h3>
+                    <p>@Html.Raw(Model.GetStatusDescription(campaign))</p>
                 </div>
                 <div class="info">
                     <span>@Model.OrderPlacedLabel @campaign.LatestInvoice().CreatedDate.ToString("dd/MM/yy")</span>

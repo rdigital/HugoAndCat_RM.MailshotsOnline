@@ -50,6 +50,7 @@ namespace RM.MailshotsOnline.Web.Installers
                 Component.For<HC.RM.Common.Network.IEmailService>().ImplementedBy<HC.RM.Common.Network.SmtpService>().LifestyleTransient(),
                 Component.For<ICryptographicService>().ImplementedBy<CryptographicService>().LifestyleTransient(),
 				Component.For<ILogger>().ImplementedBy<Logger>().LifestyleTransient(),
+                Component.For<ISettingsService>().ImplementedBy<SettingsService>().LifestyleTransient(),
                 Component.For<IReportingService>().ImplementedBy<ReportingService>().LifestyleTransient(),
                 Component.For<IMembershipReportGenerator>().ImplementedBy<MembershipReportGenerator>().LifestyleTransient(),
                 Component.For<ITransactionsReportGenerator>().ImplementedBy<TransactionsReportGenerator>().LifestyleTransient());

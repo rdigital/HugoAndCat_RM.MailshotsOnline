@@ -16,12 +16,14 @@ namespace RM.MailshotsOnline.Web.Controllers
     {
         private IMembershipService _membershipService;
         private ICampaignService _campaignService;
+        private ISettingsService _settingsService;
 
-        public MyOrdersController(IUmbracoService umbracoService, ILogger logger, IMembershipService membershipService, ICampaignService campaignService)
+        public MyOrdersController(IUmbracoService umbracoService, ILogger logger, IMembershipService membershipService, ICampaignService campaignService, ISettingsService settingsService)
             : base(umbracoService, logger)
         {
             _membershipService = membershipService;
             _campaignService = campaignService;
+            _settingsService = settingsService;
         }
 
         // GET: MyOrders
@@ -31,6 +33,9 @@ namespace RM.MailshotsOnline.Web.Controllers
             var pageModel = GetModel<MyOrders>();
 
             var loggedInMember = _membershipService.GetCurrentMember();
+
+            // Get the settings
+            pageModel.Settings = _settingsService.GetCurrentSettings();
 
             // Get Orders (campaigns that have invoices) from the service
             var campaigns = _campaignService.GetOrdersForUser(loggedInMember.Id);

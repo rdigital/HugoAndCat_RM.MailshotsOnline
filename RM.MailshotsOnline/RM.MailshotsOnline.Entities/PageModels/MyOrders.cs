@@ -13,15 +13,27 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         public string ProcessingStatusText { get; set; }
 
+        public string ProcessingStatusDescription { get; set; }
+
         public string DespatchedStatusText { get; set; }
+
+        public string DespatchedStatusDescription { get; set; }
 
         public string CancelledStatusText { get; set; }
 
+        public string CancelledStatusDescription { get; set; }
+
         public string FailedChecksStatusText { get; set; }
+
+        public string FailedChecksStatusDescription { get; set; }
 
         public string PaymentFailedStatusText { get; set; }
 
+        public string PaymentFailedStatusDescription { get; set; }
+
         public string DeliveredStatusText { get; set; }
+
+        public string DeliveredStatusDescription { get; set; }
 
         public string OrderPlacedLabel { get; set; }
 
@@ -38,6 +50,8 @@ namespace RM.MailshotsOnline.Entities.PageModels
         #endregion
 
         public IEnumerable<ICampaign> Campaigns { get; set; }
+
+        public ISettingsFromCms Settings { get; set; }
 
         public int ActiveCampaignCount
         {

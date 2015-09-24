@@ -79,6 +79,7 @@ namespace RM.MailshotsOnline.Data.Services
             return _context.Campaigns
                 .Include("Invoices")
                 .Include("Invoices.LineItems")
+                .Include("PostalOption")
                 .Where(c => c.UserId == userId && inProgressOrCompletedStatuses.Contains(c.Status))
                 .OrderByDescending(c => c.UpdatedDate);
         }
