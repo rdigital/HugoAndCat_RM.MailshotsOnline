@@ -1,0 +1,41 @@
+﻿@model RM.MailshotsOnline.Entities.ViewModels.ModifyListUploadFileModel
+
+<h1>@Model.PageModel.AddContactsTitle</h1>
+<p>@Html.Raw(Model.PageModel.AddContactsIntroText)</p>
+
+@using (Html.BeginUmbracoForm("UploadFileToList", "ModifyListSurface", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(m => m.DistributionListId)
+    @Html.ValidationSummary()
+    <div>
+        @Html.LabelFor(m => m.ListName, Model.PageModel.ListNameLabel)
+        <div>
+            @Html.TextBoxFor(m => m.ListName, htmlAttributes: new {@placeholder = Model.PageModel.NewListPlaceholderText})
+        </div>
+    </div>
+    <div>
+        <h3>@Model.PageModel.UploadTitle</h3>
+        @Html.Label("uploadCsv", @Model.PageModel.ChooseFileText)
+        <div>
+            <input type="file" id="uploadCsv" name="uploadCsv"/>
+        </div>
+    </div>
+    <div>
+        <div><input type="submit" value="Upload"/>
+        </div>
+    </div>
+    <div>
+        <p>@Model.PageModel.IndividualContactCreationText <a href="#">@Model.PageModel.IndividualContactButtonText</a></p>
+    </div>
+}
+
+<div>
+    <div>
+        @Html.Raw(Model.PageModel.AddContactsHelpText)
+    </div>
+    <div>
+        <h3>@Model.PageModel.AddContactsNotesTitle</h3>
+        @Html.Raw(Model.PageModel.AddContactsNotesText)
+    </div>
+</div>
+

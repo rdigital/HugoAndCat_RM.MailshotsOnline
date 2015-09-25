@@ -110,6 +110,7 @@
     <Compile Include="PageModels\Dashboard.cs" />
     <Compile Include="PageModels\Home.cs" />
     <Compile Include="PageModels\Item.cs" />
+    <Compile Include="PageModels\ListCreate.cs" />
     <Compile Include="PageModels\ListDetail.cs" />
     <Compile Include="PageModels\Lists.cs" />
     <Compile Include="PageModels\Login.cs" />
@@ -127,6 +128,8 @@
     <Compile Include="PageModels\Profile\PersonalDetails.cs" />
     <Compile Include="PageModels\Register.cs" />
     <Compile Include="PageModels\ResetPassword.cs" />
+    <Compile Include="PageModels\Settings\DataMapping.cs" />
+    <Compile Include="PageModels\Settings\DataMappingFolder.cs" />
     <Compile Include="PageModels\Settings\Format.cs" />
     <Compile Include="PageModels\Settings\FormatFolder.cs" />
     <Compile Include="PageModels\Settings\Layout.cs" />
@@ -137,6 +140,8 @@
     <Compile Include="ViewModels\CampaignHubCheckoutViewModel.cs" />
     <Compile Include="ViewModels\CampaignStatusViewModel.cs" />
     <Compile Include="ViewModels\CaptureDetailsViewModel.cs" />
+    <Compile Include="ViewModels\ModifyListConfirmFieldsModel.cs" />
+    <Compile Include="ViewModels\ModifyListUploadFileModel.cs" />
     <Compile Include="ViewModels\ImageUploadViewModel.cs" />
     <Compile Include="ViewModels\MarketingPreferencesViewModel.cs" />
     <Compile Include="ViewModels\ErrorViewModel.cs" />

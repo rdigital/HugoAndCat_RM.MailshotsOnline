@@ -1,0 +1,189 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using HC.RM.Common.PCL.Helpers;
+using RM.MailshotsOnline.Data.DAL;
+using RM.MailshotsOnline.Data.Helpers;
+using RM.MailshotsOnline.Entities.DataModels;
+using RM.MailshotsOnline.PCL;
+using RM.MailshotsOnline.PCL.Models;
+using RM.MailshotsOnline.PCL.Services;
+
+namespace RM.MailshotsOnline.Data.Services
+{
+    public class DataService : IDataService
+    {
+
+        private readonly BlobStorageHelper _blobStorage =
+            new BlobStorageHelper(ConfigHelper.PrivateStorageConnectionString,
+                                  ConfigHelper.PrivateMediaBlobStorageContainer);
+        private ILogger _logger;
+        private readonly StorageContext _context;
+
+        public DataService(ILogger logger) : this(logger, new StorageContext())
+        { }
+
+        public DataService(ILogger logger, StorageContext context)
+        {
+            _logger = logger;
+            _context = context;
+        }
+
+        public IDistributionList GetDistributionListForUser(int userId, Guid distributionListId)
+        {
+            return GetDistributionListsForUser(userId).SingleOrDefault(d => d.DistributionListId == distributionListId);
+        }
+
+        public IEnumerable<IDistributionList> GetDistributionListsForUser(int userId)
+        {
+            return GetDistributionLists(d => d.UserId == userId).OrderBy(d=> d.Name);
+        }
+
+        public IEnumerable<IDistributionList> GetDistributionLists(Func<IDistributionList, bool> filter)
+        {
+            return _context.DistributionLists.Where(filter);
+        }
+
+        public IDistributionList SaveDistributionList(IDistributionList distributionList)
+        {
+            distributionList.UpdatedDate = DateTime.UtcNow;
+            if (distributionList.DistributionListId == Guid.Empty)
+            {
+                _context.DistributionLists.Add((DistributionList)distributionList);
+            }
+
+            _context.SaveChanges();
+
+            return distributionList;
+        }
+
+        public IDistributionList CreateDistributionList(IMember member, string listName, byte[] bytes, string contentType, Enums.DistributionListFileType fileType)
+        {
+            string listNameAsFileName = convertToFileName(listName, contentType, fileType);
+            var uploadedListName = $"{member.Id}/{listNameAsFileName}";
+
+            try
+            {
+                _blobStorage.StoreBytes(bytes, uploadedListName, contentType);
+            }
+            catch (Exception ex)
+            {
+                _logger.Exception("DataService", "CreateDistributionList", ex);
+
+                return null;
+            }
+
+            var newList = new DistributionList
+            {
+                UserId = member.Id,
+                BlobFinal = fileType == Enums.DistributionListFileType.Final ? listNameAsFileName : null,
+                BlobWorking = fileType == Enums.DistributionListFileType.Working ? listNameAsFileName : null,
+                BlobErrors = fileType == Enums.DistributionListFileType.Errors ? listNameAsFileName : null,
+                Name = listName
+            };
+
+            return SaveDistributionList(newList);
+        }
+
+        public IDistributionList UpdateDistributionList(IDistributionList distributionList, byte[] bytes, string contentType, Enums.DistributionListFileType fileType)
+        {
+            string listNameAsFileName = convertToFileName(distributionList.Name, contentType, fileType);
+            var uploadedListName = $"{distributionList.UserId}/{listNameAsFileName}";
+
+            if (!string.IsNullOrEmpty(distributionList.BlobFinal) &&
+                distributionList.BlobFinal.EndsWith(listNameAsFileName))
+            {
+                _logger.Info("DataService", "UpdateDistributionList",
+                             "Attempting to replace existing file {0} on list: {1}:{2}", listNameAsFileName,
+                             distributionList.UserId, distributionList.DistributionListId);
+            }
+            else
+            {
+                _logger.Info("DataService", "UpdateDistributionList", "Uploading new file {0} on list: {1}:{2}",
+                             listNameAsFileName, distributionList.UserId, distributionList.DistributionListId);
+            }
+
+            try
+            {
+                _blobStorage.StoreBytes(bytes, uploadedListName, contentType);
+
+                switch (fileType)
+                {
+                    case Enums.DistributionListFileType.Errors:
+                        distributionList.BlobErrors = listNameAsFileName;
+                        break;
+                    case Enums.DistributionListFileType.Working:
+                        distributionList.BlobWorking = listNameAsFileName;
+                        break;
+                    case Enums.DistributionListFileType.Final:
+                        distributionList.BlobFinal = listNameAsFileName;
+                        break;
+                }
+
+                if (fileType == Enums.DistributionListFileType.Final && (!string.IsNullOrEmpty(distributionList.BlobErrors) || !string.IsNullOrEmpty(distributionList.BlobWorking)))
+                {
+                    // Clean up any remaining Working/Errors files
+                    _logger.Info("DataService", "UpdateDistributionList",
+                                 "New final list has been uploaded, attempting to remove any old working files for list: {0}:{1}", distributionList.UserId,
+                                 distributionList.DistributionListId);
+
+                    if (!string.IsNullOrEmpty(distributionList.BlobErrors))
+                    {
+                        _blobStorage.DeleteBlob(distributionList.BlobErrors);
+
+                        _logger.Info("DataService", "UpdateDistributionList",
+                                     "Successfully removed Errors file {0} for list: {1}:{2}",
+                                     distributionList.BlobErrors, distributionList.UserId,
+                                     distributionList.DistributionListId);
+
+                        distributionList.BlobErrors = null;
+                    }
+
+                    if (!string.IsNullOrEmpty(distributionList.BlobWorking))
+                    {
+                        _blobStorage.DeleteBlob(distributionList.BlobWorking);
+                        _logger.Info("DataService", "UpdateDistributionList",
+                                     "Successfully removed Working file {0} for list: {1}:{2}",
+                                     distributionList.BlobWorking, distributionList.UserId,
+                                     distributionList.DistributionListId);
+
+                        distributionList.BlobWorking = null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Exception("DataService", "CreateDistributionList", ex);
+
+                return null;
+            }
+
+            return SaveDistributionList(distributionList);
+        }
+
+        public List<string> GetFirstTwoLinesOfWorkingFile(IDistributionList distributionList)
+        {
+            var uploadedListName = $"{distributionList.UserId}/{distributionList.BlobWorking}";
+
+            byte[] bytes = _blobStorage.FetchBytes(uploadedListName);
+
+            // Assume UTF8 for now...
+            // TODO: Check out other options here: http://stackoverflow.com/a/19464728/33051
+            string data = Encoding.UTF8.GetString(bytes);
+
+            var lines = data.Split(new [] {Environment.NewLine}, StringSplitOptions.None).Take(2);
+
+            return lines.ToList();
+        }
+
+        private static string convertToFileName(string listName, string contentType, Enums.DistributionListFileType fileType)
+        {
+            string fileName = Path.GetInvalidFileNameChars().Aggregate(listName, (current, c) => current.Replace(c, '_')).Replace(" ", "_");
+            string extension = contentType.Equals("text/xml") ? ".xml" : ".csv";
+
+            return $"{fileName}-{fileType}.{extension}";
+        }
+    }
+}

@@ -3060,6 +3060,7 @@
     <Compile Include="Controllers\ContentPageController.cs" />
     <Compile Include="Controllers\CreateCanvasController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\ListCreateController.cs" />
     <Compile Include="Controllers\ListDetailController.cs" />
     <Compile Include="Controllers\ListsController.cs" />
     <Compile Include="Controllers\MailshotEditorController.cs" />
@@ -3081,6 +3082,7 @@
     <Compile Include="Controllers\SurfaceControllers\BaseSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\CampaignSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\CaptureDetailsSurfaceController.cs" />
+    <Compile Include="Controllers\SurfaceControllers\ModifyListSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\LoginSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ModerationSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ProfileSurfaceController.cs" />
@@ -3491,6 +3493,10 @@
     <Content Include="uSync\DocumentType\Basepage\MyOrders\def.config" />
     <Content Include="uSync\Template\CaptureDetails\CaptureDetails.config" />
     <Content Include="uSync\Template\CaptureDetails\CaptureDetails.config.orig" />
+    <Content Include="Views\Lists\Lists.cshtml" />
+    <Content Include="Views\Lists\Create.cshtml" />
+    <Content Include="Views\ListCreate.cshtml" />
+    <Content Include="Views\Lists\Partials\ShowCreateListForm.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -3527,8 +3533,8 @@
   <ItemGroup>
     <Folder Include="uSync\Template\EditProfileBasePage\" />
     <Folder Include="Views\Dashboard\" />
+    <Folder Include="Views\ListCreate\" />
     <Folder Include="Views\ListDetail\" />
-    <Folder Include="Views\Lists\" />
     <Folder Include="Views\MailshotSettings\" />
     <Folder Include="Views\MyAccounts\" />
     <Folder Include="Views\MyImages\" />
@@ -3560,7 +3566,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>51354</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/</IISUrl>
+          <IISUrl>http://rm-local-msol.hugoandcat.co.uk/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

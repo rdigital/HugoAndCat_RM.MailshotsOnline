@@ -1,18 +1,18 @@
 ﻿using RM.MailshotsOnline.PCL.Models;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security.Cryptography;
 
 namespace RM.MailshotsOnline.Entities.DataModels
 {
     [Table("DistributionLists")]
     public class DistributionList : IDistributionList
     {
-        private ICollection<Contact> _contacts;
+        public DistributionList()
+        {
+            fillSalt();
+        }
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -22,28 +22,30 @@ namespace RM.MailshotsOnline.Entities.DataModels
 
         public int UserId { get; set; }
 
-        public DateTime CreatedDate
-        {
-            get { return CreatedUtc; }
-        }
+        public DateTime CreatedDate => DateTime.SpecifyKind(CreatedUtc, DateTimeKind.Utc);
 
         [Required, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime CreatedUtc { get; private set; }
 
-        public ICollection<Contact> Contacts
-        {
-            get { return _contacts; }
-            set { _contacts = value; }
-        }
+        public string BlobFinal { get; set; }
+
+        public string BlobWorking { get; set; }
+
+        public string BlobErrors { get; set; }
 
         public int RecordCount { get; set; }
 
-        #region Explicit Interface Implementations
-        ICollection<IContact> IDistributionList.Contacts
+        public DateTime UpdatedDate { get; set; }
+
+        public byte[] DataSalt { get; private set; }
+
+        private void fillSalt()
         {
-            get { return (ICollection<IContact>)_contacts; }
-            set { _contacts = (ICollection<Contact>)value; }
+            var rngCsp = new RNGCryptoServiceProvider();
+            var salt = new byte[16];
+            rngCsp.GetBytes(salt);
+
+            DataSalt = salt;
         }
-        #endregion
     }
 }

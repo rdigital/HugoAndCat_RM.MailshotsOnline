@@ -74,5 +74,24 @@ namespace RM.MailshotsOnline.PCL
             Cancelled = 5,
             Refunded = 6
         }
+
+        /// <summary>
+        /// The type of file being stored against a distribution list
+        /// </summary>
+        public enum DistributionListFileType
+        {
+            /// <summary>
+            /// A "final" distribution list, should be an XML document.
+            /// </summary>
+            Final = 0,
+            /// <summary>
+            /// An uploaded, unprocessed file, if it's a CSV it's probably not been processed.
+            /// </summary>
+            Working,
+            /// <summary>
+            /// A set of invalid records that could not be imported into a final list. 
+            /// </summary>
+            Errors,
+        }
     }
 }

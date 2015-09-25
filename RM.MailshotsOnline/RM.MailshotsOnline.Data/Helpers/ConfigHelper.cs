@@ -181,5 +181,32 @@ namespace RM.MailshotsOnline.Data.Helpers
         {
             return CloudConfigurationManager.GetSetting(key) ?? ConfigurationManager.AppSettings[key];
         }
+
+        /// <summary>
+        /// The Blob Storage container name for the Private Media container
+        /// </summary>
+        internal static string PrivateDistributionListBlobStorageContainer
+        {
+            get { return GetConfigValue("PrivateDistributionListBlobStorageContainer", "privatelists"); }
+        }
+
+        /// <summary>
+        /// The node id of the DataMapping folder in Umbraco
+        /// </summary>
+        public static int DataMappingFolderId
+        {
+            get
+            {
+                if (_dataMappingFolderId == Int32.MinValue)
+                {
+                    _dataMappingFolderId = GetConfigValue("DataMappingFolderId", 1432);
+                }
+
+                return _dataMappingFolderId;
+            }
+        }
+
+        // Don't need to get this every time.
+        private static int _dataMappingFolderId = Int32.MinValue;
     }
 }
