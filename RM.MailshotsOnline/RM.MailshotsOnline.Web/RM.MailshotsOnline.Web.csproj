@@ -3092,6 +3092,7 @@
     <Compile Include="Controllers\SurfaceControllers\CaptureDetailsSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\LoginSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ModerationSurfaceController.cs" />
+    <Compile Include="Controllers\SurfaceControllers\OrderDetailSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ProfileSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\RegisterSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ResetPasswordSurfaceController.cs" />
@@ -3502,6 +3503,7 @@
     <Content Include="uSync\Template\CaptureDetails\CaptureDetails.config" />
     <Content Include="uSync\Template\CaptureDetails\CaptureDetails.config.orig" />
     <Content Include="Views\OrderDetails.cshtml" />
+    <Content Include="Views\Orders\Partials\CancelButton.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

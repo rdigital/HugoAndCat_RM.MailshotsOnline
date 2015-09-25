@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="Attributes\CompareCaseInsensitiveAttribute.cs" />
     <Compile Include="Attributes\RecaptchaAttribute.cs" />
+    <Compile Include="DataModels\Address.cs" />
     <Compile Include="DataModels\Campaign.cs" />
     <Compile Include="DataModels\CampaignDistributionList.cs" />
     <Compile Include="DataModels\CmsImage.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CampaignHubCheckoutViewModel.cs" />
     <Compile Include="ViewModels\CampaignStatusViewModel.cs" />
+    <Compile Include="ViewModels\CancelOrderViewModel.cs" />
     <Compile Include="ViewModels\CaptureDetailsViewModel.cs" />
     <Compile Include="ViewModels\ImageUploadViewModel.cs" />
     <Compile Include="ViewModels\MarketingPreferencesViewModel.cs" />

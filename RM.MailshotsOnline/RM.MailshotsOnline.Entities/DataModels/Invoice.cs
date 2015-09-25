@@ -27,6 +27,8 @@ namespace RM.MailshotsOnline.Entities.DataModels
 
         private decimal _totalTax;
 
+        private Address _billingAddress;
+
         private ICollection<InvoiceLineItem> _lineItems;
 
         /// <summary>
@@ -263,6 +265,12 @@ namespace RM.MailshotsOnline.Entities.DataModels
             }
         }
 
+        public Address BillingAddress
+        {
+            get { return _billingAddress; }
+            set { _billingAddress = value; }
+        }
+
         #region Explicit interface implementation
 
         ICampaign IInvoice.Campaign
@@ -285,6 +293,12 @@ namespace RM.MailshotsOnline.Entities.DataModels
             }
 
             set { _lineItems = value.Cast<InvoiceLineItem>().ToList(); }
+        }
+
+        IAddress IInvoice.BillingAddress
+        {
+            get { return (IAddress)_billingAddress; }
+            set { _billingAddress = (Address)value; }
         }
 
         #endregion

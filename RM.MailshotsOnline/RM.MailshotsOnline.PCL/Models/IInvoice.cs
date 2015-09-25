@@ -71,5 +71,10 @@ namespace RM.MailshotsOnline.PCL.Models
         /// The line items for the invoice
         /// </summary>
         ICollection<IInvoiceLineItem> LineItems { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Billing Address
+        /// </summary>
+        IAddress BillingAddress { get; set; }
     }
 }

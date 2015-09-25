@@ -1,0 +1,15 @@
+﻿@model RM.MailshotsOnline.Entities.ViewModels.CancelOrderViewModel
+@{
+    Layout = null;
+}
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <span>@ViewBag.ErrorMessage</span>
+}
+
+@using (Html.BeginUmbracoForm("CancelOrder", "OrderDetailSurface"))
+{
+    @Html.HiddenFor(m => m.CampaignId)
+    <button type="submit">Cancel</button>
+}

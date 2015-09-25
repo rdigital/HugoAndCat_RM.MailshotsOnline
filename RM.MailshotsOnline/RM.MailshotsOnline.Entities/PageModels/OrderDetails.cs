@@ -17,6 +17,30 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         public MyOrders MyOrdersPage { get; set; }
 
+        public string PrintAndDeliveryHeading { get; set; }
+
+        public string ShouldArriveByText { get; set; }
+
+        public string ServiceFeesHeading { get; set; }
+
+        public string MailshotsOnlineServiceFeeHeading { get; set; }
+
+        public string DataSearchFeeHeading { get; set; }
+
+        public string PostageLabel { get; set; }
+
+        public string TaxHeading { get; set; }
+
+        public string VatLabel { get; set; }
+
+        public string TotalCostLabel { get; set; }
+
+        public string OurDataHeading { get; set; }
+
+        public string YourDataHeading { get; set; }
+
+        public string RecipientsHeading { get; set; }
+
         public bool DisplayCampaignErrorMessage { get; set; }
 
         public ICampaign Campaign { get; set; }

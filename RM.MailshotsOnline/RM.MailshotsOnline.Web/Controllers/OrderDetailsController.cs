@@ -17,12 +17,14 @@ namespace RM.MailshotsOnline.Web.Controllers
     {
         private IMembershipService _membershipService;
         private ICampaignService _campaignService;
+        private ISettingsService _settingsService;
 
-        public OrderDetailsController(IUmbracoService umbracoService, ILogger logger, IMembershipService membershipService, ICampaignService campaignService)
+        public OrderDetailsController(IUmbracoService umbracoService, ILogger logger, IMembershipService membershipService, ICampaignService campaignService, ISettingsService settingsService)
             : base(umbracoService, logger)
         {
             _membershipService = membershipService;
             _campaignService = campaignService;
+            _settingsService = settingsService;
         }
 
         // GET: OrderDetails
@@ -56,9 +58,13 @@ namespace RM.MailshotsOnline.Web.Controllers
 
             pageModel.Campaign = campaign;
 
+            // Get the My Orders page (should be the parent page)
             var parentPageId = CurrentPage.Parent.Id;
             var myOrdersPage = _umbracoService.CreateType<MyOrders>(_umbracoService.ContentService.GetPublishedVersion(parentPageId), false, false);
             pageModel.MyOrdersPage = myOrdersPage;
+
+            // Get the settings
+            pageModel.MyOrdersPage.Settings = _settingsService.GetCurrentSettings();
 
             return View("~/Views/OrderDetails.cshtml", pageModel);
         }

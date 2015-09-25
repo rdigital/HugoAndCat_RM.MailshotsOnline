@@ -178,6 +178,9 @@
             case -1:
                 status = "Exception";
                 break;
+            case 7:
+                status = "Cancelled";
+                break;
         }
         return status;
     }

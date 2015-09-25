@@ -73,7 +73,8 @@ namespace RM.MailshotsOnline.Data.Services
                 PCL.Enums.CampaignStatus.Fulfilled,
                 PCL.Enums.CampaignStatus.PendingModeration,
                 PCL.Enums.CampaignStatus.ReadyForFulfilment,
-                PCL.Enums.CampaignStatus.SentForFulfilment
+                PCL.Enums.CampaignStatus.SentForFulfilment,
+                PCL.Enums.CampaignStatus.Cancelled
             };
 
             return _context.Campaigns

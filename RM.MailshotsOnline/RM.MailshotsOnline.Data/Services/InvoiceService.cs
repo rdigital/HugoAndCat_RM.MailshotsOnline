@@ -33,8 +33,9 @@ namespace RM.MailshotsOnline.Data.Services
         /// Creates a new invoice for a given campaign
         /// </summary>
         /// <param name="campaign">The campaign</param>
+        /// <param name="member">The member who owns the campaign</param>
         /// <returns>Invoice object</returns>
-        public IInvoice CreateInvoiceForCampaign(ICampaign campaign)
+        public IInvoice CreateInvoiceForCampaign(ICampaign campaign, IMember member)
         {
             var existingDraftInvoice = _context.Invoices.FirstOrDefault(i => i.CampaignId == campaign.CampaignId && i.Status == PCL.Enums.InvoiceStatus.Draft);
             List<PCL.Enums.InvoiceStatus> acceptableStatuses = new List<PCL.Enums.InvoiceStatus>()
@@ -82,6 +83,19 @@ namespace RM.MailshotsOnline.Data.Services
             invoice.CampaignId = campaign.CampaignId;
             invoice.UpdatedDate = DateTime.UtcNow;
             invoice.Status = PCL.Enums.InvoiceStatus.Draft;
+            invoice.BillingAddress = new Address()
+            {
+                FirstName = member.FirstName,
+                LastName = member.LastName,
+                FlatNumber = member.FlatNumber,
+                BuildingNumber = member.BuildingNumber,
+                BuildingName = member.BuildingName,
+                Address1 = member.Address1,
+                Address2 = member.Address2,
+                City = member.City,
+                Country = member.Country,
+                Postcode = member.Postcode
+            };
 
             var savedInvoice = Save(invoice);
 
