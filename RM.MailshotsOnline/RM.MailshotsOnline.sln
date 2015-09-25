@@ -53,6 +53,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HC.RM.Common.Images", "HC.R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HC.RM.Common.PayPal", "HC.RM.Common.PayPal\HC.RM.Common.PayPal.csproj", "{5CECFBD1-8591-4D0A-9032-2DA879DBEA75}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RM.MailshotsOnline.WorkerRole", "RM.MailshotsOnline.WorkerRole\RM.MailshotsOnline.WorkerRole.csproj", "{6CA7AD73-2F14-427E-9A49-CECA89C9BB5F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -114,6 +116,12 @@ Global
 		{5CECFBD1-8591-4D0A-9032-2DA879DBEA75}.QA|Any CPU.Build.0 = Release|Any CPU
 		{5CECFBD1-8591-4D0A-9032-2DA879DBEA75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CECFBD1-8591-4D0A-9032-2DA879DBEA75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CA7AD73-2F14-427E-9A49-CECA89C9BB5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CA7AD73-2F14-427E-9A49-CECA89C9BB5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CA7AD73-2F14-427E-9A49-CECA89C9BB5F}.QA|Any CPU.ActiveCfg = Release|Any CPU
+		{6CA7AD73-2F14-427E-9A49-CECA89C9BB5F}.QA|Any CPU.Build.0 = Release|Any CPU
+		{6CA7AD73-2F14-427E-9A49-CECA89C9BB5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CA7AD73-2F14-427E-9A49-CECA89C9BB5F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

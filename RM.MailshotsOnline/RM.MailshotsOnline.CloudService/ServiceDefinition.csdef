@@ -28,13 +28,13 @@
       <Setting name="HostedDomain" />
       <Setting name="HostedScheme" />
       <Setting name="HostedPort" />
-      <Setting name="PublicMediaLibraryId"/>
-      <Setting name="PrivateMediaLibraryId"/>
-      <Setting name="RoyalMailApprovalEmailAddress"/>
+      <Setting name="PublicMediaLibraryId" />
+      <Setting name="PrivateMediaLibraryId" />
+      <Setting name="RoyalMailApprovalEmailAddress" />
     </ConfigurationSettings>
     <Endpoints>
-      <InputEndpoint name="HttpIn" protocol="http" port="80" />
-      <InputEndpoint name="HttpsIn" protocol="https" port="443" certificate="HugoCatCoUkWildcard" />
+      <InputEndpoint name="HttpIn" protocol="http" port="81" />
+      <InputEndpoint name="HttpsIn" protocol="https" port="444" certificate="HugoCatCoUkWildcard" />
     </Endpoints>
     <Certificates>
       <Certificate name="HugoCatCoUkWildcard" storeLocation="LocalMachine" storeName="My" />
@@ -56,4 +56,12 @@
     <LocalResources>
     </LocalResources>
   </WebRole>
+  <WorkerRole name="RM.MailshotsOnline.WorkerRole" vmsize="Small">
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+    </ConfigurationSettings>
+    <Imports>
+      <Import moduleName="RemoteAccess" />
+    </Imports>
+  </WorkerRole>
 </ServiceDefinition>

@@ -15,6 +15,9 @@ using System.Reflection;
 using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Mvc;
+using HC.RM.Common.Azure.Persistence;
+using HC.RM.Common.Network;
+using HC.RM.Common.PCL.Persistence;
 using RM.MailshotsOnline.Data.Services.Reporting;
 using RM.MailshotsOnline.PCL.Models.Reporting;
 using RM.MailshotsOnline.PCL.Services.Reporting;
@@ -52,7 +55,9 @@ namespace RM.MailshotsOnline.Web.Installers
 				Component.For<ILogger>().ImplementedBy<Logger>().LifestyleTransient(),
                 Component.For<IReportingService>().ImplementedBy<ReportingService>().LifestyleTransient(),
                 Component.For<IMembershipReportGenerator>().ImplementedBy<MembershipReportGenerator>().LifestyleTransient(),
-                Component.For<ITransactionsReportGenerator>().ImplementedBy<TransactionsReportGenerator>().LifestyleTransient());
+                Component.For<ITransactionsReportGenerator>().ImplementedBy<TransactionsReportGenerator>().LifestyleTransient(),
+                Component.For<IBlobService>().ImplementedBy<BlobService>().LifestyleSingleton(),
+                Component.For<IFtpService>().ImplementedBy<FtpService>().LifestyleTransient());
         }
 
         static public string AssemblyDirectory
