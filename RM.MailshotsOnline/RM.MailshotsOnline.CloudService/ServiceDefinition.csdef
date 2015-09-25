@@ -5,7 +5,6 @@
       <Site name="Web">
         <Bindings>
           <Binding name="HttpIn" endpointName="HttpIn" />
-          <Binding name="HttpsIn" endpointName="HttpsIn" />
         </Bindings>
       </Site>
     </Sites>
@@ -31,10 +30,16 @@
       <Setting name="PublicMediaLibraryId" />
       <Setting name="PrivateMediaLibraryId" />
       <Setting name="RoyalMailApprovalEmailAddress" />
+      <Setting name="ReportsServiceBusConnectionString" />
+      <Setting name="ReportsServiceQueueName" />
+      <Setting name="ReportStorageContainer" />
+      <Setting name="ReportSFTPPrivateKeyLocation" />
+      <Setting name="ReportSFTPUsername" />
+      <Setting name="ReportSFTPHost" />
     </ConfigurationSettings>
     <Endpoints>
       <InputEndpoint name="HttpIn" protocol="http" port="81" />
-      <InputEndpoint name="HttpsIn" protocol="https" port="444" certificate="HugoCatCoUkWildcard" />
+      <InputEndpoint name="HttpsIn" protocol="https" port="444" />
     </Endpoints>
     <Certificates>
       <Certificate name="HugoCatCoUkWildcard" storeLocation="LocalMachine" storeName="My" />

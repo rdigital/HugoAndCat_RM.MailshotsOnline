@@ -20,9 +20,9 @@ namespace RM.MailshotsOnline.WorkerRole
 {
     public class WorkerRole : ThreadedRoleEntryPoint
     {
-        private static readonly string ReportQueueName = CloudConfigurationManager.GetSetting("ReportsQueue");
-        private static readonly string StorageConnectionString =
-            CloudConfigurationManager.GetSetting("StorageConnectionString");
+        private static readonly string ReportQueueName = CloudConfigurationManager.GetSetting("ReportsServiceQueueName");
+        private static readonly string ServiceBusConnectionString =
+            CloudConfigurationManager.GetSetting("ReportsServiceBusConnectionString");
 
         private const string WorkerRoleName = "MailshotsOnline.WorkerRole";
 
@@ -41,7 +41,7 @@ namespace RM.MailshotsOnline.WorkerRole
 
             var workers = new List<WorkerEntryPoint>
             {
-                new ReportGeneratorWorker(Logger, _reportingService, StorageConnectionString, ReportQueueName,
+                new ReportGeneratorWorker(Logger, _reportingService, ServiceBusConnectionString, ReportQueueName,
                     _reportStorageService, _ftpService)
             };
 
@@ -66,7 +66,7 @@ namespace RM.MailshotsOnline.WorkerRole
             var telemetry = new TelemetryClient();
             Logger = new Logger(telemetry);
 
-            var blobStorage = new BlobStorage(StorageConnectionString);
+            var blobStorage = new BlobStorage(ServiceBusConnectionString);
             _reportStorageService = new BlobService(blobStorage, CloudConfigurationManager.GetSetting("ReportStorageContainer"));
 
             var assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty;

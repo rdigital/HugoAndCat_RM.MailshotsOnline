@@ -29,6 +29,12 @@
       <Setting name="PublicMediaLibraryId" value="1217" />
       <Setting name="PrivateMediaLibraryId" value="1218" />
       <Setting name="RoyalMailApprovalEmailAddress" value="ext-mradford@hugoandcat.com" />
+      <Setting name="ReportsServiceBusConnectionString" value="Endpoint=sb://mrhcrmmsol.servicebus.windows.net/;SharedAccessKeyName=workerrole;SharedAccessKey=q4Bo0WCaoU0EUNNQeGoGWP6DIIK0cMpFdzF2KHLjBGU=" />
+      <Setting name="ReportsServiceQueueName" value="reportsqueue" />
+      <Setting name="ReportStorageContainer" value="reports" />
+      <Setting name="ReportSFTPPrivateKeyLocation" value="" />
+      <Setting name="ReportSFTPUsername" value="" />
+      <Setting name="ReportSFTPHost" value="" />
     </ConfigurationSettings>
     <Certificates>
       <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="A8758600C049A567CCAFF3FDCE236C3C81E6CD06" thumbprintAlgorithm="sha1" />
