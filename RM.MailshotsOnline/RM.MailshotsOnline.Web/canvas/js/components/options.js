@@ -11,6 +11,7 @@ define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/form
             this.saving = stateViewModel.saving;
             this.showThemePicker = stateViewModel.showThemePicker;
             this.showTemplatePicker = stateViewModel.showTemplatePicker;
+            this.toggleAuth = stateViewModel.toggleAuth;
 
             // computeds
             this.hidden = this.getHiddenComputed();

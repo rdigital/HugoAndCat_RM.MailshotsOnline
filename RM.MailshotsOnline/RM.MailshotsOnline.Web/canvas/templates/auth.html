@@ -1,20 +1,111 @@
-<div class="auth-modal-bg">
+<div class="auth-modal-bg" data-bind="click: toggleAuth">
+</div>
+<div class="auth-modal-container">
+	<!-- ko if: viewing() == 'register' -->
+	<div class="auth-modal auth-modal_register" data-bind="clickBubble: false;">
+		<div class="auth-modal-header">
+			Register with Mail Shots Online
+			<span class="icon-close close" data-bind="click: toggleAuth"></span>
+		</div>
+		<div class="auth-modal-title">
+			<h1><span>First we need a few details</span></h1>
+		</div>
+		<div class="auth-modal-body auth-modal-body_smallpad">
+			<div class="auth-modal-info">*indicates a required field</div>
+			<form data-bind="submit: function() {showRegisterTwo(); return false;}">
+				<div class="auth-modal-row">
+					<label>*Your Title:</label>
+					<dropdown-component params="{options: titleOptions, selected: title, anchorClass: 'auth-dropdown', autohide: true}"></dropdown-component>
+				</div>
+				<div class="auth-modal-row">
+					<label for="firstname">*First Name:</label>
+					<input type="text" id="firstname" name="firstname"/>
+				</div>
+				<div class="auth-modal-row">
+					<label for="username">*Your email address:</label>
+					<input type="email" id="username" name="username"/>
+				</div>
+				<div class="auth-modal-row">
+					<label for="password">*Enter Password:</label>
+					<input type="password" id="password" name="password"/>
+				</div>
+				<button type="submit" style="opacity: 0; position: absolute; top: -4000px;">Submit</button>
+			</form>
+		</div>
+		<div class="auth-modal-footer">
+			<div class="auth-modal-step">Step 1 / 2</div>
+			<div class="auth-modal-buttons">
+				<span class="button" data-bind="click: showRegisterTwo">Next</span>
+			</div>
+			<div class="auth-modal-info auth-modal-info_link">
+				Already have an account? <a data-bind="click: showLogin">Login</a>
+			</div>
+		</div>
+	</div>
+	<!-- /ko -->
+
+	<!-- ko if: viewing() == 'register2' -->
+	<div class="auth-modal auth-modal_register" data-bind="template: {afterRender: prepCaptcha}">
+		<div class="auth-modal-header">
+			Register with Mail Shots Online
+			<span class="icon-close close" data-bind="click: toggleAuth"></span>
+		</div>
+		<div class="auth-modal-title">
+			<h2>We would like to keep you informed</h2>
+			<div>You can change your communication preferences at any point in your account area.</div>
+		</div>
+		<div class="auth-modal-body auth-modal-body_sidepad">
+			<div class="auth-modal-row auth-modal-row_floatcontent">
+				<input type="checkbox" id="comms1" class="auth-modal-checkbox"/>
+				<label for="comms1" class="auth-modal-checkboxlabel">
+				I agree to be contacted about Royal Mail products, services, special offers and promotions. This could include post, email, telephone and SMS.
+				</label>
+			</div>
+			<div class="auth-modal-row auth-modal-row_floatcontent">
+				<input type="checkbox" id="comms2" class="auth-modal-checkbox"/>
+				<label for="comms2" class="auth-modal-checkboxlabel">
+				I agree to be contacted about products, services, special offers and promotions by carefully selected third parties. This could include post, email, telephone and SMS.
+				</label>
+			</div>
+			<div>
+                <div class="g-recaptcha" data-bind="element: captchaEl"></div>
+            </div>
+		</div>
+		<div class="auth-modal-footer">
+			<div class="auth-modal-info auth-modal-info_link">
+			By clicking Register, I agree to Royal Mail's <a>Terms & Conditions</a>
+			</div>
+			<div class="auth-modal-left auth-modal-info auth-modal-info_link">
+				<a data-bind="click: showRegister">Back</a>
+			</div>
+			<div class="auth-modal-buttons">
+				<span class="button button_green">Register</span>
+			</div>
+			<div class="auth-modal-info auth-modal-info_link">
+				Already have an account? <a data-bind="click: showLogin">Login</a>
+			</div>
+		</div>
+	</div>
+	<!-- /ko -->
+
+	<!-- ko if: viewing() == 'login' -->
 	<div class="auth-modal">
 		<div class="auth-modal-header">
 			Log in to Mail Shots Online
+			<span class="icon-close close" data-bind="click: toggleAuth"></span>
 		</div>
 		<div class="auth-modal-body">
 			<div class="auth-modal-info">*indicates a required field</div>
 			<div class="auth-modal-row">
 				<label for="username">*Your email address:</label>
-				<input type="email" name="username"/>
+				<input type="email" id="username" name="username"/>
 			</div>
 			<div class="auth-modal-row">
 				<label for="password">*Enter Password:</label>
-				<input type="password" name="password"/>
+				<input type="password" id="password" name="password"/>
 			</div>
 			<div class="auth-modal-info auth-modal-info_link">
-				<a>Forgot password?</a>
+				<a data-bind="click: showForgot">Forgot password?</a>
 			</div>
 		</div>
 		<div class="auth-modal-footer">
@@ -22,8 +113,40 @@
 				<span class="button">Next</span>
 			</div>
 			<div class="auth-modal-info auth-modal-info_link">
-				Don't have an account? <a>Register</a>
+				Don't have an account? <a data-bind="click: showRegister">Register</a>
 			</div>
 		</div>
 	</div>
+	<!-- /ko -->
+
+	<!-- ko if: viewing() == 'forgot' -->
+	<div class="auth-modal">
+		<div class="auth-modal-header">
+			Log in to Mail Shots Online
+			<span class="icon-close close" data-bind="click: toggleAuth"></span>
+		</div>
+		<div class="auth-modal-title">
+			<h2>Forgotten your password</h2>
+			<div>If you can't remember your password, please enter your email address below and we'll send you a password reminder.</div>
+		</div>
+		<div class="auth-modal-body">
+			<div class="auth-modal-info">*indicates a required field</div>
+			<div class="auth-modal-row">
+				<label for="username">*Your email address:</label>
+				<input type="email" id="username" name="username"/>
+			</div>
+		</div>
+		<div class="auth-modal-footer">
+			<div class="auth-modal-left auth-modal-info auth-modal-info_link">
+				<a data-bind="click: showLogin">Back</a>
+			</div>
+			<div class="auth-modal-buttons">
+				<span class="button">Continue</span>
+			</div>
+			<div class="auth-modal-info auth-modal-info_link">
+				Don't have an account? <a data-bind="click: showRegister">Register</a>
+			</div>
+		</div>
+	</div>
+	<!-- /ko -->
 </div>

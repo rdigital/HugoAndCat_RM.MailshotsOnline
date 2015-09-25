@@ -26,6 +26,10 @@ define(['knockout'],
             this.ready = ko.observable(false);
             this.saving = ko.observable(false);
             this.uploadingImages = ko.observableArray();
+
+            // bound methods
+            this.toggleAuth = this.toggleAuth.bind(this);
+
             // set to true to make images rescale to default when the components render
             this.repositionImages = false;
             // testing
@@ -99,7 +103,7 @@ define(['knockout'],
         };
 
         stateViewModel.prototype.toggleAuth = function toggleAuth() {
-            this.toggleAuth(!this.toggleAuth());
+            this.showAuth(!this.showAuth());
         }
 
         stateViewModel.prototype.togglePreview = function togglePreview() {

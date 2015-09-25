@@ -13,8 +13,13 @@
 	z-index: 999;
 }
 
+.auth-modal-container {
+	animation: fadein .25s;
+}
+
 .auth-modal {
 	@include borderradius(3px);
+	z-index: 1000;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -25,6 +30,9 @@
 	background: $lightest-grey;
 	overflow: hidden;
 	font-family: "Chevin Medium", Arial;
+	&.auth-modal_register {
+		margin-top: -290px;
+	}
 	.auth-modal-header {
 		width: 100%;
 		padding: 15px 30px;
@@ -34,14 +42,60 @@
 		line-height: 50px;
     	font-size: 20px;
     	text-align: left;
+    	.close {
+    		float: right;
+			font-size: 28px;
+			line-height: 50px;
+			cursor: pointer;
+    	}
+	}
+	.auth-modal-title {
+		color: $dark-grey;
+		padding: 0 30px;
+		h1, h2 {
+		    font-family: "Chevin Light", Arial;
+		    font-size: 27px;
+		    font-weight: lighter;
+		}
+		h1 {
+			margin-top: 40px;
+			margin-bottom: 10px;
+			line-height: 1px;
+		    border-bottom: 1px solid $grey; 
+		    width: 100%;
+		    span {
+		    	padding: 0 20px;
+		    	background: $lightest-grey;
+		    }
+		}
+		h2 {
+			text-align: left;
+		}
+		div {
+			text-align: left;
+		}
+
 	}
 	.auth-modal-body {
 		padding: 30px 67px;
 		color: $dark-grey;
+		&.auth-modal-body_smallpad {
+			padding-bottom: 0;
+		}
+		&.auth-modal-body_sidepad {
+			padding: 10px 20px;
+		}
 	}
 	.auth-modal-footer {
+		position: relative;
 		padding: 10px 20px 20px 20px;
 		color: $dark-grey;
+		.auth-modal-step {
+			position: absolute;
+		    left: 20px;
+		    bottom: 30px;
+		    font-size: 13px;
+		}
 		.auth-modal-info {
 			font-size: 14px;
 		}
@@ -68,6 +122,9 @@
 	}
 	.auth-modal-row {
 		padding: 10px;
+		&.auth-modal-row_floatcontent {
+			overflow: hidden;
+		}
 		label {
 			width: 150px;
 			margin-right: 10px;
@@ -79,5 +136,60 @@
 			width: 250px;
 			border: 1px solid $grey;
 		}
+		.auth-modal-checkbox {
+			width: 20px;
+			float: left;
+		}
+		.auth-modal-checkboxlabel {
+			float: left;
+		    width: 480px;
+		    text-align: left;
+		    padding-left: 15px;
+		    font-size: 15px;
+		}
+	}
+	.auth-modal-left {
+		   position: absolute;
+	    left: 20px;
+	    bottom: 20px;
+	}
+	.dropdown {
+		margin-right: 150px;
+		@include nohighlight();
+		.auth-dropdown {
+			background-color: #fff;
+		    padding: 14px;
+		    width: 130px;
+		    border: 1px solid $grey;
+		    height: 45px;
+		    display: inline-block;
+		    cursor: pointer;
+		    text-align: left;
+    		line-height: 17px;
+    		position: relative;
+    		&:after {
+    			font-family: 'icomoon';
+    		    content: "\e610";
+				position: absolute;
+				right: 13px;
+				font-size: 20px;
+				color: $dark-grey;
+			}
+		}
+		.dropdown-options {
+			text-align: left;
+		}
+		&:after {
+			right: 45px;
+		}
+		&.dropdown_active .auth-dropdown:after {
+			-ms-transform: rotate(180deg);
+			transform: rotate(180deg);
+		}
+	}
+	.g-recaptcha {
+		height: 78px;
+		padding-left: 10px;
+		padding-top: 10px;
 	}
 }

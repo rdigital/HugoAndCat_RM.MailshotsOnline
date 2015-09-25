@@ -133,7 +133,7 @@ div, span, a {
 		background: rgba(255, 255, 255, 0.1);
 	}
 	&:hover:after {
-		content: "\e603";
+		content: "\e602";
 		font-family: 'icomoon';
 		position: absolute;
 		top: 0;
@@ -334,4 +334,7 @@ canvas {
 	padding: 15px 25px;
 	background-color: $blue;
 	color: #fff;
+	&.button_green {
+		background-color: $green;
+	}
 }
