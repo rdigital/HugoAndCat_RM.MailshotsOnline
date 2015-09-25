@@ -3,7 +3,30 @@
     Layout = "Master.cshtml";
 }
 
-<div class="content">
-    <h1>@Model.Name</h1>
-    <h2>Empty lists page</h2>
+<div class="lists">
+	<div class="title-bar">
+		<div class="constrain">
+			<a href="" class="back">Back to campaign</a>
+			<h1>Add data to your campaign</h1>
+		</div>
+	</div>
+
+	<div class="constrain">
+		<section class="lists__my-lists">
+			<h4 class="strong">My lists (42)</h4>
+			<div class="content-box">
+				<h5>You don't have any customer lists yet</h5>
+				<button class="btn btn--blue">Create a new list</button>
+			</div>
+		</section>
+	    
+	    <section class="lists__rent-list">
+	    	<h4 class="strong">Rented List</h4>
+	    	<div class="content-box">
+	    		<h6>Looking for new customers?</h6>
+	    		<p>We have a huge, up-to-date database of UK addresses and an easy-to-use tool to find them. And at only 5p per record - it's cost effective too.</p>
+	    		<button class="btn btn--blue">Find new customers</button>
+	    	</div>
+	    </section>
+	</div>
 </div>

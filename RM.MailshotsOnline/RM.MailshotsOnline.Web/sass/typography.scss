@@ -10,15 +10,23 @@ body {
 	line-height: 1.2;
 }
 
-h1, h2, h3, h4 {
-	font-family: $ChevinBold;
+h1, h2, h3 {
+	font-family: $ChevinLight;
 	font-weight: normal;
 	margin-bottom: 20px;
+
+	&.strong {
+		font-family: $ChevinBold;
+	}
 }
 
-h5, h6 {
-	font-family: $DINRegular;
+h4, h5, h6 {
+	font-family: $ChevinMedium;
 	margin-bottom: 10px;
+
+	&.strong {
+		font-family: $ChevinBold;
+	}
 }
 
 a {
@@ -37,8 +45,7 @@ p {
 	}
 }
 
-strong,
-.strong {
+p.strong {
 	font-family: $DINBold;
 	font-weight: normal;
 }

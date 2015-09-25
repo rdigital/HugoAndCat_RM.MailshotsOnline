@@ -8,13 +8,13 @@ body {
      background-color: #EEE;
 }
 
-.wrapper {
+/* .wrapper {
       margin-left: auto; 
       margin-right: auto;
       width: 1280px;
       background-color: #FFF;
       padding-bottom: 20px;
-}
+} */
 
 div.home,
 div.content {
@@ -50,11 +50,11 @@ header nav.main-nav .header-navigation a {
 }
 
 
-header nav.main-nav {
+/* header nav.main-nav {
     border: 1px solid black;
     background-color: #dc3232;
     color: #eee;
-}
+} */
 
 header nav.main-nav a {
    color: #eee;

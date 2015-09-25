@@ -7,13 +7,11 @@ $RM-green: #62a509;
 $RM-green-hover: #7ed609;
 $RM-blue: #0892cb;
 $RM-blue-hover: #07b7ff;
-$text-grey: #717579;
+$text-grey: #5f6267;
 $bg-grey: #f4f4f3;
 $lightest-grey: #f7f7f7;
+$shadow-grey: #dcdcdb;
 $header-link: #f9b9b9;
-$footer-grey: #2a2a2d;
-$footer-link: #9e9e9e;
-$footer-copy: #c1c1c1;
 $light-grey: #e1e1e1;
 $mid-grey: #53535a;
 $form-field: #c4c4c4;
@@ -34,10 +32,11 @@ $expandable-transition: height 0.3s linear;
 
 // dimensions
 
-$constrain-width: 1336px;
+$constrain-width: 980px;
+$lrg-constrain-width: 1266px;
 $content-width: 1004px;
 $outer-container-padding: 20px;
-$lrg-outer-padding: 85px;
+$lrg-outer-padding: 50px;
 $footer-height: 100px;
 $bottom-padding: 60px;
 
