@@ -177,6 +177,11 @@ namespace RM.MailshotsOnline.Entities.MemberModels
             }
         }
 
+        /// <summary>
+        /// Last updated date
+        /// </summary>
+        public DateTime Updated { get; set; }
+
         #region Explicit interface implementation
 
         /// <summary>

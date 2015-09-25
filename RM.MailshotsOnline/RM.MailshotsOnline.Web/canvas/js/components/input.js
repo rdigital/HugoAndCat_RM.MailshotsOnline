@@ -163,7 +163,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
                 this.setStyle('font-size', font_sizes[index+1]);
                 return true;
             }
-            console.log('no more sizes');
+            //console.log('no more sizes');
             return false;
         };
 
@@ -179,7 +179,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
                 this.setStyle('font-size', font_sizes[index-1]);
                 return this.scrollVisible();
             }
-            console.log('no more sizes');
+            //console.log('no more sizes');
             return false;
         };
 
@@ -229,7 +229,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
                 this.element().css('font-size', font_sizes[index-1]);
                 return this.scrollVisible();
             }
-            console.log('no more sizes');
+            //console.log('no more sizes');
             return false;
         };
 

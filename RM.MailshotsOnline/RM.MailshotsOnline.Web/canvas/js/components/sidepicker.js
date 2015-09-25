@@ -11,6 +11,7 @@ define(['knockout', 'koelement', 'view_models/state'],
             this.container = ko.observable();
             this.element = ko.observable();
             this.scale = ko.observable();
+            this.ms_scale = ko.observable();
             this.opacity = ko.observable(0);
             this.height = ko.observable();
 
@@ -24,6 +25,7 @@ define(['knockout', 'koelement', 'view_models/state'],
                 this.viewingFace(this.face);
             }
             this.unfocus();
+            return false;
         };
 
         sidePickerViewModel.prototype.doScale = function doScale() {
@@ -31,6 +33,7 @@ define(['knockout', 'koelement', 'view_models/state'],
                 el_height = this.face.height,
                 scale = this.width / el_width;
             this.scale('scale(' + scale + ')');
+            this.ms_scale('scale(' + scale + ', ' + scale + ')');
             this.height(((el_height * scale) + 60) + 'px');
             this.opacity(1);
         };

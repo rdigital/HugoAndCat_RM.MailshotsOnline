@@ -272,6 +272,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
         };
 
         imageViewModel.prototype.setUrlSrc = function setUrlSrc(src) {
+            console.log(src)
             this.imageObj.urlSrc(src);
         };
 
@@ -305,7 +306,8 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
                     this.imageObj.img_position.left(width_offset);
                     this.imageObj.img_position.top(height_offset);
                 }
-                this.rerender();
+                // ie 9 randomly wouldn't render the image without this timeout
+                setTimeout(this.rerender.bind(this), 0);
             }.bind(this);
             
             this.image.src = src;

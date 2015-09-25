@@ -148,7 +148,7 @@ namespace RM.MailshotsOnline.Data.Services
                     });
                 }
 
-                savedInvoice.LineItems = lineItems;//.Cast<IInvoiceLineItem>();
+                savedInvoice.LineItems = lineItems.ToList<IInvoiceLineItem>();//.Cast<IInvoiceLineItem>();
                 savedInvoice = Save(savedInvoice);
             }
 

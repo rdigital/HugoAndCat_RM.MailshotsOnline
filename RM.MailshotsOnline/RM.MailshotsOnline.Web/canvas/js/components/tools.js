@@ -1,6 +1,6 @@
-define(['knockout', 'components/dropdown', 'components/slider', 'components/colourpicker', 'view_models/state'],
+define(['knockout', 'components/dropdown', 'components/slider', 'components/colourpicker', 'view_models/myimages', 'view_models/state'],
 
-    function(ko, dropdownComponent, sliderComponent, colourpickerComponent, stateViewModel) {
+    function(ko, dropdownComponent, sliderComponent, colourpickerComponent, myImagesViewModel, stateViewModel) {
         // register required components
         ko.components.register('dropdown-component', dropdownComponent);
         ko.components.register('colourpicker-component', colourpickerComponent);
@@ -12,6 +12,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             this.selectedElement = stateViewModel.selectedElement;
             this.window_width = ko.observable(0);
             this.window_height = ko.observable(0);
+            this.uploading = ko.observable(false);
 
             // personalization specific variables
             this.personalizing = ko.observable(false);
@@ -44,6 +45,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             this.setCaretPosition = this.setCaretPosition.bind(this);
             this.showPersonalization = this.showPersonalization.bind(this);
             this.closeEditPersonalization = this.closeEditPersonalization.bind(this);
+            this.oldIeSetup = this.oldIeSetup.bind(this);
 
             // resize handlers
             $(window).resize(this.handleResize);
@@ -554,7 +556,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                     isIE = this.isIE(),
                     content = (fallback != '') ? '['+ field + '/' + fallback +']' : '['+ field + ']';
                 if (isIE){
-                    var innerHTML = '<span contenteditable="false" class="dynamic-field-content" data-content="'+ content +'" data-field="'+ field +'" data-fallback="'+ fallback +'"></span>',
+                    var innerHTML = '<span contenteditable="false" unselectable="on" class="dynamic-field-content" data-content="'+ content +'" data-field="'+ field +'" data-fallback="'+ fallback +'"></span>',
                         html = '<span contenteditable="false" class="dynamic-field" class="editable">' + innerHTML + '</span>&#8202;'
                 } else {
                     var innerHTML = '<span class="dynamic-field-content" data-content="'+ content +'" data-field="'+ field +'" data-fallback="'+ fallback +'"></span>',
@@ -626,8 +628,58 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             return false;
         }
 
+        toolsViewModel.prototype.oldIeSetup = function oldIeSetup() {
+            $(window).on('checkIeUpload', {self:this}, this.checkIeUpload.bind(this));
+            window.fireUpload = function() {
+                $(window).trigger('checkIeUpload')
+            }
+        }
+
+        toolsViewModel.prototype.checkIeUpload = function checkIeUpload(e) {
+            var iframe = $('#uploadIframe')[0].contentWindow,
+                i = 0,
+                self = e.data.self;
+            function timeout(self) {
+                self.uploading(true);
+                setTimeout(function () {
+                    // check for success
+                    var result = iframe.$('#imageResult');
+                    if (result && result.val()) {
+                        self.selectedElement().setUrlSrc(result.val());
+                        self.selectedElement().render(result.val(), true);
+                        myImagesViewModel.add({
+                            Src: result.val(),
+                            SmallSrc: iframe.$('#imageResultSmall').val()
+                        });
+                        i = 0;
+                        $('#uploadIframe')[0].src = $('#uploadIframe')[0].src;
+                        self.uploading(false);
+                        return
+                    }
+                    i++;
+                    if (i < 90) {
+                        timeout(self);
+                    } else {
+                        i = 0;
+                        $('#uploadIframe')[0].src = $('#uploadIframe')[0].src;
+                        self.uploading(false);
+                        console.log('error uploading image')
+                    }
+                }.bind(this), 1000);
+            }
+            timeout(self);
+        }
+
+        toolsViewModel.prototype.ieClickImageUpload = function ieClickImageUpload() {
+            var iframe = $('#uploadIframe')[0].contentWindow,
+                name = Math.floor(Math.random() * 99999999);
+            iframe.$('#nameInput').val(name.toString());
+            iframe.$('#fileUpload').click();
+        }
+
         return {
             viewModel: toolsViewModel,
             template: { require: 'text!/canvas/templates/tools.html' }
         }
-});
+    }
+);

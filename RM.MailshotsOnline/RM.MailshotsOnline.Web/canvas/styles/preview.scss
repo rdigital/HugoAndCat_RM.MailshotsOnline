@@ -91,6 +91,7 @@
 			text-align: right;
 			.preview-side-inner {
 				transform-origin: 100% 0;
+				-ms-transform-origin: 100% 0;
 				top: 0;
 				right: 20px;
 				.side-inner {
@@ -102,6 +103,7 @@
 			text-align: left;
 			.preview-side-inner {
 				transform-origin: 0 0;
+				-ms-transform-origin: 0 0;
 				top: 0;
 				left: 20px;
 			}

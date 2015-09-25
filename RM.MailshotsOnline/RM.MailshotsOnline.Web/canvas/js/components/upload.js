@@ -56,15 +56,17 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/his
                         imageString: this.src(),
                         name: this.getRandomInt().toString() 
                     },
+                    imageSrc = '',
                     post = $.post('/Umbraco/Api/ImageLibrary/UploadImage', data, function(image) {
                         myImagesViewModel.add(image);
                         element.setUrlSrc(image.Src);
+                        imageSrc = image.Src;
                     }).fail(function(error) {
                         console.log('There was an error uploading image', error);
                         element.setUrlSrc(null);
                     }).always(function() {
                         stateViewModel.uploadingImages.remove(name);
-                        historyViewModel.replaceUrlSrc(name, element.setUrlSrc());
+                        historyViewModel.replaceUrlSrc(name, imageSrc);
                     });
 
                 // push the unique identifier for this upload onto the upload trackin array
@@ -196,7 +198,9 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/his
             if(!src.type.match(/image.*/)){
                 return;
             }
-
+            if (typeof(FileReader) == 'undefined') {
+                return
+            }
             var reader = new FileReader();
             reader.onload = function(e){
                 this.src(e.target.result);

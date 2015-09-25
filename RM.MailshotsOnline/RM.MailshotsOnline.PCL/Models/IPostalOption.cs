@@ -41,5 +41,10 @@ namespace RM.MailshotsOnline.PCL.Models
         /// Gets or sets the tax code
         /// </summary>
         string TaxCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the delivery time if using this option
+        /// </summary>
+        int DeliveryTime { get; set; }
     }
 }

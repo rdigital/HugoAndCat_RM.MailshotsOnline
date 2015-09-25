@@ -15,6 +15,9 @@ using System.Reflection;
 using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Mvc;
+using RM.MailshotsOnline.Data.Services.Reporting;
+using RM.MailshotsOnline.PCL.Models.Reporting;
+using RM.MailshotsOnline.PCL.Services.Reporting;
 using Umbraco.Core;
 using Umbraco.Core.Services;
 using Umbraco.Web;
@@ -47,7 +50,11 @@ namespace RM.MailshotsOnline.Web.Installers
                 Component.For<IDataService>().ImplementedBy<DataService>().LifestyleTransient(),
                 Component.For<HC.RM.Common.Network.IEmailService>().ImplementedBy<HC.RM.Common.Network.SmtpService>().LifestyleTransient(),
                 Component.For<ICryptographicService>().ImplementedBy<CryptographicService>().LifestyleTransient(),
-				Component.For<ILogger>().ImplementedBy<Logger>().LifestyleTransient());
+				Component.For<ILogger>().ImplementedBy<Logger>().LifestyleTransient(),
+                Component.For<ISettingsService>().ImplementedBy<SettingsService>().LifestyleTransient(),
+                Component.For<IReportingService>().ImplementedBy<ReportingService>().LifestyleTransient(),
+                Component.For<IMembershipReportGenerator>().ImplementedBy<MembershipReportGenerator>().LifestyleTransient(),
+                Component.For<ITransactionsReportGenerator>().ImplementedBy<TransactionsReportGenerator>().LifestyleTransient());
         }
 
         static public string AssemblyDirectory

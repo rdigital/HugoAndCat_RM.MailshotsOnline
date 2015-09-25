@@ -24,6 +24,14 @@ namespace RM.MailshotsOnline.Data.Helpers
         }
 
         /// <summary>
+        /// The JSON ID of the default mailshot content
+        /// </summary>
+        public static int DefaultMailshotContentJsonIndex
+        {
+            get { return GetConfigValue("DefaultMailshotContentJsonIndex", 1); }
+        }
+
+        /// <summary>
         /// Content Type Alias for the Mailshot Format items
         /// </summary>
         public static string FormatContentTypeAlias

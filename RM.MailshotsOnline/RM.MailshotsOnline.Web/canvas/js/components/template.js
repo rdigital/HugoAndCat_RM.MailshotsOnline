@@ -12,6 +12,7 @@ define(['knockout', 'view_models/format', 'view_models/template', 'view_models/u
 
             this.container = ko.observable();
             this.scale = ko.observable();
+            this.ms_scale = ko.observable();
 
             this.width = ko.observable();
             this.height = ko.observable();
@@ -86,6 +87,7 @@ define(['knockout', 'view_models/format', 'view_models/template', 'view_models/u
             }
 
             this.scale('scale(' + scale + ')');
+            this.ms_scale('scale(' + scale + ', ' + scale + ')');
         };
 
         return {

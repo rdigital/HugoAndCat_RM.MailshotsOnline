@@ -52,5 +52,10 @@ namespace RM.MailshotsOnline.Entities.DataModels
         /// </summary>
         [MaxLength(1)]
         public string TaxCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the delivery time if using this option
+        /// </summary>
+        public int DeliveryTime { get; set; }
     }
 }

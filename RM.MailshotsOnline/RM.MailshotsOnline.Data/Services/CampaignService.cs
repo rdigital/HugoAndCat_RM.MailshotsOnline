@@ -61,6 +61,30 @@ namespace RM.MailshotsOnline.Data.Services
         }
 
         /// <summary>
+        /// Gets orders (campaigns that are in progress or completed) for a given user ID
+        /// </summary>
+        /// <param name="userId">The ID of the user to search on</param>
+        /// <returns>Collection of Campaigns</returns>
+        public IEnumerable<ICampaign> GetOrdersForUser(int userId)
+        {
+            var inProgressOrCompletedStatuses = new List<PCL.Enums.CampaignStatus>()
+            {
+                PCL.Enums.CampaignStatus.Exception,
+                PCL.Enums.CampaignStatus.Fulfilled,
+                PCL.Enums.CampaignStatus.PendingModeration,
+                PCL.Enums.CampaignStatus.ReadyForFulfilment,
+                PCL.Enums.CampaignStatus.SentForFulfilment
+            };
+
+            return _context.Campaigns
+                .Include("Invoices")
+                .Include("Invoices.LineItems")
+                .Include("PostalOption")
+                .Where(c => c.UserId == userId && inProgressOrCompletedStatuses.Contains(c.Status))
+                .OrderByDescending(c => c.UpdatedDate);
+        }
+
+        /// <summary>
         /// Gets a specific campaign
         /// </summary>
         /// <param name="campaignId">ID of the campaign to find</param>
@@ -74,6 +98,25 @@ namespace RM.MailshotsOnline.Data.Services
                 .Include("CampaignDistributionLists.DistributionList")
                 .Include("DataSearches")
                 .Include("PostalOption")
+                .FirstOrDefault(c => c.CampaignId == campaignId);
+        }
+
+        /// <summary>
+        /// Gets a specific campaign (including the attached invoices)
+        /// </summary>
+        /// <param name="campaignId">ID of the campaign</param>
+        /// <returns>Campaign object</returns>
+        public ICampaign GetCampaignWithInvoices(Guid campaignId)
+        {
+            return _context.Campaigns
+                .Include("Mailshot")
+                .Include("Mailshot.Format")
+                .Include("CampaignDistributionLists")
+                .Include("CampaignDistributionLists.DistributionList")
+                .Include("DataSearches")
+                .Include("PostalOption")
+                .Include("Invoices")
+                .Include("Invoices.LineItems")
                 .FirstOrDefault(c => c.CampaignId == campaignId);
         }
 

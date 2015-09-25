@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
 using System.Linq;
@@ -247,6 +248,15 @@ namespace RM.MailshotsOnline.Data.Services
             }
 
             return success;
+        }
+
+        /// <summary>
+        /// Gets a list of all active members. 'Active' is defined as being approved.
+        /// </summary>
+        /// <returns>The list of all active members</returns>
+        public IEnumerable<IMember> GetAllActiveMembers()
+        {
+            return UmbracoMemberService.GetAllMembers().Where(x => x.IsApproved).Select(x => x.ToMemberEntityModel());
         }
 
         /// <summary>

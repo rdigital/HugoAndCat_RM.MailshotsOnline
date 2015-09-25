@@ -90,6 +90,7 @@ div, span, a {
 }
 .colour-dropdown {
 	float: right;
+	height: 35px;
 	.dropdown-options {
 		width: 245px;
 		min-height: 320px;
@@ -238,6 +239,7 @@ canvas {
     cursor: pointer;
     padding: 15px 0;
     float: right;
+    position: relative;
     .slider-inner {
     	background: #C7C7C7;
     	width: 100%;
@@ -300,6 +302,8 @@ canvas {
 	position: fixed;
 	bottom: 40px;
 	right: 40px;
+	height: 57px;
+	width: 57px;
 	z-index: 500;
 	color: $dark-grey;
 	font-size: 30px;

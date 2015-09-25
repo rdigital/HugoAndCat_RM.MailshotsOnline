@@ -26,10 +26,18 @@ namespace RM.MailshotsOnline.Data.Services
 
         public ISettingsFromCms GetCurrentSettings()
         {
-            return _context.Settings.OrderByDescending(s => s.CreatedDate).FirstOrDefault(s => s.Active == true);
+            return _context.Settings.OrderByDescending(s => s.CreatedUtc).FirstOrDefault(s => s.Active == true);
         }
 
-        public ISettingsFromCms UpdateCurrentSettings(decimal vatRate, decimal msolFee, decimal pricePerRentedDataUnit, decimal dataServiceFee, int umbracoContentId)
+        public ISettingsFromCms UpdateCurrentSettings(
+            decimal vatRate, 
+            decimal msolFee, 
+            decimal pricePerRentedDataUnit, 
+            decimal dataServiceFee, 
+            int umbracoContentId, 
+            int moderationTimeEstimate, 
+            int printingTimeEstimate,
+            string publicHolidayDates)
         {
             var activeSettings = _context.Settings.Where(s => s.Active == true);
             foreach (var setting in activeSettings)
@@ -45,6 +53,9 @@ namespace RM.MailshotsOnline.Data.Services
             newSetting.DataRentalServiceFee = dataServiceFee;
             newSetting.Active = true;
             newSetting.UmbracoContentId = umbracoContentId;
+            newSetting.ModerationTimeEstimate = moderationTimeEstimate;
+            newSetting.PrintingTimeEstimate = printingTimeEstimate;
+            newSetting.PublicHolidays = publicHolidayDates;
 
             _context.Settings.Add(newSetting);
 
