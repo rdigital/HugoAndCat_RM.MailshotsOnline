@@ -15,6 +15,7 @@ build/
 bld/
 [Bb]in/
 [Oo]bj/
+*.orig
 
 # Roslyn cache directories
 *.ide/
@@ -192,3 +193,4 @@ ModelManifest.xml
 **/uSync.Archive/
 **/canvas/js/vendor/
 **/canvas/styles/compiled/
+
