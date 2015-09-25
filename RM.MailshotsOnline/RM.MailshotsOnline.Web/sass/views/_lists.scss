@@ -1,0 +1,137 @@
+.lists {
+
+	.lists__section-head {
+		@extend %clearfix;
+		margin-bottom: 10px;
+
+		h4 {
+			float: left;
+		}
+
+		.lists__my-lists__create {
+			float: right;
+			font-family: $ChevinMedium;
+			text-decoration: none;
+
+			.icon-Add {
+				@include font-size(28);
+				color: $RM-red;
+				margin-left: 10px;
+				vertical-align: middle;
+			}
+		}
+
+		.lists__rent-list__clear {
+			float: right;
+			font-family: $ChevinMedium;
+			text-decoration: none;
+
+			.icon-Close {
+				@include font-size(28);
+				margin-left: 10px;
+				vertical-align: middle;
+			}
+		}
+	}
+
+	.lists__my-lists--empty {
+		min-height: 50px;
+
+		h5 {
+			@include font-size(24);
+			font-family: $ChevinLight;
+			display: inline-block;
+			line-height: 50px;
+			margin-bottom: 0;
+			width: 60%;
+		}
+
+		.btn {
+			float: right;
+			height: 50px;
+			margin-bottom: 0;
+		}
+	}
+
+	.lists__rent-list--empty {
+		.content {
+			float: left;
+			width: 60%;
+
+			h6 {
+				@include font-size(20);
+			}
+		}
+
+		.btn {
+			bottom: 0;
+			float: right;
+			height: 50px;
+			margin: auto;
+			position: absolute;
+			right: 35px;
+			top: 0;
+		}
+	}
+
+	.lists__my-lists__list {
+		margin-bottom: 60px;
+
+		li {
+			background-color: $white;
+			border: 1px solid $shadow-grey;
+			border-left: none;
+			padding: 25px 35px;
+			position: relative;
+
+			&:before {
+				background-color: $form-field;
+				content: ' ';
+				height: 100%;
+				left: 0;
+				position: absolute;
+				top: 0;
+				width: 3px;
+
+			}
+
+			&:first-child {
+				border-top: 1px solid $shadow-grey;
+			}
+
+			&:last-child {
+				box-shadow: $solid-shadow;
+			}
+		}
+
+		.lists__my-lists__name {
+			@include font-size(22);
+			display: inline-block;
+			font-family: $ChevinLight;
+			width: 60%;
+		}
+
+		.lists__my-lists__number {
+			@include font-size(24);
+			font-family: $ChevinMedium;
+
+			.icon-Person {
+				@include font-size(40);
+				margin-right: 10px;
+				vertical-align: middle;
+			}
+
+			.number {
+				position: relative;
+				top: 3px;
+			}
+		}
+
+		.custom-checkbox-grp {
+			display: inline;
+			float: right;
+			position: relative;
+			top: 7px;
+		}
+	}
+}
