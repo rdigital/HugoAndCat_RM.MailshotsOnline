@@ -1,6 +1,6 @@
-define(['knockout', 'komapping', 'view_models/format', 'view_models/theme', 'view_models/user', 'view_models/state', 'view_models/history'],
+define(['knockout', 'view_models/format', 'view_models/theme', 'view_models/user', 'view_models/state', 'view_models/history'],
 
-    function(ko, mapping, formatViewModel, themeViewModel, userViewModel, stateViewModel, historyViewModel) {
+    function(ko, formatViewModel, themeViewModel, userViewModel, stateViewModel, historyViewModel) {
 
         // ViewModel
         function themeComponentViewModel(params) {
@@ -18,18 +18,17 @@ define(['knockout', 'komapping', 'view_models/format', 'view_models/theme', 'vie
             userViewModel.objects.themeID(theme.id);
             stateViewModel.toggleThemePicker();
             historyViewModel.pushToHistory();
-        }
+        };
 
         /**
          * toggle the theme picker modal
          */
         themeComponentViewModel.prototype.toggleThemePicker = function toggleThemePicker() {
             stateViewModel.toggleThemePicker();
-
-        }
+        };
 
         return {
             viewModel: themeComponentViewModel,
             template: { require: 'text!/canvas/templates/theme.html' }
-        }
+        };
 });

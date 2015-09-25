@@ -1,9 +1,10 @@
-define(['knockout', 'jquery'],
+define(['knockout', 'jquery', 'koelement'],
 
-    function(ko, $) {
+    function(ko, $, koelement) {
 
         // ViewModel
         function sliderViewModel(params) {
+            this.element = ko.observable();
             this.min = params.min;
             this.max = params.max;
             this.current = params.current;
@@ -16,43 +17,46 @@ define(['knockout', 'jquery'],
          * according to the min, max and percentage moved
          */
         sliderViewModel.prototype.resize = function resize(data, e) {
-            var delta = e.offsetX / $(e.target).width(),
+            var delta = e.offsetX / this.element().width(),
                 diff = this.max - this.min;
             this.current(this.min + delta*diff);
-        }
+        };
 
         /**
          * handle the drag move event
          */
         sliderViewModel.prototype.dragMove = function dragMove(data, e) {
             if (!this.dragging) {
-                return
+                return;
             }
             this.resize(data, e);
-        }
+            return false;
+        };
 
         /**
          * handle the drag start event on the slider (set dragging to true)
          */
         sliderViewModel.prototype.dragStart = function dragStart(data, e) {
             this.dragging = true;
-        }
+            return false;
+        };
 
         /**
          * handle the drag end event on the slider (set dragging to false)
          */
         sliderViewModel.prototype.dragEnd = function dragEnd() {
             this.dragging = false;
-        }
+            return false;
+        };
 
         sliderViewModel.prototype.getLeftPercentComputed = function getLeftPercentComputed() {
             return ko.pureComputed(function() {
-                return Math.round((this.current() / (this.max - this.min)) * 100)
-            }, this)
-        }
+                return Math.round((this.current() / (this.max - this.min)) * 100);
+            }, this);
+        };
 
         return {
             viewModel: sliderViewModel,
             template: { require: 'text!/canvas/templates/slider.html' }
-        }
+        };
 });

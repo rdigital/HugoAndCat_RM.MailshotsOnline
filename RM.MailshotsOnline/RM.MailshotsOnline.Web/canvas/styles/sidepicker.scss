@@ -12,8 +12,10 @@
     background: #FFF;
     z-index: 100;
     transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
     &.side-picker_hidden {
         transform: translate(-150px, 0);
+        -ms-transform: translate(-150px, 0);
     }
     .side-picker-inner {
         @include transition(background);
@@ -24,6 +26,14 @@
         padding-left: 10px;
         border-bottom: 1px solid $light-grey;
         cursor: pointer;
+        .side-picker-clicker {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1000;
+        }
         &:hover {
             background-color: $light-grey;
         }
@@ -36,12 +46,13 @@
         }
         .side-label {
             position: absolute;
-            bottom: 14px;
+            bottom: 10px;
             left: 0;
             width: 100%;
             text-align: center;
             text-transform: capitalize;
-            color: $dark-grey;
+            font-family: 'Chevin Light', Arial;
+            color: $darkest-grey;
         }
     }
 }

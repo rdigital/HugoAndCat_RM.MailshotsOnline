@@ -14,7 +14,7 @@
     box-shadow: rgba(0, 0, 0, 0.18) 3px 3px 3px;
     border: 1px solid #666;
     border-top: none;
-    animation: slidein .25s;
+    animation: slidein .5s;
 	.theme-container {
 		position: relative;
 		width: 200px;
@@ -24,10 +24,12 @@
 		float: left;
 		cursor: pointer;
 		.side {
-			transform: scale(0.33);
+			-ms-transform: scale(0.33, 0.33);
+			transform: scale3d(0.33, 0.33, 1);
 			left: 0;
 		    top: 0;
 		    transform-origin: 0 0;
+		    -ms-transform-origin: 0 0;
 		    margin-bottom: 0;
 		    .side-inner {
 		    	position: relative;

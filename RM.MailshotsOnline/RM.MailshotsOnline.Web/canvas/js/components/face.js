@@ -11,7 +11,7 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
             this.preview = params.preview;
             this.backgroundSelected = stateViewModel.backgroundSelected;
             this.selectedElement = stateViewModel.selectedElement;
-            this.current_theme = ko.observable()
+            this.current_theme = ko.observable();
             this.scale = function() {
                 stateViewModel.scaleElement.valueHasMutated();
             };
@@ -24,9 +24,9 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
 
             // computeds
             this.isBackgroundSelected = this.getBackgroundSelectedComputed();
-            this.elements = this.getElementsComputed()
+            this.elements = this.getElementsComputed();
             this.flatStyles = this.getFlatStyles();
-            this.overlayVisible = this.getOverlayVisibleComputed()
+            this.overlayVisible = this.getOverlayVisibleComputed();
 
             // subscriptions
             this.handleSubscriptions();
@@ -38,15 +38,15 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
         faceViewModel.prototype.handleSubscriptions = function handleSubscriptions() {
             this.selectedElement.subscribe(function(element) {
                 if (element) {
-                    this.backgroundSelected(false)
+                    this.backgroundSelected(false);
                 }
-            }, this)
+            }, this);
             this.backgroundSelected.subscribe(function(selected) {
                 if (selected) {
-                    stateViewModel.selectElement(null)
+                    stateViewModel.selectElement(null);
                 }
-            }, this)
-        }
+            }, this);
+        };
 
         /**
          * returns a computed which evaluates to whether the background of this face is currently selected
@@ -55,8 +55,8 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
         faceViewModel.prototype.getBackgroundSelectedComputed = function getBackgroundSelectedComputed() {
             return ko.pureComputed(function() {
                 return this.backgroundSelected() == this;
-            }, this)
-        }
+            }, this);
+        };
 
         /**
          * returns a computed which evaluates to whether the greyed out overlay should be displayed
@@ -65,8 +65,8 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
         faceViewModel.prototype.getOverlayVisibleComputed = function getOverlayVisibleComputed() {
             return ko.pureComputed(function() {
                 return (stateViewModel.selectedElement()) ? true : false;
-            })
-        }
+            });
+        };
 
         /**
          * returns a computed which evaluates to an array of elements from the template which are on this face
@@ -76,7 +76,7 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
             return ko.pureComputed(function(){
                 var face_name = this.data.name;
                 if (!(userViewModel.ready() && themeViewModel.objects())) {
-                    return {}
+                    return {};
                 }
 
                 // bit hacky
@@ -84,12 +84,12 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
                 if (this.current_theme() != this.themeViewModel.selected()) {
                     setTimeout( function() {
                         this.current_theme(this.themeViewModel.selected());
-                    }.bind(this), 10)
-                    return []
-                };
-                return this.templateViewModel.getElementsByFace(face_name)
-            }, this)
-        }
+                    }.bind(this), 10);
+                    return [];
+                }
+                return this.templateViewModel.getElementsByFace(face_name);
+            }, this);
+        };
 
         /**
          * get recommended theme colours for this element
@@ -97,7 +97,7 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
          */
         faceViewModel.prototype.getColours = function getColours() {
             return this.themeViewModel.getColours();
-        }
+        };
 
         /**
          * get css style value by property name, check for user defined first then fall back to theme
@@ -107,11 +107,11 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
         faceViewModel.prototype.getStyle = function getStyle(property) {
             var userStyle = userViewModel.getFaceStyle(property, this.data.name);
             if (userStyle) {
-                return userStyle
+                return userStyle;
             }
-            var themeStyles = this.themeViewModel.getFaceStylesByName(this.data.name)
-            return themeStyles[property]
-        }
+            var themeStyles = this.themeViewModel.getFaceStylesByName(this.data.name);
+            return themeStyles[property];
+        };
 
         /**
          * Set user defined style for this face
@@ -120,7 +120,7 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
          */
         faceViewModel.prototype.setStyle = function setStyle(property, value) {
             userViewModel.setFaceStyle(property, value, this.data.name);
-        }
+        };
 
         /**
          * returns a computed which evaluates to an object of property value pairs for the current face styles
@@ -138,7 +138,7 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
             }
             return ko.pureComputed(function(){
                 if (!(userViewModel.ready() && themeViewModel.objects())) {
-                    return {}
+                    return {};
                 }
                 var styles = {},
                     themeStyles = this.themeViewModel.getFaceStylesByName(this.data.name),
@@ -146,7 +146,7 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
 
                 // remove font size from user styles if overrideing the template (template change preview)
                 if (this.override_template) {
-                    delete userStyles['font-size']
+                    delete userStyles['font-size'];
                 }
                 // merge theme styles and user defined styles
                 ko.utils.extend(styles, themeStyles);
@@ -154,8 +154,8 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
                 styles.width = this.data.width + 'px';
                 styles.height = this.data.height + 'px';
                 return styles;
-            }, this)
-        }
+            }, this);
+        };
 
         /**
          * Returns true if the provided name is the name of the currently selected element
@@ -165,8 +165,8 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
          */
         faceViewModel.prototype.childSelected = function childSelected(name) {
             var selectedEl = this.selectedElement();
-            return (selectedEl && selectedEl.data.name == name) ? true : false
-        }
+            return (selectedEl && selectedEl.data.name == name) ? true : false;
+        };
 
         /**
          * returns property / value pairs for the layout style properties for an element on the face
@@ -179,7 +179,7 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
                 styles[style.property] = style.value;
             });
             return styles;
-        }
+        };
 
         /**
          * if we are overriding the theme, clone the current themeViewModel instance and
@@ -194,7 +194,7 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
             } else {
                 this.themeViewModel = themeViewModel;
             }
-        }
+        };
 
         /**
          * if we are overriding the template, clone the current templateViewModel instance and
@@ -209,17 +209,17 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
             } else {
                 this.templateViewModel = templateViewModel;
             }
-        }
+        };
 
         /**
          * select the background of this face
          */
         faceViewModel.prototype.selectBackground = function selectBackground() {
             this.backgroundSelected(this);
-        }
+        };
 
         return {
             viewModel: faceViewModel,
             template: { require: 'text!/canvas/templates/face.html' }
-        }
+        };
 });

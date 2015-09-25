@@ -21,11 +21,11 @@ using IMember = RM.MailshotsOnline.PCL.Models.IMember;
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
     [Umbraco.Web.Mvc.PluginController("MemberSearch")]
-    public class MemberSearchApiController : UmbracoAuthorizedApiController
+    public class MemberSearchController : UmbracoAuthorizedApiController
     {
         private static ILogger _logger;
 
-        public MemberSearchApiController(ILogger logger)
+        public MemberSearchController(ILogger logger)
         {
             _logger = logger;
         }

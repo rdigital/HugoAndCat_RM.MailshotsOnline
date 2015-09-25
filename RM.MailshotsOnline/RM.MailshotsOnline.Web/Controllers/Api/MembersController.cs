@@ -16,14 +16,21 @@ using HC.RM.Common.Azure.Extensions;
 using HC.RM.Common.PCL.Helpers;
 using HC.RM.Common;
 using RM.MailshotsOnline.Data.Constants;
+using HC.RM.Common.Network;
+using RM.MailshotsOnline.Data.Helpers;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
     public class MembersController : ApiBaseController
     {
-        public MembersController(IMembershipService membershipService, ILogger logger)
+        private readonly ICryptographicService _cryptographicService;
+        private readonly IEmailService _emailService;
+
+        public MembersController(IMembershipService membershipService, ILogger logger, ICryptographicService cryptographicService, IEmailService emailService)
             : base(membershipService, logger)
         {
+            _cryptographicService = cryptographicService;
+            _emailService = emailService;
         }
         
         /// <summary>
@@ -66,9 +73,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 return Request.CreateResponse(HttpStatusCode.BadRequest, errorResponse);
             }
 
-            var computedSalt = Encryption.ComputedSalt(login.Email, login.Email);
-            var b64Salt = Encoding.UTF8.GetBytes(computedSalt);
-            var encryptedEmail = Encryption.Encrypt(login.Email, Constants.Encryption.EncryptionKey, b64Salt);
+            var emailSalt = _cryptographicService.GenerateEmailSalt(login.Email);
+            var encryptedEmail = _cryptographicService.Encrypt(login.Email, emailSalt);
 
             var member = Services.MemberService.GetByEmail(encryptedEmail);
 
@@ -88,6 +94,45 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 _logger.Error(this.GetType().Name, "Login", "Invalid login attempt with email address {0}.", login.Email);
                 return ErrorMessage(HttpStatusCode.BadRequest, "Login credentials incorrect");
             }
+        }
+
+        /// <summary>
+        /// Sends a password reset link to the specified email address
+        /// </summary>
+        /// <param name="email">The user's email address</param>
+        /// <returns>HTTP OK if the user is found, 404 otherwise</returns>
+        [HttpPost]
+        public HttpResponseMessage SendPasswordResetLink(RequestResetPasswordViewModel resetRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errorResponse = GetErrors("Unable to login.  Please correct the following errors:");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, errorResponse);
+            }
+
+            var headerNavSettings = Umbraco.Content(Constants.Settings.HeaderNavSettingsId);
+            var passwordResetPage = Umbraco.Content(headerNavSettings.passwordResetPage);
+            var emailBody = passwordResetPage.RequestCompleteEmail.ToString();
+            var token = _membershipService.RequestPasswordReset(resetRequest.Email);
+
+            if (token != null)
+            {
+                var resetLink = $"{ConfigHelper.HostedScheme}://{ConfigHelper.HostedDomain}{passwordResetPage.Url}?token={token}";
+
+                var recipients = new List<string>() { resetRequest.Email };
+                var sender = new System.Net.Mail.MailAddress(ConfigHelper.SystemEmailAddress);
+                _emailService.SendEmail(
+                    recipients,
+                    "Password reset",
+                    emailBody.Replace("##resetLink", $"<a href='{resetLink}'>{resetLink}</a>"),
+                    System.Net.Mail.MailPriority.Normal,
+                    sender);
+
+                _logger.Info(this.GetType().Name, "SendPasswordResetLink", "Password reset email sent to {0}.", resetRequest.Email);
+                return Request.CreateResponse(HttpStatusCode.OK, new { emailSent = true });
+            }
+
+            return Request.CreateResponse(HttpStatusCode.InternalServerError, new { emailSent = false });
         }
 
         /// <summary>
@@ -128,9 +173,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 return Request.CreateResponse(HttpStatusCode.BadRequest, errorResponse);
             }
 
-            var computedSalt = Encryption.ComputedSalt(registration.Email, registration.Email);
-            var b64Salt = Encoding.UTF8.GetBytes(computedSalt);
-            var encryptedEmail = Encryption.Encrypt(registration.Email, Constants.Encryption.EncryptionKey, b64Salt);
+            var emailSalt = _cryptographicService.GenerateEmailSalt(registration.Email);
+            var encryptedEmail = _cryptographicService.Encrypt(registration.Email, emailSalt);
             
             if (Members.GetByEmail(encryptedEmail) != null)
             {

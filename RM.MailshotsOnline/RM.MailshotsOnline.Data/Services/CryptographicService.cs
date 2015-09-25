@@ -13,12 +13,11 @@ namespace RM.MailshotsOnline.Data.Services
     {
         private static readonly Encoding Encoding = Encoding.UTF8;
         private static readonly string EncryptionKey = Constants.Constants.Encryption.EncryptionKey;
+        private static readonly string EmailSaltPadding = Constants.Constants.Encryption.EmailSaltPadding;
         private static readonly RNGCryptoServiceProvider RandomNumberGenerator = new RNGCryptoServiceProvider();
-
 
         public CryptographicService()
         {
-            
         }
 
         public string EncryptEmailAddress(string email)
@@ -28,7 +27,9 @@ namespace RM.MailshotsOnline.Data.Services
 
         public string GenerateEmailSalt(string email)
         {
-            var salt = Encryption.ComputedSalt(email, email);
+            email = email.ToLower();
+
+            var salt = Encryption.ComputedSalt(email, EmailSaltPadding);
             var saltBytes = Encoding.GetBytes(salt);
 
             return Convert.ToBase64String(saltBytes);

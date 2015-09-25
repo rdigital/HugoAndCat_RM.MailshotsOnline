@@ -25,9 +25,9 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
     {
         private readonly IMembershipService _membershipService;
         private readonly IEmailService _emailService;
-        private const string CompletedFlag = "RegistrationComplete";
         private readonly ILogger _logger;
         private readonly ICryptographicService _cryptographicService;
+        private const string CompletedFlag = "RegistrationComplete";
 
         public RegisterSurfaceController(IMembershipService membershipService, IEmailService emailService, ILogger logger, ICryptographicService cryptographicService)
         {
@@ -37,7 +37,6 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             _cryptographicService = cryptographicService;
         }
 
-        // GET: Register
         [ChildActionOnly]
         public ActionResult ShowRegisterForm(Register model)
         {
@@ -55,26 +54,20 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         [HttpPost]
         public ActionResult RegisterForm(Register model)
         {
-            var emailBody = string.Empty;
-            if (UmbracoContext.PageId.HasValue)
-            {
-                var pageModel = Umbraco.Content(UmbracoContext.PageId);
-                emailBody = pageModel.RegisterCompleteEmail.ToString();
-            }
-
             if (!ModelState.IsValid)
             {
                 return CurrentUmbracoPage();
             }
 
-            var computedSalt = Encryption.ComputedSalt(model.ViewModel.Email, model.ViewModel.Email);
-            var b64Salt = Encoding.UTF8.GetBytes(computedSalt);
-            var encryptedEmail = Encryption.Encrypt(model.ViewModel.Email, Constants.Encryption.EncryptionKey, b64Salt);
+            dynamic pageModel = Umbraco.Content(UmbracoContext.PageId);
+
+            var emailSalt = _cryptographicService.GenerateEmailSalt(model.ViewModel.Email);
+            var encryptedEmail = _cryptographicService.Encrypt(model.ViewModel.Email, emailSalt);
 
             if (Members.GetByEmail(encryptedEmail) != null)
             {
                 _logger.Info(this.GetType().Name, "RegisterForm", "Duplicate registration attempted.");
-                ModelState.AddModelError("ViewModel.Email", model.AlreadyRegisteredMessage);
+                ModelState.AddModelError("ViewModel.Email", pageModel.AlreadyRegisteredMessage);
 
                 return CurrentUmbracoPage();
             }
@@ -87,7 +80,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             {
                 _logger.Info(this.GetType().Name, "RegisterForm", "Registration attempt with low quality password.");
                 ModelState.AddModelError("PasswordError",
-                    model.PasswordErrorMessage);
+                    pageModel.PasswordErrorMessage);
 
                 return CurrentUmbracoPage();
             }
@@ -120,7 +113,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             _emailService.SendEmail(
                 recipients,
                 "Welcome to the Royal Mail Business Portal",
-                emailBody
+                pageModel.RegisterCompleteEmail.ToString()
                     .Replace("##firstName", model.ViewModel.FirstName)
                     .Replace("##email", model.ViewModel.Email),
                 System.Net.Mail.MailPriority.Normal,

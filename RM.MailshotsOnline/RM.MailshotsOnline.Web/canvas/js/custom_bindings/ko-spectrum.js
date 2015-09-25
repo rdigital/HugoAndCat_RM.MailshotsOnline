@@ -10,14 +10,14 @@ define(['knockout', 'jquery', 'spectrum'],
                         if (value.callback) {
                             value.callback();
                         }
-                        $(element).css('pointer-events', 'none')
+                        $(element).css('pointer-events', 'none');
                     },
 
                     hide: function(){
                         if (value.hideCallback) {
                             value.hideCallback();
                         }
-                        $(element).css('pointer-events', 'all')
+                        $(element).css('pointer-events', 'all');
                     },
 
                     move: function(color){
@@ -33,4 +33,4 @@ define(['knockout', 'jquery', 'spectrum'],
             }
         };
     }
-)
+);

@@ -289,6 +289,22 @@
     <Compile Include="Migrations\201509171419225_AddDefaultMailshotContent.Designer.cs">
       <DependentUpon>201509171419225_AddDefaultMailshotContent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509231339458_AddDatesToCampaign.cs" />
+    <Compile Include="Migrations\201509231339458_AddDatesToCampaign.Designer.cs">
+      <DependentUpon>201509231339458_AddDatesToCampaign.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509241053070_AddDeliveryEstimates.cs" />
+    <Compile Include="Migrations\201509241053070_AddDeliveryEstimates.Designer.cs">
+      <DependentUpon>201509241053070_AddDeliveryEstimates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509241104384_AddEstimatesToSettings.cs" />
+    <Compile Include="Migrations\201509241104384_AddEstimatesToSettings.Designer.cs">
+      <DependentUpon>201509241104384_AddEstimatesToSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509241413163_AddPublicHolidayDates.cs" />
+    <Compile Include="Migrations\201509241413163_AddPublicHolidayDates.Designer.cs">
+      <DependentUpon>201509241413163_AddPublicHolidayDates.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CampaignService.cs" />
@@ -300,6 +316,9 @@
     <Compile Include="Services\MailshotsService.cs" />
     <Compile Include="Services\MembershipService.cs" />
     <Compile Include="Services\PricingService.cs" />
+    <Compile Include="Services\Reporting\TransactionsReportGenerator.cs" />
+    <Compile Include="Services\Reporting\MembershipReportGenerator.cs" />
+    <Compile Include="Services\Reporting\ReportingService.cs" />
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Services\SparqQueueService.cs" />
   </ItemGroup>
@@ -415,6 +434,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509171419225_AddDefaultMailshotContent.resx">
       <DependentUpon>201509171419225_AddDefaultMailshotContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509231339458_AddDatesToCampaign.resx">
+      <DependentUpon>201509231339458_AddDatesToCampaign.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509241053070_AddDeliveryEstimates.resx">
+      <DependentUpon>201509241053070_AddDeliveryEstimates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509241104384_AddEstimatesToSettings.resx">
+      <DependentUpon>201509241104384_AddEstimatesToSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509241413163_AddPublicHolidayDates.resx">
+      <DependentUpon>201509241413163_AddPublicHolidayDates.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

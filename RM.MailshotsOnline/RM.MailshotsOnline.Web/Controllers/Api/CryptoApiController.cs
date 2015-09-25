@@ -25,10 +25,12 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
     public class CryptoApiController : UmbracoAuthorizedJsonController
     {
         private static ILogger _logger;
+        private static ICryptographicService _cryptographicService;
 
-        public CryptoApiController(ILogger logger)
+        public CryptoApiController(ILogger logger, ICryptographicService cryptographicService)
         {
             _logger = logger;
+            _cryptographicService = cryptographicService;
         }
 
         /// <summary>
@@ -95,9 +97,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             try
             {
                 var salt = member.GetPropertyValue<string>("salt");
-                var saltBytes = Convert.FromBase64String(salt);
 
-                return Encryption.Decrypt(text, Constants.Encryption.EncryptionKey, saltBytes);
+                return _cryptographicService.Decrypt(text, salt);
             }
             catch (Exception e)
             {

@@ -25,22 +25,22 @@ define(['require', 'knockout', 'view_models/user', 'view_models/state'],
                     new_history = require('view_models/user').toHistoryJSON();
 
                 if (current_history == new_history) {
-                    return
+                    return;
                 }
                 this.history(this.history.slice(0, history_idx+1));
                 this.history.push(new_history);
                 this.historyIdx(this.history().length-1);
-            }.bind(this), 100)
-        }
+            }.bind(this), 100);
+        };
 
         historyViewModel.prototype.cancelChanges = function cancelChanges() {
             userViewModel.fromJSON(this.historyIdx());
-        }
+        };
 
         historyViewModel.prototype.reset = function reset() {
             this.historyIdx(0);
             require('view_models/user').fromJSON(this.history()[0]);
-        }
+        };
 
         historyViewModel.prototype.undo = function undo() {
             var idx = this.historyIdx();
@@ -48,7 +48,7 @@ define(['require', 'knockout', 'view_models/user', 'view_models/state'],
                 this.historyIdx(idx-1);
                 require('view_models/user').fromJSON(this.history()[this.historyIdx()]);
             }
-        }
+        };
 
         historyViewModel.prototype.redo = function redo() {
             var idx = this.historyIdx();
@@ -56,32 +56,32 @@ define(['require', 'knockout', 'view_models/user', 'view_models/state'],
                 this.historyIdx(idx+1);
                 require('view_models/user').fromJSON(this.history()[this.historyIdx()]);
             }
-        }
+        };
 
         historyViewModel.prototype.getRedoAvailable = function getRedoAvailable() {
             return ko.pureComputed(function () {
                 return (this.historyIdx() < this.history().length - 1);
-            }, this)
-        }
+            }, this);
+        };
 
         historyViewModel.prototype.getUndoAvailable = function getUndoAvailable() {
             return ko.pureComputed(function () {
                 return (this.historyIdx() > 0);
-            }, this)
-        }
+            }, this);
+        };
 
         historyViewModel.prototype.replaceUrlSrc = function replaceUrlSrc(placeholder, src) {
-            var subbed_history = []
+            var subbed_history = [];
             ko.utils.arrayForEach(this.history(), function(historyItem) {
                 subbed_history.push(historyItem.replace('"urlSrc":"' + placeholder + '"', '"urlSrc":"' + src + '"'));
-            })
+            });
             this.history(subbed_history);
-        }
+        };
 
         // testing
-        window.historyModel = new historyViewModel()
+        window.historyModel = new historyViewModel();
         // return instance of viewmodel, so all places where AMD is used
         // to load the viewmodel will get the same instance
         return window.historyModel;
     }
-)
+);

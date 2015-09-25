@@ -3,11 +3,11 @@ define(['knockout', 'kospectrum'],
     function(ko) {
         // ViewModel
         function colourPickerViewModel(params) {
-            this.options = params.options
-            this.action = params.action
-            this.selectedObs = params.selected
-            this.focusCallback = params.focusCallback
-            this.anchorClass = params.anchorClass
+            this.options = params.options;
+            this.action = params.action;
+            this.selectedObs = params.selected;
+            this.focusCallback = params.focusCallback;
+            this.anchorClass = params.anchorClass;
             this.open = ko.observable(false);
             this.customShown = ko.observable(false);
             this.element = ko.observable();
@@ -46,8 +46,8 @@ define(['knockout', 'kospectrum'],
                 } else {
                     $(document).off('mousedown', this.hideOnDocClick);
                 }
-            }, this)
-        }
+            }, this);
+        };
 
         /**
          * returns read / write computed to get / set currently selected colour
@@ -56,24 +56,24 @@ define(['knockout', 'kospectrum'],
         colourPickerViewModel.prototype.getSelectedComputed = function getSelectedComputed() {
             return ko.pureComputed({
                 read: function() {
-                    return this.selectedObs()
+                    return this.selectedObs();
                 },
                 write: function(colour) {
                     this.selectedObs(colour);
                     //this.hide();
                 }
-            }, this)
-        }
+            }, this);
+        };
 
         /**
          * hides the colourpicker on a click anywhere outside of the colourpicker
          */
         colourPickerViewModel.prototype.hideOnDocClick = function hideOnDocClick(e) {
             if ($.contains(this.element()[0], e.target) ) {
-                return
+                return;
             }
             this.hide();
-        }
+        };
 
         /**
          * toggles the colourpicker and set the focus back to the selected element
@@ -83,7 +83,7 @@ define(['knockout', 'kospectrum'],
             if (this.focusCallback) {
                 this.focusCallback();
             }
-        }
+        };
 
         /**
          * hides the colourpicker and set the focus back to the selected element
@@ -93,21 +93,21 @@ define(['knockout', 'kospectrum'],
             if (this.focusCallback) {
                 this.focusCallback();
             }
-        }
+        };
 
         colourPickerViewModel.prototype.showCustom = function showCustom() {
             if (this.focusCallback) {
                 this.focusCallback();
             }
             this.customShown(true);
-        }
+        };
 
         colourPickerViewModel.prototype.hideCustom = function hideCustom() {
             this.customShown(false);
-        }
+        };
 
         return {
             viewModel: colourPickerViewModel,
             template: { require: 'text!/canvas/templates/colourpicker.html' }
-        }
+        };
 });

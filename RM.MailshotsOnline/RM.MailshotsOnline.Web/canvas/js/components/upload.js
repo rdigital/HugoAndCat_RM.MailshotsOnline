@@ -6,9 +6,9 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/his
             this.src = ko.observable();
             this.fileData = ko.observable({
                 dataURL: ko.observable()
-            })
+            });
             this.selectedTab = ko.observable(stateViewModel.imageTab() || 'upload');
-            this.selectedElement = stateViewModel.selectedElement()
+            this.selectedElement = stateViewModel.selectedElement();
 
             // XXX note to whoever has time, move these into their own data model so
             // they can be persisted between opening up the image panel
@@ -56,16 +56,18 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/his
                         imageString: this.src(),
                         name: this.getRandomInt().toString() 
                     },
+                    imageSrc = '',
                     post = $.post('/Umbraco/Api/ImageLibrary/UploadImage', data, function(image) {
                         myImagesViewModel.add(image);
                         element.setUrlSrc(image.Src);
+                        imageSrc = image.Src;
                     }).fail(function(error) {
                         console.log('There was an error uploading image', error);
                         element.setUrlSrc(null);
                     }).always(function() {
                         stateViewModel.uploadingImages.remove(name);
-                        historyViewModel.replaceUrlSrc(name, element.setUrlSrc());
-                    })
+                        historyViewModel.replaceUrlSrc(name, imageSrc);
+                    });
 
                 // push the unique identifier for this upload onto the upload trackin array
                 stateViewModel.uploadingImages.push(name);
@@ -77,13 +79,13 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/his
                 element.setUrlSrc(name);
             }
             this.selectMyImage(null);
-        }
+        };
 
         imageUploadViewModel.prototype.getRandomInt = function getRandomInt() {
             var min = 0,
                 max = 99999999;
             return Math.floor(Math.random() * (max - min)) + min;
-        }
+        };
 
         imageUploadViewModel.prototype.getTagsComputed = function getTagsComputed() {
             return ko.pureComputed( function() {
@@ -91,33 +93,33 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/his
                 ko.utils.arrayForEach(this.libraryImages(), function(image) {
                     ko.utils.arrayForEach(image.Tags, function(tag) {
                         var match = ko.utils.arrayFirst(tags, function(existing) {
-                            return existing.name == tag
-                        })
+                            return existing.name == tag;
+                        });
                         if (!match) {
                             tags.push({
                                 name: tag,
                                 value: tag
                             });
                         }
-                    })
+                    });
                 });
                 return tags.sort(function (a, b) {
-                    return a.name.localeCompare(b.name, 'en', {'sensitivity': 'base'})
+                    return a.name.localeCompare(b.name, 'en', {'sensitivity': 'base'});
                 });
-            }, this)
-        }
+            }, this);
+        };
 
         imageUploadViewModel.prototype.getLibraryComputed = function getLibraryComputed() {
             return ko.pureComputed( function() {
                 var tag = this.tag();
                 if (tag) {
                     return ko.utils.arrayFilter(this.libraryImages(), function(image) {
-                        return image.Tags.indexOf(tag) >= 0
-                    })
+                        return image.Tags.indexOf(tag) >= 0;
+                    });
                 }
-                return this.libraryImages()
-            }, this)
-        }
+                return this.libraryImages();
+            }, this);
+        };
 
         // XXX move this into it's own data model
         imageUploadViewModel.prototype.fetchLibrary = function fetchLibrary() {
@@ -126,14 +128,14 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/his
                 this.libraryImages(data);
             }.bind(this)).fail(function() {
                 console.log('There was an error fetching the image library');
-            })
-        }
+            });
+        };
 
         imageUploadViewModel.prototype.selectLibraryImage = function selectLibraryImage(image) {
             if (image) {
                 this.libraryImage(image);
             }
-        }
+        };
 
         imageUploadViewModel.prototype.renderLibraryImage = function renderLibraryImage() {
             if (this.libraryImage()) {
@@ -141,7 +143,7 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/his
                 this.selectMyImage(null);
                 this.src(null);
             }
-        }
+        };
 
         imageUploadViewModel.prototype.renderMyImage = function renderMyImage() {
             if (this.myImage()) {
@@ -149,19 +151,19 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/his
                 this.libraryImage(null);
                 this.src(null);
             }
-        }
+        };
 
         imageUploadViewModel.prototype.selectTab = function selectTab(tab) {
             this.selectedTab(tab);
-        }
+        };
 
         imageUploadViewModel.prototype.clickUpload = function clickUpload(){
             $('#image-upload').click();
-        }
+        };
 
         imageUploadViewModel.prototype.loadFile = function loadFile(fileData){
             this.src(fileData);         
-        }
+        };
 
         imageUploadViewModel.prototype.render = function render() {
             if (this.src()) {
@@ -169,14 +171,14 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/his
                 this.libraryImage(null);
                 this.selectMyImage(null);
             }
-        }
+        };
 
         /**
          * Event handler for drag over during file drag and drop
          */
         imageUploadViewModel.prototype.dragOver = function dragOver(obj, e) {
             e.preventDefault();
-        }
+        };
 
         /**
          * drop even handler. Prevents default then loads the image dropped by the user
@@ -184,7 +186,7 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/his
         imageUploadViewModel.prototype.drop = function drop(obj, e) {
             e.preventDefault();
             obj.loadImage(e.originalEvent.dataTransfer.files[0], e.target);
-        }
+        };
 
         /**
          * load dropped image file from user's storage
@@ -196,34 +198,36 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/his
             if(!src.type.match(/image.*/)){
                 return;
             }
-
+            if (typeof(FileReader) == 'undefined') {
+                return
+            }
             var reader = new FileReader();
             reader.onload = function(e){
                 this.src(e.target.result);
                 //this.render(e.target.result, target);
             }.bind(this);
             reader.readAsDataURL(src);
-        }
+        };
 
         /**
          * Call to accept the dropped image and close the modal
          */
         imageUploadViewModel.prototype.confirm = function confirm() {
             this.toggleImageUpload();
-        }
+        };
 
         /**
          * toggles the image upload modal
          */
         imageUploadViewModel.prototype.toggleImageUpload = function toggleImageUpload() {
-            $('.canvas-container').css({opacity: 0})
-            stateViewModel.toggleImageUpload()
-            $('.canvas-container').css({opacity: 1})
-        }
+            $('.canvas-container').css({opacity: 0});
+            stateViewModel.toggleImageUpload();
+            $('.canvas-container').css({opacity: 1});
+        };
 
         return {
             viewModel: imageUploadViewModel,
             template: { require: 'text!/canvas/templates/upload.html' }
-        }
+        };
     }
 );

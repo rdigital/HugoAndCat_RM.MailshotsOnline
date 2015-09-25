@@ -1,6 +1,6 @@
-define(['knockout', 'components/dropdown', 'components/slider', 'components/colourpicker', 'view_models/state'],
+define(['knockout', 'components/dropdown', 'components/slider', 'components/colourpicker', 'view_models/myimages', 'view_models/state'],
 
-    function(ko, dropdownComponent, sliderComponent, colourpickerComponent, stateViewModel) {
+    function(ko, dropdownComponent, sliderComponent, colourpickerComponent, myImagesViewModel, stateViewModel) {
         // register required components
         ko.components.register('dropdown-component', dropdownComponent);
         ko.components.register('colourpicker-component', colourpickerComponent);
@@ -12,6 +12,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             this.selectedElement = stateViewModel.selectedElement;
             this.window_width = ko.observable(0);
             this.window_height = ko.observable(0);
+            this.uploading = ko.observable(false);
 
             // personalization specific variables
             this.personalizing = ko.observable(false);
@@ -39,15 +40,16 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
 
             // bound methods
             this.focusInput = this.focusInput.bind(this);
-            this.focusToolsInput = this.focusToolsInput.bind(this)
+            this.focusToolsInput = this.focusToolsInput.bind(this);
             this.handleResize = this.handleResize.bind(this);
             this.setCaretPosition = this.setCaretPosition.bind(this);
             this.showPersonalization = this.showPersonalization.bind(this);
             this.closeEditPersonalization = this.closeEditPersonalization.bind(this);
+            this.oldIeSetup = this.oldIeSetup.bind(this);
 
             // resize handlers
             $(window).resize(this.handleResize);
-            $('.canvas-container').on('scroll', this.handleResize)
+            $('.canvas-container').on('scroll', this.handleResize);
 
             // subscriptions
             this.selectedElement.subscribe(this.closePersonalization, this);
@@ -69,12 +71,12 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
         toolsViewModel.prototype.getIsVisibleComputed = function getIsVisibleComputed() {
             return ko.pureComputed(function() {
                 if (this.selectedElement()) {
-                    return true
+                    return true;
                 }
                 this.personalizing(false);
-                return false
-            }, this).extend({throttle: 50})
-        }
+                return false;
+            }, this).extend({throttle: 50});
+        };
 
         /**
          * set the focus to the editable div within this component
@@ -83,7 +85,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             if (this.selectedElement() && this.selectedElement().setFocus) {
                 this.selectedElement().setFocus();
             }
-        }
+        };
 
         /**
          * get computed which evaluates the currently selected element type
@@ -93,8 +95,8 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             return ko.pureComputed(function() {
                 var el = this.selectedElement();
                 return el ? el.data.type : '';
-            }, this)
-        }
+            }, this);
+        };
 
         /**
          * get computed which evaluates whether to show the scale slider
@@ -104,12 +106,12 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             return ko.pureComputed(function() {
                 if (this.elementType() == 'image') {
                     if (this.selectedElement().imageObj.src && this.selectedElement().imageObj.src()) {
-                        return true
+                        return true;
                     }
                 }
-                return false
-            }, this)
-        }
+                return false;
+            }, this);
+        };
 
         /**
          * get computed which evaluates the available fonts for the selected element
@@ -120,9 +122,9 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                 if (this.selectedElement()) {
                     return this.selectedElement().getFonts();
                 }
-                return []
-            }, this)
-        }
+                return [];
+            }, this);
+        };
 
         /**
          * get computed which evaluates the available colours for the selected element
@@ -133,9 +135,9 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                 if (this.selectedElement()) {
                     return this.selectedElement().getColours();
                 }
-                return []
-            }, this)
-        }
+                return [];
+            }, this);
+        };
 
         /**
          * get computed which evaluates the best available attachment position for the tools menu
@@ -149,9 +151,9 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                 if (this.selectedElement()) {
                     return this.calcAttachment();
                 }
-                return {}
-            }, this).extend({throttle: 50})
-        }
+                return {};
+            }, this).extend({throttle: 50});
+        };
 
         /**
          * update observables with the new window dimensions upon resize
@@ -194,7 +196,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                     top: 100,
                     right: 'auto',
                     bottom: 'auto'
-                }
+                };
             }
 
             // deal with horizontal case
@@ -202,52 +204,52 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                 // have enough horizontal room
                 if (maxH == coords.left) {
                     // attach to the left
-                    attachment.right = this.window_width() - coords.left - scrollLeft;
+                    attachment.right = this.window_width() - coords.left - scrollLeft + 'px';
                     attachment.left = 'auto';
                 } else {
                     // attach to the right
-                    attachment.left = coords.right + scrollLeft;
+                    attachment.left = coords.right + scrollLeft + 'px';
                     attachment.right = 'auto';
                 }
                 if (maxV > tools_height) {
                     if (maxV == coords.top) {
-                        attachment.bottom = Math.min((this.window_height() - coords.bottom)-scrollTop, scrollHeight - 100);
+                        attachment.bottom = Math.min((this.window_height() - coords.bottom)-scrollTop, scrollHeight - 100) + 'px';
                         attachment.top = 'auto';
                     } else {
-                        attachment.top = Math.max(coords.top + scrollTop, scrollTop + 100);
-                        attachment.bottom = 'auto'
+                        attachment.top = Math.max(coords.top + scrollTop, scrollTop + 100) + 'px';
+                        attachment.bottom = 'auto';
                     }
                 } else {
-                    attachment.top = Math.max(coords.top + scrollTop, scrollTop + 100);
+                    attachment.top = Math.max(coords.top + scrollTop, scrollTop + 100) + 'px';
                     attachment.bottom = 'auto';
                 }
-                return attachment
-            } else {
-                // attach the left of the tools to either the left of the element or the screen edge
-                attachment.left = Math.max(coords.left + scrollLeft, scrollLeft + 10);
-                attachment.right = 'auto';
+                return attachment;
             }
+
+            // attach the left of the tools to either the left of the element or the screen edge
+            attachment.left = Math.max(coords.left + scrollLeft, scrollLeft + 10) + 'px';
+            attachment.right = 'auto';
 
             // deal with vertical case if not enough horizontal room
             if (maxV > tools_height) {
                 // have enough vertical room
                 if (maxV == coords.top) {
                     // attach to the top
-                    attachment.bottom = (this.window_height() - coords.top) - scrollTop  + 10;
+                    attachment.bottom = (this.window_height() - coords.top) - scrollTop  + 10 + 'px';
                     attachment.top = 'auto';
                 } else {
                     // attach to the bottom
-                    attachment.top = coords.bottom + 10 + scrollTop;
+                    attachment.top = coords.bottom + 10 + scrollTop + 'px';
                     attachment.bottom = 'auto';
                 }
-                return attachment
+                return attachment;
             } else {
                 // attach the top to the top of the element or the edge of the screen
-                attachment.top = Math.max((this.window_height() - coords.top) - scrollTop + 10, scrollTop + 100);
-                attachment.bottom = 'auto'
+                attachment.top = Math.max((this.window_height() - coords.top) - scrollTop + 10, scrollTop + 100) + 'px';
+                attachment.bottom = 'auto';
             }
-            return attachment
-        }
+            return attachment;
+        };
 
         /**
          * set a user defined style on the current element
@@ -258,7 +260,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             if (this.selectedElement()) {
                 this.selectedElement().setStyle(property, value);
             }
-        }
+        };
 
         /**
          * trigger an increase of font size for this element
@@ -267,7 +269,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             if (this.selectedElement()) {
                 this.selectedElement().fitFontSize();
             }
-        }
+        };
 
         /**
          * trigger an increase of font size for this element
@@ -276,7 +278,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             if (this.selectedElement()) {
                 this.selectedElement().increaseFontSize();
             }
-        }
+        };
 
         /**
          * trigger an decrease of font size for this element
@@ -285,19 +287,19 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             if (this.selectedElement()) {
                 this.selectedElement().decreaseFontSize();
             }
-        }
+        };
 
         toolsViewModel.prototype.orderedList = function orderedList() {
             if (this.selectedElement()) {
                 this.selectedElement().orderedList();
             }
-        }
+        };
 
         toolsViewModel.prototype.unorderedList = function unorderedList() {
             if (this.selectedElement()) {
                 this.selectedElement().unorderedList();
             }
-        }
+        };
 
         /**
          * get computed which evaluates whether text is bold in the current context
@@ -305,22 +307,22 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
          */
         toolsViewModel.prototype.isBold = function isBold() {
             return ko.pureComputed( function() {
-                if (this.selectedElement()) {
+                if (this.selectedElement() && this.selectedElement().isBold) {
                     return this.selectedElement().isBold();
                 }
-                return false
-            }, this)
-        }
+                return false;
+            }, this);
+        };
 
         /**
          * set text to bold at caret / selection
          */
         toolsViewModel.prototype.bold = function bold() {
-            var el = this.selectedElement()
+            var el = this.selectedElement();
             if (el) {
                 setTimeout(el.bold.bind(el),0);
             }
-        }
+        };
 
         /**
          * get computed which evaluates whether text is italic in the current context
@@ -328,22 +330,22 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
          */
         toolsViewModel.prototype.isItalic = function isItalic() {
             return ko.pureComputed( function() {
-                if (this.selectedElement()) {
+                if (this.selectedElement() && this.selectedElement().isItalic) {
                     return this.selectedElement().isItalic();
                 }
-                return false
-            }, this)
-        }
+                return false;
+            }, this);
+        };
 
         /**
          * set text to italic at caret / selection
          */
         toolsViewModel.prototype.italic = function italic() {
-            var el = this.selectedElement()
+            var el = this.selectedElement();
             if (el) {
                 setTimeout(el.italic.bind(el),0);
             }
-        }
+        };
 
         /**
          * get computed which evaluates whether text is underlined in the current context
@@ -351,22 +353,22 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
          */
         toolsViewModel.prototype.isUnderline = function isUnderline() {
             return ko.pureComputed( function() {
-                if (this.selectedElement()) {
+                if (this.selectedElement() && this.selectedElement().isUnderline) {
                     return this.selectedElement().isUnderline();
                 }
-                return false
-            }, this)
-        }
+                return false;
+            }, this);
+        };
 
         /**
          * set text to underlined at caret / selection
          */
         toolsViewModel.prototype.underline = function underline() {
-            var el = this.selectedElement()
+            var el = this.selectedElement();
             if (el) {
                 setTimeout(el.underline.bind(el),0);
             }
-        }
+        };
 
         /**
          * get computed which evaluates the current text aligment of the element
@@ -377,9 +379,9 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                 if (this.selectedElement()) {
                     return this.selectedElement().getStyle('text-align');
                 }
-                return
-            }, this)
-        }
+                return;
+            }, this);
+        };
 
         /**
          * computed generator for styles. Provide a style property name and the returned computed
@@ -389,11 +391,11 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
         toolsViewModel.prototype.getStyleComputed = function getStyleComputed(property) {
             return ko.pureComputed( {
                 read: function() {
-                    var el = this.selectedElement()
+                    var el = this.selectedElement();
                     if (el) {
                         return el.getStyle(property);
                     }
-                    return
+                    return;
                 },
                 write: function(val) {
                     var el = this.selectedElement();
@@ -402,8 +404,8 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                         el.setFocus();
                     }
                 }
-            }, this)
-        }
+            }, this);
+        };
 
         /**
          * toggle the image upload modal
@@ -554,7 +556,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                     isIE = this.isIE(),
                     content = (fallback != '') ? '['+ field + '/' + fallback +']' : '['+ field + ']';
                 if (isIE){
-                    var innerHTML = '<span contenteditable="false" class="dynamic-field-content" data-content="'+ content +'" data-field="'+ field +'" data-fallback="'+ fallback +'"></span>',
+                    var innerHTML = '<span contenteditable="false" unselectable="on" class="dynamic-field-content" data-content="'+ content +'" data-field="'+ field +'" data-fallback="'+ fallback +'"></span>',
                         html = '<span contenteditable="false" class="dynamic-field" class="editable">' + innerHTML + '</span>&#8202;'
                 } else {
                     var innerHTML = '<span class="dynamic-field-content" data-content="'+ content +'" data-field="'+ field +'" data-fallback="'+ fallback +'"></span>',
@@ -626,8 +628,58 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             return false;
         }
 
+        toolsViewModel.prototype.oldIeSetup = function oldIeSetup() {
+            $(window).on('checkIeUpload', {self:this}, this.checkIeUpload.bind(this));
+            window.fireUpload = function() {
+                $(window).trigger('checkIeUpload')
+            }
+        }
+
+        toolsViewModel.prototype.checkIeUpload = function checkIeUpload(e) {
+            var iframe = $('#uploadIframe')[0].contentWindow,
+                i = 0,
+                self = e.data.self;
+            function timeout(self) {
+                self.uploading(true);
+                setTimeout(function () {
+                    // check for success
+                    var result = iframe.$('#imageResult');
+                    if (result && result.val()) {
+                        self.selectedElement().setUrlSrc(result.val());
+                        self.selectedElement().render(result.val(), true);
+                        myImagesViewModel.add({
+                            Src: result.val(),
+                            SmallSrc: iframe.$('#imageResultSmall').val()
+                        });
+                        i = 0;
+                        $('#uploadIframe')[0].src = $('#uploadIframe')[0].src;
+                        self.uploading(false);
+                        return
+                    }
+                    i++;
+                    if (i < 90) {
+                        timeout(self);
+                    } else {
+                        i = 0;
+                        $('#uploadIframe')[0].src = $('#uploadIframe')[0].src;
+                        self.uploading(false);
+                        console.log('error uploading image')
+                    }
+                }.bind(this), 1000);
+            }
+            timeout(self);
+        }
+
+        toolsViewModel.prototype.ieClickImageUpload = function ieClickImageUpload() {
+            var iframe = $('#uploadIframe')[0].contentWindow,
+                name = Math.floor(Math.random() * 99999999);
+            iframe.$('#nameInput').val(name.toString());
+            iframe.$('#fileUpload').click();
+        }
+
         return {
             viewModel: toolsViewModel,
             template: { require: 'text!/canvas/templates/tools.html' }
         }
-});
+    }
+);

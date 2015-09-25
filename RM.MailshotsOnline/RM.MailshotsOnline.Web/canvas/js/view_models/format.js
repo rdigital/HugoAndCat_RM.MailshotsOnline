@@ -1,6 +1,6 @@
 // viewmodel to handle format data
-define(['knockout', 'view_models/data', 'view_models/user', 'view_models/state', 'temp/data'],
-    function(ko, dataViewModel, userViewModel, stateViewModel, tempData) {
+define(['knockout', 'jquery', 'view_models/state'],
+    function(ko, $, stateViewModel) {
 
         function formatViewModel() {
             // this.objects contains the data returned from the server
@@ -10,7 +10,7 @@ define(['knockout', 'view_models/data', 'view_models/user', 'view_models/state',
             this.selectedID = stateViewModel.formatID;
             this.selected.subscribe(function() {
                 stateViewModel.viewingFace(this.getDefaultFace());
-            }, this)
+            }, this);
 
             // fetch data
             this.fetch();
@@ -19,26 +19,26 @@ define(['knockout', 'view_models/data', 'view_models/user', 'view_models/state',
         formatViewModel.prototype.fetch = function fetch() {
             // fetch data from server using fetchURL
             var fetchURL = "/Umbraco/Api/MailshotSettings/GetFormat/" + this.selectedID; 
-            console.log('fetching data from ' + fetchURL);
+            //console.log('fetching data from ' + fetchURL);
             $.getJSON(fetchURL, function(data) {
                 this.selected(data);
-            }.bind(this))
-        }
+            }.bind(this));
+        };
 
         formatViewModel.prototype.getDefaultFace = function getDefaultFace() {
             var faces = this.getFaces(),
                 default_face = ko.utils.arrayFirst(faces, function(face) {
-                    return face.default == true
+                    return face.default_face == true;
                 });
-            return default_face || faces[0]
-        }
+            return default_face || faces[0];
+        };
 
         formatViewModel.prototype.getFaces = function getFaces() {
         	var selectedFormat = this.selected();
         	if (selectedFormat) {
-        		return selectedFormat.faces
+        		return selectedFormat.faces;
         	}
-        	return []
+        	return [];
         };
 
         formatViewModel.prototype.getFacesBySide = function getFacesBySide(side) {
@@ -60,4 +60,4 @@ define(['knockout', 'view_models/data', 'view_models/user', 'view_models/state',
         // to load the viewmodel will get the same instance
         return format;
     }
-)
+);

@@ -1,12 +1,28 @@
-define(['knockout', 'komapping', 'view_models/format', 'view_models/template', 'view_models/user', 'view_models/state', 'view_models/history'],
+define(['knockout', 'view_models/format', 'view_models/template', 'view_models/user', 'view_models/state', 'view_models/history'],
 
-    function(ko, mapping, formatViewModel, templateViewModel, userViewModel, stateViewModel, historyViewModel) {
+    function(ko, formatViewModel, templateViewModel, userViewModel, stateViewModel, historyViewModel) {
 
         // ViewModel
         function templateComponentViewModel(params) {
             this.faces = formatViewModel.allFaces;
+            this.sides = ['front', 'back'];
             this.templates = templateViewModel.objects;
             this.currentTemplate = userViewModel.objects.templateID;
+            this.previewingTemplate = ko.observable(this.currentTemplate());
+
+            this.container = ko.observable();
+            this.scale = ko.observable();
+            this.ms_scale = ko.observable();
+
+            this.width = ko.observable();
+            this.height = ko.observable();
+            this.margin = ko.observable(0);
+
+            this.sideFaces = this.sideFaces.bind(this);
+            this.doScale = this.doScale.bind(this);
+            this.previewTemplate = this.previewTemplate.bind(this);
+
+            $(window).resize(this.doScale);
         }
 
         /**
@@ -23,17 +39,59 @@ define(['knockout', 'komapping', 'view_models/format', 'view_models/template', '
             }
             stateViewModel.toggleTemplatePicker();
             historyViewModel.pushToHistory();
-        }
+        };
+
+        templateComponentViewModel.prototype.previewTemplate = function previewTemplate(template) {
+            this.previewingTemplate(template.id);
+        };
 
         /**
          * toggle the template picker modal
          */
         templateComponentViewModel.prototype.toggleTemplatePicker = function toggleTemplatePicker() {
             stateViewModel.toggleTemplatePicker();
-        }
+        };
+
+        templateComponentViewModel.prototype.sideFaces = function sideFaces(side) {
+            var ret = ko.utils.arrayFilter(this.faces(), function(face) {
+                return face.side == side;
+            });
+            return ret;
+        };
+
+        templateComponentViewModel.prototype.doScale = function doScale() {
+            var side = this.sides[0],
+                faces = this.sideFaces(side),
+                width = 0,
+                height = 0,
+                container_height = this.container().height(),
+                container_width = this.container().width() - 40;
+
+            ko.utils.arrayForEach(faces, function(face) {
+                height += face.height + 60;
+                width = Math.max(face.width, width);
+            });
+
+            this.width(width + 'px');
+            this.height(height + 'px');
+
+            var v_scale = container_height / height,
+                h_scale = container_width / width,
+                scale = Math.min(v_scale, h_scale),
+                scaled_height = scale * height;
+
+            if (scaled_height < container_height) {
+                this.margin(((container_height - scaled_height) / 2) + 'px');
+            } else {
+                this.margin(0);
+            }
+
+            this.scale('scale(' + scale + ')');
+            this.ms_scale('scale(' + scale + ', ' + scale + ')');
+        };
 
         return {
             viewModel: templateComponentViewModel,
             template: { require: 'text!/canvas/templates/template.html' }
-        }
+        };
 });

@@ -1,6 +1,6 @@
 // viewmodel to handle my images data
-define(['knockout', 'view_models/data', 'view_models/format', 'view_models/user', 'temp/data'],
-    function(ko, dataViewModel, userViewModel, tempData) {
+define(['knockout', 'view_models/data', 'view_models/format', 'view_models/user'],
+    function(ko, dataViewModel, userViewModel) {
 
         function myImagesViewModel() {
             // this.objects contains the data returned from the server
@@ -28,16 +28,16 @@ define(['knockout', 'view_models/data', 'view_models/format', 'view_models/user'
                 this.objects(data);
             }.bind(this)).fail(function() {
                 console.log('There was an error fetching my images');
-            })
-        }
+            });
+        };
 
         myImagesViewModel.prototype.add = function add(image) {
             this.objects.push(image);
-        }
+        };
 
         myImagesViewModel.prototype.select = function select(image) {
             this.selected(image);
-        }
+        };
 
         myImagesViewModel.prototype.remove = function remove(image) {
             this.objects.remove(image);
@@ -45,9 +45,9 @@ define(['knockout', 'view_models/data', 'view_models/format', 'view_models/user'
                 console.log('Image deleted');
             }.bind(this)).fail(function() {
                 console.log('There was an error deleting this image');
-            })
-            return false
-        }
+            });
+            return false;
+        };
 
         var myImages = new myImagesViewModel();
 
@@ -59,4 +59,4 @@ define(['knockout', 'view_models/data', 'view_models/format', 'view_models/user'
         // to load the viewmodel will get the same instance
         return myImages;
     }
-)
+);

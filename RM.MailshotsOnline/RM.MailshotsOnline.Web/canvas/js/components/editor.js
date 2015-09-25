@@ -1,6 +1,6 @@
-define(['knockout', 'komapping', 'components/side', 'components/tools', 'components/backgroundtools', 'components/options', 'components/upload', 'components/zoom', 'components/preview', 'components/sidepicker', 'view_models/format', 'view_models/state', 'view_models/history'],
+define(['knockout', 'components/side', 'components/tools', 'components/backgroundtools', 'components/options', 'components/upload', 'components/zoom', 'components/preview', 'components/sidepicker', 'view_models/format', 'view_models/state'],
 
-    function(ko, mapping, sideComponent, toolsComponent, backgroundToolsComponent, optionsComponent, uploadComponent, zoomComponent, previewComponent, sidePickerComponent, formatViewModel, stateViewModel, historyViewModel) {
+    function(ko, sideComponent, toolsComponent, backgroundToolsComponent, optionsComponent, uploadComponent, zoomComponent, previewComponent, sidePickerComponent, formatViewModel, stateViewModel) {
         // register required components
         ko.components.register('tools-component', toolsComponent);
         ko.components.register('backgroundtools-component', backgroundToolsComponent);
@@ -14,7 +14,7 @@ define(['knockout', 'komapping', 'components/side', 'components/tools', 'compone
         // ViewModel
         function editorViewModel(params) {
             this.faces = formatViewModel.allFaces;
-            this.sides = ['front', 'back']
+            this.sides = ['front', 'back'];
             this.ready = stateViewModel.ready;
             this.viewingSide = stateViewModel.viewingSide;
             this.viewingFace = stateViewModel.viewingFace;
@@ -45,18 +45,18 @@ define(['knockout', 'komapping', 'components/side', 'components/tools', 'compone
             this.output.subscribe(function () {
                 setTimeout(function () {
                     $('.json-output').select();
-                }, 100)
-            })
-        }
+                }, 100);
+            });
+        };
 
         /**
          * switch the currently viewing side
          */
         editorViewModel.prototype.toggleSide = function toggleSide() {
             var side = stateViewModel.viewingSide();
-            stateViewModel.viewingSide( (side == 'front') ? 'back' : 'front' )
+            stateViewModel.viewingSide( (side == 'front') ? 'back' : 'front' );
             this.unfocus();
-        }
+        };
 
         /**
          * unfocus any currently selected element
@@ -65,7 +65,7 @@ define(['knockout', 'komapping', 'components/side', 'components/tools', 'compone
             stateViewModel.selectElement(null);
             stateViewModel.backgroundSelected(null);
             stateViewModel.scaleElement.valueHasMutated();
-        }
+        };
 
         /**
          * unfocus any currently selected element if clicking directly on the
@@ -77,36 +77,36 @@ define(['knockout', 'komapping', 'components/side', 'components/tools', 'compone
                 // for some bizarre reason we have to call this twice in ie
                 this.unfocus();
             }
-            return true
-        }
+            return true;
+        };
 
         editorViewModel.prototype.getHiddenComputed = function getHiddenComputed() {
             return ko.pureComputed(function() {
                 if (stateViewModel.selectedElement() || stateViewModel.backgroundSelected()) {
-                    return true
+                    return true;
                 }
-                return false
-            }, this)
-        }
+                return false;
+            }, this);
+        };
 
         editorViewModel.prototype.getMessageComputed = function getMessageComputed() {
             return ko.pureComputed(function() {
                 if (stateViewModel.selectedElement()) {
                     return stateViewModel.selectedElement().message();
                 }
-                return null
-            }, this)
-        }
+                return null;
+            }, this);
+        };
 
         /**
          * testing only - clear the json output
          */
         editorViewModel.prototype.clearOutput = function clearOutput() {
-            this.output(null)
-        }
+            this.output(null);
+        };
 
         return {
             viewModel: editorViewModel,
             template: { require: 'text!/canvas/templates/editor.html' }
-        }
+        };
 });

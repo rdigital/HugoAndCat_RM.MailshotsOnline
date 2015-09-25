@@ -70,7 +70,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\RecaptchaValidatorAttribute.cs" />
+    <Compile Include="Attributes\CompareCaseInsensitiveAttribute.cs" />
+    <Compile Include="Attributes\RecaptchaAttribute.cs" />
     <Compile Include="DataModels\Campaign.cs" />
     <Compile Include="DataModels\CampaignDistributionList.cs" />
     <Compile Include="DataModels\CmsImage.cs" />
@@ -89,6 +90,11 @@
     <Compile Include="DataModels\Order.cs" />
     <Compile Include="DataModels\PostalOption.cs" />
     <Compile Include="DataModels\PublicLibraryImage.cs" />
+    <Compile Include="DataModels\Reports\TransactionsReportEntity.cs" />
+    <Compile Include="DataModels\Reports\TransactionsReport.cs" />
+    <Compile Include="DataModels\Reports\MembershipReport.cs" />
+    <Compile Include="DataModels\Reports\MembershipReportEntity.cs" />
+    <Compile Include="DataModels\Reports\Report.cs" />
     <Compile Include="DataModels\SettingsFromCms.cs" />
     <Compile Include="Extensions\MailshotExtensions.cs" />
     <Compile Include="JsonModels\CampaignPriceBreakdown.cs" />
@@ -116,8 +122,9 @@
     <Compile Include="PageModels\MailshotEditor.cs" />
     <Compile Include="PageModels\EditProfileBasePage.cs" />
     <Compile Include="PageModels\ModerationPage.cs" />
-    <Compile Include="PageModels\MyAccounts.cs" />
+    <Compile Include="PageModels\MyOrders.cs" />
     <Compile Include="PageModels\MyImages.cs" />
+    <Compile Include="PageModels\OrderDetails.cs" />
     <Compile Include="PageModels\PaymentCancelled.cs" />
     <Compile Include="PageModels\PaymentConfirmation.cs" />
     <Compile Include="PageModels\Profile\MarketingPreferences.cs" />

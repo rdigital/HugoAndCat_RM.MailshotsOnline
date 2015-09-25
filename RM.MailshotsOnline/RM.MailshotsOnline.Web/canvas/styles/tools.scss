@@ -55,6 +55,7 @@
 		padding: 7px 9px;
 		line-height: 19px;
 		border: 1px solid $grey;
+		box-sizing: border-box;
 	}
 	.tools-button {
 		transition: all .25s ease-out;
@@ -66,6 +67,8 @@
 	    cursor: pointer;
 	    font-size: 15px;
 	    line-height: 19px;
+	    height: 35px;
+	    overflow: hidden;
 	    float: left;
 	    border: 1px solid $grey;
 	    border-left: none;
@@ -98,6 +101,7 @@
 		.fa-arrows {
 			line-height: 19px;
 			transform: rotate(45deg);
+			-ms-transform: rotate(45deg);
 		}
 	}
 	.tools-label {
@@ -121,6 +125,10 @@
 		color: $dark-grey;
 		&.tools-image_own {
 			background-image: url(/canvas/images/own_image.png);
+		}
+		&.tools-image_own_old_ie {
+			background-image: url(/canvas/images/own_image.png);
+			display: none;
 		}
 		&.tools-image_library {
 			background-image: url(/canvas/images/library_image.png);
@@ -169,11 +177,12 @@
     	width: 100%;
     }
     &:after {
-    	transition: all .25s ease-out;
+    	//transition: all .25s ease-out;
     	content: '^';
     	position: absolute;
     	right: 13px;
 	    top: -5px;
+	    -ms-transform: rotate(180deg);
 	    transform: rotate(180deg);
 	    font-size: 20px;
     	color: $dark-grey;
@@ -182,6 +191,7 @@
 .dropdown.dropdown_active .tools-dropdown:after {
 	top: 4px;
 	transform: scaleY(-1) rotate(180deg);
+	-ms-transform: scaleY(-1) rotate(180deg);
 }
 .dropdown-options {
 	z-index: 1;

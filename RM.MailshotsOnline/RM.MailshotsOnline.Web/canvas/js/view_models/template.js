@@ -11,7 +11,7 @@ define(['knockout', 'view_models/data', 'view_models/user', 'view_models/state']
                 if (userViewModel.ready()) {
                     return userViewModel.objects.templateID();
                 }
-            }, this)
+            }, this);
 
             // fetch data
             this.fetch();
@@ -27,15 +27,15 @@ define(['knockout', 'view_models/data', 'view_models/user', 'view_models/state']
          * @return {[Object]}           [array of objects which represent each element]
          */
         templateViewModel.prototype.getElementsByFace = function getElementsByFace(face_name) {
-            var template = this.selected();
+            var template = this.selected(),
                 elements = ko.utils.arrayFilter(template.elements, function(element) {
                     return element.face == face_name;
                 });
-            return (elements.length) ? elements : []
-        }
+            return (elements.length) ? elements : [];
+        };
 
         // return instance of viewmodel, so all places where AMD is used
         // to load the viewmodel will get the same instance
         return new templateViewModel();
     }
-)
+);
