@@ -12,51 +12,9 @@
 	</div>
 
 	<div class="constrain">
-		<section class="lists__my-lists">
-			<div class="lists__section-head">
-				<h4 class="strong">My lists (42)</h4>
-				<a href="" class="lists__my-lists__create">
-					<span class="link-text">Create a new list</span>
-					<span class="icon-Add"></span>
-				</a>
-			</div>
-			<ul class="lists__my-lists--lists lists__my-lists__list">
-				<li>
-					<a href="" class="lists__my-lists__name">Local Chocoholics</a>
-					<span class="lists__my-lists__number">
-						<span class="icon-Person"></span>
-						<span class="number">449</span>
-					</span>
-					<div class="custom-checkbox-grp">
-						<input type="checkbox" name="listSelect" id="listSelect">
-						<span class="custom-checkbox-round icon-Tick" custom-checkbox="checked" aria-label="select list"></span>
-					</div>
-				</li>
-				<li>
-					<a href="" class="lists__my-lists__name">Local Chocoholics</a>
-					<span class="lists__my-lists__number">
-						<span class="icon-Person"></span>
-						<span class="number">449</span>
-					</span>
-					<div class="custom-checkbox-grp">
-						<input type="checkbox" name="listSelect" id="listSelect">
-						<span class="custom-checkbox-round icon-Tick" custom-checkbox="checked" aria-label="select list"></span>
-					</div>
-				</li>
-				<li>
-					<a href="" class="lists__my-lists__name">Local Chocoholics</a>
-					<span class="lists__my-lists__number">
-						<span class="icon-Person"></span>
-						<span class="number">449</span>
-					</span>
-					<div class="custom-checkbox-grp">
-						<input type="checkbox" name="listSelect" id="listSelect">
-						<span class="custom-checkbox-round icon-Tick" custom-checkbox="checked" aria-label="select list"></span>
-					</div>
-				</li>
-			</ul>
-		</section>
-	    
+		
+	    <lists-component></lists-component>
+
 	    <section class="lists__rent-list">
 	    	<div class="lists__section-head">
 	    		<h4 class="strong">Rented List</h4>
@@ -73,8 +31,8 @@
 						<span class="number">1000</span>
 					</span>
 					<div class="custom-checkbox-grp">
-						<input type="checkbox" name="listSelect" id="listSelect">
-						<span class="custom-checkbox-round icon-Tick" custom-checkbox="checked" aria-label="select list"></span>
+						<input class="visually-hidden" type="checkbox" name="listSelect" id="listSelect">
+						<span class="custom-checkbox-round icon-Tick" aria-label="select list"></span>
 					</div>
 				</li>
 	    	</ul>

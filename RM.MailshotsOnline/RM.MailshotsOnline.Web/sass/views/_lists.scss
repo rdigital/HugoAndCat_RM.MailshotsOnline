@@ -132,6 +132,14 @@
 			float: right;
 			position: relative;
 			top: 7px;
+
+			label {
+				margin-right: 15px;
+				position: relative;
+				text-align: right;
+				top: 2px;
+				vertical-align: middle;
+			}
 		}
 	}
 }

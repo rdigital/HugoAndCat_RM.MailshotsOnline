@@ -567,11 +567,11 @@ select {
   width: 27px;
   cursor: pointer; }
   .custom-checkbox-round.checked {
-    background-color: #0892cb; }
+    background-color: #fff; }
   .custom-checkbox-round:before {
     font-size: 28px;
     font-size: 2.8rem;
-    color: #fff;
+    color: #0892cb;
     display: none;
     left: 0;
     position: absolute;
@@ -707,7 +707,7 @@ select {
   display: table;
   clear: both; }
 
-input[type="checkbox"], .visually-hidden {
+.visually-hidden {
   margin: -1px;
   padding: 0;
   width: 1px;
@@ -906,3 +906,9 @@ header {
     float: right;
     position: relative;
     top: 7px; }
+    .lists .lists__my-lists__list .custom-checkbox-grp label {
+      margin-right: 15px;
+      position: relative;
+      text-align: right;
+      top: 2px;
+      vertical-align: middle; }

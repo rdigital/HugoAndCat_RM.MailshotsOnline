@@ -3574,7 +3574,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>51354</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://rm-local-msol.hugoandcat.co.uk/</IISUrl>
+          <IISUrl>http://localhost/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
