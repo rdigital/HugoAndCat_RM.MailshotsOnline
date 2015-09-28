@@ -1,0 +1,42 @@
+@mixin font-size($sizeValue: 1.6) {
+  	font-size: $sizeValue + px;
+  	font-size: ($sizeValue/10) + rem;
+}
+
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); //IE8
+}
+
+@mixin bp-xtra-large {
+  @media only screen and (min-width: $bp-xtra-large) {
+    @content;
+  }
+}
+
+@mixin bp-large {
+  @media only screen and (min-width: $bp-large) {
+    @content;
+  }
+}
+
+@mixin bp-medium {
+  @media only screen and (min-width: $bp-medium) {
+    @content;
+  }
+}
+
+@mixin retina-bg($width: 100%, $height: 100%) {
+	background-size: ($width / 2) + px ($height / 2) + px;
+	height: ($height / 2) + px;
+	width: ($width / 2) + px;
+}
+
+@mixin vertical-align($position: relative) {
+  position: $position;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}

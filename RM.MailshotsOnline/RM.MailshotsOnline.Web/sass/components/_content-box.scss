@@ -1,0 +1,10 @@
+.content-box {
+	@extend %clearfix;
+	background-color: $white;
+	border: 1px solid $shadow-grey;
+	border-bottom: 3px solid $shadow-grey;
+	box-sizing: border-box;
+	margin-bottom: 30px;
+	padding: 30px 35px;
+	position: relative;
+}

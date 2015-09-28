@@ -6,6 +6,7 @@
 
     Html.RequiresJs("~/scripts/jquery-1.10.2.min.js", 1);
     Html.RequiresCss("~/css/temp.css", 1);
+    Html.RequiresCss("~/css/main.css", 2);
 }
 
 <!DOCTYPE html>
@@ -36,7 +37,7 @@
 <body>
     <div class="wrapper"> 
         <header>
-            <nav class="main-nav">
+            <nav class="main-nav constrain">
                 @Umbraco.RenderMacro("MainNavigation")
                 @Umbraco.RenderMacro("HeaderNavigation")
             </nav>

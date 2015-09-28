@@ -1,0 +1,90 @@
+@font-face {
+    font-family: 'Chevin light';
+    src: url('../fonts/chevin/2EDB2C_5_0.eot');
+    src: url('../fonts/chevin/2EDB2C_5_0.eot?#iefix') format('embedded-opentype'),
+            url('../fonts/chevin/2EDB2C_5_0.woff2') format('woff2'),
+            url('../fonts/chevin/2EDB2C_5_0.woff') format('woff'),
+            url('../fonts/chevin/chevinlight.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Chevin Demi Bold';
+    src: url('../fonts/chevin/2EDB2C_A_0.eot');
+    src: url('../fonts/chevin/2EDB2C_A_0.eot?#iefix') format('embedded-opentype'),
+            url('../fonts/chevin/2EDB2C_A_0.woff2') format('woff2'),
+            url('../fonts/chevin/2EDB2C_A_0.woff') format('woff'),
+            url('../fonts/chevin/chevinlight.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Chevin Thin';
+    src: url('../fonts/chevin/2EDB2C_5_0.eot');
+    src: url('../fonts/chevin/2EDB2C_5_0.eot?#iefix') format('embedded-opentype'),
+            url('../fonts/chevin/2EDB2C_5_0.woff2') format('woff2'),
+            url('../fonts/chevin/2EDB2C_5_0.woff') format('woff'),
+            url('../fonts/chevin/chevinlight.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Chevin Medium';
+    src: url('../fonts/chevin/2EDB2C_4_0.eot');
+    src: url('../fonts/chevin/2EDB2C_4_0.eot?#iefix') format('embedded-opentype'),
+            url('../fonts/chevin/2EDB2C_4_0.woff2') format('woff2'),
+            url('../fonts/chevin/2EDB2C_4_0.woff') format('woff'),
+            url('../fonts/chevin/chevinlight.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'DIN Bold';
+    src: url('../fonts/DIN/parachute_-_pfdintextstd-bold-webfont.eot');
+    src: url('../fonts/DIN/parachute_-_pfdintextstd-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/DIN/parachute_-_pfdintextstd-bold-webfont.woff2') format('woff2'),
+         url('../fonts/DIN/parachute_-_pfdintextstd-bold-webfont.woff') format('woff'),
+         url('../fonts/DIN/parachute_-_pfdintextstd-bold-webfont.ttf') format('truetype'),
+         url('../fonts/DIN/parachute_-_pfdintextstd-bold-webfont.svg#pf_dintext_stdbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'DIN Italic';
+    src: url('../fonts/DIN/parachute_-_pfdintextstd-italic-webfont.eot');
+    src: url('../fonts/DIN/parachute_-_pfdintextstd-italic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/DIN/parachute_-_pfdintextstd-italic-webfont.woff2') format('woff2'),
+         url('../fonts/DIN/parachute_-_pfdintextstd-italic-webfont.woff') format('woff'),
+         url('../fonts/DIN/parachute_-_pfdintextstd-italic-webfont.ttf') format('truetype'),
+         url('../fonts/DIN/parachute_-_pfdintextstd-italic-webfont.svg#pf_dintext_stditalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'DIN Regular';
+    src: url('../fonts/DIN/parachute_-_pfdintextstd-regular-webfont.eot');
+    src: url('../fonts/DIN/parachute_-_pfdintextstd-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/DIN/parachute_-_pfdintextstd-regular-webfont.woff2') format('woff2'),
+         url('../fonts/DIN/parachute_-_pfdintextstd-regular-webfont.woff') format('woff'),
+         url('../fonts/DIN/parachute_-_pfdintextstd-regular-webfont.ttf') format('truetype'),
+         url('../fonts/DIN/parachute_-_pfdintextstd-regular-webfont.svg#pf_dintext_stdregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+$ChevinLight: 'Chevin Light', Arial, sans-serif;
+$ChevinBold: 'Chevin Demi Bold', Arial, sans-serif;
+$ChevinThin: 'Chevin Thin', Arial, sans-serif;
+$ChevinMedium: 'Chevin Medium', Arial, sans-serif;
+$DINRegular: 'DIN Regular', Arial, sans-serif;
+$DINBold: 'DIN Bold', Arial, sans-serif;
+$DINItalic: 'DIN Italic', Arial, sans-serif;

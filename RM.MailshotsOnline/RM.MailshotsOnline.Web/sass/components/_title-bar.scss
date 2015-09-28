@@ -1,0 +1,35 @@
+.title-bar {
+	@extend %clearfix;
+	background-color: $white;
+	border-bottom: 3px solid $shadow-grey;
+	border-top: 1px solid $shadow-grey;
+	box-sizing: border-box;
+	height: 82px;
+	margin-bottom: 30px;
+	padding-top: 20px;
+
+	h1 {
+		@include font-size(28);
+		text-align: center;
+	}
+
+	.back {
+		color: $text-grey;
+		font-family: $ChevinMedium;
+		left: 0;
+		position: absolute;
+		text-decoration: none;
+
+		.icon-Previous {
+			@include font-size(30);
+			color: $RM-red;
+			margin-right: 10px;
+			vertical-align: middle;
+		}
+
+		.back-text {
+			position: relative;
+			top: 2px;
+		}
+	}
+}

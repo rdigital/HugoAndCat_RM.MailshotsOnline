@@ -3,7 +3,81 @@
     Layout = "Master.cshtml";
 }
 
-<div class="content">
-    <h1>@Model.Name</h1>
-    <h2>Lists page</h2>
+<div class="lists">
+	<div class="title-bar">
+		<div class="constrain">
+			<a href="" class="back"><span class="icon-Previous"></span><span class="back-text">Back to campaign</span></a>
+			<h1>Add data to your campaign</h1>
+		</div>
+	</div>
+
+	<div class="constrain">
+		<section class="lists__my-lists">
+			<div class="lists__section-head">
+				<h4 class="strong">My lists (42)</h4>
+				<a href="" class="lists__my-lists__create">
+					<span class="link-text">Create a new list</span>
+					<span class="icon-Add"></span>
+				</a>
+			</div>
+			<ul class="lists__my-lists--lists lists__my-lists__list">
+				<li>
+					<a href="" class="lists__my-lists__name">Local Chocoholics</a>
+					<span class="lists__my-lists__number">
+						<span class="icon-Person"></span>
+						<span class="number">449</span>
+					</span>
+					<div class="custom-checkbox-grp">
+						<input type="checkbox" name="listSelect" id="listSelect">
+						<span class="custom-checkbox-round icon-Tick" custom-checkbox="checked" aria-label="select list"></span>
+					</div>
+				</li>
+				<li>
+					<a href="" class="lists__my-lists__name">Local Chocoholics</a>
+					<span class="lists__my-lists__number">
+						<span class="icon-Person"></span>
+						<span class="number">449</span>
+					</span>
+					<div class="custom-checkbox-grp">
+						<input type="checkbox" name="listSelect" id="listSelect">
+						<span class="custom-checkbox-round icon-Tick" custom-checkbox="checked" aria-label="select list"></span>
+					</div>
+				</li>
+				<li>
+					<a href="" class="lists__my-lists__name">Local Chocoholics</a>
+					<span class="lists__my-lists__number">
+						<span class="icon-Person"></span>
+						<span class="number">449</span>
+					</span>
+					<div class="custom-checkbox-grp">
+						<input type="checkbox" name="listSelect" id="listSelect">
+						<span class="custom-checkbox-round icon-Tick" custom-checkbox="checked" aria-label="select list"></span>
+					</div>
+				</li>
+			</ul>
+		</section>
+	    
+	    <section class="lists__rent-list">
+	    	<div class="lists__section-head">
+	    		<h4 class="strong">Rented List</h4>
+	    		<a href="" class="lists__rent-list__clear">
+	    			<span class="link-text">Clear rented list</span>
+	    			<span class="icon-Close"></span>
+	    		</a>
+	    	</div>
+	    	<ul class="lists__rent-list--selected lists__my-lists__list">
+	    		<li>
+					<a href="" class="lists__my-lists__name">Rented List</a>
+					<span class="lists__my-lists__number">
+						<span class="icon-Person"></span>
+						<span class="number">1000</span>
+					</span>
+					<div class="custom-checkbox-grp">
+						<input type="checkbox" name="listSelect" id="listSelect">
+						<span class="custom-checkbox-round icon-Tick" custom-checkbox="checked" aria-label="select list"></span>
+					</div>
+				</li>
+	    	</ul>
+	    </section>
+	</div>
 </div>
