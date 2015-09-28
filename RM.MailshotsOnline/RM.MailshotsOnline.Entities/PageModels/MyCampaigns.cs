@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 namespace RM.MailshotsOnline.Entities.PageModels
 {
     [UmbracoType(AutoMap = true)]
-    public class CreateCanvas : BasePage
+    public class MyCampaigns : BasePage
     {
-        public BasePage MyCampaignsPage { get; set; }
+        public string MainContent { get; set; }
 
-        public BasePage LoginPage { get; set; }
+        public string DefaultTitleForNewCampaigns { get; set; }
     }
 }
