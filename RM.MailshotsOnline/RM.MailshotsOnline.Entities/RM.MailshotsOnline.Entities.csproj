@@ -123,6 +123,7 @@
     <Compile Include="PageModels\MailshotEditor.cs" />
     <Compile Include="PageModels\EditProfileBasePage.cs" />
     <Compile Include="PageModels\ModerationPage.cs" />
+    <Compile Include="PageModels\MyCampaigns.cs" />
     <Compile Include="PageModels\MyOrders.cs" />
     <Compile Include="PageModels\MyImages.cs" />
     <Compile Include="PageModels\OrderDetails.cs" />
