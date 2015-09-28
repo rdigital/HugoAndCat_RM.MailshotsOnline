@@ -15,6 +15,14 @@ namespace RM.MailshotsOnline.PCL.Services
         IEnumerable<IMailshot> GetAllMailshots();
 
         /// <summary>
+        /// Checks if a mailshot belongs to a user
+        /// </summary>
+        /// <param name="mailshotId">ID of the mailshot</param>
+        /// <param name="userId">ID of the user</param>
+        /// <returns>Returns true if the mailshot belongs to the user</returns>
+        bool MailshotBelongsToUser(Guid mailshotId, int userId);
+
+        /// <summary>
         /// Gets a user's mailshots
         /// </summary>
         /// <param name="userId">The ID of the user to search against</param>
