@@ -28,6 +28,16 @@ namespace RM.MailshotsOnline.PCL.Models
         string Name { get; set; }
 
         /// <summary>
+        /// Gets or sets the name of the category for this line item
+        /// </summary>
+        string Category { get; set; }
+
+        /// <summary>
+        /// Gets or sets the line-item subtitle
+        /// </summary>
+        string SubTitle { get; set; }
+
+        /// <summary>
         /// Gets or sets the quantity of the item
         /// </summary>
         int Quantity { get; set; }

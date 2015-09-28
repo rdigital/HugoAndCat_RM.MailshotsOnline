@@ -44,5 +44,7 @@ namespace RM.MailshotsOnline.Entities.PageModels
         public bool DisplayCampaignErrorMessage { get; set; }
 
         public ICampaign Campaign { get; set; }
+
+        public Dictionary<string, List<IInvoiceLineItem>> CostBreakdown { get; set; }
     }
 }

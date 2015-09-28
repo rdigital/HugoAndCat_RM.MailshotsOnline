@@ -101,13 +101,36 @@ namespace RM.MailshotsOnline.Data.Services
 
             if (savedInvoice != null)
             {
+                // TODO: Get the names from the CMS
                 var lineItems = new List<InvoiceLineItem>();
+
+                lineItems.Add(new InvoiceLineItem()
+                {
+                    Name = string.Format("Service fee", priceBreakdown.ServiceFee),
+                    Category = "Service Fees",
+                    Quantity = 1,
+                    UnitCost = priceBreakdown.ServiceFee,
+                    TaxRate = priceBreakdown.TaxRate,
+                    InvoiceId = savedInvoice.InvoiceId
+                });
+
+                lineItems.Add(new InvoiceLineItem()
+                {
+                    Name = "Your data",
+                    Category = "Recipients",
+                    Quantity = campaign.OwnDataRecipientCount,
+                    UnitCost = 0,
+                    TaxRate = 0,
+                    InvoiceId = savedInvoice.InvoiceId
+                });
+
                 if (priceBreakdown.DataRentalCount.HasValue && priceBreakdown.DataRentalCount.Value > 0)
                 {
                     // Add data costs
                     lineItems.Add(new InvoiceLineItem()
                     {
-                        Name = string.Format("Data rental for {0} items", priceBreakdown.DataRentalCount.Value),
+                        Name = string.Format("Our data"),
+                        Category = "Recipients",
                         Quantity = priceBreakdown.DataRentalCount.Value,
                         UnitCost = priceBreakdown.DataRentalRate,
                         TaxRate = priceBreakdown.TaxRate,
@@ -116,7 +139,8 @@ namespace RM.MailshotsOnline.Data.Services
 
                     lineItems.Add(new InvoiceLineItem()
                     {
-                        Name = "Data rental fee",
+                        Name = "Data search fee",
+                        Category = "Service Fees",
                         Quantity = 1,
                         UnitCost = priceBreakdown.DataRentalFlatFee,
                         TaxRate = priceBreakdown.TaxRate,
@@ -126,25 +150,13 @@ namespace RM.MailshotsOnline.Data.Services
 
                 if (priceBreakdown.PrintCount.HasValue && priceBreakdown.PrintCount.Value > 0)
                 {
-                    if (priceBreakdown.PostageRate.HasValue)
-                    {
-                        // Add postage
-                        lineItems.Add(new InvoiceLineItem()
-                        {
-                            Name = string.Format("Postage cost for {0} items", priceBreakdown.PrintCount.Value),
-                            Quantity = priceBreakdown.PrintCount.Value,
-                            UnitCost = priceBreakdown.PostageRate.Value,
-                            TaxRate = priceBreakdown.TaxRate,
-                            InvoiceId = savedInvoice.InvoiceId
-                        });
-                    }
-
                     if (priceBreakdown.PrintingRate.HasValue)
                     {
                         // Add printing costs
                         lineItems.Add(new InvoiceLineItem()
                         {
-                            Name = string.Format("Printing cost for {0} items", priceBreakdown.PrintCount.Value),
+                            Name = string.Format("Printing", priceBreakdown.PrintCount.Value),
+                            Category = "Printing and delivery",
                             Quantity = priceBreakdown.PrintCount.Value,
                             UnitCost = priceBreakdown.PrintingRate.Value,
                             TaxRate = priceBreakdown.TaxRate,
@@ -152,14 +164,20 @@ namespace RM.MailshotsOnline.Data.Services
                         });
                     }
 
-                    lineItems.Add(new InvoiceLineItem()
+                    if (priceBreakdown.PostageRate.HasValue)
                     {
-                        Name = string.Format("Service fee", priceBreakdown.ServiceFee),
-                        Quantity = 1,
-                        UnitCost = priceBreakdown.ServiceFee,
-                        TaxRate = priceBreakdown.TaxRate,
-                        InvoiceId = savedInvoice.InvoiceId
-                    });
+                        // Add postage
+                        lineItems.Add(new InvoiceLineItem()
+                        {
+                            Name = string.Format("Postage", priceBreakdown.PrintCount.Value),
+                            SubTitle = campaign.PostalOption.Name,
+                            Category = "Printing and delivery",
+                            Quantity = priceBreakdown.PrintCount.Value,
+                            UnitCost = priceBreakdown.PostageRate.Value,
+                            TaxRate = priceBreakdown.TaxRate,
+                            InvoiceId = savedInvoice.InvoiceId
+                        });
+                    }
                 }
 
                 savedInvoice.LineItems = lineItems.ToList<IInvoiceLineItem>();//.Cast<IInvoiceLineItem>();

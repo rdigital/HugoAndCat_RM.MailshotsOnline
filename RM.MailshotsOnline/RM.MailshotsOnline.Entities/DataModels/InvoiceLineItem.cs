@@ -54,6 +54,16 @@ namespace RM.MailshotsOnline.Entities.DataModels
         public string Name { get; set; }
 
         /// <summary>
+        /// Gets or sets the name of the category for this line item
+        /// </summary>
+        public string Category { get; set; }
+
+        /// <summary>
+        /// Gets or sets the line-item subtitle
+        /// </summary>
+        public string SubTitle { get; set; }
+
+        /// <summary>
         /// Gets or sets the quantity of the item
         /// </summary>
         public int Quantity { get; set; }

@@ -55,7 +55,57 @@
                     </p>
                 </div>
             }
-            @if (Model.Campaign.HasData())
+            
+            @if(Model.CostBreakdown != null)
+            {
+                var invoice = Model.Campaign.LatestInvoice();
+                <div class="cost-breakdown">
+                    <h2>@Model.CostBreakdownLabel</h2>
+                    <table class="costSummary">
+                        @foreach (string key in Model.CostBreakdown.Keys)
+                        {
+                            <tr>
+                                <th colspan="2">@key</th>
+                            </tr>
+                            foreach (var lineItem in Model.CostBreakdown[key])
+                            {
+                                @Html.Partial("~/Views/Partials/LineItemCostBreakdown.cshtml", lineItem);
+                                @*<tr>
+                                    @if (lineItem.Quantity > 1)
+                                    {
+                                        if (lineItem.UnitCost > 0)
+                                        {
+                                            <td>@lineItem.Name (@lineItem.Quantity @@ &pound;@lineItem.UnitCost.ToString("F"))</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@lineItem.Name (@lineItem.Quantity)</td>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <td>@lineItem.Name</td>
+                                    }
+                                    <td class="money">&pound;@lineItem.SubTotal.ToString("F")</td>
+                                </tr>*@
+                            }
+                        }
+                        <tr>
+                            <th colspan="2">@Model.TaxHeading</th>
+                        </tr>
+                        <tr>
+                            <td>@Model.VatLabel</td>
+                            <td class="money">&pound;@invoice.TotalTax.ToString("F")</td>
+                        </tr>
+                        <tr>
+                            <td class="total">@Model.TotalCostLabel</td>
+                            <td class="total money">&pound;@invoice.Total.ToString("F")</td>
+                        </tr>
+                    </table>
+                </div>
+            }
+
+            @*@if (Model.Campaign.HasData())
             {
                 var invoice = Model.Campaign.LatestInvoice();
                 <div class="cost-breakdown">
@@ -135,7 +185,8 @@
                         </tr>
                     </table>
                 </div>
-            }
+            }*@
         </div>
     }
 </div>
+

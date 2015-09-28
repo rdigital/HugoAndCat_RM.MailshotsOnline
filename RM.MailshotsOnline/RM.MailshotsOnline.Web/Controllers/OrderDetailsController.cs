@@ -3,6 +3,7 @@ using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Entities.PageModels;
 using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
+using RM.MailshotsOnline.Web.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +58,26 @@ namespace RM.MailshotsOnline.Web.Controllers
             }
 
             pageModel.Campaign = campaign;
+
+            var costBreakdown = new Dictionary<string, List<IInvoiceLineItem>>();
+            foreach (var lineItem in campaign.LatestInvoice().LineItems)
+            {
+                if (costBreakdown.ContainsKey(lineItem.Category))
+                {
+                    if (costBreakdown[lineItem.Category] == null)
+                    {
+                        costBreakdown[lineItem.Category] = new List<IInvoiceLineItem>();
+                    }
+                }
+                else
+                {
+                    costBreakdown.Add(lineItem.Category, new List<IInvoiceLineItem>());
+                }
+
+                costBreakdown[lineItem.Category].Add(lineItem);
+            }
+
+            pageModel.CostBreakdown = costBreakdown;
 
             // Get the My Orders page (should be the parent page)
             var parentPageId = CurrentPage.Parent.Id;

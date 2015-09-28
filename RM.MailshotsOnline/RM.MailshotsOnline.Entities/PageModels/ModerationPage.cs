@@ -29,5 +29,7 @@ namespace RM.MailshotsOnline.Entities.PageModels
         public bool DisplayRejectedMessage { get; set; }
 
         public bool DisplayConfirmPrintingMessage { get; set; }
+
+        public bool DisplayCancelledMessage { get; set; }
     }
 }
