@@ -18,6 +18,7 @@ namespace RM.MailshotsOnline.Entities.DataModels
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid DistributionListId { get; set; }
 
+        [MaxLength(256)]
         public string Name { get; set; }
 
         public int UserId { get; set; }

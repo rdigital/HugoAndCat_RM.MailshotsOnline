@@ -66,6 +66,11 @@ namespace RM.MailshotsOnline.PCL.Models
         /// Gets or sets the PayPal approval URL
         /// </summary>
         string PaypalApprovalUrl { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the invoice order number
+        /// </summary>
+        string OrderNumber { get; set; }
 
         /// <summary>
         /// The line items for the invoice

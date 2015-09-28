@@ -61,6 +61,7 @@ namespace RM.MailshotsOnline.Entities.DataModels
         public int UserId { get; set; }
 
         [Required]
+        [MaxLength(256)]
         public string Name { get; set; }
 
         public DateTime UpdatedDate { get; set; }
@@ -107,8 +108,10 @@ namespace RM.MailshotsOnline.Entities.DataModels
         }
 
         [JsonIgnore]
+        [MaxLength(2048)]
         public string ProofPdfBlobId { get; set; }
 
+        [MaxLength(2048)]
         public string ProofPdfUrl { get; set; }
 
         public Guid ProofPdfOrderNumber { get; set; }

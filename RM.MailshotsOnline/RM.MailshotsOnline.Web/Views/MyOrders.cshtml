@@ -33,7 +33,7 @@
                 </div>
                 <div class="info">
                     <span>@Model.OrderPlacedLabel @campaign.LatestInvoice().CreatedDate.ToString("dd/MM/yy")</span>
-                    <span>@Model.OrderNumberLabel @campaign.LatestInvoice().PaypalOrderId <!-- TODO: Get the proper client-facing order number --></span>
+                    <span>@Model.OrderNumberLabel @Html.Raw(string.IsNullOrEmpty(campaign.LatestInvoice().OrderNumber) ? campaign.LatestInvoice().PaypalOrderId : campaign.LatestInvoice().OrderNumber)</span>
                     <span>@Model.TotalLabel &pound;@campaign.LatestInvoice().Total.ToString("F2")</span>
                 </div>
             </div>

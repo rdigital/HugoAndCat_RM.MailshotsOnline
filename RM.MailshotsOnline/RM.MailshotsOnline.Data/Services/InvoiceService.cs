@@ -80,6 +80,10 @@ namespace RM.MailshotsOnline.Data.Services
                 invoice = new Invoice();
             }
 
+            // Create order number
+            var invoiceCount = _context.Invoices.Count(i => i.Campaign.UserId == campaign.UserId);
+            var orderNumber = string.Format("{0}{1}{2:D5}", DateTime.UtcNow.Year, campaign.UserId, invoiceCount + 1);
+            invoice.OrderNumber = orderNumber;
             invoice.CampaignId = campaign.CampaignId;
             invoice.UpdatedDate = DateTime.UtcNow;
             invoice.Status = PCL.Enums.InvoiceStatus.Draft;
