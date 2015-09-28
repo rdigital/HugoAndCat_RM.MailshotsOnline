@@ -1,0 +1,23 @@
+<section class="lists__my-lists">
+	<div class="lists__section-head">
+		<h4 class="strong">My lists (<span data-bind="text: totalListCount"></span>)</h4>
+		<a href="" class="lists__my-lists__create">
+			<span class="link-text">Create a new list</span>
+			<span class="icon-Add"></span>
+		</a>
+	</div>
+	<ul class="lists__my-lists--lists lists__my-lists__list" data-bind="foreach: lists">
+		<li>
+			<a href="" class="lists__my-lists__name" data-bind="text: Name"></a>
+			<span class="lists__my-lists__number">
+				<span class="icon-Person"></span>
+				<span class="number" data-bind="text: RecordCount"></span>
+			</span>
+			<div class="custom-checkbox-grp">
+				<label for="listSelect" data-bind="visible: !selected()">Add</label>
+				<input class="visually-hidden" type="checkbox" name="listSelect" id="listSelect">
+				<span class="custom-checkbox-round icon-Tick" aria-label="select list" data-bind="css: {checked: selected}, click: $parent.toggleSelect"></span>
+			</div>
+		</li>
+	</ul>
+</section>
