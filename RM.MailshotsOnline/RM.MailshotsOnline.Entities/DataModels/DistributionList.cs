@@ -19,6 +19,7 @@ namespace RM.MailshotsOnline.Entities.DataModels
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid DistributionListId { get; set; }
 
+        [StringLength(100)]
         public string Name { get; set; }
 
         [JsonIgnore]
@@ -30,12 +31,15 @@ namespace RM.MailshotsOnline.Entities.DataModels
         [JsonIgnore]
         public DateTime CreatedUtc { get; private set; }
 
+        [StringLength(500)]
         [JsonIgnore]
         public string BlobFinal { get; set; }
 
+        [StringLength(500)]
         [JsonIgnore]
         public string BlobWorking { get; set; }
 
+        [StringLength(500)]
         [JsonIgnore]
         public string BlobErrors { get; set; }
 
@@ -43,6 +47,7 @@ namespace RM.MailshotsOnline.Entities.DataModels
 
         public DateTime UpdatedDate { get; set; }
 
+        [MaxLength(32)]
         [JsonIgnore]
         public byte[] DataSalt { get; private set; }
 

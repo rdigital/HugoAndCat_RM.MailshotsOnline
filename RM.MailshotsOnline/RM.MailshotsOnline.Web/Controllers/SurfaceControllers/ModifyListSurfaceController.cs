@@ -146,7 +146,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 if (model.DistributionListId == Guid.Empty)
                 {
                     bool nameIsNotUnique =
-                        _dataService.GetDistributionListsForUser(loggedInMember.Id).Any(d => d.Name == model.ListName);
+                        _dataService.GetDistributionListsForUser(loggedInMember.Id).Any(d => string.Equals(d.Name, model.ListName, StringComparison.CurrentCultureIgnoreCase));
 
                     if (nameIsNotUnique)
                     {

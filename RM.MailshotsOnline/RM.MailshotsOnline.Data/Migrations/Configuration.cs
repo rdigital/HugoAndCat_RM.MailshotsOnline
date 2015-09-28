@@ -28,7 +28,7 @@ namespace RM.MailshotsOnline.Data.Migrations
             //    );
 
             // Populate dummy rows for Testing
-            fillContextWithListData(context);
+            //fillContextWithListData(context);
         }
 
         private void fillContextWithListData(StorageContext context)
@@ -41,7 +41,8 @@ namespace RM.MailshotsOnline.Data.Migrations
                                                       {
                                                           Name = $"List Id: {listId:00}",
                                                           RecordCount = ((listId + 1)*13) - (listId*7),
-                                                          UserId = userId
+                                                          UserId = userId,
+                                                          UpdatedDate = DateTime.UtcNow,
                                                       });
             }
         }
