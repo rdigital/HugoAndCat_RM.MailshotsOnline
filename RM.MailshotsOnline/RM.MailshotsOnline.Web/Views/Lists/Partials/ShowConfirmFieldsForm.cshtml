@@ -5,6 +5,7 @@
 <p>@Html.Raw(Model.PageModel.ConfirmIntroText)</p>
 @using (Html.BeginUmbracoForm("UploadFileToList", "ModifyListSurface", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+    int columnCounter = 0;
     @Html.HiddenFor(m => m.DistributionListId)
     @Html.ValidationSummary()
 
@@ -31,8 +32,9 @@
                 <tr>
                     <td>"@column.Item1"</td>
                     <td>"@column.Item2"</td>
-                    <td>@BuildMapping(1, column.Item3)</td>
+                    <td>@BuildMapping(columnCounter, column.Item3)</td>
                 </tr>
+                columnCounter++;
             }
         </table>
 
@@ -46,7 +48,7 @@
 @helper  BuildMapping(int index, string selectedValue)
 {
     <div>
-        @Html.DropDownList("mapping-" + index, new SelectList(ViewBag.DataMappings, "Value", "Text", selectedValue), "Please Select a Value")
+        @Html.DropDownList("mapping" + index, new SelectList(ViewBag.DataMappings, "Value", "Text", selectedValue), "Please Select a Value")
     </div>
 }
 
