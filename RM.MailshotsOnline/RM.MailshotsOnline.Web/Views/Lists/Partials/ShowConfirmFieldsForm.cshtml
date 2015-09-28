@@ -1,0 +1,63 @@
+﻿@model RM.MailshotsOnline.Entities.ViewModels.ModifyListConfirmFieldsModel
+
+<h1>@Model.PageModel.ConfirmTitle</h1>
+<h2>@Model.PageModel.DistributionList.Name</h2>
+<p>@Html.Raw(Model.PageModel.ConfirmIntroText)</p>
+@using (Html.BeginUmbracoForm("UploadFileToList", "ModifyListSurface", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(m => m.DistributionListId)
+    @Html.ValidationSummary()
+
+    <div>
+        <strong>@Model.PageModel.ImportFirstRowLabel</strong>
+        <div>
+            <label>@Html.RadioButtonFor(m => m.FirstRowIsHeader, "true") @Model.PageModel.FirstRowIsHeaderLabel</label>
+            <label>@Html.RadioButtonFor(m => m.FirstRowIsHeader, "false") @Model.PageModel.FirstRowIsContactLabel</label>
+        </div>
+    </div>
+
+
+        <table border="1" width="600">
+            <thead>
+                <tr>
+                    <th width="33%">@FirstColumnHeader(Model.FirstRowIsHeader, Model.PageModel.YourColumnHeaderText, Model.PageModel.SampleDataHeaderText)</th>
+                    <th width="33%">@Model.PageModel.SampleDataHeaderText</th>
+                    <th width="34%">@Model.PageModel.MapsToHeaderText</th>
+                </tr>
+            </thead>
+
+            @foreach (var column in Model.FirstTwoRowsWithGuessedMappings)
+            {
+                <tr>
+                    <td>"@column.Item1"</td>
+                    <td>"@column.Item2"</td>
+                    <td>@BuildMapping(1, column.Item3)</td>
+                </tr>
+            }
+        </table>
+
+        <div>
+            <div>
+                <input type="submit" value="Finish adding contacts" />
+            </div>
+        </div>
+}
+
+@helper  BuildMapping(int index, string selectedValue)
+{
+    <div>
+        @Html.DropDownList("mapping-" + index, new SelectList(ViewBag.DataMappings, "Value", "Text", selectedValue), "Please Select a Value")
+    </div>
+}
+
+@helper FirstColumnHeader(bool? isHeader, string textIfHeader, string textIfData)
+{
+    if (isHeader.HasValue && isHeader.Value)
+    {
+        @textIfHeader
+    }
+    else
+    {
+        @textIfData
+    }
+}

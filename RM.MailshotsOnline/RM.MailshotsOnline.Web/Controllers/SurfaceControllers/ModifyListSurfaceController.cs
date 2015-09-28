@@ -5,6 +5,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Castle.Windsor.Installer;
+using CsvHelper;
+using CsvHelper.Configuration;
 using Glass.Mapper.Umb;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.Helpers;
@@ -42,28 +44,98 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         [ChildActionOnly]
         public ActionResult ShowConfirmFieldsForm(ListCreate model)
         {
+
             var pageModel = new ModifyListConfirmFieldsModel
                             {
                                 PageModel = model,
-                                DataMappings =
-                                    _umbracoService.CreateType<DataMappingFolder>(
-                                                                                  _umbracoService.ContentService
-                                                                                                 .GetPublishedVersion(
-                                                                                                                      ConfigHelper
-                                                                                                                          .DataMappingFolderId),
-                                                                                  false, false)
+                                FirstRowIsHeader = null,
                             };
 
+            var dataMappings = _umbracoService.CreateType<DataMappingFolder>(
+                                                                 _umbracoService.ContentService
+                                                                                .GetPublishedVersion(
+                                                                                                     ConfigHelper
+                                                                                                         .DataMappingFolderId),
+                                                                 false, false);
+
+            ViewBag.DataMappings = dataMappings.Mappings.Select(m => new SelectListItem { Value = m.FieldName, Text = m.Name });
+
             // Grab working copy from Blob Store and read the first two rows
-            List<string> lines = _dataService.GetFirstTwoLinesOfWorkingFile(model.DistributionList);
+            byte[] data = _dataService.GetDataFile(model.DistributionList, Enums.DistributionListFileType.Working);
 
-            // Check to see if the first row contains anything resembling column headers
+            using (var stream = new MemoryStream(data))
+            {
+                using (var sr = new StreamReader(stream))
+                {
+                    // Assume No Header Row to start with.
+                    using (var csv = new CsvReader(sr, new CsvConfiguration {HasHeaderRecord = false}))
+                    {
+                        int rows = 0;
+                        int columns = 0;
 
+                        List<KeyValuePair<string, string>> items = null;
+
+                        while (rows < 2)
+                        {
+
+                            try
+                            {
+                                csv.Read();
+
+                                if (rows == 0)
+                                {
+                                    columns = csv.CurrentRecord.Length;
+                                    pageModel.FirstTwoRowsWithGuessedMappings = new List<Tuple<string, string, string>>(columns);
+                                    items = new List<KeyValuePair<string, string>>(columns);
+                                }
+
+                                for (int column = 0; column < columns; column++)
+                                {
+                                    if (rows == 0)
+                                    {
+                                        // First Row
+                                        // Grab Value and see if we can find a mapping for it:
+                                        var possibleHeading = csv.GetField(column);
+
+                                        var possibleMapping =
+                                            dataMappings.Mappings.FirstOrDefault(
+                                                                                 m =>
+                                                                                     m.FieldMappings.Contains(
+                                                                                                              possibleHeading.ToLower().Trim()));
+
+                                        if (possibleMapping != null)
+                                        {
+                                            // We think we might have a heading row
+                                            pageModel.FirstRowIsHeader = true;
+                                        }
+
+                                        items.Add(new KeyValuePair<string, string>(possibleHeading, possibleMapping?.FieldName));
+                                    }
+                                    else
+                                    {
+                                        var value = csv.GetField(column);
+
+                                        pageModel.FirstTwoRowsWithGuessedMappings.Add(new Tuple<string, string, string>(items[column].Key, value, items[column].Value));
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                _logger.Exception("ModifyListSurfaceController", "ShowConfirmFiledsForm", ex);
+                                throw;
+                            }
+
+                            rows++;
+                        }
+                    }
+                }
+            }
 
             return PartialView("~/Views/Lists/Partials/ShowConfirmFieldsForm.cshtml", pageModel);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult UploadFileToList(ModifyListUploadFileModel model, HttpPostedFileBase uploadCsv)
         {
             if (ModelState.IsValid)
@@ -86,42 +158,50 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 }
 
                 // Confirm that the file is good too:
-                if (ModelState.IsValid && uploadCsv != null && uploadCsv.ContentLength != 0)
+                if (uploadCsv != null && uploadCsv.ContentLength != 0)
                 {
-                    bool validFile = false;
-                    string fileName = Path.GetFileName(uploadCsv.FileName);
-                    string mimeType = uploadCsv.ContentType;
-                    // Is the MimeType .csv? Not if Excel is installed on the machine (in which case they will be application/vnd.ms-excel, which is the same as an Excel .xls file.)...
-                    if (mimeType.Equals("text/csv", StringComparison.InvariantCultureIgnoreCase))
+                    if (ModelState.IsValid)
                     {
-                        validFile = true;
-                        _logger.Info("ModifyListSurfaceController", "UploadFileToList", "User has uploaded a valid .csv file: {0}", fileName);
-                    }
-
-                    if (!validFile)
-                    {
-                        // The mimetype wasn't csv, proceeding with caution:
-                        if (!string.IsNullOrEmpty(fileName) && fileName.EndsWith(".csv"))
+                        bool validFile = false;
+                        string fileName = Path.GetFileName(uploadCsv.FileName);
+                        string mimeType = uploadCsv.ContentType;
+                        // Is the MimeType .csv? Not if Excel is installed on the machine (in which case they will be application/vnd.ms-excel, which is the same as an Excel .xls file.)...
+                        if (mimeType.Equals("text/csv", StringComparison.InvariantCultureIgnoreCase))
                         {
                             validFile = true;
-                            _logger.Info("ModifyListSurfaceController", "UploadFileToList", "User has uploaded a .csv file with the wrong mime type: {0}:{1}", fileName, mimeType);
+                            _logger.Info("ModifyListSurfaceController", "UploadFileToList",
+                                         "User has uploaded a valid .csv file: {0}", fileName);
                         }
+
+                        if (!validFile)
+                        {
+                            // The mimetype wasn't csv, proceeding with caution:
+                            if (!string.IsNullOrEmpty(fileName) && fileName.EndsWith(".csv"))
+                            {
+                                validFile = true;
+                                _logger.Info("ModifyListSurfaceController", "UploadFileToList",
+                                             "User has uploaded a .csv file with the wrong mime type: {0}:{1}", fileName,
+                                             mimeType);
+                            }
+                        }
+
+                        if (validFile)
+                        {
+                            byte[] csvBytes = new byte[uploadCsv.ContentLength];
+                            uploadCsv.InputStream.Read(csvBytes, 0, uploadCsv.ContentLength);
+
+                            // Create new list and move on to mext page...
+                            // TODO: Is this a new list, or are we adding to an existing one?
+                            var newList = _dataService.CreateDistributionList(loggedInMember, model.ListName, csvBytes,
+                                                                              "text/csv",
+                                                                              Enums.DistributionListFileType.Working);
+
+                            var path = Umbraco.Url(CurrentPage.Id);
+                            return Redirect(path + "?listId=" + newList.DistributionListId);
+                        }
+
+                        ModelState.AddModelError("uploadCsv", "Invalid file uploaded - is it a .csv file?");
                     }
-
-                    if (validFile)
-                    {
-                        byte[] csvBytes = new byte[uploadCsv.ContentLength];
-                        uploadCsv.InputStream.Read(csvBytes, 0, uploadCsv.ContentLength);
-
-                        // Create new list and move on to mext page...
-                        _dataService.CreateDistributionList(loggedInMember, model.ListName, csvBytes, "text/csv",
-                                                            Enums.DistributionListFileType.Working);
-
-                        var path = Umbraco.Url(CurrentPage.Id);
-                        return Redirect(path + "?listId=" + model.DistributionListId);
-                    }
-
-                    ModelState.AddModelError("uploadCsv", "Invalid file uploaded - is it a .csv file?");
                 }
                 else
                 {

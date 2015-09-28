@@ -17,8 +17,6 @@ namespace RM.MailshotsOnline.Entities.ViewModels
 
         public ListCreate PageModel { get; set; }
 
-        public DataMappingFolder DataMappings { get; set; }
-
         [Required]
         public bool? FirstRowIsHeader { get; set; }
 

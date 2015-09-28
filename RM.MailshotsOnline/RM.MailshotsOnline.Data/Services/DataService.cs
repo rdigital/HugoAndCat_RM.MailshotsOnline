@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.DAL;
 using RM.MailshotsOnline.Data.Helpers;
@@ -18,7 +17,8 @@ namespace RM.MailshotsOnline.Data.Services
 
         private readonly BlobStorageHelper _blobStorage =
             new BlobStorageHelper(ConfigHelper.PrivateStorageConnectionString,
-                                  ConfigHelper.PrivateMediaBlobStorageContainer);
+                                  ConfigHelper.PrivateDistributionListBlobStorageContainer);
+
         private ILogger _logger;
         private readonly StorageContext _context;
 
@@ -163,19 +163,24 @@ namespace RM.MailshotsOnline.Data.Services
             return SaveDistributionList(distributionList);
         }
 
-        public List<string> GetFirstTwoLinesOfWorkingFile(IDistributionList distributionList)
+        public byte[] GetDataFile(IDistributionList distributionList, Enums.DistributionListFileType fileType)
         {
-            var uploadedListName = $"{distributionList.UserId}/{distributionList.BlobWorking}";
+            var uploadedListName = $"{distributionList.UserId}/";
 
-            byte[] bytes = _blobStorage.FetchBytes(uploadedListName);
+            switch (fileType)
+            {
+                case Enums.DistributionListFileType.Final:
+                    uploadedListName = uploadedListName + distributionList.BlobFinal;
+                    break;
+                case Enums.DistributionListFileType.Errors:
+                    uploadedListName = uploadedListName + distributionList.BlobErrors;
+                    break;
+                case Enums.DistributionListFileType.Working:
+                    uploadedListName = uploadedListName + distributionList.BlobWorking;
+                    break;
+            }
 
-            // Assume UTF8 for now...
-            // TODO: Check out other options here: http://stackoverflow.com/a/19464728/33051
-            string data = Encoding.UTF8.GetString(bytes);
-
-            var lines = data.Split(new [] {Environment.NewLine}, StringSplitOptions.None).Take(2);
-
-            return lines.ToList();
+            return _blobStorage.FetchBytes(uploadedListName);
         }
 
         private static string convertToFileName(string listName, string contentType, Enums.DistributionListFileType fileType)

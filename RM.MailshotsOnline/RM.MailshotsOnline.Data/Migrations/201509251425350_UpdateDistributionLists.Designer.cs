@@ -13,7 +13,7 @@ namespace RM.MailshotsOnline.Data.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201509230852030_UpdateDistributionLists"; }
+            get { return "201509251425350_UpdateDistributionLists"; }
         }
         
         string IMigrationMetadata.Source

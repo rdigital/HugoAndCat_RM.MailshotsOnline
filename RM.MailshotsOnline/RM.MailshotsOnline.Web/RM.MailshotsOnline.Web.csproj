@@ -3508,6 +3508,7 @@
     <Content Include="Views\Lists\Create.cshtml" />
     <Content Include="Views\ListCreate.cshtml" />
     <Content Include="Views\Lists\Partials\ShowCreateListForm.cshtml" />
+    <Content Include="Views\Lists\Partials\ShowConfirmFieldsForm.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

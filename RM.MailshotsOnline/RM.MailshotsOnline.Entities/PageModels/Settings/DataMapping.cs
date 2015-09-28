@@ -19,11 +19,11 @@ namespace RM.MailshotsOnline.Entities.PageModels.Settings
             {
                 if (_mappings == null)
                 {
-                    _mappings = new List<string> {Name, FieldName};
+                    _mappings = new List<string> {Name.ToLower(), FieldName.ToLower()};
 
                     if (!string.IsNullOrEmpty(TypicalFields))
                     {
-                        _mappings.AddRange(TypicalFields.Split(','));
+                        _mappings.AddRange(TypicalFields.ToLower().Split(','));
                     }
                 }
 

@@ -289,10 +289,6 @@
     <Compile Include="Migrations\201509171419225_AddDefaultMailshotContent.Designer.cs">
       <DependentUpon>201509171419225_AddDefaultMailshotContent.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201509230852030_UpdateDistributionLists.cs" />
-    <Compile Include="Migrations\201509230852030_UpdateDistributionLists.Designer.cs">
-      <DependentUpon>201509230852030_UpdateDistributionLists.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201509231339458_AddDatesToCampaign.cs" />
     <Compile Include="Migrations\201509231339458_AddDatesToCampaign.Designer.cs">
       <DependentUpon>201509231339458_AddDatesToCampaign.cs</DependentUpon>
@@ -308,6 +304,10 @@
     <Compile Include="Migrations\201509241413163_AddPublicHolidayDates.cs" />
     <Compile Include="Migrations\201509241413163_AddPublicHolidayDates.Designer.cs">
       <DependentUpon>201509241413163_AddPublicHolidayDates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509251425350_UpdateDistributionLists.cs" />
+    <Compile Include="Migrations\201509251425350_UpdateDistributionLists.Designer.cs">
+      <DependentUpon>201509251425350_UpdateDistributionLists.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -442,9 +442,6 @@
     <EmbeddedResource Include="Migrations\201509171419225_AddDefaultMailshotContent.resx">
       <DependentUpon>201509171419225_AddDefaultMailshotContent.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509230852030_UpdateDistributionLists.resx">
-      <DependentUpon>201509230852030_UpdateDistributionLists.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509231339458_AddDatesToCampaign.resx">
       <DependentUpon>201509231339458_AddDatesToCampaign.cs</DependentUpon>
     </EmbeddedResource>
@@ -456,6 +453,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509241413163_AddPublicHolidayDates.resx">
       <DependentUpon>201509241413163_AddPublicHolidayDates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509251425350_UpdateDistributionLists.resx">
+      <DependentUpon>201509251425350_UpdateDistributionLists.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -17,6 +17,6 @@ namespace RM.MailshotsOnline.PCL.Services
         IDistributionList UpdateDistributionList(IDistributionList distributionList, byte[] bytes, string contentType,
                                                  Enums.DistributionListFileType fileType);
 
-        List<string> GetFirstTwoLinesOfWorkingFile(IDistributionList distributionList);
+        byte[] GetDataFile(IDistributionList distributionList, Enums.DistributionListFileType fileType);
     }
 }

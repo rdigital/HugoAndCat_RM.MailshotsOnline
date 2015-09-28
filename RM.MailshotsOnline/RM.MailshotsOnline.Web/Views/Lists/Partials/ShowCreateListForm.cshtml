@@ -5,6 +5,7 @@
 
 @using (Html.BeginUmbracoForm("UploadFileToList", "ModifyListSurface", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.DistributionListId)
     @Html.ValidationSummary()
     <div>
