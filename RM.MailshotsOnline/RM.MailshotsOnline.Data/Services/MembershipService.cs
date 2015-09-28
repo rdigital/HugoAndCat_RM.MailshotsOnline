@@ -64,13 +64,12 @@ namespace RM.MailshotsOnline.Data.Services
                 return null;
             }
 
-            var umbracoMember = UmbracoMemberService.CreateMemberWithIdentity(Guid.NewGuid().ToString(), member.EmailAddress,
-                member.EmailAddress, "Member");
+            var umbracoMember = UmbracoMemberService.CreateMemberWithIdentity(Guid.NewGuid().ToString(), member.EmailAddress, member.EmailAddress, "Member");
 
             umbracoMember = umbracoMember.UpdateValues(member);
 
-            UmbracoMemberService.Save(umbracoMember);
             UmbracoMemberService.SavePassword(umbracoMember, password);
+            UmbracoMemberService.Save(umbracoMember);
 
             member.Id = umbracoMember.Id;
 
