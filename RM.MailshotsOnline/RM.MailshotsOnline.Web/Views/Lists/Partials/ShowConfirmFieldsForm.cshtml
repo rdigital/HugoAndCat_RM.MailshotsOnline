@@ -3,10 +3,12 @@
 <h1>@Model.PageModel.ConfirmTitle</h1>
 <h2>@Model.PageModel.DistributionList.Name</h2>
 <p>@Html.Raw(Model.PageModel.ConfirmIntroText)</p>
-@using (Html.BeginUmbracoForm("UploadFileToList", "ModifyListSurface", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginUmbracoForm("ConfirmFields", "ModifyListSurface", FormMethod.Post))
 {
     int columnCounter = 0;
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.DistributionListId)
+    @Html.HiddenFor(m => m.ColumnCount)
     @Html.ValidationSummary()
 
     <div>
@@ -29,9 +31,9 @@
 
             @foreach (var column in Model.FirstTwoRowsWithGuessedMappings)
             {
-                <tr>
-                    <td>"@column.Item1"</td>
-                    <td>"@column.Item2"</td>
+                <tr><!-- "@column.Item1" -->
+                    <td>@column.Item1</td>
+                    <td>@column.Item2</td>
                     <td>@BuildMapping(columnCounter, column.Item3)</td>
                 </tr>
                 columnCounter++;
@@ -48,7 +50,7 @@
 @helper  BuildMapping(int index, string selectedValue)
 {
     <div>
-        @Html.DropDownList("mapping" + index, new SelectList(ViewBag.DataMappings, "Value", "Text", selectedValue), "Please Select a Value")
+        @Html.DropDownList("Mappings", new SelectList(ViewBag.DataMappings, "Value", "Text", selectedValue), "Please Select a Value")
     </div>
 }
 

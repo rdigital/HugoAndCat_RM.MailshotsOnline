@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using HC.RM.Common.PCL.Helpers;
+using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.PCL.Services;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
@@ -82,6 +83,12 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
 
             return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        public HttpResponseMessage PostUploadCsv(ModifyListUploadFileModel model)
+        {
+
+            return Request.CreateResponse(HttpStatusCode.Created);
         }
     }
 }

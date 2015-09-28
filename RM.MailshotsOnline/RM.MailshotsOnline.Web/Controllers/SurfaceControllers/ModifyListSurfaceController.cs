@@ -47,6 +47,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             var pageModel = new ModifyListConfirmFieldsModel
                             {
+                                DistributionListId = model.DistributionList.DistributionListId,
                                 PageModel = model,
                                 FirstRowIsHeader = null,
                             };
@@ -85,6 +86,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                                 if (rows == 0)
                                 {
                                     columns = csv.CurrentRecord.Length;
+                                    pageModel.ColumnCount = columns;
                                     pageModel.FirstTwoRowsWithGuessedMappings = new List<Tuple<string, string, string>>(columns);
                                     items = new List<KeyValuePair<string, string>>(columns);
                                 }
@@ -136,7 +138,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UploadFileToList(ModifyListUploadFileModel model, HttpPostedFileBase uploadCsv)
+        public ActionResult UploadFileToList(ModifyListUploadFileModel model)
         {
             if (ModelState.IsValid)
             {
@@ -158,13 +160,13 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 }
 
                 // Confirm that the file is good too:
-                if (uploadCsv != null && uploadCsv.ContentLength != 0)
+                if (model.UploadCsv != null && model.UploadCsv.ContentLength != 0)
                 {
                     if (ModelState.IsValid)
                     {
                         bool validFile = false;
-                        string fileName = Path.GetFileName(uploadCsv.FileName);
-                        string mimeType = uploadCsv.ContentType;
+                        string fileName = Path.GetFileName(model.UploadCsv.FileName);
+                        string mimeType = model.UploadCsv.ContentType;
                         // Is the MimeType .csv? Not if Excel is installed on the machine (in which case they will be application/vnd.ms-excel, which is the same as an Excel .xls file.)...
                         if (mimeType.Equals("text/csv", StringComparison.InvariantCultureIgnoreCase))
                         {
@@ -187,8 +189,8 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
                         if (validFile)
                         {
-                            byte[] csvBytes = new byte[uploadCsv.ContentLength];
-                            uploadCsv.InputStream.Read(csvBytes, 0, uploadCsv.ContentLength);
+                            byte[] csvBytes = new byte[model.UploadCsv.ContentLength];
+                            model.UploadCsv.InputStream.Read(csvBytes, 0, model.UploadCsv.ContentLength);
 
                             // Create new list and move on to mext page...
                             // TODO: Is this a new list, or are we adding to an existing one?
@@ -211,5 +213,20 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             }
             return CurrentUmbracoPage();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ConfirmFields(ModifyListConfirmFieldsModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //TODO: Process Files
+                var path = Umbraco.Url(CurrentPage.Id);
+                return Redirect(path + "?listId=" + model.DistributionListId);
+            }
+
+            return CurrentUmbracoPage();
+        }
+
     }
 }

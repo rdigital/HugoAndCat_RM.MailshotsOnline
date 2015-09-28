@@ -1,5 +1,8 @@
 ﻿@model RM.MailshotsOnline.Entities.ViewModels.ModifyListUploadFileModel
-
+@{
+    HtmlHelper.UnobtrusiveJavaScriptEnabled = true;
+    HtmlHelper.ClientValidationEnabled = true;
+}
 <h1>@Model.PageModel.AddContactsTitle</h1>
 <p>@Html.Raw(Model.PageModel.AddContactsIntroText)</p>
 
@@ -16,9 +19,9 @@
     </div>
     <div>
         <h3>@Model.PageModel.UploadTitle</h3>
-        @Html.Label("uploadCsv", @Model.PageModel.ChooseFileText)
+        @Html.LabelFor(m=> m.UploadCsv, @Model.PageModel.ChooseFileText)
         <div>
-            <input type="file" id="uploadCsv" name="uploadCsv"/>
+            @Html.TextBoxFor(model => model.UploadCsv, htmlAttributes: new { type = "file" })
         </div>
     </div>
     <div>
