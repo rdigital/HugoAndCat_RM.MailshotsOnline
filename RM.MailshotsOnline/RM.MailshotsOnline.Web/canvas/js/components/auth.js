@@ -6,17 +6,117 @@ define(['knockout', 'koelement', 'view_models/state', 'view_models/auth'],
         function authComponentViewModel(params) {
             this.isAuthenticated = authViewModel.isAuthenticated;
             this.toggleAuth = stateViewModel.toggleAuth;
-            this.viewing = ko.observable('register');
+            this.mailshotID = stateViewModel.mailshotID;
+            this.viewing = ko.observable('login');
             this.title = ko.observable('Mr');
+            this.first_name = ko.observable();
+            this.last_name = ko.observable();
+            this.agree_rm = ko.observable(false);
+            this.agree_tp = ko.observable(false);
+            this.email = ko.observable();
+            this.password = ko.observable();
             this.captchaEl = ko.observable();
+            this.captchaID = 0;
+            this.processing = ko.observable(false);
+            this.loginErrors = ko.observableArray();
+            this.regErrors = ko.observableArray();
             this.titleOptions = ko.observableArray([
                 {name: 'Mr', value: 'Mr'},
                 {name: 'Mrs', value: 'Mrs'},
                 {name: 'Miss', value: 'Miss'},
-            ])
+            ]);
+
+            // computeds
+            this.loginAvailable = this.getLoginAvailableComputed();
+            this.regNextAvailable = this.getRegNextAvailableComputed();
 
             // bound methods
             this.prepCaptcha = this.prepCaptcha.bind(this);
+        }
+
+        authComponentViewModel.prototype.getLoginAvailableComputed = function getLoginAvailableComputed() {
+            return ko.pureComputed(function () {
+                if (this.email() && this.password()) {
+                    return true;
+                }
+                return false;
+            }, this);
+        }
+
+        authComponentViewModel.prototype.getRegNextAvailableComputed = function getRegNextAvailableComputed() {
+            return ko.pureComputed(function () {
+                if (this.first_name() && this.last_name() && this.password() && this.validateEmail(this.email())) {
+                    return true;
+                }
+                return false;
+            }, this);
+        }
+
+        authComponentViewModel.prototype.validateEmail = function validateEmail(email) {
+            var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+            return re.test(email);
+        }
+
+        authComponentViewModel.prototype.login = function login() {
+            if (this.processing() || !this.loginAvailable()) {
+                return
+            }
+            this.processing(true);
+            $.post(
+                '/Umbraco/Api/Members/Login',
+                { Email: this.email(), Password: this.password() },
+                function (data) {
+                    this.isAuthenticated(true);
+                    this.toggleAuth();
+                }.bind(this)
+            )
+            .fail(function(data) {
+                if (data.responseJSON.error) {
+                    this.loginErrors([data.responseJSON.error]);
+                }
+            }.bind(this))
+            .always(function() {
+                this.processing(false);
+            }.bind(this));
+        }
+
+        authComponentViewModel.prototype.register = function register() {
+            if (this.processing()) {
+                return
+            }
+
+            var registration = {
+                Email: this.email(),
+                Title: this.title(),
+                FirstName: this.first_name(),
+                LastName: this.last_name(),
+                Password: this.password(),
+                'g-recaptcha-response': $('.g-recaptcha-response').val(),
+                AgreeToRoyalMailContact: this.agree_rm(),
+                AgreeToThirdPartyContact: this.agree_tp()
+            };
+
+            this.processing(true);
+            $.post(
+                '/Umbraco/Api/Members/Register',
+                registration,
+                function (data) {
+                    this.isAuthenticated(true);
+                    this.toggleAuth();
+                }.bind(this)
+            )
+            .fail(function(data) {
+                grecaptcha.reset(this.captchaID);
+                if (data.responseJSON.fieldErrors) {
+                    this.regErrors(data.responseJSON.fieldErrors);
+                } else if (data.responseJSON.error) {
+                    this.regErrors([data.responseJSON.error]);
+                }
+            }.bind(this))
+            .always(function() {
+                this.processing(false);
+            }.bind(this));
+
         }
 
         authComponentViewModel.prototype.showRegister = function showRegister() {
@@ -24,7 +124,9 @@ define(['knockout', 'koelement', 'view_models/state', 'view_models/auth'],
         }
 
         authComponentViewModel.prototype.showRegisterTwo = function showRegisterTwo() {
-            this.viewing('register2');
+            if (this.regNextAvailable()) {
+                this.viewing('register2');
+            }
         }
 
         authComponentViewModel.prototype.showLogin = function showLogin() {
@@ -37,7 +139,7 @@ define(['knockout', 'koelement', 'view_models/state', 'view_models/auth'],
 
         authComponentViewModel.prototype.prepCaptcha = function prepCaptcha() {
             if (typeof (grecaptcha) != "undefined") {
-                grecaptcha.render(this.captchaEl()[0] , {sitekey: '6LecKwoTAAAAABNgC26LCUFC9bhTODQv8McHP25G'});
+                this.captchaID = grecaptcha.render(this.captchaEl()[0] , {sitekey: '6LecKwoTAAAAABNgC26LCUFC9bhTODQv8McHP25G'});
             }
         }
 

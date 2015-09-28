@@ -38,7 +38,6 @@ require([
 	        pointerevents.initialize({});
 	        // ie10 hack
 	        if (Function('/*@cc_on return document.documentMode===10@*/')()){
-	        	alert();
 		        document.documentElement.className+=' ieOld';
 		    }
 		    document.body.addEventListener('mscontrolselect', function (evt) {

@@ -9,6 +9,7 @@ body {
 	overflow-y: hidden;
  	height: 100%;
 	min-height: 100%;
+	margin: 0;
 }
 
 html {
@@ -327,6 +328,7 @@ canvas {
 }
 
 .button {
+	@include transition(background);
     font-family: PFDin Regular, Arial;
 	text-align: center;
 	cursor: pointer;
@@ -336,5 +338,8 @@ canvas {
 	color: #fff;
 	&.button_green {
 		background-color: $green;
+	}
+	&.button_disabled {
+		background-color: $grey;
 	}
 }

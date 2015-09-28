@@ -1,10 +1,10 @@
 // view model which describes the state of the app at any given time
 // and handles fecthing / persisting of data
-define(['knockout'],
-    function(ko) {
+define(['knockout', 'view_models/auth'],
+    function(ko, authViewModel) {
 
         function stateViewModel() {
-            this.mailshotID = this.getUrlVars()['mailshotId'];
+            this.mailshotID = ko.observable(this.getUrlVars()['mailshotId']);
             this.formatID = this.getUrlVars()['formatId'];
             this.selectedElement = ko.observable();
             this.scaleElement = ko.observable();
@@ -27,8 +27,13 @@ define(['knockout'],
             this.saving = ko.observable(false);
             this.uploadingImages = ko.observableArray();
 
+            // subscriptions
+            this.mailshotID.subscribe(this.pushIDtoURL, this);
+
             // bound methods
+            this.toggleImage = this.toggleImage.bind(this);
             this.toggleAuth = this.toggleAuth.bind(this);
+            this.displayAuth = this.displayAuth.bind(this);
 
             // set to true to make images rescale to default when the components render
             this.repositionImages = false;
@@ -51,6 +56,13 @@ define(['knockout'],
             return vars;
         };
 
+        stateViewModel.prototype.pushIDtoURL = function pushIDtoURL() {
+            if (typeof(history) == "undefined") {
+                return
+            }
+            history.replaceState(null, null, '/create-canvas/?formatId=' + this.formatID + '&mailshotId=' + this.mailshotID());
+        }
+
         /**
          * Set a particular element as the currently selected one
          * @param  {elementViewModel} element element view model instance which has been selected
@@ -64,11 +76,24 @@ define(['knockout'],
         };
 
         stateViewModel.prototype.toggleImageUpload = function toggleImageUpload() {
+            if (!this.showImageUpload() && !authViewModel.isAuthenticated()) {
+                this.displayAuth();
+                return
+            }
             this.imageTab('upload');
+            // also check in the background if we still think the user is logged in
+            // but they have actually logged out very recently in another tab
+            if (!this.showImageUpload()) {
+                authViewModel.getAuthenticated(function() {
+                    this.displayAuth();
+                    this.toggleImage();
+                }.bind(this));
+            }
             this.toggleImage();
         };
 
         stateViewModel.prototype.toggleImageLibrary = function toggleImageLibrary() {
+            authViewModel.getAuthenticated();
             this.imageTab('library');
             this.toggleImage();
         };
@@ -101,6 +126,10 @@ define(['knockout'],
             this.showThemePicker(false);
             this.selectElement(null);
         };
+
+        stateViewModel.prototype.displayAuth = function displayAuth() {
+            this.showAuth(true);
+        }
 
         stateViewModel.prototype.toggleAuth = function toggleAuth() {
             this.showAuth(!this.showAuth());

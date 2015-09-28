@@ -8,19 +8,27 @@ define(['knockout', 'jquery', 'view_models/state'],
 
             // bound methods
             this.getAuthenticated = this.getAuthenticated.bind(this);
+            this.getAuthNoCallback = this.getAuthNoCallback.bind(this);
 
             // subscriptions
             this.isAuthenticated.subscribe(this.handleAuth, this);
             
-            this.getAuthenticated();
+            this.getAuthenticated(false);
         }
 
-        authViewModel.prototype.getAuthenticated = function getAuthenticated() {
+        authViewModel.prototype.getAuthNoCallback = function getAuthNoCallback() {
+            this.getAuthenticated(false);
+        }
+
+        authViewModel.prototype.getAuthenticated = function getAuthenticated(callback) {
             // fetch data from server using fetchURL
             var url = "/Umbraco/Api/Members/GetLoggedInStatus"; 
             //console.log('fetching data from ' + fetchURL);
             $.getJSON(url, function(data) {
                 this.isAuthenticated(data.loggedIn);
+                if (callback && !data.loggedIn) {
+                    callback();
+                }
             }.bind(this));
         };
 
@@ -33,7 +41,7 @@ define(['knockout', 'jquery', 'view_models/state'],
         }
 
         authViewModel.prototype.setupPoll = function setupPoll() {
-            setInterval(this.getAuthenticated, 60000);
+            setInterval(this.getAuthNoCallback, 60000);
         }
 
         authViewModel.prototype.disposePoll = function disposePoll() {

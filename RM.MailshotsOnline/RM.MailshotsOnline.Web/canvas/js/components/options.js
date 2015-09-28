@@ -1,6 +1,6 @@
-define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/format', 'view_models/template', 'view_models/theme', 'view_models/state', 'view_models/history'],
+define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/format', 'view_models/template', 'view_models/theme', 'view_models/state', 'view_models/history', 'view_models/auth'],
 
-    function(ko, dropdownComponent, userViewModel, formatViewModel, templateViewModel, themeViewModel, stateViewModel, historyViewModel) {
+    function(ko, dropdownComponent, userViewModel, formatViewModel, templateViewModel, themeViewModel, stateViewModel, historyViewModel, authViewModel) {
 
         // ViewModel
         function optionsViewModel(params) {
@@ -12,6 +12,7 @@ define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/form
             this.showThemePicker = stateViewModel.showThemePicker;
             this.showTemplatePicker = stateViewModel.showTemplatePicker;
             this.toggleAuth = stateViewModel.toggleAuth;
+            this.isAuthenticated = authViewModel.isAuthenticated;
 
             // computeds
             this.hidden = this.getHiddenComputed();
@@ -81,10 +82,14 @@ define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/form
         };
 
         optionsViewModel.prototype.save = function save() {
-            if (this.saving() || this.uploadingImages().length) {
-                return;
+            if (this.isAuthenticated()) {
+                if (this.saving() || this.uploadingImages().length) {
+                    return;
+                }
+                userViewModel.save();
+            } else {
+                this.toggleAuth();
             }
-            userViewModel.save();
         };
 
         optionsViewModel.prototype.getHiddenComputed = function regetHiddenComputedset() {

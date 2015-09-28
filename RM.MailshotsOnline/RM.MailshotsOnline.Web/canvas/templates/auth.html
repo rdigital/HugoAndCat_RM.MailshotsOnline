@@ -2,7 +2,7 @@
 </div>
 <div class="auth-modal-container">
 	<!-- ko if: viewing() == 'register' -->
-	<div class="auth-modal auth-modal_register" data-bind="clickBubble: false;">
+	<div class="auth-modal auth-modal_registerone" data-bind="clickBubble: false;">
 		<div class="auth-modal-header">
 			Register with Mail Shots Online
 			<span class="icon-close close" data-bind="click: toggleAuth"></span>
@@ -19,15 +19,19 @@
 				</div>
 				<div class="auth-modal-row">
 					<label for="firstname">*First Name:</label>
-					<input type="text" id="firstname" name="firstname"/>
+					<input type="text" id="firstname" name="firstname" data-bind="value: first_name, valueUpdate: 'keyup'"/>
+				</div>
+				<div class="auth-modal-row">
+					<label for="lastname">*Last Name:</label>
+					<input type="text" id="lastname" name="lastname" data-bind="value: last_name, valueUpdate: 'keyup'"/>
 				</div>
 				<div class="auth-modal-row">
 					<label for="username">*Your email address:</label>
-					<input type="email" id="username" name="username"/>
+					<input type="email" id="username" name="username" data-bind="value: email, valueUpdate: 'keyup'"/>
 				</div>
 				<div class="auth-modal-row">
 					<label for="password">*Enter Password:</label>
-					<input type="password" id="password" name="password"/>
+					<input type="password" id="password" name="password" data-bind="value: password, valueUpdate: 'keyup'"/>
 				</div>
 				<button type="submit" style="opacity: 0; position: absolute; top: -4000px;">Submit</button>
 			</form>
@@ -35,7 +39,7 @@
 		<div class="auth-modal-footer">
 			<div class="auth-modal-step">Step 1 / 2</div>
 			<div class="auth-modal-buttons">
-				<span class="button" data-bind="click: showRegisterTwo">Next</span>
+				<span class="button" data-bind="click: showRegisterTwo, css: {button_disabled: !regNextAvailable()}">Next</span>
 			</div>
 			<div class="auth-modal-info auth-modal-info_link">
 				Already have an account? <a data-bind="click: showLogin">Login</a>
@@ -45,7 +49,7 @@
 	<!-- /ko -->
 
 	<!-- ko if: viewing() == 'register2' -->
-	<div class="auth-modal auth-modal_register" data-bind="template: {afterRender: prepCaptcha}">
+	<div class="auth-modal auth-modal_registertwo" data-bind="template: {afterRender: prepCaptcha}">
 		<div class="auth-modal-header">
 			Register with Mail Shots Online
 			<span class="icon-close close" data-bind="click: toggleAuth"></span>
@@ -57,13 +61,13 @@
 		<div class="auth-modal-body auth-modal-body_sidepad">
 			<div class="auth-modal-row auth-modal-row_floatcontent">
 				<input type="checkbox" id="comms1" class="auth-modal-checkbox"/>
-				<label for="comms1" class="auth-modal-checkboxlabel">
+				<label for="comms1" class="auth-modal-checkboxlabel" data-bind="checked: agree_rm">
 				I agree to be contacted about Royal Mail products, services, special offers and promotions. This could include post, email, telephone and SMS.
 				</label>
 			</div>
 			<div class="auth-modal-row auth-modal-row_floatcontent">
 				<input type="checkbox" id="comms2" class="auth-modal-checkbox"/>
-				<label for="comms2" class="auth-modal-checkboxlabel">
+				<label for="comms2" class="auth-modal-checkboxlabel" data-bind="checked: agree_tp">
 				I agree to be contacted about products, services, special offers and promotions by carefully selected third parties. This could include post, email, telephone and SMS.
 				</label>
 			</div>
@@ -75,11 +79,25 @@
 			<div class="auth-modal-info auth-modal-info_link">
 			By clicking Register, I agree to Royal Mail's <a>Terms & Conditions</a>
 			</div>
+			<!-- ko if: regErrors().length -->
+			<div class="auth-modal-errors">
+				<!-- ko foreach: regErrors() -->
+				<div data-bind="text: $data"></div>
+				<!-- /ko -->
+			</div>
+			<!-- /ko -->
 			<div class="auth-modal-left auth-modal-info auth-modal-info_link">
 				<a data-bind="click: showRegister">Back</a>
 			</div>
 			<div class="auth-modal-buttons">
-				<span class="button button_green">Register</span>
+				<span class="button button_green" data-bind="click: register">
+					<!-- ko if: processing -->
+					Processing...
+					<!-- /ko -->
+					<!-- ko ifnot: processing -->
+					Register
+					<!-- /ko -->
+				</span>
 			</div>
 			<div class="auth-modal-info auth-modal-info_link">
 				Already have an account? <a data-bind="click: showLogin">Login</a>
@@ -95,25 +113,44 @@
 			<span class="icon-close close" data-bind="click: toggleAuth"></span>
 		</div>
 		<div class="auth-modal-body">
+			<form data-bind="submit: function() {login(); return false;}">
 			<div class="auth-modal-info">*indicates a required field</div>
 			<div class="auth-modal-row">
 				<label for="username">*Your email address:</label>
-				<input type="email" id="username" name="username"/>
+				<input type="email" id="username" name="username" data-bind="value: email, valueUpdate: 'keyup'"/>
 			</div>
 			<div class="auth-modal-row">
 				<label for="password">*Enter Password:</label>
-				<input type="password" id="password" name="password"/>
+				<input type="password" id="password" name="password" data-bind="value: password, valueUpdate: 'keyup'"/>
 			</div>
+			<button type="submit" style="opacity: 0; position: absolute; top: -4000px;">Submit</button>
+			</form>
 			<div class="auth-modal-info auth-modal-info_link">
 				<a data-bind="click: showForgot">Forgot password?</a>
 			</div>
 		</div>
 		<div class="auth-modal-footer">
+			<!-- ko if: loginErrors().length -->
+			<div class="auth-modal-errors">
+				<!-- ko foreach: loginErrors() -->
+				<div data-bind="text: $data"></div>
+				<!-- /ko -->
+			</div>
+			<!-- /ko -->
 			<div class="auth-modal-buttons">
-				<span class="button">Next</span>
+				<span class="button" data-bind="click: login, css: {button_disabled: !loginAvailable()}">
+					<!-- ko if: processing -->
+					Processing...
+					<!-- /ko -->
+					<!-- ko ifnot: processing -->
+					Login
+					<!-- /ko -->
+				</span>
 			</div>
 			<div class="auth-modal-info auth-modal-info_link">
+				<!-- ko ifnot: mailshotID -->
 				Don't have an account? <a data-bind="click: showRegister">Register</a>
+				<!-- /ko -->
 			</div>
 		</div>
 	</div>

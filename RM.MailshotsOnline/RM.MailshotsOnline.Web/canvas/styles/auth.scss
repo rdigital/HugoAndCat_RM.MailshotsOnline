@@ -30,7 +30,10 @@
 	background: $lightest-grey;
 	overflow: hidden;
 	font-family: "Chevin Medium", Arial;
-	&.auth-modal_register {
+	&.auth-modal_registerone {
+		margin-top: -320px;
+	}
+	&.auth-modal_registertwo {
 		margin-top: -290px;
 	}
 	.auth-modal-header {
@@ -106,6 +109,26 @@
 				min-width: 150px;
     			display: inline-block;
 			}
+		}
+		.auth-modal-errors {
+			position: absolute;
+		    font-weight: bold;
+		    color: #000;
+		    font-size: 14px;
+		    top: 50px;
+		    left: 30px;
+		    width: 360px;
+		    padding-left: 50px;
+		    text-align: left;
+		    color: $darkest-grey;
+		    &:before {
+		    	font-family: 'icomoon';
+		    	content: "\e617";
+		    	position: absolute;
+		    	left: 0;
+		    	color: $darkest-grey;
+		    	font-size: 32px;
+		    }
 		}
 	}
 	.auth-modal-info {
