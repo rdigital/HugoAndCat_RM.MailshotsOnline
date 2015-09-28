@@ -1,3 +1,5 @@
+using RM.MailshotsOnline.Data.DAL;
+
 namespace RM.MailshotsOnline.Data.Migrations
 {
     using RM.MailshotsOnline.Entities.DataModels;
@@ -24,6 +26,24 @@ namespace RM.MailshotsOnline.Data.Migrations
             //    new PostalOption { Name = "First class", UmbracoId = 0, Currency = "GBP", PricePerUnit = 0.63m, Tax = 0.12m, TaxCode = "V" },
             //    new PostalOption { Name = "Second class", UmbracoId = 1, Currency = "GBP", PricePerUnit = 0.54m, Tax = 0.10m, TaxCode = "V" }
             //    );
+
+            // Populate dummy rows for Testing
+            fillContextWithListData(context);
+        }
+
+        private void fillContextWithListData(StorageContext context)
+        {
+            int userId = 1504;
+            for (int listId = 0; listId < 50; listId++)
+            {
+                context.DistributionLists.AddOrUpdate(dl => new {dl.Name, dl.UserId},
+                                                      new DistributionList
+                                                      {
+                                                          Name = $"List Id: {listId:00}",
+                                                          RecordCount = ((listId + 1)*13) - (listId*7),
+                                                          UserId = userId
+                                                      });
+            }
         }
 
         /// <summary>

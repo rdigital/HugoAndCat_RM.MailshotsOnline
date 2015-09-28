@@ -3052,6 +3052,7 @@
     <Compile Include="Attributes\RequireSecureConnectionFilter.cs" />
     <Compile Include="Controllers\Api\ApiBaseController.cs" />
     <Compile Include="Controllers\Api\CampaignController.cs" />
+    <Compile Include="Controllers\Api\DistributionListController.cs" />
     <Compile Include="Controllers\Api\ReportsController.cs" />
     <Compile Include="Controllers\Api\MemberSearchController.cs" />
     <Compile Include="Controllers\Api\CryptoApiController.cs" />
