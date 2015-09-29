@@ -3509,6 +3509,7 @@
     <Content Include="uSync\Template\MyCampaigns\MyCampaigns.config" />
     <Content Include="uSync\DocumentType\Basepage\MyCampaigns\def.config" />
     <Content Include="Views\Partials\LineItemCostBreakdown.cshtml" />
+    <Content Include="uSync\DocumentType\Basepage\OrderDetails\def.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
