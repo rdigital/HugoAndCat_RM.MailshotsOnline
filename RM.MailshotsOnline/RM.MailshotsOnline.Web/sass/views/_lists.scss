@@ -95,6 +95,10 @@
 
 			}
 
+			&.selected:before {
+				background-color: $RM-blue;
+			}
+
 			&:first-child {
 				border-top: 1px solid $shadow-grey;
 			}

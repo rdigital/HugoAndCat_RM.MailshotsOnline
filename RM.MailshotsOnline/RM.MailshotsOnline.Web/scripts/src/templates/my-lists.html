@@ -7,7 +7,7 @@
 		</a>
 	</div>
 	<ul class="lists__my-lists--lists lists__my-lists__list" data-bind="foreach: displayedList">
-		<li>
+		<li data-bind="css: {selected: selected}">
 			<a href="" class="lists__my-lists__name" data-bind="text: Name"></a>
 			<span class="lists__my-lists__number">
 				<span class="icon-person"></span>

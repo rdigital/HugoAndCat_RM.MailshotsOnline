@@ -1032,6 +1032,8 @@ header {
       position: absolute;
       top: 0;
       width: 3px; }
+    .lists .lists__my-lists__list li.selected:before {
+      background-color: #0892cb; }
     .lists .lists__my-lists__list li:first-child {
       border-top: 1px solid #dcdcdb; }
     .lists .lists__my-lists__list li:last-child {
