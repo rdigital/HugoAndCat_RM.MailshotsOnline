@@ -406,6 +406,7 @@
     <Content Include="canvas\images\temp_layout_icon_active.PNG" />
     <Content Include="canvas\images\upload.png" />
     <Content Include="canvas\js\app.js" />
+    <Content Include="canvas\js\components\auth.js" />
     <Content Include="canvas\js\components\backgroundtools.js" />
     <Content Include="canvas\js\components\colourpicker.js" />
     <Content Include="canvas\js\components\dropdown.js" />
@@ -441,6 +442,7 @@
     <Content Include="canvas\js\vendor\requirejs\require.js" />
     <Content Include="canvas\js\vendor\spectrum\spectrum.css" />
     <Content Include="canvas\js\vendor\spectrum\spectrum.js" />
+    <Content Include="canvas\js\view_models\auth.js" />
     <Content Include="canvas\js\view_models\data.js" />
     <Content Include="canvas\js\view_models\element.js" />
     <Content Include="canvas\js\view_models\format.js" />
@@ -450,6 +452,7 @@
     <Content Include="canvas\js\view_models\template.js" />
     <Content Include="canvas\js\view_models\theme.js" />
     <Content Include="canvas\js\view_models\user.js" />
+    <Content Include="canvas\styles\compiled\auth.css" />
     <Content Include="canvas\styles\compiled\canvas.css" />
     <Content Include="canvas\styles\compiled\help.css" />
     <Content Include="canvas\styles\compiled\layoutpicker.css" />
@@ -461,6 +464,7 @@
     <Content Include="canvas\styles\compiled\tools.css" />
     <Content Include="canvas\styles\compiled\upload.css" />
     <Content Include="canvas\styles\vendor\bootstrap.min.css" />
+    <Content Include="canvas\templates\auth.html" />
     <Content Include="canvas\templates\backgroundtools.html" />
     <Content Include="canvas\templates\colourpicker.html" />
     <Content Include="canvas\templates\dropdown.html" />
@@ -545,6 +549,8 @@
     <Content Include="App_Plugins\CryptoTitleLabel\package.manifest" />
     <Content Include="canvas\styles\layoutpicker.scss" />
     <Content Include="canvas\styles\compiled\layoutpicker.css.map" />
+    <Content Include="canvas\styles\auth.scss" />
+    <Content Include="canvas\styles\compiled\auth.css.map" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\campaign-functions.js" />
     <Content Include="scripts\campaign-hub.js" />
