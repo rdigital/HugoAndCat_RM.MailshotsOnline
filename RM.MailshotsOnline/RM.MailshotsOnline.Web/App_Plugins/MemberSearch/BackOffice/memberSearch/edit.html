@@ -23,7 +23,7 @@
             var query = $("#member-search-query").val();
             if (query != "") {
                 $.ajax({
-                    url: "backoffice/Membersearch/MemberSearchApi/GetSearchResults?query=" + query,
+                    url: "backoffice/Membersearch/MemberSearch/GetSearchResults?query=" + query,
                     type: "GET",
                     success: function(results) {
                         drawResults(results);
