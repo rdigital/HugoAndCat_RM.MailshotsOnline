@@ -162,6 +162,21 @@
 			Log in to Mail Shots Online
 			<span class="icon-close close" data-bind="click: toggleAuth"></span>
 		</div>
+		<!-- ko if: passwordSent -->
+		<div class="auth-modal-title">
+			<div class="auth-modal-message">Thank you for your request. If you have entered a
+			valid email address which is registered with our site, then you will shortly
+			receive an email with your password reminder. Click "Continue" to return to
+			the login page.</div>
+			<div class="auth-modal-message">If you haven't received an email from us within 5 minutes, please check your junk mail folder.</div>
+		</div>
+		<div class="auth-modal-footer">
+			<div class="auth-modal-buttons">
+				<span class="button" data-bind="click: showLogin">Continue</span>
+			</div>
+		</div>
+		<!-- /ko -->
+		<!-- ko ifnot: passwordSent -->
 		<div class="auth-modal-title">
 			<h2>Forgotten your password</h2>
 			<div>If you can't remember your password, please enter your email address below and we'll send you a password reminder.</div>
@@ -170,7 +185,7 @@
 			<div class="auth-modal-info">*indicates a required field</div>
 			<div class="auth-modal-row">
 				<label for="username">*Your email address:</label>
-				<input type="email" id="username" name="username"/>
+				<input type="email" id="username" name="username" data-bind="value: email, valueUpdate: 'keyup'"/>
 			</div>
 		</div>
 		<div class="auth-modal-footer">
@@ -178,12 +193,20 @@
 				<a data-bind="click: showLogin">Back</a>
 			</div>
 			<div class="auth-modal-buttons">
-				<span class="button">Continue</span>
+				<span class="button" data-bind="click: forgotPassword, css: {button_disabled: !forgotAvailable()}">
+					<!-- ko if: processing -->
+					Processing...
+					<!-- /ko -->
+					<!-- ko ifnot: processing -->
+					Continue
+					<!-- /ko -->
+				</span>
 			</div>
 			<div class="auth-modal-info auth-modal-info_link">
 				Don't have an account? <a data-bind="click: showRegister">Register</a>
 			</div>
 		</div>
+		<!-- /ko -->
 	</div>
 	<!-- /ko -->
 </div>

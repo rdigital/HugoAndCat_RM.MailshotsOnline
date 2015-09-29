@@ -20,6 +20,7 @@ define(['knockout', 'koelement', 'view_models/state', 'view_models/auth'],
             this.processing = ko.observable(false);
             this.loginErrors = ko.observableArray();
             this.regErrors = ko.observableArray();
+            this.passwordSent = ko.observableArray();
             this.titleOptions = ko.observableArray([
                 {name: 'Mr', value: 'Mr'},
                 {name: 'Mrs', value: 'Mrs'},
@@ -29,6 +30,7 @@ define(['knockout', 'koelement', 'view_models/state', 'view_models/auth'],
             // computeds
             this.loginAvailable = this.getLoginAvailableComputed();
             this.regNextAvailable = this.getRegNextAvailableComputed();
+            this.forgotAvailable = this.getForgotAvailableComputed();
 
             // bound methods
             this.prepCaptcha = this.prepCaptcha.bind(this);
@@ -46,6 +48,15 @@ define(['knockout', 'koelement', 'view_models/state', 'view_models/auth'],
         authComponentViewModel.prototype.getRegNextAvailableComputed = function getRegNextAvailableComputed() {
             return ko.pureComputed(function () {
                 if (this.first_name() && this.last_name() && this.password() && this.validateEmail(this.email())) {
+                    return true;
+                }
+                return false;
+            }, this);
+        }
+
+        authComponentViewModel.prototype.getForgotAvailableComputed = function getForgotAvailableComputed() {
+            return ko.pureComputed(function () {
+                if (this.validateEmail(this.email())) {
                     return true;
                 }
                 return false;
@@ -119,6 +130,25 @@ define(['knockout', 'koelement', 'view_models/state', 'view_models/auth'],
 
         }
 
+        authComponentViewModel.prototype.forgotPassword = function forgotPassword() {
+            if (this.processing() || !this.forgotAvailable()) {
+                return
+            }
+            this.processing(true)
+            $.post(
+                '/Umbraco/Api/Members/SendPasswordResetLink',
+                {Email: this.email()},
+                function() {
+                    console.log('forgot password call successful');
+                }
+            )
+            .always(function() {
+                this.processing(false);
+                this.passwordSent(true);
+            }.bind(this));
+            
+        }
+
         authComponentViewModel.prototype.showRegister = function showRegister() {
             this.viewing('register');
         }
@@ -134,6 +164,7 @@ define(['knockout', 'koelement', 'view_models/state', 'view_models/auth'],
         }
 
         authComponentViewModel.prototype.showForgot = function showForgot() {
+            this.passwordSent(false);
             this.viewing('forgot');
         }
 
