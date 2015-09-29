@@ -27,11 +27,16 @@
                                 .data('campaignId', order.CampaignId)
                                 .on('click', function (event) {
                                     event.preventDefault();
-                                    CancelOrder(order.CampaignId, function (data) {
+                                    CancelOrder($(this).data('campaignId'), function (data) {
                                         RefreshMyOrders();
                                     }, function (response) {
                                         console.log(response);
-                                        alert(response);
+                                        if (typeof (response.error) != "undefined") {
+                                            alert(response.error);
+                                        }
+                                        else {
+                                            alert(response);
+                                        }
                                     });
                                 });
                             actionsDiv.append(cancelLink);

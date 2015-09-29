@@ -57,7 +57,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return CurrentUmbracoPage();
             }
 
-            var invoiceHelper = new InvoiceHelper(_campaignService, _invoiceService);
+            var invoiceHelper = new InvoiceHelper(_campaignService, _invoiceService, Log);
             List<string> errorMessages;
             var success = invoiceHelper.CancelInvoice(campaign, out errorMessages);
 

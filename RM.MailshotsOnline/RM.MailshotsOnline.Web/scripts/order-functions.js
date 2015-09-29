@@ -8,8 +8,8 @@
             }
         },
         statusCode: {
-            500: { function (response) { if (typeof (errorCallback) != "undefined") { errorCallback(response); } } },
-            401: { function (response) { if (typeof (errorCallback) != "undefined") { errorCallback(response); } } }
+            500: function (response) { if (typeof (errorCallback) != "undefined") { errorCallback(response.responseJSON); } },
+            401: function (response) { if (typeof (errorCallback) != "undefined") { errorCallback(response.responseJSON); } }
         }
     })
 }
@@ -25,8 +25,9 @@ function CancelOrder(campaignId, successCallback, errorCallback) {
                 }
             },
             statusCode: {
-                500: { function (response) { if (typeof (errorCallback) != "undefined") { errorCallback(response); } } },
-                401: { function (response) { if (typeof (errorCallback) != "undefined") { errorCallback(response); } } }
+                500: function (response) { if (typeof (errorCallback) != "undefined") { errorCallback(response.responseJSON); } },
+                401: function (response) { if (typeof (errorCallback) != "undefined") { errorCallback(response.responseJSON); } },
+                400: function (response) { if (typeof (errorCallback) != "undefined") { errorCallback(response.responseJSON); } }
             }
         })
     }
