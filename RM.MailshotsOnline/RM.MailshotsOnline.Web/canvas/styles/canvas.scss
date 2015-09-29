@@ -14,21 +14,23 @@ body {
 }
 
 .canvas-container {
-    
     @include transition(transform, 0s);
+    overflow: hidden;
     position: absolute;
     top: 50px;
     left: 150px;
     right: 0;
     bottom: 0;
     z-index: 2;
-    overflow: auto;
     background: $lightest-grey;
     transform: translate(0, 0);
     -ms-transform: translate(0, 0);
     .tools {
         transform: translate(-150px, -50px);
         -ms-transform: translate(-150px, -50px);
+    }
+    &.canvas-container_zoomed {
+        overflow: auto;
     }
     &.canvas-container_focused {
         top: 0;
@@ -48,8 +50,8 @@ body {
         @include transition(transform);
         width: 500px;
         right: auto;
-        transform: translate(-190px, 0);
-        -ms-transform: translate(-190px, 0);
+        transform: translate(-190px, -100px);
+        -ms-transform: translate(-190px, -100px);
         pointer-events: none;
         .face {
             pointer-events: none;
@@ -292,6 +294,7 @@ body {
 .full-preview {
     .canvas-empty {
         background: transparent !important;
+        border: none;
     }
 }
 

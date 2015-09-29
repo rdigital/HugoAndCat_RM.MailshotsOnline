@@ -26,6 +26,9 @@ define(['knockout', 'components/auth', 'components/side', 'components/tools', 'c
             this.showThemePicker = stateViewModel.showThemePicker;
             this.showTemplatePicker = stateViewModel.showTemplatePicker;
             this.isBackgroundSelected = stateViewModel.backgroundSelected;
+            this.overrideZoom = ko.pureComputed(function() {
+                return stateViewModel.overrideZoom() || stateViewModel.fitToWidth();
+            });
 
             //testing
             this.output = stateViewModel.output;

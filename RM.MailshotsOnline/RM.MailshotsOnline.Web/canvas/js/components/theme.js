@@ -4,9 +4,14 @@ define(['knockout', 'view_models/format', 'view_models/theme', 'view_models/user
 
         // ViewModel
         function themeComponentViewModel(params) {
-            this.faces = formatViewModel.allFaces;
+            this.face = formatViewModel.allFaces()[0];
             this.themes = themeViewModel.objects;
-            this.viewingTheme = ko.observable(0);
+            this.element = ko.observable();
+            this.scale = ko.observable();
+            this.ms_scale = ko.observable();
+            this.top = ko.observable(0);
+            this.name_top = ko.observable(0);
+            this.doScale();
         }
 
         /**
@@ -18,6 +23,20 @@ define(['knockout', 'view_models/format', 'view_models/theme', 'view_models/user
             userViewModel.objects.themeID(theme.id);
             stateViewModel.toggleThemePicker();
             historyViewModel.pushToHistory();
+        };
+
+        themeComponentViewModel.prototype.doScale = function doScale() {
+            var el_width = this.face.width,
+                el_height = this.face.height,
+                height = 200,
+                width = 220,
+                scale = Math.min((width / el_width), (height / el_height));
+            this.scale('scale(' + scale + ')');
+            this.ms_scale('scale(' + scale + ', ' + scale + ')');
+
+            var adjusted_height = scale * el_height;
+            this.top(((height - adjusted_height) / 2) + 20);
+            this.name_top(this.top() + adjusted_height);
         };
 
         /**
