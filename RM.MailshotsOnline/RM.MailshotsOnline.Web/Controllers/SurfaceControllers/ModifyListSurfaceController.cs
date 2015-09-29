@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -8,13 +9,16 @@ using Castle.Windsor.Installer;
 using CsvHelper;
 using CsvHelper.Configuration;
 using Glass.Mapper.Umb;
+using HC.RM.Common;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.Helpers;
+using RM.MailshotsOnline.Entities.DataModels;
 using RM.MailshotsOnline.Entities.PageModels;
 using RM.MailshotsOnline.Entities.PageModels.Settings;
 using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.PCL;
 using RM.MailshotsOnline.PCL.Services;
+using RM.MailshotsOnline.Web.Models;
 using Umbraco.Web.Mvc;
 
 namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
@@ -218,14 +222,80 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         [ValidateAntiForgeryToken]
         public ActionResult ConfirmFields(ModifyListConfirmFieldsModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                //TODO: Process Files
-                var path = Umbraco.Url(CurrentPage.Id);
-                return Redirect(path + "?listId=" + model.DistributionListId);
+                return CurrentUmbracoPage();
             }
 
-            return CurrentUmbracoPage();
+            var loggedInMember = _membershipService.GetCurrentMember();
+
+            var distributionList = _dataService.GetDistributionListForUser(loggedInMember.Id, model.DistributionListId);
+
+            byte[] data = _dataService.GetDataFile(distributionList, Enums.DistributionListFileType.Working);
+
+            var validContacts = new Dictionary<string, DistributionContact>();
+            var duplicateContacts = new List<DistributionContact>();
+            var errorContacts = new Dictionary<Guid, DistributionContact>();
+
+            // Build CSV Map
+
+            var contactMap = new DefaultCsvClassMap<DistributionContact>();
+
+            // mapping holds the Property - csv column mapping 
+            for (int mappingIndex = 0; mappingIndex < model.ColumnCount; mappingIndex++)
+            {
+                var columnName = model.Mappings[mappingIndex];
+                if (!string.IsNullOrEmpty(columnName))
+                {
+                    var propertyInfo = typeof (DistributionContact).GetProperty(columnName);
+                    var newMap = new CsvPropertyMap(propertyInfo);
+                    newMap.Index(mappingIndex);
+                    contactMap.PropertyMaps.Add(newMap);
+                }
+            }
+
+            var csvConfig = new CsvConfiguration {HasHeaderRecord = model.FirstRowIsHeader.Value};
+
+            csvConfig.RegisterClassMap(contactMap);
+
+
+            using (var stream = new MemoryStream(data))
+            {
+                using (var sr = new StreamReader(stream))
+                {
+                    // Assume No Header Row to start with.
+                    using (var csv = new CsvReader(sr, csvConfig))
+                    {
+                        while (csv.Read())
+                        {
+                            var contact = csv.GetRecord<DistributionContact>();
+
+                            if (contact != null)
+                            {
+                                ICollection<ValidationResult> results;
+                                bool isValid = contact.TryValidate(out results);
+                                if (isValid && !validContacts.ContainsKey(contact.AddressRef))
+                                {
+                                    validContacts.Add(contact.AddressRef, contact);
+                                }
+                                else if (!isValid)
+                                {
+                                    contact.DistributionListId = Guid.NewGuid();
+                                    errorContacts.Add(contact.DistributionListId, contact);
+                                }
+                                else
+                                {
+                                    duplicateContacts.Add(contact);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // TODO: Save state somewhere
+            var path = Umbraco.Url(CurrentPage.Id);
+            return Redirect(path + "?listId=" + model.DistributionListId);
         }
 
     }

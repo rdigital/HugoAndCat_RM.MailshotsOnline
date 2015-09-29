@@ -3106,6 +3106,7 @@
     <Compile Include="Helpers\ControllersHelper.cs" />
     <Compile Include="Helpers\MembershipHelper.cs" />
     <Compile Include="Installers\ControllersInstaller.cs" />
+    <Compile Include="Models\DistributionContact.cs" />
     <Compile Include="Plumbing\WindsorCompositionRoot.cs" />
     <Compile Include="Plumbing\WindsorControllerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
