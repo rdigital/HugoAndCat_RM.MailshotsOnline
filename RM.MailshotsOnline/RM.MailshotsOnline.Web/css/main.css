@@ -927,8 +927,11 @@ header {
         margin-right: 15px;
         position: relative;
         top: 2px; }
+      .batch-tray .batch-tray__list li .list-name {
+        display: inline-block;
+        font-family: "DIN Bold", Arial, sans-serif;
+        width: 100px; }
       .batch-tray .batch-tray__list li .list-count {
-        color: #fff;
         margin-left: 5px; }
       .batch-tray .batch-tray__list li .remove {
         float: right;

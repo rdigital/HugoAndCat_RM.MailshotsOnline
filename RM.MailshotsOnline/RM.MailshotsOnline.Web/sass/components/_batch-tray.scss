@@ -95,8 +95,13 @@
 				top: 2px;
 			}
 
+			.list-name {
+				display: inline-block;
+				font-family: $DINBold;
+				width: 100px;
+			}
+
 			.list-count {
-				color: $white;
 				margin-left: 5px;
 			}
 
