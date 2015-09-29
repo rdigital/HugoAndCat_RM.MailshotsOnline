@@ -6,6 +6,7 @@ using RM.MailshotsOnline.Entities.PageModels;
 using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using RM.MailshotsOnline.Web.Extensions;
+using RM.MailshotsOnline.Web.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,15 +21,17 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
     public class OrdersController : ApiBaseController
     {
         private ICampaignService _campaignService;
+        private IInvoiceService _invoiceService;
         private ISettingsService _settingsService;
         private IUmbracoService _umbracoService;
 
-        public OrdersController(IUmbracoService umbracoService, ICampaignService campaignService, ISettingsService settingsService, IMembershipService membershipService, ILogger logger)
+        public OrdersController(IUmbracoService umbracoService, IInvoiceService invoiceService, ICampaignService campaignService, ISettingsService settingsService, IMembershipService membershipService, ILogger logger)
             : base (membershipService, logger)
         {
             _umbracoService = umbracoService;
             _campaignService = campaignService;
             _settingsService = settingsService;
+            _invoiceService = invoiceService;
         }
 
         [HttpGet]
@@ -72,6 +75,50 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, orderList);
+        }
+
+        public HttpResponseMessage Cancel(Guid id)
+        {
+            // Check the user is logged in
+            var authResult = Authenticate();
+            if (authResult != null)
+            {
+                return authResult;
+            }
+
+            // Get the campaign
+            ICampaign campaign = _campaignService.GetCampaignWithInvoices(id);
+            if (campaign == null)
+            {
+                _logger.Error(this.GetType().Name, "Cancel", "Unable to find campaign with ID {0}.", id);
+                return ErrorMessage(HttpStatusCode.NotFound, "Unknown campaign.");
+            }
+
+            // Check the user owns it
+            if (campaign.UserId != _loggedInMember.Id)
+            {
+                _logger.Error(this.GetType().Name, "Cancel", "Unauthorised attempt by user with ID {0} to cancel campaign with ID {1}.", _loggedInMember.Id, id);
+                return ErrorMessage(HttpStatusCode.Forbidden, "Unauthorised request.");
+            }
+
+            // Cancel the campaign
+            List<string> errorMessages;
+            var invoiceHelper = new InvoiceHelper(_campaignService, _invoiceService, _logger);
+            var success = invoiceHelper.CancelInvoice(campaign, out errorMessages);
+            if (success)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { success = true });
+            }
+            else
+            {
+                string errorMessage = "Error cancelling campaign.";
+                if (errorMessages != null && errorMessages.Any())
+                {
+                    errorMessage = errorMessages.FirstOrDefault();
+                }
+
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new { success = false, error = errorMessage });
+            }
         }
 
         private string GetInvoicePdfUrl(IInvoice invoice)

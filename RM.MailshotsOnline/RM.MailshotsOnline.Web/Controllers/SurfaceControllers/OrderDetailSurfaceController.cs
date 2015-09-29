@@ -1,15 +1,14 @@
-﻿using HC.RM.Common.PayPal.Models;
-using HC.RM.Common.PCL.Helpers;
+﻿using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using RM.MailshotsOnline.Web.Extensions;
+using RM.MailshotsOnline.Web.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using PayPalService = HC.RM.Common.PayPal.Service;
 
 namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 {
@@ -58,66 +57,21 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return CurrentUmbracoPage();
             }
 
-            // Confirm that the appropriate invoice is in a state that can be cancelled.
-            var cancelableCampaignStatuses = new List<PCL.Enums.CampaignStatus>()
-            {
-                PCL.Enums.CampaignStatus.PendingModeration
-            };
+            var invoiceHelper = new InvoiceHelper(_campaignService, _invoiceService);
+            List<string> errorMessages;
+            var success = invoiceHelper.CancelInvoice(campaign, out errorMessages);
 
-            if (!cancelableCampaignStatuses.Contains(campaign.Status))
+            if (!success)
             {
-                ViewBag.Error = "Campaign cannot be cancelled";
-                return CurrentUmbracoPage();
-            }
-
-            // Get the invoice
-            var invoice = campaign.LatestInvoice();
-            if (invoice == null)
-            {
-                ViewBag.Error = "No invoice to be cancelled";
-                return CurrentUmbracoPage();
-            }
-
-            // Check the invoice can be cancelled
-            var cancelableInvoiceStatuses = new List<PCL.Enums.InvoiceStatus>()
-            {
-                PCL.Enums.InvoiceStatus.Submitted,
-                PCL.Enums.InvoiceStatus.Processing,
-                PCL.Enums.InvoiceStatus.Draft
-            };
-
-            if (!cancelableInvoiceStatuses.Contains(invoice.Status))
-            {
-                ViewBag.Error = "The invoice cannot be cancelled.";
-                return CurrentUmbracoPage();
-            }
-
-            // Cancel PayPal Order
-            if (!string.IsNullOrEmpty(invoice.PaypalOrderId))
-            {
-                // Void PayPal order
-                var paypalService = new PayPalService();
-                Order order = null;
-                try
+                var errorMessage = "There was an error cancelling the campaign";
+                if (errorMessages != null)
                 {
-                    order = paypalService.GetOrder(invoice.PaypalOrderId);
-                    paypalService.VoidOrder(order);
+                    errorMessage += ": " + errorMessages.FirstOrDefault();
                 }
-                catch (Exception ex)
-                {
-                    Log.Exception(this.GetType().Name, "Cancel Order", ex);
-                    Log.Error(this.GetType().Name, "Cancel Order", "Unable to cancel PayPal order {0}.", invoice.PaypalOrderId);
-                }
+
+                ViewBag.Error = errorMessage;
+                return CurrentUmbracoPage();
             }
-
-            // Update invoice
-            invoice.Status = PCL.Enums.InvoiceStatus.Cancelled;
-            _invoiceService.Save(invoice);
-
-            // Update Campaign
-            campaign.Status = PCL.Enums.CampaignStatus.Cancelled;
-            campaign.CancelledDate = DateTime.UtcNow;
-            _campaignService.SaveCampaign(campaign);
 
             if (Request.QueryString["campaignId"] != null)
             {
