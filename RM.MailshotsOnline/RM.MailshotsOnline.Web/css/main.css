@@ -105,151 +105,151 @@ table {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-.icon-Next:before {
+.icon-next:before {
   content: "\e600"; }
 
-.icon-Previous:before {
+.icon-previous:before {
   content: "\e601"; }
 
-.icon-Edit:before {
+.icon-edit:before {
   content: "\e602"; }
 
-.icon-Preview:before {
+.icon-preview:before {
   content: "\e603"; }
 
-.icon-Delete:before {
+.icon-delete:before {
   content: "\e604"; }
 
-.icon-Copy:before {
+.icon-copy:before {
   content: "\e605"; }
 
-.icon-Download:before {
+.icon-download:before {
   content: "\e606"; }
 
-.icon-Upload:before {
+.icon-upload:before {
   content: "\e607"; }
 
-.icon-Close:before {
+.icon-close:before {
   content: "\e608"; }
 
-.icon-Add:before {
+.icon-add:before {
   content: "\e609"; }
 
-.icon-Redo:before {
+.icon-redo:before {
   content: "\e60a"; }
 
-.icon-Undo:before {
+.icon-undo:before {
   content: "\e60b"; }
 
-.icon-Save:before {
+.icon-save:before {
   content: "\e60c"; }
 
-.icon-Tick:before {
+.icon-tick:before {
   content: "\e60d"; }
 
-.icon-Edit2:before {
+.icon-edit2:before {
   content: "\e60e"; }
 
-.icon-DownArrow:before {
+.icon-downarrow:before {
   content: "\e60f"; }
 
-.icon-ChevronDown:before {
+.icon-chevrondown:before {
   content: "\e610"; }
 
-.icon-Profile:before {
+.icon-profile:before {
   content: "\e611"; }
 
-.icon-Edit3:before {
+.icon-edit3:before {
   content: "\e612"; }
 
-.icon-Contacts:before {
+.icon-contacts:before {
   content: "\e613"; }
 
-.icon-Mail:before {
+.icon-mail:before {
   content: "\e614"; }
 
-.icon-Info:before {
+.icon-info:before {
   content: "\e615"; }
 
-.icon-Refresh:before {
+.icon-refresh:before {
   content: "\e616"; }
 
-.icon-Alert:before {
+.icon-alert:before {
   content: "\e617"; }
 
-.icon-Question:before {
+.icon-question:before {
   content: "\e618"; }
 
-.icon-Search:before {
+.icon-search:before {
   content: "\e619"; }
 
-.icon-Person:before {
+.icon-person:before {
   content: "\e61a"; }
 
-.icon-SearchPerson:before {
+.icon-searchperson:before {
   content: "\e61b"; }
 
-.icon-ImportImage:before {
+.icon-importimage:before {
   content: "\e61c"; }
 
-.icon-ImportCSV:before {
+.icon-importcsv:before {
   content: "\e61d"; }
 
-.icon-ZoomIn:before {
+.icon-zoomin:before {
   content: "\e61e"; }
 
-.icon-ZoomOut:before {
+.icon-zoomout:before {
   content: "\e61f"; }
 
-.icon-Forward:before {
+.icon-forward:before {
   content: "\e620"; }
 
-.icon-Backwards:before {
+.icon-backward:before {
   content: "\e621"; }
 
-.icon-Bold:before {
+.icon-bold:before {
   content: "\e622"; }
 
-.icon-Underline:before {
+.icon-underline:before {
   content: "\e623"; }
 
-.icon-Italic:before {
+.icon-italic:before {
   content: "\e624"; }
 
-.icon-IncreaseFont:before {
+.icon-increasefont:before {
   content: "\e625"; }
 
-.icon-DecreaseFont:before {
+.icon-decreasefont:before {
   content: "\e626"; }
 
-.icon-FitFont:before {
+.icon-fitfont:before {
   content: "\e627"; }
 
-.icon-LeftAlign:before {
+.icon-leftalign:before {
   content: "\e628"; }
 
-.icon-RightAlign:before {
+.icon-rightalign:before {
   content: "\e629"; }
 
-.icon-CenterAlign:before {
+.icon-centeralign:before {
   content: "\e62a"; }
 
-.icon-Justify:before {
+.icon-justify:before {
   content: "\e62b"; }
 
-.icon-UList:before {
+.icon-ulist:before {
   content: "\e62c"; }
 
-.icon-OList:before {
+.icon-olist:before {
   content: "\e62d"; }
 
-.icon-Plus:before {
+.icon-plus:before {
   content: "\e62e"; }
 
-.icon-Minus:before {
+.icon-minus:before {
   content: "\e62f"; }
 
-.icon-Image:before {
+.icon-image:before {
   content: "\e630"; }
 
 html {
@@ -702,7 +702,7 @@ select {
 .spin {
   animation: spin 2s linear infinite; }
 
-.title-bar:after, .content-box:after, .lists .lists__section-head:after {
+.title-bar:after, .content-box:after, .batch-tray .constrain:after, .lists .lists__section-head:after {
   content: "";
   display: table;
   clear: both; }
@@ -793,7 +793,7 @@ header {
     left: 0;
     position: absolute;
     text-decoration: none; }
-    .title-bar .back .icon-Previous {
+    .title-bar .back .icon-previous {
       font-size: 30px;
       font-size: 3rem;
       color: #da202a;
@@ -812,6 +812,156 @@ header {
   padding: 30px 35px;
   position: relative; }
 
+.pagination {
+  border-top: 2px solid #e1e1e1;
+  margin-top: 15px;
+  min-height: 30px;
+  position: relative;
+  text-align: center; }
+  .pagination ul {
+    margin: 0 auto;
+    position: relative;
+    width: 200px; }
+    .pagination ul li {
+      font-size: 22px;
+      font-size: 2.2rem;
+      display: inline-block;
+      padding: 15px 0; }
+      .pagination ul li a {
+        color: #5f6267;
+        padding: 0 15px;
+        text-decoration: none; }
+      .pagination ul li.previous {
+        left: -30px;
+        position: absolute;
+        top: 5px; }
+        .pagination ul li.previous a {
+          padding: 0; }
+      .pagination ul li.next {
+        position: absolute;
+        right: -30px;
+        top: 5px; }
+        .pagination ul li.next a {
+          padding: 0; }
+      .pagination ul li.previous span, .pagination ul li.next span {
+        font-size: 24px;
+        font-size: 2.4rem;
+        cursor: pointer;
+        display: inline-block;
+        vertical-align: text-top; }
+      .pagination ul li.current {
+        border-top: 5px solid #0892cb; }
+        .pagination ul li.current a {
+          font-family: "DIN Bold", Arial, sans-serif;
+          color: #0892cb; }
+      .pagination ul li.etc {
+        font-family: "DIN Regular", Arial, sans-serif;
+        letter-spacing: 5px; }
+
+.batch-tray {
+  background-color: #26262a;
+  box-sizing: border-box;
+  bottom: 0;
+  color: #fff;
+  left: 0;
+  height: 0;
+  position: fixed;
+  transition: height 0.3s linear;
+  width: 100%;
+  z-index: 2; }
+  .batch-tray.visible {
+    height: 180px; }
+    @media only screen and (min-width: 64em) {
+      .batch-tray.visible {
+        height: 105px; } }
+    .batch-tray.visible.open {
+      height: 345px; }
+      @media only screen and (min-width: 64em) {
+        .batch-tray.visible.open {
+          height: 270px; } }
+  .batch-tray .batch-tray-container {
+    border-top: 10px solid #0892cb;
+    padding: 24px 20px 0; }
+    @media only screen and (min-width: 83.5em) {
+      .batch-tray .batch-tray-container {
+        padding: 24px 50px 0; } }
+  .batch-tray .batch-tray__info {
+    padding-top: 10px; }
+    @media only screen and (min-width: 64em) {
+      .batch-tray .batch-tray__info {
+        float: left; } }
+  .batch-tray .batch-tray__actions {
+    margin-top: 20px; }
+    @media only screen and (min-width: 64em) {
+      .batch-tray .batch-tray__actions {
+        float: right;
+        margin-top: 0; } }
+    .batch-tray .batch-tray__actions #sendtoself {
+      position: relative;
+      top: 2px; }
+    .batch-tray .batch-tray__actions label {
+      line-height: 50px;
+      margin-right: 30px;
+      min-width: auto; }
+    .batch-tray .batch-tray__actions .btn {
+      height: 50px;
+      padding-left: 18px;
+      padding-right: 60px; }
+  .batch-tray .batch-tray__list-container {
+    clear: both;
+    height: 145px; }
+  .batch-tray .batch-tray__list {
+    width: calc(100% - 30px); }
+    .batch-tray .batch-tray__list li {
+      border-top: 1px solid #424247;
+      box-sizing: border-box;
+      color: #fff;
+      height: 45px;
+      padding: 10px 0; }
+      .batch-tray .batch-tray__list li .icon-tick {
+        font-size: 20px;
+        font-size: 2rem;
+        background-color: #fff;
+        border-radius: 50%;
+        color: #0892cb;
+        margin-right: 15px;
+        position: relative;
+        top: 2px; }
+      .batch-tray .batch-tray__list li .list-count {
+        color: #fff;
+        margin-left: 5px; }
+      .batch-tray .batch-tray__list li .remove {
+        float: right;
+        vertical-align: middle; }
+        .batch-tray .batch-tray__list li .remove .icon-close {
+          font-size: 20px;
+          font-size: 2rem;
+          margin-left: 5px;
+          top: -1px;
+          vertical-align: middle; }
+  .batch-tray .arrow {
+    font-size: 28px;
+    font-size: 2.8rem;
+    height: auto;
+    padding: 0;
+    margin: 0 10px 0 0;
+    position: relative;
+    top: -2px;
+    transform: rotate(-90deg);
+    vertical-align: middle;
+    transition: all 0.2s linear; }
+  .batch-tray.open .arrow {
+    transform: rotate(90deg); }
+  .batch-tray .lists-text {
+    font-size: 24px;
+    font-size: 2.4rem;
+    display: inline-block;
+    font-family: "Chevin Light", Arial, sans-serif;
+    margin-bottom: 0;
+    vertical-align: middle; }
+    .batch-tray .lists-text .number {
+      font-family: "Chevin Medium", Arial, sans-serif; }
+
 .lists .lists__section-head {
   margin-bottom: 10px; }
   .lists .lists__section-head h4 {
@@ -820,7 +970,7 @@ header {
     float: right;
     font-family: "Chevin Medium", Arial, sans-serif;
     text-decoration: none; }
-    .lists .lists__section-head .lists__my-lists__create .icon-Add {
+    .lists .lists__section-head .lists__my-lists__create .icon-add {
       font-size: 28px;
       font-size: 2.8rem;
       color: #da202a;
@@ -830,7 +980,7 @@ header {
     float: right;
     font-family: "Chevin Medium", Arial, sans-serif;
     text-decoration: none; }
-    .lists .lists__section-head .lists__rent-list__clear .icon-Close {
+    .lists .lists__section-head .lists__rent-list__clear .icon-close {
       font-size: 28px;
       font-size: 2.8rem;
       margin-left: 10px;
@@ -864,7 +1014,7 @@ header {
   right: 35px;
   top: 0; }
 .lists .lists__my-lists__list {
-  margin-bottom: 60px; }
+  margin-bottom: 30px; }
   .lists .lists__my-lists__list li {
     background-color: #fff;
     border: 1px solid #dcdcdb;
@@ -893,7 +1043,7 @@ header {
     font-size: 24px;
     font-size: 2.4rem;
     font-family: "Chevin Medium", Arial, sans-serif; }
-    .lists .lists__my-lists__list .lists__my-lists__number .icon-Person {
+    .lists .lists__my-lists__list .lists__my-lists__number .icon-person {
       font-size: 40px;
       font-size: 4rem;
       margin-right: 10px;
@@ -912,3 +1062,5 @@ header {
       text-align: right;
       top: 2px;
       vertical-align: middle; }
+.lists .pagination {
+  margin-bottom: 60px; }

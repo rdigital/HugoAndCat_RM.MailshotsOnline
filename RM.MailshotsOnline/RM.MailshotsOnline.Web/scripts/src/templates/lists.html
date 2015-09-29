@@ -1,23 +1,19 @@
-<section class="lists__my-lists">
-	<div class="lists__section-head">
-		<h4 class="strong">My lists (<span data-bind="text: totalListCount"></span>)</h4>
-		<a href="" class="lists__my-lists__create">
-			<span class="link-text">Create a new list</span>
-			<span class="icon-Add"></span>
-		</a>
+<div class="lists">
+	<div class="title-bar">
+		<div class="constrain">
+			<a href="" class="back"><span class="icon-previous"></span><span class="back-text">Back to campaign</span></a>
+			<h1>Add data to your campaign</h1>
+		</div>
 	</div>
-	<ul class="lists__my-lists--lists lists__my-lists__list" data-bind="foreach: lists">
-		<li>
-			<a href="" class="lists__my-lists__name" data-bind="text: Name"></a>
-			<span class="lists__my-lists__number">
-				<span class="icon-Person"></span>
-				<span class="number" data-bind="text: RecordCount"></span>
-			</span>
-			<div class="custom-checkbox-grp">
-				<label for="listSelect" data-bind="visible: !selected()">Add</label>
-				<input class="visually-hidden" type="checkbox" name="listSelect" id="listSelect">
-				<span class="custom-checkbox-round icon-Tick" aria-label="select list" data-bind="css: {checked: selected}, click: $parent.toggleSelect"></span>
-			</div>
-		</li>
-	</ul>
-</section>
+
+	<div class="constrain">
+		
+	    <my-lists-component></my-lists-component>
+
+	    <rent-list-component></rent-list-component>
+
+	</div>
+
+	<batch-tray-component></batch-tray-component>
+
+</div>
