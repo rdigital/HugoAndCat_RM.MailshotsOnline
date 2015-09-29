@@ -19,6 +19,12 @@ namespace RM.MailshotsOnline.Entities.DataModels
 
         private decimal _total;
 
+        private Product _product;
+
+        private string _name;
+
+        private string _category;
+
         /// <summary>
         /// Gets or sets the ID of the invoice line item
         /// </summary>
@@ -37,28 +43,61 @@ namespace RM.MailshotsOnline.Entities.DataModels
         [ForeignKey("InvoiceId")]
         public virtual Invoice Invoice
         {
+            get { return _invoice; }
+            set { _invoice = value; }
+        }
+
+        /// <summary>
+        /// The Product SKU
+        /// </summary>
+        [MaxLength(128)]
+        public string ProductSku { get; set; }
+
+        /// <summary>
+        /// The Product purchased
+        /// </summary>
+        [ForeignKey("ProductSku")]
+        public virtual Product Product
+        {
+            get { return _product; }
+            set { _product = value; }
+        }
+
+        /// <summary>
+        /// Gets the product name
+        /// </summary>
+        [MaxLength(1024)]
+        public string Name
+        {
             get
             {
-                return _invoice;
+                _name = _product != null ? _product.Name : null;
+                return _name;
             }
 
-            set
+            private set
             {
-                _invoice = value;
+                _name = value;
             }
         }
 
         /// <summary>
-        /// Gets or sets the name of the item
+        /// Gets the product category
         /// </summary>
         [MaxLength(1024)]
-        public string Name { get; set; }
+        public string Category
+        {
+            get
+            {
+                _category = _product != null ? _product.Category : null;
+                return _category;
+            }
 
-        /// <summary>
-        /// Gets or sets the name of the category for this line item
-        /// </summary>
-        [MaxLength(1024)]
-        public string Category { get; set; }
+            private set
+            {
+                _category = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the line-item subtitle
@@ -145,6 +184,12 @@ namespace RM.MailshotsOnline.Entities.DataModels
         {
             get { return (IInvoice)_invoice; }
             set { _invoice = (Invoice)value; }
+        }
+
+        IProduct IInvoiceLineItem.Product
+        {
+            get { return (IProduct)_product; }
+            set { _product = (Product)value; }
         }
 
         #endregion

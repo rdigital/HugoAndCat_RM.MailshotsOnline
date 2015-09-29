@@ -88,8 +88,8 @@
     <Compile Include="DataModels\MailshotSettings\MailshotDefaultContent.cs" />
     <Compile Include="DataModels\MailshotSettings\Template.cs" />
     <Compile Include="DataModels\MailshotSettings\Theme.cs" />
-    <Compile Include="DataModels\Order.cs" />
     <Compile Include="DataModels\PostalOption.cs" />
+    <Compile Include="DataModels\Product.cs" />
     <Compile Include="DataModels\PublicLibraryImage.cs" />
     <Compile Include="DataModels\Reports\TransactionsReportEntity.cs" />
     <Compile Include="DataModels\Reports\TransactionsReport.cs" />
@@ -100,6 +100,7 @@
     <Compile Include="Extensions\MailshotExtensions.cs" />
     <Compile Include="JsonModels\CampaignPriceBreakdown.cs" />
     <Compile Include="JsonModels\Media.cs" />
+    <Compile Include="JsonModels\Order.cs" />
     <Compile Include="JsonModels\PrivateLibraryImage.cs" />
     <Compile Include="JsonModels\PublicLibraryImage.cs" />
     <Compile Include="JsonModels\ContentElement.cs" />
