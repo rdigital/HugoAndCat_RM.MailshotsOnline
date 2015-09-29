@@ -289,6 +289,11 @@ body {
         content: attr(data-fallback) !important;
     }
 }
+.full-preview {
+    .canvas-empty {
+        background: transparent !important;
+    }
+}
 
 .loading {
     @include transition(opacity);

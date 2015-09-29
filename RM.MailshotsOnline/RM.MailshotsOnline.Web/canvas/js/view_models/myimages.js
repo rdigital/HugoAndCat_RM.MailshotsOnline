@@ -1,6 +1,6 @@
 // viewmodel to handle my images data
-define(['knockout', 'view_models/data', 'view_models/format', 'view_models/user'],
-    function(ko, dataViewModel, userViewModel) {
+define(['knockout', 'view_models/data', 'view_models/auth'],
+    function(ko, dataViewModel, authViewModel) {
 
         function myImagesViewModel() {
             // this.objects contains the data returned from the server
@@ -14,8 +14,9 @@ define(['knockout', 'view_models/data', 'view_models/format', 'view_models/user'
             this.add = this.add.bind(this);
             this.remove = this.remove.bind(this);
 
-            // fetch data
+            // fetch data if / when authenticated
             this.fetch();
+            authViewModel.isAuthenticated.subscribe(this.fetch, this);
         }
 
         // extend the element model
@@ -23,6 +24,9 @@ define(['knockout', 'view_models/data', 'view_models/format', 'view_models/user'
         myImagesViewModel.prototype.constructor = myImagesViewModel;
 
         myImagesViewModel.prototype.fetch = function fetch() {
+            if (!authViewModel.isAuthenticated()) {
+                return
+            }
             $.get('/Umbraco/Api/ImageLibrary/GetMyImages', function(data) {
                 this.loading(false);
                 this.objects(data);
