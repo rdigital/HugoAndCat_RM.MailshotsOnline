@@ -147,6 +147,8 @@
     <Compile Include="ViewModels\CampaignStatusViewModel.cs" />
     <Compile Include="ViewModels\CaptureDetailsViewModel.cs" />
     <Compile Include="ViewModels\ModifyListConfirmFieldsModel.cs" />
+    <Compile Include="ViewModels\ModifyListFinishModel.cs" />
+    <Compile Include="ViewModels\ModifyListSummaryModel.cs" />
     <Compile Include="ViewModels\ModifyListUploadFileModel.cs" />
     <Compile Include="ViewModels\ImageUploadViewModel.cs" />
     <Compile Include="ViewModels\MarketingPreferencesViewModel.cs" />

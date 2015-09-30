@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using RM.MailshotsOnline.Entities.PageModels;
-using RM.MailshotsOnline.Entities.PageModels.Settings;
 
 namespace RM.MailshotsOnline.Entities.ViewModels
 {

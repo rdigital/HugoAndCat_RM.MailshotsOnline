@@ -3512,6 +3512,7 @@
     <Content Include="Views\ListCreate.cshtml" />
     <Content Include="Views\Lists\Partials\ShowCreateListForm.cshtml" />
     <Content Include="Views\Lists\Partials\ShowConfirmFieldsForm.cshtml" />
+    <Content Include="Views\Lists\Partials\ShowSummaryListForm.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -3547,7 +3548,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="uSync\Template\EditProfileBasePage\" />
-    <Folder Include="Views\ListCreate\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

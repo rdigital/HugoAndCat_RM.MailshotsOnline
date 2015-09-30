@@ -1,4 +1,5 @@
 ﻿@using RM.MailshotsOnline.Entities.PageModels
+@using RM.MailshotsOnline.PCL
 @inherits Glass.Mapper.Umb.Web.Ui.GlassViewPage<RM.MailshotsOnline.Entities.PageModels.ListCreate>
 @{
     Layout = "~/Views/Master.cshtml";
@@ -9,16 +10,16 @@
     <!-- Add in the steps here -->
     @switch (Model.CurrentStep)
     {
-        case CreateListStep.AddNewContacts:
+        case Enums.DistributionListState.AddNewContacts:
             @Html.Action("ShowCreateListForm", "ModifyListSurface", new {model = Model})
 
             break;
-        case CreateListStep.ConfirmFields:
+        case Enums.DistributionListState.ConfirmFields:
             @Html.Action("ShowConfirmFieldsForm", "ModifyListSurface", new { model = Model })
 
             break;
-        case CreateListStep.FixIssues:
-            @Html.Action("ShowCreateListForm", "ModifyListSurface", new { model = Model })
+        case Enums.DistributionListState.FixIssues:
+            @Html.Action("ShowSummaryListForm", "ModifyListSurface", new { model = Model })
 
             break;
     }

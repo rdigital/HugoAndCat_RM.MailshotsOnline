@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace RM.MailshotsOnline.PCL
+﻿namespace RM.MailshotsOnline.PCL
 {
     public class Enums
     {
@@ -93,6 +88,33 @@ namespace RM.MailshotsOnline.PCL
             /// A set of invalid records that could not be imported into a final list. 
             /// </summary>
             Errors,
+        }
+
+        /// <summary>
+        /// What state is the Distribution List in?
+        /// </summary>
+        public enum DistributionListState
+        {
+            /// <summary>
+            /// The list hasn't been configured at all yet.
+            /// </summary>
+            Unknown = 0,
+            /// <summary>
+            /// Not to be saved on a list - used when about to upload new contacts.
+            /// </summary>
+            AddNewContacts,
+            /// <summary>
+            /// The list has had a CSV uploaded against it, but these haven't been mapped to contacts yet.
+            /// </summary>
+            ConfirmFields,
+            /// <summary>
+            /// The CSV has been processed, but hasn't been merged into the list yet.
+            /// </summary>
+            FixIssues,
+            /// <summary>
+            /// The list is good to use.
+            /// </summary>
+            Complete,
         }
     }
 }
