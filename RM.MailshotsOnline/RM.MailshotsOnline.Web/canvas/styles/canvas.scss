@@ -18,7 +18,7 @@ body {
     overflow: hidden;
     position: absolute;
     top: 50px;
-    left: 150px;
+    left: 170px;
     right: 0;
     bottom: 0;
     z-index: 2;
@@ -26,8 +26,8 @@ body {
     transform: translate(0, 0);
     -ms-transform: translate(0, 0);
     .tools {
-        transform: translate(-150px, -50px);
-        -ms-transform: translate(-150px, -50px);
+        transform: translate(-170px, -50px);
+        -ms-transform: translate(-170px, -50px);
     }
     &.canvas-container_zoomed {
         overflow: auto;
@@ -36,8 +36,8 @@ body {
         top: 0;
         left: 0;
         .side {
-            transform: translate(150px, 50px);
-            -ms-transform: translate(150px, 50px);
+            transform: translate(170px, 50px);
+            -ms-transform: translate(170px, 50px);
             right: 150px;
 
         }
@@ -50,8 +50,8 @@ body {
         @include transition(transform);
         width: 500px;
         right: auto;
-        transform: translate(-190px, -100px);
-        -ms-transform: translate(-190px, -100px);
+        transform: translate(-200px, -100px);
+        -ms-transform: translate(-200px, -100px);
         pointer-events: none;
         .face {
             pointer-events: none;

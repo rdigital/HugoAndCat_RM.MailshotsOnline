@@ -16,7 +16,7 @@
     top: 50px;
     left: 0;
     right: 0;
-    height: 260px;
+    height: 261px;
     background: #fff;
     z-index: 502;
     padding-right: 0;
@@ -24,6 +24,13 @@
     border-bottom: 1px solid $grey;
     border-top: none;
     animation: slidein .5s;
+    overflow-x: auto;
+    overflow-y: hidden;
+    .theme-inner {
+    	height: 260px;
+    	width: auto;
+    	overflow: hidden;
+    }
 	.theme-container {
 		@include transition(background);
 		position: relative;
@@ -34,8 +41,6 @@
 		cursor: pointer;
 		border-right: 1px solid $grey;
 		.side {
-			-ms-transform: scale(0.33, 0.33);
-			transform: scale3d(0.33, 0.33, 1);
 			left: 30px;
 		    top: 20px;
 		    transform-origin: 0 0;

@@ -20,7 +20,8 @@
 
 		<div class="help" data-bind="css: {'help_error': (message()) && (message().type == 'error'), 'help_visible': message() && !showImageUpload()}">
 			<!--ko if: message() -->
-				<span data-bind="text: message().message"></span>
+				<span class="help-title" data-bind="html: title">Tips for Headlines</span>
+				<span class="help-message" data-bind="html: message().message"></span>
 			<!-- /ko -->
 		</div>
 

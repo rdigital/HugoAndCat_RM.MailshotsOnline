@@ -29,6 +29,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             // computeds
             this.flatStyles = this.getFlatStyles();
             this.message = this.getMessageComputed();
+            this.title = this.getTitleComputed();
             this.isEmpty = this.getIsEmptyComputed();
 
             // subscriptions
@@ -441,18 +442,6 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
                 var styles = this.flatStyles();
                 ko.utils.extend(styles, this.getDimensions());
                 return styles;
-            }, this);
-        };
-
-        imageViewModel.prototype.getMessageComputed = function getMessageComputed() {
-            return ko.pureComputed(function() {
-                if (this.data.message) {
-                    return {
-                        type: 'message',
-                        message: this.data.message
-                    };
-                }
-                return null;
             }, this);
         };
 

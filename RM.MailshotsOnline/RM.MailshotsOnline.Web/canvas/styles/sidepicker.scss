@@ -8,15 +8,15 @@
     left: 0;
     top: 50px;
     bottom: 0;
-    width: 150px;
+    width: 170px;
     background: #FFF;
     z-index: 100;
     transform: translate(0, 0);
     -ms-transform: translate(0, 0);
     border-right: 1px solid $grey;
     &.side-picker_hidden {
-        transform: translate(-150px, 0);
-        -ms-transform: translate(-150px, 0);
+        transform: translate(-170px, 0);
+        -ms-transform: translate(-170px, 0);
     }
     .side-picker-inner {
         @include transition(background);

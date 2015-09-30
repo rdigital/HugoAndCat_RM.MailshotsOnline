@@ -11,6 +11,7 @@ define(['knockout', 'view_models/format', 'view_models/theme', 'view_models/user
             this.ms_scale = ko.observable();
             this.top = ko.observable(0);
             this.name_top = ko.observable(0);
+            this.container_width = ko.observable(2000);
             this.doScale();
         }
 
@@ -30,6 +31,7 @@ define(['knockout', 'view_models/format', 'view_models/theme', 'view_models/user
                 el_height = this.face.height,
                 height = 200,
                 width = 220,
+                full_width = 280,
                 scale = Math.min((width / el_width), (height / el_height));
             this.scale('scale(' + scale + ')');
             this.ms_scale('scale(' + scale + ', ' + scale + ')');
@@ -37,6 +39,7 @@ define(['knockout', 'view_models/format', 'view_models/theme', 'view_models/user
             var adjusted_height = scale * el_height;
             this.top(((height - adjusted_height) / 2) + 20);
             this.name_top(this.top() + adjusted_height);
+            this.container_width(full_width * this.themes().length);
         };
 
         /**
