@@ -10,6 +10,8 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
             this.data = params.data;
             this.preview = params.preview;
             this.backgroundSelected = stateViewModel.backgroundSelected;
+            this.backgroundToolsTop = ko.observable(0);
+            this.backgroundToolsLeft = ko.observable(0);
             this.selectedElement = stateViewModel.selectedElement;
             this.current_theme = ko.observable();
             this.scale = function() {
@@ -214,7 +216,9 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
         /**
          * select the background of this face
          */
-        faceViewModel.prototype.selectBackground = function selectBackground() {
+        faceViewModel.prototype.selectBackground = function selectBackground(data, e) {
+            this.backgroundToolsLeft(e.screenX);
+            this.backgroundToolsTop(Math.max(e.screenY, 160));
             this.backgroundSelected(this);
         };
 

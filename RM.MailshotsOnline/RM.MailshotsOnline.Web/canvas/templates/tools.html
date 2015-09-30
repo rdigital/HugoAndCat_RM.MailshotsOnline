@@ -41,7 +41,7 @@
 
         <!-- ko ifnot: personalizing -->
         <div class="tools-row">
-            <dropdown-component params="{options: fonts, selected: font, full: true, focusCallback: focusInput, anchorClass: 'tools-dropdown tools-dropdown_full'}"></dropdown-component>
+            <dropdown-component params="{options: fonts, selected: font, full: true, template: 'font-dropdown', focusCallback: focusInput, anchorClass: 'tools-dropdown tools-dropdown_full'}"></dropdown-component>
         </div>
 
         <div class="tools-row">
@@ -100,14 +100,14 @@
                 <input type="text" class="tools-input" data-bind="click: focusToolsInput, event: {blur: setCaretPosition}, clickBubble: false, value: personalizationFallback"/>
             </div>
         </div>
-        <div class="tools-row"></div>
+        <!-- <div class="tools-row"></div> -->
         <!-- ko ifnot: personalizationEl -->
         <div class="tools-row">
             <span class="tools-group">
                 <div class="tools-button tools-button-cancel" data-bind="click: closePersonalization">Back</div>
             </span>
             <span class="tools-group tools-group_right">
-                <div class="tools-button" data-bind="click: insertPersonalization">Insert</div>
+                <div class="tools-button" data-bind="click: insertPersonalization" style="width: 120px;">Insert</div>
             </span>
         </div>
         <!-- /ko -->
@@ -117,7 +117,7 @@
                 <div class="tools-button tools-button-cancel" data-bind="click: deletePersonalization">Remove</div>
             </span>
             <span class="tools-group tools-group_right">
-                <div class="tools-button" data-bind="click: insertPersonalization">Update</div>
+                <div class="tools-button" data-bind="click: insertPersonalization" style="width: 120px;">Update</div>
             </span>
         </div>
         <!-- /ko -->
@@ -126,28 +126,30 @@
     <!-- /ko -->
     <!-- ko if: elementType() == 'image' -->
         <!-- ko if: showScale() -->
-        <div class="tools-label">
-            Size:
-        </div>
         <div class="tools-row">
-            <slider-component params="{min: 1, max: 400, current: selectedElement().imageObj.scale}"></slider-component>
-        </div>
-        <div class="tools-label">
-            Change Image:
-        </div>
-        <!-- /ko -->
-        <!-- ko ifnot: showScale() -->
-        <div class="tools-label">
-            Add Image:
+            <div class="tools-slider-container">
+                <slider-component params="{min: 1, max: 400, current: selectedElement().imageObj.scale}"></slider-component>
+            </div>
+            <div class="tools-size-reset icon-undo" data-bind="click: function() {selectedElement().resetSizePosition()}"></div>
         </div>
         <!-- /ko -->
         <div class="tools-row">
-            <span class="tools-image tools-image_own" data-bind="click: toggleImageUpload">Use my own Image</span>
-            <span class="tools-image tools-image_own_old_ie" data-bind="click: ieClickImageUpload">Upload an Image</span>
-            <span class="tools-image-spacer tools-image-spacer_border"></span>
-            <span class="tools-image-spacer"></span>
-            <span class="tools-image tools-image_library" data-bind="click: toggleImageLibrary">Choose from Library</span>
+            <div class="tools-button tools-button-full tools-image_own" data-bind="click: toggleImageUpload">Upload a new image</div>
+            <div class="tools-button tools-button-full tools-image_own_old_ie" data-bind="click: ieClickImageUpload">Upload a new image</div>
         </div>
+        <!-- ko if: my_images -->
+        <div class="tools-row">
+            <div class="tools-button tools-button-full" data-bind="click: toggleMyImages">Use one of My Images</div>
+        </div>
+        <!-- /ko -->
+        <div class="tools-row">
+            <div class="tools-button tools-button-full" data-bind="click: toggleImageLibrary">Choose image from Library</div>
+        </div>
+        <!-- ko if: showScale() -->
+        <div class="tools-row">
+            <div class="tools-button tools-button-cancel tools-button-cancel_right" data-bind="click: removeImage">Remove image</div>
+        </div>
+        <!-- /ko -->
     <!-- /ko -->
 </div>
 

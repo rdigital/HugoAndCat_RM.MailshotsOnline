@@ -110,20 +110,20 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Glass.Mapper.Umb.CastleWindsor.3.0.4.5\lib\net45\Glass.Mapper.Umb.CastleWindsor.dll</HintPath>
     </Reference>
-    <Reference Include="HC.RM.Common, Version=1.0.13.48, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.1.0.13.48\lib\net45\HC.RM.Common.dll</HintPath>
+    <Reference Include="HC.RM.Common, Version=1.0.13.39, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.1.0.13.39\lib\net45\HC.RM.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HC.RM.Common.Azure, Version=1.0.13.48, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.Azure.1.0.13.48\lib\net45\HC.RM.Common.Azure.dll</HintPath>
+    <Reference Include="HC.RM.Common.Azure, Version=1.0.13.39, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.Azure.1.0.13.39\lib\net45\HC.RM.Common.Azure.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HC.RM.Common.AzureWeb, Version=1.0.13.48, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.AzureWeb.1.0.13.48\lib\net45\HC.RM.Common.AzureWeb.dll</HintPath>
+    <Reference Include="HC.RM.Common.AzureWeb, Version=1.0.13.39, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.AzureWeb.1.0.13.39\lib\net45\HC.RM.Common.AzureWeb.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HC.RM.Common.PCL, Version=1.0.13.48, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.PCL.1.0.13.48\lib\portable-net45+win+wpa81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\HC.RM.Common.PCL.dll</HintPath>
+    <Reference Include="HC.RM.Common.PCL, Version=1.0.13.39, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.PCL.1.0.13.39\lib\portable-net45+win+wpa81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\HC.RM.Common.PCL.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="HtmlAgilityPack">
@@ -454,15 +454,20 @@
     <Content Include="canvas\js\view_models\user.js" />
     <Content Include="canvas\styles\compiled\auth.css" />
     <Content Include="canvas\styles\compiled\canvas.css" />
+    <Content Include="canvas\styles\compiled\canvascontrols.css" />
+    <Content Include="canvas\styles\compiled\dropdown.css" />
     <Content Include="canvas\styles\compiled\help.css" />
+    <Content Include="canvas\styles\compiled\iehacks.css" />
     <Content Include="canvas\styles\compiled\layoutpicker.css" />
     <Content Include="canvas\styles\compiled\mailshot.css" />
     <Content Include="canvas\styles\compiled\preview.css" />
     <Content Include="canvas\styles\compiled\sidepicker.css" />
+    <Content Include="canvas\styles\compiled\slider.css" />
     <Content Include="canvas\styles\compiled\themepicker.css" />
     <Content Include="canvas\styles\compiled\toolbar.css" />
     <Content Include="canvas\styles\compiled\tools.css" />
     <Content Include="canvas\styles\compiled\upload.css" />
+    <Content Include="canvas\styles\compiled\zoom.css" />
     <Content Include="canvas\styles\vendor\bootstrap.min.css" />
     <Content Include="canvas\templates\auth.html" />
     <Content Include="canvas\templates\backgroundtools.html" />
@@ -535,6 +540,8 @@
     <Content Include="App_Plugins\CryptoLabel\package.manifest" />
     <Content Include="App_Plugins\CryptoLabel\cryptoLabel.controller.js" />
     <Content Include="App_Plugins\CryptoLabel\cryptoLabel.resource.js" />
+    <Content Include="AppInsightsAgent\InstallAgent.ps1" />
+    <Content Include="AppInsightsAgent\InstallAgent.bat" />
     <Content Include="canvas\styles\tools.scss" />
     <Content Include="canvas\styles\compiled\tools.css.map" />
     <Content Include="canvas\fonts\icomoon.eot" />
@@ -547,16 +554,23 @@
     <Content Include="App_Plugins\CryptoTitleLabel\package.manifest" />
     <Content Include="canvas\styles\layoutpicker.scss" />
     <Content Include="canvas\styles\compiled\layoutpicker.css.map" />
-    <Content Include="canvas\styles\auth.scss" />
     <Content Include="canvas\styles\compiled\auth.css.map" />
-    <Content Include="AppInsightsAgent\InstallAgent.ps1" />
-    <Content Include="AppInsightsAgent\InstallAgent.bat" />
+    <Content Include="canvas\styles\compiled\canvascontrols.css.map" />
+    <Content Include="canvas\styles\compiled\dropdown.css.map" />
+    <Content Include="canvas\styles\compiled\iehacks.css.map" />
+    <Content Include="canvas\styles\compiled\slider.css.map" />
+    <Content Include="canvas\styles\compiled\zoom.css.map" />
+    <Content Include="canvas\styles\auth.scss" />
+    <Content Include="canvas\styles\canvascontrols.scss" />
+    <Content Include="canvas\styles\dropdown.scss" />
+    <Content Include="canvas\styles\iehacks.scss" />
+    <Content Include="canvas\styles\slider.scss" />
+    <Content Include="canvas\styles\zoom.scss" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\campaign-functions.js" />
     <Content Include="scripts\campaign-hub.js" />
     <Content Include="scripts\campaignstest.js" />
     <Content Include="scripts\editor.js" />
-    <Content Include="scripts\HC.RM.Common.AzureWeb.Forms.js" />
     <Content Include="scripts\imagelibrarytest.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
@@ -3603,11 +3617,11 @@
     <Error Condition="!Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.2.8\build\UmbracoCms.props'))" />
     <Error Condition="!Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.Agent.Intercept.0.17.0\build\Microsoft.ApplicationInsights.Agent.Intercept.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.Agent.Intercept.0.17.0\build\Microsoft.ApplicationInsights.Agent.Intercept.targets'))" />
-    <Error Condition="!Exists('..\packages\HC.RM.Common.Azure.1.0.13.48\build\HC.RM.Common.Azure.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\HC.RM.Common.Azure.1.0.13.48\build\HC.RM.Common.Azure.targets'))" />
+    <Error Condition="!Exists('..\packages\HC.RM.Common.Azure.1.0.13.39\build\HC.RM.Common.Azure.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\HC.RM.Common.Azure.1.0.13.39\build\HC.RM.Common.Azure.targets'))" />
   </Target>
   <Import Project="..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets" Condition="Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets')" />
   <Import Project="..\packages\Microsoft.ApplicationInsights.Agent.Intercept.0.17.0\build\Microsoft.ApplicationInsights.Agent.Intercept.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.Agent.Intercept.0.17.0\build\Microsoft.ApplicationInsights.Agent.Intercept.targets')" />
-  <Import Project="..\packages\HC.RM.Common.Azure.1.0.13.48\build\HC.RM.Common.Azure.targets" Condition="Exists('..\packages\HC.RM.Common.Azure.1.0.13.48\build\HC.RM.Common.Azure.targets')" />
+  <Import Project="..\packages\HC.RM.Common.Azure.1.0.13.39\build\HC.RM.Common.Azure.targets" Condition="Exists('..\packages\HC.RM.Common.Azure.1.0.13.39\build\HC.RM.Common.Azure.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

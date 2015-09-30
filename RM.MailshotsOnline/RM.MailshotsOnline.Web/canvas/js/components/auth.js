@@ -150,6 +150,7 @@ define(['knockout', 'koelement', 'view_models/state', 'view_models/auth'],
         }
 
         authComponentViewModel.prototype.showRegister = function showRegister() {
+            this.regErrors([]);
             this.viewing('register');
         }
 

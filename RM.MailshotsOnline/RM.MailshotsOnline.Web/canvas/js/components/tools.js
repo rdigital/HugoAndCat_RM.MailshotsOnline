@@ -37,6 +37,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             this.colour = this.getStyleComputed('color');
             this.backgroundColour = this.getStyleComputed('background-color');
             this.font = this.getStyleComputed('font-family');
+            this.my_images = this.getMyImagesComputed();
 
             // bound methods
             this.focusInput = this.focusInput.bind(this);
@@ -417,6 +418,13 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
         /**
          * toggle the image library modal
          */
+        toolsViewModel.prototype.toggleMyImages = function toggleMyImages() {
+            stateViewModel.toggleMyImages();
+        }
+
+        /**
+         * toggle the image library modal
+         */
         toolsViewModel.prototype.toggleImageLibrary = function toggleImageLibrary() {
             stateViewModel.toggleImageLibrary();
         }
@@ -675,6 +683,16 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                 name = Math.floor(Math.random() * 99999999);
             iframe.$('#nameInput').val(name.toString());
             iframe.$('#fileUpload').click();
+        }
+
+        toolsViewModel.prototype.getMyImagesComputed = function getMyImagesComputed() {
+            return ko.pureComputed(function() {
+                return myImagesViewModel.objects().length > 0;
+            }, this)
+        }
+
+        toolsViewModel.prototype.removeImage = function removeImage() {
+            this.selectedElement().removeImage();
         }
 
         return {

@@ -29,6 +29,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             // computeds
             this.flatStyles = this.getFlatStyles();
             this.message = this.getMessageComputed();
+            this.title = this.getTitleComputed();
             this.isEmpty = this.getIsEmptyComputed();
 
             // subscriptions
@@ -38,6 +39,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             this.dispose = this.dispose.bind(this);
             this.setup = this.setup.bind(this);
             this.setUrlSrc = this.setUrlSrc.bind(this);
+            this.removeImage = this.removeImage.bind(this);
         }
 
         // extend the element model
@@ -276,6 +278,18 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             this.imageObj.urlSrc(src);
         };
 
+        imageViewModel.prototype.removeImage = function removeImage(src) {
+            this.imageObj.src('');
+            this.imageObj.urlSrc('');
+            var canvas = this.canvas(),
+                ctx = canvas[0].getContext("2d"),
+                canvas_width = canvas.width(),
+                canvas_height = canvas.height();
+
+            // clear the canvas
+            ctx.clearRect(0, 0, canvas_width * this.scaleFactor, canvas_height * this.scaleFactor);
+        }
+
         /**
          * render an image to the canvas
          * @param  {String} src    [image src]
@@ -316,6 +330,10 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
                 this.imageObj.scale(100);
             }
         };
+
+        imageViewModel.prototype.resetSizePosition = function resetSizePosition() {
+            this.render(this.imageObj.src(), true);
+        }
 
         /**
          * rerender an image which has already been drawn to the canvas
@@ -441,18 +459,6 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
                 var styles = this.flatStyles();
                 ko.utils.extend(styles, this.getDimensions());
                 return styles;
-            }, this);
-        };
-
-        imageViewModel.prototype.getMessageComputed = function getMessageComputed() {
-            return ko.pureComputed(function() {
-                if (this.data.message) {
-                    return {
-                        type: 'message',
-                        message: this.data.message
-                    };
-                }
-                return null;
             }, this);
         };
 

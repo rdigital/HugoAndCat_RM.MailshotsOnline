@@ -26,6 +26,9 @@ define(['knockout', 'components/auth', 'components/side', 'components/tools', 'c
             this.showThemePicker = stateViewModel.showThemePicker;
             this.showTemplatePicker = stateViewModel.showTemplatePicker;
             this.isBackgroundSelected = stateViewModel.backgroundSelected;
+            this.overrideZoom = ko.pureComputed(function() {
+                return stateViewModel.overrideZoom() || stateViewModel.fitToWidth();
+            });
 
             //testing
             this.output = stateViewModel.output;
@@ -35,6 +38,7 @@ define(['knockout', 'components/auth', 'components/side', 'components/tools', 'c
 
             this.elementFocused = this.getHiddenComputed();
             this.message = this.getMessageComputed();
+            this.title = this.getTitleComputed();
 
             // subscriptions
             this.handleSubscriptions();
@@ -95,6 +99,15 @@ define(['knockout', 'components/auth', 'components/side', 'components/tools', 'c
             return ko.pureComputed(function() {
                 if (stateViewModel.selectedElement()) {
                     return stateViewModel.selectedElement().message();
+                }
+                return null;
+            }, this);
+        };
+
+        editorViewModel.prototype.getTitleComputed = function getTitleComputed() {
+            return ko.pureComputed(function() {
+                if (stateViewModel.selectedElement()) {
+                    return stateViewModel.selectedElement().title();
                 }
                 return null;
             }, this);
