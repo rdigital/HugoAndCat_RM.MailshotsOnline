@@ -62,6 +62,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 orderList.Add(new Order()
                 {
                     CampaignId = campaign.CampaignId,
+                    CampaignTitle = campaign.Name,
                     OrderNumber = invoice.OrderNumber ?? invoice.PaypalOrderId,
                     OrderPlaced = campaign.OrderPlacedDate.HasValue ? campaign.OrderPlacedDate.Value : invoice.CreatedDate,
                     Status = invoice.Status.ToString(),

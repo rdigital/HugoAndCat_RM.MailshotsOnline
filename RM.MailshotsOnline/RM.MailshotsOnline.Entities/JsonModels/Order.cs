@@ -10,6 +10,8 @@ namespace RM.MailshotsOnline.Entities.JsonModels
     {
         public Guid CampaignId { get; set; }
 
+        public string CampaignTitle { get; set; }
+
         public string OrderNumber { get; set; }
 
         public string OrderDetailsUrl { get; set; }

@@ -22,6 +22,8 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         public string ThankYouMessage { get; set; }
 
+        public string PaymentFailedMessage { get; set; }
+
         #endregion
 
         public bool DisplayApprovedMessage { get; set; }

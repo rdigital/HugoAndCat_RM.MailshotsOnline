@@ -50,6 +50,7 @@
 
                         var titleHeading = $(document.createElement('h2'));
                         var titleLink = $(document.createElement('a'))
+                            .text(order.CampaignTitle)
                             .attr('href', order.OrderDetailsUrl);
                         titleHeading.append(titleLink);
 

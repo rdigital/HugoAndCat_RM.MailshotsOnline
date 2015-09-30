@@ -161,7 +161,7 @@
     <Compile Include="ViewModels\PdfRenderResultViewModel.cs" />
     <Compile Include="ViewModels\OrganisationDetailsViewModel.cs" />
     <Compile Include="ViewModels\PersonalDetailsViewModel.cs" />
-    <Compile Include="ViewModels\ProcessedMailshotData.cs" />
+    <Compile Include="ViewModels\XmlAndXslData.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\RenameViewModel.cs" />
     <Compile Include="ViewModels\RequestResetPasswordViewModel.cs" />

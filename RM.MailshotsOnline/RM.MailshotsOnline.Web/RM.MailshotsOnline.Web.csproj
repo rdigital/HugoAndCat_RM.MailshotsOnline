@@ -3520,6 +3520,7 @@
     <Content Include="uSync\DocumentType\Basepage\MyCampaigns\def.config" />
     <Content Include="Views\Partials\LineItemCostBreakdown.cshtml" />
     <Content Include="uSync\DocumentType\Basepage\OrderDetails\def.config" />
+    <Content Include="Views\Moderation\Partials\PaymentFailed.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
