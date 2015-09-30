@@ -2,18 +2,26 @@
 using System.Collections;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Security;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Xml.Linq;
+using ClientDependency.Core;
 using CsvHelper;
 using HC.RM.Common.Azure.EntryPoints;
 using HC.RM.Common.Network;
 using HC.RM.Common.PCL.Persistence;
 using Microsoft.WindowsAzure.Storage.Queue;
 using HC.RM.Common.Azure.Helpers;
+using RM.MailshotsOnline.Data.Services.Reporting;
 using RM.MailshotsOnline.PCL.Models.Reporting;
+using RM.MailshotsOnline.PCL.Services;
 using RM.MailshotsOnline.PCL.Services.Reporting;
+using RM.MailshotsOnline.Web.Controllers.Api;
+using umbraco.cms.businesslogic;
+using Constants = RM.MailshotsOnline.Data.Constants.Constants;
 
 namespace RM.MailshotsOnline.WorkerRole.EntryPoints
 {
@@ -24,15 +32,16 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
         private static TimeSpan _queueInterval;
         private static IBlobService _blobService;
         private static IFtpService _ftpService;
-        private static IReportingService _reportingService;
+        private static ICryptographicService _cryptographicService;
 
-        public ReportGeneratorWorker(ILogger logger, IReportingService reportingService, string connectionString,
-            string queueName, IBlobService blobService, IFtpService ftpService, TimeSpan? queueInterval = null)
+        public ReportGeneratorWorker(ILogger logger, IBlobService blobService, IFtpService ftpService,
+            ICryptographicService cryptographicService, string connectionString, string queueName,
+            TimeSpan? queueInterval = null)
             : base(logger, connectionString, queueName)
         {
-            _reportingService = reportingService;
             _blobService = blobService;
             _ftpService = ftpService;
+            _cryptographicService = cryptographicService;
             _queueInterval = queueInterval ?? new TimeSpan(0, 15, 0);
         }
 
@@ -62,15 +71,15 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
                     /*
                      * Message should look something like:
                      * <?xml version="1.0" encoding="utf-16"?>
-                     *  <StorageQueueMessage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                     *    <ExecutionTag>e927cf76d24da9625608248ce654cfa7</ExecutionTag>
-                     *    <ClientRequestId>3c4b84e2-aee5-43ac-913e-c05c8827ac41</ClientRequestId>
-                     *    <ExpectedExecutionTime>2015-09-10T00:00:00</ExpectedExecutionTime>
-                     *    <SchedulerJobId>rm-photopost-creditreports</SchedulerJobId>
-                     *    <SchedulerJobCollectionId>bdhcjobs</SchedulerJobCollectionId>
-                     *    <Region>West Europe</Region>
-                     *    <Message>the message</Message>
-                     *  </StorageQueueMessage>
+                     * <StorageQueueMessage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                     *   <ExecutionTag>e927cf76d24da9625608248ce654cfa7</ExecutionTag>
+                     *   <ClientRequestId>3c4b84e2-aee5-43ac-913e-c05c8827ac41</ClientRequestId>
+                     *   <ExpectedExecutionTime>2015-09-10T00:00:00</ExpectedExecutionTime>
+                     *   <SchedulerJobId>rm-photopost-creditreports</SchedulerJobId>
+                     *   <SchedulerJobCollectionId>bdhcjobs</SchedulerJobCollectionId>
+                     *   <Region>West Europe</Region>
+                     *   <Message>the message</Message>
+                     * </StorageQueueMessage>
                      */
 
                     // Parse the message as an XDocument
@@ -90,7 +99,7 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
                     }
 
                     // Grab the message
-                    var message = messageElement.Value;
+                    var message = messageElement.Value.ToLower();
 
                     if (string.IsNullOrEmpty(message))
                     {
@@ -102,21 +111,27 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
                         continue;
                     }
 
-                    IReport report;
-
-                    switch (message.ToLower())
+                    switch (message)
                     {
                         case "membership":
-
-                            report = _reportingService.MembershipReportGenerator.Generate();
-                            ProcessReport(report, ((IMembershipReport)report).Members);
-
-                            break;
-
                         case "transactions":
 
-                            report = _reportingService.TransactionsReportGenerator.Generate();
-                            ProcessReport(report, ((ITransactionsReport)report).Transactions);
+                            Logger.Info(GetType().Name, "Run", $"Message: {message}. Actioning...");
+
+                            var newToken = Guid.NewGuid().ToString();
+                            var url = $"{Constants.Apis.TokenAuthApi}/settoken/{newToken}";
+
+                            if (SendHttpPost(url, newToken) == HttpStatusCode.OK)
+                            {
+                                SendHttpPost($"{Constants.Apis.ReportsApi}/reports?type={message}&token={newToken}");
+                            }
+                            else
+                            {
+                                // log failure
+                            }
+
+                            Logger.Info(GetType().Name, "Run", "Action complete");
+
 
                             break;
 
@@ -155,49 +170,22 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
             Thread.Sleep(_queueInterval);
         }
 
-        private void ProcessReport(IReport report, IEnumerable data)
+        HttpStatusCode SendHttpPost(string url, object data = null)
         {
-            var reportBytes = SerializeReport(data);
-            var fileName = $"{report.Name} - {report.CreatedDate}.csv";
-
-            StoreBlob(report, reportBytes, fileName);
-
-            TransferFile(reportBytes, fileName);
-        }
-
-        private bool TransferFile(byte[] data, string fileName)
-        {
-            var stream = new MemoryStream(data);
-            _ftpService.Put(stream, fileName);
-
-            return true;
-        }
-
-        private string StoreBlob(IReport report, IEnumerable data, string fileName)
-        {
-            var bytes = SerializeReport(data);
-
-            Logger.Info(GetType().Name, "Run", $"Storing report in blob storage: {fileName}");
-
-            return _blobService.Store(bytes, fileName, "text/csv");
-
-        }
-
-        private byte[] SerializeReport(IEnumerable data)
-        {
-            byte[] csvBytes;
-            using (var memoryStream = new MemoryStream())
+            var tokenRequest = WebRequest.Create(url);
+            tokenRequest.Method = WebRequestMethods.Http.Post;
+            var postData = data?.ToString();
+            var byteArray = Encoding.UTF8.GetBytes(postData ?? "");
+            tokenRequest.ContentLength = byteArray.Length;
+            using (var dataStream = tokenRequest.GetRequestStream())
             {
-                using (var streamWriter = new StreamWriter(memoryStream))
-                using (var csvWriter = new CsvWriter(streamWriter))
+                dataStream.Write(byteArray, 0, byteArray.Length);
+
+                using (var response = (HttpWebResponse)tokenRequest.GetResponse())
                 {
-                    csvWriter.WriteRecords(data);
+                    return response.StatusCode;
                 }
-
-                csvBytes = memoryStream.ToArray();
             }
-
-            return csvBytes;
         }
     }
 }

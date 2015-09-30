@@ -33,5 +33,16 @@ namespace RM.MailshotsOnline.Data.Constants
             public static readonly string EncryptionKey = Helpers.ConfigHelper.GetConfigValue("EncryptionKey");
             public static readonly string EmailSaltPadding = Helpers.ConfigHelper.GetConfigValue("EmailSaltPadding");
         }
+
+        public static class Reports
+        {
+            public static readonly string Key = Helpers.ConfigHelper.GetConfigValue("ReportsKey");
+        }
+
+        public static class Apis
+        {
+            public static readonly string ReportsApi = Helpers.ConfigHelper.GetConfigValue("ReportsApiUrl");
+            public static readonly string TokenAuthApi = Helpers.ConfigHelper.GetConfigValue("TokenAuthUrl");
+        }
     }
 }

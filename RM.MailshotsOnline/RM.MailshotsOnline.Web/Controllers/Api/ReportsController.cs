@@ -6,56 +6,80 @@ using System.Collections;
 using System.IO;
 using System.Net.Http.Headers;
 using CsvHelper;
+using HC.RM.Common.Network;
+using HC.RM.Common.PCL.Persistence;
+using RM.MailshotsOnline.Data.Constants;
 using RM.MailshotsOnline.Data.Services.Reporting;
 using RM.MailshotsOnline.Entities.DataModels.Reports;
 using RM.MailshotsOnline.PCL.Models.Reporting;
+using RM.MailshotsOnline.PCL.Services;
 using RM.MailshotsOnline.PCL.Services.Reporting;
 using Umbraco.Web.WebApi;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
-    public class ReportsController : UmbracoAuthorizedApiController
+    public class ReportsController : UmbracoApiController
     {
         private static IReportingService _reportingService;
+        private static IBlobService _blobService;
+        private static IFtpService _ftpService;
 
-        public ReportsController(IReportingService reportingService)
+        public ReportsController(IReportingService reportingService, IBlobService blobService, IFtpService ftpService)
         {
             _reportingService = reportingService;
+            _blobService = blobService;
+            _ftpService = ftpService;
         }
 
-        [HttpGet]
-        public HttpResponseMessage GetReport(string type)
+        [HttpPost]
+        [RequireHttps]
+        public HttpResponseMessage GenerateReport(string type, string token)
         {
-            // Check to see if the user is logged into the front-end site
-            //var authResult = Authenticate();
-            //if (authResult != null)
-            //{
-            //    return authResult;
-            //}
+            IReport report;
+            byte[] reportBytes;
+            string sftpStuffBla;
 
             switch (type.ToLower())
             {
                 case "membership":
 
-                    var membershipReport = _reportingService.MembershipReportGenerator.Generate();
-                    return CreateCsvResponse(membershipReport, membershipReport.Members);
+                    report = _reportingService.MembershipReportGenerator.Generate();
+                    reportBytes = CreateCsv(report, ((IMembershipReport) report).Members);
+                    
+                    // set sftp details
+
+
+                    break;
 
                 case "transactions":
 
-                    var transactionsReport = _reportingService.TransactionsReportGenerator.Generate();
-                    return CreateCsvResponse(transactionsReport, transactionsReport.Transactions);
+                    report = _reportingService.TransactionsReportGenerator.Generate();
+                    reportBytes = CreateCsv(report, ((ITransactionsReport)report).Transactions);
+
+                    // set sftp details
+
+
+                    break;
 
                 default:
 
                     return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
+
+            // sftp
+            // bla();
+
+            // store blob
+            _blobService.StoreAsync(reportBytes, report.Name, "Report (CSV)");
+
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
-        private HttpResponseMessage CreateCsvResponse(IReport report, IEnumerable data)
+        private byte[] CreateCsv(IReport report, IEnumerable data)
         {
-            if (report == null)
+            if (report == null || data == null)
             {
-                return new HttpResponseMessage(HttpStatusCode.NoContent);
+                return null;
             }
 
             byte[] csvBytes;
@@ -70,29 +94,28 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 csvBytes = memoryStream.ToArray();
             }
 
-            if (csvBytes.Length == 0)
-            {
-                return new HttpResponseMessage(HttpStatusCode.NoContent);
-            }
+            return csvBytes;
 
-            var result = Request.CreateResponse(HttpStatusCode.OK);
-            result.Content = new ByteArrayContent(csvBytes);
-            result.Content.Headers.ContentType = new MediaTypeHeaderValue("text/csv");
-            result.Content.Headers.ContentDisposition =
-                new ContentDispositionHeaderValue("attachment")
-                {
-                    FileName = $"{report.Name} - {report.CreatedDate.ToString("yyyyMMddHHmmss")}.csv",
-                    Size = csvBytes.Length,
-                    CreationDate = report.CreatedDate
-                };
-            result.Headers.CacheControl = new CacheControlHeaderValue()
-            {
-                Public = true,
-                MaxAge = TimeSpan.FromSeconds(3600),
-                NoCache = false
-            };
-
-            return result;
         }
+
+        //    var result = Request.CreateResponse(HttpStatusCode.OK);
+        //    result.Content = new ByteArrayContent(csvBytes);
+        //    result.Content.Headers.ContentType = new MediaTypeHeaderValue("text/csv");
+        //    result.Content.Headers.ContentDisposition =
+        //        new ContentDispositionHeaderValue("attachment")
+        //        {
+        //            FileName = $"{report.Name} - {report.CreatedDate.ToString("yyyyMMddHHmmss")}.csv",
+        //            Size = csvBytes.Length,
+        //            CreationDate = report.CreatedDate
+        //        };
+        //    result.Headers.CacheControl = new CacheControlHeaderValue()
+        //    {
+        //        Public = true,
+        //        MaxAge = TimeSpan.FromSeconds(3600),
+        //        NoCache = false
+        //    };
+
+        //    return result;
+        //}
     }
 }

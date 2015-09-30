@@ -15,24 +15,32 @@ using RM.MailshotsOnline.Data.Services.Reporting;
 using RM.MailshotsOnline.PCL.Services;
 using RM.MailshotsOnline.PCL.Services.Reporting;
 using RM.MailshotsOnline.WorkerRole.EntryPoints;
+using Umbraco.Core;
+using Umbraco.Core.Persistence;
+using Umbraco.Core.Services;
 
 namespace RM.MailshotsOnline.WorkerRole
 {
     public class WorkerRole : ThreadedRoleEntryPoint
     {
         private static readonly string ReportQueueName = CloudConfigurationManager.GetSetting("ReportsServiceQueueName");
-        private static readonly string ServiceBusConnectionString =
-            CloudConfigurationManager.GetSetting("ReportsServiceBusConnectionString");
-
+        private static readonly string ServiceBusConnectionString = CloudConfigurationManager.GetSetting("ReportsServiceBusConnectionString");
+        private static readonly string StorageConnectionString = CloudConfigurationManager.GetSetting("StorageConnectionString");
         private const string WorkerRoleName = "MailshotsOnline.WorkerRole";
 
         private static IBlobService _reportStorageService;
         private static IFtpService _ftpService;
-        private static IReportingService _reportingService;
+        private static ICryptographicService _cryptographicService;
 
-        public WorkerRole(IReportingService reportingService)
+        public WorkerRole()
         {
-            _reportingService = reportingService;
+            var assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty;
+
+            _reportStorageService = new BlobService(new BlobStorage(StorageConnectionString), CloudConfigurationManager.GetSetting("ReportStorageContainer"));
+            _ftpService = new FtpService(Path.Combine(assemblyPath, CloudConfigurationManager.GetSetting("ReportSFTPPrivateKeyLocation")),
+                    CloudConfigurationManager.GetSetting("ReportSFTPUsername"),
+                    CloudConfigurationManager.GetSetting("ReportSFTPHost"), Logger);
+            _cryptographicService = new CryptographicService();
         }
 
         public override void Run()
@@ -41,8 +49,7 @@ namespace RM.MailshotsOnline.WorkerRole
 
             var workers = new List<WorkerEntryPoint>
             {
-                new ReportGeneratorWorker(Logger, _reportingService, ServiceBusConnectionString, ReportQueueName,
-                    _reportStorageService, _ftpService)
+                new ReportGeneratorWorker(Logger, _reportStorageService, _ftpService, _cryptographicService, ServiceBusConnectionString, ReportQueueName)
             };
 
             try
@@ -57,14 +64,14 @@ namespace RM.MailshotsOnline.WorkerRole
 
         public override bool OnStart()
         {
-            Logger.Info(GetType().Name, "OnStart", $"{WorkerRoleName} is starting");
-
             // Set the maximum number of concurrent connections
             ServicePointManager.DefaultConnectionLimit = 12;
 
             TelemetryConfig.SetupTelemetry();
             var telemetry = new TelemetryClient();
             Logger = new Logger(telemetry);
+
+            Logger.Info(GetType().Name, "OnStart", $"{WorkerRoleName} is starting");
 
             var blobStorage = new BlobStorage(ServiceBusConnectionString);
             _reportStorageService = new BlobService(blobStorage, CloudConfigurationManager.GetSetting("ReportStorageContainer"));

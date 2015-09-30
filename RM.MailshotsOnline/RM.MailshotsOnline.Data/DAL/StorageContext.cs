@@ -41,6 +41,7 @@ namespace RM.MailshotsOnline.Data.DAL
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<InvoiceLineItem> InvoiceLineItems { get; set; }
         public DbSet<SettingsFromCms> Settings { get; set; }
+        public DbSet<AuthToken> AuthTokens { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

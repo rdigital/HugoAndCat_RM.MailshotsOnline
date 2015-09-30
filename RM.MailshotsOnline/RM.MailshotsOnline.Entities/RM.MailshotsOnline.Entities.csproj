@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="Attributes\CompareCaseInsensitiveAttribute.cs" />
     <Compile Include="Attributes\RecaptchaAttribute.cs" />
+    <Compile Include="DataModels\AuthToken.cs" />
     <Compile Include="DataModels\Campaign.cs" />
     <Compile Include="DataModels\CampaignDistributionList.cs" />
     <Compile Include="DataModels\CmsImage.cs" />
