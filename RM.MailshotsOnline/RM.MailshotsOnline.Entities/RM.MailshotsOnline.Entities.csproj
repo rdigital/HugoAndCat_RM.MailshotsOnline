@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="Attributes\CompareCaseInsensitiveAttribute.cs" />
     <Compile Include="Attributes\RecaptchaAttribute.cs" />
+    <Compile Include="DataModels\Address.cs" />
     <Compile Include="DataModels\Campaign.cs" />
     <Compile Include="DataModels\CampaignDistributionList.cs" />
     <Compile Include="DataModels\CmsImage.cs" />
@@ -87,8 +88,8 @@
     <Compile Include="DataModels\MailshotSettings\MailshotDefaultContent.cs" />
     <Compile Include="DataModels\MailshotSettings\Template.cs" />
     <Compile Include="DataModels\MailshotSettings\Theme.cs" />
-    <Compile Include="DataModels\Order.cs" />
     <Compile Include="DataModels\PostalOption.cs" />
+    <Compile Include="DataModels\Product.cs" />
     <Compile Include="DataModels\PublicLibraryImage.cs" />
     <Compile Include="DataModels\Reports\TransactionsReportEntity.cs" />
     <Compile Include="DataModels\Reports\TransactionsReport.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Extensions\MailshotExtensions.cs" />
     <Compile Include="JsonModels\CampaignPriceBreakdown.cs" />
     <Compile Include="JsonModels\Media.cs" />
+    <Compile Include="JsonModels\Order.cs" />
     <Compile Include="JsonModels\PrivateLibraryImage.cs" />
     <Compile Include="JsonModels\PublicLibraryImage.cs" />
     <Compile Include="JsonModels\ContentElement.cs" />
@@ -123,6 +125,7 @@
     <Compile Include="PageModels\MailshotEditor.cs" />
     <Compile Include="PageModels\EditProfileBasePage.cs" />
     <Compile Include="PageModels\ModerationPage.cs" />
+    <Compile Include="PageModels\MyCampaigns.cs" />
     <Compile Include="PageModels\MyOrders.cs" />
     <Compile Include="PageModels\MyImages.cs" />
     <Compile Include="PageModels\OrderDetails.cs" />
@@ -145,6 +148,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CampaignHubCheckoutViewModel.cs" />
     <Compile Include="ViewModels\CampaignStatusViewModel.cs" />
+    <Compile Include="ViewModels\CancelOrderViewModel.cs" />
     <Compile Include="ViewModels\CaptureDetailsViewModel.cs" />
     <Compile Include="ViewModels\ModifyListConfirmFieldsModel.cs" />
     <Compile Include="ViewModels\ModifyListFinishModel.cs" />
@@ -164,7 +168,7 @@
     <Compile Include="ViewModels\PdfRenderResultViewModel.cs" />
     <Compile Include="ViewModels\OrganisationDetailsViewModel.cs" />
     <Compile Include="ViewModels\PersonalDetailsViewModel.cs" />
-    <Compile Include="ViewModels\ProcessedMailshotData.cs" />
+    <Compile Include="ViewModels\XmlAndXslData.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\RenameViewModel.cs" />
     <Compile Include="ViewModels\RequestResetPasswordViewModel.cs" />

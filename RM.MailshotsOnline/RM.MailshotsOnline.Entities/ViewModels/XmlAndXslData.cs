@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RM.MailshotsOnline.Entities.ViewModels
 {
-    public class ProcessedMailshotData
+    public class XmlAndXslData
     {
         public string XmlData { get; set; }
 

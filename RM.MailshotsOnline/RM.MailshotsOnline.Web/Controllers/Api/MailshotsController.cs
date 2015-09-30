@@ -1,6 +1,7 @@
 ﻿using HC.RM.Common.Azure.Extensions;
 using HC.RM.Common.PCL.Helpers;
 using Newtonsoft.Json;
+using RM.MailshotsOnline.Data.Constants;
 using RM.MailshotsOnline.Entities.DataModels;
 using RM.MailshotsOnline.Entities.DataModels.MailshotSettings;
 using RM.MailshotsOnline.Entities.Extensions;
@@ -26,12 +27,14 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
     {
         private IMailshotsService _mailshotsService;
         private IMailshotSettingsService _settingsService;
+        private ICampaignService _campaignService;
 
-        public MailshotsController(IMailshotSettingsService settingsService, IMailshotsService mailshotsService, IMembershipService membershipService, ILogger logger)
+        public MailshotsController(IMailshotSettingsService settingsService, IMailshotsService mailshotsService, IMembershipService membershipService, ILogger logger, ICampaignService campaignService)
             : base(membershipService, logger)
         {
             _mailshotsService = mailshotsService;
             _settingsService = settingsService;
+            _campaignService = campaignService;
         }
 
         /// <summary>
@@ -151,6 +154,21 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             {
                 var savedMailshot = _mailshotsService.SaveMailshot(mailshotData);
                 _mailshotsService.UpdateLinkedImages(savedMailshot, linkedImages);
+
+                var navSettings = Umbraco.Content(Constants.Settings.HeaderNavSettingsId);
+                var myCampaignsPage = Umbraco.Content(navSettings.MyCampaignsPage);
+                var defaultTitle = myCampaignsPage.DefaultTitleForNewCampaigns ?? "Draft Campaign";
+
+                var campaign = new Campaign()
+                {
+                    Name = defaultTitle,
+                    DataSetsApproved = false,
+                    MailshotId = savedMailshot.MailshotId,
+                    Status = PCL.Enums.CampaignStatus.Draft,
+                    UpdatedDate = DateTime.UtcNow,
+                    UserId = _loggedInMember.Id
+                };
+                _campaignService.SaveCampaign(campaign);
                 return Request.CreateResponse(HttpStatusCode.Created, new { id = savedMailshot.MailshotId });
             }
             catch (Exception ex)

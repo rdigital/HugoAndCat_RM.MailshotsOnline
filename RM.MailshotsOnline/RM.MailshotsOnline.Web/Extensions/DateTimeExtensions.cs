@@ -12,16 +12,19 @@ namespace RM.MailshotsOnline.Web.Extensions
         {
             DateTime newDate = date;
 
-            // Assume after 17:00 on a business day means it will be processed the next day
-            if (newDate.Hour > 17)
+            // Assume after 14:00 on a business day means it will be processed the next day
+            if (newDate.Hour > 14)
             {
                 newDate = date.Date.AddDays(1).AddHours(9); // 9:00 AM the next day
+                while (!newDate.IsBusinessDay(publicHolidays))
+                {
+                    newDate = newDate.AddDays(1);
+                }
             }
 
             for (int day = 1; day <= days; day++)
             {
                 newDate = newDate.AddDays(1);
-
                 while (!newDate.IsBusinessDay(publicHolidays))
                 {
                     newDate = newDate.AddDays(1);
@@ -65,30 +68,5 @@ namespace RM.MailshotsOnline.Web.Extensions
 
             return result;
         }
-
-        //public static List<DateTime> GetUkPublicHolidays()
-        //{
-        //    return new List<DateTime>()
-        //    {
-        //        new DateTime(2015, 12, 25),
-        //        new DateTime(2015, 12, 28),
-        //        new DateTime(2016, 1, 1),
-        //        new DateTime(2016, 3, 25),
-        //        new DateTime(2016, 3, 28),
-        //        new DateTime(2016, 5, 2),
-        //        new DateTime(2016, 5, 30),
-        //        new DateTime(2016, 8, 29),
-        //        new DateTime(2016, 12, 26),
-        //        new DateTime(2016, 12, 27),
-        //        new DateTime(2017, 1, 2),
-        //        new DateTime(2017, 4, 14),
-        //        new DateTime(2017, 4, 17),
-        //        new DateTime(2017, 5, 1),
-        //        new DateTime(2017, 5, 29),
-        //        new DateTime(2017, 8, 28),
-        //        new DateTime(2017, 12, 25),
-        //        new DateTime(2017, 12, 26)
-        //    }; // TODO: Add more dates!
-        //}
     }
 }

@@ -7,7 +7,7 @@
 	position: absolute;
 	background: #fff;
 	min-width: 262px;
-	min-height: 202px;
+	min-height: 160px;
 	display: none;
 	pointer-events: none;
 	//transition: opacity .25s ease-out;
@@ -93,10 +93,17 @@
 		&.tools-button-wide {
 			min-width: 100px;
 		}
+		&.tools-button-full {
+			width: 100%;
+		}
 		&.tools-button-cancel {
+			padding: 12px 0 0 0;
 			border-color: transparent;
 			color: $red;
-			@include shadow(0, 0, 0, transparent)
+			@include shadow(0, 0, 0, transparent);
+			&.tools-button-cancel_right {
+				float: right;
+			}
 		}
 		.fa-arrows {
 			line-height: 19px;
@@ -111,28 +118,8 @@
 		color: $dark-grey;
 		font-size: 14px;
 	}
-	.tools-image {
-		display: table-cell;
-		vertical-align: bottom;
-		text-align: center;
-		width: 150px;
-		height: 115px;
-		background-position: 50% 0%;
-		background-repeat: no-repeat;
-		cursor: pointer;
-		font-family: Chevin Medium, Arial;
-		font-size: 15px;
-		color: $dark-grey;
-		&.tools-image_own {
-			background-image: url(/canvas/images/own_image.png);
-		}
-		&.tools-image_own_old_ie {
-			background-image: url(/canvas/images/own_image.png);
-			display: none;
-		}
-		&.tools-image_library {
-			background-image: url(/canvas/images/library_image.png);
-		}
+	.tools-image_own_old_ie {
+		display: none;
 	}
 	.tools-image-spacer {
 		display: table-cell;
@@ -141,6 +128,24 @@
 		&.tools-image-spacer_border {
 			border-right: 1px solid $light-grey;
 		}
+	}
+	.tools-slider-container {
+		float: left;
+		width: 180px;
+	}
+	.tools-size-reset {
+		@include transition(color);
+		float: left;
+	    width: 30px;
+	    height: 30px;
+	    margin-left: 10px;
+	    font-size: 22px;
+	    line-height: 30px;
+	    text-align: center;
+	    cursor: pointer;
+	    &:hover {
+	    	color: $blue;
+	    }
 	}
 	&.background-tools {
 		position: fixed;
@@ -202,7 +207,7 @@
 	min-height: 347px !important;
 	.colour-dropdown-info {
 		position: absolute; 
-		bottom: 20px; 
+		bottom: 15px; 
 		left: 20px;
 		right: 20px;
 		height:	130px;
@@ -225,6 +230,8 @@
 	    padding: 10px;
 	    float: right;
 	    border: 1px solid $grey;
+	    box-sizing: border-box;
+	    -moz-box-sizing: border-box;
 	}
 }
 

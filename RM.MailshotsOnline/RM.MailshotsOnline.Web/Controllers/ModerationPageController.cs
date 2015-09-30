@@ -52,10 +52,24 @@ namespace RM.MailshotsOnline.Web.Controllers
             switch (action)
             {
                 case "approve":
-                    pageModel.DisplayApprovedMessage = true;
+                    if (campaign.Status == PCL.Enums.CampaignStatus.Cancelled)
+                    {
+                        pageModel.DisplayCancelledMessage = true;
+                    }
+                    else
+                    {
+                        pageModel.DisplayApprovedMessage = true;
+                    }
                     break;
                 case "reject":
-                    pageModel.DisplayRejectedMessage = true;
+                    if (campaign.Status == PCL.Enums.CampaignStatus.Cancelled)
+                    {
+                        pageModel.DisplayCancelledMessage = true;
+                    }
+                    else
+                    {
+                        pageModel.DisplayRejectedMessage = true;
+                    }                    
                     break;
                 case "confirmprinting":
                     pageModel.DisplayConfirmPrintingMessage = true;

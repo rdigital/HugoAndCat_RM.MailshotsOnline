@@ -406,6 +406,7 @@
     <Content Include="canvas\images\temp_layout_icon_active.PNG" />
     <Content Include="canvas\images\upload.png" />
     <Content Include="canvas\js\app.js" />
+    <Content Include="canvas\js\components\auth.js" />
     <Content Include="canvas\js\components\backgroundtools.js" />
     <Content Include="canvas\js\components\colourpicker.js" />
     <Content Include="canvas\js\components\dropdown.js" />
@@ -441,6 +442,7 @@
     <Content Include="canvas\js\vendor\requirejs\require.js" />
     <Content Include="canvas\js\vendor\spectrum\spectrum.css" />
     <Content Include="canvas\js\vendor\spectrum\spectrum.js" />
+    <Content Include="canvas\js\view_models\auth.js" />
     <Content Include="canvas\js\view_models\data.js" />
     <Content Include="canvas\js\view_models\element.js" />
     <Content Include="canvas\js\view_models\format.js" />
@@ -450,17 +452,24 @@
     <Content Include="canvas\js\view_models\template.js" />
     <Content Include="canvas\js\view_models\theme.js" />
     <Content Include="canvas\js\view_models\user.js" />
+    <Content Include="canvas\styles\compiled\auth.css" />
     <Content Include="canvas\styles\compiled\canvas.css" />
+    <Content Include="canvas\styles\compiled\canvascontrols.css" />
+    <Content Include="canvas\styles\compiled\dropdown.css" />
     <Content Include="canvas\styles\compiled\help.css" />
+    <Content Include="canvas\styles\compiled\iehacks.css" />
     <Content Include="canvas\styles\compiled\layoutpicker.css" />
     <Content Include="canvas\styles\compiled\mailshot.css" />
     <Content Include="canvas\styles\compiled\preview.css" />
     <Content Include="canvas\styles\compiled\sidepicker.css" />
+    <Content Include="canvas\styles\compiled\slider.css" />
     <Content Include="canvas\styles\compiled\themepicker.css" />
     <Content Include="canvas\styles\compiled\toolbar.css" />
     <Content Include="canvas\styles\compiled\tools.css" />
     <Content Include="canvas\styles\compiled\upload.css" />
+    <Content Include="canvas\styles\compiled\zoom.css" />
     <Content Include="canvas\styles\vendor\bootstrap.min.css" />
+    <Content Include="canvas\templates\auth.html" />
     <Content Include="canvas\templates\backgroundtools.html" />
     <Content Include="canvas\templates\colourpicker.html" />
     <Content Include="canvas\templates\dropdown.html" />
@@ -543,8 +552,18 @@
     <Content Include="App_Plugins\CryptoTitleLabel\package.manifest" />
     <Content Include="canvas\styles\layoutpicker.scss" />
     <Content Include="canvas\styles\compiled\layoutpicker.css.map" />
-    <Content Include="AppInsightsAgent\InstallAgent.ps1" />
-    <Content Include="AppInsightsAgent\InstallAgent.bat" />
+    <Content Include="canvas\styles\compiled\auth.css.map" />
+    <Content Include="canvas\styles\compiled\canvascontrols.css.map" />
+    <Content Include="canvas\styles\compiled\dropdown.css.map" />
+    <Content Include="canvas\styles\compiled\iehacks.css.map" />
+    <Content Include="canvas\styles\compiled\slider.css.map" />
+    <Content Include="canvas\styles\compiled\zoom.css.map" />
+    <Content Include="canvas\styles\auth.scss" />
+    <Content Include="canvas\styles\canvascontrols.scss" />
+    <Content Include="canvas\styles\dropdown.scss" />
+    <Content Include="canvas\styles\iehacks.scss" />
+    <Content Include="canvas\styles\slider.scss" />
+    <Content Include="canvas\styles\zoom.scss" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\campaign-functions.js" />
     <Content Include="scripts\campaign-hub.js" />
@@ -558,6 +577,8 @@
     <Content Include="scripts\logintest.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="imageUpload.aspx" />
+    <Content Include="scripts\myorders.js" />
+    <Content Include="scripts\order-functions.js" />
     <Content Include="umbraco\Actions\delete.aspx" />
     <Content Include="umbraco\Actions\editContent.aspx" />
     <Content Include="umbraco\Actions\preview.aspx" />
@@ -3054,6 +3075,7 @@
     <Compile Include="Controllers\Api\ApiBaseController.cs" />
     <Compile Include="Controllers\Api\CampaignController.cs" />
     <Compile Include="Controllers\Api\DistributionListController.cs" />
+    <Compile Include="Controllers\Api\OrdersController.cs" />
     <Compile Include="Controllers\Api\ReportsController.cs" />
     <Compile Include="Controllers\Api\MemberSearchController.cs" />
     <Compile Include="Controllers\Api\CryptoApiController.cs" />
@@ -3080,6 +3102,7 @@
     <Compile Include="Controllers\LogoutController.cs" />
     <Compile Include="Controllers\MarketingPreferencesController.cs" />
     <Compile Include="Controllers\ModerationPageController.cs" />
+    <Compile Include="Controllers\MyCampaignsController.cs" />
     <Compile Include="Controllers\MyOrdersController.cs" />
     <Compile Include="Controllers\MyImagesController.cs" />
     <Compile Include="Controllers\OrderDetailsController.cs" />
@@ -3096,6 +3119,7 @@
     <Compile Include="Controllers\SurfaceControllers\ModifyListSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\LoginSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ModerationSurfaceController.cs" />
+    <Compile Include="Controllers\SurfaceControllers\OrderDetailSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ProfileSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\RegisterSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ResetPasswordSurfaceController.cs" />
@@ -3104,6 +3128,7 @@
     <Compile Include="Extensions\ModelExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\ControllersHelper.cs" />
+    <Compile Include="Helpers\InvoiceHelper.cs" />
     <Compile Include="Helpers\MembershipHelper.cs" />
     <Compile Include="Installers\ControllersInstaller.cs" />
     <Compile Include="Models\DistributionContact.cs" />
@@ -3513,6 +3538,13 @@
     <Content Include="Views\Lists\Partials\ShowCreateListForm.cshtml" />
     <Content Include="Views\Lists\Partials\ShowConfirmFieldsForm.cshtml" />
     <Content Include="Views\Lists\Partials\ShowSummaryListForm.cshtml" />
+    <Content Include="Views\Orders\Partials\CancelButton.cshtml" />
+    <Content Include="Views\MyCampaigns.cshtml" />
+    <Content Include="uSync\Template\MyCampaigns\MyCampaigns.config" />
+    <Content Include="uSync\DocumentType\Basepage\MyCampaigns\def.config" />
+    <Content Include="Views\Partials\LineItemCostBreakdown.cshtml" />
+    <Content Include="uSync\DocumentType\Basepage\OrderDetails\def.config" />
+    <Content Include="Views\Moderation\Partials\PaymentFailed.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -3548,6 +3580,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="uSync\Template\EditProfileBasePage\" />
+    <Folder Include="Views\MyCampaigns\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

@@ -1,0 +1,31 @@
+@import 'mixins';
+@import 'variables';
+
+.zoom {
+	@include transition(all);
+	position: fixed;
+	bottom: 40px;
+	right: 40px;
+	height: 57px;
+	width: 57px;
+	z-index: 500;
+	color: $dark-grey;
+	font-size: 30px;
+	cursor: pointer;
+	border: 3px solid $dark-grey;
+	padding: 10px;
+    @include borderradius(50%);
+    &:hover {
+    	color: $darkest-grey;
+    	border-color: $darkest-grey;
+    }
+    &.zoomout {
+    	background: $blue;
+    	border-color: $blue;
+    	color: #FFF;
+    	&:hover {
+    		background: #0083FD;
+    		border-color: #0083FD;
+    	}
+    }
+}

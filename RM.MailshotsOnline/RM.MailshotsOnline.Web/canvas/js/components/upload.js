@@ -1,6 +1,6 @@
-define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/history', 'view_models/state'],
+define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/history', 'view_models/state', 'view_models/auth'],
 
-    function(ko, $, kofile, myImagesViewModel, historyViewModel, stateViewModel) {
+    function(ko, $, kofile, myImagesViewModel, historyViewModel, stateViewModel, authViewModel) {
 
         function imageUploadViewModel(params) {
             this.src = ko.observable();
@@ -9,6 +9,7 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/his
             });
             this.selectedTab = ko.observable(stateViewModel.imageTab() || 'upload');
             this.selectedElement = stateViewModel.selectedElement();
+            this.isAuthenticated = authViewModel.isAuthenticated;
 
             // XXX note to whoever has time, move these into their own data model so
             // they can be persisted between opening up the image panel

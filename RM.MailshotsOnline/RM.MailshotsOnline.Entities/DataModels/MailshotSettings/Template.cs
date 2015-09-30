@@ -19,6 +19,7 @@ namespace RM.MailshotsOnline.Entities.DataModels.MailshotSettings
         [Index]
         public int JsonIndex { get; set; }
 
+        [MaxLength(256)]
         public string Name { get; set; }
 
         [Index]

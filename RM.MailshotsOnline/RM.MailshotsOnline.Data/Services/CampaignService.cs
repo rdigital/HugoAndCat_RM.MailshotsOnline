@@ -73,12 +73,14 @@ namespace RM.MailshotsOnline.Data.Services
                 PCL.Enums.CampaignStatus.Fulfilled,
                 PCL.Enums.CampaignStatus.PendingModeration,
                 PCL.Enums.CampaignStatus.ReadyForFulfilment,
-                PCL.Enums.CampaignStatus.SentForFulfilment
+                PCL.Enums.CampaignStatus.SentForFulfilment,
+                PCL.Enums.CampaignStatus.Cancelled
             };
 
             return _context.Campaigns
                 .Include("Invoices")
                 .Include("Invoices.LineItems")
+                .Include("Invoices.LineItems.Product")
                 .Include("PostalOption")
                 .Where(c => c.UserId == userId && inProgressOrCompletedStatuses.Contains(c.Status))
                 .OrderByDescending(c => c.UpdatedDate);
@@ -117,6 +119,7 @@ namespace RM.MailshotsOnline.Data.Services
                 .Include("PostalOption")
                 .Include("Invoices")
                 .Include("Invoices.LineItems")
+                .Include("Invoices.LineItems.Product")
                 .FirstOrDefault(c => c.CampaignId == campaignId);
         }
 

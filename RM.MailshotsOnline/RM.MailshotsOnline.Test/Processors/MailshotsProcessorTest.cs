@@ -68,7 +68,7 @@ namespace RM.MailshotsOnline.Test.Processors
             Assert.Greater(transformBuilder.Length, 0);
         }
 
-        private ProcessedMailshotData GetMailshotsOutout()
+        private XmlAndXslData GetMailshotsOutout()
         {
             string input = File.ReadAllText("editorcontent.json");
             var format = new Format()

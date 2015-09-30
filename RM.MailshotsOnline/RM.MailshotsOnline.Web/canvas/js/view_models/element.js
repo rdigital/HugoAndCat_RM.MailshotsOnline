@@ -159,6 +159,33 @@ define(['knockout', 'view_models/state', 'view_models/theme', 'view_models/user'
             }
         };
 
+        elementViewModel.prototype.getMessageComputed = function getMessageComputed() {
+            return ko.pureComputed(function() {
+                if (this.isScrollVisible && this.isScrollVisible()) {
+                    return {
+                        type: 'error',
+                        message: "You've run out of room in this text field. Try reducing the amount of text, or use a smaller font size if available."
+                    };
+                }
+                if (this.data.message) {
+                    return {
+                        type: 'message',
+                        message: this.data.message
+                    };
+                }
+                return null;
+            }, this);
+        };
+
+        elementViewModel.prototype.getTitleComputed = function getTitleComputed() {
+            return ko.pureComputed(function() {
+                if (this.isScrollVisible && this.isScrollVisible()) {
+                    return "<span class='help-error icon-alert'></span>";
+                }
+                return (this.data.message) ? this.data.title : '';
+            }, this);
+        };
+
         //return
         return elementViewModel;
     }

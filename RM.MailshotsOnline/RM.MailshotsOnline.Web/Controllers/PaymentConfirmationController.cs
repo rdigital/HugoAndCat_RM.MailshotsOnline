@@ -2,6 +2,7 @@
 using HC.RM.Common.Network;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.Helpers;
+using RM.MailshotsOnline.Entities.DataModels;
 using RM.MailshotsOnline.Entities.PageModels;
 using RM.MailshotsOnline.PCL.Services;
 using System;
@@ -163,6 +164,22 @@ namespace RM.MailshotsOnline.Web.Controllers
             // Save the details
             invoice.PaypalOrderId = order.Id;
             invoice.Status = PCL.Enums.InvoiceStatus.Processing;
+            if (payment.Payer != null)
+            {
+                if (payment.Payer.BillingAddress != null)
+                {
+                    invoice.BillingAddress = new Address()
+                    {
+                        Address1 = payment.Payer.BillingAddress.Line1,
+                        Address2 = payment.Payer.BillingAddress.Line2,
+                        Postcode = payment.Payer.BillingAddress.PostalCode,
+                        City = payment.Payer.BillingAddress.City,
+                        Country = payment.Payer.BillingAddress.CountryCode,
+                        FirstName = payment.Payer.FirstName,
+                        LastName = payment.Payer.LastName
+                    };
+                }
+            }
             _invoiceService.Save(invoice);
 
             campaign.Status = PCL.Enums.CampaignStatus.PendingModeration;

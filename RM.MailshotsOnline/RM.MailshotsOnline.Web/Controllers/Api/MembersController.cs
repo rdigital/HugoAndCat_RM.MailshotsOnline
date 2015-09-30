@@ -106,12 +106,12 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         {
             if (!ModelState.IsValid)
             {
-                var errorResponse = GetErrors("Unable to login.  Please correct the following errors:");
+                var errorResponse = GetErrors("Unable to send a password reset link.");
                 return Request.CreateResponse(HttpStatusCode.BadRequest, errorResponse);
             }
 
             var headerNavSettings = Umbraco.Content(Constants.Settings.HeaderNavSettingsId);
-            var passwordResetPage = Umbraco.Content(headerNavSettings.passwordResetPage);
+            var passwordResetPage = Umbraco.Content((int)headerNavSettings.passwordResetPage);
             var emailBody = passwordResetPage.RequestCompleteEmail.ToString();
             var token = _membershipService.RequestPasswordReset(resetRequest.Email);
 
@@ -129,10 +129,11 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                     sender);
 
                 _logger.Info(this.GetType().Name, "SendPasswordResetLink", "Password reset email sent to {0}.", resetRequest.Email);
-                return Request.CreateResponse(HttpStatusCode.OK, new { emailSent = true });
+                //return Request.CreateResponse(HttpStatusCode.OK, new { emailSent = true });
             }
 
-            return Request.CreateResponse(HttpStatusCode.InternalServerError, new { emailSent = false });
+            //return Request.CreateResponse(HttpStatusCode.InternalServerError, new { emailSent = false });
+            return Request.CreateResponse(HttpStatusCode.OK, new { success = true });
         }
 
         /// <summary>
@@ -199,7 +200,10 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
 
             bool registered = true;
-            bool loggedIn = Members.Login(registration.Email, registration.Password);
+            var encryptedEmailAddress = _cryptographicService.EncryptEmailAddress(registration.Email);
+            var newMember = UmbracoContext.Application.Services.MemberService.GetByEmail(encryptedEmailAddress);
+
+            bool loggedIn = Members.Login(newMember.Username, registration.Password);
 
             return Request.CreateResponse(HttpStatusCode.OK, new { registered, loggedIn });
         }

@@ -1,11 +1,16 @@
 <div class="modal-background" data-bind="click: toggleImageUpload"></div>
 <div class="uploadmodal">
     <div class="tabs">
+    	<!-- ko if: isAuthenticated -->
     	<div class="tab tab-upload" data-bind="click: function(){selectTab('upload')}, css: {'tab_selected': selectedTab() == 'upload'}">Upload</div>
+    	<!-- ko if: myImages().length -->
     	<div class="tab" data-bind="click: function(){selectTab('my_images')}, css: {'tab_selected': selectedTab() == 'my_images'}">My Images</div>
+    	<!-- /ko -->
+    	<!-- /ko -->
     	<div class="tab" data-bind="click: function(){selectTab('library')}, css: {'tab_selected': selectedTab() == 'library'}">Library</div>
     </div>
     <div class="uploadmodal-close icon-close" data-bind="click: toggleImageUpload"></div>
+    <!-- ko if: isAuthenticated -->
     <div data-bind="visible: (selectedTab() == 'upload')">
 	    <div class="uploadmodal-preview" data-bind="click: clickUpload, event:{ dragover: dragOver, drop: drop}, style: { backgroundImage: 'url(\'' + (src() ? src() : '/canvas/images/upload.png') + '\')' }, css: {'uploadmodal-preview_populated': src()}"></div>
 	    <input type="file" id="image-upload" accept="image/*" data-bind="file: {data: fileData, allowed: ['image/jpg', 'image/png', 'image/jpeg', 'image/svg+xml']}" style="opacity: 0;">
@@ -41,6 +46,7 @@
 	    <a class="button" data-bind="click: confirm">Use this image</a>
 	    <!-- /ko -->
     </div>
+    <!-- /ko -->
 
     <div data-bind="visible: (selectedTab() == 'library')">
     	<div class="dropdown-row">

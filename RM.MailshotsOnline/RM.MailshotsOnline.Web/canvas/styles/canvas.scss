@@ -13,29 +13,38 @@ body {
     }
 }
 
+.component.component_selected {
+    z-index: 110;
+    &.image-component canvas {
+        cursor: move;
+    }
+}
+
 .canvas-container {
-    
     @include transition(transform, 0s);
+    overflow: hidden;
     position: absolute;
     top: 50px;
-    left: 150px;
+    left: 170px;
     right: 0;
     bottom: 0;
     z-index: 2;
-    overflow: auto;
     background: $lightest-grey;
     transform: translate(0, 0);
     -ms-transform: translate(0, 0);
     .tools {
-        transform: translate(-150px, -50px);
-        -ms-transform: translate(-150px, -50px);
+        transform: translate(-170px, -50px);
+        -ms-transform: translate(-170px, -50px);
+    }
+    &.canvas-container_zoomed {
+        overflow-y: auto;
     }
     &.canvas-container_focused {
         top: 0;
         left: 0;
         .side {
-            transform: translate(150px, 50px);
-            -ms-transform: translate(150px, 50px);
+            transform: translate(170px, 50px);
+            -ms-transform: translate(170px, 50px);
             right: 150px;
 
         }
@@ -48,8 +57,8 @@ body {
         @include transition(transform);
         width: 500px;
         right: auto;
-        transform: translate(-190px, 0);
-        -ms-transform: translate(-190px, 0);
+        transform: translate(-200px, -100px);
+        -ms-transform: translate(-200px, -100px);
         pointer-events: none;
         .face {
             pointer-events: none;
@@ -68,67 +77,6 @@ body {
         animation: fadein .25s;
     }
 }
-
-// a smorgas board of ie9 and 10 hacks
-.ieOld {
-    .selected-overlay {
-        display: none !important;
-    }
-    .editable:focus:before, .editable.editable_active:before, .editable:hover:before {
-        content: none !important;
-    }
-    .editable:focus, .editable.editable_active {
-        outline: 1px solid rgba(0, 0, 0, 0.09);
-    }
-    .editable:hover {
-        outline: 1px solid $darkest-grey;
-    }
-    .loading_complete {
-        display: none !important;
-    }
-    .side-picker-clicker {
-        background: rgba(0,0,0,0.01);
-    }
-    .help {
-        display: none;
-    }
-    .help_visible {
-        display: block;
-    }
-    .dropdown-options {
-        display: none;
-    }
-    .dropdown-options_active {
-        display: block;
-    }
-    .colour-dropdown {
-        width: 70px !important;
-    }
-    .layout-container {
-        -ms-transform: translate(0, 100%);
-        transform: translate(0, 100%);
-    }
-    .layout-container_previewing {
-        -ms-transform: translate(0, 0);
-        transform: translate(0, 0);
-    }
-    .options-toolbar.disabled {
-        pointer-events: none;
-    }
-}
-.ieOlder {
-    .tools-image_own {
-        display: none !important;
-    }
-    .tools-image_own_old_ie {
-        display: table-cell !important;
-        vertical-align: bottom !important;
-    }
-    .tab-upload {
-        display: none !important;
-    }
-}
-
 
 @media all and (max-width: 1100px) {
     .canvas-container.canvas-container_small {
@@ -227,15 +175,18 @@ body {
         right: 0;
         bottom: 0;
         cursor: pointer;
-        &.face-hover_active:before {
-            border: 1px solid rgba(0, 0, 0, 0.09);
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+        &.face-hover_active {
             pointer-events: none;
+            :before {
+                border: 1px solid rgba(0, 0, 0, 0.09);
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                pointer-events: none;
+            }
         }
     }
 }
@@ -289,6 +240,12 @@ body {
         content: attr(data-fallback) !important;
     }
 }
+.full-preview {
+    .canvas-empty {
+        background: transparent !important;
+        border: none;
+    }
+}
 
 .loading {
     @include transition(opacity);
@@ -322,3 +279,4 @@ body {
     background-position: 50% 50%;
     background-repeat: no-repeat;
 }
+

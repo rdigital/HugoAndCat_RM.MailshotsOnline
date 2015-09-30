@@ -160,6 +160,7 @@
     <Compile Include="Extensions\ImageExtensions.cs" />
     <Compile Include="Extensions\MediaExtensions.cs" />
     <Compile Include="Extensions\MemberExtensions.cs" />
+    <Compile Include="Extensions\MigrationExtensions.cs" />
     <Compile Include="Helpers\BlobStorageHelper.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Media Conversion\Converters\ImageMediaConverter.cs" />
@@ -305,17 +306,37 @@
     <Compile Include="Migrations\201509241413163_AddPublicHolidayDates.Designer.cs">
       <DependentUpon>201509241413163_AddPublicHolidayDates.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509251500171_AddAddressesToInvoice.cs" />
+    <Compile Include="Migrations\201509251500171_AddAddressesToInvoice.Designer.cs">
+      <DependentUpon>201509251500171_AddAddressesToInvoice.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201509251425350_UpdateDistributionLists.cs" />
     <Compile Include="Migrations\201509251425350_UpdateDistributionLists.Designer.cs">
       <DependentUpon>201509251425350_UpdateDistributionLists.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509281049370_AddInvoiceLineItemDetails.cs" />
+    <Compile Include="Migrations\201509281049370_AddInvoiceLineItemDetails.Designer.cs">
+      <DependentUpon>201509281049370_AddInvoiceLineItemDetails.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201509281408070_FixDistributionLengths.cs" />
     <Compile Include="Migrations\201509281408070_FixDistributionLengths.Designer.cs">
       <DependentUpon>201509281408070_FixDistributionLengths.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509281435529_AddOrderNumber.cs" />
+    <Compile Include="Migrations\201509281435529_AddOrderNumber.Designer.cs">
+      <DependentUpon>201509281435529_AddOrderNumber.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201509301342450_TrackImportStatus.cs" />
     <Compile Include="Migrations\201509301342450_TrackImportStatus.Designer.cs">
       <DependentUpon>201509301342450_TrackImportStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509291218307_AddProducts.cs" />
+    <Compile Include="Migrations\201509291218307_AddProducts.Designer.cs">
+      <DependentUpon>201509291218307_AddProducts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509291748388_RemoveOrders.cs" />
+    <Compile Include="Migrations\201509291748388_RemoveOrders.Designer.cs">
+      <DependentUpon>201509291748388_RemoveOrders.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -461,6 +482,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509241413163_AddPublicHolidayDates.resx">
       <DependentUpon>201509241413163_AddPublicHolidayDates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509251500171_AddAddressesToInvoice.resx">
+      <DependentUpon>201509251500171_AddAddressesToInvoice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509281049370_AddInvoiceLineItemDetails.resx">
+      <DependentUpon>201509281049370_AddInvoiceLineItemDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509281435529_AddOrderNumber.resx">
+      <DependentUpon>201509281435529_AddOrderNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509291218307_AddProducts.resx">
+      <DependentUpon>201509291218307_AddProducts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509291748388_RemoveOrders.resx">
+      <DependentUpon>201509291748388_RemoveOrders.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509251425350_UpdateDistributionLists.resx">
       <DependentUpon>201509251425350_UpdateDistributionLists.cs</DependentUpon>
