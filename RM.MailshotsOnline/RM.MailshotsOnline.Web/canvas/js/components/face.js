@@ -10,8 +10,8 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
             this.data = params.data;
             this.preview = params.preview;
             this.backgroundSelected = stateViewModel.backgroundSelected;
-            this.backgroundToolsTop = ko.observable(0);
-            this.backgroundToolsLeft = ko.observable(0);
+            this.backgroundToolsTop = stateViewModel.backgroundToolsTop;
+            this.backgroundToolsLeft = stateViewModel.backgroundToolsLeft;
             this.selectedElement = stateViewModel.selectedElement;
             this.current_theme = ko.observable();
             this.scale = function() {

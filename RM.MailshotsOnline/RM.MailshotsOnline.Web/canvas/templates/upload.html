@@ -38,7 +38,9 @@
 	    	<!-- ko foreach: myImages() -->
 	    	<div class="library-image" data-bind="click: $parent.selectMyImage, css: {'library-image_selected': $parent.myImage() == $data}">
 	    		<div class="library-image-inner" data-bind="style: {backgroundImage: 'url(' + SmallSrc + '&' + $parent.getRandomInt() + ')'}"></div>
-	    		<div class="library-image-delete" data-bind="click: $parent.removeMyImage, clickBubble: false">Delete</div>
+	    		<div class="library-image-delete" data-bind="click: $parent.setDeleteImage, clickBubble: false">
+	    			<span class="icon-delete"></span>
+	    		</div>
 	    	</div>
 	    	<!-- /ko -->
 	    </div>
@@ -64,3 +66,19 @@
 	    <!-- /ko -->
     </div>
 </div>
+
+<!-- ko if: deleteImage -->
+<!-- ko with: deleteImage -->
+<div class="delete-image-modal-bg" data-bind="click: $parent.clearDeleteImage">
+</div>
+<div class="delete-image-modal-container">
+	<div class="delete-image-modal">
+		<div class="delete-image-text">Are you sure you want to delete this image?</div>
+		<div class="delete-image-buttons">
+		<a class="button button_grey" data-bind="click: $parent.clearDeleteImage">Keep</a>
+		<a class="button" data-bind="click: function() {$parent.removeMyImage($data); $parent.clearDeleteImage()}">Delete</a>
+		</div>
+	</div>
+</div>
+<!-- /ko -->
+<!-- /ko -->

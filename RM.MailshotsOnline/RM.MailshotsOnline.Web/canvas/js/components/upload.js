@@ -7,6 +7,7 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/his
             this.fileData = ko.observable({
                 dataURL: ko.observable()
             });
+            this.deleteImage = ko.observable();
             this.selectedTab = ko.observable(stateViewModel.imageTab() || 'upload');
             this.selectedElement = stateViewModel.selectedElement();
             this.isAuthenticated = authViewModel.isAuthenticated;
@@ -39,6 +40,8 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/his
             this.selectLibraryImage = this.selectLibraryImage.bind(this);
             this.selectTab = this.selectTab.bind(this);
             this.dispose = this.dispose.bind(this);
+            this.setDeleteImage = this.setDeleteImage.bind(this);
+            this.clearDeleteImage = this.clearDeleteImage.bind(this);
 
             this.fetchLibrary();
         }
@@ -225,6 +228,14 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/his
             stateViewModel.toggleImageUpload();
             $('.canvas-container').css({opacity: 1});
         };
+
+        imageUploadViewModel.prototype.setDeleteImage = function setDeleteImage(image) {
+            this.deleteImage(image);
+        }
+
+        imageUploadViewModel.prototype.clearDeleteImage = function clearDeleteImage() {
+            this.deleteImage(null);
+        }
 
         return {
             viewModel: imageUploadViewModel,
