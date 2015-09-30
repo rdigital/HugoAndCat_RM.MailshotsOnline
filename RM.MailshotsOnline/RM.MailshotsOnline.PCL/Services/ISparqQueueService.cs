@@ -24,5 +24,15 @@ namespace RM.MailshotsOnline.PCL.Services
         /// <param name="postbackUrl">The URL the service needs to post back to</param>
         /// <returns>True on success</returns>
         Task<bool> SendRenderAndPrintJob(IMailshot mailshot, string postbackUrl);
+
+        /// <summary>
+        /// Send a render job to the queue
+        /// </summary>
+        /// <param name="data">XML and XSL data</param>
+        /// <param name="orderNumber">Order number</param>
+        /// <param name="formatId">Format ID</param>
+        /// <param name="renderPostbackUrl">Render postback URL</param>
+        /// <returns>True on success</returns>
+        Task<bool> SendRenderJob(IXmlAndXslData data, string orderNumber, string formatId, string renderPostbackUrl);
     }
 }
