@@ -18,6 +18,11 @@ module.exports = function(grunt) {
                 'styles/compiled/preview.css': 'styles/preview.scss',
                 'styles/compiled/upload.css': 'styles/upload.scss',
                 'styles/compiled/layoutpicker.css': 'styles/layoutpicker.scss',
+                'styles/compiled/dropdown.css': 'styles/dropdown.scss',
+                'styles/compiled/slider.css': 'styles/slider.scss',
+                'styles/compiled/iehacks.css': 'styles/iehacks.scss',
+                'styles/compiled/zoom.css': 'styles/zoom.scss',
+                'styles/compiled/canvascontrols.css': 'styles/canvascontrols.scss',
                 'styles/compiled/auth.css': 'styles/auth.scss'
             }
         }

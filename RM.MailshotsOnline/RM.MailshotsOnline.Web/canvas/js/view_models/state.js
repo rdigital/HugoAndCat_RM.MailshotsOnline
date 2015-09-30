@@ -98,6 +98,12 @@ define(['knockout', 'view_models/auth'],
             this.toggleImage();
         };
 
+        stateViewModel.prototype.toggleMyImages = function toggleMyImages() {
+            authViewModel.getAuthenticated();
+            this.imageTab('my_images');
+            this.toggleImage();
+        };
+
         /**
          * toggle the image upload modal
          */

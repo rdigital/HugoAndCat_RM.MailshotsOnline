@@ -1,8 +1,10 @@
 <div class="slider">
-	<!-- ie9 fell over when having the events on the container, put an invisible thing inside to handle it instead. That stupid background colour is on here too as otherwise ie9 assumes you're trying to clickjack people. Bravo ie -->
-	<div data-bind="click: resize, event: { mousedown: dragStart, mousemove: dragMove, mouseup: dragEnd, mouseleave: dragEnd}, element: element" style="position: absolute; top: 0; left: 15px; right: 15px; bottom: 0; z-index: 999; background: rgba(255, 255, 255, 0.001)"></div>
+	<!-- ie9 fell over when having the events on the container, put an invisible thing inside to handle it instead. That stupid background colour is on this element too as otherwise ie9 assumes you're trying to clickjack people. Bravo ie -->
+	<div data-bind="click: resize, event: { mousedown: dragStart, mousemove: dragMove, mouseup: dragEnd, mouseleave: dragEnd}, element: element" class="slider-pointless"></div>
 	<div class="slider-inner">
-		<div class="slider-current" data-bind="style: {left: left_percent() + '%'}"></div>
+		<div class="slider-current-container">
+			<div class="slider-current" data-bind="style: {left: left_percent() + '%'}"></div>
+		</div>
 	</div>
 </div>
 
