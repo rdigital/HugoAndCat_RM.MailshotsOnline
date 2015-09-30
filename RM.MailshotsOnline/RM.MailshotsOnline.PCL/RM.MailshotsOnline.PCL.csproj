@@ -51,6 +51,7 @@
     <Compile Include="Models\IInvoiceLineItem.cs" />
     <Compile Include="Models\IMailshotImageUse.cs" />
     <Compile Include="Models\IMedia.cs" />
+    <Compile Include="Models\IProduct.cs" />
     <Compile Include="Models\Reporting\IMembershipReport.cs" />
     <Compile Include="Models\Reporting\IReport.cs" />
     <Compile Include="Models\ISettingsFromCms.cs" />
@@ -61,7 +62,6 @@
     <Compile Include="Models\IMailshotContent.cs" />
     <Compile Include="Models\IMember.cs" />
     <Compile Include="Models\IContactOptions.cs" />
-    <Compile Include="Models\IOrder.cs" />
     <Compile Include="Models\IPostalOption.cs" />
     <Compile Include="Models\MailshotSettings\IMailshotDefaultContent.cs" />
     <Compile Include="Models\MailshotSettings\IMailshotSetting.cs" />

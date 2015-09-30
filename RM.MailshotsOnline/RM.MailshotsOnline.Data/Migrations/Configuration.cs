@@ -24,6 +24,16 @@ namespace RM.MailshotsOnline.Data.Migrations
             //    new PostalOption { Name = "First class", UmbracoId = 0, Currency = "GBP", PricePerUnit = 0.63m, Tax = 0.12m, TaxCode = "V" },
             //    new PostalOption { Name = "Second class", UmbracoId = 1, Currency = "GBP", PricePerUnit = 0.54m, Tax = 0.10m, TaxCode = "V" }
             //    );
+
+            context.Products.AddOrUpdate(
+                p => new { p.ProductSku },
+                new Product { ProductSku = Constants.Constants.Products.PrintSku, Category = "Printing and delivery", Name = "Printing", UpdatedDate = DateTime.UtcNow },
+                new Product { ProductSku = Constants.Constants.Products.PostSku, Category = "Printing and delivery", Name = "Postage", UpdatedDate = DateTime.UtcNow },
+                new Product { ProductSku = Constants.Constants.Products.YourDataSku, Category = "Recipients", Name = "Your data", UpdatedDate = DateTime.UtcNow },
+                new Product { ProductSku = Constants.Constants.Products.OurDataSku, Category = "Recipients", Name = "Our data", UpdatedDate = DateTime.UtcNow },
+                new Product { ProductSku = Constants.Constants.Products.MsolServiceFeeSku, Category = "Service Fees", Name = "Service fee", UpdatedDate = DateTime.UtcNow },
+                new Product { ProductSku = Constants.Constants.Products.DataSearchFeeSku, Category = "Service Fees", Name = "Data search fee", UpdatedDate = DateTime.UtcNow }
+                );
         }
 
         /// <summary>

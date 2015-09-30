@@ -179,11 +179,29 @@ namespace RM.MailshotsOnline.Entities.DataModels
             }
         }
 
+        /// <summary>
+        /// Gets or sets the billing address
+        /// </summary>
         public Address BillingAddress
         {
             get { return _billingAddress; }
             set { _billingAddress = value; }
         }
+
+        /// <summary>
+        /// Gets or sets the invoice PDF blob status
+        /// </summary>
+        public string InvoicePdfBlobReference { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date the invoice was paid
+        /// </summary>
+        public DateTime? PaidDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date the invoice was cancelled
+        /// </summary>
+        public DateTime? CancelledDate { get; set; }
 
         #region Explicit interface implementation
 

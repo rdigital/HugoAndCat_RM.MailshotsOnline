@@ -406,6 +406,7 @@
     <Content Include="canvas\images\temp_layout_icon_active.PNG" />
     <Content Include="canvas\images\upload.png" />
     <Content Include="canvas\js\app.js" />
+    <Content Include="canvas\js\components\auth.js" />
     <Content Include="canvas\js\components\backgroundtools.js" />
     <Content Include="canvas\js\components\colourpicker.js" />
     <Content Include="canvas\js\components\dropdown.js" />
@@ -441,6 +442,7 @@
     <Content Include="canvas\js\vendor\requirejs\require.js" />
     <Content Include="canvas\js\vendor\spectrum\spectrum.css" />
     <Content Include="canvas\js\vendor\spectrum\spectrum.js" />
+    <Content Include="canvas\js\view_models\auth.js" />
     <Content Include="canvas\js\view_models\data.js" />
     <Content Include="canvas\js\view_models\element.js" />
     <Content Include="canvas\js\view_models\format.js" />
@@ -576,6 +578,8 @@
     <Content Include="scripts\logintest.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="imageUpload.aspx" />
+    <Content Include="scripts\myorders.js" />
+    <Content Include="scripts\order-functions.js" />
     <Content Include="umbraco\Actions\delete.aspx" />
     <Content Include="umbraco\Actions\editContent.aspx" />
     <Content Include="umbraco\Actions\preview.aspx" />
@@ -3071,6 +3075,7 @@
     <Compile Include="Attributes\RequireSecureConnectionFilter.cs" />
     <Compile Include="Controllers\Api\ApiBaseController.cs" />
     <Compile Include="Controllers\Api\CampaignController.cs" />
+    <Compile Include="Controllers\Api\OrdersController.cs" />
     <Compile Include="Controllers\Api\ReportsController.cs" />
     <Compile Include="Controllers\Api\MemberSearchController.cs" />
     <Compile Include="Controllers\Api\CryptoApiController.cs" />
@@ -3121,6 +3126,7 @@
     <Compile Include="Extensions\ModelExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\ControllersHelper.cs" />
+    <Compile Include="Helpers\InvoiceHelper.cs" />
     <Compile Include="Helpers\MembershipHelper.cs" />
     <Compile Include="Installers\ControllersInstaller.cs" />
     <Compile Include="Plumbing\WindsorCompositionRoot.cs" />
@@ -3528,6 +3534,8 @@
     <Content Include="uSync\Template\MyCampaigns\MyCampaigns.config" />
     <Content Include="uSync\DocumentType\Basepage\MyCampaigns\def.config" />
     <Content Include="Views\Partials\LineItemCostBreakdown.cshtml" />
+    <Content Include="uSync\DocumentType\Basepage\OrderDetails\def.config" />
+    <Content Include="Views\Moderation\Partials\PaymentFailed.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

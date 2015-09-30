@@ -73,6 +73,21 @@ namespace RM.MailshotsOnline.PCL.Models
         string OrderNumber { get; set; }
 
         /// <summary>
+        /// Gets or sets the invoice PDF blob status
+        /// </summary>
+        string InvoicePdfBlobReference { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date the invoice was paid
+        /// </summary>
+        DateTime? PaidDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date the invoice was cancelled
+        /// </summary>
+        DateTime? CancelledDate { get; set; }
+
+        /// <summary>
         /// The line items for the invoice
         /// </summary>
         ICollection<IInvoiceLineItem> LineItems { get; set; }

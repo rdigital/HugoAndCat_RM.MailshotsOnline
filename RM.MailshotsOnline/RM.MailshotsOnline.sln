@@ -45,6 +45,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C5A06D3E
 		XML\Tests\A4Template-WithCropMarks.xslt = XML\Tests\A4Template-WithCropMarks.xslt
 		XML\Tests\A4Template1.xslt = XML\Tests\A4Template1.xslt
 		XML\Tests\dataxml.xml = XML\Tests\dataxml.xml
+		XML\Tests\invoice.xml = XML\Tests\invoice.xml
+		XML\Tests\InvoiceTemplate.xslt = XML\Tests\InvoiceTemplate.xslt
 		XML\Tests\PostcardTemplate1.xslt = XML\Tests\PostcardTemplate1.xslt
 		XML\Tests\PostcardTemplate2.xslt = XML\Tests\PostcardTemplate2.xslt
 	EndProjectSection

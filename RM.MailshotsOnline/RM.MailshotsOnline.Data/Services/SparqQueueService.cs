@@ -19,10 +19,12 @@ namespace RM.MailshotsOnline.Data.Services
     public class SparqQueueService : ISparqQueueService
     {
         private ILogger _log;
+        private string _baseUrl;
 
         public SparqQueueService()
         {
             _log = new Logger();
+            _baseUrl = string.Format("{0}://{1}:{2}", ConfigHelper.HostedScheme, ConfigHelper.HostedDomain, ConfigHelper.HostedPort);
         }
 
         /// <summary>
@@ -48,6 +50,88 @@ namespace RM.MailshotsOnline.Data.Services
         }
 
         /// <summary>
+        /// Send a render job to the queue
+        /// </summary>
+        /// <param name="data">XML and XSL data</param>
+        /// <param name="orderNumber">Order number</param>
+        /// <param name="formatId">Format ID</param>
+        /// <param name="renderPostbackUrl">Render postback URL</param>
+        /// <returns>True on success</returns>
+        public async Task<bool> SendRenderJob(XmlAndXslData data, string orderNumber, string formatId, string renderPostbackUrl)
+        {
+            return await SendJob(data, orderNumber, formatId, false, renderPostbackUrl, null);
+        }
+
+        /// <summary>
+        /// Sends a job to the queue
+        /// </summary>
+        /// <param name="data">XML and XSL data</param>
+        /// <param name="orderNumber">Order number</param>
+        /// <param name="formatId">Format ID</param>
+        /// <param name="printAfterRender">Job should be printed after rendering</param>
+        /// <param name="renderPostbackUrl">Render postback URL</param>
+        /// <param name="ftpPostbackUrl">FTP postback URL</param>
+        /// <returns></returns>
+        private async Task<bool> SendJob(XmlAndXslData data, string orderNumber, string formatId, bool printAfterRender, string renderPostbackUrl, string ftpPostbackUrl)
+        {
+            bool success = true;
+
+            // Create new message for queue
+            var orderPriority = printAfterRender ? SparqOrderPriority.Low : SparqOrderPriority.High;
+            var orderType = printAfterRender ? SparqOrderType.RenderAndPrint : SparqOrderType.RenderOnly;
+            var groupOrder = printAfterRender; // TODO: Confirm that this is correct
+
+            var order = new SparqOrder(orderNumber,
+                "",
+                formatId,
+                Encoding.UTF8.GetBytes(data.XmlData),
+                Encoding.UTF8.GetBytes(data.XslStylesheet),
+                _baseUrl,
+                orderPriority,
+                orderType,
+                groupOrder,
+                renderPostbackUrl,
+                ftpPostbackUrl);
+
+            _log.Info(this.GetType().Name, "SendJob", $@"Sending job with the following parameters:
+    Order Number: {orderNumber},
+    Base URL: {_baseUrl},
+    Postback URL: {renderPostbackUrl},
+    FTP postback URL: {ftpPostbackUrl},
+    Order Priority: {orderPriority},
+    Order Type: {orderType},
+    Group Order: {groupOrder}");
+
+            try
+            {
+                // Send to queue
+                var message = new BrokeredMessage(order);
+
+                if (SparqQueueConnector.RenderOnlyQueue == null || SparqQueueConnector.RenderAndPrintQueueClient == null)
+                {
+                    SparqQueueConnector.Initialize();
+                }
+
+                if (printAfterRender)
+                {
+                    await SparqQueueConnector.RenderAndPrintQueueClient.SendAsync(message);
+                }
+                else
+                {
+                    await SparqQueueConnector.RenderOnlyQueueClient.SendAsync(message);
+                }
+            }
+            catch (Exception ex)
+            {
+                success = false;
+                _log.Exception(this.GetType().Name, "SendJob", ex);
+                _log.Error(this.GetType().Name, "SendJob", "Error sending job with order number {0} to the queue.", orderNumber);
+            }
+
+            return success;
+        }
+
+        /// <summary>
         /// Send a mailshot to the Sparq Queue
         /// </summary>
         /// <param name="mailshot">Mailshot to send</param>
@@ -58,7 +142,7 @@ namespace RM.MailshotsOnline.Data.Services
             var success = true;
             // Generate XML and XSL from Mailshot
             var mailshotProcessor = new MailshotsProcessor();
-            ProcessedMailshotData xmlAndXsl = null;
+            XmlAndXslData xmlAndXsl = null;
 
             try
             {
@@ -77,53 +161,9 @@ namespace RM.MailshotsOnline.Data.Services
             }
             else
             {
-                // Create new message for queue
-                var baseUrl = string.Format("{0}://{1}:{2}", ConfigHelper.HostedScheme, ConfigHelper.HostedDomain, ConfigHelper.HostedPort);
-                //var postbackUrl = string.Format("{0}/Umbraco/Api/ProofPdf/ProofReady/{1}", baseUrl, mailshot.MailshotId);
-                var ftpPostbackUrl = printAfterRender ? string.Format("{0}/Umbraco/Api/ProofPdf/PrintPdfReady/{1}", baseUrl, mailshot.MailshotId) : null;
-                var orderPriority = printAfterRender ? SparqOrderPriority.Low : SparqOrderPriority.High;
-                var orderType = printAfterRender ? SparqOrderType.RenderAndPrint : SparqOrderType.RenderOnly;
-                var groupOrder = printAfterRender; // TODO: Confirm that this is correct
-
-                var order = new SparqOrder(mailshot.ProofPdfOrderNumber.ToString(),
-                    "",
-                    mailshot.FormatId.ToString(),
-                    Encoding.UTF8.GetBytes(xmlAndXsl.XmlData),
-                    Encoding.UTF8.GetBytes(xmlAndXsl.XslStylesheet),
-                    baseUrl,
-                    orderPriority,
-                    orderType,
-                    groupOrder,
-                    postbackUrl,
-                    ftpPostbackUrl);
-
-                _log.Info(this.GetType().Name, "SendJob", $@"Sending job with the following parameters:
-                    Mailshot ID: {mailshot.MailshotId},
-                    Base URL: {baseUrl},
-                    Postback URL: {postbackUrl},
-                    FTP postback URL: {ftpPostbackUrl},
-                    Order Priority: {orderPriority},
-                    Order Type: {orderType},
-                    Group Order: {groupOrder}");
-
-                // Send to queue
-                var message = new BrokeredMessage(order);
-
-                if (SparqQueueConnector.RenderOnlyQueue == null || SparqQueueConnector.RenderAndPrintQueueClient == null)
-                {
-                    SparqQueueConnector.Initialize();
-                }
-
-                if (printAfterRender)
-                {
-                    await SparqQueueConnector.RenderAndPrintQueueClient.SendAsync(message);
-                }
-                else
-                {
-                    await SparqQueueConnector.RenderOnlyQueueClient.SendAsync(message);
-                }
-
-                success = true;
+                var ftpPostbackUrl = printAfterRender ? string.Format("{0}/Umbraco/Api/ProofPdf/PrintPdfReady/{1}", _baseUrl, mailshot.MailshotId) : null;
+                var orderNumber = mailshot.ProofPdfOrderNumber.ToString();
+                success = await SendJob(xmlAndXsl, orderNumber, mailshot.FormatId.ToString(), printAfterRender, postbackUrl, ftpPostbackUrl);
             }
 
             return success;

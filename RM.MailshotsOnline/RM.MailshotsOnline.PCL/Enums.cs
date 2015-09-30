@@ -12,26 +12,50 @@ namespace RM.MailshotsOnline.PCL
         /// </summary>
         public enum CampaignStatus
         {
+            /// <summary>
+            /// Campaign has draft data and/or mailshot data
+            /// </summary>
             Draft = 1,
-            PendingModeration = 2,
-            ReadyForFulfilment = 3,
-            SentForFulfilment = 4,
-            Fulfilled = 5,
-            ReadyToCheckout = 6,
-            Exception = -1,
-            Cancelled = 7
-        }
 
-        /// <summary>
-        /// Status for Orders
-        /// </summary>
-        public enum OrderStatus
-        {
-            Draft = 1,
-            PendingPayment = 2,
-            Paid = 3,
-            Complete = 4,
-            Exception = -1
+            /// <summary>
+            /// Campaign is pending moderation
+            /// </summary>
+            PendingModeration = 2,
+
+            /// <summary>
+            /// Campaign has passed moderation and can be passed to the fulfilment house
+            /// </summary>
+            ReadyForFulfilment = 3,
+
+            /// <summary>
+            /// Campaign has been sent to the fulfilment house for printing
+            /// </summary>
+            SentForFulfilment = 4,
+
+            /// <summary>
+            /// Campaign has been fulfilled
+            /// </summary>
+            Fulfilled = 5,
+
+            /// <summary>
+            /// Campaign has confirmed data and mailshot content - Invoice can be created
+            /// </summary>
+            ReadyToCheckout = 6,
+
+            /// <summary>
+            /// Exception has occurred - most likely failed checks
+            /// </summary>
+            Exception = -1,
+
+            /// <summary>
+            /// Campaign has been cancelled
+            /// </summary>
+            Cancelled = 7,
+
+            /// <summary>
+            /// Payment for this campaign has failed
+            /// </summary>
+            PaymentFailed = -2
         }
 
         /// <summary>
@@ -66,14 +90,45 @@ namespace RM.MailshotsOnline.PCL
             Fulfilled = 4
         }
 
+        /// <summary>
+        /// Status for invoices
+        /// </summary>
         public enum InvoiceStatus
         {
+            /// <summary>
+            /// Has not yet been passed to PayPal
+            /// </summary>
             Draft = 1,
+
+            /// <summary>
+            /// User has been passed to PayPal - waiting for payment confirmation
+            /// </summary>
             Submitted = 2,
+
+            /// <summary>
+            /// PayPal order has been created - waiting for moderation and fulfilment
+            /// </summary>
             Processing = 3,
+
+            /// <summary>
+            /// Invoice has been paid
+            /// </summary>
             Paid = 4,
+
+            /// <summary>
+            /// Invoice has been cancelled - PayPal order has been voided
+            /// </summary>
             Cancelled = 5,
-            Refunded = 6
+
+            /// <summary>
+            /// Invoice was previously paid, but has been refunded
+            /// </summary>
+            Refunded = 6,
+
+            /// <summary>
+            /// Capturing payment from PayPal has failed
+            /// </summary>
+            Failed = 7
         }
     }
 }

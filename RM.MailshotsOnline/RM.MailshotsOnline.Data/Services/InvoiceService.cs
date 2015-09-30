@@ -110,8 +110,7 @@ namespace RM.MailshotsOnline.Data.Services
 
                 lineItems.Add(new InvoiceLineItem()
                 {
-                    Name = string.Format("Service fee", priceBreakdown.ServiceFee),
-                    Category = "Service Fees",
+                    ProductSku = Constants.Constants.Products.MsolServiceFeeSku,
                     Quantity = 1,
                     UnitCost = priceBreakdown.ServiceFee,
                     TaxRate = priceBreakdown.TaxRate,
@@ -120,8 +119,7 @@ namespace RM.MailshotsOnline.Data.Services
 
                 lineItems.Add(new InvoiceLineItem()
                 {
-                    Name = "Your data",
-                    Category = "Recipients",
+                    ProductSku = Constants.Constants.Products.YourDataSku,
                     Quantity = campaign.OwnDataRecipientCount,
                     UnitCost = 0,
                     TaxRate = 0,
@@ -133,8 +131,7 @@ namespace RM.MailshotsOnline.Data.Services
                     // Add data costs
                     lineItems.Add(new InvoiceLineItem()
                     {
-                        Name = string.Format("Our data"),
-                        Category = "Recipients",
+                        ProductSku = Constants.Constants.Products.OurDataSku,
                         Quantity = priceBreakdown.DataRentalCount.Value,
                         UnitCost = priceBreakdown.DataRentalRate,
                         TaxRate = priceBreakdown.TaxRate,
@@ -143,8 +140,7 @@ namespace RM.MailshotsOnline.Data.Services
 
                     lineItems.Add(new InvoiceLineItem()
                     {
-                        Name = "Data search fee",
-                        Category = "Service Fees",
+                        ProductSku = Constants.Constants.Products.DataSearchFeeSku,
                         Quantity = 1,
                         UnitCost = priceBreakdown.DataRentalFlatFee,
                         TaxRate = priceBreakdown.TaxRate,
@@ -159,8 +155,7 @@ namespace RM.MailshotsOnline.Data.Services
                         // Add printing costs
                         lineItems.Add(new InvoiceLineItem()
                         {
-                            Name = string.Format("Printing", priceBreakdown.PrintCount.Value),
-                            Category = "Printing and delivery",
+                            ProductSku = Constants.Constants.Products.PrintSku,
                             Quantity = priceBreakdown.PrintCount.Value,
                             UnitCost = priceBreakdown.PrintingRate.Value,
                             TaxRate = priceBreakdown.TaxRate,
@@ -173,9 +168,8 @@ namespace RM.MailshotsOnline.Data.Services
                         // Add postage
                         lineItems.Add(new InvoiceLineItem()
                         {
-                            Name = string.Format("Postage", priceBreakdown.PrintCount.Value),
+                            ProductSku = Constants.Constants.Products.PostSku,
                             SubTitle = campaign.PostalOption.Name,
-                            Category = "Printing and delivery",
                             Quantity = priceBreakdown.PrintCount.Value,
                             UnitCost = priceBreakdown.PostageRate.Value,
                             TaxRate = priceBreakdown.TaxRate,
