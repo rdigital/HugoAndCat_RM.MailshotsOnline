@@ -45,7 +45,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
                     report = _reportingService.MembershipReportGenerator.Generate();
                     reportBytes = CreateCsv(report, ((IMembershipReport) report).Members);
-                    
+
                     // set sftp details
 
 
@@ -54,7 +54,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 case "transactions":
 
                     report = _reportingService.TransactionsReportGenerator.Generate();
-                    reportBytes = CreateCsv(report, ((ITransactionsReport)report).Transactions);
+                    reportBytes = CreateCsv(report, ((ITransactionsReport) report).Transactions);
 
                     // set sftp details
 
@@ -95,27 +95,6 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
 
             return csvBytes;
-
         }
-
-        //    var result = Request.CreateResponse(HttpStatusCode.OK);
-        //    result.Content = new ByteArrayContent(csvBytes);
-        //    result.Content.Headers.ContentType = new MediaTypeHeaderValue("text/csv");
-        //    result.Content.Headers.ContentDisposition =
-        //        new ContentDispositionHeaderValue("attachment")
-        //        {
-        //            FileName = $"{report.Name} - {report.CreatedDate.ToString("yyyyMMddHHmmss")}.csv",
-        //            Size = csvBytes.Length,
-        //            CreationDate = report.CreatedDate
-        //        };
-        //    result.Headers.CacheControl = new CacheControlHeaderValue()
-        //    {
-        //        Public = true,
-        //        MaxAge = TimeSpan.FromSeconds(3600),
-        //        NoCache = false
-        //    };
-
-        //    return result;
-        //}
     }
 }

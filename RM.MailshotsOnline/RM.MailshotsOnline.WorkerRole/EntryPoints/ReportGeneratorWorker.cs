@@ -116,14 +116,25 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
                         case "membership":
                         case "transactions":
 
-                            Logger.Info(GetType().Name, "Run", $"Message: {message}. Actioning...");
-
                             var newToken = Guid.NewGuid().ToString();
                             var url = $"{Constants.Apis.TokenAuthApi}/settoken/{newToken}";
 
+                            Logger.Info(GetType().Name, "Run", $"Message: {message}. Setting auth token to {newToken}");
+
+
                             if (SendHttpPost(url, newToken) == HttpStatusCode.OK)
                             {
-                                SendHttpPost($"{Constants.Apis.ReportsApi}/reports?type={message}&token={newToken}");
+                                Logger.Info(GetType().Name, "Run", "Token set");
+
+                                if (SendHttpPost($"{Constants.Apis.ReportsApi}/reports?type={message}&token={newToken}") ==
+                                    HttpStatusCode.OK)
+                                {
+                                    Logger.Info(GetType().Name, "Run", "Reporting complete");
+                                }
+                                else
+                                {
+                                    Logger.Info(GetType().Name, "Run", "Reporting failed.");
+                                }
                             }
                             else
                             {
@@ -174,9 +185,12 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
         {
             var tokenRequest = WebRequest.Create(url);
             tokenRequest.Method = WebRequestMethods.Http.Post;
+
             var postData = data?.ToString();
             var byteArray = Encoding.UTF8.GetBytes(postData ?? "");
+
             tokenRequest.ContentLength = byteArray.Length;
+
             using (var dataStream = tokenRequest.GetRequestStream())
             {
                 dataStream.Write(byteArray, 0, byteArray.Length);
