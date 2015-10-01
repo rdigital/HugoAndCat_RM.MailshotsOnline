@@ -6,11 +6,11 @@ using System.Collections;
 using System.IO;
 using System.Net.Http.Headers;
 using CsvHelper;
+using HC.RM.Common.Azure.Helpers;
 using HC.RM.Common.Network;
 using HC.RM.Common.PCL.Persistence;
 using RM.MailshotsOnline.Data.Constants;
-using RM.MailshotsOnline.Data.Services.Reporting;
-using RM.MailshotsOnline.Entities.DataModels.Reports;
+using RM.MailshotsOnline.Data.Helpers;
 using RM.MailshotsOnline.PCL.Models.Reporting;
 using RM.MailshotsOnline.PCL.Services;
 using RM.MailshotsOnline.PCL.Services.Reporting;
@@ -23,41 +23,53 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         private static IReportingService _reportingService;
         private static IBlobService _blobService;
         private static IFtpService _ftpService;
+        private static ILogger _logger;
+        private static IAuthTokenService _authTokenService;
 
-        public ReportsController(IReportingService reportingService, IBlobService blobService, IFtpService ftpService)
+        public ReportsController(IReportingService reportingService, IBlobService blobService, IFtpService ftpService,
+            ILogger logger, IAuthTokenService authTokenService)
         {
             _reportingService = reportingService;
             _blobService = blobService;
             _ftpService = ftpService;
+            _logger = logger;
+            _authTokenService = authTokenService;
         }
 
         [HttpPost]
         [RequireHttps]
-        public HttpResponseMessage GenerateReport(string type, string token)
+        public HttpResponseMessage GenerateReport(string type, string token, string service)
         {
+            if (string.IsNullOrEmpty(type) || string.IsNullOrEmpty(token))
+            {
+                _logger.Error(this.GetType().Name, "GenerateReport", "Method was called with bad parameters");
+
+                return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+            }
+
+            if (!_authTokenService.Consume(service, token))
+            {
+                _logger.Error(this.GetType().Name, "GenerateReport", "Method was called with bad parameters");
+
+                return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+            }
+
             IReport report;
-            byte[] reportBytes;
-            string sftpStuffBla;
+            MemoryStream reportStream;
 
             switch (type.ToLower())
             {
                 case "membership":
 
                     report = _reportingService.MembershipReportGenerator.Generate();
-                    reportBytes = CreateCsv(report, ((IMembershipReport) report).Members);
-
-                    // set sftp details
-
+                    reportStream = CreateCsv(report, ((IMembershipReport) report).Members);
 
                     break;
 
                 case "transactions":
 
                     report = _reportingService.TransactionsReportGenerator.Generate();
-                    reportBytes = CreateCsv(report, ((ITransactionsReport) report).Transactions);
-
-                    // set sftp details
-
+                    reportStream = CreateCsv(report, ((ITransactionsReport) report).Transactions);
 
                     break;
 
@@ -66,23 +78,43 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                     return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
 
-            // sftp
-            // bla();
+            if (reportStream.Length > 0)
+            {
+                var filename = report.Name + ".csv";
 
-            // store blob
-            _blobService.StoreAsync(reportBytes, report.Name, "Report (CSV)");
+                try
+                {
+                    _ftpService.Put(reportStream, $"{Constants.Reporting.SftpDirectory}/{filename}");
+                }
+                catch (Exception e)
+                {
+                    _logger.Error(this.GetType().Name, "GenerateReport", $"Upload to SFTP server failed!", e);
+                }
 
-            return new HttpResponseMessage(HttpStatusCode.OK);
+                try
+                {
+                    _blobService.StoreAsync(reportStream.ToArray(), report.Name, "text/csv");
+                }
+                catch (Exception e)
+                {
+                    _logger.Error(this.GetType().Name, "GenerateReport", $"Upload to blob store failed!", e);
+                }
+
+                return new HttpResponseMessage(HttpStatusCode.OK);
+            }
+
+            _logger.Error(this.GetType().Name, "GenerateReport", "Stream was empty");
+
+            return new HttpResponseMessage(HttpStatusCode.InternalServerError);
         }
 
-        private byte[] CreateCsv(IReport report, IEnumerable data)
+        private MemoryStream CreateCsv(IReport report, IEnumerable data)
         {
             if (report == null || data == null)
             {
                 return null;
             }
 
-            byte[] csvBytes;
             using (var memoryStream = new MemoryStream())
             {
                 using (var streamWriter = new StreamWriter(memoryStream))
@@ -91,10 +123,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                     csvWriter.WriteRecords(data);
                 }
 
-                csvBytes = memoryStream.ToArray();
+                return memoryStream;
             }
-
-            return csvBytes;
         }
     }
 }

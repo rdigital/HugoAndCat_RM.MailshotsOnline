@@ -15,7 +15,9 @@ using HC.RM.Common.Network;
 using HC.RM.Common.PCL.Persistence;
 using Microsoft.WindowsAzure.Storage.Queue;
 using HC.RM.Common.Azure.Helpers;
+using RM.MailshotsOnline.Data.Services;
 using RM.MailshotsOnline.Data.Services.Reporting;
+using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Models.Reporting;
 using RM.MailshotsOnline.PCL.Services;
 using RM.MailshotsOnline.PCL.Services.Reporting;
@@ -30,19 +32,14 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
         private static readonly object SyncLock = new object();
         private static bool _working;
         private static TimeSpan _queueInterval;
-        private static IBlobService _blobService;
-        private static IFtpService _ftpService;
-        private static ICryptographicService _cryptographicService;
+        private static IAuthTokenService _authTokenService;
 
-        public ReportGeneratorWorker(ILogger logger, IBlobService blobService, IFtpService ftpService,
-            ICryptographicService cryptographicService, string connectionString, string queueName,
+        public ReportGeneratorWorker(ILogger logger, IAuthTokenService authTokenService, string connectionString, string queueName,
             TimeSpan? queueInterval = null)
             : base(logger, connectionString, queueName)
         {
-            _blobService = blobService;
-            _ftpService = ftpService;
-            _cryptographicService = cryptographicService;
             _queueInterval = queueInterval ?? new TimeSpan(0, 15, 0);
+            _authTokenService = authTokenService;
         }
 
         public override void Run()
@@ -116,33 +113,32 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
                         case "membership":
                         case "transactions":
 
-                            var newToken = Guid.NewGuid().ToString();
-                            var url = $"{Constants.Apis.TokenAuthApi}/settoken/{newToken}";
 
-                            Logger.Info(GetType().Name, "Run", $"Message: {message}. Setting auth token to {newToken}");
-
-
-                            if (SendHttpPost(url, newToken) == HttpStatusCode.OK)
+                            IAuthToken token;
+                            try
                             {
-                                Logger.Info(GetType().Name, "Run", "Token set");
+                                token = _authTokenService.Create(GetType().Name);
+                            }
+                            catch
+                            {
+                                Logger.Info(GetType().Name, "Run", "Failed to set token before starting report generation.");
 
-                                if (SendHttpPost($"{Constants.Apis.ReportsApi}/reports?type={message}&token={newToken}") ==
-                                    HttpStatusCode.OK)
-                                {
-                                    Logger.Info(GetType().Name, "Run", "Reporting complete");
-                                }
-                                else
-                                {
-                                    Logger.Info(GetType().Name, "Run", "Reporting failed.");
-                                }
+                                return;
+                            }
+
+                            if (token != null)
+                            {
+                                var response =
+                                    SendHttpPost($"{Constants.Apis.ReportsApi}/generatereport?type={message}&token={token.AuthTokenId}&service={GetType().Name}");
+
+                                Logger.Info(GetType().Name, "Run", $"Reports API responded with status {response}");
                             }
                             else
                             {
-                                // log failure
+                                Logger.Info(GetType().Name, "Run", "The token received from the token auth API was null");
                             }
 
                             Logger.Info(GetType().Name, "Run", "Action complete");
-
 
                             break;
 

@@ -3068,7 +3068,6 @@
     <Compile Include="Controllers\Api\ModerationController.cs" />
     <Compile Include="Controllers\Api\PostageController.cs" />
     <Compile Include="Controllers\Api\ProofPdfController.cs" />
-    <Compile Include="Controllers\Api\TokenAuthController.cs" />
     <Compile Include="Controllers\BackOffice\MemberSearchTreeController.cs" />
     <Compile Include="Controllers\CampaignHubController.cs" />
     <Compile Include="Controllers\CaptureDetailsController.cs" />

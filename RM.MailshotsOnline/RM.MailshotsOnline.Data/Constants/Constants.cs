@@ -34,15 +34,17 @@ namespace RM.MailshotsOnline.Data.Constants
             public static readonly string EmailSaltPadding = Helpers.ConfigHelper.GetConfigValue("EmailSaltPadding");
         }
 
-        public static class Reports
+        public static class Reporting
         {
-            public static readonly string Key = Helpers.ConfigHelper.GetConfigValue("ReportsKey");
+            public static readonly string SftpUsername = Helpers.ConfigHelper.GetConfigValue("ReportingSftpUsername");
+            public static readonly string SftpHostname = Helpers.ConfigHelper.GetConfigValue("ReportingSftpHostname");
+            public static readonly string SftpDirectory = Helpers.ConfigHelper.GetConfigValue("ReportingSftpDirectory");
+            public static readonly string PrivateKey = Helpers.ConfigHelper.GetConfigValue("ReportingSftpPrivateKeyLocation");
         }
 
         public static class Apis
         {
             public static readonly string ReportsApi = Helpers.ConfigHelper.GetConfigValue("ReportsApiUrl");
-            public static readonly string TokenAuthApi = Helpers.ConfigHelper.GetConfigValue("TokenAuthUrl");
         }
     }
 }

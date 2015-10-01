@@ -70,6 +70,8 @@
     <Compile Include="Models\Reporting\IMembershipReportEntity.cs" />
     <Compile Include="Models\Reporting\ITransactionsReport.cs" />
     <Compile Include="Models\Reporting\ITransactionsReportEntity.cs" />
+    <Compile Include="Services\IAuthTokenService.cs" />
+    <Compile Include="Services\Reporting\IReportingFtpService.cs" />
     <Compile Include="Services\Reporting\IReportingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ICampaignService.cs" />

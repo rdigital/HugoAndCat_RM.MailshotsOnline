@@ -25,22 +25,13 @@ namespace RM.MailshotsOnline.WorkerRole
     {
         private static readonly string ReportQueueName = CloudConfigurationManager.GetSetting("ReportsServiceQueueName");
         private static readonly string ServiceBusConnectionString = CloudConfigurationManager.GetSetting("ReportsServiceBusConnectionString");
-        private static readonly string StorageConnectionString = CloudConfigurationManager.GetSetting("StorageConnectionString");
+        private static IAuthTokenService _authTokenService;
+
         private const string WorkerRoleName = "MailshotsOnline.WorkerRole";
 
-        private static IBlobService _reportStorageService;
-        private static IFtpService _ftpService;
-        private static ICryptographicService _cryptographicService;
-
-        public WorkerRole()
+        public WorkerRole(IAuthTokenService authTokenService)
         {
-            var assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty;
-
-            _reportStorageService = new BlobService(new BlobStorage(StorageConnectionString), CloudConfigurationManager.GetSetting("ReportStorageContainer"));
-            _ftpService = new FtpService(Path.Combine(assemblyPath, CloudConfigurationManager.GetSetting("ReportSFTPPrivateKeyLocation")),
-                    CloudConfigurationManager.GetSetting("ReportSFTPUsername"),
-                    CloudConfigurationManager.GetSetting("ReportSFTPHost"), Logger);
-            _cryptographicService = new CryptographicService();
+            _authTokenService = authTokenService;
         }
 
         public override void Run()
@@ -49,7 +40,7 @@ namespace RM.MailshotsOnline.WorkerRole
 
             var workers = new List<WorkerEntryPoint>
             {
-                new ReportGeneratorWorker(Logger, _reportStorageService, _ftpService, _cryptographicService, ServiceBusConnectionString, ReportQueueName)
+                new ReportGeneratorWorker(Logger, _authTokenService, ServiceBusConnectionString, ReportQueueName)
             };
 
             try
@@ -73,18 +64,9 @@ namespace RM.MailshotsOnline.WorkerRole
 
             Logger.Info(GetType().Name, "OnStart", $"{WorkerRoleName} is starting");
 
-            var blobStorage = new BlobStorage(ServiceBusConnectionString);
-            _reportStorageService = new BlobService(blobStorage, CloudConfigurationManager.GetSetting("ReportStorageContainer"));
-
-            var assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty;
-
-            _ftpService = new FtpService(Path.Combine(assemblyPath, CloudConfigurationManager.GetSetting("ReportSFTPPrivateKeyLocation")),
-                    CloudConfigurationManager.GetSetting("ReportSFTPUsername"),
-                    CloudConfigurationManager.GetSetting("ReportSFTPHost"), Logger);
-
             // For information on handling configuration changes
             // see the MSDN topic at http://go.microsoft.com/fwlink/?LinkId=166357.
-            bool result = base.OnStart();
+            var result = base.OnStart();
 
             Logger.Info(GetType().Name, "OnStart", $"{WorkerRoleName} has been started");
 
