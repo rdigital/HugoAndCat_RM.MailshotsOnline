@@ -26,14 +26,18 @@
 		padding: 4px 20px;
 		min-height: 45px;
 		.tools-left {
-			width: 55px;
 			height: 35px;
 			float: left;
+			&.tools-left_fixed {
+				width: 55px;
+			}
 		}
 		.tools-right {
-			width: 160px;
 			height: 35px;
 			float: right;
+			&.tools-right_fixed {
+				width: 160px;
+			}
 		}
 		label {
 			font-size: 14px;
@@ -263,5 +267,7 @@
     	background: #fff;
     	height: 7px;
     	width: 7px;
+    	transform: translate(2px, 2px);
+    	-ms-transform: translate(2px, 2px);
     }
 }

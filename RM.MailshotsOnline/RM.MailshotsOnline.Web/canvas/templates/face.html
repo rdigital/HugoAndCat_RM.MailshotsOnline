@@ -11,6 +11,9 @@
         <!-- ko if: type == 'roundel' -->
         <input-component params="{data: $data, override_theme: $parent.override_theme, override_template: $parent.override_template, preview: $parent.preview}" data-bind="style: $parent.getElementLayout($data), css: {'component_selected': $parent.childSelected(name)}" class="component"></input-component>
         <!-- /ko -->
+        <!-- ko if: type == 'box' -->
+        <input-component params="{colorOnly: true, data: $data, override_theme: $parent.override_theme, override_template: $parent.override_template, preview: $parent.preview}" data-bind="style: $parent.getElementLayout($data), css: {'component_selected': $parent.childSelected(name)}" class="component box-component"></input-component>
+        <!-- /ko -->
         <!-- ko if: type == 'image' -->
         <image-component params="{data: $data, override_theme: $parent.override_theme, override_template: $parent.override_template, preview: $parent.preview}" data-bind="style: $parent.getElementLayout($data), css: {'component_selected': $parent.childSelected(name)}" class="component image-component"></image-component>
         <!-- /ko -->

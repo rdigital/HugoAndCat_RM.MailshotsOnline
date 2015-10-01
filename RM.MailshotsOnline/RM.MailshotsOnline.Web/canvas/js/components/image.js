@@ -11,6 +11,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             this.canvas = ko.observable();
             this.imageObj = this.getImageObj();
             this.subscriptions = [];
+            this.fallbackBackground = ko.observable(null);
 
             // if theme override passed in, process it
             this.override_theme = params.override_theme;
@@ -101,7 +102,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
         /**
          * select the image element
          */
-        imageViewModel.prototype.select = function select() {
+        imageViewModel.prototype.select = function select(e) {
             this.isSelected(true);
         };
 
