@@ -217,8 +217,8 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
          * select the background of this face
          */
         faceViewModel.prototype.selectBackground = function selectBackground(data, e) {
-            this.backgroundToolsLeft(e.screenX);
-            this.backgroundToolsTop(Math.max(e.screenY, 250));
+            this.backgroundToolsLeft(e.clientX);
+            this.backgroundToolsTop(Math.max(e.clientY, 190));
             this.backgroundSelected(this);
         };
 
