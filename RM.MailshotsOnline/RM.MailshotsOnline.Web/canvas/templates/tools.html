@@ -24,7 +24,7 @@
                 <label>Text:</label>
             </div>
             <div class="tools-right">
-                <colourpicker-component params="{options: colours, selected: colour, focusCallback: focusInput, anchorClass: 'tools-dropdown'}"></colourpicker-component>
+                <colourpicker-component params="{options: colours, selected: colour, focusCallback: focusInput, closeCallback: addAllRecentColours, recentColours: recentColours, anchorClass: 'tools-dropdown'}"></colourpicker-component>
             </div>
         </div>
         <div class="tools-row">
@@ -32,7 +32,7 @@
                 <label>Background:</label>
             </div>
             <div class="tools-right">
-                <colourpicker-component params="{options: colours, selected: backgroundColour, focusCallback: focusInput, anchorClass: 'tools-dropdown'}"></colourpicker-component>
+                <colourpicker-component params="{options: colours, selected: backgroundColour, focusCallback: focusInput, closeCallback: addAllRecentColours, recentColours: recentColours, anchorClass: 'tools-dropdown'}"></colourpicker-component>
             </div>
         </div>
 
@@ -73,7 +73,7 @@
 
         <div class="tools-row">
             <span class="tools-group">
-                <colourpicker-component params="{options: colours, selected: colour, focusCallback: focusInput, anchorClass: 'tools-dropdown'}"></colourpicker-component>
+                <colourpicker-component params="{options: colours, selected: colour, focusCallback: focusInput, closeCallback: addAllRecentColours, recentColours: recentColours, anchorClass: 'tools-dropdown'}"></colourpicker-component>
             </span>
             <span class="tools-group tools-group_right">
                 <div class="tools-button" data-bind="click: togglePersonalization" style="font-size: 13px; width: 140px;">

@@ -9,6 +9,8 @@ define(['knockout', 'view_models/auth'],
             this.selectedElement = ko.observable();
             this.scaleElement = ko.observable();
             this.backgroundSelected = ko.observable();
+            this.backgroundToolsTop = ko.observable(0);
+            this.backgroundToolsLeft = ko.observable(0);
             this.historyRerender = ko.observable(true);
             this.imageTab = ko.observable();
             this.showAuth = ko.observable(false);

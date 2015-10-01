@@ -10,6 +10,14 @@
 			<div data-bind="style: {backgroundColor: $data}, click: $parent.selected" class="dropdown-options-colour"></div>
 			<!-- /ko -->
 		</div>
+		<!-- ko if: recentColours && recentColours().length -->
+		<div class="dropdown-options-label">Recent Colours</div>
+		<div class="dropdown-options-content">
+			<!-- ko foreach: recentColours -->
+			<div data-bind="style: {backgroundColor: $data}, click: $parent.selected" class="dropdown-options-colour"></div>
+			<!-- /ko -->
+		</div>
+		<!-- /ko -->
 		<div class="dropdown-options-label">More Colours</div>
 		<div class="dropdown-options-content">
 			<div>
