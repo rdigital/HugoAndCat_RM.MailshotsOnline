@@ -15,6 +15,27 @@
 	h1 {
 		@include font-size(28);
 		text-align: center;
+
+		.edit {
+			margin-left: 10px;
+			position: relative;
+			top: 2px;
+		}
+	}
+
+	.edit-controls {
+		position: relative;
+		top: -5px;
+
+		input {
+			height: 50px;
+			width: 400px;
+		}
+
+		.btn {
+			height: 50px;
+			margin-left: 10px;
+		}
 	}
 
 	.back {
