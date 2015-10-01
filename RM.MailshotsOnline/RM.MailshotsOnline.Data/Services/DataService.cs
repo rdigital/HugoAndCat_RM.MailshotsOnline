@@ -14,7 +14,6 @@ namespace RM.MailshotsOnline.Data.Services
 {
     public class DataService : IDataService
     {
-
         private readonly BlobStorageHelper _blobStorage =
             new BlobStorageHelper(ConfigHelper.PrivateStorageConnectionString,
                                   ConfigHelper.PrivateDistributionListBlobStorageContainer);
@@ -39,6 +38,11 @@ namespace RM.MailshotsOnline.Data.Services
         public IEnumerable<IDistributionList> GetDistributionListsForUser(int userId)
         {
             return GetDistributionLists(d => d.UserId == userId).OrderBy(d=> d.Name);
+        }
+
+        public bool ListNameIsAlreadyInUse(int userId, string listName)
+        {
+            return GetDistributionListsForUser(userId).Any(d => string.Equals(d.Name, listName, StringComparison.CurrentCultureIgnoreCase));
         }
 
         public IEnumerable<IDistributionList> GetDistributionLists(Func<IDistributionList, bool> filter)

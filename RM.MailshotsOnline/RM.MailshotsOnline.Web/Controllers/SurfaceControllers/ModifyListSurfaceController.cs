@@ -18,7 +18,6 @@ using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.PCL;
 using RM.MailshotsOnline.PCL.Services;
 using RM.MailshotsOnline.Web.Models;
-using Umbraco.Web;
 using Umbraco.Web.Mvc;
 
 namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
@@ -265,16 +264,12 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             // If this is a new list, check that the name is unique
             if (model.DistributionListId == Guid.Empty)
             {
-                bool nameIsNotUnique =
-                    _dataService.GetDistributionListsForUser(loggedInMember.Id)
-                                .Any(
-                                     d =>
-                                         string.Equals(d.Name, model.ListName, StringComparison.CurrentCultureIgnoreCase));
+                bool nameIsNotUnique = _dataService.ListNameIsAlreadyInUse(loggedInMember.Id, model.ListName);
 
                 if (nameIsNotUnique)
                 {
                     _logger.Info("ModifyListSurfaceController", "UploadFileToList",
-                                 "User specified a duplicate name: {0}:{1}", loggedInMember, model.ListName);
+                                 "User specified a duplicate name: {0}:{1}", loggedInMember.Id, model.ListName);
 
                     // TODO: Error from Umbraco.
                     ModelState.AddModelError("ListName", "Your list name is not unique - please supply a unique name.");

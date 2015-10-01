@@ -17,6 +17,8 @@ namespace RM.MailshotsOnline.Entities.ViewModels
         [Required]
         public HttpPostedFileBase UploadCsv { get; set; }
 
-        public byte[] CsvData { get; set; } 
+        public byte[] CsvData { get; set; }
+
+        public string CsvString { get; set; }
     }
 }
