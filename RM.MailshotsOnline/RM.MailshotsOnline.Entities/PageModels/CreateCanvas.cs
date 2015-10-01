@@ -10,5 +10,8 @@ namespace RM.MailshotsOnline.Entities.PageModels
     [UmbracoType(AutoMap = true)]
     public class CreateCanvas : BasePage
     {
+        public BasePage MyCampaignsPage { get; set; }
+
+        public BasePage LoginPage { get; set; }
     }
 }

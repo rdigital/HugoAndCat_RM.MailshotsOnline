@@ -30,6 +30,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
             // scroll visible computed
             this.isScrollVisible = this.getScrollVisibleComputed();
             this.message = this.getMessageComputed();
+            this.title = this.getTitleComputed();
 
             // bound functions
             this.dispose = this.dispose.bind(this);
@@ -281,24 +282,6 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
             var text = e.originalEvent.clipboardData.getData("text/plain");
             document.execCommand("insertHTML", false, text);
             this.handleKeyup();
-        };
-
-        inputViewModel.prototype.getMessageComputed = function getMessageComputed() {
-            return ko.pureComputed(function() {
-                if (this.isScrollVisible()) {
-                    return {
-                        type: 'error',
-                        message: "You've run out of room in this text field. Try reducing the amount of text, or use a smaller font size if available."
-                    };
-                }
-                if (this.data.message) {
-                    return {
-                        type: 'message',
-                        message: this.data.message
-                    };
-                }
-                return null;
-            }, this);
         };
 
         //return

@@ -115,7 +115,7 @@ namespace RM.MailshotsOnline.Web.Extensions
             switch (campaign.Status)
             {
                 case PCL.Enums.CampaignStatus.Cancelled:
-                    result = string.Format(myOrdersPage.CancelledStatusDescription, campaign.CancelledDate.HasValue ? campaign.CancelledDate.Value.Date : campaign.UpdatedDate.Date);
+                    result = string.Format(myOrdersPage.CancelledStatusDescription, campaign.CancelledDate.HasValue ? campaign.CancelledDate.Value.Date.ToString("dd/MM/yy") : campaign.UpdatedDate.Date.ToString("dd/MM/yy"));
                     break;
                 //case PCL.Enums.CampaignStatus.Exception:
                 //    result = string.Format(myOrdersPage.PaymentFailedStatusDescription);

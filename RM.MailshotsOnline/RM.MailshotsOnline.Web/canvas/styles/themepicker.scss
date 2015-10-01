@@ -1,51 +1,53 @@
 @import 'mixins';
 @import 'variables';
 
+.picker-background {
+	z-index: 501;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
 .theme-picker {
 	position: fixed;
     top: 50px;
     left: 0;
     right: 0;
-    height: 230px;
-    background: $lightest-grey;
-    z-index: 102;
-    padding: 20px;
+    height: 261px;
+    background: #fff;
+    z-index: 502;
     padding-right: 0;
     box-shadow: rgba(0, 0, 0, 0.18) 3px 3px 3px;
-    border: 1px solid #666;
+    border-bottom: 1px solid $grey;
     border-top: none;
     animation: slidein .5s;
+    overflow-x: auto;
+    overflow-y: hidden;
+    .theme-inner {
+    	height: 260px;
+    	width: auto;
+    	overflow: hidden;
+    }
 	.theme-container {
+		@include transition(background);
 		position: relative;
-		width: 200px;
-		height: 200px;
-		margin-right: 20px;
-		margin-bottom: 20px;
+		width: 280px;
+    	height: 260px;
+		padding: 20px 30px 40px 30px;
 		float: left;
 		cursor: pointer;
+		border-right: 1px solid $grey;
 		.side {
-			-ms-transform: scale(0.33, 0.33);
-			transform: scale3d(0.33, 0.33, 1);
-			left: 0;
-		    top: 0;
+			left: 30px;
+		    top: 20px;
 		    transform-origin: 0 0;
 		    -ms-transform-origin: 0 0;
 		    margin-bottom: 0;
 		    .side-inner {
 		    	position: relative;
-		    	&:before {
-		    		@include transition(opacity);
-			    	content: '';
-			    	display: block;
-			    	position: absolute;
-			    	top: 0;
-			    	left: 0;
-			    	right: 0;
-			    	bottom: 0;
-			    	opacity: 0;
-			    	background: #000;
-			    	z-index: 100;
-			    }
 			}
 		    .face {
 		    	pointer-events: none;
@@ -54,14 +56,17 @@
 		    	}
 		    }
 		}
-		&:hover .side-inner:before {
-    		opacity: 0.2;
-    	}
+		&:hover {
+			background-color: $light-grey;
+		}
     	.theme-name {
     		position: absolute;
-    		bottom: 10px;
+    		padding-top: 10px;
     		text-align: center;
-    		width: 100%;
+    		left: 30px;
+    		right: 30px;
+    		font-family: 'Chevin Light', Arial;
+    		color: $dark-grey;
     	}
 	}
 }

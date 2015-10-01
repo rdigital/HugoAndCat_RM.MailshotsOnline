@@ -39,17 +39,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums.cs" />
+    <Compile Include="Models\IAddress.cs" />
     <Compile Include="Models\ICampaign.cs" />
     <Compile Include="Models\ICampaignDistributionList.cs" />
     <Compile Include="Models\ICampaignPriceBreakdown.cs" />
     <Compile Include="Models\ICmsImage.cs" />
     <Compile Include="Models\IContact.cs" />
     <Compile Include="Models\IDataSearch.cs" />
+    <Compile Include="Models\IDistributionContact.cs" />
     <Compile Include="Models\IDistributionList.cs" />
     <Compile Include="Models\IInvoice.cs" />
     <Compile Include="Models\IInvoiceLineItem.cs" />
     <Compile Include="Models\IMailshotImageUse.cs" />
     <Compile Include="Models\IMedia.cs" />
+    <Compile Include="Models\IProduct.cs" />
     <Compile Include="Models\Reporting\IMembershipReport.cs" />
     <Compile Include="Models\Reporting\IReport.cs" />
     <Compile Include="Models\ISettingsFromCms.cs" />
@@ -60,7 +63,6 @@
     <Compile Include="Models\IMailshotContent.cs" />
     <Compile Include="Models\IMember.cs" />
     <Compile Include="Models\IContactOptions.cs" />
-    <Compile Include="Models\IOrder.cs" />
     <Compile Include="Models\IPostalOption.cs" />
     <Compile Include="Models\MailshotSettings\IMailshotDefaultContent.cs" />
     <Compile Include="Models\MailshotSettings\IMailshotSetting.cs" />

@@ -18,10 +18,13 @@ namespace RM.MailshotsOnline.Entities.DataModels
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid DataSearchId { get; set; }
 
+        [MaxLength(256)]
         public string Name { get; set; }
 
+        [MaxLength(2048)]
         public string SearchCriteria { get; set; }
 
+        [MaxLength(256)]
         public string ThirdPartyIdentifier { get; set; }
 
         public Enums.DataSearchStatus Status { get; set; }

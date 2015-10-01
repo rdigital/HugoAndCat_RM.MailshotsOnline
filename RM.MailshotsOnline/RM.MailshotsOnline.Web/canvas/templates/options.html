@@ -1,6 +1,6 @@
 <div class="options-toolbar" data-bind="click: unfocus, css: {'options-toolbar_hidden': hidden, 'disabled': showTemplatePicker() || showThemePicker() || showPreview()}">
 	<!-- <dropdown-component params="{options: formats, selected: formatID, anchorClass: 'toolbar-button'}"></dropdown-component> -->
-	<a class="toolbar-button toolbar-button_largest">Campaign Design 1</a>
+	<a class="toolbar-button toolbar-button_largest" data-bind="text: (format.selected()) ? format.selected().name : ''"></a>
 	<span class="toolbar-buttons">
 		<a data-bind="click: toggleTemplatePicker, css: {'toolbar-button-container_active': showTemplatePicker}, clickBubble: false" class="toolbar-button-container">
 			<span class="toolbar-button toolbar-button_small toolbar-button_padright">Layout<i class="fa fa-chevron-down"></i></span>
@@ -27,7 +27,7 @@
         </a>
         <!-- /ko -->
 	</span>
-	<span class="toolbar-button toolbar-button_large toolbar-button_right" data-bind="click: output">Done  <span class="icon-tick" style="position: absolute;
+	<span class="toolbar-button toolbar-button_large toolbar-button_right" data-bind="click: toggleAuth">Done  <span class="icon-tick" style="position: absolute;
     right: 25px;
     font-size: 29px;
     top: 10px;"></span></span>

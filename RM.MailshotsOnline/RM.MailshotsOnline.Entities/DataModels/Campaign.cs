@@ -80,17 +80,20 @@ namespace RM.MailshotsOnline.Entities.DataModels
         /// The name of the campaign
         /// </summary>
         [Required]
+        [MaxLength(512)]
         public string Name { get; set; }
 
         /// <summary>
         /// User notes for the campaign
         /// </summary>
+        [MaxLength(1024)]
         public string Notes { get; set; }
 
         /// <summary>
         /// System notes for the campaign
         /// </summary>
         [JsonIgnore]
+        [MaxLength(2048)]
         public string SystemNotes { get; set; }
 
         /// <summary>
@@ -109,6 +112,10 @@ namespace RM.MailshotsOnline.Entities.DataModels
             set { _mailshot = value; }
         }
 
+        /// <summary>
+        /// Gets the title of the Mailshot (if attached)
+        /// </summary>
+        [NotMapped]
         public string MailshotTitle
         {
             get

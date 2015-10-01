@@ -26,5 +26,7 @@ namespace RM.MailshotsOnline.PCL.Models
         string BlobErrors { get; set; }
 
         byte[] DataSalt { get; }
+
+        Enums.DistributionListState ListState { get; set; }
     }
 }

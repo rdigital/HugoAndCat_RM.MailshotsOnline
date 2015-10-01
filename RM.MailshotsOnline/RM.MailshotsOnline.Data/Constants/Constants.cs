@@ -33,5 +33,15 @@ namespace RM.MailshotsOnline.Data.Constants
             public static readonly string EncryptionKey = Helpers.ConfigHelper.GetConfigValue("EncryptionKey");
             public static readonly string EmailSaltPadding = Helpers.ConfigHelper.GetConfigValue("EmailSaltPadding");
         }
+
+        public static class Products
+        {
+            public static readonly string PrintSku = Helpers.ConfigHelper.GetConfigValue("PrintSku", "RMMSOL-PRINT");
+            public static readonly string PostSku = Helpers.ConfigHelper.GetConfigValue("PostSku", "RMMSOL-POST");
+            public static readonly string YourDataSku = Helpers.ConfigHelper.GetConfigValue("YourDataSku", "RMMSOL-YOUR-DATA");
+            public static readonly string OurDataSku = Helpers.ConfigHelper.GetConfigValue("OurDataSku", "RMMSOL-DATA-RENTAL");
+            public static readonly string MsolServiceFeeSku = Helpers.ConfigHelper.GetConfigValue("MsolServiceFeeSku", "RMMSOL-SERVICE-FEE");
+            public static readonly string DataSearchFeeSku = Helpers.ConfigHelper.GetConfigValue("DataSearchFeeSku", "RMMSOL-DATA-SEARCH-FEE");
+        }
     }
 }

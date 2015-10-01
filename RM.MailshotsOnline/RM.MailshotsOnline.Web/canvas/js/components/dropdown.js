@@ -15,6 +15,7 @@ define(['knockout', 'jquery'],
             this.anchorClass = params.anchorClass;
             this.open = ko.observable(false);
             this.element = ko.observable();
+            this.template = params.template || 'dropdown'
 
             this.hideOnDocClick = this.hideOnDocClick.bind(this);
 

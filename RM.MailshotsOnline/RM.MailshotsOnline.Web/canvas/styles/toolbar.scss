@@ -9,7 +9,7 @@
 	left: 0;
 	right: 0;
 	height: 50px;
-	z-index: 111;
+	z-index: 503;
 	background: $darkest-grey;
 	color: $light-grey;
 	transform: translate(0, 0);
@@ -125,7 +125,8 @@
 			}
 		}
 	    &.toolbar-button_largest {
-	    	min-width: 220px;
+	    	padding: 0 12px;
+	    	min-width: 170px;
 	    }
 	    &.toolbar-button_right {
 	    	float: right;

@@ -4,6 +4,7 @@ using Glass.Mapper.Umb;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Entities.DataModels;
 using RM.MailshotsOnline.Entities.PageModels;
+using RM.MailshotsOnline.PCL;
 using RM.MailshotsOnline.PCL.Services;
 using Umbraco.Web.Models;
 
@@ -57,17 +58,14 @@ namespace RM.MailshotsOnline.Web.Controllers
                     return HttpNotFound("No distribution list found for that user.");
                 }
 
-                pageModel.CurrentStep = !string.IsNullOrEmpty(pageModel.DistributionList.BlobErrors)
-                    ? CreateListStep.FixIssues
-                    : CreateListStep.ConfirmFields;
+                pageModel.CurrentStep = pageModel.DistributionList.ListState;
             }
             else
             {
-                pageModel.CurrentStep = CreateListStep.AddNewContacts;
+                pageModel.CurrentStep = Enums.DistributionListState.AddNewContacts;
 
                 pageModel.DistributionList = new DistributionList();
             }
-
 
             return View("~/Views/Lists/Create.cshtml", pageModel);
         }

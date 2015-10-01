@@ -12,9 +12,10 @@ require([
 		'view_models/template',
 		'view_models/theme',
 		'view_models/user',
+		'view_models/auth',
 		'domReady!'
 	],
-	function($, ko, mapping, pointerevents, editorComponent, themeComponent, templateComponent, stateViewModel, historyViewModel) {
+	function($, ko, mapping, pointerevents, editorComponent, themeComponent, templateComponent, stateViewModel, historyViewModel, authViewModel) {
 		// register components
 		ko.components.register('editor-component', editorComponent);
 		ko.components.register('theme-component', themeComponent);
@@ -37,7 +38,6 @@ require([
 	        pointerevents.initialize({});
 	        // ie10 hack
 	        if (Function('/*@cc_on return document.documentMode===10@*/')()){
-	        	alert();
 		        document.documentElement.className+=' ieOld';
 		    }
 		    document.body.addEventListener('mscontrolselect', function (evt) {

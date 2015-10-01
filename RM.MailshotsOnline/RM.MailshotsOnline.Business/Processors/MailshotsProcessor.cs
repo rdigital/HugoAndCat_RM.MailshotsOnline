@@ -29,9 +29,9 @@ namespace RM.MailshotsOnline.Business.Processors
         /// <param name="mailshot">Mailshot to be generated</param>
         /// <param name="xslOverride">Specify the XSL to use as an override, rather than generating XSL from the Mailshot format / template / theme</param>
         /// <returns>Item 1: XML content; Item 2: XSLT transform file</returns>
-        public ProcessedMailshotData GetXmlAndXslForMailshot(IMailshot mailshot, string xslOverride = null)
+        public XmlAndXslData GetXmlAndXslForMailshot(IMailshot mailshot, string xslOverride = null)
         {
-            ProcessedMailshotData result = new ProcessedMailshotData();
+            XmlAndXslData result = new XmlAndXslData();
 
             if (mailshot == null)
             {

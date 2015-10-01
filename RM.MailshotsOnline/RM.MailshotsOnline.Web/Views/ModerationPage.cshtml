@@ -31,4 +31,10 @@
             @Html.Action("ShowPrintConfirmationButton", "ModerationSurface", new { model = Model })
         </div>
     }
+    else if (Model.DisplayCancelledMessage)
+    {
+        <div class="rich-text">
+            @Umbraco.Field("CancelledMessage")
+        </div>
+    }
 </div>

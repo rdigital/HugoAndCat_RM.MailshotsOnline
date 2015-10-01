@@ -1,10 +1,10 @@
 ﻿using Glass.Mapper.Umb.Configuration.Attributes;
+using RM.MailshotsOnline.PCL;
 using RM.MailshotsOnline.PCL.Models;
 
 namespace RM.MailshotsOnline.Entities.PageModels
 {
     [UmbracoType]
-
     public class ListCreate : BasePage
     {
         // Upload File
@@ -81,15 +81,62 @@ namespace RM.MailshotsOnline.Entities.PageModels
         [UmbracoProperty]
         public string FileUploadedSuccessfullyText { get; set; }
 
+        [UmbracoProperty]
+        public string SummaryTitle { get; set; }
+
+        [UmbracoProperty]
+        public string SummaryIntroText { get; set; }
+
+        [UmbracoProperty]
+        public string SummaryContactsAddedText { get; set; }
+
+        [UmbracoProperty]
+        public string SummaryContactsAddedReportText { get; set; }
+
+        [UmbracoProperty]
+        public string SummaryContactsErrorText { get; set; }
+
+        [UmbracoProperty]
+        public string SummaryContactsErrorReportText { get; set; }
+
+        [UmbracoProperty]
+        public string SummaryContactsDuplicatedText { get; set; }
+
+        [UmbracoProperty]
+        public string SummaryContactsDuplicatedReportSummary { get; set; }
+
+        [UmbracoProperty]
+        public string SummaryCancelButtonText { get; set; }
+
+        [UmbracoProperty]
+        public string SummaryFinishButtonText { get; set; }
+
+        [UmbracoProperty]
+        public string SummaryContactsErrorTitle { get; set; }
+
+        [UmbracoProperty]
+        public string SummaryContactsErrorIntroText { get; set; }
+
+        [UmbracoProperty]
+        public string SummaryContactsDownloadErrorText { get; set; }
+
+        [UmbracoProperty]
+        public string SummaryContactAddedToList { get; set; }
+
+        [UmbracoProperty]
+        public string SummaryContactsDuplicateTitle { get; set; }
+
+        [UmbracoProperty]
+        public string SummaryContactsDuplicateIntroText { get; set; }
+
+        [UmbracoProperty]
+        public string SummaryNameHeaderText { get; set; }
+
+        [UmbracoProperty]
+        public string SummaryAddressHeaderText { get; set; }
+
         public IDistributionList DistributionList { get; set; }
 
-        public CreateListStep CurrentStep { get; set; }
-    }
-
-    public enum CreateListStep
-    {
-        AddNewContacts = 0,
-        ConfirmFields,
-        FixIssues,
+        public Enums.DistributionListState CurrentStep { get; set; }
     }
 }

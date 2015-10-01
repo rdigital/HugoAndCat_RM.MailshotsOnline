@@ -349,7 +349,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             IInvoice invoice = null;
             try
             {
-                invoice = _invoiceService.CreateInvoiceForCampaign(campaign);
+                invoice = _invoiceService.CreateInvoiceForCampaign(campaign, LoggedInMember);
             }
             catch (Exception ex)
             {

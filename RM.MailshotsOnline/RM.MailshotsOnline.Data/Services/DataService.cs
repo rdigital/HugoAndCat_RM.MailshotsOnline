@@ -59,7 +59,14 @@ namespace RM.MailshotsOnline.Data.Services
             return distributionList;
         }
 
-        public IDistributionList CreateDistributionList(IMember member, string listName, byte[] bytes, string contentType, Enums.DistributionListFileType fileType)
+        public void DeleteDistributionList(IDistributionList distributionList)
+        {
+            _context.DistributionLists.Remove((DistributionList)distributionList);
+
+            _context.SaveChanges();
+        }
+
+        public IDistributionList CreateDistributionList(IMember member, string listName, Enums.DistributionListState listState, byte[] bytes, string contentType, Enums.DistributionListFileType fileType)
         {
             string listNameAsFileName = convertToFileName(listName, contentType, fileType);
             var uploadedListName = $"{member.Id}/{listNameAsFileName}";
@@ -78,6 +85,7 @@ namespace RM.MailshotsOnline.Data.Services
             var newList = new DistributionList
             {
                 UserId = member.Id,
+                ListState = listState,
                 BlobFinal = fileType == Enums.DistributionListFileType.Final ? listNameAsFileName : null,
                 BlobWorking = fileType == Enums.DistributionListFileType.Working ? listNameAsFileName : null,
                 BlobErrors = fileType == Enums.DistributionListFileType.Errors ? listNameAsFileName : null,
@@ -107,19 +115,50 @@ namespace RM.MailshotsOnline.Data.Services
 
             try
             {
+
                 _blobStorage.StoreBytes(bytes, uploadedListName, contentType);
+
+                string blobToClean = null;
 
                 switch (fileType)
                 {
                     case Enums.DistributionListFileType.Errors:
+                        if (distributionList.BlobErrors != null && !distributionList.BlobErrors.Equals(listNameAsFileName,
+                                                                StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            blobToClean = distributionList.BlobErrors;
+                        }
+
                         distributionList.BlobErrors = listNameAsFileName;
                         break;
                     case Enums.DistributionListFileType.Working:
+                        if (distributionList.BlobWorking != null && !distributionList.BlobWorking.Equals(listNameAsFileName,
+                                                                StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            blobToClean = distributionList.BlobWorking;
+                        }
+
                         distributionList.BlobWorking = listNameAsFileName;
                         break;
                     case Enums.DistributionListFileType.Final:
+                        if (distributionList.BlobFinal != null && !distributionList.BlobFinal.Equals(listNameAsFileName,
+                                                                StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            blobToClean = distributionList.BlobFinal;
+                        }
+
                         distributionList.BlobFinal = listNameAsFileName;
+                        distributionList.ListState = Enums.DistributionListState.Complete;
                         break;
+                }
+
+                if (!string.IsNullOrEmpty(blobToClean))
+                {
+                    _logger.Info("DataService", "UpdateDistributionList",
+                                 "Cleaning old version of file {0}:{1} for list {2}:{3}", fileType, blobToClean,
+                                 distributionList.UserId, distributionList.DistributionListId);
+
+                    _blobStorage.DeleteBlob($"{distributionList.UserId}/{blobToClean}");
                 }
 
                 if (fileType == Enums.DistributionListFileType.Final && (!string.IsNullOrEmpty(distributionList.BlobErrors) || !string.IsNullOrEmpty(distributionList.BlobWorking)))
@@ -131,7 +170,7 @@ namespace RM.MailshotsOnline.Data.Services
 
                     if (!string.IsNullOrEmpty(distributionList.BlobErrors))
                     {
-                        _blobStorage.DeleteBlob(distributionList.BlobErrors);
+                        _blobStorage.DeleteBlob($"{distributionList.UserId}/{distributionList.BlobErrors}");
 
                         _logger.Info("DataService", "UpdateDistributionList",
                                      "Successfully removed Errors file {0} for list: {1}:{2}",
@@ -143,7 +182,7 @@ namespace RM.MailshotsOnline.Data.Services
 
                     if (!string.IsNullOrEmpty(distributionList.BlobWorking))
                     {
-                        _blobStorage.DeleteBlob(distributionList.BlobWorking);
+                        _blobStorage.DeleteBlob($"{distributionList.UserId}/{distributionList.BlobWorking}");
                         _logger.Info("DataService", "UpdateDistributionList",
                                      "Successfully removed Working file {0} for list: {1}:{2}",
                                      distributionList.BlobWorking, distributionList.UserId,
@@ -183,10 +222,37 @@ namespace RM.MailshotsOnline.Data.Services
             return _blobStorage.FetchBytes(uploadedListName);
         }
 
+        public void AbondonContactEdits(IDistributionList distributionList)
+        {
+            if (!string.IsNullOrEmpty(distributionList.BlobWorking))
+            {
+                _blobStorage.DeleteBlob($"{distributionList.UserId}/{distributionList.BlobWorking}");
+                distributionList.BlobWorking = null;
+            }
+
+            if (!string.IsNullOrEmpty(distributionList.BlobErrors))
+            {
+                _blobStorage.DeleteBlob($"{distributionList.UserId}/{distributionList.BlobErrors}");
+                distributionList.BlobErrors = null;
+            }
+
+            if (!string.IsNullOrEmpty(distributionList.BlobFinal))
+            {
+                // Reset back to complete
+                distributionList.ListState = Enums.DistributionListState.Complete;
+                SaveDistributionList(distributionList);
+            }
+            else
+            {
+                // Throw it away
+                DeleteDistributionList(distributionList);
+            }
+        }
+
         private static string convertToFileName(string listName, string contentType, Enums.DistributionListFileType fileType)
         {
             string fileName = Path.GetInvalidFileNameChars().Aggregate(listName, (current, c) => current.Replace(c, '_')).Replace(" ", "_");
-            string extension = contentType.Equals("text/xml") ? ".xml" : ".csv";
+            string extension = contentType.Equals("text/xml") ? "xml" : "csv";
 
             return $"{fileName}-{fileType}.{extension}";
         }

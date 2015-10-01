@@ -24,6 +24,7 @@ namespace RM.MailshotsOnline.Entities.DataModels
         public DateTime CreatedUtc { get; private set; }
 
         [Required]
+        [MaxLength(2048)]
         public string Src { get; set; }
 
         [Required]
@@ -31,6 +32,7 @@ namespace RM.MailshotsOnline.Entities.DataModels
 
         public DateTime UpdatedDate { get; set; }
 
+        [MaxLength(256)]
         public string UserName { get; set; }
 
         [InverseProperty("CmsImage")]

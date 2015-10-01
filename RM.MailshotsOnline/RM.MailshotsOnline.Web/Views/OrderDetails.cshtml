@@ -21,7 +21,7 @@
             <div class="actions">
                 @if (Model.Campaign.Status == RM.MailshotsOnline.PCL.Enums.CampaignStatus.PendingModeration)
                 {
-                    <a href="#cancel">Cancel</a>
+                    @Html.Action("ShowCancelButton", "OrderDetailSurface", new { campaign = Model.Campaign })
                 }
                 @if (Model.Campaign.Status == RM.MailshotsOnline.PCL.Enums.CampaignStatus.Fulfilled)
                 {
@@ -30,13 +30,163 @@
             </div>
             <h2>@Model.Campaign.Name</h2>
             <div class="status @Model.Campaign.Status.ToString()">
-                <p>@Model.MyOrdersPage.GetStatusText(Model.Campaign)</p>
+                <h3>@Model.MyOrdersPage.GetStatusText(Model.Campaign)</h3>
+                <p>@Html.Raw(Model.MyOrdersPage.GetStatusDescription(Model.Campaign))</p>
             </div>
             <div class="info">
                 <span>@Model.MyOrdersPage.OrderPlacedLabel @Model.Campaign.LatestInvoice().CreatedDate.ToString("dd/MM/yy")</span>
-                <span>@Model.MyOrdersPage.OrderNumberLabel @Model.Campaign.LatestInvoice().PaypalOrderId <!-- TODO: Get the proper client-facing order number --></span>
+                <span>@Model.MyOrdersPage.OrderNumberLabel @Html.Raw(string.IsNullOrEmpty(Model.Campaign.LatestInvoice().OrderNumber) ? Model.Campaign.LatestInvoice().PaypalOrderId : Model.Campaign.LatestInvoice().OrderNumber)</span>
                 <span>@Model.MyOrdersPage.TotalLabel &pound;@Model.Campaign.LatestInvoice().Total.ToString("F2")</span>
             </div>
+            @if (Model.Campaign.LatestInvoice().BillingAddress != null)
+            {
+                <div class="address">
+                    <h2>@Model.BillingAddressLabel</h2>
+                    <p>
+                        @Model.Campaign.LatestInvoice().BillingAddress.FirstName @Model.Campaign.LatestInvoice().BillingAddress.FirstName<br />
+                        @Model.Campaign.LatestInvoice().BillingAddress.Address1<br />
+                        @if(!string.IsNullOrEmpty(Model.Campaign.LatestInvoice().BillingAddress.Address2))
+                        {
+                            <text>@Model.Campaign.LatestInvoice().BillingAddress.Address2</text>
+                        }
+                        @Model.Campaign.LatestInvoice().BillingAddress.City<br />
+                        @Model.Campaign.LatestInvoice().BillingAddress.Postcode<br />
+                        @Model.Campaign.LatestInvoice().BillingAddress.Country
+                    </p>
+                </div>
+            }
+            
+            @if(Model.CostBreakdown != null)
+            {
+                var invoice = Model.Campaign.LatestInvoice();
+                <div class="cost-breakdown">
+                    <h2>@Model.CostBreakdownLabel</h2>
+                    <table class="costSummary">
+                        @foreach (string key in Model.CostBreakdown.Keys)
+                        {
+                            <tr>
+                                <th colspan="2">@key</th>
+                            </tr>
+                            foreach (var lineItem in Model.CostBreakdown[key])
+                            {
+                                @Html.Partial("~/Views/Partials/LineItemCostBreakdown.cshtml", lineItem);
+                                @*<tr>
+                                    @if (lineItem.Quantity > 1)
+                                    {
+                                        if (lineItem.UnitCost > 0)
+                                        {
+                                            <td>@lineItem.Name (@lineItem.Quantity @@ &pound;@lineItem.UnitCost.ToString("F"))</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@lineItem.Name (@lineItem.Quantity)</td>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <td>@lineItem.Name</td>
+                                    }
+                                    <td class="money">&pound;@lineItem.SubTotal.ToString("F")</td>
+                                </tr>*@
+                            }
+                        }
+                        <tr>
+                            <th colspan="2">@Model.TaxHeading</th>
+                        </tr>
+                        <tr>
+                            <td>@Model.VatLabel</td>
+                            <td class="money">&pound;@invoice.TotalTax.ToString("F")</td>
+                        </tr>
+                        <tr>
+                            <td class="total">@Model.TotalCostLabel</td>
+                            <td class="total money">&pound;@invoice.Total.ToString("F")</td>
+                        </tr>
+                    </table>
+                </div>
+            }
+
+            @*@if (Model.Campaign.HasData())
+            {
+                var invoice = Model.Campaign.LatestInvoice();
+                <div class="cost-breakdown">
+                    <h2>@Model.CostBreakdownLabel</h2>
+                    <table class="costSummary">
+                        @if (Model.Campaign.HasData())
+                    {
+                            <tr>
+                                <th colspan="2">@Model.RecipientsHeading (@Model.Campaign.TotalRecipientCount)</th>
+                            </tr>
+                            if (Model.Campaign.HasDistributionLists)
+                            {
+                                <tr>
+                                    <td>@Model.YourDataHeading (@Model.Campaign.OwnDataRecipientCount)</td>
+                                    <td class="money">&pound;0.00</td>
+                                </tr>
+                            }
+                            if (Model.Campaign.HasDataSearches)
+                            {
+                                <tr>
+                                    <td>@Model.OurDataHeading (@invoice. Model..PriceBreakdown.DataRentalCount @@ &pound;@Model.PriceBreakdown.DataRentalRate.ToString("F"))</td>
+                                    <td class="money">&pound;@Model.PriceBreakdown.DataRentalCost.ToString("F")</td>
+                                </tr>
+                            }
+                        }
+                        @if (Model.PriceBreakdown.PrintingCost.HasValue)
+                    {
+                            <tr>
+                                <th colspan="2">@Model.PrintAndDeliveryHeading (@Model.PriceBreakdown.PrintCount)</th>
+                            </tr>
+                            <tr>
+                                <td>@Model.Campaign.Mailshot.Format.Name (@Model.PriceBreakdown.PrintCount @@ &pound;@Model.PriceBreakdown.PrintingRate.Value.ToString("F"))</td>
+                                <td class="money">&pound;@Model.PriceBreakdown.PrintingCost.Value.ToString("F")</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Model.PostageLabel <br />
+                                    <select id="postalOptions">
+                                        @foreach (var postalOption in Model.PostalOptions)
+                                        {
+                                            <option value="@postalOption.PostalOptionId" @if (postalOption.PostalOptionId == Model.Campaign.PostalOptionId) { <text> selected="selected" </text>   }>@postalOption.Name (&pound;@postalOption.PricePerUnit.ToString("F"))</option>
+                                        }
+                                    </select>
+                                </td>
+                                <td class="money">
+                                    @if (Model.PriceBreakdown.PostageCost.HasValue)
+                                    {
+                                        <text>&pound;@Model.PriceBreakdown.PostageCost.Value.ToString("F")</text>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <th colspan="2">@Model.ServiceFeesHeading</th>
+                        </tr>
+                        <tr>
+                            <td>@Model.MailshotsOnlineServiceFeeHeading</td>
+                            <td class="money">&pound;@Model.PriceBreakdown.ServiceFee.ToString("F")</td>
+                        </tr>
+                        @if (Model.Campaign.HasDataSearches)
+                    {
+                            <tr>
+                                <td>@Model.DataSearchFeeHeading</td>
+                                <td class="money">&pound;@Model.PriceBreakdown.DataRentalFlatFee.ToString("F")</td>
+                            </tr>
+                        }
+                        <tr>
+                            <th colspan="2">@Model.TaxHeading</th>
+                        </tr>
+                        <tr>
+                            <td>@Model.VatLabel</td>
+                            <td class="money">&pound;@Model.PriceBreakdown.TotalTax.ToString("F")</td>
+                        </tr>
+                        <tr>
+                            <td class="total">@Model.TotalCostLabel</td>
+                            <td class="total money">&pound;@Model.PriceBreakdown.Total.ToString("F")</td>
+                        </tr>
+                    </table>
+                </div>
+            }*@
         </div>
     }
 </div>
+

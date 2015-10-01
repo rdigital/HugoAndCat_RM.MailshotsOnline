@@ -65,6 +65,7 @@ namespace HC.RM.Common.PayPal.Models
         pending,
         completed,
         refunded,
-        partially_refunded
+        partially_refunded,
+        voided
     }
 }

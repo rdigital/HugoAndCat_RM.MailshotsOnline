@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
-using System.Web;
+using System.Runtime.Serialization;
 using System.Web.Mvc;
-using Castle.Windsor.Installer;
+using System.Xml.Linq;
 using CsvHelper;
 using CsvHelper.Configuration;
 using Glass.Mapper.Umb;
+using HC.RM.Common;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.Helpers;
 using RM.MailshotsOnline.Entities.PageModels;
@@ -15,6 +17,8 @@ using RM.MailshotsOnline.Entities.PageModels.Settings;
 using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.PCL;
 using RM.MailshotsOnline.PCL.Services;
+using RM.MailshotsOnline.Web.Models;
+using Umbraco.Web;
 using Umbraco.Web.Mvc;
 
 namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
@@ -25,6 +29,15 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         private readonly IDataService _dataService;
         private readonly IMembershipService _membershipService;
         private readonly IUmbracoService _umbracoService;
+
+        private readonly string _elementDistributionList = "distributionList";
+        private readonly string _elementErrors = "errors";
+        private readonly string _elementInvalid = "invalid";
+        private readonly string _elementDuplicates = "duplicates";
+        private readonly string _attributeListName = "listName";
+        private readonly string _attributeCount = "count";
+
+        private readonly DataContractSerializer _serialiser = new DataContractSerializer(typeof(DistributionContact));
 
         public ModifyListSurfaceController(ILogger logger, IDataService dataService, IMembershipService membershipService, IUmbracoService umbracoService)
         {
@@ -47,6 +60,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             var pageModel = new ModifyListConfirmFieldsModel
                             {
+                                DistributionListId = model.DistributionList.DistributionListId,
                                 PageModel = model,
                                 FirstRowIsHeader = null,
                             };
@@ -55,8 +69,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                                                                  _umbracoService.ContentService
                                                                                 .GetPublishedVersion(
                                                                                                      ConfigHelper
-                                                                                                         .DataMappingFolderId),
-                                                                 false, false);
+                                                                                                         .DataMappingFolderId));
 
             ViewBag.DataMappings = dataMappings.Mappings.Select(m => new SelectListItem { Value = m.FieldName, Text = m.Name });
 
@@ -85,6 +98,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                                 if (rows == 0)
                                 {
                                     columns = csv.CurrentRecord.Length;
+                                    pageModel.ColumnCount = columns;
                                     pageModel.FirstTwoRowsWithGuessedMappings = new List<Tuple<string, string, string>>(columns);
                                     items = new List<KeyValuePair<string, string>>(columns);
                                 }
@@ -109,12 +123,14 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                                             pageModel.FirstRowIsHeader = true;
                                         }
 
+                                        // ReSharper disable once PossibleNullReferenceException
                                         items.Add(new KeyValuePair<string, string>(possibleHeading, possibleMapping?.FieldName));
                                     }
                                     else
                                     {
                                         var value = csv.GetField(column);
 
+                                        // ReSharper disable once PossibleNullReferenceException
                                         pageModel.FirstTwoRowsWithGuessedMappings.Add(new Tuple<string, string, string>(items[column].Key, value, items[column].Value));
                                     }
                                 }
@@ -134,82 +150,402 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             return PartialView("~/Views/Lists/Partials/ShowConfirmFieldsForm.cshtml", pageModel);
         }
 
+        [ChildActionOnly]
+        public ActionResult ShowSummaryListForm(ListCreate model)
+        {
+            var pageModel = new ModifyListSummaryModel
+                            {
+                                DistributionListId = model.DistributionList.DistributionListId,
+                                PageModel = model,
+                            };
+
+            // Grab the files
+            if (!string.IsNullOrEmpty(model.DistributionList.BlobWorking))
+            {
+                byte[] validData = _dataService.GetDataFile(model.DistributionList,
+                                                            Enums.DistributionListFileType.Working);
+
+                using (var validStream = new MemoryStream(validData))
+                {
+                    using (var validReader = new StreamReader(validStream))
+                    {
+                        var validXml = XDocument.Load(validReader);
+
+                        var distributionListElement = validXml.Element(_elementDistributionList);
+
+                        if (distributionListElement == null)
+                        {
+                            _logger.Critical(GetType().Name, "ShowSummaryListForm",
+                                             "Unable to load working XML document for user list: {0}:{1} - {2} ",
+                                             model.DistributionList.UserId, model.DistributionList.DistributionListId,
+                                             model.DistributionList.BlobWorking);
+                            throw new ArgumentException();
+                        }
+
+                        pageModel.ValidContactCount = (int)distributionListElement.Attribute("count");
+                    }
+                }
+            }
+
+            if (!string.IsNullOrEmpty(model.DistributionList.BlobErrors))
+            {
+                byte[] errorData = _dataService.GetDataFile(model.DistributionList, Enums.DistributionListFileType.Errors);
+
+                using (var errorStream = new MemoryStream(errorData))
+                {
+                    using (var errorReader = new StreamReader(errorStream))
+                    {
+                        var errorXml = XDocument.Load(errorReader);
+
+                        var errorElement = errorXml.Element(_elementErrors);
+
+                        if (errorElement == null)
+                        {
+                            _logger.Critical(GetType().Name, "ShowSummaryListForm",
+                                             "Unable to load error XML document for user list: {0}:{1} - {2} ",
+                                             model.DistributionList.UserId, model.DistributionList.DistributionListId,
+                                             model.DistributionList.BlobErrors);
+                            throw new ArgumentException();
+                        }
+
+                        var invalidElement = errorElement.Element(_elementInvalid);
+
+                        if (invalidElement != null && invalidElement.Descendants().Any())
+                        {
+                            pageModel.InvalidContactCount =
+                                (int)invalidElement.Attribute(_attributeCount);
+
+                            var invalidContacts = new List<DistributionContact>(pageModel.InvalidContactCount);
+
+                            foreach (var invalidContact in invalidElement.Elements())
+                            {
+                                using (var invalidXeReader = invalidContact.CreateReader())
+                                {
+                                    invalidContacts.Add((DistributionContact)_serialiser.ReadObject(invalidXeReader));
+                                }
+                            }
+
+                            pageModel.InvalidContacts = invalidContacts;
+                        }
+
+                        var duplicateElement = errorElement.Element(_elementDuplicates);
+
+                        if (duplicateElement != null && duplicateElement.Descendants().Any())
+                        {
+                            pageModel.DuplicateContactCount =
+                                (int)duplicateElement.Attribute(_attributeCount);
+
+                            var duplicateContacts = new List<DistributionContact>(pageModel.DuplicateContactCount);
+
+                            foreach (var duplicateContact in duplicateElement.Elements())
+                            {
+                                using (var duplicateXeReader = duplicateContact.CreateReader())
+                                {
+                                    duplicateContacts.Add((DistributionContact)_serialiser.ReadObject(duplicateXeReader));
+                                }
+                            }
+
+                            pageModel.DuplicateContacts = duplicateContacts;
+                        }
+                    }
+                }
+            }
+
+            pageModel.TotalContactCount = model.DistributionList.RecordCount + pageModel.ValidContactCount;
+
+            return PartialView("~/Views/Lists/Partials/ShowSummaryListForm.cshtml", pageModel);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UploadFileToList(ModifyListUploadFileModel model, HttpPostedFileBase uploadCsv)
+        public ActionResult UploadFileToList(ModifyListUploadFileModel model)
         {
-            if (ModelState.IsValid)
+            var loggedInMember = _membershipService.GetCurrentMember();
+
+            // If this is a new list, check that the name is unique
+            if (model.DistributionListId == Guid.Empty)
             {
-                var loggedInMember = _membershipService.GetCurrentMember();
+                bool nameIsNotUnique =
+                    _dataService.GetDistributionListsForUser(loggedInMember.Id)
+                                .Any(
+                                     d =>
+                                         string.Equals(d.Name, model.ListName, StringComparison.CurrentCultureIgnoreCase));
 
-                // If this is a new list, check that the name is unique
-                if (model.DistributionListId == Guid.Empty)
+                if (nameIsNotUnique)
                 {
-                    bool nameIsNotUnique =
-                        _dataService.GetDistributionListsForUser(loggedInMember.Id).Any(d => d.Name == model.ListName);
+                    _logger.Info("ModifyListSurfaceController", "UploadFileToList",
+                                 "User specified a duplicate name: {0}:{1}", loggedInMember, model.ListName);
 
-                    if (nameIsNotUnique)
+                    // TODO: Error from Umbraco.
+                    ModelState.AddModelError("ListName", "Your list name is not unique - please supply a unique name.");
+                }
+            }
+
+            if (model.UploadCsv != null)
+            {
+                // Confirm that the file is good too:
+                bool validFile = false;
+                string fileName = Path.GetFileName(model.UploadCsv.FileName);
+                string mimeType = model.UploadCsv.ContentType;
+                // Is the MimeType .csv? Not if Excel is installed on the machine (in which case they will be application/vnd.ms-excel, which is the same as an Excel .xls file.)...
+                if (mimeType.Equals("text/csv", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    validFile = true;
+                    _logger.Info("ModifyListSurfaceController", "UploadFileToList",
+                                 "User has uploaded a valid .csv file: {0}", fileName);
+                }
+
+                if (!validFile)
+                {
+                    // The mimetype wasn't csv, proceeding with caution:
+                    if (!string.IsNullOrEmpty(fileName) && fileName.EndsWith(".csv"))
                     {
-                        _logger.Info("ModifyListSurfaceController", "UploadFileToList", "User specified a duplicate name: {0}:{1}", loggedInMember, model.ListName);
-
-                        // TODO: Error from Umbraco.
-                        ModelState.AddModelError("ListName", "Your list name is not unique - please supply a unique name.");
+                        validFile = true;
+                        _logger.Info("ModifyListSurfaceController", "UploadFileToList",
+                                     "User has uploaded a .csv file with the wrong mime type: {0}:{1}", fileName,
+                                     mimeType);
                     }
                 }
 
-                // Confirm that the file is good too:
-                if (uploadCsv != null && uploadCsv.ContentLength != 0)
+                if (!validFile)
                 {
-                    if (ModelState.IsValid)
-                    {
-                        bool validFile = false;
-                        string fileName = Path.GetFileName(uploadCsv.FileName);
-                        string mimeType = uploadCsv.ContentType;
-                        // Is the MimeType .csv? Not if Excel is installed on the machine (in which case they will be application/vnd.ms-excel, which is the same as an Excel .xls file.)...
-                        if (mimeType.Equals("text/csv", StringComparison.InvariantCultureIgnoreCase))
-                        {
-                            validFile = true;
-                            _logger.Info("ModifyListSurfaceController", "UploadFileToList",
-                                         "User has uploaded a valid .csv file: {0}", fileName);
-                        }
+                    ModelState.AddModelError("uploadCsv", "Invalid file uploaded - is it a .csv file?");
+                }
+            }
 
-                        if (!validFile)
+            if (!ModelState.IsValid)
+            {
+                return CurrentUmbracoPage();
+            }
+
+            // ReSharper disable once PossibleNullReferenceException
+            // It's a required field on the model, and we've already returned if it's null
+            byte[] csvBytes = new byte[model.UploadCsv.ContentLength];
+            model.UploadCsv.InputStream.Read(csvBytes, 0, model.UploadCsv.ContentLength);
+
+            // Create new list and move on to mext page...
+            // TODO: Is this a new list, or are we adding to an existing one?
+            var newList = _dataService.CreateDistributionList(loggedInMember, model.ListName,
+                                                              Enums.DistributionListState.ConfirmFields, csvBytes,
+                                                              "text/csv", Enums.DistributionListFileType.Working);
+
+            var path = Umbraco.Url(CurrentPage.Id);
+            return Redirect(path + "?listId=" + newList.DistributionListId);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ConfirmFields(ModifyListConfirmFieldsModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return CurrentUmbracoPage();
+            }
+
+            var loggedInMember = _membershipService.GetCurrentMember();
+
+            var distributionList = _dataService.GetDistributionListForUser(loggedInMember.Id, model.DistributionListId);
+
+            byte[] data = _dataService.GetDataFile(distributionList, Enums.DistributionListFileType.Working);
+
+            var validContacts = new Dictionary<string, DistributionContact>();
+            var duplicateContacts = new List<DistributionContact>();
+            var errorContacts = new Dictionary<Guid, DistributionContact>();
+
+            // Build CSV Map
+            var contactMap = new DefaultCsvClassMap<DistributionContact>();
+
+            // mapping holds the Property - csv column mapping 
+            for (int mappingIndex = 0; mappingIndex < model.ColumnCount; mappingIndex++)
+            {
+                var columnName = model.Mappings[mappingIndex];
+                if (!string.IsNullOrEmpty(columnName))
+                {
+                    var propertyInfo = typeof (DistributionContact).GetProperty(columnName);
+                    var newMap = new CsvPropertyMap(propertyInfo);
+                    newMap.Index(mappingIndex);
+                    contactMap.PropertyMaps.Add(newMap);
+                }
+            }
+
+            // Should already have returned if FirstRowIsHeader is null.
+            var csvConfig = new CsvConfiguration {HasHeaderRecord = model.FirstRowIsHeader ?? false};
+
+            csvConfig.RegisterClassMap(contactMap);
+            
+            using (var stream = new MemoryStream(data))
+            {
+                using (var sr = new StreamReader(stream))
+                {
+                    // Assume No Header Row to start with.
+                    using (var csv = new CsvReader(sr, csvConfig))
+                    {
+                        while (csv.Read())
                         {
-                            // The mimetype wasn't csv, proceeding with caution:
-                            if (!string.IsNullOrEmpty(fileName) && fileName.EndsWith(".csv"))
+                            var contact = csv.GetRecord<DistributionContact>();
+
+                            if (contact != null)
                             {
-                                validFile = true;
-                                _logger.Info("ModifyListSurfaceController", "UploadFileToList",
-                                             "User has uploaded a .csv file with the wrong mime type: {0}:{1}", fileName,
-                                             mimeType);
+                                contact.DistributionListId = Guid.NewGuid();
+                                ICollection<ValidationResult> results;
+                                bool isValid = contact.TryValidate(out results);
+
+                                // TODO: Dedupe against existing list as well
+                                if (isValid && !validContacts.ContainsKey(contact.AddressRef))
+                                {
+                                    validContacts.Add(contact.AddressRef, contact);
+                                }
+                                else if (!isValid)
+                                {
+                                    errorContacts.Add(contact.DistributionListId, contact);
+                                }
+                                else
+                                {
+                                    duplicateContacts.Add(contact);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            distributionList.ListState = Enums.DistributionListState.FixIssues;
+
+
+            // Could all be errors/duplicates
+            if (validContacts.Any())
+            {
+                // Convert Successful items into an XML doc
+                var successfulXml = new XDocument();
+                var distributionListElement = new XElement(_elementDistributionList,
+                                                           new XAttribute(_attributeListName, distributionList.Name),
+                                                           new XAttribute(_attributeCount, validContacts.Count));
+                
+                using (var successWriter = distributionListElement.CreateWriter())
+                {
+                    foreach (var contact in validContacts.Select(c => c.Value))
+                    {
+                        _serialiser.WriteObject(successWriter, contact);
+                    }
+                }
+
+                successfulXml.Add(distributionListElement);
+
+
+                using (var successfulStream = new MemoryStream())
+                {
+                    successfulXml.Save(successfulStream);
+                    successfulStream.Position = 0;
+
+                    _dataService.UpdateDistributionList(distributionList, successfulStream.ToArray(), "text/xml",
+                                                        Enums.DistributionListFileType.Working);
+                }
+            }
+
+            if (errorContacts.Any() || duplicateContacts.Any())
+            {
+
+                var errorsXml = new XDocument();
+                var errorElement = new XElement(_elementErrors);
+                errorsXml.Add(errorElement);
+                if (errorContacts.Any())
+                {
+                    var invalidElement = new XElement(_elementInvalid, new XAttribute(_attributeListName, distributionList.Name),
+                                                     new XAttribute(_attributeCount, errorContacts.Count));
+
+                    using (var errorWriter = invalidElement.CreateWriter())
+                    {
+                        foreach (var contact in errorContacts.Select(c => c.Value))
+                        {
+                            _serialiser.WriteObject(errorWriter, contact);
+                        }
+                    }
+
+                    errorElement.Add(invalidElement);
+                }
+
+                if (duplicateContacts.Any())
+                {
+                    var duplicateElement = new XElement(_elementDuplicates, new XAttribute(_attributeListName, distributionList.Name),
+                                                     new XAttribute(_attributeCount, duplicateContacts.Count));
+
+                    using (var dupWriter = duplicateElement.CreateWriter())
+                    {
+                        foreach (var contact in duplicateContacts)
+                        {
+                            _serialiser.WriteObject(dupWriter, contact);
+                        }
+                    }
+
+                    errorElement.Add(duplicateElement);
+                }
+
+                using (var errorsStream = new MemoryStream())
+                {
+                    errorsXml.Save(errorsStream);
+                    errorsStream.Position = 0;
+
+                    _dataService.UpdateDistributionList(distributionList, errorsStream.ToArray(), "text/xml",
+                                                        Enums.DistributionListFileType.Errors);
+                }
+            }
+
+            var path = Umbraco.Url(CurrentPage.Id);
+            return Redirect(path + "?listId=" + model.DistributionListId);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult FinishList(ModifyListFinishModel model, string command)
+        {
+            var loggedInMember = _membershipService.GetCurrentMember();
+
+            var distributionList = _dataService.GetDistributionListForUser(loggedInMember.Id, model.DistributionListId);
+
+            switch (command.ToLower())
+            {
+                case "finish":
+                    // TODO: Merge with existing
+                    if (!string.IsNullOrEmpty(distributionList.BlobWorking))
+                    {
+                        byte[] data = _dataService.GetDataFile(distributionList, Enums.DistributionListFileType.Working);
+
+                        using (var validStream = new MemoryStream(data))
+                        {
+                            using (var validReader = new StreamReader(validStream))
+                            {
+                                var validXml = XDocument.Load(validReader);
+
+                                var distributionListElement = validXml.Element(_elementDistributionList);
+
+                                if (distributionListElement == null)
+                                {
+                                    _logger.Critical(GetType().Name, "ShowSummaryListForm",
+                                                     "Unable to load working XML document for user list: {0}:{1} - {2} ",
+                                                     loggedInMember.Id, distributionList.DistributionListId,
+                                                     distributionList.BlobWorking);
+                                    throw new ArgumentException();
+                                }
+
+                                distributionList.RecordCount = (int)distributionListElement.Attribute("count");
                             }
                         }
 
-                        if (validFile)
-                        {
-                            byte[] csvBytes = new byte[uploadCsv.ContentLength];
-                            uploadCsv.InputStream.Read(csvBytes, 0, uploadCsv.ContentLength);
-
-                            // Create new list and move on to mext page...
-                            // TODO: Is this a new list, or are we adding to an existing one?
-                            var newList = _dataService.CreateDistributionList(loggedInMember, model.ListName, csvBytes,
-                                                                              "text/csv",
-                                                                              Enums.DistributionListFileType.Working);
-
-                            var path = Umbraco.Url(CurrentPage.Id);
-                            return Redirect(path + "?listId=" + newList.DistributionListId);
-                        }
-
-                        ModelState.AddModelError("uploadCsv", "Invalid file uploaded - is it a .csv file?");
+                        _dataService.UpdateDistributionList(distributionList, data, "text/xml",
+                                                            Enums.DistributionListFileType.Final);
                     }
-                }
-                else
-                {
-                    // TODO: Add error text to Umbraco
-                    ModelState.AddModelError("uploadCsv", "You must upload a .csv file");
-                }
+                    else
+                    {
+                        _dataService.AbondonContactEdits(distributionList);
+                    }
+                    break;
+                case "cancel":
+                    _dataService.AbondonContactEdits(distributionList);
+                    break;
             }
-            return CurrentUmbracoPage();
+
+            var path = Umbraco.Url(CurrentPage.Parent.Id);
+            return Redirect(path);
         }
     }
 }

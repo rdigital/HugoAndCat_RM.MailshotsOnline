@@ -16,6 +16,7 @@ namespace RM.MailshotsOnline.Entities.DataModels.MailshotSettings
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid MailshotDefaultContentId { get; set; }
 
+        [MaxLength(256)]
         public string Name { get; set; }
 
         [Index]

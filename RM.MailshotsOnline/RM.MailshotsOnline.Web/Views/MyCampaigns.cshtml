@@ -1,0 +1,79 @@
+﻿@using ClientDependency.Core.Mvc
+@inherits Glass.Mapper.Umb.Web.Ui.GlassViewPage<RM.MailshotsOnline.Entities.PageModels.MyCampaigns>
+@{
+    Layout = "Master.cshtml";
+    Html.RequiresJs("~/scripts/loginfunctions.js", 2);
+    Html.RequiresJs("~/scripts/campaignstest.js", 3);
+    Html.RequiresCss("~/css/fountain.css", 2);
+}
+
+<div class="content">
+    <h1>@Model.Name</h1>
+    @Umbraco.RenderMacro("Breadcrumbs")
+    <div class="rich-text">
+        @Html.Raw(Model.MainContent)
+    </div>
+    <div class="my-campaigns">
+        <fieldset id="loginForm" style="display:none;">
+            <p>You must be logged in to view your campaigns</p>
+            <div><label for="email">Email:</label><input type="email" id="email" /></div>
+            <div><label for="password">Password:</label><input type="password" id="password" /></div>
+            <div><button id="loginButton">Login</button></div>
+        </fieldset>
+        <fieldset id="myCampaigns" style="display:none;">
+            <h2>My campaigns</h2>
+            <p><button id="newCampaignButton">New Campaign</button></p>
+            <div id="loading" style="display:none;">
+                <div id="fountainG">
+                    <div id="fountainG_1" class="fountainG"></div>
+                    <div id="fountainG_2" class="fountainG"></div>
+                    <div id="fountainG_3" class="fountainG"></div>
+                    <div id="fountainG_4" class="fountainG"></div>
+                    <div id="fountainG_5" class="fountainG"></div>
+                    <div id="fountainG_6" class="fountainG"></div>
+                    <div id="fountainG_7" class="fountainG"></div>
+                    <div id="fountainG_8" class="fountainG"></div>
+                </div>
+            </div>
+            <p id="noCampaignsMessage" style="display: none;">No campaigns to display</p>
+            <table id="campaignList" style="display: none;" cellpadding="0" cellspacing="0"></table>
+        </fieldset>
+        <fieldset id="addCampaignForm" style="display:none;">
+            <h2>Add a campaign</h2>
+            <div><label for="campaignName">Name:</label><input type="text" id="campaignName" /></div>
+            <div><label for="notes">Notes:</label><textarea cols="30" rows="4" id="notes"></textarea></div>
+            <div>
+                <label for="mailshot">Mailshot design:</label>
+                <select id="mailshot"></select>
+            </div>
+            <div>
+                <label for="postalOption">Postage option:</label>
+                <select id="postalOption"></select>
+            </div>
+            <div>
+                <label for="distributionList">Distribution list:</label>
+                <select id="distributionList">
+                    <option value="">-- TBC after data work is complete--</option>
+                </select>
+            </div>
+            <div id="readonlyFields" style="display:none;">
+                <p>Information:</p>
+                <div><label>Status:</label><input type="text" disabled="disabled" id="status" /></div>
+                <div><label>Has own data:</label><input type="text" disabled="disabled" id="hasOwnData" /></div>
+                <div><label>Has rented data:</label><input type="text" disabled="disabled" id="hasRentedData" /></div>
+            </div>
+            <div id="pricingInformation" style="display:none;">
+                <p>Pricing</p>
+                <div><label>Service fee:</label><span id="serviceFee"></span></div>
+                <div><label>Printing costs:</label><span id="printingCosts"></span></div>
+                <div><label>Data costs:</label><span id="dataCosts"></span></div>
+                <div><label>Postage costs:</label><span id="postageCosts"></span></div>
+                <div><label>VAT:</label><span id="vat"></span></div>
+                <div><label>Total costs:</label><span id="totalCost"></span></div>
+                <div><button id="order" disabled="disabled">Order this campaign</button></div>
+            </div>
+            <div><button id="saveCampaign">Save</button> &nbsp; <button id="cancelButton">Cancel</button></div>
+            <input type="hidden" id="campaignId" />
+        </fieldset>
+    </div>
+</div>
