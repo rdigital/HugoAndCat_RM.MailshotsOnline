@@ -1,0 +1,10 @@
+.info-box {
+	background-color: $bg-grey;
+	border-top: 2px solid $light-blue;
+	margin-bottom: 30px;
+	padding: 25px;
+
+	h4 {
+		@include font-size(20);
+	}
+}
