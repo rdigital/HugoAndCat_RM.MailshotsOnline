@@ -1,9 +1,11 @@
 require([
 		'knockout',
+		'domReady',
+		'perfectScrollbar',
 		'components/lists',
 		'components/pagination'
 	],
-	function(ko, listsComponent, paginationComponent) {
+	function(ko, domReady, prefectScrollbar, listsComponent, paginationComponent) {
 
 		// register components
 		ko.components.register('lists-component', listsComponent);
@@ -11,5 +13,11 @@ require([
 
 		// apply bindings
 		ko.applyBindings();
+
+		// initialise perfect scrollbar plugin
+
+		domReady(function(){
+			$('.scrollable').perfectScrollbar();
+		});
 	}
 );

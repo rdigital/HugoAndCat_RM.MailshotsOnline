@@ -769,6 +769,95 @@ th {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAA2CAMAAACP4lvzAAABIFBMVEXBxsj////BxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsjBxsiv00qkAAAAX3RSTlMAAAEDBAgKCwwQFBUWGx4fICEoKiwyNjxAQUVIT1BRUmBhZGhqbXB0dXh5eoCEhYaJj5CSmZ2foKSosLK3ur/AwcPGyMvM0NHS09XY2dvc3uDn6Ors7e/w9fb3+Pz9/sX4248AAAFGSURBVHja7dZHU8JAGMbxFwhqEAsWrJEoiqhriyWCJdiCXWzEAj7f/1sI63hIdJfsOF4c/pf38jvszJZZitg1iCsPkr8YpFVH/FyDvNfMN15ggt4A1GeD3Ih8Rf48NFuOKnFsa0ocex1KHCfdShzXKSUOR41XQ/Czymce4El4MNbmbZ513UMFzvs9T+8UxW32BXjqBbJuAzwLeTE/z0Ge9hOfN00zf4PLxpjZqmHfbPYo5P0JY6Iz6Tk0PJmOTsGiMcMwHsR8FLBp1yEbWKWSRS54Yl5fpAPOr2jFovVi8VzCNT1O4zXOnyhnUaOchA/YhdI7OL+gtdaL4YPzfLQcmvcOJWkBrbhl81FhjG2cAsfsXsIVdnVa7cwk7qT6KHjee5YscXNdf3P54rquqz0c+B+8wFrk+Hiogp8reR7X/OsWoucs1x+cWmX30nHw6wAAAABJRU5ErkJggg==);
   background-repeat: no-repeat; }
 
+.ps-container .ps-scrollbar-x-rail {
+  position: absolute;
+  /* please don't change 'position' */
+  bottom: 3px;
+  /* there must be 'bottom' for ps-scrollbar-x-rail */
+  height: 6px;
+  background-color: #f7f7f7;
+  border-radius: 2px; }
+
+.ps-container .ps-scrollbar-x-rail:hover,
+.ps-container .ps-scrollbar-x-rail.hover {
+  background-color: #eee; }
+
+.ps-container .ps-scrollbar-x-rail.in-scrolling {
+  background-color: #eee; }
+
+.ps-container .ps-scrollbar-y-rail {
+  position: absolute;
+  /* please don't change 'position' */
+  right: 3px;
+  /* there must be 'right' for ps-scrollbar-y-rail */
+  background-color: #f7f7f7;
+  width: 6px;
+  border-radius: 2px; }
+
+.ps-container .ps-scrollbar-y-rail:hover,
+.ps-container .ps-scrollbar-y-rail.hover {
+  background-color: #eee; }
+
+.ps-container .ps-scrollbar-y-rail.in-scrolling {
+  background-color: #eee; }
+
+.ps-container .ps-scrollbar-x {
+  position: absolute;
+  /* please don't change 'position' */
+  bottom: 0;
+  /* there must be 'bottom' for ps-scrollbar-x */
+  height: 6px;
+  background-color: #dee1e2;
+  border-radius: 2px;
+  -o-transition: background-color .2s linear;
+  -webkit-transition: background-color 0.2s linear;
+  -moz-transition: background-color .2s linear;
+  transition: background-color .2s linear; }
+
+.ps-container.ie6 .ps-scrollbar-x {
+  font-size: 0;
+  /* fixed scrollbar height in xp sp3 ie6 */ }
+
+.ps-container .ps-scrollbar-x-rail:hover .ps-scrollbar-x,
+.ps-container .ps-scrollbar-x-rail.hover .ps-scrollbar-x {
+  background-color: #999; }
+
+.ps-container .ps-scrollbar-y {
+  position: absolute;
+  /* please don't change 'position' */
+  right: 0;
+  /* there must be 'right' for ps-scrollbar-y */
+  width: 6px;
+  background-color: #dee1e2;
+  border-radius: 2px;
+  -o-transition: background-color .2s linear;
+  -webkit-transition: background-color 0.2s linear;
+  -moz-transition: background-color .2s linear;
+  transition: background-color .2s linear; }
+
+.ps-container.ie6 .ps-scrollbar-y {
+  font-size: 0;
+  /* fixed scrollbar height in xp sp3 ie6 */ }
+
+.ps-container .ps-scrollbar-y-rail:hover .ps-scrollbar-y,
+.ps-container .ps-scrollbar-y-rail.hover .ps-scrollbar-y {
+  background-color: #999; }
+
+.scrollable {
+  overflow-y: hidden;
+  position: relative; }
+  .scrollable.scrollable--dark .ps-scrollbar-y,
+  .scrollable.scrollable--dark .ps-scrollbar-x {
+    background-color: #87878c; }
+  .scrollable.scrollable--dark .ps-scrollbar-y-rail,
+  .scrollable.scrollable--dark .ps-scrollbar-x-rail {
+    background-color: #424247; }
+
+.scrollable-tbody {
+  margin-right: -30px; }
+  .scrollable-tbody > div {
+    width: calc(100% - 30px); }
+
 header {
   background-color: #da202a;
   box-sizing: border-box;

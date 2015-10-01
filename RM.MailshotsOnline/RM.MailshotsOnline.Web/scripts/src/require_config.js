@@ -6,6 +6,8 @@ require.config(
         knockout: "vendor/knockout",
         domReady: "vendor/requirejs-domready",
         text: "vendor/requirejs-text",
+        perfectScrollbar: "vendor/perfect-scrollbar.jquery",
+        koelement: 'custom-bindings/ko-element',
         templates: "src/templates/"
     }
 });
