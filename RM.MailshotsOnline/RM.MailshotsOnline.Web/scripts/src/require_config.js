@@ -8,6 +8,7 @@ require.config(
         text: "vendor/requirejs-text",
         perfectScrollbar: "vendor/perfect-scrollbar.jquery",
         koelement: 'custom-bindings/ko-element',
+        kofile: 'custom-bindings/ko-file',
         templates: "src/templates/"
     }
 });

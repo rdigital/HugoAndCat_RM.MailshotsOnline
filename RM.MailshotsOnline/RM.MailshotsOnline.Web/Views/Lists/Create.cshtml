@@ -5,9 +5,9 @@
     Layout = "~/Views/Master.cshtml";
 }
 
-<div class="content">
+<!-- <div class="content">
     <h1>@Model.Name</h1>
-    <!-- Add in the steps here -->
+    Add in the steps here
     @switch (Model.CurrentStep)
     {
         case Enums.DistributionListState.AddNewContacts:
@@ -23,5 +23,7 @@
 
             break;
     }
-</div>
+</div> -->
+
+<create-list-component></create-list-component>
 

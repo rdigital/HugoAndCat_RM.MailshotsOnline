@@ -8,6 +8,10 @@
 	margin-bottom: 30px;
 	padding-top: 20px;
 
+	.constrain {
+		text-align: center;
+	}
+
 	h1 {
 		@include font-size(28);
 		text-align: center;

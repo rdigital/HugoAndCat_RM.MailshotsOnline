@@ -872,6 +872,8 @@ header {
   height: 82px;
   margin-bottom: 30px;
   padding-top: 20px; }
+  .title-bar .constrain {
+    text-align: center; }
   .title-bar h1 {
     font-size: 28px;
     font-size: 2.8rem;
@@ -1158,3 +1160,8 @@ header {
       vertical-align: middle; }
 .lists .pagination {
   margin-bottom: 60px; }
+
+.create-list .upload-target {
+  width: 250px;
+  height: 250px;
+  border: 1px dashed #e1e1e1; }
