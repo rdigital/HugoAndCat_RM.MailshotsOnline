@@ -3,7 +3,9 @@
 	<p class="intro-text">Here you can add new contacts to your list, either by uploading a CSV file or by adding contacts individually.</p>
 	<div class="columns">
 		<div class="col1">
-			<div class="upload-target" data-bind="click: clickUpload, event:{ dragover: dragOver, drop: drop}"></div>
+			<div class="upload-target" data-bind="click: clickUpload, event:{ dragover: dragOver, drop: drop}">
+				<div class="loading-gif"></div>
+			</div>
 			<input data-bind="element: uploadEl, file: {data: fileData, allowed: ['application/vnd.ms-excel']}" type="file" class="visually-hidden" name="csvupload" id="csvupload">
 			Just a few contacts to use? <a href="">Add contacts individually</a>
 		</div>

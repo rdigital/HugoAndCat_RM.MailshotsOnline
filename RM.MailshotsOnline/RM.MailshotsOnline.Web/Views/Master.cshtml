@@ -6,8 +6,9 @@
 
     
     Html.RequiresJs("~/scripts/src/vendor/jquery-1.10.2.min.js", 1);
-    Html.RequiresJs("~/scripts/src/vendor/require.js", 2, new Dictionary<string, string>() { { "data-main", "scripts/src/main" } });
-    Html.RequiresJs("~/scripts/src/require_config.js", 3);
+    Html.RequiresJs("~/scripts/src/vendor/placeholders.jquery.min.js", 2);
+    Html.RequiresJs("~/scripts/src/vendor/require.js", 3, new Dictionary<string, string>() { { "data-main", "scripts/src/main" } });
+    Html.RequiresJs("~/scripts/src/require_config.js", 4);
     Html.RequiresCss("~/css/temp.css", 1);
     Html.RequiresCss("~/css/main.css", 2);
 
@@ -48,6 +49,6 @@
         </header>
         @RenderBody()
     </div>
-    
+    <error-component></error-component>
 </body>
 </html>

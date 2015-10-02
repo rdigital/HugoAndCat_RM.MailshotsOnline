@@ -12,18 +12,28 @@ input[type="password"] {
 	text-align: center;
 }
 
+input {
+	&:focus::-webkit-input-placeholder {
+		color: transparent;
+	}
+
+	&:focus::-moz-placeholder {
+		color: transparent;
+	}
+}
+
 :-ms-input-placeholder {
-  color: $text-grey;
+  color: $light-grey;
 }
 ::-moz-placeholder {
-  color: $text-grey;
+  color: $light-grey;
 }
 ::-webkit-input-placeholder {
-  color: $text-grey;
+  color: $light-grey;
 }
 
 ::placeholder {
-  color: $text-grey;
+  color: $light-grey;
 }
 
 .btn {

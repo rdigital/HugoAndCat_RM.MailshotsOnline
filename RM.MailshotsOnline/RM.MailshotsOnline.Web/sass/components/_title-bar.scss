@@ -17,9 +17,10 @@
 		text-align: center;
 
 		.edit {
+			cursor: pointer;
 			margin-left: 10px;
-			position: relative;
-			top: 2px;
+			position: absolute;
+			top: 5px;
 		}
 	}
 
@@ -28,6 +29,8 @@
 		top: -5px;
 
 		input {
+			@include font-size(28);
+			font-family: $ChevinLight;
 			height: 50px;
 			width: 400px;
 		}
@@ -35,6 +38,7 @@
 		.btn {
 			height: 50px;
 			margin-left: 10px;
+			position: absolute;
 		}
 	}
 
