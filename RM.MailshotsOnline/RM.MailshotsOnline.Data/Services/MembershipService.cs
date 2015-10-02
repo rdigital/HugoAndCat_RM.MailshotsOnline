@@ -184,6 +184,24 @@ namespace RM.MailshotsOnline.Data.Services
         }
 
         /// <summary>
+        /// Gets a member by their Umbraco ID
+        /// </summary>
+        /// <param name="id">Umbraco ID of the member</param>
+        /// <returns>Member object</returns>
+        public IMember GetMemberById(int id)
+        {
+            var umbracoMember = UmbracoMemberService.GetById(id);
+
+            if (umbracoMember == null)
+            {
+                return null;
+            }
+
+            var member = umbracoMember.ToMemberEntityModel();
+            return member;
+        }
+
+        /// <summary>
         /// Sets a new password for the given member
         /// </summary>
         /// <param name="member">The member</param>

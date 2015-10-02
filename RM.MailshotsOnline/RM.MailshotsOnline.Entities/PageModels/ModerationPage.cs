@@ -24,6 +24,12 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         public string PaymentFailedMessage { get; set; }
 
+        public string InvoiceXsl { get; set; }
+
+        public string CampaignFulfilledEmailSubject { get; set; }
+
+        public string CampaignFulfilledEmail { get; set; }
+
         #endregion
 
         public bool DisplayApprovedMessage { get; set; }

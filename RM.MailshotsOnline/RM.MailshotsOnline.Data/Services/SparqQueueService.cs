@@ -57,7 +57,7 @@ namespace RM.MailshotsOnline.Data.Services
         /// <param name="formatId">Format ID</param>
         /// <param name="renderPostbackUrl">Render postback URL</param>
         /// <returns>True on success</returns>
-        public async Task<bool> SendRenderJob(XmlAndXslData data, string orderNumber, string formatId, string renderPostbackUrl)
+        public async Task<bool> SendRenderJob(IXmlAndXslData data, string orderNumber, string formatId, string renderPostbackUrl)
         {
             return await SendJob(data, orderNumber, formatId, false, renderPostbackUrl, null);
         }
@@ -72,7 +72,7 @@ namespace RM.MailshotsOnline.Data.Services
         /// <param name="renderPostbackUrl">Render postback URL</param>
         /// <param name="ftpPostbackUrl">FTP postback URL</param>
         /// <returns></returns>
-        private async Task<bool> SendJob(XmlAndXslData data, string orderNumber, string formatId, bool printAfterRender, string renderPostbackUrl, string ftpPostbackUrl)
+        private async Task<bool> SendJob(IXmlAndXslData data, string orderNumber, string formatId, bool printAfterRender, string renderPostbackUrl, string ftpPostbackUrl)
         {
             bool success = true;
 

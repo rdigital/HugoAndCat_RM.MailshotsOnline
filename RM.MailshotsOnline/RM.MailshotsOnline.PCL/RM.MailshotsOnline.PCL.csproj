@@ -52,6 +52,7 @@
     <Compile Include="Models\IMailshotImageUse.cs" />
     <Compile Include="Models\IMedia.cs" />
     <Compile Include="Models\IProduct.cs" />
+    <Compile Include="Models\IXmlAndXslData.cs" />
     <Compile Include="Models\Reporting\IMembershipReport.cs" />
     <Compile Include="Models\Reporting\IReport.cs" />
     <Compile Include="Models\ISettingsFromCms.cs" />
