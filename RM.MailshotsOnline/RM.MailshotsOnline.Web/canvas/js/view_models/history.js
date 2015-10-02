@@ -12,6 +12,7 @@ define(['require', 'knockout', 'view_models/user', 'view_models/state'],
 
             // subscriptions
             stateViewModel.selectedElement.subscribe(this.pushToHistory, this);
+            stateViewModel.backgroundSelected.subscribe(this.pushToHistory, this);
 
             // computeds
             this.redoAvailable = this.getRedoAvailable();
