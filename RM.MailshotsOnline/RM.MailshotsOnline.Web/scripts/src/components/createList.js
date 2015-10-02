@@ -1,14 +1,15 @@
-define(['knockout', 'view-models/state', 'components/uploadData'],
+define(['knockout', 'view-models/state', 'components/uploadData', 'components/matchData'],
 
-    function(ko, stateViewModel, uploadDataComponent) {
+    function(ko, stateViewModel, uploadDataComponent, matchDataComponent) {
 
         ko.components.register('upload-data-component', uploadDataComponent);
+        ko.components.register('match-data-component', matchDataComponent);
 
         function createListComponentViewModel() {
             this.listTitle = stateViewModel.listTitle;
             this.oldTitle = this.listTitle();
             this.titleEdit = ko.observable(true);
-
+            this.step = stateViewModel.createListStep;
         }
 
         createListComponentViewModel.prototype.editTitle = function editTitle() {
@@ -25,7 +26,7 @@ define(['knockout', 'view-models/state', 'components/uploadData'],
                     self.titleEdit(true);
                     stateViewModel.showError(true);
                     stateViewModel.errorTitle(error.responseJSON.error);
-                    stateViewModel.errorMessage('You already have a list with this name, please choose another.')
+                    stateViewModel.errorMessage('You already have a list with this name, please choose another.');
                 });
                 this.oldTitle = this.listTitle();
             } else {

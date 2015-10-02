@@ -15,6 +15,7 @@ define(['knockout'],
             this.selectedLists = ko.observableArray();
             this.listTitle = ko.observable('');
             this.currentList = ko.observable();
+            this.createListStep = ko.observable('create');
         }
 
         window.appState = new stateViewModel();

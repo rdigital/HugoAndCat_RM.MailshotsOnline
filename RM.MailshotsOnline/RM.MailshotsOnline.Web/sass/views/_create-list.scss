@@ -55,6 +55,7 @@
 		border: 2px dashed $form-field;
 		height: 395px;
 		margin-bottom: 20px;
+		position: relative;
 		width: 100%;
 
 		&.loading {
@@ -66,7 +67,49 @@
 		}
 
 		.loading-gif {
+			bottom: 0;
 			display: none;
+			height: 130px;
+			left: 0;
+			margin: auto;
+			position: absolute;
+			right: 0;
+			top: 0;
+			width: 130px;
+		}
+	}
+
+	.match-data {
+		&.content-box {
+			padding: 30px 0;
+		}
+
+		.intro-content {
+			margin-bottom: 30px;
+			padding: 0 35px;
+		}
+
+		.match-data__table {
+			margin-bottom: 20px;
+			width: 100%;
+
+			th {
+				background-color: $filter-tab-grey;
+				color: $white;
+				padding: 10px 30px;
+			}
+
+			tbody {
+				td {
+					border-bottom: 1px solid $shadow-grey;
+					padding: 12px 30px;
+				}
+			}
+		}
+
+		.btn {
+			float: right;
+			margin: 0 35px 0 0;
 		}
 	}
 }

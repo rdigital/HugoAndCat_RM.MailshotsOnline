@@ -6,14 +6,10 @@ define(['knockout', 'view-models/state', 'koelement', 'kofile'],
             this.uploadEl = ko.observable();
             this.fileData = ko.observable();
             this.fileString = ko.observable();
+            this.loading = ko.observable(false);
 
             this.fileData.subscribe(this.postData, this);
         }
-
-        /*uploadDataComponentViewModel.prototype.loadFile = function loadFile(fileData) {
-        	this.fileString(fileData)
-        	console.log('click upload', this.fileString());
-        }*/
 
         uploadDataComponentViewModel.prototype.clickUpload = function clickUpload(){
             this.uploadEl().click();
@@ -38,27 +34,30 @@ define(['knockout', 'view-models/state', 'koelement', 'kofile'],
             }
             var reader = new FileReader();
            	reader.onloadend = function(){
-                //this.fileString(reader.result);
-                //console.log('drag upload', this.fileString());
                 this.postData(reader.result);
             }.bind(this);
             reader.readAsDataURL(src);
         };
 
         uploadDataComponentViewModel.prototype.postData = function postData(fileData) {
+        	var self = this;
+        	this.loading(true);
+
         	var data = {
         		"DistributionListId": "",
         		"ListName": stateViewModel.listTitle(),
         		"CsvString": fileData
         	}
 
-        	console.log(data);
-
-
         	$.post('/Umbraco/Api/DistributionList/PostUploadCsv', data, function(result) {
         	    console.log(result);
+        	    stateViewModel.currentList(result);
+        	    stateViewModel.createListStep('match');
+        	    self.loading(false);
         	}).fail(function(error) {
-        	    console.log('There was an error uploading your file', error);
+        	    stateViewModel.showError(true);
+        	    stateViewModel.errorTitle(error.responseJSON.error);
+        	    self.loading(false);
         	});
         }
 

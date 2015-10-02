@@ -13,7 +13,8 @@
 
     <div class="constrain">
         
-        <upload-data-component></upload-data-component>
+        <upload-data-component data-bind="visible: step() === 'create'"></upload-data-component>
+        <match-data-component data-bind="visible: step() === 'match'"></match-data-component>
 
     </div>
 </div>
