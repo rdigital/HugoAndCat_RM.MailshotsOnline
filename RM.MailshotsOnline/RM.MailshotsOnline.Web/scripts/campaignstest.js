@@ -178,6 +178,9 @@
             case -1:
                 status = "Exception";
                 break;
+            case -2:
+                status = "Payment failed";
+                break;
             case 7:
                 status = "Cancelled";
                 break;

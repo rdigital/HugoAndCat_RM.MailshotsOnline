@@ -206,7 +206,11 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>Collection of invoices</returns>
         public IEnumerable<IInvoice> GetInvoicesForCampaign(ICampaign campaign)
         {
-            return _context.Invoices.Where(i => i.CampaignId == campaign.CampaignId);
+            return _context.Invoices
+                .Include("LineItems")
+                .Include("LineItems.Product")
+                .Include("Campaign")
+                .Where(i => i.CampaignId == campaign.CampaignId);
         }
 
         /// <summary>
