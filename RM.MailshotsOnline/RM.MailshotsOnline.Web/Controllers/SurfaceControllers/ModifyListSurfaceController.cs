@@ -11,6 +11,7 @@ using CsvHelper.Configuration;
 using Glass.Mapper.Umb;
 using HC.RM.Common;
 using HC.RM.Common.PCL.Helpers;
+using RM.MailshotsOnline.Business.Processors;
 using RM.MailshotsOnline.Data.Helpers;
 using RM.MailshotsOnline.Entities.PageModels;
 using RM.MailshotsOnline.Entities.PageModels.Settings;
@@ -28,6 +29,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         private readonly IDataService _dataService;
         private readonly IMembershipService _membershipService;
         private readonly IUmbracoService _umbracoService;
+        private readonly DistributionListProcessor _listProcessor;
 
         private readonly string _elementDistributionList = "distributionList";
         private readonly string _elementErrors = "errors";
@@ -44,6 +46,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             _dataService = dataService;
             _membershipService = membershipService;
             _umbracoService = umbracoService;
+            _listProcessor = new DistributionListProcessor(_logger);
         }
 
         [ChildActionOnly]
@@ -57,13 +60,6 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         public ActionResult ShowConfirmFieldsForm(ListCreate model)
         {
 
-            var pageModel = new ModifyListConfirmFieldsModel
-                            {
-                                DistributionListId = model.DistributionList.DistributionListId,
-                                PageModel = model,
-                                FirstRowIsHeader = null,
-                            };
-
             var dataMappings = _umbracoService.CreateType<DataMappingFolder>(
                                                                  _umbracoService.ContentService
                                                                                 .GetPublishedVersion(
@@ -75,76 +71,9 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             // Grab working copy from Blob Store and read the first two rows
             byte[] data = _dataService.GetDataFile(model.DistributionList, Enums.DistributionListFileType.Working);
 
-            using (var stream = new MemoryStream(data))
-            {
-                using (var sr = new StreamReader(stream))
-                {
-                    // Assume No Header Row to start with.
-                    using (var csv = new CsvReader(sr, new CsvConfiguration {HasHeaderRecord = false}))
-                    {
-                        int rows = 0;
-                        int columns = 0;
+            ModifyListConfirmFieldsModel pageModel = _listProcessor.AttemptToMapDataToColumns(model.DistributionList, dataMappings, data);
 
-                        List<KeyValuePair<string, string>> items = null;
-
-                        while (rows < 2)
-                        {
-
-                            try
-                            {
-                                csv.Read();
-
-                                if (rows == 0)
-                                {
-                                    columns = csv.CurrentRecord.Length;
-                                    pageModel.ColumnCount = columns;
-                                    pageModel.FirstTwoRowsWithGuessedMappings = new List<Tuple<string, string, string>>(columns);
-                                    items = new List<KeyValuePair<string, string>>(columns);
-                                }
-
-                                for (int column = 0; column < columns; column++)
-                                {
-                                    if (rows == 0)
-                                    {
-                                        // First Row
-                                        // Grab Value and see if we can find a mapping for it:
-                                        var possibleHeading = csv.GetField(column);
-
-                                        var possibleMapping =
-                                            dataMappings.Mappings.FirstOrDefault(
-                                                                                 m =>
-                                                                                     m.FieldMappings.Contains(
-                                                                                                              possibleHeading.ToLower().Trim()));
-
-                                        if (possibleMapping != null)
-                                        {
-                                            // We think we might have a heading row
-                                            pageModel.FirstRowIsHeader = true;
-                                        }
-
-                                        // ReSharper disable once PossibleNullReferenceException
-                                        items.Add(new KeyValuePair<string, string>(possibleHeading, possibleMapping?.FieldName));
-                                    }
-                                    else
-                                    {
-                                        var value = csv.GetField(column);
-
-                                        // ReSharper disable once PossibleNullReferenceException
-                                        pageModel.FirstTwoRowsWithGuessedMappings.Add(new Tuple<string, string, string>(items[column].Key, value, items[column].Value));
-                                    }
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                _logger.Exception("ModifyListSurfaceController", "ShowConfirmFiledsForm", ex);
-                                throw;
-                            }
-
-                            rows++;
-                        }
-                    }
-                }
-            }
+            pageModel.PageModel = model;
 
             return PartialView("~/Views/Lists/Partials/ShowConfirmFieldsForm.cshtml", pageModel);
         }

@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Mvc;
-using CsvHelper;
-using CsvHelper.Configuration;
 using Glass.Mapper.Umb;
 using HC.RM.Common.PCL.Helpers;
+using RM.MailshotsOnline.Business.Processors;
 using RM.MailshotsOnline.Data.Helpers;
 using RM.MailshotsOnline.Entities.PageModels.Settings;
 using RM.MailshotsOnline.Entities.ViewModels;
@@ -20,15 +16,17 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 {
     public class DistributionListController: ApiBaseController
     {
-        private readonly string _controllerName = "DistributionListController";
+        private readonly string _controllerName;
         private readonly IDataService _dataService;
         private readonly IUmbracoService _umbracoService;
-
+        private readonly DistributionListProcessor _listProcessor;
 
         public DistributionListController(IMembershipService membershipService, ILogger logger, IDataService dataService, IUmbracoService umbracoService) : base(membershipService, logger)
         {
+            _controllerName = GetType().Name;
             _dataService = dataService;
             _umbracoService = umbracoService;
+            _listProcessor = new DistributionListProcessor(_logger);
         }
 
         /// <summary>
@@ -215,96 +213,10 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                                                                                                      ConfigHelper
                                                                                                          .DataMappingFolderId));
 
-            var confirmFieldsModel = new ModifyListConfirmFieldsModel
-                                     {
-                                         DistributionListId = list.DistributionListId,
-                                         ListName = list.Name,
-                                         FirstRowIsHeader = null,
-                                         MappingOptions = dataMappings.Mappings.ToDictionary(m => m.FieldName, m => m.Name),
-                                     };
-
-            using (var stream = new MemoryStream(csvBytes))
-            {
-                using (var sr = new StreamReader(stream))
-                {
-                    // Assume No Header Row to start with.
-                    using (var csv = new CsvReader(sr, new CsvConfiguration {HasHeaderRecord = false}))
-                    {
-                        int rows = 0;
-                        int columns = 0;
-
-                        List<KeyValuePair<string, string>> items = null;
-
-                        while (rows < 2)
-                        {
-                            try
-                            {
-                                csv.Read();
-
-                                if (rows == 0)
-                                {
-                                    columns = csv.CurrentRecord.Length;
-                                    confirmFieldsModel.ColumnCount = columns;
-                                    confirmFieldsModel.FirstTwoRowsWithGuessedMappings =
-                                        new List<Tuple<string, string, string>>(columns);
-                                    items = new List<KeyValuePair<string, string>>(columns);
-                                }
-
-                                for (int column = 0; column < columns; column++)
-                                {
-                                    if (rows == 0)
-                                    {
-                                        // First Row
-                                        // Grab Value and see if we can find a mapping for it:
-                                        var possibleHeading = csv.GetField(column);
-
-                                        var possibleMapping =
-                                            dataMappings.Mappings.FirstOrDefault(
-                                                                                 m =>
-                                                                                     m.FieldMappings.Contains(
-                                                                                                              possibleHeading
-                                                                                                                  .ToLower
-                                                                                                                  ()
-                                                                                                                  .Trim()));
-
-                                        if (possibleMapping != null)
-                                        {
-                                            // We think we might have a heading row
-                                            confirmFieldsModel.FirstRowIsHeader = true;
-                                        }
-
-                                        // ReSharper disable once PossibleNullReferenceException
-                                        items.Add(new KeyValuePair<string, string>(possibleHeading,
-                                                                                   possibleMapping?.FieldName));
-                                    }
-                                    else
-                                    {
-                                        var value = csv.GetField(column);
-
-                                        // ReSharper disable once PossibleNullReferenceException
-                                        confirmFieldsModel.FirstTwoRowsWithGuessedMappings.Add(
-                                                                                               new Tuple
-                                                                                                   <string, string,
-                                                                                                   string>(
-                                                                                                   items[column].Key,
-                                                                                                   value,
-                                                                                                   items[column].Value));
-                                    }
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                _logger.Exception("ModifyListSurfaceController", "ShowConfirmFiledsForm", ex);
-                                throw;
-                            }
-
-                            rows++;
-                        }
-                    }
-                }
-            }
+            var confirmFieldsModel = _listProcessor.AttemptToMapDataToColumns(list, dataMappings, csvBytes);
 
             return Request.CreateResponse(created ? HttpStatusCode.Created : HttpStatusCode.OK, confirmFieldsModel);
         }
+
     }
 }
