@@ -1,0 +1,19 @@
+.callout {
+	background-color: $light-blue;
+	display: inline-block;
+	font-family: $DINBold;
+	margin-bottom: 20px;
+	padding: 10px 20px;
+	position: relative;
+
+	&:after {
+		border-bottom: 0;
+	    border-left: 0;
+	    border-right: 10px solid transparent;
+	    border-top: 10px solid $light-blue;
+		content: ' ';
+		left: 0;
+		position: absolute;
+		top: 100%;
+	}
+}

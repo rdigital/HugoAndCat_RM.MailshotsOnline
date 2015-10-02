@@ -1,0 +1,25 @@
+<div class="content-box">
+	<h2>Add new contacts.</h2>
+	<p class="intro-text">Here you can add new contacts to your list, either by uploading a CSV file or by adding contacts individually.</p>
+	<div class="columns">
+		<div class="col1">
+			<div class="upload-target" data-bind="click: clickUpload, event:{ dragover: dragOver, drop: drop}"></div>
+			<input data-bind="element: uploadEl, file: {data: fileData, allowed: ['application/vnd.ms-excel']}" type="file" class="visually-hidden" name="csvupload" id="csvupload">
+			Just a few contacts to use? <a href="">Add contacts individually</a>
+		</div>
+		<div class="col2">
+			<div class="info-box">
+				<h4>About CSV files</h4>
+				<p>A CSV is a comma separated values file, which allows data to be saved in a table structured format. Not sure how to make one? Just download our template <a href="https://mrhcrmmsol.blob.core.windows.net/umbracomedia/1022/addressimport.csv">here</a>.</p>
+			</div>
+			<div class="callout note">
+				Please note
+			</div>
+			<ul>
+				<li>You must have permission to mail these contacts</li>
+				<li>File is Comma Separated (.csv) format</li>
+				<li>Upload a maximum of 100,000 contacts</li>
+			</ul>
+		</div>
+	</div>
+</div>

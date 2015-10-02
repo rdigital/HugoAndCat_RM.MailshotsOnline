@@ -32,7 +32,7 @@ namespace RM.MailshotsOnline.Web.Controllers
 
             pageModel.UsersLists = distributionLists;
 
-            return View("~/Views/Lists/Lists.cshtml", pageModel);
+            return View("~/Views/Lists.cshtml", pageModel);
         }
 
         public ActionResult ListsEmpty(RenderModel model)

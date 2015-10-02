@@ -13,7 +13,7 @@
 			font-family: $ChevinMedium;
 			text-decoration: none;
 
-			.icon-Add {
+			.icon-add {
 				@include font-size(28);
 				color: $RM-red;
 				margin-left: 10px;
@@ -26,7 +26,7 @@
 			font-family: $ChevinMedium;
 			text-decoration: none;
 
-			.icon-Close {
+			.icon-close {
 				@include font-size(28);
 				margin-left: 10px;
 				vertical-align: middle;
@@ -75,7 +75,7 @@
 	}
 
 	.lists__my-lists__list {
-		margin-bottom: 60px;
+		margin-bottom: 30px;
 
 		li {
 			background-color: $white;
@@ -93,6 +93,10 @@
 				top: 0;
 				width: 3px;
 
+			}
+
+			&.selected:before {
+				background-color: $RM-blue;
 			}
 
 			&:first-child {
@@ -115,7 +119,7 @@
 			@include font-size(24);
 			font-family: $ChevinMedium;
 
-			.icon-Person {
+			.icon-person {
 				@include font-size(40);
 				margin-right: 10px;
 				vertical-align: middle;
@@ -132,6 +136,18 @@
 			float: right;
 			position: relative;
 			top: 7px;
+
+			label {
+				margin-right: 15px;
+				position: relative;
+				text-align: right;
+				top: 2px;
+				vertical-align: middle;
+			}
 		}
+	}
+
+	.pagination {
+		margin-bottom: 60px;
 	}
 }

@@ -1,0 +1,103 @@
+// perfect scrollbar styles taken from https://github.com/itsdrewmiller/angular-perfect-scrollbar
+
+.ps-container .ps-scrollbar-x-rail {
+    position: absolute; /* please don't change 'position' */
+    bottom: 3px; /* there must be 'bottom' for ps-scrollbar-x-rail */
+    height: 6px;
+    background-color: $lightest-grey;
+    border-radius: 2px;
+}
+
+.ps-container .ps-scrollbar-x-rail:hover,
+.ps-container .ps-scrollbar-x-rail.hover {
+    background-color: #eee;
+}
+
+.ps-container .ps-scrollbar-x-rail.in-scrolling {
+    background-color: #eee;
+}
+
+.ps-container .ps-scrollbar-y-rail {
+    position: absolute; /* please don't change 'position' */
+    right: 3px; /* there must be 'right' for ps-scrollbar-y-rail */
+    background-color: $lightest-grey;
+    width: 6px;
+    border-radius: 2px;
+}
+
+.ps-container .ps-scrollbar-y-rail:hover,
+.ps-container .ps-scrollbar-y-rail.hover {
+    background-color: #eee;
+}
+
+.ps-container .ps-scrollbar-y-rail.in-scrolling {
+    background-color: #eee;
+}
+
+.ps-container .ps-scrollbar-x {
+    position: absolute; /* please don't change 'position' */
+    bottom: 0; /* there must be 'bottom' for ps-scrollbar-x */
+    height: 6px;
+    background-color: $btn-border;
+    border-radius: 2px;
+    -o-transition: background-color .2s linear;
+    -webkit-transition: background-color.2s linear;
+    -moz-transition: background-color .2s linear;
+    transition: background-color .2s linear;
+}
+
+.ps-container.ie6 .ps-scrollbar-x {
+    font-size: 0; /* fixed scrollbar height in xp sp3 ie6 */
+}
+
+.ps-container .ps-scrollbar-x-rail:hover .ps-scrollbar-x,
+.ps-container .ps-scrollbar-x-rail.hover .ps-scrollbar-x {
+    background-color: #999;
+}
+
+.ps-container .ps-scrollbar-y {
+    position: absolute; /* please don't change 'position' */
+    right: 0; /* there must be 'right' for ps-scrollbar-y */
+    width: 6px;
+    background-color: $btn-border;
+    border-radius: 2px;
+    -o-transition: background-color .2s linear;
+    -webkit-transition: background-color.2s linear;
+    -moz-transition: background-color .2s linear;
+    transition: background-color .2s linear;
+}
+
+.ps-container.ie6 .ps-scrollbar-y {
+    font-size: 0; /* fixed scrollbar height in xp sp3 ie6 */
+}
+
+.ps-container .ps-scrollbar-y-rail:hover .ps-scrollbar-y,
+.ps-container .ps-scrollbar-y-rail.hover .ps-scrollbar-y {
+    background-color: #999;
+}
+
+.scrollable {
+	overflow-y: hidden;
+	position: relative;
+
+	&.scrollable--dark {
+		.ps-scrollbar-y,
+		.ps-scrollbar-x {
+			background-color: $icon-grey;
+		}
+
+		.ps-scrollbar-y-rail,
+		.ps-scrollbar-x-rail {
+			background-color: $filter-tab-grey;
+		}
+
+	}
+}
+
+.scrollable-tbody {
+	margin-right: -30px;
+
+	> div {
+		width: calc(100% - 30px);
+	}
+}

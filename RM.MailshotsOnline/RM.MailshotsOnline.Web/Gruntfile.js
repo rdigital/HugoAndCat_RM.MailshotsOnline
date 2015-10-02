@@ -20,7 +20,7 @@ module.exports = function (grunt) {
 
    //jshint config
     jshint: {
-      files: ['scripts/src/**/*.js'],
+      files: ['scripts/src/**/*.js', '!scripts/src/vendor/**/*.js'],
       options: {
        jshintrc: '.jshintrc'
       }
@@ -58,7 +58,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-autoprefixer');
 
-  grunt.registerTask('build', [
+  grunt.registerTask('default', [
     'sass', 
     'autoprefixer'
   ]);

@@ -314,10 +314,6 @@ select {
 
 // custom checkboxes
 
-input[type="checkbox"] {
-	@extend %visuallyhidden;
-}
-
 .custom-checkbox {
 	background-color: $white;
 	border: 1px solid $form-field;
@@ -354,12 +350,12 @@ input[type="checkbox"] {
 	cursor: pointer;
 
 	&.checked {
-		background-color: $RM-blue;
+		background-color: $white;
 	}
 
 	&:before {
 		@include font-size(28);
-		color: $white;
+		color: $RM-blue;
 		display: none;
 		left: 0;
 		position: absolute;

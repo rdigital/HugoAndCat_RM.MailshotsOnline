@@ -1,0 +1,19 @@
+<div class="create-list">
+    <div class="title-bar">
+        <div class="constrain">
+            <a href="" class="back"><span class="icon-previous"></span><span class="back-text">Back to add data page</span></a>
+            <h1 data-bind="visible: !titleEdit()"><span data-bind="text: listTitle"></span><span data-bind="click: editTitle" class="edit icon-edit2"></span></h1>
+            <div class="edit-controls">
+                <input data-bind="visible: titleEdit, textInput: listTitle" type="text" name="listname" id="listname">
+                <button data-bind="visible: listTitle().length && titleEdit, click: editTitle" type="button" class="btn btn--blue">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="constrain">
+        
+        <upload-data-component></upload-data-component>
+
+    </div>
+
+</div>
