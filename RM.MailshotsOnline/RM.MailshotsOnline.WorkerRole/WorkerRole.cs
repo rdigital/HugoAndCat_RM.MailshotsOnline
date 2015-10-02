@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -29,6 +30,10 @@ namespace RM.MailshotsOnline.WorkerRole
 
         private const string WorkerRoleName = "MailshotsOnline.WorkerRole";
 
+        public WorkerRole()
+        {
+        }
+
         public WorkerRole(IAuthTokenService authTokenService)
         {
             _authTokenService = authTokenService;
@@ -58,9 +63,16 @@ namespace RM.MailshotsOnline.WorkerRole
             // Set the maximum number of concurrent connections
             ServicePointManager.DefaultConnectionLimit = 12;
 
-            TelemetryConfig.SetupTelemetry();
-            var telemetry = new TelemetryClient();
-            Logger = new Logger(telemetry);
+            try
+            {
+                TelemetryConfig.SetupTelemetry();
+                var telemetry = new TelemetryClient();
+                Logger = new Logger(telemetry);
+            }
+            catch (Exception e)
+            {
+                
+            }
 
             Logger.Info(GetType().Name, "OnStart", $"{WorkerRoleName} is starting");
 
