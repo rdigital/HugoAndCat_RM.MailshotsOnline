@@ -300,35 +300,44 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             this.image = new Image();
             var canvas = this.canvas();
 
-            // allow cross origin images in the canvas
-            if (src.indexOf('http') == 0) {
-                this.image.crossOrigin = "Anonymous";
-            }
-
-            this.image.onload = function(){
-                if (new_upload) {
-                    var canvas_width = canvas.width(),
-                        canvas_height = canvas.height();
-
-                    // work out initial alignment for image
-                    var width_factor = canvas_width / this.image.width,
-                        height_factor = canvas_height / this.image.height,
-                        base_scale = Math.max(width_factor, height_factor),
-                        user_scale = (this.imageObj.scale() || 100) / 100,
-                        width_offset = (canvas_width - (this.image.width * base_scale * user_scale)) / 2,
-                        height_offset = (canvas_height - (this.image.height * base_scale * user_scale)) / 2;
-
-                    this.imageObj.img_position.left(width_offset);
-                    this.imageObj.img_position.top(height_offset);
+            if (src) {
+                // allow cross origin images in the canvas
+                if (src.indexOf('http') == 0) {
+                    this.image.crossOrigin = "Anonymous";
                 }
-                // ie 9 randomly wouldn't render the image without this timeout
-                setTimeout(this.rerender.bind(this), 0);
-            }.bind(this);
-            
-            this.image.src = src;
-            if (new_upload) {
-                this.imageObj.src(src);
-                this.imageObj.scale(100);
+
+                this.image.onload = function(){
+                    if (new_upload) {
+                        var canvas_width = canvas.width(),
+                            canvas_height = canvas.height();
+
+                        // work out initial alignment for image
+                        var width_factor = canvas_width / this.image.width,
+                            height_factor = canvas_height / this.image.height,
+                            base_scale = Math.max(width_factor, height_factor),
+                            user_scale = (this.imageObj.scale() || 100) / 100,
+                            width_offset = (canvas_width - (this.image.width * base_scale * user_scale)) / 2,
+                            height_offset = (canvas_height - (this.image.height * base_scale * user_scale)) / 2;
+
+                        this.imageObj.img_position.left(width_offset);
+                        this.imageObj.img_position.top(height_offset);
+                    }
+                    // ie 9 randomly wouldn't render the image without this timeout
+                    setTimeout(this.rerender.bind(this), 0);
+                }.bind(this);
+                
+                this.image.src = src;
+                if (new_upload) {
+                    this.imageObj.src(src);
+                    this.imageObj.scale(100);
+                }
+            } else {
+                var ctx = canvas[0].getContext("2d"),
+                    canvas_width = canvas.width(),
+                    canvas_height = canvas.height();
+
+                // clear the canvas
+                ctx.clearRect(0, 0, canvas_width * this.scaleFactor, canvas_height * this.scaleFactor);
             }
         };
 

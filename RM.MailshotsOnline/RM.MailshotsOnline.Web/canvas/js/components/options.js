@@ -1,12 +1,15 @@
-define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/format', 'view_models/template', 'view_models/theme', 'view_models/state', 'view_models/history', 'view_models/auth'],
+define(['knockout', 'jquery', 'components/dropdown', 'view_models/user', 'view_models/format', 'view_models/template', 'view_models/theme', 'view_models/state', 'view_models/history', 'view_models/auth'],
 
-    function(ko, dropdownComponent, userViewModel, formatViewModel, templateViewModel, themeViewModel, stateViewModel, historyViewModel, authViewModel) {
+    function(ko, $, dropdownComponent, userViewModel, formatViewModel, templateViewModel, themeViewModel, stateViewModel, historyViewModel, authViewModel) {
 
         // ViewModel
         function optionsViewModel(params) {
             this.redoAvailable = historyViewModel.redoAvailable;
             this.undoAvailable = historyViewModel.undoAvailable;
             this.showPreview = stateViewModel.showPreview;
+            this.showRestart = ko.observable(false);
+            this.showFormat = ko.observable(false);
+            this.menuVisible = ko.observable(false);
             this.uploadingImages = stateViewModel.uploadingImages;
             this.saving = stateViewModel.saving;
             this.showThemePicker = stateViewModel.showThemePicker;
@@ -19,7 +22,46 @@ define(['knockout', 'components/dropdown', 'view_models/user', 'view_models/form
 
             // bound methods
             this.togglePreview = stateViewModel.togglePreview.bind(this);
+            this.hideMenu = this.hideMenu.bind(this);
+
+            this.handleSubscriptions();
         }
+
+        optionsViewModel.prototype.showMenu = function showMenu() {
+            this.menuVisible(true);
+        }
+
+        optionsViewModel.prototype.hideMenu = function hideMenu() {
+            setTimeout( function() {
+                this.menuVisible(false);
+            }.bind(this), 0);
+        }
+
+        optionsViewModel.prototype.toggleRestartModal = function toggleRestartModal() {
+            this.showRestart(!this.showRestart());
+        }
+
+        optionsViewModel.prototype.restart = function restart() {
+            this.showRestart(false);
+        }
+
+        optionsViewModel.prototype.toggleFormatModal = function toggleFormatModal() {
+            this.showFormat(!this.showFormat());
+        }
+
+        optionsViewModel.prototype.changeFormat = function changeFormat() {
+            this.showFormat(false);
+        }
+
+        optionsViewModel.prototype.handleSubscriptions = function handleSubscriptions() {
+            this.menuVisible.subscribe(function(visible) {
+                if (visible) {
+                    $(document).on('mouseup', this.hideMenu);
+                } else {
+                    $(document).off('mouseup', this.hideMenu);
+                }
+            }, this);
+        };
 
         /**
          * unfocus the current element and toggle the template picker
