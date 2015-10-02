@@ -43,7 +43,7 @@
 		
 
 		<!-- ko if: isBackgroundSelected -->
-		<backgroundtools-component></backgroundtools-component>
+		<backgroundtools-component params="{backgroundToolsTop: backgroundToolsTop, backgroundToolsLeft: backgroundToolsLeft}"></backgroundtools-component>
 		<!-- /ko -->
 		<zoom-component data-bind="visible: !(showImageUpload())"></zoom-component>
 	</div>

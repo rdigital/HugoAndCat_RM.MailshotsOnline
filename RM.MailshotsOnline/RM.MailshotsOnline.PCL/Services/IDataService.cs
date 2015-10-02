@@ -10,6 +10,8 @@ namespace RM.MailshotsOnline.PCL.Services
 
         IEnumerable<IDistributionList> GetDistributionListsForUser(int userId);
 
+        bool ListNameIsAlreadyInUse(int userId, string listName);
+
         IEnumerable<IDistributionList> GetDistributionLists(Func<IDistributionList, bool> filter);
 
         IDistributionList SaveDistributionList(IDistributionList distributionList);
