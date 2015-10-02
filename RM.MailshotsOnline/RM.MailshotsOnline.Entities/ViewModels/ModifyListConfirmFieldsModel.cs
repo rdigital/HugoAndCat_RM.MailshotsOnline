@@ -19,6 +19,8 @@ namespace RM.MailshotsOnline.Entities.ViewModels
         [Required]
         public List<string> Mappings { get; set; }
 
+        public Dictionary<string, string> MappingOptions { get; set; } 
+
         public ListCreate PageModel { get; set; }
 
         public List<Tuple<string, string, string>> FirstTwoRowsWithGuessedMappings { get; set; }

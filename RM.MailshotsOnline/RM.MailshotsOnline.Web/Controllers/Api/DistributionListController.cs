@@ -129,7 +129,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 if (list == null)
                 {
                     _logger.Info(_controllerName, methodName,
-                                 "User specified a list that does not belong to them: {0}:{1}", _loggedInMember.Id, model.ListName);
+                                 "User specified a list that does not belong to them: {0}:{1}", _loggedInMember.Id,
+                                 model.ListName);
 
                     return Request.CreateResponse(HttpStatusCode.NotFound,
                                                   new
@@ -138,11 +139,10 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                                                       param = "DistributionListId",
                                                       statusCode = HttpStatusCode.NotFound
                                                   });
-
                 }
             }
 
-            if (model.UploadCsv == null && model.CsvData == null && string.IsNullOrEmpty(model.CsvString))
+            if (string.IsNullOrEmpty(model.CsvString))
             {
                 _logger.Info(_controllerName, methodName, "User did not upload a file: {0}:{1}", _loggedInMember.Id,
                              model.ListName);
@@ -150,98 +150,43 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                                               new
                                               {
-                                                  error = "Please upload a csv.",
+                                                  error = "Please upload a CSV.",
                                                   param = "CsvString",
                                                   statusCode = HttpStatusCode.BadRequest
                                               });
             }
 
-            //TODO: Remove this:
-            _logger.Info(_controllerName, methodName, "Uploaded Data: uploadCsv: {0}; csvData: {1}; csvString: {2}",
-                         model.UploadCsv != null, model.CsvData?.Length.ToString() ?? "null",
-                         !string.IsNullOrEmpty(model.CsvString));
-
-
             byte[] csvBytes = null;
 
-            if (model.UploadCsv != null)
+            try
             {
-                bool validFile = false;
-                string fileName = Path.GetFileName(model.UploadCsv.FileName);
-                string mimeType = model.UploadCsv.ContentType;
-                // Is the MimeType .csv? Not if Excel is installed on the machine (in which case they will be application/vnd.ms-excel, which is the same as an Excel .xls file.)...
-                if (mimeType.Equals("text/csv", StringComparison.InvariantCultureIgnoreCase))
+                var base64String = model.CsvString;
+                if (base64String.StartsWith("data:"))
                 {
-                    validFile = true;
-                    _logger.Info(_controllerName, methodName,
-                                 "User has uploaded a valid .csv file: {0}", fileName);
-                }
-
-                if (!validFile)
-                {
-                    // The mimetype wasn't csv, proceeding with caution:
-                    if (!string.IsNullOrEmpty(fileName) && fileName.EndsWith(".csv"))
+                    var stringParts = base64String.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
+                    if (stringParts.Length == 2)
                     {
-                        validFile = true;
-                        _logger.Info(_controllerName, methodName,
-                                     "User has uploaded a .csv file with the wrong mime type: {0}:{1}", fileName,
-                                     mimeType);
+                        base64String = stringParts[1];
                     }
                 }
-
-                if (!validFile)
-                {
-                    _logger.Error(_controllerName, methodName, "User did not upload a valid file: {0}:{1}",
-                                  _loggedInMember.Id, model.ListName);
-
-                    return Request.CreateResponse(HttpStatusCode.BadRequest,
-                                                  new
-                                                  {
-                                                      error = "Please upload a csv.",
-                                                      param = "UploadCsv",
-                                                      statusCode = HttpStatusCode.BadRequest
-                                                  });
-                }
-
-                csvBytes = new byte[model.UploadCsv.ContentLength];
-                model.UploadCsv.InputStream.Read(csvBytes, 0, model.UploadCsv.ContentLength);
+                csvBytes = Convert.FromBase64String(base64String);
             }
-            else if (model.CsvData != null)
+            catch (Exception ex)
             {
-                csvBytes = model.CsvData;
+                _logger.Error(_controllerName, methodName, "User did not upload a valid file: {0}:{1}",
+                              _loggedInMember.Id, model.ListName);
+                _logger.Exception(_controllerName, methodName, ex);
             }
-            else
-            {
-                try
-                {
-                    var base64String = model.CsvString;
-                    if (base64String.StartsWith("data:"))
-                    {
-                        var stringParts = base64String.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
-                        if (stringParts.Length == 2)
-                        {
-                            base64String = stringParts[1];
-                        }
-                    }
-                    csvBytes = Convert.FromBase64String(base64String);
-                }
-                catch (Exception ex)
-                {
-                    _logger.Error(_controllerName, methodName, "User did not upload a valid file: {0}:{1}",
-                                  _loggedInMember.Id, model.ListName);
-                    _logger.Exception(_controllerName, methodName, ex);
-                }
 
-                if (csvBytes == null)
-                {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest,
-                                                  new
-                                                  {
-                                                      error = "Please upload a csv.",
-                                                      param = "CsvString",
-                                                      statusCode = HttpStatusCode.BadRequest
-                                                  });
-                }
+            if (csvBytes == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                                              new
+                                              {
+                                                  error = "Please upload a csv.",
+                                                  param = "CsvString",
+                                                  statusCode = HttpStatusCode.BadRequest
+                                              });
             }
 
             bool created = false;
@@ -264,24 +209,26 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                                                            Enums.DistributionListFileType.Working);
             }
 
+            var dataMappings = _umbracoService.CreateType<DataMappingFolder>(
+                                                                 _umbracoService.ContentService
+                                                                                .GetPublishedVersion(
+                                                                                                     ConfigHelper
+                                                                                                         .DataMappingFolderId));
+
             var confirmFieldsModel = new ModifyListConfirmFieldsModel
                                      {
                                          DistributionListId = list.DistributionListId,
+                                         ListName = list.Name,
                                          FirstRowIsHeader = null,
+                                         MappingOptions = dataMappings.Mappings.ToDictionary(m => m.FieldName, m => m.Name),
                                      };
-
-            var dataMappings = _umbracoService.CreateType<DataMappingFolder>(
-                                                                             _umbracoService.ContentService
-                                                                                            .GetPublishedVersion(
-                                                                                                                 ConfigHelper
-                                                                                                                     .DataMappingFolderId));
 
             using (var stream = new MemoryStream(csvBytes))
             {
                 using (var sr = new StreamReader(stream))
                 {
                     // Assume No Header Row to start with.
-                    using (var csv = new CsvReader(sr, new CsvConfiguration { HasHeaderRecord = false }))
+                    using (var csv = new CsvReader(sr, new CsvConfiguration {HasHeaderRecord = false}))
                     {
                         int rows = 0;
                         int columns = 0;
@@ -290,7 +237,6 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
                         while (rows < 2)
                         {
-
                             try
                             {
                                 csv.Read();
@@ -299,7 +245,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                                 {
                                     columns = csv.CurrentRecord.Length;
                                     confirmFieldsModel.ColumnCount = columns;
-                                    confirmFieldsModel.FirstTwoRowsWithGuessedMappings = new List<Tuple<string, string, string>>(columns);
+                                    confirmFieldsModel.FirstTwoRowsWithGuessedMappings =
+                                        new List<Tuple<string, string, string>>(columns);
                                     items = new List<KeyValuePair<string, string>>(columns);
                                 }
 
@@ -315,7 +262,10 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                                             dataMappings.Mappings.FirstOrDefault(
                                                                                  m =>
                                                                                      m.FieldMappings.Contains(
-                                                                                                              possibleHeading.ToLower().Trim()));
+                                                                                                              possibleHeading
+                                                                                                                  .ToLower
+                                                                                                                  ()
+                                                                                                                  .Trim()));
 
                                         if (possibleMapping != null)
                                         {
@@ -324,14 +274,21 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                                         }
 
                                         // ReSharper disable once PossibleNullReferenceException
-                                        items.Add(new KeyValuePair<string, string>(possibleHeading, possibleMapping?.FieldName));
+                                        items.Add(new KeyValuePair<string, string>(possibleHeading,
+                                                                                   possibleMapping?.FieldName));
                                     }
                                     else
                                     {
                                         var value = csv.GetField(column);
 
                                         // ReSharper disable once PossibleNullReferenceException
-                                        confirmFieldsModel.FirstTwoRowsWithGuessedMappings.Add(new Tuple<string, string, string>(items[column].Key, value, items[column].Value));
+                                        confirmFieldsModel.FirstTwoRowsWithGuessedMappings.Add(
+                                                                                               new Tuple
+                                                                                                   <string, string,
+                                                                                                   string>(
+                                                                                                   items[column].Key,
+                                                                                                   value,
+                                                                                                   items[column].Value));
                                     }
                                 }
                             }
