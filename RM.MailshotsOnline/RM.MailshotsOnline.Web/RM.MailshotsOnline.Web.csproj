@@ -494,6 +494,7 @@
     <Content Include="css\fountain.css" />
     <Content Include="css\orders.css" />
     <Content Include="css\temp.css" />
+    <Content Include="CsvUpload.aspx" />
     <Content Include="default.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -3123,6 +3124,13 @@
     <Compile Include="Controllers\SurfaceControllers\ProfileSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\RegisterSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ResetPasswordSurfaceController.cs" />
+    <Compile Include="CsvUpload.aspx.cs">
+      <DependentUpon>CsvUpload.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CsvUpload.aspx.designer.cs">
+      <DependentUpon>CsvUpload.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\BasePageExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\ModelExtensions.cs" />
@@ -3564,6 +3572,10 @@
     <ProjectReference Include="..\HC.RM.Common.PayPal\HC.RM.Common.PayPal.csproj">
       <Project>{5cecfbd1-8591-4d0a-9032-2da879dbea75}</Project>
       <Name>HC.RM.Common.PayPal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RM.MailshotsOnline.Business\RM.MailshotsOnline.Business.csproj">
+      <Project>{dcc80db8-069c-4b0b-a955-b8486d795f6d}</Project>
+      <Name>RM.MailshotsOnline.Business</Name>
     </ProjectReference>
     <ProjectReference Include="..\RM.MailshotsOnline.Data\RM.MailshotsOnline.Data.csproj">
       <Project>{0d159929-5a8f-4e0c-84a6-3c7e9de5f5ad}</Project>

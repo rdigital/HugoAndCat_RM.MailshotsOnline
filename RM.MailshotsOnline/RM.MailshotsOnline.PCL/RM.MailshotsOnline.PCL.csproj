@@ -38,6 +38,7 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Models\IAddress.cs" />
     <Compile Include="Models\ICampaign.cs" />

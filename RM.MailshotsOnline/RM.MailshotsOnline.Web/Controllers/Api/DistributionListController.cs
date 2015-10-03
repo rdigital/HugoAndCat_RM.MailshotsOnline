@@ -92,6 +92,11 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
+        /// <summary>
+        /// Uploads a CSV and attempts to map the fields onto our contact fields.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
         [HttpPost]
         public HttpResponseMessage PostUploadCsv(ModifyListUploadFileModel model)
         {
@@ -126,9 +131,9 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
                 if (list == null)
                 {
-                    _logger.Info(_controllerName, methodName,
+                    _logger.Warn(_controllerName, methodName,
                                  "User specified a list that does not belong to them: {0}:{1}", _loggedInMember.Id,
-                                 model.ListName);
+                                 model.DistributionListId);
 
                     return Request.CreateResponse(HttpStatusCode.NotFound,
                                                   new
@@ -142,7 +147,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             if (string.IsNullOrEmpty(model.CsvString))
             {
-                _logger.Info(_controllerName, methodName, "User did not upload a file: {0}:{1}", _loggedInMember.Id,
+                _logger.Warn(_controllerName, methodName, "User did not upload a file: {0}:{1}", _loggedInMember.Id,
                              model.ListName);
 
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
@@ -193,7 +198,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             {
                 list = _dataService.CreateDistributionList(_loggedInMember, model.ListName,
                                                            Enums.DistributionListState.ConfirmFields, csvBytes,
-                                                           "text/csv",
+                                                           Constants.MimeTypes.Csv,
                                                            Enums.DistributionListFileType.Working);
                 created = true;
             }
@@ -203,7 +208,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 // if we couldn't find a list for this user.
                 // ReSharper disable once PossibleNullReferenceException
                 list.ListState = Enums.DistributionListState.ConfirmFields;
-                list = _dataService.UpdateDistributionList(list, csvBytes, "text/csv",
+                list = _dataService.UpdateDistributionList(list, csvBytes, Constants.MimeTypes.Csv,
                                                            Enums.DistributionListFileType.Working);
             }
 
@@ -217,6 +222,66 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             return Request.CreateResponse(created ? HttpStatusCode.Created : HttpStatusCode.OK, confirmFieldsModel);
         }
+
+        /// <summary>
+        /// If you have to upload the CSV separately (IE9 and below), this will allow you to grab the mappings.
+        /// </summary>
+        /// <param name="distributionListId">The distribution list identifier.</param>
+        /// <returns></returns>
+        [HttpGet]
+        public HttpResponseMessage GetListMappings(Guid distributionListId)
+        {
+            string methodName = "GetListMappings";
+
+            var authResult = Authenticate();
+
+            if (authResult != null)
+            {
+                return authResult;
+            }
+
+            if (distributionListId == Guid.Empty)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                                              new
+                                              {
+                                                  error = "You must supply a List Id.",
+                                                  param = "DistributionListId",
+                                                  statusCode = HttpStatusCode.BadRequest
+                                              });
+            }
+
+            IDistributionList list = _dataService.GetDistributionListForUser(_loggedInMember.Id, distributionListId);
+
+            if (list == null)
+            {
+                _logger.Info(_controllerName, methodName,
+                             "User specified a list that does not belong to them: {0}:{1}", _loggedInMember.Id,
+                             distributionListId);
+
+                return Request.CreateResponse(HttpStatusCode.NotFound,
+                                              new
+                                              {
+                                                  error = "List Id was not found.",
+                                                  param = "DistributionListId",
+                                                  statusCode = HttpStatusCode.NotFound
+                                              });
+            }
+
+            var dataMappings = _umbracoService.CreateType<DataMappingFolder>(
+                                                     _umbracoService.ContentService
+                                                                    .GetPublishedVersion(
+                                                                                         ConfigHelper
+                                                                                             .DataMappingFolderId));
+
+            // Grab working copy from Blob Store and read the first two rows
+            byte[] data = _dataService.GetDataFile(list, Enums.DistributionListFileType.Working);
+
+            ModifyListConfirmFieldsModel confirmFieldsModel = _listProcessor.AttemptToMapDataToColumns(list, dataMappings, data);
+
+            return Request.CreateResponse(HttpStatusCode.OK, confirmFieldsModel);
+        }
+
 
     }
 }
