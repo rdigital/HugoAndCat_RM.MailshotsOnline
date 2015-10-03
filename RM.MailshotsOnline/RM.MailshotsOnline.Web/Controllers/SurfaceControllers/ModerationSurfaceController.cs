@@ -1,4 +1,5 @@
-﻿using HC.RM.Common.PayPal.Models;
+﻿using Glass.Mapper.Umb;
+using HC.RM.Common.PayPal.Models;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.Helpers;
 using RM.MailshotsOnline.Entities.PageModels;
@@ -19,17 +20,19 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         private ICampaignService _campaignService;
         private ISparqQueueService _sparqService;
         private IInvoiceService _invoiceService;
+        private IUmbracoService _umbracoService;
         private PayPalService _paypalService;
         private const string CompletedFlag = "ModerationResultSaved";
         private const string PaymentFailedFlag = "PaymentFailed";
 
-        public ModerationSurfaceController(IMembershipService membershipService, ILogger logger, ICampaignService campaignService, ISparqQueueService sparqService, IInvoiceService invoiceService)
+        public ModerationSurfaceController(IMembershipService membershipService, ILogger logger, ICampaignService campaignService, ISparqQueueService sparqService, IInvoiceService invoiceService, IUmbracoService umbracoService)
             : base(membershipService, logger)
         {
             _campaignService = campaignService;
             _sparqService = sparqService;
             _invoiceService = invoiceService;
             _paypalService = new PayPalService();
+            _umbracoService = umbracoService;
         }
 
         [ChildActionOnly]
@@ -136,12 +139,20 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return CurrentUmbracoPage();
             }
 
-            // Generate invoice PDF
-
-
             invoice.Status = PCL.Enums.InvoiceStatus.Paid;
             invoice.PaidDate = DateTime.UtcNow;
             _invoiceService.Save(invoice);
+
+            // Generate invoice PDF
+            var moderationPage = _umbracoService.GetItem<ModerationPage>(CurrentPage.Id);
+            var xmlAndXsl = new XmlAndXslData()
+            {
+                XslStylesheet = moderationPage.InvoiceXsl,
+                XmlData = invoice.ToXmlString()
+            };
+            var baseUrl = string.Format("{0}://{1}:{2}", ConfigHelper.HostedScheme, ConfigHelper.HostedDomain, ConfigHelper.HostedPort);
+            var postbackUrl = string.Format("{0}/Umbraco/Api/Orders/InvoicePdfReady/{1}", baseUrl, invoice.InvoiceId);
+            _sparqService.SendRenderJob(xmlAndXsl, invoice.InvoiceId.ToString(), "Invoice", postbackUrl);
 
             campaign.Status = PCL.Enums.CampaignStatus.Fulfilled;
             campaign.SystemNotes += string.Format("{0}{1:yyyy-MM-dd HH:mm:ss} - Campaign has been printed.", Environment.NewLine, DateTime.UtcNow);
@@ -149,8 +160,6 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             _campaignService.SaveCampaign(campaign);
 
             Log.Info(this.GetType().Name, "ConfirmPrinted", "Campaign with ID {0} has been printed", campaign.CampaignId);
-
-            // Email user to let them know the payment has been captured
 
             TempData[CompletedFlag] = true;
             return CurrentUmbracoPage();

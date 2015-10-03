@@ -186,6 +186,20 @@ namespace RM.MailshotsOnline.Data.Services
         }
 
         /// <summary>
+        /// Gets an invoice
+        /// </summary>
+        /// <param name="invoiceId">The ID of the invoice</param>
+        /// <returns>The specified invoice</returns>
+        public IInvoice GetInvoice(Guid invoiceId)
+        {
+            return _context.Invoices
+                .Include("LineItems")
+                .Include("LineItems.Product")
+                .Include("Campaign")
+                .FirstOrDefault(i => i.InvoiceId == invoiceId);
+        }
+
+        /// <summary>
         /// Gets any existing invoices for a given campaign
         /// </summary>
         /// <param name="campaign">The campaign to check</param>

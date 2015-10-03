@@ -8,6 +8,7 @@ using RM.MailshotsOnline.PCL;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Linq;
 
 namespace RM.MailshotsOnline.Entities.DataModels
 {
@@ -202,6 +203,47 @@ namespace RM.MailshotsOnline.Entities.DataModels
         /// Gets or sets the date the invoice was cancelled
         /// </summary>
         public DateTime? CancelledDate { get; set; }
+
+        /// <summary>
+        /// Gets the key invoice information as XML
+        /// </summary>
+        /// <returns>XML string</returns>
+        public string ToXmlString()
+        {
+            XDocument xdoc = new XDocument();
+            XElement root = new XElement("invoice");
+            if (BillingAddress != null)
+            {
+                root.Add(new XElement("billing-address", BillingAddress.ToString()));
+            }
+            root.Add(new XElement("order-number", OrderNumber));
+            root.Add(new XElement("order-date", CreatedDate.ToString("dd-MM-yyyy")));
+            if (PaidDate.HasValue)
+            {
+                root.Add(new XElement("paid-date", PaidDate.Value.ToString("dd-MM-yyyy")));
+            }
+            root.Add(new XElement("sub-total", SubTotal.ToString("F2")));
+            root.Add(new XElement("tax-total", TotalTax.ToString("F2")));
+            root.Add(new XElement("total", Total.ToString("F2")));
+            var lineItems = new XElement("line-items");
+            foreach (var lineItem in LineItems)
+            {
+                var element = new XElement("line-item");
+                element.Add(new XElement("name", lineItem.Name));
+                element.Add(new XElement("subtitle", lineItem.SubTitle));
+                element.Add(new XElement("quantity", lineItem.Quantity.ToString()));
+                element.Add(new XElement("unit-cost", lineItem.UnitCost.ToString("F2")));
+                element.Add(new XElement("sub-total", lineItem.SubTotal.ToString("F2")));
+                element.Add(new XElement("tax-rate", lineItem.TaxRate.ToString("F2")));
+                element.Add(new XElement("tax-total", lineItem.TaxTotal.ToString("F2")));
+                element.Add(new XElement("total", lineItem.Total.ToString("F2")));
+                lineItems.Add(element);
+            }
+            root.Add(lineItems);
+
+            xdoc.Add(root);
+            return xdoc.ToString();
+        }
 
         #region Explicit interface implementation
 

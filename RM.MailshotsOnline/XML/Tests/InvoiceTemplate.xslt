@@ -7,11 +7,11 @@
   <!-- Header colours and text settings -->
   <xsl:variable name="headerBackCol" select="'#da202a'" />
   <xsl:variable name="headerTextCol" select="'#FFF'" />
-  <xsl:variable name="headerTextSize" select="'40pt'" />
+  <xsl:variable name="headerTextSize" select="'35pt'" />
   <xsl:variable name="headerFontFamily" select="'Helvetica'" />
 
   <!-- Text area colours and text settings -->
-  <xsl:variable name="bodyBackCol" select="'white'" />
+  <xsl:variable name="bodyBackCol" select="'#FFF'" />
   <xsl:variable name="bodyTextCol" select="'black'" />
   <xsl:variable name="bodyTextSize" select="'12pt'" />
   <xsl:variable name="bodyFontFamily" select="'Helvetica'" />
@@ -71,7 +71,7 @@
       <xsl:with-param name="top" select="'20mm'" />
       <xsl:with-param name="left" select="'0mm'" />
       <xsl:with-param name="width" select="'48%'" />
-      <xsl:with-param name="height" select="'100mm'" />
+      <xsl:with-param name="height" select="'60mm'" />
       <xsl:with-param name="content">
         <fo:block>Billed to:</fo:block>
         <xsl:value-of select="billing-address/node()"/>
@@ -83,36 +83,36 @@
       <xsl:with-param name="top" select="'20mm'" />
       <xsl:with-param name="width" select="'48%'" />
       <xsl:with-param name="right" select="'0mm'" />
-      <xsl:with-param name="height" select="'100mm'" />
+      <xsl:with-param name="height" select="'60mm'" />
       <xsl:with-param name="content">
-        <fo:table>
+        <fo:table width="100%">
           <fo:table-body>
             <fo:table-row>
-              <fo:table-cell>
+              <fo:table-cell border="thin solid black" padding="2mm">
                 <fo:block font-weight="bold">Order number:</fo:block>
               </fo:table-cell>
-              <fo:table-cell>
-                <fo:block>
+              <fo:table-cell border="thin solid black" padding="2mm">
+                <fo:block margin="5mm">
                   <xsl:value-of select="order-number"/>
                 </fo:block>
               </fo:table-cell>
             </fo:table-row>
             <fo:table-row>
-              <fo:table-cell>
+              <fo:table-cell border="thin solid black" padding="2mm">
                 <fo:block font-weight="bold">Order date:</fo:block>
               </fo:table-cell>
-              <fo:table-cell>
-                <fo:block>
+              <fo:table-cell border="thin solid black" padding="2mm">
+                <fo:block margin="5mm">
                   <xsl:value-of select="order-date"/>
                 </fo:block>
               </fo:table-cell>
             </fo:table-row>
             <fo:table-row>
-              <fo:table-cell>
+              <fo:table-cell border="thin solid black" padding="2mm">
                 <fo:block font-weight="bold">Payment date:</fo:block>
               </fo:table-cell>
-              <fo:table-cell>
-                <fo:block>
+              <fo:table-cell border="thin solid black" padding="2mm">
+                <fo:block margin="5mm">
                   <xsl:value-of select="paid-date"/>
                 </fo:block>
               </fo:table-cell>
@@ -123,6 +123,62 @@
     </xsl:call-template>
     
     <!-- Line items -->
+    <xsl:call-template name="textArea">
+      <xsl:with-param name="top" select="'100mm'" />
+      <xsl:with-param name="width" select="'100%'" />
+      <xsl:with-param name="height" select="'100mm'" />
+      <xsl:with-param name="content">
+        <fo:table width="100%">
+          <fo:table-header>
+            <fo:table-row>
+              <fo:table-cell border="thin solid black" padding="2mm">
+                <fo:block font-weight="bold">Item</fo:block>
+              </fo:table-cell>
+              <fo:table-cell border="thin solid black" padding="2mm">
+                <fo:block font-weight="bold">Quantity</fo:block>
+              </fo:table-cell>
+              <fo:table-cell border="thin solid black" padding="2mm">
+                <fo:block font-weight="bold">Unit cost</fo:block>
+              </fo:table-cell>
+              <fo:table-cell border="thin solid black" padding="2mm">
+                <fo:block font-weight="bold">Sub total</fo:block>
+              </fo:table-cell>
+              <fo:table-cell border="thin solid black" padding="2mm">
+                <fo:block font-weight="bold">Tax</fo:block>
+              </fo:table-cell>
+              <fo:table-cell border="thin solid black" padding="2mm">
+                <fo:block font-weight="bold">Total</fo:block>
+              </fo:table-cell>
+            </fo:table-row>
+          </fo:table-header>
+          <fo:table-body>
+            <xsl:apply-templates select="//line-item" />
+          </fo:table-body>
+          <fo:table-footer>
+            <fo:table-row>
+              <fo:table-cell border="thin solid black" padding="2mm">
+                <fo:block font-weight="bold"></fo:block>
+              </fo:table-cell>
+              <fo:table-cell border="thin solid black" padding="2mm">
+                <fo:block font-weight="bold"></fo:block>
+              </fo:table-cell>
+              <fo:table-cell border="thin solid black" padding="2mm">
+                <fo:block font-weight="bold"></fo:block>
+              </fo:table-cell>
+              <fo:table-cell border="thin solid black" padding="2mm">
+                <fo:block font-weight="bold"></fo:block>
+              </fo:table-cell>
+              <fo:table-cell border="thin solid black" padding="2mm">
+                <fo:block font-weight="bold">Total</fo:block>
+              </fo:table-cell>
+              <fo:table-cell border="thin solid black" padding="2mm">
+                <fo:block font-weight="bold">&#163;<xsl:value-of select="total"/></fo:block>
+              </fo:table-cell>
+            </fo:table-row>
+          </fo:table-footer>
+        </fo:table>
+      </xsl:with-param>
+    </xsl:call-template>
     
   </xsl:template>
 
@@ -184,6 +240,32 @@
         <xsl:copy-of select="$content"/>
       </fo:block>
     </fo:block-container>
+  </xsl:template>
+
+  <xsl:template name="lineitem" match="line-item">
+    <fo:table-row>
+      <fo:table-cell border="thin solid black" padding="2mm">
+        <fo:block margin="5mm">
+          <xsl:value-of select="name"/><xsl:if test="subtitle != ''">
+            (<xsl:value-of select="subtitle"/>)</xsl:if>
+        </fo:block>
+      </fo:table-cell>
+      <fo:table-cell border="thin solid black" padding="2mm">
+        <fo:block margin="5mm"><xsl:value-of select="quantity"/></fo:block>
+      </fo:table-cell>
+      <fo:table-cell border="thin solid black" padding="2mm">
+        <fo:block margin="5mm">&#163;<xsl:value-of select="unit-cost"/></fo:block>
+      </fo:table-cell>
+      <fo:table-cell border="thin solid black" padding="2mm">
+        <fo:block margin="5mm">&#163;<xsl:value-of select="sub-total"/></fo:block>
+      </fo:table-cell>
+      <fo:table-cell border="thin solid black" padding="2mm">
+        <fo:block margin="5mm">&#163;<xsl:value-of select="tax-total"/></fo:block>
+      </fo:table-cell>
+      <fo:table-cell border="thin solid black" padding="2mm">
+        <fo:block margin="5mm">&#163;<xsl:value-of select="total"/></fo:block>
+      </fo:table-cell>
+    </fo:table-row>
   </xsl:template>
 
 </xsl:stylesheet>

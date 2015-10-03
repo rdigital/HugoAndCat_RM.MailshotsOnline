@@ -1,3 +1,4 @@
+<!-- ko ifnot: colorOnly -->
 <div data-bind="style: flatStyles(), css: {'editable_active': isSelected, 'editable_error': isScrollVisible}, click: clickSetFocus" class="editable">
 	<!-- ko if: preview -->
 	<div data-bind="contentEditable: false, htmlLazy: userData.content, element: element, template: { afterRender: sizeAdjustPreviewBound }" class="editable-input"></div>
@@ -6,3 +7,7 @@
 	<div data-bind="contentEditable: true, htmlLazy: userData.content, element: element, event: {'keyup': handleKeyup, 'mouseup': getState, paste: plainTextPaste}, template: { afterRender: sizeAdjustBound }, hasFocus: isSelectedSetOnly" class="editable-input"></div>
 	<!-- /ko -->
 </div>
+<!-- /ko -->
+<!-- ko if: colorOnly -->
+<div data-bind="style: flatStyles(), css: {'editable_active': isSelected, 'editable_error': isScrollVisible}, click: select, element: element" class="editable editable_pointer colour-box"></div>
+<!-- /ko -->

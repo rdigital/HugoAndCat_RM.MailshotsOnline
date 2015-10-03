@@ -12,10 +12,12 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
             this.element = ko.observable();
             this.data = params.data;
             this.preview = params.preview;
+            this.colorOnly = params.colorOnly;
             this.isBold = ko.observable(false);
             this.isUnderline = ko.observable(false);
             this.isItalic = ko.observable(false);
             this.currentFontSize = ko.observable(1);
+            this.fallbackBackground = ko.observable(null);
 
             // if theme override passed in, process it
             this.override_theme = params.override_theme;
@@ -42,6 +44,10 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
         inputViewModel.prototype = Object.create(elementViewModel.prototype);
         inputViewModel.prototype.constructor = inputViewModel;
 
+        inputViewModel.prototype.select = function select() {
+            this.isSelected(true);
+        }
+
         /**
          * sets focus to the element
          */
@@ -56,6 +62,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
          * this is useful when the contenteditable div is smaller than its container
          */
         inputViewModel.prototype.clickSetFocus = function clickSetFocus(data, e) {
+            this.fallbackBackground(null);
             var target = $(e.target);
             if (target.hasClass('dynamic-field-content') || target.hasClass('dynamic-field-nohighlight')) {
                 // the personalization elements are inserted outside of the framework, so cannot have bound functions
@@ -64,6 +71,9 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
             } else {
                 $(window).trigger('closeEditPersonalization');
             }
+
+            this.getBackgroundColour(e);
+
             if (target.hasClass('editable')) {
                 this.setFocus();
                 this.getState();

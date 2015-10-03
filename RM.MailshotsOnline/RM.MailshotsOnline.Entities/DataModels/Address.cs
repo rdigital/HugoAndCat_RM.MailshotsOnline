@@ -71,5 +71,63 @@ namespace RM.MailshotsOnline.Entities.DataModels
         /// </summary>
         [MaxLength(128)]
         public string Postcode { get; set; }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            if (!string.IsNullOrEmpty(FirstName) && !string.IsNullOrEmpty(LastName))
+            {
+                sb.AppendFormat("{0} {1}", FirstName, LastName);
+            }
+            else if (!string.IsNullOrEmpty(FirstName))
+            {
+                sb.AppendFormat(FirstName);
+            }
+            else if (!string.IsNullOrEmpty(LastName))
+            {
+                sb.AppendFormat(LastName);
+            }
+
+            if (sb.Length > 0)
+            {
+                sb.AppendLine();
+            }
+
+            if (!string.IsNullOrEmpty(FlatNumber))
+            {
+                sb.AppendFormat("{0} ", FlatNumber);
+            }
+            if (!string.IsNullOrEmpty(BuildingNumber))
+            {
+                sb.AppendFormat("{0} ", BuildingNumber);
+            }
+            if (!string.IsNullOrEmpty(BuildingName))
+            {
+                sb.AppendFormat("{0} ", BuildingName);
+            }
+            sb.AppendLine(Address1);
+
+            if (!string.IsNullOrEmpty(Address2))
+            {
+                sb.AppendLine(Address2);
+            }
+
+            if (!string.IsNullOrEmpty(City))
+            {
+                sb.AppendLine(City);
+            }
+
+            if (!string.IsNullOrEmpty(Postcode))
+            {
+                sb.AppendLine(Postcode);
+            }
+
+            if (!string.IsNullOrEmpty(Country))
+            {
+                sb.AppendLine(Country);
+            }
+
+            return sb.ToString();
+        }
     }
 }

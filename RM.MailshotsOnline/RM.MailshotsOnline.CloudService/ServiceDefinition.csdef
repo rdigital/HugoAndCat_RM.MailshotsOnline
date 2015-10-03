@@ -22,6 +22,7 @@
       <Setting name="SparqServiceBlobContainer" />
       <Setting name="PrivateMediaBlobStorageContainer" />
       <Setting name="SparqServiceBusConnectionString" />
+      <Setting name="Microsoft.ServiceBus.ConnectionString" />
       <Setting name="SparqBlobContainer" />
       <Setting name="RenderQueueName" />
       <Setting name="PrintQueueName" />

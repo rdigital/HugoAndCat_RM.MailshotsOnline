@@ -15,6 +15,9 @@ body {
 
 .component.component_selected {
     z-index: 110;
+    &.box-component {
+        z-index: initial;
+    }
     &.image-component canvas {
         cursor: move;
     }
