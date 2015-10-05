@@ -85,10 +85,7 @@ define(['knockout', 'view_models/state', 'view_models/theme', 'view_models/user'
                 // if no explicit bg colour set on element, inherit the face's bg colour when selected
                 if (!(styles['background-color'] || styles['background'])) {
                     if (this.isSelected()) {
-                        var bg = userViewModel.getFaceStyle('background-color', this.data.face);
-                        if (!bg) {
-                            bg = this.themeViewModel.getFaceStyle('background-color', this.data.face);
-                        }
+                        var bg = this.fallbackBackground();
                         if (bg) {
                             styles['background'] = bg;
                         }
@@ -99,6 +96,18 @@ define(['knockout', 'view_models/state', 'view_models/theme', 'view_models/user'
                 return styles;
             }, this);
         };
+
+        elementViewModel.prototype.getBackgroundColour = function getBackgroundColour(e) {
+            // try to get the required background colour for this input to grey out other inputs
+            var target = $(e.target);
+            var component = $(e.target).closest('.component');
+            component.hide();
+            var behind_el = document.elementFromPoint(e.clientX, e.clientY),
+                face = $(behind_el).closest('.face, .colour-box'),
+                bg_colour = face.css('background-color');
+            this.fallbackBackground(bg_colour);
+            component.show();
+        } 
 
         /**
          * Set user defined style for this element

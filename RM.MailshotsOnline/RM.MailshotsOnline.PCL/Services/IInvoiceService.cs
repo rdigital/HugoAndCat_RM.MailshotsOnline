@@ -17,6 +17,13 @@ namespace RM.MailshotsOnline.PCL.Services
         IInvoice CreateInvoiceForCampaign(ICampaign campaign, IMember member);
 
         /// <summary>
+        /// Gets an invoice
+        /// </summary>
+        /// <param name="invoiceId">The ID of the invoice</param>
+        /// <returns>The specified invoice</returns>
+        IInvoice GetInvoice(Guid invoiceId);
+
+        /// <summary>
         /// Gets any existing invoices for a given campaign
         /// </summary>
         /// <param name="campaign">The campaign to check</param>

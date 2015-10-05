@@ -45,6 +45,13 @@ namespace RM.MailshotsOnline.PCL.Services
         IMember GetMemberByPasswordResetToken(string token);
 
         /// <summary>
+        /// Gets a member by their Umbraco ID
+        /// </summary>
+        /// <param name="id">Umbraco ID of the member</param>
+        /// <returns>Member object</returns>
+        IMember GetMemberById(int id);
+
+        /// <summary>
         /// Sets a new password for the given member
         /// </summary>
         /// <param name="member">The member</param>

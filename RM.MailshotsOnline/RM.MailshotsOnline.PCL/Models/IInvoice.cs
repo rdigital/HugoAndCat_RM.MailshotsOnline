@@ -96,5 +96,11 @@ namespace RM.MailshotsOnline.PCL.Models
         /// Gets or sets the Billing Address
         /// </summary>
         IAddress BillingAddress { get; set; }
+
+        /// <summary>
+        /// Gets the key invoice information as XML
+        /// </summary>
+        /// <returns>XML string</returns>
+        string ToXmlString();
     }
 }

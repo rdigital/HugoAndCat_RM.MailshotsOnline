@@ -212,7 +212,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 string fileName = Path.GetFileName(model.UploadCsv.FileName);
                 string mimeType = model.UploadCsv.ContentType;
                 // Is the MimeType .csv? Not if Excel is installed on the machine (in which case they will be application/vnd.ms-excel, which is the same as an Excel .xls file.)...
-                if (mimeType.Equals("text/csv", StringComparison.InvariantCultureIgnoreCase))
+                if (mimeType.Equals(Constants.MimeTypes.Csv, StringComparison.InvariantCultureIgnoreCase))
                 {
                     validFile = true;
                     _logger.Info("ModifyListSurfaceController", "UploadFileToList",
@@ -251,7 +251,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             // TODO: Is this a new list, or are we adding to an existing one?
             var newList = _dataService.CreateDistributionList(loggedInMember, model.ListName,
                                                               Enums.DistributionListState.ConfirmFields, csvBytes,
-                                                              "text/csv", Enums.DistributionListFileType.Working);
+                                                              Constants.MimeTypes.Csv, Enums.DistributionListFileType.Working);
 
             var path = Umbraco.Url(CurrentPage.Id);
             return Redirect(path + "?listId=" + newList.DistributionListId);
