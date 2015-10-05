@@ -8,6 +8,11 @@ namespace RM.MailshotsOnline.PCL.Models
     public interface IAddress
     {
         /// <summary>
+        /// Gets or sets the recipients title or salutation
+        /// </summary>
+        string Title { get; set; }
+
+        /// <summary>
         /// Gets or sets the first name
         /// </summary>
         string FirstName { get; set; }
@@ -46,6 +51,11 @@ namespace RM.MailshotsOnline.PCL.Models
         /// Gets or sets the city
         /// </summary>
         string City { get; set; }
+
+        /// <summary>
+        /// Gets or sets the county
+        /// </summary>
+        string County { get; set; }
 
         /// <summary>
         /// Gets or sets the country

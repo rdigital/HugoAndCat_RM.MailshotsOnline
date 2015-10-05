@@ -1,0 +1,10 @@
+﻿@model RM.MailshotsOnline.Entities.PageModels.CampaignHub
+@{
+    Layout = null;
+}
+
+@using (Html.BeginUmbracoForm("AddData", "CampaignSurface"))
+{
+    <p>@Model.DataSectionPrompt</p>
+    <button class="big-button">@Model.DataGetStartedPrompt</button>
+}
