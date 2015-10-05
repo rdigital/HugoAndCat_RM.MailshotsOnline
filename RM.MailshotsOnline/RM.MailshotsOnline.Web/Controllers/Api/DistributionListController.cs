@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Runtime.Serialization;
 using System.Web.Mvc;
 using Glass.Mapper.Umb;
 using HC.RM.Common.PCL.Helpers;
@@ -398,6 +397,71 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             summaryModel.TotalContactCount = distributionList.RecordCount + summaryModel.ValidContactCount;
 
             return Request.CreateResponse(HttpStatusCode.OK, summaryModel);
+        }
+
+        [HttpPost]
+        public HttpResponseMessage PostFinishList(Guid distributionListId, string command)
+        {
+            string methodName = "PostConfirmFields";
+
+            var authResult = Authenticate();
+
+            if (authResult != null)
+            {
+                return authResult;
+            }
+
+            if (distributionListId == Guid.Empty)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                              new
+                              {
+                                  error = "You need to supply an existing list id.",
+                                  param = "DistributionListId",
+                                  statusCode = HttpStatusCode.BadRequest
+                              });
+            }
+
+            IDistributionList distributionList = null;
+            if (distributionListId != Guid.Empty)
+            {
+                distributionList = _dataService.GetDistributionListForUser(_loggedInMember.Id, distributionListId);
+
+                if (distributionList == null)
+                {
+                    _logger.Warn(_controllerName, methodName,
+                                 "User specified a list that does not belong to them: {0}:{1}", _loggedInMember.Id,
+                                 distributionListId);
+
+                    return Request.CreateResponse(HttpStatusCode.NotFound,
+                                                  new
+                                                  {
+                                                      error = "List Id was not found.",
+                                                      param = "DistributionListId",
+                                                      statusCode = HttpStatusCode.NotFound
+                                                  });
+                }
+            }
+
+            switch (command.ToLower())
+            {
+                case "finish":
+                    // TODO: Merge with existing
+                    if (!string.IsNullOrEmpty(distributionList.BlobWorking))
+                    {
+                        _dataService.CompleteContactEdits(distributionList);
+                    }
+                    else
+                    {
+                        _dataService.AbondonContactEdits(distributionList);
+                    }
+                    break;
+                case "cancel":
+                    _dataService.AbondonContactEdits(distributionList);
+                    break;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }

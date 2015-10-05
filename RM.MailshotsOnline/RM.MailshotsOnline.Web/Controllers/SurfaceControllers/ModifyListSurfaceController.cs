@@ -303,31 +303,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                     // TODO: Merge with existing
                     if (!string.IsNullOrEmpty(distributionList.BlobWorking))
                     {
-                        byte[] data = _dataService.GetDataFile(distributionList, Enums.DistributionListFileType.Working);
-
-                        using (var validStream = new MemoryStream(data))
-                        {
-                            using (var validReader = new StreamReader(validStream))
-                            {
-                                var validXml = XDocument.Load(validReader);
-
-                                var distributionListElement = validXml.Element(_elementDistributionList);
-
-                                if (distributionListElement == null)
-                                {
-                                    _logger.Critical(GetType().Name, "ShowSummaryListForm",
-                                                     "Unable to load working XML document for user list: {0}:{1} - {2} ",
-                                                     loggedInMember.Id, distributionList.DistributionListId,
-                                                     distributionList.BlobWorking);
-                                    throw new ArgumentException();
-                                }
-
-                                distributionList.RecordCount = (int)distributionListElement.Attribute("count");
-                            }
-                        }
-
-                        _dataService.UpdateDistributionList(distributionList, data, "text/xml",
-                                                            Enums.DistributionListFileType.Final);
+                        _dataService.CompleteContactEdits(distributionList);
                     }
                     else
                     {

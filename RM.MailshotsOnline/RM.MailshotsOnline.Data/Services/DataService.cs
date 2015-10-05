@@ -371,11 +371,39 @@ namespace RM.MailshotsOnline.Data.Services
             return updatedList;
         }
 
+        public IDistributionList CompleteContactEdits(IDistributionList distributionList)
+        {
+            byte[] data = GetDataFile(distributionList, Enums.DistributionListFileType.Working);
+
+            using (var validStream = new MemoryStream(data))
+            {
+                using (var validReader = new StreamReader(validStream))
+                {
+                    var validXml = XDocument.Load(validReader);
+
+                    var distributionListElement = validXml.Element(_elementDistributionList);
+
+                    if (distributionListElement == null)
+                    {
+                        _logger.Critical(_className, "CompleteContactEdits",
+                                         "Unable to load working XML document for user list: {0}:{1} - {2} ",
+                                         distributionList.UserId, distributionList.DistributionListId,
+                                         distributionList.BlobWorking);
+                        throw new ArgumentException();
+                    }
+
+                    distributionList.RecordCount = (int)distributionListElement.Attribute("count");
+                }
+            }
+
+            return UpdateDistributionList(distributionList, data, PCL.Constants.MimeTypes.Xml,
+                                          Enums.DistributionListFileType.Final);
+        }
 
         private static string convertToFileName(string listName, string contentType, Enums.DistributionListFileType fileType)
         {
             string fileName = Path.GetInvalidFileNameChars().Aggregate(listName, (current, c) => current.Replace(c, '_')).Replace(" ", "_");
-            string extension = contentType.Equals("text/xml") ? "xml" : "csv";
+            string extension = contentType.Equals(PCL.Constants.MimeTypes.Xml) ? "xml" : "csv";
 
             return $"{fileName}-{fileType}.{extension}";
         }
