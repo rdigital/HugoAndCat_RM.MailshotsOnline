@@ -6,7 +6,7 @@ using RM.MailshotsOnline.PCL.Models;
 
 namespace RM.MailshotsOnline.Entities.ViewModels
 {
-    public class ModifyListSummaryModel
+    public class ModifyListSummaryModel<T> where T: IDistributionContact
     {
         public Guid DistributionListId { get; set; }
 
@@ -25,8 +25,8 @@ namespace RM.MailshotsOnline.Entities.ViewModels
 
         public int TotalFoundCount => ValidContactCount + InvalidContactCount + DuplicateContactCount;
 
-        public IEnumerable<IDistributionContact> InvalidContacts { get; set; }
+        public IEnumerable<T> InvalidContacts { get; set; }
 
-        public IEnumerable<IDistributionContact> DuplicateContacts { get; set; } 
+        public IEnumerable<T> DuplicateContacts { get; set; } 
     }
 }

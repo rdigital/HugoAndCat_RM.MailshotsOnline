@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web.Mvc;
 using System.Xml.Linq;
-using CsvHelper;
-using CsvHelper.Configuration;
 using Glass.Mapper.Umb;
-using HC.RM.Common;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Business.Processors;
 using RM.MailshotsOnline.Data.Helpers;
@@ -35,7 +31,6 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         private readonly string _elementErrors = "errors";
         private readonly string _elementInvalid = "invalid";
         private readonly string _elementDuplicates = "duplicates";
-        private readonly string _attributeListName = "listName";
         private readonly string _attributeCount = "count";
 
         private readonly DataContractSerializer _serialiser = new DataContractSerializer(typeof(DistributionContact));
@@ -81,7 +76,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         [ChildActionOnly]
         public ActionResult ShowSummaryListForm(ListCreate model)
         {
-            var pageModel = new ModifyListSummaryModel
+            var pageModel = new ModifyListSummaryModel<DistributionContact>
                             {
                                 DistributionListId = model.DistributionList.DistributionListId,
                                 PageModel = model,
@@ -272,146 +267,22 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             byte[] data = _dataService.GetDataFile(distributionList, Enums.DistributionListFileType.Working);
 
-            var validContacts = new Dictionary<string, DistributionContact>();
-            var duplicateContacts = new List<DistributionContact>();
-            var errorContacts = new Dictionary<Guid, DistributionContact>();
-
-            // Build CSV Map
-            var contactMap = new DefaultCsvClassMap<DistributionContact>();
-
-            // mapping holds the Property - csv column mapping 
-            for (int mappingIndex = 0; mappingIndex < model.ColumnCount; mappingIndex++)
-            {
-                var columnName = model.Mappings[mappingIndex];
-                if (!string.IsNullOrEmpty(columnName))
-                {
-                    var propertyInfo = typeof (DistributionContact).GetProperty(columnName);
-                    var newMap = new CsvPropertyMap(propertyInfo);
-                    newMap.Index(mappingIndex);
-                    contactMap.PropertyMaps.Add(newMap);
-                }
-            }
-
-            // Should already have returned if FirstRowIsHeader is null.
-            var csvConfig = new CsvConfiguration {HasHeaderRecord = model.FirstRowIsHeader ?? false};
-
-            csvConfig.RegisterClassMap(contactMap);
-            
-            using (var stream = new MemoryStream(data))
-            {
-                using (var sr = new StreamReader(stream))
-                {
-                    // Assume No Header Row to start with.
-                    using (var csv = new CsvReader(sr, csvConfig))
-                    {
-                        while (csv.Read())
-                        {
-                            var contact = csv.GetRecord<DistributionContact>();
-
-                            if (contact != null)
-                            {
-                                contact.DistributionListId = Guid.NewGuid();
-                                ICollection<ValidationResult> results;
-                                bool isValid = contact.TryValidate(out results);
-
-                                // TODO: Dedupe against existing list as well
-                                if (isValid && !validContacts.ContainsKey(contact.AddressRef))
-                                {
-                                    validContacts.Add(contact.AddressRef, contact);
-                                }
-                                else if (!isValid)
-                                {
-                                    errorContacts.Add(contact.DistributionListId, contact);
-                                }
-                                else
-                                {
-                                    duplicateContacts.Add(contact);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            distributionList.ListState = Enums.DistributionListState.FixIssues;
-
+            ModifyListMappedFieldsModel<DistributionContact> mappedContacts = _listProcessor.BuildListsFromFieldMappings<DistributionContact>(distributionList,
+                                                                                             model.Mappings, model.ColumnCount, model.FirstRowIsHeader ?? false, data);
 
             // Could all be errors/duplicates
-            if (validContacts.Any())
+            if (mappedContacts.ValidContacts.Any())
             {
-                // Convert Successful items into an XML doc
-                var successfulXml = new XDocument();
-                var distributionListElement = new XElement(_elementDistributionList,
-                                                           new XAttribute(_attributeListName, distributionList.Name),
-                                                           new XAttribute(_attributeCount, validContacts.Count));
-                
-                using (var successWriter = distributionListElement.CreateWriter())
-                {
-                    foreach (var contact in validContacts.Select(c => c.Value))
-                    {
-                        _serialiser.WriteObject(successWriter, contact);
-                    }
-                }
-
-                successfulXml.Add(distributionListElement);
-
-
-                using (var successfulStream = new MemoryStream())
-                {
-                    successfulXml.Save(successfulStream);
-                    successfulStream.Position = 0;
-
-                    _dataService.UpdateDistributionList(distributionList, successfulStream.ToArray(), "text/xml",
-                                                        Enums.DistributionListFileType.Working);
-                }
+                distributionList = _dataService.CreateWorkingXml<DistributionContact>(distributionList, mappedContacts.ValidContactsCount,
+                                                                 mappedContacts.ValidContacts);
             }
 
-            if (errorContacts.Any() || duplicateContacts.Any())
+            if (mappedContacts.InvalidContacts.Any() || mappedContacts.DuplicateContacts.Any())
             {
-
-                var errorsXml = new XDocument();
-                var errorElement = new XElement(_elementErrors);
-                errorsXml.Add(errorElement);
-                if (errorContacts.Any())
-                {
-                    var invalidElement = new XElement(_elementInvalid, new XAttribute(_attributeListName, distributionList.Name),
-                                                     new XAttribute(_attributeCount, errorContacts.Count));
-
-                    using (var errorWriter = invalidElement.CreateWriter())
-                    {
-                        foreach (var contact in errorContacts.Select(c => c.Value))
-                        {
-                            _serialiser.WriteObject(errorWriter, contact);
-                        }
-                    }
-
-                    errorElement.Add(invalidElement);
-                }
-
-                if (duplicateContacts.Any())
-                {
-                    var duplicateElement = new XElement(_elementDuplicates, new XAttribute(_attributeListName, distributionList.Name),
-                                                     new XAttribute(_attributeCount, duplicateContacts.Count));
-
-                    using (var dupWriter = duplicateElement.CreateWriter())
-                    {
-                        foreach (var contact in duplicateContacts)
-                        {
-                            _serialiser.WriteObject(dupWriter, contact);
-                        }
-                    }
-
-                    errorElement.Add(duplicateElement);
-                }
-
-                using (var errorsStream = new MemoryStream())
-                {
-                    errorsXml.Save(errorsStream);
-                    errorsStream.Position = 0;
-
-                    _dataService.UpdateDistributionList(distributionList, errorsStream.ToArray(), "text/xml",
-                                                        Enums.DistributionListFileType.Errors);
-                }
+                _dataService.CreateErrorXml<DistributionContact>(distributionList, mappedContacts.InvalidContactsCount,
+                                                               mappedContacts.InvalidContacts,
+                                                               mappedContacts.DuplicateContactsCount,
+                                                               mappedContacts.DuplicateContacts);
             }
 
             var path = Umbraco.Url(CurrentPage.Id);
@@ -432,31 +303,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                     // TODO: Merge with existing
                     if (!string.IsNullOrEmpty(distributionList.BlobWorking))
                     {
-                        byte[] data = _dataService.GetDataFile(distributionList, Enums.DistributionListFileType.Working);
-
-                        using (var validStream = new MemoryStream(data))
-                        {
-                            using (var validReader = new StreamReader(validStream))
-                            {
-                                var validXml = XDocument.Load(validReader);
-
-                                var distributionListElement = validXml.Element(_elementDistributionList);
-
-                                if (distributionListElement == null)
-                                {
-                                    _logger.Critical(GetType().Name, "ShowSummaryListForm",
-                                                     "Unable to load working XML document for user list: {0}:{1} - {2} ",
-                                                     loggedInMember.Id, distributionList.DistributionListId,
-                                                     distributionList.BlobWorking);
-                                    throw new ArgumentException();
-                                }
-
-                                distributionList.RecordCount = (int)distributionListElement.Attribute("count");
-                            }
-                        }
-
-                        _dataService.UpdateDistributionList(distributionList, data, "text/xml",
-                                                            Enums.DistributionListFileType.Final);
+                        _dataService.CompleteContactEdits(distributionList);
                     }
                     else
                     {

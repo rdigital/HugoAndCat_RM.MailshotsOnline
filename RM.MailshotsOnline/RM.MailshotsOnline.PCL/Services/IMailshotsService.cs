@@ -38,6 +38,13 @@ namespace RM.MailshotsOnline.PCL.Services
         IMailshot GetMailshot(Guid mailshotId);
 
         /// <summary>
+        /// Gets a specific Mailshot
+        /// </summary>
+        /// <param name="mailshotId">The ID of the mailshot to get</param>
+        /// <returns>Mailshot object</returns>
+        IMailshot GetMailshotWithCampaignData(Guid mailshotId);
+
+        /// <summary>
         /// Saves a Mailshot to the database
         /// </summary>
         /// <param name="mailshot"></param>

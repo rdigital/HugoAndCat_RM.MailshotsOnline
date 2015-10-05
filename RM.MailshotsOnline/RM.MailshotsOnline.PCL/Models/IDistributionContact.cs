@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace RM.MailshotsOnline.PCL.Models
 {
     public interface IDistributionContact
     {
-        Guid DistributionListId { get; set; }
+        Guid ContactId { get; set; }
         string AddressRef { get; }
         string Title { get; set; }
         string FirstName { get; set; }
@@ -20,7 +17,6 @@ namespace RM.MailshotsOnline.PCL.Models
         string Address3 { get; set; }
         string Address4 { get; set; }
         string PostCode { get; set; }
-
         string ToString(string format);
     }
 }

@@ -59,6 +59,22 @@ namespace RM.MailshotsOnline.Data.Services
         }
 
         /// <summary>
+        /// Gets a specific Mailshot
+        /// </summary>
+        /// <param name="mailshotId">The ID of the mailshot to get</param>
+        /// <returns>Mailshot object</returns>
+        public IMailshot GetMailshotWithCampaignData(Guid mailshotId)
+        {
+            return _context.Mailshots
+                .Include("Content")
+                .Include("Template")
+                .Include("Format")
+                .Include("Theme")
+                .Include("Campaigns")
+                .FirstOrDefault(m => m.MailshotId == mailshotId);
+        }
+
+        /// <summary>
         /// Gets a user's mailshots
         /// </summary>
         /// <param name="userId">The ID of the user to search against</param>

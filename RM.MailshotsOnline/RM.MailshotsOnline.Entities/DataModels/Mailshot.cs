@@ -38,6 +38,11 @@ namespace RM.MailshotsOnline.Entities.DataModels
         /// </summary>
         private Theme _theme;
 
+        /// <summary>
+        /// The concrete Campaigns collection
+        /// </summary>
+        private ICollection<Campaign> _campaigns;
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid MailshotId { get; set; }
@@ -118,6 +123,14 @@ namespace RM.MailshotsOnline.Entities.DataModels
 
         public Enums.PdfRenderStatus ProofPdfStatus { get; set; }
 
+        [JsonIgnore]
+        [InverseProperty("Mailshot")]
+        public virtual ICollection<Campaign> Campaigns
+        {
+            get { return _campaigns; }
+            set { _campaigns = value; }
+        }
+
         #region Explicit Interface Implementations
 
         [JsonIgnore]
@@ -146,6 +159,20 @@ namespace RM.MailshotsOnline.Entities.DataModels
         {
             get { return _theme; }
             set { _theme = (Theme)value; }
+        }
+
+        ICollection<ICampaign> IMailshot.Campaigns
+        {
+            get
+            {
+                if (_campaigns == null)
+                {
+                    return null;
+                }
+
+                return _campaigns.Cast<ICampaign>().ToList();
+            }
+            set { _campaigns = (ICollection<Campaign>)value; }
         }
 
         #endregion

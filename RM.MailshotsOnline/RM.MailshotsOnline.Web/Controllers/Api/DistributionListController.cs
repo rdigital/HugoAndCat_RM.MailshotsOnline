@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Mvc;
@@ -11,6 +12,7 @@ using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.PCL;
 using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
+using RM.MailshotsOnline.Web.Models;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
@@ -282,6 +284,184 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, confirmFieldsModel);
         }
 
+        [HttpPost]
+        public HttpResponseMessage PostConfirmFields(ModifyListConfirmFieldsModel model)
+        {
+            string methodName = "PostConfirmFields";
 
+            var authResult = Authenticate();
+
+            if (authResult != null)
+            {
+                return authResult;
+            }
+
+            if (model.FirstRowIsHeader == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                              new
+                              {
+                                  error = "You need to specify whether we should import the first row.",
+                                  param = "FirstRowIsHeader",
+                                  statusCode = HttpStatusCode.BadRequest
+                              });
+            }
+
+            if (model.Mappings == null || !model.Mappings.Any())
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                              new
+                              {
+                                  error = "You need to select some mappings.",
+                                  param = "Mappings",
+                                  statusCode = HttpStatusCode.BadRequest
+                              });
+            }
+
+            if (
+                !((model.Mappings.Contains("FirstName") || model.Mappings.Contains("Surname")) &&
+                  model.Mappings.Contains("Address1") && model.Mappings.Contains("PostCode")))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                              new
+                              {
+                                  error = "You need to select at least one name field, as well as Address 1 and Post Code fields.",
+                                  param = "Mappings",
+                                  statusCode = HttpStatusCode.BadRequest
+                              });
+            }
+
+            if (model.DistributionListId == Guid.Empty)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                              new
+                              {
+                                  error = "You need to supply an existing list id.",
+                                  param = "DistributionListId",
+                                  statusCode = HttpStatusCode.BadRequest
+                              });
+            }
+
+            IDistributionList distributionList = null;
+            if (model.DistributionListId != Guid.Empty)
+            {
+                distributionList = _dataService.GetDistributionListForUser(_loggedInMember.Id, model.DistributionListId);
+
+                if (distributionList == null)
+                {
+                    _logger.Warn(_controllerName, methodName,
+                                 "User specified a list that does not belong to them: {0}:{1}", _loggedInMember.Id,
+                                 model.DistributionListId);
+
+                    return Request.CreateResponse(HttpStatusCode.NotFound,
+                                                  new
+                                                  {
+                                                      error = "List Id was not found.",
+                                                      param = "DistributionListId",
+                                                      statusCode = HttpStatusCode.NotFound
+                                                  });
+                }
+            }
+
+            byte[] data = _dataService.GetDataFile(distributionList, Enums.DistributionListFileType.Working);
+
+            ModifyListMappedFieldsModel<DistributionContact> mappedContacts = _listProcessor.BuildListsFromFieldMappings<DistributionContact>(distributionList,
+                                                                                             model.Mappings, model.ColumnCount, model.FirstRowIsHeader ?? false, data);
+
+            // Could all be errors/duplicates
+            if (mappedContacts.ValidContacts.Any())
+            {
+                distributionList = _dataService.CreateWorkingXml<DistributionContact>(distributionList, mappedContacts.ValidContactsCount,
+                                                                 mappedContacts.ValidContacts);
+            }
+
+            if (mappedContacts.InvalidContacts.Any() || mappedContacts.DuplicateContacts.Any())
+            {
+                distributionList = _dataService.CreateErrorXml<DistributionContact>(distributionList, mappedContacts.InvalidContactsCount,
+                                                               mappedContacts.InvalidContacts,
+                                                               mappedContacts.DuplicateContactsCount,
+                                                               mappedContacts.DuplicateContacts);
+            }
+
+            var summaryModel = new ModifyListSummaryModel<DistributionContact>
+            {
+                DistributionListId = distributionList.DistributionListId,
+                ListName = distributionList.Name,
+                ValidContactCount = mappedContacts.ValidContactsCount,
+                InvalidContactCount = mappedContacts.InvalidContactsCount,
+                InvalidContacts = mappedContacts.InvalidContacts,
+                DuplicateContactCount = mappedContacts.DuplicateContactsCount,
+                DuplicateContacts = mappedContacts.DuplicateContacts,
+            };
+
+            summaryModel.TotalContactCount = distributionList.RecordCount + summaryModel.ValidContactCount;
+
+            return Request.CreateResponse(HttpStatusCode.OK, summaryModel);
+        }
+
+        [HttpPost]
+        public HttpResponseMessage PostFinishList(ModifyListFinishModel model)
+        {
+            string methodName = "PostConfirmFields";
+
+            var authResult = Authenticate();
+
+            if (authResult != null)
+            {
+                return authResult;
+            }
+
+            if (model.DistributionListId == Guid.Empty)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                              new
+                              {
+                                  error = "You need to supply an existing list id.",
+                                  param = "DistributionListId",
+                                  statusCode = HttpStatusCode.BadRequest
+                              });
+            }
+
+            IDistributionList distributionList = null;
+            if (model.DistributionListId != Guid.Empty)
+            {
+                distributionList = _dataService.GetDistributionListForUser(_loggedInMember.Id, model.DistributionListId);
+
+                if (distributionList == null)
+                {
+                    _logger.Warn(_controllerName, methodName,
+                                 "User specified a list that does not belong to them: {0}:{1}", _loggedInMember.Id,
+                                 model.DistributionListId);
+
+                    return Request.CreateResponse(HttpStatusCode.NotFound,
+                                                  new
+                                                  {
+                                                      error = "List Id was not found.",
+                                                      param = "DistributionListId",
+                                                      statusCode = HttpStatusCode.NotFound
+                                                  });
+                }
+            }
+
+            switch (model.Command.ToLower())
+            {
+                case "finish":
+                    // TODO: Merge with existing
+                    if (!string.IsNullOrEmpty(distributionList.BlobWorking))
+                    {
+                        _dataService.CompleteContactEdits(distributionList);
+                    }
+                    else
+                    {
+                        _dataService.AbondonContactEdits(distributionList);
+                    }
+                    break;
+                case "cancel":
+                    _dataService.AbondonContactEdits(distributionList);
+                    break;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
     }
 }
