@@ -19,7 +19,7 @@ namespace RM.MailshotsOnline.Entities.ViewModels
         [Required]
         public List<string> Mappings { get; set; }
 
-        public Dictionary<string, string> MappingOptions { get; set; } 
+        public IEnumerable<ModifyListMappingsOptionModel> MappingOptions { get; set; } 
 
         public ListCreate PageModel { get; set; }
 

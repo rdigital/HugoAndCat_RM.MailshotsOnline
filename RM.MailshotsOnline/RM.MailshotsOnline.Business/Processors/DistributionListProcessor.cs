@@ -34,7 +34,7 @@ namespace RM.MailshotsOnline.Business.Processors
                                          ListName = list.Name,
                                          FirstRowIsHeader = null,
                                          MappingOptions =
-                                             dataMappings.Mappings.ToDictionary(m => m.FieldName, m => m.Name),
+                                             dataMappings.Mappings.Select(m => new ModifyListMappingsOptionModel {Value =  m.FieldName, Name = m.Name}),
                                      };
 
             using (var stream = new MemoryStream(csvBytes))
