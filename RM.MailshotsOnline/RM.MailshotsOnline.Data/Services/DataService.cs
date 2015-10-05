@@ -20,7 +20,7 @@ namespace RM.MailshotsOnline.Data.Services
             new BlobStorageHelper(ConfigHelper.PrivateStorageConnectionString,
                                   ConfigHelper.PrivateDistributionListBlobStorageContainer);
 
-        private ILogger _logger;
+        private readonly ILogger _logger;
         private readonly StorageContext _context;
 
         private string _className = "DataService";
@@ -30,7 +30,6 @@ namespace RM.MailshotsOnline.Data.Services
         private readonly string _elementDuplicates = "duplicates";
         private readonly string _attributeListName = "listName";
         private readonly string _attributeCount = "count";
-
 
         public DataService(ILogger logger) : this(logger, new StorageContext())
         { }
@@ -131,7 +130,6 @@ namespace RM.MailshotsOnline.Data.Services
 
             try
             {
-
                 _blobStorage.StoreBytes(bytes, uploadedListName, contentType);
 
                 string blobToClean = null;
@@ -328,7 +326,6 @@ namespace RM.MailshotsOnline.Data.Services
 
             if (errorsCount > 0)
             {
-
                 var invalidElement = new XElement(_elementInvalid, new XAttribute(_attributeListName, updatedList.Name),
                                                  new XAttribute(_attributeCount, errorsCount));
 

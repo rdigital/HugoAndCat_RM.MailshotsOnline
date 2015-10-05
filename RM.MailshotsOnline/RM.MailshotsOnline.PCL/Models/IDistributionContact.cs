@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace RM.MailshotsOnline.PCL.Models
 {
@@ -20,7 +17,6 @@ namespace RM.MailshotsOnline.PCL.Models
         string Address3 { get; set; }
         string Address4 { get; set; }
         string PostCode { get; set; }
-
         string ToString(string format);
     }
 }

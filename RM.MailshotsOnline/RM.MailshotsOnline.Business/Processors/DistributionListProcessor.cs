@@ -24,23 +24,25 @@ namespace RM.MailshotsOnline.Business.Processors
             _className = GetType().Name;
         }
 
-        public ModifyListConfirmFieldsModel AttemptToMapDataToColumns(IDistributionList list, DataMappingFolder dataMappings,
-                                                 byte[] csvBytes)
+        public ModifyListConfirmFieldsModel AttemptToMapDataToColumns(IDistributionList list,
+                                                                      DataMappingFolder dataMappings,
+                                                                      byte[] csvBytes)
         {
             var confirmFieldsModel = new ModifyListConfirmFieldsModel
-            {
-                DistributionListId = list.DistributionListId,
-                ListName = list.Name,
-                FirstRowIsHeader = null,
-                MappingOptions = dataMappings.Mappings.ToDictionary(m => m.FieldName, m => m.Name),
-            };
+                                     {
+                                         DistributionListId = list.DistributionListId,
+                                         ListName = list.Name,
+                                         FirstRowIsHeader = null,
+                                         MappingOptions =
+                                             dataMappings.Mappings.ToDictionary(m => m.FieldName, m => m.Name),
+                                     };
 
             using (var stream = new MemoryStream(csvBytes))
             {
                 using (var sr = new StreamReader(stream))
                 {
                     // Assume No Header Row to start with.
-                    using (var csv = new CsvReader(sr, new CsvConfiguration { HasHeaderRecord = false }))
+                    using (var csv = new CsvReader(sr, new CsvConfiguration {HasHeaderRecord = false}))
                     {
                         int rows = 0;
                         int columns = 0;
@@ -119,10 +121,11 @@ namespace RM.MailshotsOnline.Business.Processors
         }
 
         public ModifyListMappedFieldsModel<T> BuildListsFromFieldMappings<T>(IDistributionList list,
-                                                                      List<string> mappings,
-                                                                      int columnCount,
-                                                                      bool firstRowIsHeader,
-                                                                      byte[] csvBytes) where T : IDistributionContact
+                                                                             List<string> mappings,
+                                                                             int columnCount,
+                                                                             bool firstRowIsHeader,
+                                                                             byte[] csvBytes)
+            where T : IDistributionContact
         {
             var validContacts = new Dictionary<string, T>();
             var duplicateContacts = new List<T>();
@@ -137,7 +140,7 @@ namespace RM.MailshotsOnline.Business.Processors
                 var columnName = mappings[mappingIndex];
                 if (!string.IsNullOrEmpty(columnName))
                 {
-                    var propertyInfo = typeof(T).GetProperty(columnName);
+                    var propertyInfo = typeof (T).GetProperty(columnName);
                     var newMap = new CsvPropertyMap(propertyInfo);
                     newMap.Index(mappingIndex);
                     contactMap.PropertyMaps.Add(newMap);
@@ -145,7 +148,7 @@ namespace RM.MailshotsOnline.Business.Processors
             }
 
             // Should already have returned if FirstRowIsHeader is null.
-            var csvConfig = new CsvConfiguration { HasHeaderRecord = firstRowIsHeader };
+            var csvConfig = new CsvConfiguration {HasHeaderRecord = firstRowIsHeader};
 
             csvConfig.RegisterClassMap(contactMap);
 
@@ -197,6 +200,5 @@ namespace RM.MailshotsOnline.Business.Processors
 
             return mappedFields;
         }
-
     }
-    }
+}
