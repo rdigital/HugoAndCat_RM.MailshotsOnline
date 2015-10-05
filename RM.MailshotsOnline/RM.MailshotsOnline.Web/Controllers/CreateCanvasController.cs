@@ -48,6 +48,16 @@ namespace RM.MailshotsOnline.Web.Controllers
                 {
                     return Redirect(contentPageModel.MyCampaignsPage.Url());
                 }
+
+                var mailshot = _mailshotService.GetMailshotWithCampaignData(mailshotId);
+                if (mailshot.Campaigns != null)
+                {
+                    var campaign = mailshot.Campaigns.FirstOrDefault();
+                    if (campaign != null)
+                    {
+                        contentPageModel.CampaignId = campaign.CampaignId;
+                    }
+                }
             }
 
             return View("~/Views/CreateCanvas.cshtml", contentPageModel);

@@ -1,6 +1,6 @@
-define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/history', 'view_models/state', 'view_models/auth'],
+define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/notification', 'view_models/history', 'view_models/state', 'view_models/auth'],
 
-    function(ko, $, kofile, myImagesViewModel, historyViewModel, stateViewModel, authViewModel) {
+    function(ko, $, kofile, myImagesViewModel, notificationViewModel, historyViewModel, stateViewModel, authViewModel) {
 
         function imageUploadViewModel(params) {
             this.src = ko.observable();
@@ -55,6 +55,8 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/his
             if (this.src()) {
 
                 // we are uploading a new image
+                notificationViewModel.show('Uploading Image...')
+
                 var name = this.getRandomInt().toString(),
                     data = {
                         imageString: this.src(),
@@ -65,8 +67,9 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/his
                         myImagesViewModel.add(image);
                         element.setUrlSrc(image.Src);
                         imageSrc = image.Src;
+                        notificationViewModel.hideWithMessage("Upload complete!");
                     }).fail(function(error) {
-                        console.log('There was an error uploading image', error);
+                        notificationViewModel.show("Error uploading image", "error");
                         element.setUrlSrc(null);
                     }).always(function() {
                         stateViewModel.uploadingImages.remove(name);

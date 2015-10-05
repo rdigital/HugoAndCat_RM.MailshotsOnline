@@ -121,21 +121,19 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 Log.Error(this.GetType().Name, "ConfirmPrinted", "Unable to capture payment for order {0}.", order.Id);
             }
 
-            if (result == null || result.State != CaptureState.completed)
+            if (result == null || !(result.State == CaptureState.completed || result.State == CaptureState.pending))
             {
-                campaign.SystemNotes += string.Format("{0}{1:yyyy-MM-dd HH:mm:ss} - Error capturing payment for PayPal order {2}", Environment.NewLine, DateTime.UtcNow, order.Id);
-                _campaignService.SaveCampaign(campaign);
-                ModelState.AddModelError("ModerationId", "Error getting PayPal order information");
-                TempData[PaymentFailedFlag] = true;
-
                 invoice.Status = PCL.Enums.InvoiceStatus.Failed;
                 invoice.CancelledDate = DateTime.UtcNow;
                 _invoiceService.Save(invoice);
 
                 campaign.Status = PCL.Enums.CampaignStatus.PaymentFailed;
+                campaign.SystemNotes += string.Format("{0}{1:yyyy-MM-dd HH:mm:ss} - Error capturing payment for PayPal order {2}", Environment.NewLine, DateTime.UtcNow, order.Id);
                 campaign.SystemNotes += string.Format("{0}{1:yyyy-MM-dd HH:mm:ss} - Payment failed for campaign.", Environment.NewLine, DateTime.UtcNow);
                 _campaignService.SaveCampaign(campaign);
 
+                ModelState.AddModelError("ModerationId", "Error getting PayPal order information");
+                TempData[PaymentFailedFlag] = true;
                 return CurrentUmbracoPage();
             }
 
@@ -143,12 +141,14 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             invoice.PaidDate = DateTime.UtcNow;
             _invoiceService.Save(invoice);
 
+            var fullInvoice = _invoiceService.GetInvoice(invoice.InvoiceId);
+
             // Generate invoice PDF
             var moderationPage = _umbracoService.GetItem<ModerationPage>(CurrentPage.Id);
             var xmlAndXsl = new XmlAndXslData()
             {
                 XslStylesheet = moderationPage.InvoiceXsl,
-                XmlData = invoice.ToXmlString()
+                XmlData = fullInvoice.ToXmlString()
             };
             var baseUrl = string.Format("{0}://{1}:{2}", ConfigHelper.HostedScheme, ConfigHelper.HostedDomain, ConfigHelper.HostedPort);
             var postbackUrl = string.Format("{0}/Umbraco/Api/Orders/InvoicePdfReady/{1}", baseUrl, invoice.InvoiceId);

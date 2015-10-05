@@ -13,5 +13,9 @@ namespace RM.MailshotsOnline.Entities.PageModels
         public BasePage MyCampaignsPage { get; set; }
 
         public BasePage LoginPage { get; set; }
+
+        public BasePage CampaignHubPage { get; set; }
+
+        public Guid? CampaignId { get; set; }
     }
 }

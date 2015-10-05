@@ -5,6 +5,7 @@ define(['knockout', 'view_models/auth'],
 
         function stateViewModel() {
             this.mailshotID = ko.observable(this.getUrlVars()['mailshotId']);
+            this.campaignID = window.campaignId || '';
             this.formatID = this.getUrlVars()['formatId'];
             this.selectedElement = ko.observable();
             this.scaleElement = ko.observable();

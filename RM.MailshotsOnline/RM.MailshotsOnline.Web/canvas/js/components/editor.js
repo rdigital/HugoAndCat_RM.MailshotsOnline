@@ -1,6 +1,6 @@
-define(['knockout', 'components/auth', 'components/side', 'components/tools', 'components/backgroundtools', 'components/options', 'components/upload', 'components/zoom', 'components/preview', 'components/sidepicker', 'view_models/format', 'view_models/state'],
+define(['knockout', 'components/auth', 'components/side', 'components/tools', 'components/backgroundtools', 'components/options', 'components/upload', 'components/zoom', 'components/preview', 'components/sidepicker', 'components/notification', 'view_models/format', 'view_models/state'],
 
-    function(ko, authComponent, sideComponent, toolsComponent, backgroundToolsComponent, optionsComponent, uploadComponent, zoomComponent, previewComponent, sidePickerComponent, formatViewModel, stateViewModel) {
+    function(ko, authComponent, sideComponent, toolsComponent, backgroundToolsComponent, optionsComponent, uploadComponent, zoomComponent, previewComponent, sidePickerComponent, notificationComponent, formatViewModel, stateViewModel) {
         // register required components
         ko.components.register('tools-component', toolsComponent);
         ko.components.register('backgroundtools-component', backgroundToolsComponent);
@@ -11,6 +11,7 @@ define(['knockout', 'components/auth', 'components/side', 'components/tools', 'c
         ko.components.register('zoom-component', zoomComponent);
         ko.components.register('preview-component', previewComponent);
         ko.components.register('auth-component', authComponent);
+        ko.components.register('notification-component', notificationComponent);
 
         // ViewModel
         function editorViewModel(params) {

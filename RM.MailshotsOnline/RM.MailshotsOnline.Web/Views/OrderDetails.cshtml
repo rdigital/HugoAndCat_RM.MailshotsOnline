@@ -43,7 +43,7 @@
                 <div class="address">
                     <h2>@Model.BillingAddressLabel</h2>
                     <p>
-                        @Model.Campaign.LatestInvoice().BillingAddress.FirstName @Model.Campaign.LatestInvoice().BillingAddress.FirstName<br />
+                        @Model.Campaign.LatestInvoice().BillingAddress.FirstName @Model.Campaign.LatestInvoice().BillingAddress.LastName<br />
                         @Model.Campaign.LatestInvoice().BillingAddress.Address1<br />
                         @if(!string.IsNullOrEmpty(Model.Campaign.LatestInvoice().BillingAddress.Address2))
                         {
