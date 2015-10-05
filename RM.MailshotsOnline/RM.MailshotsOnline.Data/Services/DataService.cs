@@ -6,6 +6,8 @@ using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.DAL;
 using RM.MailshotsOnline.Data.Helpers;
 using RM.MailshotsOnline.Entities.DataModels;
+using RM.MailshotsOnline.Entities.PageModels.Settings;
+using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.PCL;
 using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
@@ -20,6 +22,7 @@ namespace RM.MailshotsOnline.Data.Services
 
         private ILogger _logger;
         private readonly StorageContext _context;
+        private string _className = "DataService";
 
         public DataService(ILogger logger) : this(logger, new StorageContext())
         { }
@@ -81,7 +84,7 @@ namespace RM.MailshotsOnline.Data.Services
             }
             catch (Exception ex)
             {
-                _logger.Exception("DataService", "CreateDistributionList", ex);
+                _logger.Exception(_className, "CreateDistributionList", ex);
 
                 return null;
             }
@@ -104,16 +107,17 @@ namespace RM.MailshotsOnline.Data.Services
             string listNameAsFileName = convertToFileName(distributionList.Name, contentType, fileType);
             var uploadedListName = $"{distributionList.UserId}/{listNameAsFileName}";
 
+            var methodName = "UpdateDistributionList";
             if (!string.IsNullOrEmpty(distributionList.BlobFinal) &&
                 distributionList.BlobFinal.EndsWith(listNameAsFileName))
             {
-                _logger.Info("DataService", "UpdateDistributionList",
+                _logger.Info(_className, methodName,
                              "Attempting to replace existing file {0} on list: {1}:{2}", listNameAsFileName,
                              distributionList.UserId, distributionList.DistributionListId);
             }
             else
             {
-                _logger.Info("DataService", "UpdateDistributionList", "Uploading new file {0} on list: {1}:{2}",
+                _logger.Info(_className, methodName, "Uploading new file {0} on list: {1}:{2}",
                              listNameAsFileName, distributionList.UserId, distributionList.DistributionListId);
             }
 
@@ -158,7 +162,7 @@ namespace RM.MailshotsOnline.Data.Services
 
                 if (!string.IsNullOrEmpty(blobToClean))
                 {
-                    _logger.Info("DataService", "UpdateDistributionList",
+                    _logger.Info(_className, methodName,
                                  "Cleaning old version of file {0}:{1} for list {2}:{3}", fileType, blobToClean,
                                  distributionList.UserId, distributionList.DistributionListId);
 
@@ -168,7 +172,7 @@ namespace RM.MailshotsOnline.Data.Services
                 if (fileType == Enums.DistributionListFileType.Final && (!string.IsNullOrEmpty(distributionList.BlobErrors) || !string.IsNullOrEmpty(distributionList.BlobWorking)))
                 {
                     // Clean up any remaining Working/Errors files
-                    _logger.Info("DataService", "UpdateDistributionList",
+                    _logger.Info(_className, methodName,
                                  "New final list has been uploaded, attempting to remove any old working files for list: {0}:{1}", distributionList.UserId,
                                  distributionList.DistributionListId);
 
@@ -176,7 +180,7 @@ namespace RM.MailshotsOnline.Data.Services
                     {
                         _blobStorage.DeleteBlob($"{distributionList.UserId}/{distributionList.BlobErrors}");
 
-                        _logger.Info("DataService", "UpdateDistributionList",
+                        _logger.Info(_className, methodName,
                                      "Successfully removed Errors file {0} for list: {1}:{2}",
                                      distributionList.BlobErrors, distributionList.UserId,
                                      distributionList.DistributionListId);
@@ -187,7 +191,7 @@ namespace RM.MailshotsOnline.Data.Services
                     if (!string.IsNullOrEmpty(distributionList.BlobWorking))
                     {
                         _blobStorage.DeleteBlob($"{distributionList.UserId}/{distributionList.BlobWorking}");
-                        _logger.Info("DataService", "UpdateDistributionList",
+                        _logger.Info(_className, methodName,
                                      "Successfully removed Working file {0} for list: {1}:{2}",
                                      distributionList.BlobWorking, distributionList.UserId,
                                      distributionList.DistributionListId);
@@ -198,7 +202,7 @@ namespace RM.MailshotsOnline.Data.Services
             }
             catch (Exception ex)
             {
-                _logger.Exception("DataService", "CreateDistributionList", ex);
+                _logger.Exception(_className, "CreateDistributionList", ex);
 
                 return null;
             }
