@@ -15,7 +15,6 @@ define(['knockout'],
             this.selectedLists = ko.observableArray();
             this.listTitle = ko.observable('');
             this.currentList = ko.observable({});
-            this.firstRowIsHeader = ko.observable();
             this.createListStep = ko.observable('create');
         }
 

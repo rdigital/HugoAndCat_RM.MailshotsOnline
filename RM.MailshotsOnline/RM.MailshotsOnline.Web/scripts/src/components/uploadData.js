@@ -51,12 +51,16 @@ define(['knockout', 'view-models/state', 'koelement', 'kofile', 'koMapping'],
 
         	$.post('/Umbraco/Api/DistributionList/PostUploadCsv', data, function(result) {
         	    stateViewModel.currentList(koMapping.fromJS(result));
-        	    stateViewModel.firstRowIsHeader(result.firstRowIsHeader);
         	    stateViewModel.createListStep('match');
         	    self.loading(false);
         	}).fail(function(error) {
         	    stateViewModel.showError(true);
-        	    stateViewModel.errorTitle(error.responseJSON.error);
+        	    if (error.reponseJSON) {
+                    stateViewModel.errorTitle(error.responseJSON.error);
+                } else {
+                	stateViewModel.errorTitle("Oops!");
+                	stateViewModel.errorMessage("Looks like something went wrong, please try again");
+                }
         	    self.loading(false);
         	});
         }

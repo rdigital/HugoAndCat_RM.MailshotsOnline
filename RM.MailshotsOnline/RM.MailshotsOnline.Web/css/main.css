@@ -937,6 +937,14 @@ header {
     position: absolute;
     top: -10px; }
 
+.error-modal {
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 2; }
+
 .error {
   background-color: #fff;
   border-left: 4px solid #fdda24;

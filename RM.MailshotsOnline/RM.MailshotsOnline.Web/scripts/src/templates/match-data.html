@@ -4,7 +4,7 @@
 		<p class="intro-text">Let us know if your file has column headers and for each column of your contact list, select a field that it corresponds to.</p>
 		<p class="strong">Should we import your first row?</p>
 		<!-- ko if: currentList -->
-			<fieldset>
+			
 				<div>
 					<input data-bind="checkedValue: true, checked: currentList().FirstRowIsHeader" type="radio" name="importoptions" id="importno" value="true">
 					<label for="importno">My first row is a header - don't import it</label>
@@ -13,7 +13,7 @@
 					<input data-bind="checkedValue: false, checked: currentList().FirstRowIsHeader" type="radio" name="importoptions" id="importyes" value="false">
 					<label for="importyes">My first row is a contact - import it</label>
 				</div>
-			</fieldset>
+			
 		<!-- /ko -->
 	</div>
 	<table class="match-data__table">
@@ -54,5 +54,5 @@
 			<!-- /ko -->
 		</tbody>
 	</table>
-	<button data-bind="click: createMappings" class="btn btn--blue btn--icon-right">Finish adding contacts<span class="btn-icon icon-next"></span></button>
+	<button type="button" data-bind="click: createMappings" class="btn btn--blue btn--icon-right">Finish adding contacts<span class="btn-icon icon-next"></span></button>
 </div>
