@@ -24,20 +24,27 @@ define(['jquery', 'knockout', 'koMapping', 'select2', 'view-models/state'],
             var data = koMapping.toJSON(this.currentList());
             console.log(data);
 
-           $.post('/Umbraco/Api/DistributionList/PostConfirmFields', data, function(result) {
-                console.log(result);
-                stateViewModel.createListStep('summary');
-                self.loading(false);
-            }).fail(function(error) {
-                stateViewModel.showError(true);
-                if (error) {
-                    stateViewModel.errorTitle("Oops!");
-                    stateViewModel.errorMessage(error.responseJSON.error);
-                } else {
-                    stateViewModel.errorTitle("Oops!");
-                    stateViewModel.errorMessage("Looks like something went wrong, please try again");
+            $.ajax({
+                url: '/Umbraco/Api/DistributionList/PostConfirmFields',
+                data: data,
+                method: "POST",
+                contentType: "application/json",
+                success: function(result) {
+                    console.log(result);
+                    stateViewModel.createListStep('summary');
+                    self.loading(false);
+                },
+                error: function(error) {
+                    stateViewModel.showError(true);
+                    if (error) {
+                        stateViewModel.errorTitle("Oops!");
+                        stateViewModel.errorMessage(error.responseJSON.error);
+                    } else {
+                        stateViewModel.errorTitle("Oops!");
+                        stateViewModel.errorMessage("Looks like something went wrong, please try again");
+                    }
+                    self.loading(false);
                 }
-                self.loading(false);
             });
         }
 
