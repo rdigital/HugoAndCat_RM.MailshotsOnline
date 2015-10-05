@@ -189,7 +189,7 @@
 	}
 }
 
-.delete-image-modal-bg {
+.modal-bg {
 	animation: fadein .25s;
 	position: absolute;
 	top: 0;
@@ -201,11 +201,11 @@
 	z-index: 999;
 }
 
-.delete-image-modal-container {
+.modal-container {
 	animation: fadein .25s;
 }
 
-.delete-image-modal {
+.modal {
 	@include borderradius(3px);
 	z-index: 1000;
 	position: absolute;
@@ -220,7 +220,7 @@
 	font-family: Chevin Medium, Arial;
 	padding: 40px;
 	color: $darkest-grey;
-	.delete-image-buttons {
+	.modal-buttons {
 		height: 50px;
 		margin-top: 30px;
 		> a {

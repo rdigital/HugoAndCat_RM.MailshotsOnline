@@ -66,7 +66,7 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
          */
         faceViewModel.prototype.getOverlayVisibleComputed = function getOverlayVisibleComputed() {
             return ko.pureComputed(function() {
-                return (stateViewModel.selectedElement()) ? true : false;
+                return (stateViewModel.selectedElement() && stateViewModel.selectedElement().data.type != 'box') ? true : false;
             });
         };
 

@@ -29,6 +29,14 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             this.personalizationEl = ko.observable(null);
             this.caretPosition = 0;
 
+            // variables for tracking applied colour changes
+            this.previousColour = null;
+            this.newColour = null;
+            this.previousBackgroundColour = null;
+            this.newBackgroundColour = null;
+            this.previousBorderColour = null;
+            this.newBorderColour = null;
+
             // computeds
             this.elementType = this.getElementTypeComputed();
             this.showScale = this.getScaleComputed();
@@ -37,11 +45,8 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             this.fonts = this.getFontsComputed();
             this.colours = this.getColoursComputed();
             this.colour = this.getStyleComputed('color');
-            this.previousColour = null;
-            this.newColour = null;
             this.backgroundColour = this.getStyleComputed('background-color');
-            this.previousBackgroundColour = null;
-            this.newBackgroundColour = null;
+            this.borderColour = this.getStyleComputed('border-color');
             this.isVisible = this.getIsVisibleComputed();
             this.font = this.getStyleComputed('font-family');
             this.my_images = this.getMyImagesComputed();
@@ -66,6 +71,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             this.selectedElement.subscribe(this.closePersonalization, this);
             this.colour.subscribe(this.storeNewColours, this);
             this.backgroundColour.subscribe(this.storeNewColours, this);
+            this.borderColour.subscribe(this.storeNewColours, this);
             stateViewModel.zoom.subscribe(this.handleResize, this);
             stateViewModel.overrideZoom.subscribe(this.handleResize, this);
             this.handleResize();
@@ -716,6 +722,10 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
         toolsViewModel.prototype.storePreviousColours = function storePreviousColours() {
             this.previousColour = this.colour() ? this.colour() : null;
             this.previousBackgroundColour = this.backgroundColour() ? this.backgroundColour() : null;
+            this.previousBorderColour = this.borderColour() ? this.borderColour() : null;
+            this.newColour = null;
+            this.newBackgroundColour = null;
+            this.newBorderColour = null;
         }
 
         toolsViewModel.prototype.storeNewColours = function storeNewColours() {
@@ -724,6 +734,9 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             }
             if (this.backgroundColour()) {
                 this.newBackgroundColour = this.backgroundColour();
+            }  
+            if (this.borderColour()) {
+                this.newBorderColour = this.borderColour();
             }    
         }
 
@@ -734,10 +747,13 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             if (this.newBackgroundColour && this.newBackgroundColour != this.previousBackgroundColour) {
                 this.addToRecentColours(this.newBackgroundColour);
             }
+            if (this.newBorderColour && this.newBorderColour != this.previousBorderColour) {
+                this.addToRecentColours(this.newBorderColour);
+            }
         }
 
         toolsViewModel.prototype.addToRecentColours = function addToRecentColours(colour) {
-            this.recentColours.removeAll(colour);
+            this.recentColours.remove(colour);
             this.recentColours.unshift(colour);
             var colours = this.recentColours();
             this.recentColours(colours.slice(0, Math.min(10, colours.length)));
