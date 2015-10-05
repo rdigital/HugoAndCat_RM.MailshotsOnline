@@ -416,6 +416,7 @@
     <Content Include="canvas\js\components\face.js" />
     <Content Include="canvas\js\components\image.js" />
     <Content Include="canvas\js\components\input.js" />
+    <Content Include="canvas\js\components\notification.js" />
     <Content Include="canvas\js\components\options.js" />
     <Content Include="canvas\js\components\preview.js" />
     <Content Include="canvas\js\components\side.js" />
@@ -450,6 +451,7 @@
     <Content Include="canvas\js\view_models\format.js" />
     <Content Include="canvas\js\view_models\history.js" />
     <Content Include="canvas\js\view_models\myimages.js" />
+    <Content Include="canvas\js\view_models\notification.js" />
     <Content Include="canvas\js\view_models\state.js" />
     <Content Include="canvas\js\view_models\template.js" />
     <Content Include="canvas\js\view_models\theme.js" />
@@ -479,6 +481,7 @@
     <Content Include="canvas\templates\face.html" />
     <Content Include="canvas\templates\image.html" />
     <Content Include="canvas\templates\input.html" />
+    <Content Include="canvas\templates\notification.html" />
     <Content Include="canvas\templates\options.html" />
     <Content Include="canvas\templates\preview.html" />
     <Content Include="canvas\templates\side.html" />
