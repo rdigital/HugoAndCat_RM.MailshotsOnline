@@ -3,16 +3,18 @@
 		<h2>Confirm your fields</h2>
 		<p class="intro-text">Let us know if your file has column headers and for each column of your contact list, select a field that it corresponds to.</p>
 		<p class="strong">Should we import your first row?</p>
-		<fieldset>
-			<div>
-				<input type="radio" name="importoptions" id="importno" value="no">
-				<label for="importno">My first row is a header - don't import it</label>
-			</div>
-			<div>
-				<input type="radio" name="importoptions" id="importyes" value="yes">
-				<label for="importyes">My first row is a contact - import it</label>
-			</div>
-		</fieldset>
+		<!-- ko if: currentList -->
+			<fieldset>
+				<div>
+					<input data-bind="checkedValue: true, checked: currentList().FirstRowIsHeader" type="radio" name="importoptions" id="importno" value="true">
+					<label for="importno">My first row is a header - don't import it</label>
+				</div>
+				<div>
+					<input data-bind="checkedValue: false, checked: currentList().FirstRowIsHeader" type="radio" name="importoptions" id="importyes" value="false">
+					<label for="importyes">My first row is a contact - import it</label>
+				</div>
+			</fieldset>
+		<!-- /ko -->
 	</div>
 	<table class="match-data__table">
 		<thead>
@@ -23,27 +25,34 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
+			<!-- ko if: currentList -->
+				<!-- ko foreach: {
+					data: currentList().FirstTwoRowsWithGuessedMappings,
+					afterRender: initSelect
+				} -->
+				<tr>
+					<td data-bind="text: m_Item1"></td>
+					<td data-bind="text: m_Item2"></td>
+					<td>
+						<select>
+							<option data-bind="attr: {selected:  m_Item3() === 'Address1'}" value="Address1">Address 1</option>
+							<option data-bind="attr: {selected:  m_Item3() === 'Address2'}" value="Address2">Address 2</option>
+							<option data-bind="attr: {selected:  m_Item3() === 'Address3'}" value="Address3">Address 3</option>
+							<option data-bind="attr: {selected:  m_Item3() === 'Address4'}" value="Address4">Address 4</option>
+							<option data-bind="attr: {selected:  m_Item3() === 'FirstName'}" value="FirstName">First Name</option>
+							<option data-bind="attr: {selected:  m_Item3() === 'FlatId'}" value="FlatId">Flat Id</option>
+							<option data-bind="attr: {selected:  m_Item3() === 'HouseName'}" value="HouseName">House Name</option>
+							<option data-bind="attr: {selected:  m_Item3() === 'HouseNumber'}" value="HouseNumber">House Number</option>
+							<option data-bind="attr: {selected:  m_Item3() === 'PostCode'}" value="PostCode">Post Code</option>
+							<option data-bind="attr: {selected:  m_Item3() === 'Surname'}" value="Surname">Surname</option>
+							<option data-bind="attr: {selected:  m_Item3() === 'Title'}" value="Title">Title</option>
+						</select>
+					</td>
+				</tr>
+
+				<!-- /ko -->
+			<!-- /ko -->
 		</tbody>
 	</table>
-	<button class="btn btn--blue btn--icon-right">Finish adding contacts<span class="btn-icon icon-next"></span></button>
+	<button data-bind="click: createMappings" class="btn btn--blue btn--icon-right">Finish adding contacts<span class="btn-icon icon-next"></span></button>
 </div>

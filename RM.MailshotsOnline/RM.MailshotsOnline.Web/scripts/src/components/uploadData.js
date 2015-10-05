@@ -1,6 +1,6 @@
-define(['knockout', 'view-models/state', 'koelement', 'kofile'],
+define(['knockout', 'view-models/state', 'koelement', 'kofile', 'koMapping'],
 
-    function(ko, stateViewModel, koelement, kofile) {
+    function(ko, stateViewModel, koelement, kofile, koMapping) {
 
         function uploadDataComponentViewModel() {
             this.uploadEl = ko.observable();
@@ -50,8 +50,8 @@ define(['knockout', 'view-models/state', 'koelement', 'kofile'],
         	}
 
         	$.post('/Umbraco/Api/DistributionList/PostUploadCsv', data, function(result) {
-        	    console.log(result);
-        	    stateViewModel.currentList(result);
+        	    stateViewModel.currentList(koMapping.fromJS(result));
+        	    stateViewModel.firstRowIsHeader(result.firstRowIsHeader);
         	    stateViewModel.createListStep('match');
         	    self.loading(false);
         	}).fail(function(error) {

@@ -6,9 +6,9 @@
 
     
     Html.RequiresJs("~/scripts/src/vendor/jquery-1.10.2.min.js", 1);
-    Html.RequiresJs("~/scripts/src/vendor/placeholders.jquery.min.js", 2);
-    Html.RequiresJs("~/scripts/src/vendor/require.js", 3, new Dictionary<string, string>() { { "data-main", "scripts/src/main" } });
-    Html.RequiresJs("~/scripts/src/require_config.js", 4);
+    Html.RequiresJs("~/scripts/src/vendor/placeholders.jquery.min.js", 3);
+    Html.RequiresJs("~/scripts/src/vendor/require.js", 4, new Dictionary<string, string>() { { "data-main", "scripts/src/main" } });
+    Html.RequiresJs("~/scripts/src/require_config.js", 5);
     Html.RequiresCss("~/css/temp.css", 1);
     Html.RequiresCss("~/css/main.css", 2);
 
@@ -22,6 +22,7 @@
     <title>@Model.Name</title>
     <meta name="description" content="@Model.MetaDescription" />
     <meta name="keywords" content="@Model.MetaKeywords" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
     @Html.RenderCssHere()
     @Html.RenderJsHere()
 

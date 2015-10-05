@@ -89,6 +89,10 @@
 			padding: 0 35px;
 		}
 
+		fieldset div {
+			margin-bottom: 10px;
+		}
+
 		.match-data__table {
 			margin-bottom: 20px;
 			width: 100%;
@@ -103,6 +107,10 @@
 				td {
 					border-bottom: 1px solid $shadow-grey;
 					padding: 12px 30px;
+
+					.select2-container {
+						width: 90% !important;
+					}
 				}
 			}
 		}

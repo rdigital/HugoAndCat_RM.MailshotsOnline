@@ -478,68 +478,38 @@ select {
   .btn-dropdown.open .dropdown-list {
     display: block; }
 
-.select2-container .select2-choice {
+.select2-search--dropdown {
+  display: none; }
+
+.select2-container--default .select2-selection--single {
   background-color: #fff;
-  background-image: none;
   border: 1px solid #c1c6c8;
-  border-radius: 0;
+  border-radius: 0; }
+
+.select2-container--default .select2-selection--single {
+  height: 40px; }
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  line-height: 40px; }
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  border-left: 1px solid #c1c6c8;
   box-sizing: border-box;
-  height: 40px;
-  line-height: 40px;
-  cursor: pointer; }
-  .select2-container .select2-choice > .select2-chosen {
-    color: #5f6267;
-    margin-right: 48px; }
-  .select2-container .select2-choice .select2-arrow {
-    background-image: none;
-    background-color: #fff;
-    border-left: 1px solid #c1c6c8;
-    border-radius: 0;
-    width: 40px; }
-    .select2-container .select2-choice .select2-arrow b {
-      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAJCAMAAAASPWyzAAAAb1BMVEVERET///9ERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERER81ndHAAAAJHRSTlMAAA0PFB8hJCk4Ojw+QEtVWVpdXmdoanV4eoOUl8Hc4+Tv+fqswOFgAAAAg0lEQVR42j3ORRYDUQhEUdLu7i5v/2tMn/DTNaHgTpC0FBO79D9PdMksnSuV4YXx5eKe9dhC9isTR/TnBBjUYwif0bM7YjiAbqNRz7k8qTldMeye1OJd5OoNWweBGHZ2+qeHEKsPQCKGo4NJn4dWfb4L+fPIIpqKVYuVyct+aYtJmX4BWAwJzQXMqMcAAAAASUVORK5CYII=);
-      background-position: 1px center;
-      margin: 0 auto;
-      width: 15px; }
+  height: 39px;
+  width: 40px; }
+  .select2-container--default .select2-selection--single .select2-selection__arrow b {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAJCAMAAAASPWyzAAAAb1BMVEVERET///9ERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERER81ndHAAAAJHRSTlMAAA0PFB8hJCk4Ojw+QEtVWVpdXmdoanV4eoOUl8Hc4+Tv+fqswOFgAAAAg0lEQVR42j3ORRYDUQhEUdLu7i5v/2tMn/DTNaHgTpC0FBO79D9PdMksnSuV4YXx5eKe9dhC9isTR/TnBBjUYwif0bM7YjiAbqNRz7k8qTldMeye1OJd5OoNWweBGHZ2+qeHEKsPQCKGo4NJn4dWfb4L+fPIIpqKVYuVyct+aYtJmX4BWAwJzQXMqMcAAAAASUVORK5CYII=);
+    background-position: 1px center;
+    background-repeat: no-repeat;
+    border: none;
+    display: block;
+    height: 100%;
+    margin: 0 auto;
+    position: static;
+    width: 15px; }
 
-.select2-dropdown-open .select2-choice .select2-arrow b {
+.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
   background-position: -17px center; }
-
-.ui-select-container[theme=select2].direction-up .ui-select-match,
-.ui-select-container[theme=select2].direction-down .ui-select-match {
-  border-radius: 0; }
-
-.ui-select-container[theme=select2].direction-up.select2-dropdown-open .ui-select-match {
-  border-bottom-color: #c1c6c8; }
-
-.ui-select-container[theme=select2].direction-up .ui-select-dropdown {
-  border: 1px solid #c1c6c8;
-  border-radius: 0; }
-
-.select2-drop {
-  border-radius: 0; }
-
-.select2-drop-active {
-  border: 1px solid #c1c6c8; }
-
-.select2-results {
-  margin: 0;
-  padding: 0; }
-
-.select2-results li,
-.ui-select-choices-row {
-  font-size: 16px;
-  font-size: 1.6rem;
-  border: none !important;
-  padding: 0 !important; }
-
-.select2-result-label {
-  font-size: 16px;
-  font-size: 1.6rem; }
-
-.select2-results .select2-highlighted {
-  background-color: #0892cb;
-  width: 100%; }
 
 .custom-checkbox {
   background-color: #fff;
@@ -1307,6 +1277,8 @@ header {
   .create-list .match-data .intro-content {
     margin-bottom: 30px;
     padding: 0 35px; }
+  .create-list .match-data fieldset div {
+    margin-bottom: 10px; }
   .create-list .match-data .match-data__table {
     margin-bottom: 20px;
     width: 100%; }
@@ -1317,6 +1289,8 @@ header {
     .create-list .match-data .match-data__table tbody td {
       border-bottom: 1px solid #dcdcdb;
       padding: 12px 30px; }
+      .create-list .match-data .match-data__table tbody td .select2-container {
+        width: 90% !important; }
   .create-list .match-data .btn {
     float: right;
     margin: 0 35px 0 0; }
