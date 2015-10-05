@@ -400,7 +400,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         }
 
         [HttpPost]
-        public HttpResponseMessage PostFinishList(Guid distributionListId, string command)
+        public HttpResponseMessage PostFinishList(ModifyListFinishModel model)
         {
             string methodName = "PostConfirmFields";
 
@@ -411,7 +411,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 return authResult;
             }
 
-            if (distributionListId == Guid.Empty)
+            if (model.DistributionListId == Guid.Empty)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                               new
@@ -423,15 +423,15 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
 
             IDistributionList distributionList = null;
-            if (distributionListId != Guid.Empty)
+            if (model.DistributionListId != Guid.Empty)
             {
-                distributionList = _dataService.GetDistributionListForUser(_loggedInMember.Id, distributionListId);
+                distributionList = _dataService.GetDistributionListForUser(_loggedInMember.Id, model.DistributionListId);
 
                 if (distributionList == null)
                 {
                     _logger.Warn(_controllerName, methodName,
                                  "User specified a list that does not belong to them: {0}:{1}", _loggedInMember.Id,
-                                 distributionListId);
+                                 model.DistributionListId);
 
                     return Request.CreateResponse(HttpStatusCode.NotFound,
                                                   new
@@ -443,7 +443,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 }
             }
 
-            switch (command.ToLower())
+            switch (model.Command.ToLower())
             {
                 case "finish":
                     // TODO: Merge with existing
