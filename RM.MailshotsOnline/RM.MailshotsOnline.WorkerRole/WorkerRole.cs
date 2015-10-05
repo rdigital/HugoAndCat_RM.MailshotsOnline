@@ -1,26 +1,17 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
-using System.Reflection;
+using System.Web.Mvc;
 using Castle.Windsor;
+using Castle.Windsor.Installer;
 using HC.RM.Common.Azure;
 using HC.RM.Common.Azure.EntryPoints;
-using HC.RM.Common.Azure.Persistence;
-using HC.RM.Common.Network;
-using HC.RM.Common.PCL.Persistence;
 using Microsoft.ApplicationInsights;
 using Microsoft.Azure;
-using Microsoft.WindowsAzure;
-using RM.MailshotsOnline.Data.Services;
-using RM.MailshotsOnline.Data.Services.Reporting;
 using RM.MailshotsOnline.PCL.Services;
-using RM.MailshotsOnline.PCL.Services.Reporting;
+using RM.MailshotsOnline.Web.Plumbing;
 using RM.MailshotsOnline.WorkerRole.EntryPoints;
 using RM.MailshotsOnline.WorkerRole.Installers;
-using Umbraco.Core;
-using Umbraco.Core.Persistence;
-using Umbraco.Core.Services;
 
 namespace RM.MailshotsOnline.WorkerRole
 {
@@ -34,7 +25,9 @@ namespace RM.MailshotsOnline.WorkerRole
 
         public WorkerRole()
         {
-            var container = new WindsorContainer().Install(new WorkerRoleInstaller());
+            var container = new WindsorContainer();
+            container.Install(FromAssembly.This());
+            _authTokenService = container.Resolve<IAuthTokenService>();
         }
 
         public WorkerRole(IAuthTokenService authTokenService)

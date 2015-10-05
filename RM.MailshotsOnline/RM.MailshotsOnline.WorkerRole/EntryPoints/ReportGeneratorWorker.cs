@@ -1,29 +1,14 @@
 ﻿using System;
-using System.Collections;
-using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Security;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Xml.Linq;
-using ClientDependency.Core;
-using CsvHelper;
 using HC.RM.Common.Azure.EntryPoints;
-using HC.RM.Common.Network;
-using HC.RM.Common.PCL.Persistence;
-using Microsoft.WindowsAzure.Storage.Queue;
 using HC.RM.Common.Azure.Helpers;
-using RM.MailshotsOnline.Data.Services;
-using RM.MailshotsOnline.Data.Services.Reporting;
+using RM.MailshotsOnline.Data.Constants;
 using RM.MailshotsOnline.PCL.Models;
-using RM.MailshotsOnline.PCL.Models.Reporting;
 using RM.MailshotsOnline.PCL.Services;
-using RM.MailshotsOnline.PCL.Services.Reporting;
-using RM.MailshotsOnline.Web.Controllers.Api;
-using umbraco.cms.businesslogic;
-using Constants = RM.MailshotsOnline.Data.Constants.Constants;
 
 namespace RM.MailshotsOnline.WorkerRole.EntryPoints
 {
