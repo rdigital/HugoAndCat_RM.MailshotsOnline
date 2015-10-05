@@ -283,3 +283,27 @@ body {
     background-repeat: no-repeat;
 }
 
+.notification {
+    @include transition(transform);
+    @include shadow(1px, 3px, 0, $lightish-grey);
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    width: 200px;
+    min-height: 40px;
+    padding: 20px;
+    z-index: 9;
+    transform: translate(250px, 0);
+    -ms-transform: translate(250px, 0);
+    background: #fff;
+    font-family: PFDin Regular, Arial;
+    color: $darkest-grey;
+    border-left: 2px solid $green;
+    &.notification_error {
+        border-left: 2px solid $darkest-grey;
+    }
+    &.notification_visible {
+        transform: translate(0, 0);
+        -ms-transform: translate(0, 0);
+    }
+}

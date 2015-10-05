@@ -23,6 +23,7 @@ define(['knockout', 'jquery', 'components/dropdown', 'view_models/user', 'view_m
             // bound methods
             this.togglePreview = stateViewModel.togglePreview.bind(this);
             this.hideMenu = this.hideMenu.bind(this);
+            this.backToHub = this.backToHub.bind(this);
 
             this.handleSubscriptions();
         }
@@ -124,11 +125,23 @@ define(['knockout', 'jquery', 'components/dropdown', 'view_models/user', 'view_m
         };
 
         optionsViewModel.prototype.save = function save() {
+            this.doSave(null);
+        }
+
+        optionsViewModel.prototype.done = function done() {
+            this.doSave(this.backToHub);
+        }
+
+        optionsViewModel.prototype.backToHub = function backToHub() {
+            window.location.href = "/campaigns/campaign-hub/?campaignId=" + stateViewModel.mailshotID();
+        }
+
+        optionsViewModel.prototype.doSave = function doSave(callback) {
             if (this.isAuthenticated()) {
                 if (this.saving() || this.uploadingImages().length) {
                     return;
                 }
-                userViewModel.save();
+                userViewModel.save(callback);
             } else {
                 this.toggleAuth();
             }
