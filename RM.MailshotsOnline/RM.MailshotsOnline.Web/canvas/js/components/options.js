@@ -43,6 +43,7 @@ define(['knockout', 'jquery', 'components/dropdown', 'view_models/user', 'view_m
         }
 
         optionsViewModel.prototype.restart = function restart() {
+            userViewModel.restart();
             this.showRestart(false);
         }
 

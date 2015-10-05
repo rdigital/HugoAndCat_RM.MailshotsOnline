@@ -82,6 +82,16 @@ define(['knockout', 'komapping', 'jquery', 'view_models/notification', 'view_mod
             }
         };
 
+        userViewModel.prototype.restart = function restart() {
+            
+            $.getJSON('/umbraco/api/mailshotsettings/getcontent', function(data) {
+                komapping.fromJS(data, this.objects);
+                this.ready(true);
+                setTimeout(this.applyChanges.bind(this),1000);
+            }.bind(this));
+            this.ready(false);
+        }
+
         userViewModel.prototype.save = function save(callback) {
             if (this.saving()) {
                 return;
@@ -110,6 +120,7 @@ define(['knockout', 'komapping', 'jquery', 'view_models/notification', 'view_mod
                     if (data.status == 401) {
                         authViewModel.isAuthenticated(false);
                         stateViewModel.toggleAuth();
+                        notificationViewModel.hide();
                         return
                     }
                     notificationViewModel.show("Error saving mailshot", "error");

@@ -15,7 +15,7 @@
 	<auth-component></auth-component>
 <!-- /ko -->
 <notification-component></notification-component>
-<!-- ko if: faces() && faces().length -->
+<!-- ko if: ready() && faces() && faces().length -->
 	<div class="editor" data-bind="css: {editor_hidden: showTemplatePicker() || showPreview()}">
 		<!-- main editor -->
 
