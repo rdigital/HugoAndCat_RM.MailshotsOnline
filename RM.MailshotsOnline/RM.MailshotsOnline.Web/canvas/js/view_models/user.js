@@ -99,6 +99,7 @@ define(['knockout', 'komapping', 'jquery', 'view_models/notification', 'view_mod
             $.post(url, data, function(response) {
                     if (response.id) {
                         stateViewModel.mailshotID(response.id);
+                        stateViewModel.campaignID = response.campaignId;
                     }
                     if (callback) {
                         callback();

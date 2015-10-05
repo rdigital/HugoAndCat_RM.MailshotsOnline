@@ -133,7 +133,7 @@ define(['knockout', 'jquery', 'components/dropdown', 'view_models/user', 'view_m
         }
 
         optionsViewModel.prototype.backToHub = function backToHub() {
-            window.location.href = "/campaigns/campaign-hub/?campaignId=" + stateViewModel.mailshotID();
+            window.location.href = window.campaignUrl + "?campaignId=" + stateViewModel.campaignID;
         }
 
         optionsViewModel.prototype.doSave = function doSave(callback) {
