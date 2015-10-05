@@ -26,5 +26,12 @@ namespace RM.MailshotsOnline.PCL.Services
         byte[] GetDataFile(IDistributionList distributionList, Enums.DistributionListFileType fileType);
 
         void AbondonContactEdits(IDistributionList distributionList);
+
+        IDistributionList CreateWorkingXml<T>(IDistributionList distributionList, int contactsCount,
+                                           IEnumerable<IDistributionContact> contacts) where T: IDistributionContact;
+
+        IDistributionList CreateErrorXml<T>(IDistributionList distributionList, int errorsCount,
+                                         IEnumerable<IDistributionContact> errorContacts, int duplicatesCount,
+                                         IEnumerable<IDistributionContact> duplicateContacts) where T : IDistributionContact;
     }
 }

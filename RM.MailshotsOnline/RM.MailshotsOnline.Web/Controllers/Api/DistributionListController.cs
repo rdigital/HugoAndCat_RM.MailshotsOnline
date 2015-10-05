@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization;
 using System.Web.Mvc;
-using System.Xml.Linq;
-using CsvHelper;
-using CsvHelper.Configuration;
 using Glass.Mapper.Umb;
-using HC.RM.Common;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Business.Processors;
 using RM.MailshotsOnline.Data.Helpers;
@@ -30,15 +23,6 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         private readonly IDataService _dataService;
         private readonly IUmbracoService _umbracoService;
         private readonly DistributionListProcessor _listProcessor;
-
-        private readonly string _elementDistributionList = "distributionList";
-        private readonly string _elementErrors = "errors";
-        private readonly string _elementInvalid = "invalid";
-        private readonly string _elementDuplicates = "duplicates";
-        private readonly string _attributeListName = "listName";
-        private readonly string _attributeCount = "count";
-
-        private readonly DataContractSerializer _serialiser = new DataContractSerializer(typeof(DistributionContact));
 
         public DistributionListController(IMembershipService membershipService, ILogger logger, IDataService dataService, IUmbracoService umbracoService) : base(membershipService, logger)
         {
@@ -385,85 +369,19 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             ModifyListMappedFieldsModel<DistributionContact> mappedContacts = _listProcessor.BuildListsFromFieldMappings<DistributionContact>(distributionList,
                                                                                              model.Mappings, model.ColumnCount, model.FirstRowIsHeader ?? false, data);
 
-            // We should have already bailed out if we weren't able to populate distributionList
-            // ReSharper disable once PossibleNullReferenceException
-            distributionList.ListState = Enums.DistributionListState.FixIssues;
-
             // Could all be errors/duplicates
             if (mappedContacts.ValidContacts.Any())
             {
-                // Convert Successful items into an XML doc
-                var successfulXml = new XDocument();
-                var distributionListElement = new XElement(_elementDistributionList,
-                                                           new XAttribute(_attributeListName, distributionList.Name),
-                                                           new XAttribute(_attributeCount, mappedContacts.ValidContactsCount));
-
-                using (var successWriter = distributionListElement.CreateWriter())
-                {
-                    foreach (var contact in mappedContacts.ValidContacts)
-                    {
-                        _serialiser.WriteObject(successWriter, contact);
-                    }
-                }
-
-                successfulXml.Add(distributionListElement);
-
-                using (var successfulStream = new MemoryStream())
-                {
-                    successfulXml.Save(successfulStream);
-                    successfulStream.Position = 0;
-
-                    _dataService.UpdateDistributionList(distributionList, successfulStream.ToArray(), "text/xml",
-                                                        Enums.DistributionListFileType.Working);
-                }
+                distributionList = _dataService.CreateWorkingXml<DistributionContact>(distributionList, mappedContacts.ValidContactsCount,
+                                                                 mappedContacts.ValidContacts);
             }
 
             if (mappedContacts.InvalidContacts.Any() || mappedContacts.DuplicateContacts.Any())
             {
-
-                var errorsXml = new XDocument();
-                var errorElement = new XElement(_elementErrors);
-                errorsXml.Add(errorElement);
-                if (mappedContacts.InvalidContacts.Any())
-                {
-                    var invalidElement = new XElement(_elementInvalid, new XAttribute(_attributeListName, distributionList.Name),
-                                                     new XAttribute(_attributeCount, mappedContacts.InvalidContactsCount));
-
-                    using (var errorWriter = invalidElement.CreateWriter())
-                    {
-                        foreach (var contact in mappedContacts.InvalidContacts)
-                        {
-                            _serialiser.WriteObject(errorWriter, contact);
-                        }
-                    }
-
-                    errorElement.Add(invalidElement);
-                }
-
-                if (mappedContacts.DuplicateContacts.Any())
-                {
-                    var duplicateElement = new XElement(_elementDuplicates, new XAttribute(_attributeListName, distributionList.Name),
-                                                     new XAttribute(_attributeCount, mappedContacts.DuplicateContactsCount));
-
-                    using (var dupWriter = duplicateElement.CreateWriter())
-                    {
-                        foreach (var contact in mappedContacts.DuplicateContacts)
-                        {
-                            _serialiser.WriteObject(dupWriter, contact);
-                        }
-                    }
-
-                    errorElement.Add(duplicateElement);
-                }
-
-                using (var errorsStream = new MemoryStream())
-                {
-                    errorsXml.Save(errorsStream);
-                    errorsStream.Position = 0;
-
-                    _dataService.UpdateDistributionList(distributionList, errorsStream.ToArray(), "text/xml",
-                                                        Enums.DistributionListFileType.Errors);
-                }
+                distributionList = _dataService.CreateErrorXml<DistributionContact>(distributionList, mappedContacts.InvalidContactsCount,
+                                                               mappedContacts.InvalidContacts,
+                                                               mappedContacts.DuplicateContactsCount,
+                                                               mappedContacts.DuplicateContacts);
             }
 
             var summaryModel = new ModifyListSummaryModel<DistributionContact>

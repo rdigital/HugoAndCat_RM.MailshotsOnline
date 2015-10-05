@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Xml.Linq;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.DAL;
 using RM.MailshotsOnline.Data.Helpers;
 using RM.MailshotsOnline.Entities.DataModels;
-using RM.MailshotsOnline.Entities.PageModels.Settings;
-using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.PCL;
 using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
@@ -22,7 +22,15 @@ namespace RM.MailshotsOnline.Data.Services
 
         private ILogger _logger;
         private readonly StorageContext _context;
+
         private string _className = "DataService";
+        private readonly string _elementDistributionList = "distributionList";
+        private readonly string _elementErrors = "errors";
+        private readonly string _elementInvalid = "invalid";
+        private readonly string _elementDuplicates = "duplicates";
+        private readonly string _attributeListName = "listName";
+        private readonly string _attributeCount = "count";
+
 
         public DataService(ILogger logger) : this(logger, new StorageContext())
         { }
@@ -256,6 +264,113 @@ namespace RM.MailshotsOnline.Data.Services
                 DeleteDistributionList(distributionList);
             }
         }
+
+        public IDistributionList CreateWorkingXml<T>(IDistributionList distributionList, int contactsCount,
+                                                  IEnumerable<IDistributionContact> contacts) where T : IDistributionContact
+        {
+            if (contactsCount == 0)
+            {
+                return distributionList;
+            }
+
+            IDistributionList updatedList = distributionList;
+
+            updatedList.ListState = Enums.DistributionListState.FixIssues;
+
+            // Convert Successful items into an XML doc
+            var successfulXml = new XDocument();
+            var distributionListElement = new XElement(_elementDistributionList,
+                                                       new XAttribute(_attributeListName, updatedList.Name),
+                                                       new XAttribute(_attributeCount, contactsCount));
+
+            DataContractSerializer serialiser = new DataContractSerializer(typeof(T));
+
+            using (var successWriter = distributionListElement.CreateWriter())
+            {
+                foreach (var contact in contacts)
+                {
+                    serialiser.WriteObject(successWriter, contact);
+                }
+            }
+
+            successfulXml.Add(distributionListElement);
+
+            using (var successfulStream = new MemoryStream())
+            {
+                successfulXml.Save(successfulStream);
+                successfulStream.Position = 0;
+
+                updatedList = UpdateDistributionList(updatedList, successfulStream.ToArray(),
+                                                     PCL.Constants.MimeTypes.Xml,
+                                                     Enums.DistributionListFileType.Working);
+            }
+
+            return updatedList;
+        }
+
+        public IDistributionList CreateErrorXml<T>(IDistributionList distributionList, int errorsCount, IEnumerable<IDistributionContact> errorContacts,
+                                                int duplicatesCount, IEnumerable<IDistributionContact> duplicateContacts) where T : IDistributionContact
+        {
+            if (errorsCount == 0 && duplicatesCount == 0)
+            {
+                return distributionList;
+            }
+
+            IDistributionList updatedList = distributionList;
+
+            updatedList.ListState = Enums.DistributionListState.FixIssues;
+
+            var errorsXml = new XDocument();
+            var errorElement = new XElement(_elementErrors);
+            errorsXml.Add(errorElement);
+
+            DataContractSerializer serialiser = new DataContractSerializer(typeof(T));
+
+            if (errorsCount > 0)
+            {
+
+                var invalidElement = new XElement(_elementInvalid, new XAttribute(_attributeListName, updatedList.Name),
+                                                 new XAttribute(_attributeCount, errorsCount));
+
+                using (var errorWriter = invalidElement.CreateWriter())
+                {
+                    foreach (var contact in errorContacts)
+                    {
+                        serialiser.WriteObject(errorWriter, contact);
+                    }
+                }
+
+                errorElement.Add(invalidElement);
+            }
+
+            if (duplicatesCount > 0)
+            {
+                var duplicateElement = new XElement(_elementDuplicates, new XAttribute(_attributeListName, updatedList.Name),
+                                                 new XAttribute(_attributeCount, duplicatesCount));
+
+                using (var dupWriter = duplicateElement.CreateWriter())
+                {
+                    foreach (var contact in duplicateContacts)
+                    {
+                        serialiser.WriteObject(dupWriter, contact);
+                    }
+                }
+
+                errorElement.Add(duplicateElement);
+            }
+
+            using (var errorsStream = new MemoryStream())
+            {
+                errorsXml.Save(errorsStream);
+                errorsStream.Position = 0;
+
+                updatedList = UpdateDistributionList(updatedList, errorsStream.ToArray(), PCL.Constants.MimeTypes.Xml,
+                                                    Enums.DistributionListFileType.Errors);
+            }
+
+            return updatedList;
+        }
+
 
         private static string convertToFileName(string listName, string contentType, Enums.DistributionListFileType fileType)
         {
