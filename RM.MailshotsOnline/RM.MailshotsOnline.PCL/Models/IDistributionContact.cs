@@ -7,7 +7,7 @@ namespace RM.MailshotsOnline.PCL.Models
 {
     public interface IDistributionContact
     {
-        Guid DistributionListId { get; set; }
+        Guid ContactId { get; set; }
         string AddressRef { get; }
         string Title { get; set; }
         string FirstName { get; set; }

@@ -152,6 +152,7 @@
     <Compile Include="ViewModels\CaptureDetailsViewModel.cs" />
     <Compile Include="ViewModels\ModifyListConfirmFieldsModel.cs" />
     <Compile Include="ViewModels\ModifyListFinishModel.cs" />
+    <Compile Include="ViewModels\ModifyListMappedFieldsModel.cs" />
     <Compile Include="ViewModels\ModifyListSummaryModel.cs" />
     <Compile Include="ViewModels\ModifyListUploadFileModel.cs" />
     <Compile Include="ViewModels\ImageUploadViewModel.cs" />

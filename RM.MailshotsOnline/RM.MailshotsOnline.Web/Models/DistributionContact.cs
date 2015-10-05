@@ -10,7 +10,7 @@ namespace RM.MailshotsOnline.Web.Models
     public class DistributionContact : IDistributionContact
     {
         [DataMember]
-        public Guid DistributionListId { get; set; }
+        public Guid ContactId { get; set; }
 
         public string AddressRef => $"{FlatId}{HouseName}{HouseNumber}{PostCode}".ToLower();
 

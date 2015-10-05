@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web.Mvc;
 using System.Xml.Linq;
-using CsvHelper;
-using CsvHelper.Configuration;
 using Glass.Mapper.Umb;
-using HC.RM.Common;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Business.Processors;
 using RM.MailshotsOnline.Data.Helpers;
@@ -81,7 +77,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         [ChildActionOnly]
         public ActionResult ShowSummaryListForm(ListCreate model)
         {
-            var pageModel = new ModifyListSummaryModel
+            var pageModel = new ModifyListSummaryModel<DistributionContact>
                             {
                                 DistributionListId = model.DistributionList.DistributionListId,
                                 PageModel = model,
@@ -272,82 +268,23 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             byte[] data = _dataService.GetDataFile(distributionList, Enums.DistributionListFileType.Working);
 
-            var validContacts = new Dictionary<string, DistributionContact>();
-            var duplicateContacts = new List<DistributionContact>();
-            var errorContacts = new Dictionary<Guid, DistributionContact>();
-
-            // Build CSV Map
-            var contactMap = new DefaultCsvClassMap<DistributionContact>();
-
-            // mapping holds the Property - csv column mapping 
-            for (int mappingIndex = 0; mappingIndex < model.ColumnCount; mappingIndex++)
-            {
-                var columnName = model.Mappings[mappingIndex];
-                if (!string.IsNullOrEmpty(columnName))
-                {
-                    var propertyInfo = typeof (DistributionContact).GetProperty(columnName);
-                    var newMap = new CsvPropertyMap(propertyInfo);
-                    newMap.Index(mappingIndex);
-                    contactMap.PropertyMaps.Add(newMap);
-                }
-            }
-
-            // Should already have returned if FirstRowIsHeader is null.
-            var csvConfig = new CsvConfiguration {HasHeaderRecord = model.FirstRowIsHeader ?? false};
-
-            csvConfig.RegisterClassMap(contactMap);
-            
-            using (var stream = new MemoryStream(data))
-            {
-                using (var sr = new StreamReader(stream))
-                {
-                    // Assume No Header Row to start with.
-                    using (var csv = new CsvReader(sr, csvConfig))
-                    {
-                        while (csv.Read())
-                        {
-                            var contact = csv.GetRecord<DistributionContact>();
-
-                            if (contact != null)
-                            {
-                                contact.DistributionListId = Guid.NewGuid();
-                                ICollection<ValidationResult> results;
-                                bool isValid = contact.TryValidate(out results);
-
-                                // TODO: Dedupe against existing list as well
-                                if (isValid && !validContacts.ContainsKey(contact.AddressRef))
-                                {
-                                    validContacts.Add(contact.AddressRef, contact);
-                                }
-                                else if (!isValid)
-                                {
-                                    errorContacts.Add(contact.DistributionListId, contact);
-                                }
-                                else
-                                {
-                                    duplicateContacts.Add(contact);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            ModifyListMappedFieldsModel<DistributionContact> mappedContacts = _listProcessor.BuildListsFromFieldMappings<DistributionContact>(distributionList,
+                                                                                             model.Mappings, model.ColumnCount, model.FirstRowIsHeader ?? false, data);
 
             distributionList.ListState = Enums.DistributionListState.FixIssues;
 
-
             // Could all be errors/duplicates
-            if (validContacts.Any())
+            if (mappedContacts.ValidContacts.Any())
             {
                 // Convert Successful items into an XML doc
                 var successfulXml = new XDocument();
                 var distributionListElement = new XElement(_elementDistributionList,
                                                            new XAttribute(_attributeListName, distributionList.Name),
-                                                           new XAttribute(_attributeCount, validContacts.Count));
+                                                           new XAttribute(_attributeCount, mappedContacts.ValidContactsCount));
                 
                 using (var successWriter = distributionListElement.CreateWriter())
                 {
-                    foreach (var contact in validContacts.Select(c => c.Value))
+                    foreach (var contact in mappedContacts.ValidContacts)
                     {
                         _serialiser.WriteObject(successWriter, contact);
                     }
@@ -366,20 +303,20 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 }
             }
 
-            if (errorContacts.Any() || duplicateContacts.Any())
+            if (mappedContacts.InvalidContacts.Any() || mappedContacts.DuplicateContacts.Any())
             {
 
                 var errorsXml = new XDocument();
                 var errorElement = new XElement(_elementErrors);
                 errorsXml.Add(errorElement);
-                if (errorContacts.Any())
+                if (mappedContacts.InvalidContacts.Any())
                 {
                     var invalidElement = new XElement(_elementInvalid, new XAttribute(_attributeListName, distributionList.Name),
-                                                     new XAttribute(_attributeCount, errorContacts.Count));
+                                                     new XAttribute(_attributeCount, mappedContacts.InvalidContactsCount));
 
                     using (var errorWriter = invalidElement.CreateWriter())
                     {
-                        foreach (var contact in errorContacts.Select(c => c.Value))
+                        foreach (var contact in mappedContacts.InvalidContacts)
                         {
                             _serialiser.WriteObject(errorWriter, contact);
                         }
@@ -388,14 +325,14 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                     errorElement.Add(invalidElement);
                 }
 
-                if (duplicateContacts.Any())
+                if (mappedContacts.DuplicateContacts.Any())
                 {
                     var duplicateElement = new XElement(_elementDuplicates, new XAttribute(_attributeListName, distributionList.Name),
-                                                     new XAttribute(_attributeCount, duplicateContacts.Count));
+                                                     new XAttribute(_attributeCount, mappedContacts.DuplicateContactsCount));
 
                     using (var dupWriter = duplicateElement.CreateWriter())
                     {
-                        foreach (var contact in duplicateContacts)
+                        foreach (var contact in mappedContacts.DuplicateContacts)
                         {
                             _serialiser.WriteObject(dupWriter, contact);
                         }
