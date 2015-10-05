@@ -168,8 +168,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                     UpdatedDate = DateTime.UtcNow,
                     UserId = _loggedInMember.Id
                 };
-                _campaignService.SaveCampaign(campaign);
-                return Request.CreateResponse(HttpStatusCode.Created, new { id = savedMailshot.MailshotId });
+                var savedCampaign = _campaignService.SaveCampaign(campaign);
+                return Request.CreateResponse(HttpStatusCode.Created, new { id = savedMailshot.MailshotId, campaignId = savedCampaign.CampaignId });
             }
             catch (Exception ex)
             {
@@ -203,7 +203,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
 
             // Confirm that mailshot exists
-            var mailshotData = _mailshotsService.GetMailshot(id);
+            var mailshotData = _mailshotsService.GetMailshotWithCampaignData(id);
             if (mailshotData == null)
             {
                 _logger.Info(this.GetType().Name, "Update", "Attempt to update unknown mailshot with ID {0}.", id);
@@ -263,7 +263,13 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 _logger.Error(this.GetType().Name, "Update", "Error updating mailshot with ID {0}: {1}", id, ex.Message);
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, new { success = success });
+            var campaign = mailshotData.Campaigns.FirstOrDefault();
+            if (campaign != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { success = success, id = mailshotData.MailshotId, campaignId = campaign.CampaignId });
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, new { success = success, id = mailshotData.MailshotId });
         }
 
         /// <summary>

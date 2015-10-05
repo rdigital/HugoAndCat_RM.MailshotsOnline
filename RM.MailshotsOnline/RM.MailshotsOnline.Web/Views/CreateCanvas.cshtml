@@ -1,4 +1,5 @@
 ﻿@inherits Glass.Mapper.Umb.Web.Ui.GlassViewPage<RM.MailshotsOnline.Entities.PageModels.CreateCanvas>
+@using RM.MailshotsOnline.Web.Extensions;
 @{
     Layout = null;
 }
@@ -26,6 +27,13 @@
     <link rel="stylesheet" type="text/css" href="/canvas/styles/compiled/canvascontrols.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel='stylesheet' href='/canvas/js/vendor/spectrum/spectrum.css' />
+    <script type="text/javascript">
+        window.campaignUrl = "@Model.CampaignHubPage.Url()";
+        @if (Model.CampaignId.HasValue)
+        {
+            <text>window.campaignId = "@Model.CampaignId.Value.ToString()";</text>
+        }
+    </script>
 </head>
 <body>
 

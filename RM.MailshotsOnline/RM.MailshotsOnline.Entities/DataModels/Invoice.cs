@@ -225,7 +225,7 @@ namespace RM.MailshotsOnline.Entities.DataModels
             root.Add(new XElement("sub-total", SubTotal.ToString("F2")));
             root.Add(new XElement("tax-total", TotalTax.ToString("F2")));
             root.Add(new XElement("total", Total.ToString("F2")));
-            var lineItems = new XElement("line-items");
+            var lineItemsElement = new XElement("line-items");
             foreach (var lineItem in LineItems)
             {
                 var element = new XElement("line-item");
@@ -237,9 +237,9 @@ namespace RM.MailshotsOnline.Entities.DataModels
                 element.Add(new XElement("tax-rate", lineItem.TaxRate.ToString("F2")));
                 element.Add(new XElement("tax-total", lineItem.TaxTotal.ToString("F2")));
                 element.Add(new XElement("total", lineItem.Total.ToString("F2")));
-                lineItems.Add(element);
+                lineItemsElement.Add(element);
             }
-            root.Add(lineItems);
+            root.Add(lineItemsElement);
 
             xdoc.Add(root);
             return xdoc.ToString();
