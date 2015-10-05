@@ -89,6 +89,7 @@ namespace RM.MailshotsOnline.Data.Services
             invoice.Status = PCL.Enums.InvoiceStatus.Draft;
             invoice.BillingAddress = new Address()
             {
+                Title = member.Title,
                 FirstName = member.FirstName,
                 LastName = member.LastName,
                 FlatNumber = member.FlatNumber,
