@@ -1,9 +1,10 @@
-define(['knockout', 'view-models/state', 'components/uploadData', 'components/matchData'],
+define(['knockout', 'view-models/state', 'components/uploadData', 'components/matchData', 'components/dataSummary'],
 
-    function(ko, stateViewModel, uploadDataComponent, matchDataComponent) {
+    function(ko, stateViewModel, uploadDataComponent, matchDataComponent, dataSummaryComponent) {
 
         ko.components.register('upload-data-component', uploadDataComponent);
         ko.components.register('match-data-component', matchDataComponent);
+        ko.components.register('data-summary-component', dataSummaryComponent);
 
         function createListComponentViewModel() {
             this.listTitle = stateViewModel.listTitle;
