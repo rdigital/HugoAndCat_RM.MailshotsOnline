@@ -50,14 +50,18 @@ namespace RM.MailshotsOnline.Web.Installers
                 Component.For<ICmsImageService>().ImplementedBy<CmsImageService>().LifestyleTransient(),
                 Component.For<ICampaignService>().ImplementedBy<CampaignService>().LifestyleTransient(),
                 Component.For<IInvoiceService>().ImplementedBy<InvoiceService>().LifestyleTransient(),
-                Component.For<HC.RM.Common.Network.IEmailService>().ImplementedBy<HC.RM.Common.Network.SmtpService>().LifestyleTransient(),
+                Component.For<IEmailService>().ImplementedBy<SmtpService>().LifestyleTransient(),
                 Component.For<ICryptographicService>().ImplementedBy<CryptographicService>().LifestyleTransient(),
 				Component.For<ILogger>().ImplementedBy<Logger>().LifestyleTransient(),
                 Component.For<IReportingService>().ImplementedBy<ReportingService>().LifestyleTransient(),
                 Component.For<IMembershipReportGenerator>().ImplementedBy<MembershipReportGenerator>().LifestyleTransient(),
                 Component.For<ITransactionsReportGenerator>().ImplementedBy<TransactionsReportGenerator>().LifestyleTransient(),
-                Component.For<IBlobService>().ImplementedBy<BlobService>().LifestyleSingleton(),
-                Component.For<IFtpService>().ImplementedBy<FtpService>().LifestyleTransient());
+                Component.For<IBlobService>().ImplementedBy<HC.RM.Common.Azure.Persistence.BlobService>().LifestyleSingleton(),
+                Component.For<IFtpService>().ImplementedBy<FtpService>().LifestyleTransient(),
+                Component.For<IReportingFtpService>().ImplementedBy<IReportingFtpService>().LifestyleTransient(),
+                Component.For<IReportingBlobService>().ImplementedBy<ReportingBlobService>().LifestyleTransient(),
+                Component.For<IBlobStorage>().ImplementedBy<BlobStorage>().LifestyleTransient(),
+                Component.For<IAuthTokenService>().ImplementedBy<AuthTokenService>().LifestyleTransient());
         }
 
         static public string AssemblyDirectory

@@ -39,6 +39,14 @@
     <ServiceConfiguration Include="ServiceConfiguration.Cloud.cscfg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\RM.MailshotsOnline.Web\RM.MailshotsOnline.Web.csproj">
+      <Name>RM.MailshotsOnline.Web</Name>
+      <Project>{2b9bc4ff-5840-4a1f-963d-9f4794a110bd}</Project>
+      <Private>True</Private>
+      <RoleType>Web</RoleType>
+      <RoleName>RM.MailshotsOnline.Web</RoleName>
+      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
+    </ProjectReference>
     <ProjectReference Include="..\RM.MailshotsOnline.WorkerRole\RM.MailshotsOnline.WorkerRole.csproj">
       <Name>RM.MailshotsOnline.WorkerRole</Name>
       <Project>{6ca7ad73-2f14-427e-9a49-ceca89c9bb5f}</Project>

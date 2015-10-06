@@ -51,17 +51,16 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
                     Logger.Info(GetType().Name, "Run", "Processing Message: {0}", queueMsg.Id);
 
                     /*
-                     * Message should look something like:
-                     * <?xml version="1.0" encoding="utf-16"?>
-                     * <StorageQueueMessage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                     *   <ExecutionTag>e927cf76d24da9625608248ce654cfa7</ExecutionTag>
-                     *   <ClientRequestId>3c4b84e2-aee5-43ac-913e-c05c8827ac41</ClientRequestId>
-                     *   <ExpectedExecutionTime>2015-09-10T00:00:00</ExpectedExecutionTime>
-                     *   <SchedulerJobId>rm-photopost-creditreports</SchedulerJobId>
-                     *   <SchedulerJobCollectionId>bdhcjobs</SchedulerJobCollectionId>
-                     *   <Region>West Europe</Region>
-                     *   <Message>the message</Message>
-                     * </StorageQueueMessage>
+                      <?xml version="1.0" encoding="utf-16"?>
+                      <StorageQueueMessage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <ExecutionTag>e927cf76d24da9625608248ce654cfa7</ExecutionTag>
+                        <ClientRequestId>3c4b84e2-aee5-43ac-913e-c05c8827ac41</ClientRequestId>
+                        <ExpectedExecutionTime>2015-09-10T00:00:00</ExpectedExecutionTime>
+                        <SchedulerJobId>rm-photopost-creditreports</SchedulerJobId>
+                        <SchedulerJobCollectionId>bdhcjobs</SchedulerJobCollectionId>
+                        <Region>West Europe</Region>
+                        <Message>membership</Message>
+                      </StorageQueueMessage>
                      */
 
                     // Parse the message as an XDocument
@@ -147,7 +146,6 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
             catch (SystemException se)
             {
                 Logger.Exception(GetType().Name, "Run", se);
-                throw;
             }
             catch (Exception e)
             {

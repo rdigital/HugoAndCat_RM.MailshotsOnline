@@ -306,6 +306,7 @@
     <Compile Include="Services\MembershipService.cs" />
     <Compile Include="Services\PricingService.cs" />
     <Compile Include="Services\Reporting\ReportingFtpService.cs" />
+    <Compile Include="Services\Reporting\ReportingBlobService.cs" />
     <Compile Include="Services\Reporting\TransactionsReportGenerator.cs" />
     <Compile Include="Services\Reporting\MembershipReportGenerator.cs" />
     <Compile Include="Services\Reporting\ReportingService.cs" />

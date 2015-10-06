@@ -110,16 +110,16 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Glass.Mapper.Umb.CastleWindsor.3.0.4.5\lib\net45\Glass.Mapper.Umb.CastleWindsor.dll</HintPath>
     </Reference>
-    <Reference Include="HC.RM.Common, Version=1.0.13.45, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.1.0.13.45\lib\net45\HC.RM.Common.dll</HintPath>
+    <Reference Include="HC.RM.Common, Version=1.0.13.48, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.1.0.13.48\lib\net45\HC.RM.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="HC.RM.Common.Azure, Version=1.0.13.48, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\HC.RM.Common.Azure.1.0.13.48\lib\net45\HC.RM.Common.Azure.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HC.RM.Common.AzureWeb, Version=1.0.13.48, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.AzureWeb.1.0.13.48\lib\net45\HC.RM.Common.AzureWeb.dll</HintPath>
+    <Reference Include="HC.RM.Common.AzureWeb, Version=1.0.13.16, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.AzureWeb.1.0.13.16\lib\net45\HC.RM.Common.AzureWeb.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="HC.RM.Common.PCL, Version=1.0.13.48, Culture=neutral, processorArchitecture=MSIL">
@@ -556,7 +556,6 @@
     <Content Include="scripts\campaign-hub.js" />
     <Content Include="scripts\campaignstest.js" />
     <Content Include="scripts\editor.js" />
-    <Content Include="scripts\HC.RM.Common.AzureWeb.Forms.js" />
     <Content Include="scripts\imagelibrarytest.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
     <Content Include="scripts\jquery-1.10.2.min.js" />

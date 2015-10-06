@@ -40,6 +40,7 @@ namespace RM.MailshotsOnline.Data.Constants
             public static readonly string SftpHostname = Helpers.ConfigHelper.GetConfigValue("ReportingSftpHostname");
             public static readonly string SftpDirectory = Helpers.ConfigHelper.GetConfigValue("ReportingSftpDirectory");
             public static readonly string PrivateKey = Helpers.ConfigHelper.GetConfigValue("ReportingSftpPrivateKeyLocation");
+            public static readonly string BlobContainer = Helpers.ConfigHelper.GetConfigValue("ReportingBlobContiner");
         }
 
         public static class Apis
