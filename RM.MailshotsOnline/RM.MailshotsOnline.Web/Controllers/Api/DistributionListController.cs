@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -297,6 +298,19 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                               new
                               {
                                   error = "You need to select at least one name field, as well as Address 1 and Post Code fields.",
+                                  param = "Mappings",
+                                  statusCode = HttpStatusCode.BadRequest
+                              });
+            }
+
+            // Check we don't have any duplicate mappings:
+            var hashset = new HashSet<string>();
+            if (model.Mappings.Where(m => !string.IsNullOrEmpty(m)).Any(mapping => !hashset.Add(mapping)))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                              new
+                              {
+                                  error = "Can only specify each mapping once.",
                                   param = "Mappings",
                                   statusCode = HttpStatusCode.BadRequest
                               });

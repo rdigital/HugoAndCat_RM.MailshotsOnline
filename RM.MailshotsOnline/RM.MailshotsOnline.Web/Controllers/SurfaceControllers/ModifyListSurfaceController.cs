@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Web.Mvc;
-using System.Xml.Linq;
 using Glass.Mapper.Umb;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Business.Processors;
@@ -26,14 +23,6 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         private readonly IMembershipService _membershipService;
         private readonly IUmbracoService _umbracoService;
         private readonly DistributionListProcessor _listProcessor;
-
-        private readonly string _elementDistributionList = "distributionList";
-        private readonly string _elementErrors = "errors";
-        private readonly string _elementInvalid = "invalid";
-        private readonly string _elementDuplicates = "duplicates";
-        private readonly string _attributeCount = "count";
-
-        private readonly DataContractSerializer _serialiser = new DataContractSerializer(typeof(DistributionContact));
 
         public ModifyListSurfaceController(ILogger logger, IDataService dataService, IMembershipService membershipService, IUmbracoService umbracoService)
         {
