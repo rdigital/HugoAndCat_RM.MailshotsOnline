@@ -63,7 +63,10 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             // trigger a render
             if (!this.image && this.imageObj.src) {
                 this.rerender();
-                stateViewModel.repositionImages = false;
+                // timeout to accommodate ie 9
+                setTimeout( function() {
+                    stateViewModel.repositionImages = false;
+                }, 0)
             }
 
             // on deselect, export the canvas to base64 string and store on the imageObj
@@ -327,6 +330,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
                     }
                     // ie 9 randomly wouldn't render the image without this timeout
                     setTimeout(this.rerender.bind(this), 0);
+                    setTimeout(this.rerender.bind(this), 100);
                 }.bind(this);
                 
                 this.image.src = src;
@@ -356,11 +360,15 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
 
                 if (!this.image) {
                     if (this.override_template && this.override_template.selectedID() == userViewModel.objects.templateID()) {
+                        console.log('a');
                         return this.render(this.imageObj.src(), false);
                     }
+                    console.log(stateViewModel.repositionImages);
                     if (this.override_template || stateViewModel.repositionImages) {
+                        console.log('b');
                         return this.render(this.imageObj.src(), true);
                     }
+                    console.log('c');
                     return this.render(this.imageObj.src(), false);
                 }
                 var canvas = this.canvas(),

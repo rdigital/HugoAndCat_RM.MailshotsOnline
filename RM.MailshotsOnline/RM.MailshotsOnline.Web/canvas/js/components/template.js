@@ -35,6 +35,7 @@ define(['knockout', 'view_models/format', 'view_models/template', 'view_models/u
             userViewModel.resetUserFontSizes();
             if (userViewModel.objects.templateID() != template.id) {
                 stateViewModel.repositionImages = true;
+                console.log(stateViewModel.repositionImages);
                 userViewModel.objects.templateID(template.id);
             }
             stateViewModel.toggleTemplatePicker();
