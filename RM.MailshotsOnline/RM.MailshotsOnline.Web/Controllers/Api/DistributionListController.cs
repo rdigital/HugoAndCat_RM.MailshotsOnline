@@ -310,6 +310,22 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 return listResult;
             }
 
+            if (!string.IsNullOrEmpty(model.ListName) && list.Name != model.ListName)
+            {
+                if (_dataService.ListNameIsAlreadyInUse(_loggedInMember.Id, model.ListName))
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                                                  new
+                                                  {
+                                                      error = "List name is not unique.",
+                                                      param = "ListName",
+                                                      statusCode = HttpStatusCode.BadRequest
+                                                  });
+                }
+
+                list.Name = model.ListName;
+            }
+
             byte[] data = _dataService.GetDataFile(list, Enums.DistributionListFileType.Working);
 
             ModifyListMappedFieldsModel<DistributionContact> mappedContacts = _listProcessor.BuildListsFromFieldMappings<DistributionContact>(list,
@@ -380,8 +396,6 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         [HttpPost]
         public HttpResponseMessage PostFinishList(ModifyListFinishModel model)
         {
-            string methodName = "PostConfirmFields";
-
             var authResult = Authenticate();
 
             if (authResult != null)
@@ -389,53 +403,45 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 return authResult;
             }
 
-            if (model.DistributionListId == Guid.Empty)
+            IDistributionList list;
+            HttpResponseMessage listResult = validateDistributionListId(model.DistributionListId, out list);
+
+            if (listResult != null)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest,
-                              new
-                              {
-                                  error = "You need to supply an existing list id.",
-                                  param = "DistributionListId",
-                                  statusCode = HttpStatusCode.BadRequest
-                              });
+                return listResult;
             }
 
-            IDistributionList distributionList = null;
-            if (model.DistributionListId != Guid.Empty)
+            if (!string.IsNullOrEmpty(model.ListName) && list.Name != model.ListName)
             {
-                distributionList = _dataService.GetDistributionListForUser(_loggedInMember.Id, model.DistributionListId);
-
-                if (distributionList == null)
+                if (_dataService.ListNameIsAlreadyInUse(_loggedInMember.Id, model.ListName))
                 {
-                    _logger.Warn(_controllerName, methodName,
-                                 "User specified a list that does not belong to them: {0}:{1}", _loggedInMember.Id,
-                                 model.DistributionListId);
-
-                    return Request.CreateResponse(HttpStatusCode.NotFound,
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
                                                   new
                                                   {
-                                                      error = "List Id was not found.",
-                                                      param = "DistributionListId",
-                                                      statusCode = HttpStatusCode.NotFound
+                                                      error = "List name is not unique.",
+                                                      param = "ListName",
+                                                      statusCode = HttpStatusCode.BadRequest
                                                   });
                 }
+
+                list.Name = model.ListName;
             }
 
             switch (model.Command.ToLower())
             {
                 case "finish":
                     // TODO: Merge with existing
-                    if (!string.IsNullOrEmpty(distributionList.BlobWorking))
+                    if (!string.IsNullOrEmpty(list.BlobWorking))
                     {
-                        _dataService.CompleteContactEdits(distributionList);
+                        _dataService.CompleteContactEdits(list);
                     }
                     else
                     {
-                        _dataService.AbandonContactEdits(distributionList);
+                        _dataService.AbandonContactEdits(list);
                     }
                     break;
                 case "cancel":
-                    _dataService.AbandonContactEdits(distributionList);
+                    _dataService.AbandonContactEdits(list);
                     break;
             }
 
