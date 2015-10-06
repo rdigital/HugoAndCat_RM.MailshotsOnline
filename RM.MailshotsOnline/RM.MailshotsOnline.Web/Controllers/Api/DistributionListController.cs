@@ -252,6 +252,11 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, confirmFieldsModel);
         }
 
+        /// <summary>
+        /// Takes the confirmed field list and attempts to map the CSV to distribution contacts.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
         [HttpPost]
         public HttpResponseMessage PostConfirmFields(ModifyListConfirmFieldsModel model)
         {
@@ -341,6 +346,11 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, summaryModel);
         }
 
+        /// <summary>
+        /// Gets the summary details if the page is loaded for a specific in-progress list.
+        /// </summary>
+        /// <param name="distributionListId">The distribution list identifier.</param>
+        /// <returns></returns>
         [HttpGet]
         public HttpResponseMessage GetListSummary(Guid distributionListId)
         {
@@ -362,6 +372,11 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, _dataService.CreateSummaryModel<DistributionContact>(list));
         }
 
+        /// <summary>
+        /// Finishes editing the list - either adds the working list to the existing list, or cleans up the in-progress parts.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
         [HttpPost]
         public HttpResponseMessage PostFinishList(ModifyListFinishModel model)
         {
@@ -416,11 +431,11 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                     }
                     else
                     {
-                        _dataService.AbondonContactEdits(distributionList);
+                        _dataService.AbandonContactEdits(distributionList);
                     }
                     break;
                 case "cancel":
-                    _dataService.AbondonContactEdits(distributionList);
+                    _dataService.AbandonContactEdits(distributionList);
                     break;
             }
 
@@ -463,6 +478,5 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             return null;
         }
-
     }
 }

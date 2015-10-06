@@ -237,7 +237,7 @@ namespace RM.MailshotsOnline.Data.Services
             return _blobStorage.FetchBytes(uploadedListName);
         }
 
-        public void AbondonContactEdits(IDistributionList distributionList)
+        public void AbandonContactEdits(IDistributionList distributionList)
         {
             if (!string.IsNullOrEmpty(distributionList.BlobWorking))
             {

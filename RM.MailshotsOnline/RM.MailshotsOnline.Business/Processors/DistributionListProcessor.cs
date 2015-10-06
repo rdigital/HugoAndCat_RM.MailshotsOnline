@@ -24,6 +24,13 @@ namespace RM.MailshotsOnline.Business.Processors
             _className = GetType().Name;
         }
 
+        /// <summary>
+        /// Attempts to guess which columns in a CSV map to our expected columns.
+        /// </summary>
+        /// <param name="list">The list.</param>
+        /// <param name="dataMappings">The data mappings.</param>
+        /// <param name="csvBytes">The CSV bytes.</param>
+        /// <returns></returns>
         public ModifyListConfirmFieldsModel AttemptToMapDataToColumns(IDistributionList list,
                                                                       DataMappingFolder dataMappings,
                                                                       byte[] csvBytes)
@@ -34,7 +41,13 @@ namespace RM.MailshotsOnline.Business.Processors
                                          ListName = list.Name,
                                          FirstRowIsHeader = null,
                                          MappingOptions =
-                                             dataMappings.Mappings.Select(m => new ModifyListMappingsOptionModel {Value =  m.FieldName, Name = m.Name}),
+                                             dataMappings.Mappings.Select(
+                                                                          m =>
+                                                                              new ModifyListMappingsOptionModel
+                                                                              {
+                                                                                  Value = m.FieldName,
+                                                                                  Name = m.Name
+                                                                              }),
                                      };
 
             using (var stream = new MemoryStream(csvBytes))
@@ -73,13 +86,7 @@ namespace RM.MailshotsOnline.Business.Processors
                                         var possibleHeading = csv.GetField(column);
 
                                         var possibleMapping =
-                                            dataMappings.Mappings.FirstOrDefault(
-                                                                                 m =>
-                                                                                     m.FieldMappings.Contains(
-                                                                                                              possibleHeading
-                                                                                                                  .ToLower
-                                                                                                                  ()
-                                                                                                                  .Trim()));
+                                            dataMappings.Mappings.FirstOrDefault(m => m.FieldMappings.Contains(possibleHeading.ToLower().Trim()));
 
                                         if (possibleMapping != null)
                                         {
@@ -97,9 +104,7 @@ namespace RM.MailshotsOnline.Business.Processors
 
                                         // ReSharper disable once PossibleNullReferenceException
                                         confirmFieldsModel.FirstTwoRowsWithGuessedMappings.Add(
-                                                                                               new Tuple
-                                                                                                   <string, string,
-                                                                                                   string>(
+                                                                                               new Tuple <string, string,string>(
                                                                                                    items[column].Key,
                                                                                                    value,
                                                                                                    items[column].Value));
@@ -120,6 +125,16 @@ namespace RM.MailshotsOnline.Business.Processors
             return confirmFieldsModel;
         }
 
+        /// <summary>
+        /// Converts the CSV into our fields based on the users column mappings and breaks them out into Valid, Invalid and Duplicate lists.
+        /// </summary>
+        /// <typeparam name="T">The concrete IDistribution type, which should have Data Attributes defined for validation</typeparam>
+        /// <param name="list">The list.</param>
+        /// <param name="mappings">The mappings.</param>
+        /// <param name="columnCount">The column count.</param>
+        /// <param name="firstRowIsHeader">if set to <c>true</c> [first row is header].</param>
+        /// <param name="csvBytes">The CSV bytes.</param>
+        /// <returns></returns>
         public ModifyListMappedFieldsModel<T> BuildListsFromFieldMappings<T>(IDistributionList list,
                                                                              List<string> mappings,
                                                                              int columnCount,

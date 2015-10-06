@@ -218,11 +218,11 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                     }
                     else
                     {
-                        _dataService.AbondonContactEdits(distributionList);
+                        _dataService.AbandonContactEdits(distributionList);
                     }
                     break;
                 case "cancel":
-                    _dataService.AbondonContactEdits(distributionList);
+                    _dataService.AbandonContactEdits(distributionList);
                     break;
             }
 
