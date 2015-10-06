@@ -20,6 +20,8 @@ namespace RM.MailshotsOnline.Entities.JsonModels
 
         public string InvoiceUrl { get; set; }
 
+        public string InvoiceStatus { get; set; }
+
         public string Status { get; set; }
 
         public string StatusText { get; set; }
