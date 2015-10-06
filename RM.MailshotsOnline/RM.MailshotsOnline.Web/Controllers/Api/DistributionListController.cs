@@ -111,8 +111,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 return authResult;
             }
 
-            if (model.DistributionListId == Guid.Empty &&
-                _dataService.ListNameIsAlreadyInUse(_loggedInMember.Id, model.ListName))
+            if (model.DistributionListId == Guid.Empty && _dataService.ListNameIsAlreadyInUse(_loggedInMember.Id, model.ListName))
             {
                 _logger.Info(_controllerName, methodName,
                              "User specified a duplicate name: {0}:{1}", _loggedInMember.Id, model.ListName);
@@ -127,23 +126,14 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
 
             IDistributionList list = null;
+
             if (model.DistributionListId != Guid.Empty)
             {
-                list = _dataService.GetDistributionListForUser(_loggedInMember.Id, model.DistributionListId);
+                HttpResponseMessage listResult = validateDistributionListId(model.DistributionListId, out list);
 
-                if (list == null)
+                if (listResult != null)
                 {
-                    _logger.Warn(_controllerName, methodName,
-                                 "User specified a list that does not belong to them: {0}:{1}", _loggedInMember.Id,
-                                 model.DistributionListId);
-
-                    return Request.CreateResponse(HttpStatusCode.NotFound,
-                                                  new
-                                                  {
-                                                      error = "List Id was not found.",
-                                                      param = "DistributionListId",
-                                                      statusCode = HttpStatusCode.NotFound
-                                                  });
+                    return listResult;
                 }
             }
 
@@ -196,7 +186,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             bool created = false;
             // Save CSV to storage:
-            if (model.DistributionListId == Guid.Empty)
+            if (list == null)
             {
                 list = _dataService.CreateDistributionList(_loggedInMember, model.ListName,
                                                            Enums.DistributionListState.ConfirmFields, csvBytes,
@@ -233,8 +223,6 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         [HttpGet]
         public HttpResponseMessage GetListMappings(Guid distributionListId)
         {
-            string methodName = "GetListMappings";
-
             var authResult = Authenticate();
 
             if (authResult != null)
@@ -242,32 +230,12 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 return authResult;
             }
 
-            if (distributionListId == Guid.Empty)
+            IDistributionList list;
+            HttpResponseMessage listResult = validateDistributionListId(distributionListId, out list);
+
+            if (listResult != null)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest,
-                                              new
-                                              {
-                                                  error = "You must supply a List Id.",
-                                                  param = "DistributionListId",
-                                                  statusCode = HttpStatusCode.BadRequest
-                                              });
-            }
-
-            IDistributionList list = _dataService.GetDistributionListForUser(_loggedInMember.Id, distributionListId);
-
-            if (list == null)
-            {
-                _logger.Info(_controllerName, methodName,
-                             "User specified a list that does not belong to them: {0}:{1}", _loggedInMember.Id,
-                             distributionListId);
-
-                return Request.CreateResponse(HttpStatusCode.NotFound,
-                                              new
-                                              {
-                                                  error = "List Id was not found.",
-                                                  param = "DistributionListId",
-                                                  statusCode = HttpStatusCode.NotFound
-                                              });
+                return listResult;
             }
 
             var dataMappings = _umbracoService.CreateType<DataMappingFolder>(
@@ -287,8 +255,6 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         [HttpPost]
         public HttpResponseMessage PostConfirmFields(ModifyListConfirmFieldsModel model)
         {
-            string methodName = "PostConfirmFields";
-
             var authResult = Authenticate();
 
             if (authResult != null)
@@ -331,53 +297,29 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                               });
             }
 
-            if (model.DistributionListId == Guid.Empty)
+            IDistributionList list;
+            HttpResponseMessage listResult = validateDistributionListId(model.DistributionListId, out list);
+
+            if (listResult != null)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest,
-                              new
-                              {
-                                  error = "You need to supply an existing list id.",
-                                  param = "DistributionListId",
-                                  statusCode = HttpStatusCode.BadRequest
-                              });
+                return listResult;
             }
 
-            IDistributionList distributionList = null;
-            if (model.DistributionListId != Guid.Empty)
-            {
-                distributionList = _dataService.GetDistributionListForUser(_loggedInMember.Id, model.DistributionListId);
+            byte[] data = _dataService.GetDataFile(list, Enums.DistributionListFileType.Working);
 
-                if (distributionList == null)
-                {
-                    _logger.Warn(_controllerName, methodName,
-                                 "User specified a list that does not belong to them: {0}:{1}", _loggedInMember.Id,
-                                 model.DistributionListId);
-
-                    return Request.CreateResponse(HttpStatusCode.NotFound,
-                                                  new
-                                                  {
-                                                      error = "List Id was not found.",
-                                                      param = "DistributionListId",
-                                                      statusCode = HttpStatusCode.NotFound
-                                                  });
-                }
-            }
-
-            byte[] data = _dataService.GetDataFile(distributionList, Enums.DistributionListFileType.Working);
-
-            ModifyListMappedFieldsModel<DistributionContact> mappedContacts = _listProcessor.BuildListsFromFieldMappings<DistributionContact>(distributionList,
+            ModifyListMappedFieldsModel<DistributionContact> mappedContacts = _listProcessor.BuildListsFromFieldMappings<DistributionContact>(list,
                                                                                              model.Mappings, model.ColumnCount, model.FirstRowIsHeader ?? false, data);
 
             // Could all be errors/duplicates
             if (mappedContacts.ValidContacts.Any())
             {
-                distributionList = _dataService.CreateWorkingXml<DistributionContact>(distributionList, mappedContacts.ValidContactsCount,
+                list = _dataService.CreateWorkingXml<DistributionContact>(list, mappedContacts.ValidContactsCount,
                                                                  mappedContacts.ValidContacts);
             }
 
             if (mappedContacts.InvalidContacts.Any() || mappedContacts.DuplicateContacts.Any())
             {
-                distributionList = _dataService.CreateErrorXml<DistributionContact>(distributionList, mappedContacts.InvalidContactsCount,
+                list = _dataService.CreateErrorXml<DistributionContact>(list, mappedContacts.InvalidContactsCount,
                                                                mappedContacts.InvalidContacts,
                                                                mappedContacts.DuplicateContactsCount,
                                                                mappedContacts.DuplicateContacts);
@@ -385,8 +327,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             var summaryModel = new ModifyListSummaryModel<DistributionContact>
             {
-                DistributionListId = distributionList.DistributionListId,
-                ListName = distributionList.Name,
+                DistributionListId = list.DistributionListId,
+                ListName = list.Name,
                 ValidContactCount = mappedContacts.ValidContactsCount,
                 InvalidContactCount = mappedContacts.InvalidContactsCount,
                 InvalidContacts = mappedContacts.InvalidContacts,
@@ -394,9 +336,30 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 DuplicateContacts = mappedContacts.DuplicateContacts,
             };
 
-            summaryModel.TotalContactCount = distributionList.RecordCount + summaryModel.ValidContactCount;
+            summaryModel.TotalContactCount = list.RecordCount + summaryModel.ValidContactCount;
 
             return Request.CreateResponse(HttpStatusCode.OK, summaryModel);
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetListSummary(Guid distributionListId)
+        {
+            var authResult = Authenticate();
+
+            if (authResult != null)
+            {
+                return authResult;
+            }
+
+            IDistributionList list;
+            HttpResponseMessage listResult = validateDistributionListId(distributionListId, out list);
+
+            if (listResult != null)
+            {
+                return listResult;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, _dataService.CreateSummaryModel<DistributionContact>(list));
         }
 
         [HttpPost]
@@ -463,5 +426,43 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }
+
+        private HttpResponseMessage validateDistributionListId(Guid distributionListId, out IDistributionList list)
+        {
+            list = null;
+
+            if (distributionListId == Guid.Empty)
+            {
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                                                         new
+                                                         {
+                                                             error = "You must supply a List Id.",
+                                                             param = "DistributionListId",
+                                                             statusCode = HttpStatusCode.BadRequest
+                                                         });
+                }
+            }
+
+            list = _dataService.GetDistributionListForUser(_loggedInMember.Id, distributionListId);
+
+            if (list == null)
+            {
+                _logger.Info(_controllerName, "validateDistributionList",
+                             "User specified a list that does not belong to them: {0}:{1}", _loggedInMember.Id,
+                             distributionListId);
+
+                return Request.CreateResponse(HttpStatusCode.NotFound,
+                                                new
+                                                {
+                                                    error = "List Id was not found.",
+                                                    param = "DistributionListId",
+                                                    statusCode = HttpStatusCode.NotFound
+                                                });
+            }
+
+            return null;
+        }
+
     }
 }

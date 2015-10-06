@@ -33,7 +33,10 @@ namespace RM.MailshotsOnline.PCL.Services
         IDistributionList CreateErrorXml<T>(IDistributionList distributionList, int errorsCount,
                                          IEnumerable<IDistributionContact> errorContacts, int duplicatesCount,
                                          IEnumerable<IDistributionContact> duplicateContacts) where T : IDistributionContact;
+        
+        IModifyListSummaryModel<T> CreateSummaryModel<T>(IDistributionList distributionList)
+            where T : IDistributionContact;
 
-        IDistributionList CompleteContactEdits(IDistributionList distributionList);
+       IDistributionList CompleteContactEdits(IDistributionList distributionList);
     }
 }
