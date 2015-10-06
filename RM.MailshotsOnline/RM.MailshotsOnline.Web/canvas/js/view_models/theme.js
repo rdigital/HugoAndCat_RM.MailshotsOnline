@@ -1,6 +1,6 @@
 // viewmodel to handle format data
-define(['knockout', 'view_models/data', 'view_models/user'],
-    function(ko, dataViewModel, userViewModel) {
+define(['knockout', 'view_models/data', 'view_models/user', 'temp/data'],
+    function(ko, dataViewModel, userViewModel, tempData) {
 
         function themeViewModel() {
             this.objects = ko.observableArray([]);
@@ -19,6 +19,12 @@ define(['knockout', 'view_models/data', 'view_models/user'],
         // extends dataViewModel
         themeViewModel.prototype = Object.create(dataViewModel.prototype);
         themeViewModel.prototype.constructor = themeViewModel;
+
+        // TEMP XX DELETE
+        themeViewModel.prototype.fetch = function fetch() {
+            //console.log('fetching data from ' + this.fetchURL);
+            this.objects(tempData.themeData);
+        };
 
         /**
          * try to get style info from themeData by class name
@@ -123,7 +129,7 @@ define(['knockout', 'view_models/data', 'view_models/user'],
          */
         themeViewModel.prototype.getFontSizes = function getFontSizes(name) {
             var classObj = this.getClassByName(name);
-            return classObj.font_sizes;
+            return (classObj) ? classObj.font_sizes : [];
         };
 
         /**

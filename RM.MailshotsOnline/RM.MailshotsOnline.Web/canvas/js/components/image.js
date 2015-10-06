@@ -142,12 +142,12 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
 
             // forcibly reset image position / scale to that of the theme if user
             // has not provided their own image
-            var src = ko.utils.unwrapObservable(userImage.src);
-            if (!src) {
-                image.scale(themeImage.scale || 100);
-                image.img_position.top(themeImage.img_position.top || 0);
-                image.img_position.left(themeImage.img_position.left || 0);
-            }
+            //var src = ko.utils.unwrapObservable(userImage.src);
+            //if (!src) {
+            //    image.scale(themeImage.scale || 100);
+            //    image.img_position.top(themeImage.img_position.top || 0);
+            //    image.img_position.left(themeImage.img_position.left || 0);
+            //}
 
             return image;
         };
@@ -168,7 +168,8 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             return ko.pureComputed({
                 read: function() {
                     var scale = ko.utils.unwrapObservable(userImage.scale);
-                    return (scale === null) ? (themeImage.scale || 100) : scale;
+                    //return (scale === null) ? (themeImage.scale || 100) : scale;
+                    return (scale === null) ? 100 : scale;
                 },
                 write: function(new_val) {
                     userImage.scale(new_val);
@@ -180,7 +181,8 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             return ko.pureComputed({
                 read: function() {
                     var top = ko.utils.unwrapObservable(userImage.img_position.top);
-                    return (top === null) ? (themeImage.img_position.top || 0) : top;
+                    //return (top === null) ? (themeImage.img_position.top || 0) : top;
+                    return (top === null) ? 0 : top;
                 },
                 write: function(new_val) {
                     userImage.img_position.top(new_val);
@@ -192,7 +194,8 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             return ko.pureComputed({
                 read: function() {
                     var left = ko.utils.unwrapObservable(userImage.img_position.left);
-                    return (left === null) ? (themeImage.img_position.left || 0) : left;
+                    //return (left === null) ? (themeImage.img_position.left || 0) : left;
+                    return (left === null) ? 0 : left;
                 },
                 write: function(new_val) {
                     userImage.img_position.left(new_val);
@@ -205,7 +208,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
          * displayed. This results in higher resolution exports.
          * @type {Number}
          */
-        imageViewModel.prototype.scaleFactor = 3;
+        imageViewModel.prototype.scaleFactor = 2;
 
         /**
          * set the old_scale instance variable before changing the scale

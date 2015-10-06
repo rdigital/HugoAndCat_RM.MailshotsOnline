@@ -57,6 +57,7 @@
 		height: 100%;
 		outline: none;
 		word-wrap: break-word;
+		text-align: left;
 		ol, ul {
 			margin: 5px 0;
 		}
@@ -87,13 +88,24 @@
     cursor: not-allowed;
     color: #333;
     background-color: #FFF;
-    border: 2px solid #c00;
+    border: 2px solid $grey;
     display: table;
     text-align: center;
+    font-family: PFDin Regular, Arial;
+    color: $darkest-grey;
     .no-print_text {
         display: table-cell;
         vertical-align: middle;
     }
+}
+
+.full-preview {
+	.no-print {
+		border: none;
+	}
+	.no-print_text {
+		display: none;
+	}
 }
 
 .fold {

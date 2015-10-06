@@ -1,6 +1,6 @@
 // viewmodel to handle template data
-define(['knockout', 'view_models/data', 'view_models/user', 'view_models/state'],
-    function(ko, dataViewModel, userViewModel, stateViewModel) {
+define(['knockout', 'view_models/data', 'view_models/user', 'view_models/state', 'temp/data'],
+    function(ko, dataViewModel, userViewModel, stateViewModel, tempData) {
 
         function templateViewModel() {
             this.objects = ko.observableArray([]);
@@ -20,6 +20,12 @@ define(['knockout', 'view_models/data', 'view_models/user', 'view_models/state']
         // extends dataViewModel
         templateViewModel.prototype = Object.create(dataViewModel.prototype);
         templateViewModel.prototype.constructor = templateViewModel;
+
+        // TEMP XX DELETE
+        templateViewModel.prototype.fetch = function fetch() {
+            //console.log('fetching data from ' + this.fetchURL);
+            this.objects(tempData.templateData);
+        };
 
         /**
          * get the elements for a particular face on the selected template
