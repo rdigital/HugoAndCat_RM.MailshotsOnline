@@ -21,11 +21,11 @@ define(['knockout', 'view_models/data', 'view_models/user', 'view_models/state',
         templateViewModel.prototype = Object.create(dataViewModel.prototype);
         templateViewModel.prototype.constructor = templateViewModel;
 
-        // TEMP XX DELETE
+        /* TEMP XX DELETE
         templateViewModel.prototype.fetch = function fetch() {
             //console.log('fetching data from ' + this.fetchURL);
             this.objects(tempData.templateData);
-        };
+        };*/
 
         /**
          * get the elements for a particular face on the selected template
@@ -40,8 +40,10 @@ define(['knockout', 'view_models/data', 'view_models/user', 'view_models/state',
             return (elements.length) ? elements : [];
         };
 
+        window.template = new templateViewModel();
+
         // return instance of viewmodel, so all places where AMD is used
         // to load the viewmodel will get the same instance
-        return new templateViewModel();
+        return window.template
     }
 );

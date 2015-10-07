@@ -67,11 +67,11 @@ define(['knockout', 'komapping', 'jquery', 'view_models/notification', 'view_mod
          * fetch userData JSON from server and store it in this.objects
          */
         userViewModel.prototype.fetch = function fetch() {
-            // XXX TEMP
+            /* XXX TESTING ONLY
             komapping.fromJS(tempData.userData, this.objects);
             this.ready(true);
             setTimeout(this.applyChanges.bind(this),1000);
-            return
+            return */
             if (stateViewModel.mailshotID()) {
                 $.getJSON('/Umbraco/Api/Mailshots/Get/' + stateViewModel.mailshotID(), function(data) {
                     komapping.fromJSON(data.ContentText, this.objects);
@@ -79,7 +79,7 @@ define(['knockout', 'komapping', 'jquery', 'view_models/notification', 'view_mod
                     setTimeout(this.applyChanges.bind(this),1000);
                 }.bind(this));
             } else {
-                $.getJSON('/umbraco/api/mailshotsettings/getcontent', function(data) {
+                $.getJSON('/umbraco/api/mailshotsettings/getcontent/' + stateViewModel.formatID, function(data) {
                     komapping.fromJS(data, this.objects);
                     this.ready(true);
                     setTimeout(this.applyChanges.bind(this),1000);

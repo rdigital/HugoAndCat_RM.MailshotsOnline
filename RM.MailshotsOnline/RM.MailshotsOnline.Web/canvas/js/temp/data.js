@@ -10,6 +10,25 @@ define([],
 
             this.formatData = [
                 {
+                    id: 2,
+                    name: 'A5 Card',
+                    faces: [
+                        {
+                            name:'Front',
+                            side:'front',
+                            width: 849,
+                            height: 600,
+                            default_face: true
+                        },
+                        {
+                            name:'Back',
+                            side:'back',
+                            width: 849,
+                            height: 600
+                        }
+                    ]
+                },
+                {
                     id: 4,
                     name: 'A4 Letter',
                     faces: [
@@ -44,25 +63,6 @@ define([],
                             side:'back',
                             width: 849,
                             height: 1200
-                        }
-                    ]
-                },
-                {
-                    id: 2,
-                    name: 'A5 Card',
-                    faces: [
-                        {
-                            name:'Front',
-                            side:'front',
-                            width: 849,
-                            height: 600,
-                            default_face: true
-                        },
-                        {
-                            name:'Back',
-                            side:'back',
-                            width: 849,
-                            height: 600
                         }
                     ]
                 }
@@ -4913,6 +4913,7 @@ define([],
                     ]
                 }*/
 
+                // letter templates
                 {  
                     id:14,
                     format_id:4,
@@ -6982,7 +6983,7 @@ define([],
 
             this.userData = {
                 formatID: 3,
-                templateID: 17,
+                templateID: 9,
                 themeID: 3,
                 faces: [],
                 elements: []
