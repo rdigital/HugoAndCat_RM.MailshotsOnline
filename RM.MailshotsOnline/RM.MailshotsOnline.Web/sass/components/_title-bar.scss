@@ -17,6 +17,7 @@
 		text-align: center;
 
 		.edit {
+			color: $filter-tab-grey;
 			cursor: pointer;
 			margin-left: 10px;
 			position: absolute;
@@ -43,7 +44,7 @@
 	}
 
 	.back {
-		color: $text-grey;
+		color: $filter-tab-grey;
 		font-family: $ChevinMedium;
 		left: 0;
 		position: absolute;

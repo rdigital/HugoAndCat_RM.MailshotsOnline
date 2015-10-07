@@ -8,6 +8,7 @@
                 <button data-bind="visible: listTitle().length && titleEdit, click: checkTitle" type="button" class="btn btn--blue">Ok</button>
                 <div data-bind="visible: titleEdit" class="tooltip tooltip--top">Give your list a new name</div>
             </div>
+            <a data-bind="visible: step() === 'match', click: cancel" href="" class="cancel"><span class="cancel-text">Cancel import</span><span class="icon-close"></span></a>
         </div>
     </div>
 

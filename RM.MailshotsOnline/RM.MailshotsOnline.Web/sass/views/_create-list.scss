@@ -10,6 +10,27 @@
 			top: calc(100% - 13px);
     		transform: translateX(-50%);
 		}
+
+		.cancel {
+			color: $filter-tab-grey;
+			font-family: $ChevinMedium;
+			right: 0;
+			position: absolute;
+			text-decoration: none;
+			top: 0;
+
+			.icon-close {
+				@include font-size(30);
+				color: $filter-tab-grey;
+				margin-left: 10px;
+				vertical-align: middle;
+			}
+
+			.cancel-text {
+				position: relative;
+				top: 2px;
+			}
+		}
 	}
 
 	h2 {

@@ -14,6 +14,7 @@ define(['knockout', 'koMapping'],
             this.lists = ko.observableArray();
             this.selectedLists = ko.observableArray();
             this.currentList = koMapping.fromJS({
+                "DistributionListId": "",
                 "ListName": ''
             });
             this.createListStep = ko.observable('create');

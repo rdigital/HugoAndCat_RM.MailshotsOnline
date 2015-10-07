@@ -8,6 +8,7 @@ define(['knockout', 'view-models/state', 'components/uploadData', 'components/ma
 
         function createListComponentViewModel() {
             this.listTitle = stateViewModel.currentList.ListName;
+            this.currentList = stateViewModel.currentList;
             this.oldTitle = this.listTitle();
             this.titleEdit = ko.observable(true);
             this.step = stateViewModel.createListStep;
@@ -33,6 +34,21 @@ define(['knockout', 'view-models/state', 'components/uploadData', 'components/ma
             } else {
                 this.titleEdit(false);
             }
+        };
+
+        createListComponentViewModel.prototype.cancel = function cancel() {
+            var data = {
+                    "DistributionListId": this.currentList.DistributionListId() || "",
+                    "command": "cancel"
+                },
+                self = this;
+
+            $.post('/Umbraco/API/DistributionList/PostFinishList', data, function() {
+                self.step('create');
+            }).error(function(error){
+                stateViewModel.showError(true);
+                stateViewModel.errorMessage(error.responseJSON.error);
+            });
         };
 
         return {
