@@ -20,6 +20,9 @@ body {
     }
     &.image-component canvas {
         cursor: move;
+        &.canvas-empty {
+            cursor: auto;
+        }
     }
 }
 
