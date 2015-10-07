@@ -1,6 +1,6 @@
-define(['knockout'],
+define(['knockout', 'koMapping'],
 
-    function(ko) {
+    function(ko, koMapping) {
 
         // state view model. describes the state of the app at any given time
         function stateViewModel() {
@@ -13,8 +13,9 @@ define(['knockout'],
             // data stuff
             this.lists = ko.observableArray();
             this.selectedLists = ko.observableArray();
-            this.listTitle = ko.observable('');
-            this.currentList = ko.observable({});
+            this.currentList = koMapping.fromJS({
+                "ListName": ''
+            });
             this.createListStep = ko.observable('create');
         }
 

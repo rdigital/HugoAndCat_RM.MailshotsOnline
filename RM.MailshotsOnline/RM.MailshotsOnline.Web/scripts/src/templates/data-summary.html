@@ -1,1 +1,92 @@
-<p>Data Summary</p>
+<div class="data-summary">
+	<!-- ko if: currentList && step() === 'summary' -->
+		<div class="data-summary__summary content-box">
+			<h2>Upload summary</h2>
+			<p class="intro-text">We found <span data-bind="text: currentList.TotalFoundCount()"></span> contacts altogether</p>
+			<ul>
+				<li class="valid-summary">
+					<div class="icon-valid"></div>
+					<div class="summary"><span data-bind="text: currentList.ValidContactCount()" class="count"></span>contacts added</div>
+					<p>Your list now has <span data-bind="text: currentList.TotalContactCount()"></span> contacts in total.</p>
+				</li>
+				<!-- ko if: hasInvalid -->
+					<li class="invalid-summary">
+						<div class="icon-invalid"></div>
+						<div class="summary"><span data-bind="text: currentList.InvalidContactCount" class="count"></span>contacts need attention</div>
+						<p>You have <span data-bind="text: currentList.InvalidContactCount"></span> contact<span data-bind="visible: currentList.InvalidContactCount() > 1">s</span> with incomplete data that weren't added. You can choose to edit these below or continue without them.</p>
+					</li>
+				<!-- /ko -->
+				<!-- ko if: hasDuplicates -->
+					<li class="duplicated-summary">
+						<div class="icon-duplicate"></div>
+						<div class="summary"> <span data-bind="text: currentList.DuplicateContactCount" class="count"></span> contact<span data-bind="visible: currentList.DuplicateContactCount() > 1">s</span> removed</div>
+						<p>We found <span data-bind="text: currentList.DuplicateContactCount"></span> duplicate contact<span data-bind="visible: currentList.DuplicateContactCount() > 1">s</span>. We kept the first of these and removed the second.</p>
+					</li>
+				<!-- /ko -->
+			</ul>
+			<div class="actions">
+				<button data-bind="click: cancel" type="button" class="btn btn--grey btn--icon-right">Cancel and start again<span class="btn-icon icon-undo"></span></button>
+				<button data-bind="click: finish" type="button" class="btn btn--green btn--icon-right">Finish<span class="btn-icon icon-next"></span></button>
+			</div>
+		</div>
+		<!-- ko if: hasInvalid -->
+			<div data-bind="afterRender: initPagination" class="data-summary__invalid content-box content-box--with-table">
+				<div class="intro-content">
+					<div class="icon-invalid content-left"></div>
+					<div class="content-right">
+						<h4>Need attention</h4>
+						<p>You have <span data-bind="text: currentList.InvalidContactCount"></span> contact<span data-bind="visible: currentList.InvalidContactCount() > 1">s</span> with incomplete data that weren't added. You can choose to edit these below, one-by-one. Or if you have lots to complete, it might be quicker to <a href="">download your incomplete contacts</a>, edit them in your source file then add them to your list in the future.</p>
+					</div>
+				</div>
+				<table class="data-summary__invalid__table full-width-table">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Address</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- ko foreach: invalidDisplayedList -->
+							<tr>
+								<td><span data-bind="text: FirstName"></span> <span data-bind="text: Surname"></span></td>
+								<td><span data-bind="text: Address1"></span> <span data-bind="text: Address2"></span></td>
+							</tr>
+						<!-- /ko -->
+					</tbody>
+				</table>
+
+				<pagination-component params="data: invalidList, perPage: 8, displayedList: invalidDisplayedList"></pagination-component>
+			</div>
+		<!-- /ko -->
+
+		<!-- ko if: hasDuplicates -->
+		<div class="data-summary__duplicated content-box content-box--with-table">
+			<div class="intro-content">
+				<div class="icon-duplicate content-left"></div>
+				<div class="content-right">
+					<h4>Removed</h4>
+					<p>We found <span data-bind="text: currentList.DuplicateContactCount"></span> duplicate contact<span data-bind="visible: currentList.DuplicateContactCount() > 1">s</span>. We kept the first of these and removed the second.</p>
+				</div>
+			</div>
+			<table class="data-summary__duplicated__table full-width-table">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Address</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!-- ko foreach: duplicateDisplayedList -->
+						<tr>
+							<td><span data-bind="text: FirstName"></span> <span data-bind="text: Surname"></span></td>
+							<td><span data-bind="text: Address1"></span> <span data-bind="text: Address2"></span></td>
+						</tr>
+					<!-- /ko -->
+				</tbody>
+			</table>
+
+			<pagination-component params="data: duplicateList, perPage: 8, displayedList: duplicateDisplayedList"></pagination-component>
+		</div>
+		<!-- /ko -->
+	<!-- /ko -->
+</div>

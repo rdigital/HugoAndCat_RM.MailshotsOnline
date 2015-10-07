@@ -7,11 +7,14 @@ define(['knockout', 'view-models/state', 'koelement', 'kofile', 'koMapping'],
             this.fileData = ko.observable();
             this.fileString = ko.observable();
             this.loading = ko.observable(false);
+            this.currentList = stateViewModel.currentList;
 
             this.fileData.subscribe(this.postData, this);
         }
 
         uploadDataComponentViewModel.prototype.clickUpload = function clickUpload(){
+            this.uploadEl().val('');
+            this.fileData('');
             this.uploadEl().click();
         };
 
@@ -29,28 +32,34 @@ define(['knockout', 'view-models/state', 'koelement', 'kofile', 'koMapping'],
             if(!src.type.match(/application\/vnd.ms-excel/)){
                 return;
             }
-            if (typeof(FileReader) == 'undefined') {
-                return
+            if (typeof(FileReader) === 'undefined') {
+                return;
             }
             var reader = new FileReader();
            	reader.onloadend = function(){
                 this.postData(reader.result);
             }.bind(this);
             reader.readAsDataURL(src);
+
+
         };
 
         uploadDataComponentViewModel.prototype.postData = function postData(fileData) {
         	var self = this;
-        	this.loading(true);
+        	this.loading(true); 
+
+            if (this.fileData() === '') {
+                return;
+            }           
 
         	var data = {
         		"DistributionListId": "",
-        		"ListName": stateViewModel.listTitle(),
+        		"ListName": stateViewModel.currentList.ListName(),
         		"CsvString": fileData
-        	}
+        	};
 
         	$.post('/Umbraco/Api/DistributionList/PostUploadCsv', data, function(result) {
-        	    stateViewModel.currentList(koMapping.fromJS(result));
+        	    koMapping.fromJS(result, self.currentList);
         	    stateViewModel.createListStep('match');
         	    self.loading(false);
         	}).fail(function(error) {
@@ -63,7 +72,7 @@ define(['knockout', 'view-models/state', 'koelement', 'kofile', 'koMapping'],
                 }
         	    self.loading(false);
         	});
-        }
+        };
 
         return {
             viewModel: uploadDataComponentViewModel,

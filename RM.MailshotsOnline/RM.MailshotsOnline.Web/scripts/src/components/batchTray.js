@@ -29,16 +29,16 @@ define(['jquery', 'knockout', 'perfectScrollbar', 'koelement', 'view-models/stat
 
         batchTrayComponentViewModel.prototype.expandTray = function expandTray() {
             this.isOpen(!this.isOpen());
-        }
+        };
 
         batchTrayComponentViewModel.prototype.initScroll = function initScroll() {
             this.listsContainer().perfectScrollbar();
             this.listsContainer().perfectScrollbar('update');
-        }
+        };
 
         batchTrayComponentViewModel.prototype.updateScroll = function updateScroll() {
                 this.listsContainer().perfectScrollbar('update');    
-        }
+        };
 
         return {
             viewModel: batchTrayComponentViewModel,

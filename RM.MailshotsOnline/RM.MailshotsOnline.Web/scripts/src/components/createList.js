@@ -7,7 +7,7 @@ define(['knockout', 'view-models/state', 'components/uploadData', 'components/ma
         ko.components.register('data-summary-component', dataSummaryComponent);
 
         function createListComponentViewModel() {
-            this.listTitle = stateViewModel.listTitle;
+            this.listTitle = stateViewModel.currentList.ListName;
             this.oldTitle = this.listTitle();
             this.titleEdit = ko.observable(true);
             this.step = stateViewModel.createListStep;
@@ -15,13 +15,13 @@ define(['knockout', 'view-models/state', 'components/uploadData', 'components/ma
 
         createListComponentViewModel.prototype.editTitle = function editTitle() {
             this.titleEdit(!this.titleEdit());
-        }
+        };
 
         createListComponentViewModel.prototype.checkTitle = function checkTitle() {
             var self = this;
 
             if (this.listTitle() !== this.oldTitle) {
-                $.get('/Umbraco/Api/DistributionList/GetCheckListNameIsUnique?listName='+this.listTitle(), function(data) {
+                $.get('/Umbraco/Api/DistributionList/GetCheckListNameIsUnique?listName='+this.listTitle(), function() {
                     self.titleEdit(false);
                 }).error(function(error){
                     self.titleEdit(true);
@@ -33,7 +33,7 @@ define(['knockout', 'view-models/state', 'components/uploadData', 'components/ma
             } else {
                 this.titleEdit(false);
             }
-        }
+        };
 
         return {
             viewModel: createListComponentViewModel,

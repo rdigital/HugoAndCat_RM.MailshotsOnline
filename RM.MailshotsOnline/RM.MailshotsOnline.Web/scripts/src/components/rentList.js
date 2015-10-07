@@ -1,6 +1,6 @@
-define(['jquery', 'knockout', 'view-models/state'],
+define([],
 
-    function($, ko, stateViewModel) {
+    function() {
 
         // ViewModel
         function rentListComponentViewModel() {

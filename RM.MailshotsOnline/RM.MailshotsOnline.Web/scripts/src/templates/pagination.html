@@ -1,4 +1,4 @@
-<div class="pagination">
+<div class="pagination" data-bind="visible: totalPages > 1">
 	
 	<ul data-bind="visible: !flippedPagination()">
 		<li class="previous" data-bind="visible: hasPrevious, click: previous"><a href=""><span class="icon-previous"></span></a></li>

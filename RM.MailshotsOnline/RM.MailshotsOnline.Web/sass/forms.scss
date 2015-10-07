@@ -72,6 +72,19 @@ input {
 	}
 }
 
+.btn--grey {
+	background-color: $text-grey;
+	&:hover {
+		background-color: $mid-grey;
+	}
+	&[disabled]:hover {
+		background-color: $text-grey;
+	}
+	&.active {
+		background-color: $mid-grey;
+	}
+}
+
 .btn--blue {
 	background-color: $RM-blue;
 	&:hover {

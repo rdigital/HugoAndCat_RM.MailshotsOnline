@@ -7,10 +7,14 @@
   "latedef": true,
   "noarg": true,
   "node": true,
-  "strict": true,
   "undef": true,
   "unused": true,
+  "sub": true,
   "globals": {
-    "$": false
+    "$": false,
+    "define": false,
+    "ko": false,
+    "kofile": false,
+    "koelement": false
   }
 }

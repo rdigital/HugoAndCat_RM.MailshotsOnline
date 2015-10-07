@@ -1,22 +1,22 @@
-<div class="match-data content-box">
+<div class="match-data content-box content-box--with-table">
 	<div class="intro-content">
 		<h2>Confirm your fields</h2>
 		<p class="intro-text">Let us know if your file has column headers and for each column of your contact list, select a field that it corresponds to.</p>
 		<p class="strong">Should we import your first row?</p>
-		<!-- ko if: currentList -->
+		<!-- ko if: currentList && step() === 'match' -->
 			<fieldset>
 				<div>
-					<input data-bind="checkedValue: true, checked: currentList().FirstRowIsHeader" type="radio" name="importoptions" id="importno" value="true">
+					<input data-bind="checkedValue: true, checked: currentList.FirstRowIsHeader" type="radio" name="importoptions" id="importno" value="true">
 					<label for="importno">My first row is a header - don't import it</label>
 				</div>
 				<div>
-					<input data-bind="checkedValue: false, checked: currentList().FirstRowIsHeader" type="radio" name="importoptions" id="importyes" value="false">
+					<input data-bind="checkedValue: false, checked: currentList.FirstRowIsHeader" type="radio" name="importoptions" id="importyes" value="false">
 					<label for="importyes">My first row is a contact - import it</label>
 				</div>
 			</fieldset>
 		<!-- /ko -->
 	</div>
-	<table class="match-data__table">
+	<table class="match-data__table full-width-table">
 		<thead>
 			<tr>
 				<th>Your column header</th>
@@ -25,9 +25,9 @@
 			</tr>
 		</thead>
 		<tbody>
-			<!-- ko if: currentList -->
+			<!-- ko if: currentList && step() === 'match' -->
 				<!-- ko foreach: {
-					data: currentList().FirstTwoRowsWithGuessedMappings,
+					data: currentList.FirstTwoRowsWithGuessedMappings(),
 					afterRender: initSelect
 				} -->
 				<tr>

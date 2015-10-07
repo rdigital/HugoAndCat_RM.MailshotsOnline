@@ -1,7 +1,7 @@
 define(['knockout'],
   function(ko) {
     ko.bindingHandlers['file'] = {
-      init: function(element, valueAccessor, allBindings) {
+      init: function(element, valueAccessor) {
         var fileContents, fileName, allowed, prohibited, reader;
 
         if ((typeof valueAccessor()) === "function") {
@@ -22,13 +22,20 @@ define(['knockout'],
 
           reader = (valueAccessor()['reader']);
         }
-        if (typeof(FileReader) == 'undefined') {
-          return
+        if (typeof(FileReader) === 'undefined' || typeof(FileReader) === undefined) {
+          return;
         }
-        reader || (reader = new FileReader());
-        reader.onloadend = function() {
-          fileContents(reader.result);
-        };
+
+        if (reader) {
+          reader.onloadend = function() {
+            fileContents(reader.result);
+          };
+        } else {
+          reader = new FileReader();
+          reader.onloadend = function() {
+            fileContents(reader.result);
+          };
+        }
 
         var handler = function() {
           var file = element.files[0];

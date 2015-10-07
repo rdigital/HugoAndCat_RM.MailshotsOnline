@@ -5,10 +5,9 @@ require([
 		'components/lists',
 		'components/createList',
 		'components/pagination',
-		'components/error',
-		'view-models/state'
+		'components/error'
 	],
-	function(ko, domReady, prefectScrollbar, listsComponent, createListComponent, paginationComponent, errorComponent, stateViewModel) {
+	function(ko, domReady, prefectScrollbar, listsComponent, createListComponent, paginationComponent, errorComponent) {
 
 		// register components
 		ko.components.register('lists-component', listsComponent);

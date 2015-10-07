@@ -10,21 +10,21 @@
 			<button type="button" class="btn btn--blue btn--icon-right">Create a new list<span class="btn-icon icon-Next"></span></button>
 		</div>
 	</div>
-	<ul class="lists__my-lists--lists lists__my-lists__list" data-bind="foreach: displayedList">
-		<li data-bind="css: {selected: selected}">
-			<a href="" class="lists__my-lists__name" data-bind="text: Name"></a>
-			<span class="lists__my-lists__number">
-				<span class="icon-person"></span>
-				<span class="number" data-bind="text: RecordCount"></span>
-			</span>
-			<div class="custom-checkbox-grp">
-				<label for="listSelect" data-bind="visible: !selected()">Add</label>
-				<input class="visually-hidden" type="checkbox" name="listSelect" id="listSelect">
-				<span class="custom-checkbox-round icon-tick" aria-label="select list" data-bind="css: {checked: selected}, click: $parent.toggleSelect"></span>
-			</div>
-		</li>
-	</ul>
+		<ul class="lists__my-lists--lists lists__my-lists__list" data-bind="foreach: displayedList">
+			<li data-bind="css: {selected: selected}">
+				<a href="" class="lists__my-lists__name" data-bind="text: Name"></a>
+				<span class="lists__my-lists__number">
+					<span class="icon-person"></span>
+					<span class="number" data-bind="text: RecordCount"></span>
+				</span>
+				<div class="custom-checkbox-grp">
+					<label for="listSelect" data-bind="visible: !selected()">Add</label>
+					<input class="visually-hidden" type="checkbox" name="listSelect" id="listSelect">
+					<span class="custom-checkbox-round icon-tick" aria-label="select list" data-bind="css: {checked: selected}, click: $parent.toggleSelect"></span>
+				</div>
+			</li>
+		</ul>
 
-	<pagination-component params="data: lists, perPage: 6, displayedList: displayedList"></pagination-component>
+		<pagination-component params="data: lists, perPage: 6, displayedList: displayedList"></pagination-component>
 
 </section>

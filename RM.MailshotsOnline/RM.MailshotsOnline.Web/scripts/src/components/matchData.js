@@ -7,6 +7,7 @@ define(['jquery', 'knockout', 'koMapping', 'select2', 'view-models/state'],
             this.currentList = stateViewModel.currentList;
             this.mappings = ko.observableArray([]);
             this.loading = ko.observable(false);
+            this.step = stateViewModel.createListStep;
         }
 
         matchDataComponentViewModel.prototype.createMappings = function createMappings() {
@@ -19,10 +20,15 @@ define(['jquery', 'knockout', 'koMapping', 'select2', 'view-models/state'],
             $('select').each(function(){
                 self.mappings.push($(this).val());
             });
-            this.currentList().Mappings(this.mappings());
+            
+            this.currentList.Mappings(this.mappings());
 
-            var data = koMapping.toJSON(this.currentList());
-            console.log(data);
+            this.postData();
+        };
+
+        matchDataComponentViewModel.prototype.postData = function postData() {
+            var self = this,
+                data = koMapping.toJSON(this.currentList);
 
             $.ajax({
                 url: '/Umbraco/Api/DistributionList/PostConfirmFields',
@@ -30,8 +36,8 @@ define(['jquery', 'knockout', 'koMapping', 'select2', 'view-models/state'],
                 method: "POST",
                 contentType: "application/json",
                 success: function(result) {
-                    console.log(result);
-                    stateViewModel.createListStep('summary');
+                    koMapping.fromJS(result, self.currentList);
+                    self.step('summary');
                     self.loading(false);
                 },
                 error: function(error) {
@@ -46,11 +52,11 @@ define(['jquery', 'knockout', 'koMapping', 'select2', 'view-models/state'],
                     self.loading(false);
                 }
             });
-        }
+        };
 
-        matchDataComponentViewModel.prototype.initSelect = function initSelect(array, data) {
+        matchDataComponentViewModel.prototype.initSelect = function initSelect() {
             $('select').select2();
-        }
+        };
 
         return {
             viewModel: matchDataComponentViewModel,

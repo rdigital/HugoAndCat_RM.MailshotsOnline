@@ -11,7 +11,7 @@ define(['jquery', 'knockout', 'view-models/state'],
 
         errorComponentViewModel.prototype.closeError = function closeError() {
             this.showError(false);
-        }
+        };
 
         return {
             viewModel: errorComponentViewModel,

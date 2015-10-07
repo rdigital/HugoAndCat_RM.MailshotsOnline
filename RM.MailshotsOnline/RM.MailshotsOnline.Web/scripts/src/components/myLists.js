@@ -34,7 +34,7 @@ define(['jquery', 'knockout', 'view-models/state'],
                 var pos = this.selectedLists().map(function(e) { return e.DistributionListId; }).indexOf(list.DistributionListId);
                 this.selectedLists.splice(pos, 1);
             }
-        }
+        };
 
         return {
             viewModel: myListsComponentViewModel,
