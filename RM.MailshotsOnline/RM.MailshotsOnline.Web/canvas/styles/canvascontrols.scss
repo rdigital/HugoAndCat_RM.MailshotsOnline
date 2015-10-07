@@ -87,17 +87,29 @@
     cursor: not-allowed;
     color: #333;
     background-color: #FFF;
-    border: 2px solid #c00;
+    border: 2px solid $grey;
     display: table;
     text-align: center;
+    font-family: PFDin Regular, Arial;
+    color: $darkest-grey;
     .no-print_text {
         display: table-cell;
         vertical-align: middle;
     }
 }
 
+.full-preview {
+	.no-print {
+		border: none;
+	}
+	.no-print_text {
+		display: none;
+	}
+}
+
 .fold {
-    border-bottom: 2px dashed $dark-grey;
+    border-bottom: 2px dashed rgba(14, 14, 14, 0.31);
+    pointer-events: none;
 }
 
 canvas {

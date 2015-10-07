@@ -1,7 +1,7 @@
 // user data view model, manages the user-defined data (content and styles) as
 // well as the format / template / theme IDs
-define(['knockout', 'komapping', 'jquery', 'view_models/notification', 'view_models/auth', 'view_models/history', 'view_models/state'],
-    function(ko, komapping, $, notificationViewModel, authViewModel, historyViewModel, stateViewModel) {
+define(['knockout', 'komapping', 'jquery', 'view_models/notification', 'view_models/auth', 'view_models/history', 'view_models/state', 'temp/data'],
+    function(ko, komapping, $, notificationViewModel, authViewModel, historyViewModel, stateViewModel, tempData) {
 
         function userViewModel() {
             // initialize this.objects
@@ -67,6 +67,11 @@ define(['knockout', 'komapping', 'jquery', 'view_models/notification', 'view_mod
          * fetch userData JSON from server and store it in this.objects
          */
         userViewModel.prototype.fetch = function fetch() {
+            /* XXX TESTING ONLY
+            komapping.fromJS(tempData.userData, this.objects);
+            this.ready(true);
+            setTimeout(this.applyChanges.bind(this),1000);
+            return */
             if (stateViewModel.mailshotID()) {
                 $.getJSON('/Umbraco/Api/Mailshots/Get/' + stateViewModel.mailshotID(), function(data) {
                     komapping.fromJSON(data.ContentText, this.objects);
@@ -74,7 +79,7 @@ define(['knockout', 'komapping', 'jquery', 'view_models/notification', 'view_mod
                     setTimeout(this.applyChanges.bind(this),1000);
                 }.bind(this));
             } else {
-                $.getJSON('/umbraco/api/mailshotsettings/getcontent', function(data) {
+                $.getJSON('/umbraco/api/mailshotsettings/getcontent/' + stateViewModel.formatID, function(data) {
                     komapping.fromJS(data, this.objects);
                     this.ready(true);
                     setTimeout(this.applyChanges.bind(this),1000);
@@ -132,6 +137,9 @@ define(['knockout', 'komapping', 'jquery', 'view_models/notification', 'view_mod
 
         userViewModel.prototype.resetUserFontSizes = function resetUserFontSizes() {
             ko.utils.arrayForEach(this.get('elements') || [], function(element) {
+                if (!element.styles) {
+                    return
+                }
                 element.styles.remove(function(style) {
                     return style.property() == 'font-size';
                 });
