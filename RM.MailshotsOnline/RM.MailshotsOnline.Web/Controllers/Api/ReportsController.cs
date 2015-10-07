@@ -17,16 +17,16 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
     {
         private static IReportingService _reportingService;
         private static IReportingBlobService _blobService;
-        private static IReportingFtpService _ftpService;
+        private static IReportingSftpService _sftpService;
         private static ILogger _logger;
         private static IAuthTokenService _authTokenService;
 
-        public ReportsController(IReportingService reportingService, IReportingBlobService blobService, IReportingFtpService ftpService,
+        public ReportsController(IReportingService reportingService, IReportingBlobService blobService, IReportingSftpService sftpService,
             ILogger logger, IAuthTokenService authTokenService)
         {
             _reportingService = reportingService;
             _blobService = blobService;
-            _ftpService = ftpService;
+            _sftpService = sftpService;
             _logger = logger;
             _authTokenService = authTokenService;
         }
@@ -86,7 +86,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
                     try
                     {
-                        var success = _ftpService.Put(m, $"{Constants.Reporting.SftpDirectory}/{filename}");
+                        var success = _sftpService.Put(m, $"{Constants.Reporting.SftpDirectory}/{filename}");
 
                         if (!success)
                         {

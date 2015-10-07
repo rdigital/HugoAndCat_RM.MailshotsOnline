@@ -2,7 +2,7 @@
 
 namespace RM.MailshotsOnline.PCL.Services.Reporting
 {
-    public interface IReportingFtpService
+    public interface IReportingSftpService
     {
         bool Put(Stream stream, string filePath);
 

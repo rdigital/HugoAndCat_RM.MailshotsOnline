@@ -65,7 +65,7 @@ namespace RM.MailshotsOnline.Web.Installers
                 Component.For<IMembershipReportGenerator>().ImplementedBy<MembershipReportGenerator>().LifestyleTransient(),
                 Component.For<ITransactionsReportGenerator>().ImplementedBy<TransactionsReportGenerator>().LifestyleTransient(),
                 Component.For<IFtpService>().ImplementedBy<FtpService>().LifestyleTransient(),
-                Component.For<IReportingFtpService>().ImplementedBy<ReportingFtpService>().LifestyleTransient(),
+                Component.For<IReportingSftpService>().ImplementedBy<ReportingSftpService>().LifestyleTransient(),
                 Component.For<IReportingBlobService>().ImplementedBy<ReportingBlobService>().LifestyleTransient(),
                 Component.For<IReportingBlobStorage>().ImplementedBy<ReportingBlobStorage>().LifestyleTransient(),
                 Component.For<StorageContext>().ImplementedBy<StorageContext>().LifestyleTransient(),

@@ -12,12 +12,12 @@ using RM.MailshotsOnline.PCL.Services.Reporting;
 
 namespace RM.MailshotsOnline.Data.Services.Reporting
 {
-    public class ReportingFtpService : FtpService, IReportingFtpService
+    public class ReportingSftpService : FtpService, IReportingSftpService
     {
         private static readonly string Key =
             $"{System.Web.Hosting.HostingEnvironment.MapPath("~/bin")}\\Keys\\{Constants.Constants.Reporting.PrivateKeyFileName}";
 
-        public ReportingFtpService(ILogger logger)
+        public ReportingSftpService(ILogger logger)
             : base(Key, Constants.Constants.Reporting.SftpUsername, Constants.Constants.Reporting.SftpHostname, logger)
         {
         }
