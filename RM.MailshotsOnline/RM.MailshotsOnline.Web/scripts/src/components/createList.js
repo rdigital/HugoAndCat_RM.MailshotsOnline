@@ -27,8 +27,7 @@ define(['knockout', 'view-models/state', 'components/uploadData', 'components/ma
                 }).error(function(error){
                     self.titleEdit(true);
                     stateViewModel.showError(true);
-                    stateViewModel.errorTitle(error.responseJSON.error);
-                    stateViewModel.errorMessage('You already have a list with this name, please choose another.');
+                    stateViewModel.errorMessage(error.responseJSON.error);
                 });
                 this.oldTitle = this.listTitle();
             } else {

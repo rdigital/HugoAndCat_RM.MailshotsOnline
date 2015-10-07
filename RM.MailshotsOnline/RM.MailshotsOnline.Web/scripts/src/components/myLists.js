@@ -19,8 +19,10 @@ define(['jquery', 'knockout', 'view-models/state'],
                 });
                 this.lists(data);
                 this.totalListCount(data.length);
-            }.bind(this)).fail(function() {
-                console.log('There was an error fetching your lists');
+            }.bind(this)).fail(function(error) {
+                stateViewModel.showError(true);
+                stateViewModel.errorTitle('Oops!');
+                stateViewModel.errorMessage(error.responseJSON.error);
             });
         }
 
