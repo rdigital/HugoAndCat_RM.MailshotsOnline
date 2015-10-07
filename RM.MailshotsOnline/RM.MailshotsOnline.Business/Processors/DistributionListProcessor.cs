@@ -132,17 +132,12 @@ namespace RM.MailshotsOnline.Business.Processors
         /// Converts the CSV into our fields based on the users column mappings and breaks them out into Valid, Invalid and Duplicate lists.
         /// </summary>
         /// <typeparam name="T">The concrete IDistribution type, which should have Data Attributes defined for validation</typeparam>
-        /// <param name="list">The list.</param>
         /// <param name="mappings">The mappings.</param>
         /// <param name="columnCount">The column count.</param>
         /// <param name="firstRowIsHeader">if set to <c>true</c> [first row is header].</param>
         /// <param name="csvBytes">The CSV bytes.</param>
         /// <returns></returns>
-        public ModifyListMappedFieldsModel<T> BuildListsFromFieldMappings<T>(IDistributionList list,
-                                                                             List<string> mappings,
-                                                                             int columnCount,
-                                                                             bool firstRowIsHeader,
-                                                                             byte[] csvBytes)
+        public ModifyListMappedFieldsModel<T> BuildListsFromFieldMappings<T>(List<string> mappings, int columnCount, bool firstRowIsHeader, byte[] csvBytes)
             where T : IDistributionContact
         {
             var validContacts = new Dictionary<string, T>();
@@ -203,6 +198,50 @@ namespace RM.MailshotsOnline.Business.Processors
                             }
                         }
                     }
+                }
+            }
+
+            var mappedFields = new ModifyListMappedFieldsModel<T>
+            {
+                ValidContactsCount = validContacts.Count,
+                ValidContacts = validContacts.Select(vc => vc.Value),
+                InvalidContactsCount = errorContacts.Count,
+                InvalidContacts = errorContacts,
+                DuplicateContactsCount = duplicateContacts.Count,
+                DuplicateContacts = duplicateContacts
+            };
+
+            return mappedFields;
+        }
+
+        public ModifyListMappedFieldsModel<T> BuildListsFromContacts<T>(IEnumerable<T> contacts) where T : class, IDistributionContact
+        {
+            var validContacts = new Dictionary<string, T>();
+            var duplicateContacts = new List<T>();
+            var errorContacts = new List<T>();
+
+            foreach (var contact in contacts)
+            {
+                if (contact.ContactId == Guid.Empty)
+                {
+                    contact.ContactId = Guid.NewGuid();
+                }
+
+                ICollection<ValidationResult> results;
+                bool isValid = contact.TryValidate(out results);
+
+                // TODO: Dedupe against existing list as well
+                if (isValid && !validContacts.ContainsKey(contact.AddressRef))
+                {
+                    validContacts.Add(contact.AddressRef, contact);
+                }
+                else if (!isValid)
+                {
+                    errorContacts.Add(contact);
+                }
+                else
+                {
+                    duplicateContacts.Add(contact);
                 }
             }
 

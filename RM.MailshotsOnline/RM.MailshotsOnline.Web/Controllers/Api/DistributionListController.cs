@@ -291,8 +291,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                               });
             }
 
-            if (
-                !((model.Mappings.Contains("FirstName") || model.Mappings.Contains("Surname")) &&
+            if (!((model.Mappings.Contains("FirstName") || model.Mappings.Contains("Surname")) &&
                   model.Mappings.Contains("Address1") && model.Mappings.Contains("PostCode")))
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
@@ -343,8 +342,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             byte[] data = _dataService.GetDataFile(list, Enums.DistributionListFileType.Working);
 
-            ModifyListMappedFieldsModel<DistributionContact> mappedContacts = _listProcessor.BuildListsFromFieldMappings<DistributionContact>(list,
-                                                                                             model.Mappings, model.ColumnCount, model.FirstRowIsHeader ?? false, data);
+            ModifyListMappedFieldsModel<DistributionContact> mappedContacts = _listProcessor.BuildListsFromFieldMappings<DistributionContact>(model.Mappings, model.ColumnCount, model.FirstRowIsHeader ?? false, data);
 
             // Could all be errors/duplicates
             if (mappedContacts.ValidContacts.Any())
@@ -467,15 +465,36 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                            ListState = Enums.DistributionListState.AddNewContacts
                        };
 
-                list = _dataService.CreateWorkingXml(list, model.Contacts.Count(), model.Contacts);
+                ModifyListMappedFieldsModel<DistributionContact> mappedContacts = _listProcessor.BuildListsFromContacts(model.Contacts);
+
+                // Could all be errors/duplicates
+                if (mappedContacts.ValidContacts.Any())
+                {
+                    list = _dataService.CreateWorkingXml(list, mappedContacts.ValidContactsCount,
+                                                                     mappedContacts.ValidContacts);
+                }
+
+                if (mappedContacts.InvalidContacts.Any() || mappedContacts.DuplicateContacts.Any())
+                {
+                    list = _dataService.CreateErrorXml(list, mappedContacts.InvalidContactsCount,
+                                                                   mappedContacts.InvalidContacts,
+                                                                   mappedContacts.DuplicateContactsCount,
+                                                                   mappedContacts.DuplicateContacts);
+                }
 
                 summaryModel = new ModifyListSummaryModel<DistributionContact>
-                               {
-                                   DistributionListId = list.DistributionListId,
-                                   ListName = list.Name,
-                                   ValidContactCount = 1,
-                                   TotalContactCount = 1
-                               };
+                {
+                    DistributionListId = list.DistributionListId,
+                    ListName = list.Name,
+                    ValidContactCount = mappedContacts.ValidContactsCount,
+                    ValidContactsAdded = mappedContacts.ValidContactsCount,
+                    InvalidContactCount = mappedContacts.InvalidContactsCount,
+                    InvalidContactsAdded = mappedContacts.InvalidContactsCount,
+                    InvalidContacts = mappedContacts.InvalidContacts,
+                    DuplicateContactCount = mappedContacts.DuplicateContactsCount,
+                    DuplicateContactsAdded = mappedContacts.DuplicateContactsCount,
+                    DuplicateContacts = mappedContacts.DuplicateContacts
+                };
             }
             else
             {

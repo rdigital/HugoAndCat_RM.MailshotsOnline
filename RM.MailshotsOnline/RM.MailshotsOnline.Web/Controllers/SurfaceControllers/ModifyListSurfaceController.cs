@@ -167,8 +167,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             byte[] data = _dataService.GetDataFile(distributionList, Enums.DistributionListFileType.Working);
 
-            ModifyListMappedFieldsModel<DistributionContact> mappedContacts = _listProcessor.BuildListsFromFieldMappings<DistributionContact>(distributionList,
-                                                                                             model.Mappings, model.ColumnCount, model.FirstRowIsHeader ?? false, data);
+            ModifyListMappedFieldsModel<DistributionContact> mappedContacts = _listProcessor.BuildListsFromFieldMappings<DistributionContact>(model.Mappings, model.ColumnCount, model.FirstRowIsHeader ?? false, data);
 
             // Could all be errors/duplicates
             if (mappedContacts.ValidContacts.Any())
