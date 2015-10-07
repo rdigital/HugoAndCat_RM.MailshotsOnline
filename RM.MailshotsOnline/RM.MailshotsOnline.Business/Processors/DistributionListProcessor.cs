@@ -13,6 +13,9 @@ using RM.MailshotsOnline.PCL.Models;
 
 namespace RM.MailshotsOnline.Business.Processors
 {
+    /// <summary>
+    /// Methods to handle mapping CSVs to lists of <see cref="IDistributionContact"/>.
+    /// </summary>
     public class DistributionListProcessor
     {
         private readonly ILogger _logger;
@@ -36,11 +39,11 @@ namespace RM.MailshotsOnline.Business.Processors
                                                                       byte[] csvBytes)
         {
             var confirmFieldsModel = new ModifyListConfirmFieldsModel
-                                     {
-                                         DistributionListId = list.DistributionListId,
-                                         ListName = list.Name,
-                                         FirstRowIsHeader = null,
-                                         MappingOptions =
+            {
+                DistributionListId = list.DistributionListId,
+                ListName = list.Name,
+                FirstRowIsHeader = null,
+                MappingOptions =
                                              dataMappings.Mappings.Select(
                                                                           m =>
                                                                               new ModifyListMappingsOptionModel
@@ -48,14 +51,14 @@ namespace RM.MailshotsOnline.Business.Processors
                                                                                   Value = m.FieldName,
                                                                                   Name = m.Name
                                                                               }),
-                                     };
+            };
 
             using (var stream = new MemoryStream(csvBytes))
             {
                 using (var sr = new StreamReader(stream))
                 {
                     // Assume No Header Row to start with.
-                    using (var csv = new CsvReader(sr, new CsvConfiguration {HasHeaderRecord = false}))
+                    using (var csv = new CsvReader(sr, new CsvConfiguration { HasHeaderRecord = false }))
                     {
                         int rows = 0;
                         int columns = 0;
@@ -104,7 +107,7 @@ namespace RM.MailshotsOnline.Business.Processors
 
                                         // ReSharper disable once PossibleNullReferenceException
                                         confirmFieldsModel.FirstTwoRowsWithGuessedMappings.Add(
-                                                                                               new Tuple <string, string,string>(
+                                                                                               new Tuple<string, string, string>(
                                                                                                    items[column].Key,
                                                                                                    value,
                                                                                                    items[column].Value));
@@ -155,7 +158,7 @@ namespace RM.MailshotsOnline.Business.Processors
                 var columnName = mappings[mappingIndex];
                 if (!string.IsNullOrEmpty(columnName))
                 {
-                    var propertyInfo = typeof (T).GetProperty(columnName);
+                    var propertyInfo = typeof(T).GetProperty(columnName);
                     var newMap = new CsvPropertyMap(propertyInfo);
                     newMap.Index(mappingIndex);
                     contactMap.PropertyMaps.Add(newMap);
@@ -163,7 +166,7 @@ namespace RM.MailshotsOnline.Business.Processors
             }
 
             // Should already have returned if FirstRowIsHeader is null.
-            var csvConfig = new CsvConfiguration {HasHeaderRecord = firstRowIsHeader};
+            var csvConfig = new CsvConfiguration { HasHeaderRecord = firstRowIsHeader };
 
             csvConfig.RegisterClassMap(contactMap);
 
@@ -204,14 +207,14 @@ namespace RM.MailshotsOnline.Business.Processors
             }
 
             var mappedFields = new ModifyListMappedFieldsModel<T>
-                               {
-                                   ValidContactsCount = validContacts.Count,
-                                   ValidContacts = validContacts.Select(vc => vc.Value),
-                                   InvalidContactsCount = errorContacts.Count,
-                                   InvalidContacts = errorContacts,
-                                   DuplicateContactsCount = duplicateContacts.Count,
-                                   DuplicateContacts = duplicateContacts
-                               };
+            {
+                ValidContactsCount = validContacts.Count,
+                ValidContacts = validContacts.Select(vc => vc.Value),
+                InvalidContactsCount = errorContacts.Count,
+                InvalidContacts = errorContacts,
+                DuplicateContactsCount = duplicateContacts.Count,
+                DuplicateContacts = duplicateContacts
+            };
 
             return mappedFields;
         }

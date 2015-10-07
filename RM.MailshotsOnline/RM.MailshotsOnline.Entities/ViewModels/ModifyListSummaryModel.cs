@@ -17,11 +17,17 @@ namespace RM.MailshotsOnline.Entities.ViewModels
 
         public int ValidContactCount { get; set; }
 
+        public int ValidContactsAdded { get; set; }
+
         public int TotalContactCount { get; set; }
 
         public int InvalidContactCount { get; set; }
 
+        public int InvalidContactsAdded { get; set; }
+
         public int DuplicateContactCount { get; set; }
+
+        public int DuplicateContactsAdded { get; set; }
 
         public int TotalFoundCount => ValidContactCount + InvalidContactCount + DuplicateContactCount;
 

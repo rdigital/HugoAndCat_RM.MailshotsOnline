@@ -7,8 +7,38 @@ using RM.MailshotsOnline.PCL.Models;
 namespace RM.MailshotsOnline.Web.Models
 {
     [DataContract]
-    public class DistributionContact : IDistributionContact
+    public class DistributionContact : IDistributionContact, IEquatable<DistributionContact>
     {
+        public bool Equals(DistributionContact other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            return ReferenceEquals(this, other) || ContactId.Equals(other.ContactId);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            return obj.GetType() == GetType() && Equals((DistributionContact)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return ContactId.GetHashCode();
+        }
+
         [DataMember]
         public Guid ContactId { get; set; }
 
@@ -17,11 +47,11 @@ namespace RM.MailshotsOnline.Web.Models
         [DataMember]
         public string Title { get; set; }
 
-        [RequiredIf("Surname", null, ErrorMessage = "You must have at least a first or surname.")]
+        [RequiredIf("Surname", "", ErrorMessage = "You must have at least a first or surname.")]
         [DataMember]
         public string FirstName { get; set; }
 
-        [RequiredIf("FirstName", null, ErrorMessage = "You must have at least a first or surname.")]
+        [RequiredIf("FirstName", "", ErrorMessage = "You must have at least a first or surname.")]
         [DataMember]
         public string Surname { get; set; }
 

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml.Linq;
+using HC.RM.Common;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.DAL;
 using RM.MailshotsOnline.Data.Helpers;
@@ -265,7 +267,7 @@ namespace RM.MailshotsOnline.Data.Services
         }
 
         public IDistributionList CreateWorkingXml<T>(IDistributionList distributionList, int contactsCount,
-                                                  IEnumerable<IDistributionContact> contacts) where T : IDistributionContact
+                                                  IEnumerable<T> contacts) where T : IDistributionContact
         {
             if (contactsCount == 0)
             {
@@ -307,8 +309,8 @@ namespace RM.MailshotsOnline.Data.Services
             return updatedList;
         }
 
-        public IDistributionList CreateErrorXml<T>(IDistributionList distributionList, int errorsCount, IEnumerable<IDistributionContact> errorContacts,
-                                                int duplicatesCount, IEnumerable<IDistributionContact> duplicateContacts) where T : IDistributionContact
+        public IDistributionList CreateErrorXml<T>(IDistributionList distributionList, int errorsCount, IEnumerable<T> errorContacts,
+                                                int duplicatesCount, IEnumerable<T> duplicateContacts) where T : IDistributionContact
         {
             if (errorsCount == 0 && duplicatesCount == 0)
             {
@@ -371,13 +373,22 @@ namespace RM.MailshotsOnline.Data.Services
 
         public IModifyListSummaryModel<T> CreateSummaryModel<T>(IDistributionList distributionList) where T : IDistributionContact
         {
+            List<T> nullList;
+            return getAllDetailsFromWorkingFiles(distributionList, false, out nullList);
+        }
+
+        private IModifyListSummaryModel<T> getAllDetailsFromWorkingFiles<T>(IDistributionList distributionList, bool includeValidList, out List<T> validContacts)
+            where T : IDistributionContact
+        {
+            validContacts = includeValidList ? new List<T>() : null;
+
             var summaryModel = new ModifyListSummaryModel<T>();
 
             // Grab the files
             if (!string.IsNullOrEmpty(distributionList.BlobWorking))
             {
                 byte[] validData = GetDataFile(distributionList,
-                                                            Enums.DistributionListFileType.Working);
+                                               Enums.DistributionListFileType.Working);
 
                 using (var validStream = new MemoryStream(validData))
                 {
@@ -396,6 +407,21 @@ namespace RM.MailshotsOnline.Data.Services
                             throw new ArgumentException();
                         }
 
+                        if (includeValidList)
+                        {
+                            var serialiser = new DataContractSerializer(typeof(T));
+
+                            validContacts = new List<T>(summaryModel.ValidContactCount);
+
+                            foreach (var validContact in distributionListElement.Elements())
+                            {
+                                using (var validXmlReader = validContact.CreateReader())
+                                {
+                                    validContacts.Add((T)serialiser.ReadObject(validXmlReader));
+                                }
+                            }
+                        }
+
                         summaryModel.ValidContactCount = (int)distributionListElement.Attribute("count");
                     }
                 }
@@ -405,7 +431,7 @@ namespace RM.MailshotsOnline.Data.Services
             {
                 byte[] errorData = GetDataFile(distributionList, Enums.DistributionListFileType.Errors);
 
-                var serialiser = new DataContractSerializer(typeof(T));
+                var serialiser = new DataContractSerializer(typeof (T));
 
                 using (var errorStream = new MemoryStream(errorData))
                 {
@@ -493,12 +519,92 @@ namespace RM.MailshotsOnline.Data.Services
                         throw new ArgumentException();
                     }
 
-                    distributionList.RecordCount = (int)distributionListElement.Attribute("count");
+                    distributionList.RecordCount = distributionList.RecordCount + (int)distributionListElement.Attribute("count");
                 }
             }
 
             return UpdateDistributionList(distributionList, data, PCL.Constants.MimeTypes.Xml,
                                           Enums.DistributionListFileType.Final);
+        }
+
+        public IModifyListSummaryModel<T> UpdateWorkingXml<T>(IDistributionList distributionList, List<T> contactsUpdate) where T : IDistributionContact
+        {
+            // Grab the existing summary model, will load core data and grab and parse the errors file for us
+            List<T> validContacts;
+            IModifyListSummaryModel<T> summaryModel = getAllDetailsFromWorkingFiles(distributionList, true, out validContacts);
+
+            // See if the contact exists in the errors list
+            List<T> invalidContacts = summaryModel.InvalidContacts?.ToList() ?? new List<T>();
+            List<T> duplicateContacts = summaryModel.DuplicateContacts?.ToList() ?? new List<T>();
+
+            int removedErrors = 0;
+            int addedDuplicates = 0;
+
+            // Do we have any contacts with a valid contact id, and do we have any invalid contacts that these could be replacing?
+            if (contactsUpdate.Any(c => c.ContactId != Guid.Empty) && invalidContacts.Any())
+            {
+                var errorsToRemove = invalidContacts.Intersect(contactsUpdate).ToList();
+
+                if (errorsToRemove.Any())
+                {
+                    foreach (var error in errorsToRemove)
+                    {
+                        invalidContacts.Remove(error);
+                        removedErrors--;
+                    }
+                }
+            }
+
+            int successfulAdd = 0;
+            int invalidAdd = 0;
+            
+            foreach (var contact in contactsUpdate)
+            {
+                ICollection<ValidationResult> results;
+                bool isValid = contact.TryValidate(out results);
+
+                if (!isValid)
+                {
+                    invalidContacts.Add(contact);
+                    invalidAdd++;
+                    continue;
+                }
+
+                if (!validContacts.Any() || validContacts.All(vc => vc.AddressRef != contact.AddressRef))
+                {
+                    validContacts.Add(contact);
+                    successfulAdd++;
+                }
+                else
+                {
+                    duplicateContacts.Add(contact);
+                    addedDuplicates++;
+                }
+            }
+
+            if (successfulAdd > 0)
+            {
+                distributionList = CreateWorkingXml(distributionList,  summaryModel.ValidContactCount + successfulAdd, validContacts);
+            }
+
+            if (removedErrors < 0 || invalidAdd > 0 || addedDuplicates > 0)
+            {
+                distributionList = CreateErrorXml(distributionList, summaryModel.InvalidContactCount + removedErrors + invalidAdd,
+                                                  invalidContacts, summaryModel.DuplicateContactCount + addedDuplicates,
+                                                  duplicateContacts);
+            }
+
+            summaryModel.DuplicateContactCount = summaryModel.DuplicateContactCount + addedDuplicates;
+            summaryModel.DuplicateContactsAdded = addedDuplicates;
+            summaryModel.DuplicateContacts = duplicateContacts;
+            summaryModel.InvalidContactCount = summaryModel.InvalidContactCount + removedErrors + invalidAdd;
+            summaryModel.InvalidContactsAdded = removedErrors + invalidAdd;
+            summaryModel.InvalidContacts = invalidContacts;
+            summaryModel.ValidContactCount = summaryModel.ValidContactCount + successfulAdd;
+            summaryModel.ValidContactsAdded = successfulAdd;
+            summaryModel.TotalContactCount = distributionList.RecordCount + summaryModel.ValidContactCount;
+
+            return summaryModel;
         }
 
         private static string convertToFileName(string listName, string contentType, Enums.DistributionListFileType fileType)
