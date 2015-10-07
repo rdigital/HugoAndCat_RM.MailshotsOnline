@@ -8,6 +8,7 @@ using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.DAL;
 using RM.MailshotsOnline.Data.Helpers;
 using RM.MailshotsOnline.Entities.DataModels;
+using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.PCL;
 using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
@@ -236,7 +237,7 @@ namespace RM.MailshotsOnline.Data.Services
             return _blobStorage.FetchBytes(uploadedListName);
         }
 
-        public void AbondonContactEdits(IDistributionList distributionList)
+        public void AbandonContactEdits(IDistributionList distributionList)
         {
             if (!string.IsNullOrEmpty(distributionList.BlobWorking))
             {
@@ -322,7 +323,7 @@ namespace RM.MailshotsOnline.Data.Services
             var errorElement = new XElement(_elementErrors);
             errorsXml.Add(errorElement);
 
-            DataContractSerializer serialiser = new DataContractSerializer(typeof(T));
+            var serialiser = new DataContractSerializer(typeof(T));
 
             if (errorsCount > 0)
             {
@@ -366,6 +367,109 @@ namespace RM.MailshotsOnline.Data.Services
             }
 
             return updatedList;
+        }
+
+        public IModifyListSummaryModel<T> CreateSummaryModel<T>(IDistributionList distributionList) where T : IDistributionContact
+        {
+            var summaryModel = new ModifyListSummaryModel<T>();
+
+            // Grab the files
+            if (!string.IsNullOrEmpty(distributionList.BlobWorking))
+            {
+                byte[] validData = GetDataFile(distributionList,
+                                                            Enums.DistributionListFileType.Working);
+
+                using (var validStream = new MemoryStream(validData))
+                {
+                    using (var validReader = new StreamReader(validStream))
+                    {
+                        var validXml = XDocument.Load(validReader);
+
+                        var distributionListElement = validXml.Element(_elementDistributionList);
+
+                        if (distributionListElement == null)
+                        {
+                            _logger.Critical(GetType().Name, "ShowSummaryListForm",
+                                             "Unable to load working XML document for user list: {0}:{1} - {2} ",
+                                             distributionList.UserId, distributionList.DistributionListId,
+                                             distributionList.BlobWorking);
+                            throw new ArgumentException();
+                        }
+
+                        summaryModel.ValidContactCount = (int)distributionListElement.Attribute("count");
+                    }
+                }
+            }
+
+            if (!string.IsNullOrEmpty(distributionList.BlobErrors))
+            {
+                byte[] errorData = GetDataFile(distributionList, Enums.DistributionListFileType.Errors);
+
+                var serialiser = new DataContractSerializer(typeof(T));
+
+                using (var errorStream = new MemoryStream(errorData))
+                {
+                    using (var errorReader = new StreamReader(errorStream))
+                    {
+                        var errorXml = XDocument.Load(errorReader);
+
+                        var errorElement = errorXml.Element(_elementErrors);
+
+                        if (errorElement == null)
+                        {
+                            _logger.Critical(GetType().Name, "ShowSummaryListForm",
+                                             "Unable to load error XML document for user list: {0}:{1} - {2} ",
+                                             distributionList.UserId, distributionList.DistributionListId,
+                                             distributionList.BlobErrors);
+                            throw new ArgumentException();
+                        }
+
+                        var invalidElement = errorElement.Element(_elementInvalid);
+
+                        if (invalidElement != null && invalidElement.Descendants().Any())
+                        {
+                            summaryModel.InvalidContactCount =
+                                (int)invalidElement.Attribute(_attributeCount);
+
+                            var invalidContacts = new List<T>(summaryModel.InvalidContactCount);
+
+                            foreach (var invalidContact in invalidElement.Elements())
+                            {
+                                using (var invalidXeReader = invalidContact.CreateReader())
+                                {
+                                    invalidContacts.Add((T)serialiser.ReadObject(invalidXeReader));
+                                }
+                            }
+
+                            summaryModel.InvalidContacts = invalidContacts;
+                        }
+
+                        var duplicateElement = errorElement.Element(_elementDuplicates);
+
+                        if (duplicateElement != null && duplicateElement.Descendants().Any())
+                        {
+                            summaryModel.DuplicateContactCount =
+                                (int)duplicateElement.Attribute(_attributeCount);
+
+                            var duplicateContacts = new List<T>(summaryModel.DuplicateContactCount);
+
+                            foreach (var duplicateContact in duplicateElement.Elements())
+                            {
+                                using (var duplicateXeReader = duplicateContact.CreateReader())
+                                {
+                                    duplicateContacts.Add((T)serialiser.ReadObject(duplicateXeReader));
+                                }
+                            }
+
+                            summaryModel.DuplicateContacts = duplicateContacts;
+                        }
+                    }
+                }
+            }
+
+            summaryModel.TotalContactCount = distributionList.RecordCount + summaryModel.ValidContactCount;
+
+            return summaryModel;
         }
 
         public IDistributionList CompleteContactEdits(IDistributionList distributionList)

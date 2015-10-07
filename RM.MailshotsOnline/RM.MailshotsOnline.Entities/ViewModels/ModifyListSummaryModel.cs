@@ -6,7 +6,7 @@ using RM.MailshotsOnline.PCL.Models;
 
 namespace RM.MailshotsOnline.Entities.ViewModels
 {
-    public class ModifyListSummaryModel<T> where T: IDistributionContact
+    public class ModifyListSummaryModel<T> : IModifyListSummaryModel<T> where T: IDistributionContact
     {
         public Guid DistributionListId { get; set; }
 

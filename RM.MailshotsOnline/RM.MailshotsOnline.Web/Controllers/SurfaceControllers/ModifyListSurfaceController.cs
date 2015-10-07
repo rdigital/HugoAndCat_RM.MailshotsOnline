@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Web.Mvc;
-using System.Xml.Linq;
 using Glass.Mapper.Umb;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Business.Processors;
@@ -26,14 +23,6 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         private readonly IMembershipService _membershipService;
         private readonly IUmbracoService _umbracoService;
         private readonly DistributionListProcessor _listProcessor;
-
-        private readonly string _elementDistributionList = "distributionList";
-        private readonly string _elementErrors = "errors";
-        private readonly string _elementInvalid = "invalid";
-        private readonly string _elementDuplicates = "duplicates";
-        private readonly string _attributeCount = "count";
-
-        private readonly DataContractSerializer _serialiser = new DataContractSerializer(typeof(DistributionContact));
 
         public ModifyListSurfaceController(ILogger logger, IDataService dataService, IMembershipService membershipService, IUmbracoService umbracoService)
         {
@@ -76,105 +65,16 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         [ChildActionOnly]
         public ActionResult ShowSummaryListForm(ListCreate model)
         {
-            var pageModel = new ModifyListSummaryModel<DistributionContact>
-                            {
-                                DistributionListId = model.DistributionList.DistributionListId,
-                                PageModel = model,
-                            };
+            var pageModel = _dataService.CreateSummaryModel<DistributionContact>(model.DistributionList) as ModifyListSummaryModel<DistributionContact>;
 
-            // Grab the files
-            if (!string.IsNullOrEmpty(model.DistributionList.BlobWorking))
+            if (pageModel == null)
             {
-                byte[] validData = _dataService.GetDataFile(model.DistributionList,
-                                                            Enums.DistributionListFileType.Working);
-
-                using (var validStream = new MemoryStream(validData))
-                {
-                    using (var validReader = new StreamReader(validStream))
-                    {
-                        var validXml = XDocument.Load(validReader);
-
-                        var distributionListElement = validXml.Element(_elementDistributionList);
-
-                        if (distributionListElement == null)
-                        {
-                            _logger.Critical(GetType().Name, "ShowSummaryListForm",
-                                             "Unable to load working XML document for user list: {0}:{1} - {2} ",
-                                             model.DistributionList.UserId, model.DistributionList.DistributionListId,
-                                             model.DistributionList.BlobWorking);
-                            throw new ArgumentException();
-                        }
-
-                        pageModel.ValidContactCount = (int)distributionListElement.Attribute("count");
-                    }
-                }
+                _logger.Critical(GetType().Name, "ShowSummaryListForm", "Unable to cast IModifySummaryListModel as ModifySummaryListModel.");
+                throw new ApplicationException("Unable to cast IModifySummaryListModel as ModifySummaryListModel.");
             }
 
-            if (!string.IsNullOrEmpty(model.DistributionList.BlobErrors))
-            {
-                byte[] errorData = _dataService.GetDataFile(model.DistributionList, Enums.DistributionListFileType.Errors);
-
-                using (var errorStream = new MemoryStream(errorData))
-                {
-                    using (var errorReader = new StreamReader(errorStream))
-                    {
-                        var errorXml = XDocument.Load(errorReader);
-
-                        var errorElement = errorXml.Element(_elementErrors);
-
-                        if (errorElement == null)
-                        {
-                            _logger.Critical(GetType().Name, "ShowSummaryListForm",
-                                             "Unable to load error XML document for user list: {0}:{1} - {2} ",
-                                             model.DistributionList.UserId, model.DistributionList.DistributionListId,
-                                             model.DistributionList.BlobErrors);
-                            throw new ArgumentException();
-                        }
-
-                        var invalidElement = errorElement.Element(_elementInvalid);
-
-                        if (invalidElement != null && invalidElement.Descendants().Any())
-                        {
-                            pageModel.InvalidContactCount =
-                                (int)invalidElement.Attribute(_attributeCount);
-
-                            var invalidContacts = new List<DistributionContact>(pageModel.InvalidContactCount);
-
-                            foreach (var invalidContact in invalidElement.Elements())
-                            {
-                                using (var invalidXeReader = invalidContact.CreateReader())
-                                {
-                                    invalidContacts.Add((DistributionContact)_serialiser.ReadObject(invalidXeReader));
-                                }
-                            }
-
-                            pageModel.InvalidContacts = invalidContacts;
-                        }
-
-                        var duplicateElement = errorElement.Element(_elementDuplicates);
-
-                        if (duplicateElement != null && duplicateElement.Descendants().Any())
-                        {
-                            pageModel.DuplicateContactCount =
-                                (int)duplicateElement.Attribute(_attributeCount);
-
-                            var duplicateContacts = new List<DistributionContact>(pageModel.DuplicateContactCount);
-
-                            foreach (var duplicateContact in duplicateElement.Elements())
-                            {
-                                using (var duplicateXeReader = duplicateContact.CreateReader())
-                                {
-                                    duplicateContacts.Add((DistributionContact)_serialiser.ReadObject(duplicateXeReader));
-                                }
-                            }
-
-                            pageModel.DuplicateContacts = duplicateContacts;
-                        }
-                    }
-                }
-            }
-
-            pageModel.TotalContactCount = model.DistributionList.RecordCount + pageModel.ValidContactCount;
+            pageModel.DistributionListId = model.DistributionList.DistributionListId;
+            pageModel.PageModel = model;
 
             return PartialView("~/Views/Lists/Partials/ShowSummaryListForm.cshtml", pageModel);
         }
@@ -307,11 +207,11 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                     }
                     else
                     {
-                        _dataService.AbondonContactEdits(distributionList);
+                        _dataService.AbandonContactEdits(distributionList);
                     }
                     break;
                 case "cancel":
-                    _dataService.AbondonContactEdits(distributionList);
+                    _dataService.AbandonContactEdits(distributionList);
                     break;
             }
 

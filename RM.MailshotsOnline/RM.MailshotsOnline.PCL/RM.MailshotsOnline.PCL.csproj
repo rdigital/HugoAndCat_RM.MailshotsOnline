@@ -53,6 +53,7 @@
     <Compile Include="Models\IInvoiceLineItem.cs" />
     <Compile Include="Models\IMailshotImageUse.cs" />
     <Compile Include="Models\IMedia.cs" />
+    <Compile Include="Models\IModifyListSummaryModel.cs" />
     <Compile Include="Models\IProduct.cs" />
     <Compile Include="Models\IXmlAndXslData.cs" />
     <Compile Include="Models\Reporting\IMembershipReport.cs" />
