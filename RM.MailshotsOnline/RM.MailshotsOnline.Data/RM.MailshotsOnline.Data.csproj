@@ -342,6 +342,10 @@
     <Compile Include="Migrations\201510051606175_InvoiceUpdates.Designer.cs">
       <DependentUpon>201510051606175_InvoiceUpdates.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510071542424_PostDevelopMerge.cs" />
+    <Compile Include="Migrations\201510071542424_PostDevelopMerge.Designer.cs">
+      <DependentUpon>201510071542424_PostDevelopMerge.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CampaignService.cs" />
@@ -513,6 +517,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510051606175_InvoiceUpdates.resx">
       <DependentUpon>201510051606175_InvoiceUpdates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510071542424_PostDevelopMerge.resx">
+      <DependentUpon>201510071542424_PostDevelopMerge.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
