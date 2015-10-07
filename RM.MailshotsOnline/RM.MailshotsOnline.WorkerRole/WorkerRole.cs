@@ -59,16 +59,9 @@ namespace RM.MailshotsOnline.WorkerRole
             // Set the maximum number of concurrent connections
             ServicePointManager.DefaultConnectionLimit = 12;
 
-            try
-            {
-                TelemetryConfig.SetupTelemetry();
-                var telemetry = new TelemetryClient();
-                Logger = new Logger(telemetry);
-            }
-            catch (Exception e)
-            {
-                
-            }
+            TelemetryConfig.SetupTelemetry();
+            var telemetry = new TelemetryClient();
+            Logger = new Logger(telemetry);
 
             Logger.Info(GetType().Name, "OnStart", $"{WorkerRoleName} is starting");
 

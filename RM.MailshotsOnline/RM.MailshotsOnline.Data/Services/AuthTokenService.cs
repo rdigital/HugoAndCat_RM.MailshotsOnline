@@ -14,9 +14,9 @@ namespace RM.MailshotsOnline.Data.Services
     public class AuthTokenService : IAuthTokenService
     {
         private StorageContext _context;
-        private static ILogger _logger;
+        private static HC.RM.Common.PCL.Helpers.ILogger _logger;
 
-        public AuthTokenService(ILogger logger)
+        public AuthTokenService(HC.RM.Common.PCL.Helpers.ILogger logger)
             : this(new StorageContext())
         {
             _logger = logger;
@@ -41,13 +41,15 @@ namespace RM.MailshotsOnline.Data.Services
             return token;
         }
 
-        public bool Consume(string serviceName, string token)
+        public bool Consume(string serviceName, string id)
         {
             try
             {
+                var g = new Guid(id);
+
                 var match = _context.AuthTokens
                     .AsEnumerable()
-                    .FirstOrDefault(x => x.AuthTokenId.ToString().Equals(token) && x.ServiceName.Equals(serviceName));
+                    .FirstOrDefault(x => x.AuthTokenId.Equals(g) && x.ServiceName.Equals(serviceName));
 
                 if (match != null)
                 {

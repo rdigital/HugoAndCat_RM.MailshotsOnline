@@ -18,6 +18,8 @@ using System.Web.Mvc;
 using HC.RM.Common.Azure.Persistence;
 using HC.RM.Common.Network;
 using HC.RM.Common.PCL.Persistence;
+using Microsoft.Azure;
+using RM.MailshotsOnline.Data.DAL;
 using RM.MailshotsOnline.Data.Services.Reporting;
 using RM.MailshotsOnline.PCL.Models.Reporting;
 using RM.MailshotsOnline.PCL.Services.Reporting;
@@ -25,6 +27,7 @@ using Umbraco.Core;
 using Umbraco.Core.Services;
 using Umbraco.Web;
 using Umbraco.Web.Mvc;
+using Constants = RM.MailshotsOnline.Data.Constants.Constants;
 
 namespace RM.MailshotsOnline.Web.Installers
 {
@@ -36,8 +39,12 @@ namespace RM.MailshotsOnline.Web.Installers
             // See: http://stackoverflow.com/questions/21835555/umbraco-mvc-with-castle-windsor
             // Also register Glass Mapper items and DAL Services
             container.Register(
-                Classes.FromAssemblyInDirectory(new AssemblyFilter(AssemblyDirectory)).BasedOn<IController>().LifestyleTransient(),
-                Classes.FromAssemblyInDirectory(new AssemblyFilter(AssemblyDirectory)).BasedOn<IHttpController>().LifestyleTransient(),
+                Classes.FromAssemblyInDirectory(new AssemblyFilter(AssemblyDirectory))
+                    .BasedOn<IController>()
+                    .LifestyleTransient(),
+                Classes.FromAssemblyInDirectory(new AssemblyFilter(AssemblyDirectory))
+                    .BasedOn<IHttpController>()
+                    .LifestyleTransient(),
                 Component.For<IUmbracoService>().ImplementedBy<UmbracoService>().LifestyleTransient(),
                 Component.For<IContentService>().ImplementedBy<ContentService>().LifestyleTransient(),
                 Component.For<IMailshotsService>().ImplementedBy<MailshotsService>().LifestyleTransient(),
@@ -52,15 +59,20 @@ namespace RM.MailshotsOnline.Web.Installers
                 Component.For<IInvoiceService>().ImplementedBy<InvoiceService>().LifestyleTransient(),
                 Component.For<IEmailService>().ImplementedBy<SmtpService>().LifestyleTransient(),
                 Component.For<ICryptographicService>().ImplementedBy<CryptographicService>().LifestyleTransient(),
-				Component.For<ILogger>().ImplementedBy<Logger>().LifestyleTransient(),
+                Component.For<ILogger>().ImplementedBy<Logger>().LifestyleTransient(),
+                Component.For<HC.RM.Common.Azure.Helpers.ILogger>().ImplementedBy<Logger>().Named("OverridingImplementation").IsDefault().LifestyleTransient(),
                 Component.For<IReportingService>().ImplementedBy<ReportingService>().LifestyleTransient(),
                 Component.For<IMembershipReportGenerator>().ImplementedBy<MembershipReportGenerator>().LifestyleTransient(),
                 Component.For<ITransactionsReportGenerator>().ImplementedBy<TransactionsReportGenerator>().LifestyleTransient(),
-                Component.For<IBlobService>().ImplementedBy<HC.RM.Common.Azure.Persistence.BlobService>().LifestyleSingleton(),
                 Component.For<IFtpService>().ImplementedBy<FtpService>().LifestyleTransient(),
-                Component.For<IReportingFtpService>().ImplementedBy<IReportingFtpService>().LifestyleTransient(),
+                Component.For<IReportingFtpService>().ImplementedBy<ReportingFtpService>().LifestyleTransient(),
                 Component.For<IReportingBlobService>().ImplementedBy<ReportingBlobService>().LifestyleTransient(),
-                Component.For<IBlobStorage>().ImplementedBy<BlobStorage>().LifestyleTransient(),
+                Component.For<IReportingBlobStorage>().ImplementedBy<ReportingBlobStorage>().LifestyleTransient(),
+                Component.For<StorageContext>().ImplementedBy<StorageContext>().LifestyleTransient(),
+                Component.For<IBlobStorage>()
+                    .ImplementedBy<BlobStorage>()
+                    .DependsOn(Dependency.OnValue("connectionString", CloudConfigurationManager.GetSetting("StorageConnectionString")))
+                    .LifestyleTransient(),
                 Component.For<IAuthTokenService>().ImplementedBy<AuthTokenService>().LifestyleTransient());
         }
 

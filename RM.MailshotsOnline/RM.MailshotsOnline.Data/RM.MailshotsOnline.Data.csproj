@@ -305,6 +305,7 @@
     <Compile Include="Services\MailshotsService.cs" />
     <Compile Include="Services\MembershipService.cs" />
     <Compile Include="Services\PricingService.cs" />
+    <Compile Include="Services\Reporting\ReportingBlobStorage.cs" />
     <Compile Include="Services\Reporting\ReportingFtpService.cs" />
     <Compile Include="Services\Reporting\ReportingBlobService.cs" />
     <Compile Include="Services\Reporting\TransactionsReportGenerator.cs" />
@@ -314,6 +315,9 @@
     <Compile Include="Services\SparqQueueService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Keys\private-key.ppk">
+      <Link>Keys\private-key.ppk</Link>
+    </None>
     <None Include="App.config" />
     <None Include="AppInsightsAgent\InstallAgent.bat" />
     <None Include="AppInsightsAgent\InstallAgent.ps1" />
@@ -435,6 +439,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\HC.RM.Common.Azure.1.0.13.45\build\HC.RM.Common.Azure.targets" Condition="Exists('..\packages\HC.RM.Common.Azure.1.0.13.45\build\HC.RM.Common.Azure.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

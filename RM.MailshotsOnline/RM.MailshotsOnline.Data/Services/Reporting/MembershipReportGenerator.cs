@@ -49,7 +49,7 @@ namespace RM.MailshotsOnline.Data.Services.Reporting
                 ThirdPartyContactPhone = x.ThirdPartyMarketingPreferences.Phone.ToString(),
                 ThirdPartyContactSms = x.ThirdPartyMarketingPreferences.SmsAndOther.ToString(),
                 Disabled = (!x.IsApproved).ToString(),
-                Updated = x.Updated.ToString("dd/mm/yyyy hh:mm")
+                Updated = x.Updated.ToString("dd/mm/yyyy hh:mm"),
             });
 
             var report = new MembershipReport {CreatedDate = DateTime.Now, Members = members};

@@ -4,29 +4,24 @@ using System.Web.Mvc;
 using System;
 using System.Collections;
 using System.IO;
-using System.Net.Http.Headers;
 using CsvHelper;
-using HC.RM.Common.Network;
 using HC.RM.Common.PCL.Helpers;
-using HC.RM.Common.PCL.Persistence;
 using RM.MailshotsOnline.Data.Constants;
-using RM.MailshotsOnline.Data.Helpers;
 using RM.MailshotsOnline.PCL.Models.Reporting;
 using RM.MailshotsOnline.PCL.Services;
 using RM.MailshotsOnline.PCL.Services.Reporting;
-using Umbraco.Web.WebApi;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
-    public class ReportsController : UmbracoApiController
+    public class ReportsController : ApiBaseController
     {
         private static IReportingService _reportingService;
-        private static IBlobService _blobService;
-        private static IFtpService _ftpService;
+        private static IReportingBlobService _blobService;
+        private static IReportingFtpService _ftpService;
         private static ILogger _logger;
         private static IAuthTokenService _authTokenService;
 
-        public ReportsController(IReportingService reportingService, IBlobService blobService, IFtpService ftpService,
+        public ReportsController(IReportingService reportingService, IReportingBlobService blobService, IReportingFtpService ftpService,
             ILogger logger, IAuthTokenService authTokenService)
         {
             _reportingService = reportingService;
@@ -37,94 +32,101 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         }
 
         [HttpPost]
-        [RequireHttps]
-        public HttpResponseMessage GenerateReport(string type, string token, string service)
+        public HttpResponseMessage GenerateReport(AuthTokenPostModel tokenPostModel)
         {
-            if (string.IsNullOrEmpty(type) || string.IsNullOrEmpty(token))
+            if (string.IsNullOrEmpty(tokenPostModel.Type) || string.IsNullOrEmpty(tokenPostModel.Token))
             {
-                _logger.Error(this.GetType().Name, "GenerateReport", "Method was called with bad parameters");
+                var message = "Method was called with bad parameters";
 
-                return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                _logger.Error(this.GetType().Name, "GenerateReport", message);
+                return ErrorMessageDebug(HttpStatusCode.BadRequest, message);
             }
 
-            if (!_authTokenService.Consume(service, token))
+            if (!_authTokenService.Consume(tokenPostModel.Service, tokenPostModel.Token))
             {
-                _logger.Error(this.GetType().Name, "GenerateReport", "Method was called with bad parameters");
+                var message = "Method was called with an invalid token";
 
-                return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                _logger.Error(this.GetType().Name, "GenerateReport", message);
+                return ErrorMessageDebug(HttpStatusCode.BadRequest, message);
             }
 
             IReport report;
-            MemoryStream reportStream;
+            IEnumerable data;
 
-            switch (type.ToLower())
+            switch (tokenPostModel.Type.ToLower())
             {
                 case "membership":
 
                     report = _reportingService.MembershipReportGenerator.Generate();
-                    reportStream = CreateCsv(report, ((IMembershipReport) report).Members);
+                    data = ((IMembershipReport) report).Members;
 
                     break;
 
                 case "transactions":
 
                     report = _reportingService.TransactionsReportGenerator.Generate();
-                    reportStream = CreateCsv(report, ((ITransactionsReport) report).Transactions);
+                    data = ((ITransactionsReport)report).Transactions;
 
                     break;
 
                 default:
 
-                    return new HttpResponseMessage(HttpStatusCode.BadRequest);
+                    return ErrorMessageDebug(HttpStatusCode.BadRequest, "Method was called with an invalid report type");
             }
 
-            if (reportStream.Length > 0)
+            if (data != null)
             {
-                var filename = report.Name + ".csv";
-
-                try
-                {
-                    _ftpService.Put(reportStream, $"{Constants.Reporting.SftpDirectory}/{filename}");
-                }
-                catch (Exception e)
-                {
-                    _logger.Error(this.GetType().Name, "GenerateReport", $"Upload to SFTP server failed!", e);
-                }
-
-                try
-                {
-                    _blobService.StoreAsync(reportStream.ToArray(), report.Name, "text/csv");
-                }
-                catch (Exception e)
-                {
-                    _logger.Error(this.GetType().Name, "GenerateReport", $"Upload to blob store failed!", e);
-                }
-
-                return new HttpResponseMessage(HttpStatusCode.OK);
-            }
-
-            _logger.Error(this.GetType().Name, "GenerateReport", "Stream was empty");
-
-            return new HttpResponseMessage(HttpStatusCode.InternalServerError);
-        }
-
-        private MemoryStream CreateCsv(IReport report, IEnumerable data)
-        {
-            if (report == null || data == null)
-            {
-                return null;
-            }
-
-            using (var memoryStream = new MemoryStream())
-            {
-                using (var streamWriter = new StreamWriter(memoryStream))
+                using (var m = new MemoryStream())
+                using (var streamWriter = new StreamWriter(m))
                 using (var csvWriter = new CsvWriter(streamWriter))
                 {
                     csvWriter.WriteRecords(data);
-                }
 
-                return memoryStream;
+                    var filename = report.Name + ".csv";
+
+                    try
+                    {
+                        var success = _ftpService.Put(m, $"{Constants.Reporting.SftpDirectory}/{filename}");
+
+                        if (!success)
+                        {
+                            throw new Exception("SFTP service not transfer the file.");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.Error(this.GetType().Name, "GenerateReport", "Upload to SFTP server failed!", e);
+                    }
+
+                    try
+                    {
+                        var blobName = _blobService.Store(m.ToArray(), filename, "text/csv");
+
+                        if (!string.IsNullOrEmpty(blobName))
+                        {
+                            throw new Exception("The blob service did not return a blob name after attempting to store the report.");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.Error(this.GetType().Name, "GenerateReport", "Upload to blob store failed!", e);
+                    }
+
+                    return new HttpResponseMessage(HttpStatusCode.OK);
+                }
             }
+
+            _logger.Error(this.GetType().Name, "GenerateReport", "Stream was empty");
+            return ErrorMessageDebug(HttpStatusCode.InternalServerError, "Stream was empty");
+        }
+
+        public class AuthTokenPostModel
+        {
+            public string Type { get; set; }
+
+            public string Token { get; set; }
+
+            public string Service { get; set; }
         }
     }
 }

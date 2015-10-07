@@ -10,6 +10,6 @@ namespace RM.MailshotsOnline.PCL.Services
     {
         IAuthToken Create(string serviceName);
 
-        bool Consume(string serviceName, string token);
+        bool Consume(string serviceName, string id);
     }
 }

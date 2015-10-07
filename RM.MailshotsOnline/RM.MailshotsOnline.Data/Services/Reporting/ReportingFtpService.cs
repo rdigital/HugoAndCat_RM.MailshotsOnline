@@ -14,8 +14,8 @@ namespace RM.MailshotsOnline.Data.Services.Reporting
 {
     public class ReportingFtpService : FtpService, IReportingFtpService
     {
-        private static readonly string Key = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/" +
-                                             Constants.Constants.Reporting.PrivateKey;
+        private static readonly string Key =
+            $"{System.Web.Hosting.HostingEnvironment.MapPath("~/bin")}\\Keys\\{Constants.Constants.Reporting.PrivateKeyFileName}";
 
         public ReportingFtpService(ILogger logger)
             : base(Key, Constants.Constants.Reporting.SftpUsername, Constants.Constants.Reporting.SftpHostname, logger)

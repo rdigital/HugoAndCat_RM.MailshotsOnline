@@ -58,7 +58,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RM.MailshotsOnline.WorkerRo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Keys", "Keys", "{5D019E8D-AE6A-4F6A-A53B-121705D416EA}"
 	ProjectSection(SolutionItems) = preProject
-		Keys\private key.ppk = Keys\private key.ppk
+		Keys\private-key.ppk = Keys\private-key.ppk
 	EndProjectSection
 EndProject
 Global

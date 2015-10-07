@@ -160,7 +160,7 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
             Thread.Sleep(_queueInterval);
         }
 
-        HttpStatusCode SendHttpPost(string url, object data = null)
+        private HttpStatusCode SendHttpPost(string url, object data = null)
         {
             var tokenRequest = WebRequest.Create(url);
             tokenRequest.Method = WebRequestMethods.Http.Post;

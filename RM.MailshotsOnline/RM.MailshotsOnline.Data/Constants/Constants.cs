@@ -1,4 +1,8 @@
 ﻿using System.Configuration;
+using System.IO;
+using System.Reflection;
+using Lucene.Net.Index;
+using Microsoft.Azure;
 
 namespace RM.MailshotsOnline.Data.Constants
 {
@@ -39,8 +43,8 @@ namespace RM.MailshotsOnline.Data.Constants
             public static readonly string SftpUsername = Helpers.ConfigHelper.GetConfigValue("ReportingSftpUsername");
             public static readonly string SftpHostname = Helpers.ConfigHelper.GetConfigValue("ReportingSftpHostname");
             public static readonly string SftpDirectory = Helpers.ConfigHelper.GetConfigValue("ReportingSftpDirectory");
-            public static readonly string PrivateKey = Helpers.ConfigHelper.GetConfigValue("ReportingSftpPrivateKeyLocation");
-            public static readonly string BlobContainer = Helpers.ConfigHelper.GetConfigValue("ReportingBlobContiner");
+            public static readonly string PrivateKeyFileName = Helpers.ConfigHelper.GetConfigValue("ReportingSftpPrivateKeyLocation");
+            public static readonly string BlobContainer = Helpers.ConfigHelper.GetConfigValue("ReportingBlobContainer");
         }
 
         public static class Apis
