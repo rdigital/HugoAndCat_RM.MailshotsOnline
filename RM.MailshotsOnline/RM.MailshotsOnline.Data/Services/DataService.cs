@@ -382,7 +382,11 @@ namespace RM.MailshotsOnline.Data.Services
         {
             validContacts = includeValidList ? new List<T>() : null;
 
-            var summaryModel = new ModifyListSummaryModel<T>();
+            var summaryModel = new ModifyListSummaryModel<T>
+                               {
+                                   DistributionListId = distributionList.DistributionListId,
+                                   ListName = distributionList.Name,
+                               };
 
             // Grab the files
             if (!string.IsNullOrEmpty(distributionList.BlobWorking))
