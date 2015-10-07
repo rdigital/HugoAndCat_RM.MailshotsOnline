@@ -407,7 +407,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         }
 
         [HttpPost]
-        public HttpResponseMessage PostAddContactToList(ModifyListAddContactModel<DistributionContact> model)
+        public HttpResponseMessage PostAddContactsToList(ModifyListAddContactModel<DistributionContact> model)
         {
             string methodName = "PostUploadCsv";
 
