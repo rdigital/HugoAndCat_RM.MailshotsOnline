@@ -1,6 +1,6 @@
-define(['knockout', 'view-models/state', 'koMapping'],
+define(['knockout', 'view-models/state'],
 
-    function(ko, stateViewModel, koMapping) {
+    function(ko, stateViewModel) {
 
         function dataSummaryComponentViewModel() {
             this.currentList = stateViewModel.currentList;
@@ -19,17 +19,7 @@ define(['knockout', 'view-models/state', 'koMapping'],
             this.hasDuplicates = ko.pureComputed(function() {
                 return this.duplicateList().length > 0;
             }, this);
-
-            this.step.subscribe(function(){
-                if (this.step() === 'summary') {
-                    console.log(koMapping.toJS(this.currentList));
-                }
-            }, this);
         }
-
-        dataSummaryComponentViewModel.prototype.initPagination = function initPagination() {
-            console.log('initPagination');
-        };
 
         dataSummaryComponentViewModel.prototype.cancel = function cancel() {
             var data = {

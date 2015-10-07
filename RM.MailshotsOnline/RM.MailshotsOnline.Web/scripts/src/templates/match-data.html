@@ -34,18 +34,17 @@
 					<td data-bind="text: m_Item1"></td>
 					<td data-bind="text: m_Item2"></td>
 					<td>
-						<select>
-							<option data-bind="attr: {selected:  m_Item3() === 'Address1'}" value="Address1">Address 1</option>
-							<option data-bind="attr: {selected:  m_Item3() === 'Address2'}" value="Address2">Address 2</option>
-							<option data-bind="attr: {selected:  m_Item3() === 'Address3'}" value="Address3">Address 3</option>
-							<option data-bind="attr: {selected:  m_Item3() === 'Address4'}" value="Address4">Address 4</option>
-							<option data-bind="attr: {selected:  m_Item3() === 'FirstName'}" value="FirstName">First Name</option>
-							<option data-bind="attr: {selected:  m_Item3() === 'FlatId'}" value="FlatId">Flat Id</option>
-							<option data-bind="attr: {selected:  m_Item3() === 'HouseName'}" value="HouseName">House Name</option>
-							<option data-bind="attr: {selected:  m_Item3() === 'HouseNumber'}" value="HouseNumber">House Number</option>
-							<option data-bind="attr: {selected:  m_Item3() === 'PostCode'}" value="PostCode">Post Code</option>
-							<option data-bind="attr: {selected:  m_Item3() === 'Surname'}" value="Surname">Surname</option>
-							<option data-bind="attr: {selected:  m_Item3() === 'Title'}" value="Title">Title</option>
+						<select data-bind="
+							options: $parent.currentList.MappingOptions,
+							optionsText: function(item) {
+								return item.Name;
+							},
+							optionsValue: function(item) {
+								return item.Value;
+							},
+							optionsCaption: 'Please select...',
+							value: m_Item3
+						">
 						</select>
 					</td>
 				</tr>
