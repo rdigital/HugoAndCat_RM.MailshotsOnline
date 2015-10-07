@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <logo>http://example.com/image.jpg</logo>
+  <hero_image>http://example.com/image.jpg</hero_image>
+  <back_logo>http://example.com/image.jpg</back_logo>
+  <greeting>
+    Hi <fo:inline font-style="italic">Jenny</fo:inline>
+  </greeting>
+  <headline>It's time for your next hair appointment</headline>
+  <subline>Why not contact us now to talk about your brand new look for summer?</subline>
+  <cta>
+    <fo:inline font-weight="normal">Book now: </fo:inline>0123 456 7890<fo:block>
+      <fo:inline font-weight="normal">or: </fo:inline>bookings@example.com
+    </fo:block>
+  </cta>
+  <offer>20% off in July</offer>
+  <back_headline>Fallen out of love with your style?</back_headline>
+  <body>
+    Come and take advantage of our summer offer, with <fo:inline font-weight="bold">20%</fo:inline> off these treatments<fo:block>
+      <fo:list-block>
+        <fo:list-item>
+          <fo:list-item-label end-indent="label-end()">&amp;#183;</fo:list-item-label>
+          <fo:list-item-body>Hair cutting</fo:list-item-body>
+        </fo:list-item>
+        <fo:list-item>
+          <fo:list-item-label end-indent="label-end()">&amp;#183;</fo:list-item-label>
+          <fo:list-item-body>Hair colouring</fo:list-item-body>
+        </fo:list-item>
+        <fo:list-item>
+          <fo:list-item-label end-indent="label-end()">&amp;#183;</fo:list-item-label>
+          <fo:list-item-body>Beauty treatments</fo:list-item-body>
+        </fo:list-item>
+      </fo:list-block>
+      <fo:block>
+      </fo:block>
+    </fo:block><fo:block>We look forward to seeing you again soon!</fo:block><fo:block>
+    </fo:block><fo:block>
+      <fo:inline font-weight="bold">
+        <fo:inline font-style="italic">Raquel &amp; The Cutting Room team</fo:inline>
+      </fo:inline>
+    </fo:block>
+  </body>
+  <back_cta>
+    <fo:inline font-weight="normal">Book now: </fo:inline>0123 456 7890<fo:block>
+      <fo:inline font-weight="normal">or: </fo:inline>bookings@example.com
+    </fo:block>
+  </back_cta>
+  <footer>
+    <fo:inline font-weight="bold">www.example.com | @example</fo:inline>
+    <fo:block>4 High Street, Barnet, London, N11 3NT</fo:block>
+  </footer>
+  <address>
+    123 Example Street
+    Sample town
+    Illustration county
+    E1 1AA
+    United Kingdom
+  </address>
+  <postage>firstclass</postage>
+</page>

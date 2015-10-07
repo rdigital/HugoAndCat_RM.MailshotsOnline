@@ -440,6 +440,28 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
 
+        [Authorize]
+        public HttpResponseMessage AddTestDataToCampaign(Guid id)
+        {
+            ICampaign originalCampaign;
+            // Make sure user can access campaign
+            var validateResponse = ValidateRequest("AddTestDataToCampaign", id, out originalCampaign);
+            if (validateResponse != null)
+            {
+                return validateResponse;
+            }
+
+            // Confirm mailshot can be updated
+            var canUpdateMailshotResponse = ConfirmCanBeUpdated("AddTestDataToCampaign", originalCampaign);
+            if (canUpdateMailshotResponse != null)
+            {
+                return canUpdateMailshotResponse;
+            }
+
+            var success = _campaignService.AddTestDataToCampaign(originalCampaign);
+            return Request.CreateResponse(HttpStatusCode.OK, new { success = success });
+        }
+
         private HttpResponseMessage ValidateCampaign(Campaign campaign, bool isNew)
         {
             // Confirm that the required fields are filled out

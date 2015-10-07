@@ -121,21 +121,24 @@ namespace RM.MailshotsOnline.Business.Processors
             foreach (var jsonElement in jsonContent.Elements)
             {
                 var content = jsonElement.Content;
-                //if (!string.IsNullOrWhiteSpace(jsonElement.Src))
-                //{
-                //    content = jsonElement.Src;
-                //}
+                if (!string.IsNullOrWhiteSpace(jsonElement.Src))
+                {
+                    content = jsonElement.Src;
+                }
 
                 if (!string.IsNullOrEmpty(content))
                 {
                     var contentElement = new XElement(jsonElement.Name.Replace(" ", string.Empty));
                     if (!content.StartsWith("data:image"))
                     {
-                        contentElement.Add(ProcessHtmlContent(content.Replace("<br>", "<br />")));
+                        contentElement.Add(ProcessHtmlContent(content
+                            .Replace("&nbsp;", "&#160;")
+                            .Replace("<br>", "<br />")));
                     }
                     else
                     {
                         //contentElement.Value = jsonElement.Content;
+                        // TODO: Move the image to blob storage
                         contentElement.Add(new XCData(content));
                     }
 
@@ -172,8 +175,9 @@ namespace RM.MailshotsOnline.Business.Processors
             return outputRoot.Nodes();
         }
 
-        private XNode ProcessSubNode(XNode rootNode)
+        private XNode ProcessSubNode(XNode rootNode, bool inOrderedList = false, int listItemNumber = 0)
         {
+            bool currentElementIsOrderedList = false;
             if (rootNode.NodeType == System.Xml.XmlNodeType.Text)
             {
                 return rootNode;
@@ -186,6 +190,20 @@ namespace RM.MailshotsOnline.Business.Processors
                 if (rootElement.Name == "div")
                 {
                     returnElement = new XElement(_foNamespace + "block");
+                }
+                else if (rootElement.Name == "ul")
+                {
+                    returnElement = new XElement(_foNamespace + "list-block");
+                }
+                else if (rootElement.Name == "ol")
+                {
+                    currentElementIsOrderedList = true;
+                    returnElement = new XElement(_foNamespace + "list-block");
+                }
+                else if (rootElement.Name == "li")
+                {
+                    inOrderedList = false;
+                    returnElement = new XElement(_foNamespace + "list-item");
                 }
                 else if (rootElement.Name == "br")
                 {
@@ -226,9 +244,34 @@ namespace RM.MailshotsOnline.Business.Processors
                     returnElement.SetAttributeValue("font-style", "italic");
                 }
 
-                foreach (var subNode in rootElement.Nodes())
+                if (rootElement.Name == "li")
                 {
-                    returnElement.Add(ProcessSubNode(subNode));
+                    var itemLabel = new XElement(_foNamespace + "list-item-label");
+                    itemLabel.SetAttributeValue("end-indent", "label-end()");
+                    if (inOrderedList)
+                    {
+                        listItemNumber++;
+                        itemLabel.Add(new XText(listItemNumber.ToString()));
+                    }
+                    else
+                    {
+                        itemLabel.Add(new XText("&#183;"));
+                    }
+
+                    var itemBody = new XElement(_foNamespace + "list-item-body");
+                    foreach (var subNode in rootElement.Nodes())
+                    {
+                        itemBody.Add(ProcessSubNode(subNode, false, 0));
+                    }
+
+                    returnElement.Add(itemLabel, itemBody);
+                }
+                else
+                {
+                    foreach (var subNode in rootElement.Nodes())
+                    {
+                        returnElement.Add(ProcessSubNode(subNode, (currentElementIsOrderedList || inOrderedList), listItemNumber));
+                    }
                 }
 
                 return returnElement;

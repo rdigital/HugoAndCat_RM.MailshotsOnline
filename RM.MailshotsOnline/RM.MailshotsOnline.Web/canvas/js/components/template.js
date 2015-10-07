@@ -5,7 +5,12 @@ define(['knockout', 'view_models/format', 'view_models/template', 'view_models/u
         // ViewModel
         function templateComponentViewModel(params) {
             this.faces = formatViewModel.allFaces;
-            this.sides = ['front', 'back'];
+            this.sides = [];
+            ko.utils.arrayForEach(this.faces(), function(face) {
+                if (this.sides.indexOf(face.side) < 0) {
+                    this.sides.push(face.side);
+                }
+            }.bind(this));
             this.templates = templateViewModel.objects;
             this.currentTemplate = userViewModel.objects.templateID;
             this.previewingTemplate = ko.observable(this.currentTemplate());
@@ -35,6 +40,7 @@ define(['knockout', 'view_models/format', 'view_models/template', 'view_models/u
             userViewModel.resetUserFontSizes();
             if (userViewModel.objects.templateID() != template.id) {
                 stateViewModel.repositionImages = true;
+                console.log(stateViewModel.repositionImages);
                 userViewModel.objects.templateID(template.id);
             }
             stateViewModel.toggleTemplatePicker();

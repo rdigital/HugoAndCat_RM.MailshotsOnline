@@ -13,6 +13,12 @@ namespace RM.MailshotsOnline.Entities.DataModels
     public class Address : IAddress
     {
         /// <summary>
+        /// Gets or sets the recipients title or salutation
+        /// </summary>
+        [MaxLength(256)]
+        public string Title { get; set; }
+
+        /// <summary>
         /// Gets or sets the first name
         /// </summary>
         [MaxLength(256)]
@@ -61,6 +67,12 @@ namespace RM.MailshotsOnline.Entities.DataModels
         public string City { get; set; }
 
         /// <summary>
+        /// Gets or sets the county
+        /// </summary>
+        [MaxLength(256)]
+        public string County { get; set; }
+
+        /// <summary>
         /// Gets or sets the country
         /// </summary>
         [MaxLength(256)]
@@ -75,8 +87,14 @@ namespace RM.MailshotsOnline.Entities.DataModels
         public override string ToString()
         {
             var sb = new StringBuilder();
+            
             if (!string.IsNullOrEmpty(FirstName) && !string.IsNullOrEmpty(LastName))
             {
+                if (!string.IsNullOrEmpty(Title))
+                {
+                    sb.AppendFormat("{0} ", Title);
+                }
+
                 sb.AppendFormat("{0} {1}", FirstName, LastName);
             }
             else if (!string.IsNullOrEmpty(FirstName))
@@ -85,6 +103,11 @@ namespace RM.MailshotsOnline.Entities.DataModels
             }
             else if (!string.IsNullOrEmpty(LastName))
             {
+                if (!string.IsNullOrEmpty(Title))
+                {
+                    sb.AppendFormat("{0} ", Title);
+                }
+
                 sb.AppendFormat(LastName);
             }
 
@@ -115,6 +138,11 @@ namespace RM.MailshotsOnline.Entities.DataModels
             if (!string.IsNullOrEmpty(City))
             {
                 sb.AppendLine(City);
+            }
+
+            if (!string.IsNullOrEmpty(County))
+            {
+                sb.AppendLine(County);
             }
 
             if (!string.IsNullOrEmpty(Postcode))

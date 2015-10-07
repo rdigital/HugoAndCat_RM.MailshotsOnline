@@ -573,6 +573,7 @@
     <Content Include="canvas\styles\zoom.scss" />
     <Content Include="AppInsightsAgent\InstallAgent.ps1" />
     <Content Include="AppInsightsAgent\InstallAgent.bat" />
+    <Content Include="Views\CampaignHub\Partials\StartDataButton.cshtml" />
     <None Include="WaIISHost.exe.config">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

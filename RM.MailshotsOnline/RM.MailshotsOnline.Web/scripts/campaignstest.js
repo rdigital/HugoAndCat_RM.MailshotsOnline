@@ -69,8 +69,11 @@
                 }
 
                 var mailshot = $(document.createElement('td'))
-                if (campaign.MailshotTitle != null) {
-                    mailshot.text(campaign.MailshotTitle);
+                //if (campaign.MailshotTitle != null) {
+                //    mailshot.text(campaign.MailshotTitle);
+                //}
+                if (campaign.MailshotFormat != null) {
+                    mailshot.text(campaign.MailshotFormat);
                 }
                 else {
                     mailshot.attr('class', 'empty').text('None selected');

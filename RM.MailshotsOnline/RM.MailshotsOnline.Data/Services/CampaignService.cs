@@ -43,6 +43,7 @@ namespace RM.MailshotsOnline.Data.Services
         {
             return _context.Campaigns
                 .Include("Mailshot")
+                .Include("Mailshot.Format")
                 .Include("CampaignDistributionLists")
                 .Include("CampaignDistributionLists.DistributionList")
                 .Include("DataSearches")
@@ -196,6 +197,64 @@ namespace RM.MailshotsOnline.Data.Services
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Adds test data to a campaign
+        /// </summary>
+        /// <param name="campaign">The campaign</param>
+        /// <returns>True on success</returns>
+        public bool AddTestDataToCampaign(ICampaign campaign)
+        {
+            var random = new Random();
+            random.Next(500, 1500);
+            var dataAdded = false;
+
+            if (!_context.CampaignDistributionLists.Any(cdl => cdl.CampaignId == campaign.CampaignId))
+            {
+                Guid distListId = Guid.Empty;
+                var existingDataList = _context.DistributionLists.FirstOrDefault(dl => dl.UserId == campaign.UserId);
+                if (existingDataList != null)
+                {
+                    distListId = existingDataList.DistributionListId;
+                }
+                else
+                {
+                    var newDistributionList = new DistributionList()
+                    {
+                        Name = "Test list",
+                        RecordCount = random.Next(500, 1500),
+                        UserId = campaign.UserId
+                    };
+                    var savedList = _context.DistributionLists.Add(newDistributionList);
+                    distListId = savedList.DistributionListId;
+                }
+
+                if (distListId != Guid.Empty)
+                {
+                    _context.CampaignDistributionLists.Add(new CampaignDistributionList() { CampaignId = campaign.CampaignId, DistributionListId = distListId });
+                    dataAdded = true;
+                }
+
+                _context.SaveChanges();
+            }
+
+            if (!_context.DataSearch.Any(ds => ds.CampaignId == campaign.CampaignId))
+            {
+                _context.DataSearch.Add(new DataSearch()
+                {
+                    CampaignId = campaign.CampaignId,
+                    Name = "Test data search",
+                    SearchCriteria = "Test",
+                    Status = PCL.Enums.DataSearchStatus.Draft,
+                    ThirdPartyIdentifier = "Test",
+                    RecordCount = random.Next(500, 1500)
+                });
+                _context.SaveChanges();
+                dataAdded = true;
+            }
+
+            return dataAdded;
         }
     }
 }

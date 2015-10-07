@@ -63,7 +63,10 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             // trigger a render
             if (!this.image && this.imageObj.src) {
                 this.rerender();
-                stateViewModel.repositionImages = false;
+                // timeout to accommodate ie 9
+                setTimeout( function() {
+                    stateViewModel.repositionImages = false;
+                }, 0)
             }
 
             // on deselect, export the canvas to base64 string and store on the imageObj
@@ -142,12 +145,12 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
 
             // forcibly reset image position / scale to that of the theme if user
             // has not provided their own image
-            var src = ko.utils.unwrapObservable(userImage.src);
-            if (!src) {
-                image.scale(themeImage.scale || 100);
-                image.img_position.top(themeImage.img_position.top || 0);
-                image.img_position.left(themeImage.img_position.left || 0);
-            }
+            //var src = ko.utils.unwrapObservable(userImage.src);
+            //if (!src) {
+            //    image.scale(themeImage.scale || 100);
+            //    image.img_position.top(themeImage.img_position.top || 0);
+            //    image.img_position.left(themeImage.img_position.left || 0);
+            //}
 
             return image;
         };
@@ -168,7 +171,8 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             return ko.pureComputed({
                 read: function() {
                     var scale = ko.utils.unwrapObservable(userImage.scale);
-                    return (scale === null) ? (themeImage.scale || 100) : scale;
+                    //return (scale === null) ? (themeImage.scale || 100) : scale;
+                    return (scale === null) ? 100 : scale;
                 },
                 write: function(new_val) {
                     userImage.scale(new_val);
@@ -180,7 +184,8 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             return ko.pureComputed({
                 read: function() {
                     var top = ko.utils.unwrapObservable(userImage.img_position.top);
-                    return (top === null) ? (themeImage.img_position.top || 0) : top;
+                    //return (top === null) ? (themeImage.img_position.top || 0) : top;
+                    return (top === null) ? 0 : top;
                 },
                 write: function(new_val) {
                     userImage.img_position.top(new_val);
@@ -192,7 +197,8 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             return ko.pureComputed({
                 read: function() {
                     var left = ko.utils.unwrapObservable(userImage.img_position.left);
-                    return (left === null) ? (themeImage.img_position.left || 0) : left;
+                    //return (left === null) ? (themeImage.img_position.left || 0) : left;
+                    return (left === null) ? 0 : left;
                 },
                 write: function(new_val) {
                     userImage.img_position.left(new_val);
@@ -205,7 +211,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
          * displayed. This results in higher resolution exports.
          * @type {Number}
          */
-        imageViewModel.prototype.scaleFactor = 3;
+        imageViewModel.prototype.scaleFactor = 2;
 
         /**
          * set the old_scale instance variable before changing the scale
@@ -324,6 +330,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
                     }
                     // ie 9 randomly wouldn't render the image without this timeout
                     setTimeout(this.rerender.bind(this), 0);
+                    setTimeout(this.rerender.bind(this), 100);
                 }.bind(this);
                 
                 this.image.src = src;
@@ -353,11 +360,15 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
 
                 if (!this.image) {
                     if (this.override_template && this.override_template.selectedID() == userViewModel.objects.templateID()) {
+                        console.log('a');
                         return this.render(this.imageObj.src(), false);
                     }
+                    console.log(stateViewModel.repositionImages);
                     if (this.override_template || stateViewModel.repositionImages) {
+                        console.log('b');
                         return this.render(this.imageObj.src(), true);
                     }
+                    console.log('c');
                     return this.render(this.imageObj.src(), false);
                 }
                 var canvas = this.canvas(),
