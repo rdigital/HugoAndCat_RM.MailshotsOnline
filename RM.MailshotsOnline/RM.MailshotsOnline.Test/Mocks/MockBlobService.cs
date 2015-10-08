@@ -39,6 +39,16 @@ namespace RM.MailshotsOnline.Test.Mocks
             return new Uri("http://example/path");
         }
 
+        public Uri GetBlobUriWithSas(string name, TimeSpan sasValidityPeriod, bool readAccess, bool writeAccess, bool deleteAccess, string sharedAccessPolicyName = null, string ipAddress = null)
+        {
+            return new Uri("http://example/path");
+        }
+
+        public Uri GetBlobUriWithSas(string name, TimeSpan sasValidityPeriod, bool readAccess, bool writeAccess, bool deleteAccess, string sharedAccessPolicyName, string ipAddressStart, string ipAddressEnd)
+        {
+            return new Uri("http://example/path");
+        }
+
         public string Store(byte[] bytes, string fileName, string mediaType)
         {
             return "blobID";
