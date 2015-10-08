@@ -196,19 +196,31 @@
 		width: 485px;
 	}
 
-	.btn {
+	.actions {
+		text-align: right;
+
+		.btn {
+			margin-bottom: 0;
+		}
+
+		.confirm-edit {
+			width: 145px;
+		}
+
+		.add-and-continue {
+			margin-right: 10px;
+		}
+	}
+
+	.close-btn {
 		float: right;
 		margin-bottom: 0;
-		width: 145px;
-
-		&.close-btn {
-			width: auto;
-			
-			.icon-close {
-				@include font-size(30);
-				color: $filter-tab-grey;
-				display: block;
-			}
+		width: auto;
+		
+		.icon-close {
+			@include font-size(30);
+			color: $filter-tab-grey;
+			display: block;
 		}
 	}
 }

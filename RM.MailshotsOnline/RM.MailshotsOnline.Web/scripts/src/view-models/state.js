@@ -20,6 +20,7 @@ define(['knockout', 'koMapping'],
             this.createListStep = ko.observable('create');
             this.showEditModal = ko.observable(false);
             this.currentContact = ko.observable();
+            this.addNewContact = ko.observable(false);
         }
 
         window.appState = new stateViewModel();

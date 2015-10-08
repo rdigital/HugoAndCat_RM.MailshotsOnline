@@ -32,6 +32,7 @@ define([
 
             if (this.listTitle() !== this.oldTitle) {
                 $.get('/Umbraco/Api/DistributionList/GetCheckListNameIsUnique?listName='+this.listTitle(), function() {
+                    self.currentList.ListTitle = self.listTitle();
                     self.titleEdit(false);
                 }).error(function(error){
                     self.titleEdit(true);

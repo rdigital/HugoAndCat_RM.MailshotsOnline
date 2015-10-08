@@ -53,6 +53,7 @@ define(['knockout', 'view-models/state'],
         };
 
         dataSummaryComponentViewModel.prototype.edit = function edit(data) {
+            console.log(data);
             stateViewModel.currentContact(data);
             stateViewModel.showEditModal(true);
         };

@@ -7,7 +7,7 @@
 				<div class="loading-gif"></div>
 			</div>
 			<input data-bind="element: uploadEl, file: {data: fileData, allowed: ['application/vnd.ms-excel']}" type="file" class="visually-hidden" name="csvupload" id="csvupload">
-			Just a few contacts to use? <a href="">Add contacts individually</a>
+			Just a few contacts to use? <a data-bind="click: addContact" href="">Add contacts individually</a>
 		</div>
 		<div class="col2">
 			<div class="info-box">

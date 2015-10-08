@@ -44,6 +44,12 @@ define(['knockout', 'view-models/state', 'koelement', 'kofile', 'koMapping'],
 
         };
 
+        uploadDataComponentViewModel.prototype.addContact = function addContact() {
+            stateViewModel.currentContact({});
+            stateViewModel.showEditModal(true);
+            stateViewModel.addNewContact(true);
+        };
+
         uploadDataComponentViewModel.prototype.postData = function postData(fileData) {
         	var self = this;
         	this.loading(true); 

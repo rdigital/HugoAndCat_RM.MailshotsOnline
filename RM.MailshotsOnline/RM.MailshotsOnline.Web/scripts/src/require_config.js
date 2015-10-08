@@ -5,6 +5,7 @@ require.config(
         jquery: "vendor/jquery-1.10.2.min",
         knockout: "vendor/knockout",
         koMapping: "vendor/knockout-mapping",
+        koValidation: "vendor/knockout-validation.min",
         domReady: "vendor/requirejs-domready",
         text: "vendor/requirejs-text",
         perfectScrollbar: "vendor/perfect-scrollbar.jquery",

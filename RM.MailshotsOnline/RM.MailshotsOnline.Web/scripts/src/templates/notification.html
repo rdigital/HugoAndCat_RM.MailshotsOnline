@@ -1,0 +1,8 @@
+<div class="notification" data-bind="css: {
+	'visible': visible, 
+	'error-notification': messageType() === 'error',
+	'add-contact': messageType() === 'addContact'
+}">
+	<span class="notification-icon"></span>
+	<span class="notification-text" data-bind="text: message"></span>
+</div>
