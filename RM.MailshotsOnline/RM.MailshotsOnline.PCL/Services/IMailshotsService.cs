@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace RM.MailshotsOnline.PCL.Services
 {
@@ -42,7 +43,21 @@ namespace RM.MailshotsOnline.PCL.Services
         /// </summary>
         /// <param name="mailshotId">The ID of the mailshot to get</param>
         /// <returns>Mailshot object</returns>
+        Task<IMailshot> GetMailshotAsync(Guid mailshotId);
+
+        /// <summary>
+        /// Gets a specific Mailshot
+        /// </summary>
+        /// <param name="mailshotId">The ID of the mailshot to get</param>
+        /// <returns>Mailshot object</returns>
         IMailshot GetMailshotWithCampaignData(Guid mailshotId);
+
+        /// <summary>
+        /// Gets a specific Mailshot
+        /// </summary>
+        /// <param name="mailshotId">The ID of the mailshot to get</param>
+        /// <returns>Mailshot object</returns>
+        Task<IMailshot> GetMailshotWithCampaignDataAsync(Guid mailshotId);
 
         /// <summary>
         /// Saves a Mailshot to the database
@@ -50,6 +65,13 @@ namespace RM.MailshotsOnline.PCL.Services
         /// <param name="mailshot"></param>
         /// <returns></returns>
         IMailshot SaveMailshot(IMailshot mailshot);
+
+        /// <summary>
+        /// Saves a Mailshot to the database
+        /// </summary>
+        /// <param name="mailshot"></param>
+        /// <returns></returns>
+        Task<IMailshot> SaveMailshotAsync(IMailshot mailshot);
 
         /// <summary>
         /// Deletes a Mailshot
