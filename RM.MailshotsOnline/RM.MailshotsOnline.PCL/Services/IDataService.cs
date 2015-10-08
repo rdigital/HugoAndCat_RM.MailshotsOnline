@@ -133,6 +133,12 @@ namespace RM.MailshotsOnline.PCL.Services
         /// <returns></returns>
         IModifyListSummaryModel<T> UpdateWorkingXml<T>(IDistributionList distributionList, IModifyListMappedFieldsModel<T> contactsUpdate) where T : IDistributionContact;
 
+        /// <summary>
+        /// Extracts the list of finalised contacts from the stored XML and converts them back to Contacts.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="distributionList">The distribution list.</param>
+        /// <returns></returns>
         List<T> GetFinalContacts<T>(IDistributionList distributionList) where T: IDistributionContact;
     }
 }

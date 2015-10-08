@@ -150,6 +150,7 @@
     <Compile Include="ViewModels\CampaignStatusViewModel.cs" />
     <Compile Include="ViewModels\CancelOrderViewModel.cs" />
     <Compile Include="ViewModels\CaptureDetailsViewModel.cs" />
+    <Compile Include="ViewModels\ListDetailsModel.cs" />
     <Compile Include="ViewModels\ModifyListAddContactModel.cs" />
     <Compile Include="ViewModels\ModifyListConfirmFieldsModel.cs" />
     <Compile Include="ViewModels\ModifyListMappingsOptionModel.cs" />

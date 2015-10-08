@@ -50,7 +50,7 @@ namespace RM.MailshotsOnline.Data.Services
 
         public IEnumerable<IDistributionList> GetDistributionListsForUser(int userId)
         {
-            return GetDistributionLists(d => d.UserId == userId).OrderBy(d=> d.UpdatedDate);
+            return GetDistributionLists(d => d.UserId == userId).OrderByDescending(d=> d.UpdatedDate);
         }
 
         public bool ListNameIsAlreadyInUse(int userId, string listName)

@@ -9,6 +9,7 @@ using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Business.Processors;
 using RM.MailshotsOnline.Data.Helpers;
 using RM.MailshotsOnline.Entities.DataModels;
+using RM.MailshotsOnline.Entities.PageModels;
 using RM.MailshotsOnline.Entities.PageModels.Settings;
 using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.PCL;
@@ -50,6 +51,34 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             var results = _dataService.GetDistributionListsForUser(_loggedInMember.Id);
 
             return Request.CreateResponse(HttpStatusCode.OK, results);
+        }
+
+        /// <summary>
+        /// Gets the list details, including any finalised contacts.
+        /// </summary>
+        /// <param name="distributionListId">The distribution list identifier.</param>
+        /// <returns></returns>
+        [HttpGet]
+        public HttpResponseMessage GetMyListDetails(Guid distributionListId)
+        {
+            var authResult = Authenticate();
+
+            if (authResult != null)
+            {
+                return authResult;
+            }
+
+            IDistributionList list;
+            HttpResponseMessage listResult = validateDistributionListId(distributionListId, out list);
+
+            if (listResult != null)
+            {
+                return listResult;
+            }
+
+            List<DistributionContact> contacts = _dataService.GetFinalContacts<DistributionContact>(list);
+
+            return Request.CreateResponse(HttpStatusCode.OK, new ListDetailsModel<DistributionContact>{ List = list, Contacts = contacts});
         }
 
         /// <summary>
