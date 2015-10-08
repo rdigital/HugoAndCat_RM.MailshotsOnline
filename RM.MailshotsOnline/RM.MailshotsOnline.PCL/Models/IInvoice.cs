@@ -98,6 +98,11 @@ namespace RM.MailshotsOnline.PCL.Models
         IAddress BillingAddress { get; set; }
 
         /// <summary>
+        /// Gets or sets the email address specified during checkout
+        /// </summary>
+        string BillingEmail { get; set; }
+
+        /// <summary>
         /// Gets the key invoice information as XML
         /// </summary>
         /// <returns>XML string</returns>

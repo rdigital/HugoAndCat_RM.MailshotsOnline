@@ -76,5 +76,12 @@ namespace RM.MailshotsOnline.PCL.Services
         /// <param name="campaignId">The ID of the campaign to delete</param>
         /// <returns>Bool if successful, false otherwise</returns>
         bool DeleteCampaignWithId(Guid campaignId);
+
+        /// <summary>
+        /// Adds test data to a campaign
+        /// </summary>
+        /// <param name="campaign">The campaign</param>
+        /// <returns>True on success</returns>
+        bool AddTestDataToCampaign(ICampaign campaign);
     }
 }

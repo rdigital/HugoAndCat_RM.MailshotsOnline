@@ -91,7 +91,7 @@ namespace RM.MailshotsOnline.PCL.Services
         /// <param name="contacts">The contacts.</param>
         /// <returns></returns>
         IDistributionList CreateWorkingXml<T>(IDistributionList distributionList, int contactsCount,
-                                           IEnumerable<IDistributionContact> contacts) where T: IDistributionContact;
+                                           IEnumerable<T> contacts) where T: IDistributionContact;
 
         /// <summary>
         /// Creates an "errors" XML file with from lists of duplicate and invalid contacts.
@@ -104,8 +104,8 @@ namespace RM.MailshotsOnline.PCL.Services
         /// <param name="duplicateContacts">The duplicate contacts.</param>
         /// <returns></returns>
         IDistributionList CreateErrorXml<T>(IDistributionList distributionList, int errorsCount,
-                                         IEnumerable<IDistributionContact> errorContacts, int duplicatesCount,
-                                         IEnumerable<IDistributionContact> duplicateContacts) where T : IDistributionContact;
+                                         IEnumerable<T> errorContacts, int duplicatesCount,
+                                         IEnumerable<T> duplicateContacts) where T : IDistributionContact;
 
         /// <summary>
         /// Creates the "summary" model from the working and errors files.
@@ -116,6 +116,22 @@ namespace RM.MailshotsOnline.PCL.Services
         IModifyListSummaryModel<T> CreateSummaryModel<T>(IDistributionList distributionList)
             where T : IDistributionContact;
 
-       IDistributionList CompleteContactEdits(IDistributionList distributionList);
+        /// <summary>
+        /// Completes editing contacts on the list.
+        /// </summary>
+        /// <param name="distributionList">The distribution list.</param>
+        /// <returns></returns>
+        IDistributionList CompleteContactEdits(IDistributionList distributionList);
+
+        /// <summary>
+        /// Updates the Working and Error XML files.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="distributionList">The distribution list.</param>
+        /// <param name="contactsUpdate">The contacts to update.</param>
+        /// <returns></returns>
+        IModifyListSummaryModel<T> UpdateWorkingXml<T>(IDistributionList distributionList, IModifyListMappedFieldsModel<T> contactsUpdate) where T : IDistributionContact;
+
+        List<T> GetFinalContacts<T>(IDistributionList distributionList) where T: IDistributionContact;
     }
 }

@@ -13,6 +13,9 @@ using RM.MailshotsOnline.PCL.Models;
 
 namespace RM.MailshotsOnline.Business.Processors
 {
+    /// <summary>
+    /// Methods to handle mapping CSVs to lists of <see cref="IDistributionContact"/>.
+    /// </summary>
     public class DistributionListProcessor
     {
         private readonly ILogger _logger;
@@ -36,11 +39,11 @@ namespace RM.MailshotsOnline.Business.Processors
                                                                       byte[] csvBytes)
         {
             var confirmFieldsModel = new ModifyListConfirmFieldsModel
-                                     {
-                                         DistributionListId = list.DistributionListId,
-                                         ListName = list.Name,
-                                         FirstRowIsHeader = null,
-                                         MappingOptions =
+            {
+                DistributionListId = list.DistributionListId,
+                ListName = list.Name,
+                FirstRowIsHeader = null,
+                MappingOptions =
                                              dataMappings.Mappings.Select(
                                                                           m =>
                                                                               new ModifyListMappingsOptionModel
@@ -48,14 +51,14 @@ namespace RM.MailshotsOnline.Business.Processors
                                                                                   Value = m.FieldName,
                                                                                   Name = m.Name
                                                                               }),
-                                     };
+            };
 
             using (var stream = new MemoryStream(csvBytes))
             {
                 using (var sr = new StreamReader(stream))
                 {
                     // Assume No Header Row to start with.
-                    using (var csv = new CsvReader(sr, new CsvConfiguration {HasHeaderRecord = false}))
+                    using (var csv = new CsvReader(sr, new CsvConfiguration { HasHeaderRecord = false }))
                     {
                         int rows = 0;
                         int columns = 0;
@@ -104,7 +107,7 @@ namespace RM.MailshotsOnline.Business.Processors
 
                                         // ReSharper disable once PossibleNullReferenceException
                                         confirmFieldsModel.FirstTwoRowsWithGuessedMappings.Add(
-                                                                                               new Tuple <string, string,string>(
+                                                                                               new Tuple<string, string, string>(
                                                                                                    items[column].Key,
                                                                                                    value,
                                                                                                    items[column].Value));
@@ -129,17 +132,13 @@ namespace RM.MailshotsOnline.Business.Processors
         /// Converts the CSV into our fields based on the users column mappings and breaks them out into Valid, Invalid and Duplicate lists.
         /// </summary>
         /// <typeparam name="T">The concrete IDistribution type, which should have Data Attributes defined for validation</typeparam>
-        /// <param name="list">The list.</param>
         /// <param name="mappings">The mappings.</param>
         /// <param name="columnCount">The column count.</param>
         /// <param name="firstRowIsHeader">if set to <c>true</c> [first row is header].</param>
         /// <param name="csvBytes">The CSV bytes.</param>
+        /// <param name="existingContacts"></param>
         /// <returns></returns>
-        public ModifyListMappedFieldsModel<T> BuildListsFromFieldMappings<T>(IDistributionList list,
-                                                                             List<string> mappings,
-                                                                             int columnCount,
-                                                                             bool firstRowIsHeader,
-                                                                             byte[] csvBytes)
+        public ModifyListMappedFieldsModel<T> BuildListsFromFieldMappings<T>(List<string> mappings, int columnCount, bool firstRowIsHeader, byte[] csvBytes, List<T> existingContacts)
             where T : IDistributionContact
         {
             var validContacts = new Dictionary<string, T>();
@@ -155,7 +154,7 @@ namespace RM.MailshotsOnline.Business.Processors
                 var columnName = mappings[mappingIndex];
                 if (!string.IsNullOrEmpty(columnName))
                 {
-                    var propertyInfo = typeof (T).GetProperty(columnName);
+                    var propertyInfo = typeof(T).GetProperty(columnName);
                     var newMap = new CsvPropertyMap(propertyInfo);
                     newMap.Index(mappingIndex);
                     contactMap.PropertyMaps.Add(newMap);
@@ -163,7 +162,7 @@ namespace RM.MailshotsOnline.Business.Processors
             }
 
             // Should already have returned if FirstRowIsHeader is null.
-            var csvConfig = new CsvConfiguration {HasHeaderRecord = firstRowIsHeader};
+            var csvConfig = new CsvConfiguration { HasHeaderRecord = firstRowIsHeader };
 
             csvConfig.RegisterClassMap(contactMap);
 
@@ -184,8 +183,7 @@ namespace RM.MailshotsOnline.Business.Processors
                                 ICollection<ValidationResult> results;
                                 bool isValid = contact.TryValidate(out results);
 
-                                // TODO: Dedupe against existing list as well
-                                if (isValid && !validContacts.ContainsKey(contact.AddressRef))
+                                if (isValid && !validContacts.ContainsKey(contact.AddressRef) && existingContacts.All(ec => ec.AddressRef != contact.AddressRef))
                                 {
                                     validContacts.Add(contact.AddressRef, contact);
                                 }
@@ -204,14 +202,57 @@ namespace RM.MailshotsOnline.Business.Processors
             }
 
             var mappedFields = new ModifyListMappedFieldsModel<T>
-                               {
-                                   ValidContactsCount = validContacts.Count,
-                                   ValidContacts = validContacts.Select(vc => vc.Value),
-                                   InvalidContactsCount = errorContacts.Count,
-                                   InvalidContacts = errorContacts,
-                                   DuplicateContactsCount = duplicateContacts.Count,
-                                   DuplicateContacts = duplicateContacts
-                               };
+            {
+                ValidContactsCount = validContacts.Count,
+                ValidContacts = validContacts.Select(vc => vc.Value),
+                InvalidContactsCount = errorContacts.Count,
+                InvalidContacts = errorContacts,
+                DuplicateContactsCount = duplicateContacts.Count,
+                DuplicateContacts = duplicateContacts
+            };
+
+            return mappedFields;
+        }
+
+        public ModifyListMappedFieldsModel<T> BuildListsFromContacts<T>(IEnumerable<T> contacts, List<T> existingContacts) where T : class, IDistributionContact
+        {
+            var validContacts = new Dictionary<string, T>();
+            var duplicateContacts = new List<T>();
+            var errorContacts = new List<T>();
+
+            foreach (var contact in contacts)
+            {
+                if (contact.ContactId == Guid.Empty)
+                {
+                    contact.ContactId = Guid.NewGuid();
+                }
+
+                ICollection<ValidationResult> results;
+                bool isValid = contact.TryValidate(out results);
+
+                if (isValid && !validContacts.ContainsKey(contact.AddressRef) && existingContacts.All(ec => ec.AddressRef != contact.AddressRef))
+                {
+                    validContacts.Add(contact.AddressRef, contact);
+                }
+                else if (!isValid)
+                {
+                    errorContacts.Add(contact);
+                }
+                else
+                {
+                    duplicateContacts.Add(contact);
+                }
+            }
+
+            var mappedFields = new ModifyListMappedFieldsModel<T>
+            {
+                ValidContactsCount = validContacts.Count,
+                ValidContacts = validContacts.Select(vc => vc.Value),
+                InvalidContactsCount = errorContacts.Count,
+                InvalidContacts = errorContacts,
+                DuplicateContactsCount = duplicateContacts.Count,
+                DuplicateContacts = duplicateContacts
+            };
 
             return mappedFields;
         }

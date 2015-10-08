@@ -34,7 +34,7 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/not
             this.fileData.subscribe(this.loadFile, this);
             this.src.subscribe(this.render, this);
             this.libraryImage.subscribe(this.renderLibraryImage, this);
-            this.myImage.subscribe(this.renderMyImage, this);
+            this.subscription = this.myImage.subscribe(this.renderMyImage, this);
 
             // bound functions
             this.selectLibraryImage = this.selectLibraryImage.bind(this);
@@ -47,6 +47,7 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/not
         }
 
         imageUploadViewModel.prototype.dispose = function dispose() {
+            this.subscription.dispose();
             var element = this.selectedElement;
             if (this.src() || this.libraryImage() || this.myImage()) {
                 // we are updating the image, set element src to null

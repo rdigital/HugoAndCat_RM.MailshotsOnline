@@ -82,25 +82,29 @@ namespace RM.MailshotsOnline.Web.Extensions
 
         public static string GetStatusText(this MyOrders myOrdersPage, ICampaign campaign)
         {
-            string result = myOrdersPage.ProcessingStatusText;
+            string result = myOrdersPage.PendingModerationStatusText;
             switch (campaign.Status)
             {
                 case PCL.Enums.CampaignStatus.Cancelled:
                     result = myOrdersPage.CancelledStatusText;
                     break;
+                case PCL.Enums.CampaignStatus.PendingModeration:
                 case PCL.Enums.CampaignStatus.Draft:
                 case PCL.Enums.CampaignStatus.ReadyToCheckout:
-                case PCL.Enums.CampaignStatus.ReadyForFulfilment:
-                    result = myOrdersPage.ProcessingStatusText;
+                    result = myOrdersPage.PendingModerationStatusText;
                     break;
+                case PCL.Enums.CampaignStatus.ReadyForFulfilment:
                 case PCL.Enums.CampaignStatus.SentForFulfilment:
-                    result = myOrdersPage.DespatchedStatusText;
+                    result = myOrdersPage.PendingPrintingStatusText;
                     break;
                 case PCL.Enums.CampaignStatus.Exception:
                     result = myOrdersPage.FailedChecksStatusText;
                     break;
                 case PCL.Enums.CampaignStatus.Fulfilled:
                     result = myOrdersPage.DespatchedStatusText;
+                    break;
+                case PCL.Enums.CampaignStatus.PaymentFailed:
+                    result = myOrdersPage.PaymentFailedStatusText;
                     break;
             }
 
@@ -117,9 +121,6 @@ namespace RM.MailshotsOnline.Web.Extensions
                 case PCL.Enums.CampaignStatus.Cancelled:
                     result = string.Format(myOrdersPage.CancelledStatusDescription, campaign.CancelledDate.HasValue ? campaign.CancelledDate.Value.Date.ToString("dd/MM/yy") : campaign.UpdatedDate.Date.ToString("dd/MM/yy"));
                     break;
-                //case PCL.Enums.CampaignStatus.Exception:
-                //    result = string.Format(myOrdersPage.PaymentFailedStatusDescription);
-                //    break;
                 case PCL.Enums.CampaignStatus.Fulfilled:
                     if (deliveryEstimate.Date <= DateTime.UtcNow.Date)
                     {
@@ -132,13 +133,18 @@ namespace RM.MailshotsOnline.Web.Extensions
                     break;
                 case PCL.Enums.CampaignStatus.ReadyForFulfilment:
                 case PCL.Enums.CampaignStatus.SentForFulfilment:
+                    result = string.Format(myOrdersPage.PendingPrintingStatusDescription, deliveryEstimate.ToString("dd/MM/yy"));
+                    break;
                 case PCL.Enums.CampaignStatus.ReadyToCheckout:
                 case PCL.Enums.CampaignStatus.Draft:
                 case PCL.Enums.CampaignStatus.PendingModeration:
-                    result = string.Format(myOrdersPage.ProcessingStatusDescription, deliveryEstimate.ToString("dd/MM/yy"));
+                    result = string.Format(myOrdersPage.PendingModerationStatusDescription, deliveryEstimate.ToString("dd/MM/yy"));
                     break;
                 case PCL.Enums.CampaignStatus.Exception:
                     result = myOrdersPage.FailedChecksStatusDescription;
+                    break;
+                case PCL.Enums.CampaignStatus.PaymentFailed:
+                    result = myOrdersPage.PaymentFailedStatusDescription;
                     break;
             }
 

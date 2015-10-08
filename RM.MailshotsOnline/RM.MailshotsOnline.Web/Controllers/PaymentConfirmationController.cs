@@ -14,6 +14,7 @@ using System.Web.Mvc;
 using Umbraco.Web.Models;
 using Order = HC.RM.Common.PayPal.Models.Order;
 using Payment = HC.RM.Common.PayPal.Models.Payment;
+using PplAddress = HC.RM.Common.PayPal.Models.Address;
 using PayPalService = HC.RM.Common.PayPal.Service;
 
 namespace RM.MailshotsOnline.Web.Controllers
@@ -169,19 +170,28 @@ namespace RM.MailshotsOnline.Web.Controllers
             invoice.Status = PCL.Enums.InvoiceStatus.Processing;
             if (payment.Payer != null)
             {
-                if (payment.Payer.BillingAddress != null)
+                PplAddress payerAddress = payment.Payer.BillingAddress;
+                if (payerAddress == null)
+                {
+                    payerAddress = payment.Payer.ShippingAddress;
+                }
+
+                if (payerAddress != null)
                 {
                     invoice.BillingAddress = new Address()
                     {
-                        Address1 = payment.Payer.BillingAddress.Line1,
-                        Address2 = payment.Payer.BillingAddress.Line2,
-                        Postcode = payment.Payer.BillingAddress.PostalCode,
-                        City = payment.Payer.BillingAddress.City,
-                        Country = payment.Payer.BillingAddress.CountryCode,
+                        Address1 = payerAddress.Line1,
+                        Address2 = payerAddress.Line2,
+                        Postcode = payerAddress.PostalCode,
+                        City = payerAddress.City,
+                        Country = payerAddress.CountryCode,
                         FirstName = payment.Payer.FirstName,
-                        LastName = payment.Payer.LastName
+                        LastName = payment.Payer.LastName,
+                        Title = payment.Payer.Salutation
                     };
                 }
+
+                invoice.BillingEmail = payment.Payer.Email;
             }
             _invoiceService.Save(invoice);
 

@@ -94,8 +94,9 @@
                     }
                     else
                     {
-                        <p>@Model.DataSectionPrompt</p>
-                        <button class="big-button">@Model.DataGetStartedPrompt</button>
+                        <div>
+                            @Html.Action("ShowStartDataButton", "CampaignSurface", new { model = Model })
+                        </div>
                     }
                 </div>
 

@@ -20,6 +20,9 @@ body {
     }
     &.image-component canvas {
         cursor: move;
+        &.canvas-empty {
+            cursor: auto;
+        }
     }
 }
 
@@ -152,6 +155,7 @@ body {
 }
 
 .face {
+    text-align: left;
     display: inline-block;
     background: #FFF;
     position: relative;

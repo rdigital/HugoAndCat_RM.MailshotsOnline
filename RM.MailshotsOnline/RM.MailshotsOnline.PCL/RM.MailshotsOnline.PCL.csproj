@@ -55,6 +55,7 @@
     <Compile Include="Models\IMedia.cs" />
     <Compile Include="Models\IModifyListSummaryModel.cs" />
     <Compile Include="Models\IProduct.cs" />
+    <Compile Include="Models\IModifyListMappedFieldsModel.cs" />
     <Compile Include="Models\IXmlAndXslData.cs" />
     <Compile Include="Models\Reporting\IMembershipReport.cs" />
     <Compile Include="Models\Reporting\IReport.cs" />

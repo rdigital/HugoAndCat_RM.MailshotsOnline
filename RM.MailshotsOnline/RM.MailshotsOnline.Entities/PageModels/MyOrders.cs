@@ -11,9 +11,13 @@ namespace RM.MailshotsOnline.Entities.PageModels
     {
         #region Umbraco Properties
 
-        public string ProcessingStatusText { get; set; }
+        public string PendingModerationStatusText { get; set; }
 
-        public string ProcessingStatusDescription { get; set; }
+        public string PendingModerationStatusDescription { get; set; }
+
+        public string PendingPrintingStatusText { get; set; }
+
+        public string PendingPrintingStatusDescription { get; set; }
 
         public string DespatchedStatusText { get; set; }
 

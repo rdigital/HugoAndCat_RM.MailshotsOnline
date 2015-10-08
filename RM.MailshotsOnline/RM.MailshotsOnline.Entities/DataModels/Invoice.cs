@@ -205,6 +205,12 @@ namespace RM.MailshotsOnline.Entities.DataModels
         public DateTime? CancelledDate { get; set; }
 
         /// <summary>
+        /// Gets or sets the email address specified during checkout
+        /// </summary>
+        [MaxLength(256)]
+        public string BillingEmail { get; set; }
+
+        /// <summary>
         /// Gets the key invoice information as XML
         /// </summary>
         /// <returns>XML string</returns>

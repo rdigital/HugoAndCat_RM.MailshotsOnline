@@ -143,7 +143,6 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             model.UploadCsv.InputStream.Read(csvBytes, 0, model.UploadCsv.ContentLength);
 
             // Create new list and move on to mext page...
-            // TODO: Is this a new list, or are we adding to an existing one?
             var newList = _dataService.CreateDistributionList(loggedInMember, model.ListName,
                                                               Enums.DistributionListState.ConfirmFields, csvBytes,
                                                               Constants.MimeTypes.Csv, Enums.DistributionListFileType.Working);
@@ -167,19 +166,18 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             byte[] data = _dataService.GetDataFile(distributionList, Enums.DistributionListFileType.Working);
 
-            ModifyListMappedFieldsModel<DistributionContact> mappedContacts = _listProcessor.BuildListsFromFieldMappings<DistributionContact>(distributionList,
-                                                                                             model.Mappings, model.ColumnCount, model.FirstRowIsHeader ?? false, data);
+            ModifyListMappedFieldsModel<DistributionContact> mappedContacts = _listProcessor.BuildListsFromFieldMappings(model.Mappings, model.ColumnCount, model.FirstRowIsHeader ?? false, data, _dataService.GetFinalContacts<DistributionContact>(distributionList));
 
             // Could all be errors/duplicates
             if (mappedContacts.ValidContacts.Any())
             {
-                distributionList = _dataService.CreateWorkingXml<DistributionContact>(distributionList, mappedContacts.ValidContactsCount,
+                distributionList = _dataService.CreateWorkingXml(distributionList, mappedContacts.ValidContactsCount,
                                                                  mappedContacts.ValidContacts);
             }
 
             if (mappedContacts.InvalidContacts.Any() || mappedContacts.DuplicateContacts.Any())
             {
-                _dataService.CreateErrorXml<DistributionContact>(distributionList, mappedContacts.InvalidContactsCount,
+                _dataService.CreateErrorXml(distributionList, mappedContacts.InvalidContactsCount,
                                                                mappedContacts.InvalidContacts,
                                                                mappedContacts.DuplicateContactsCount,
                                                                mappedContacts.DuplicateContacts);
@@ -200,7 +198,6 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             switch (command.ToLower())
             {
                 case "finish":
-                    // TODO: Merge with existing
                     if (!string.IsNullOrEmpty(distributionList.BlobWorking))
                     {
                         _dataService.CompleteContactEdits(distributionList);

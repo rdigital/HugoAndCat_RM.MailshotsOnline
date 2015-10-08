@@ -129,6 +129,23 @@ namespace RM.MailshotsOnline.Entities.DataModels
             }
         }
 
+        [NotMapped]
+        public string MailshotFormat
+        {
+            get
+            {
+                if (_mailshot != null)
+                {
+                    if (_mailshot.Format != null)
+                    {
+                        return _mailshot.Format.Name;
+                    }
+                }
+
+                return null;
+            }
+        }
+
         /// <summary>
         /// The data searches for the campaign
         /// </summary>
