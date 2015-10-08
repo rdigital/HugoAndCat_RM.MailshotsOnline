@@ -157,10 +157,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"30px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -189,10 +185,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"170px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -221,10 +213,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"50px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -244,19 +232,15 @@ define([],
                                 },
                                 {  
                                     property:"left",
-                                    value:"0"
+                                    value:"40px"
                                 },
                                 {  
                                     property:"width",
-                                    value:"370px"
+                                    value:"330px"
                                 },
                                 {  
                                     property:"height",
-                                    value:"70px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
+                                    value:"80px"
                                 }
                             ]
                         },
@@ -346,10 +330,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"100px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -378,10 +358,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"190px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -401,19 +377,15 @@ define([],
                                 },
                                 {  
                                     property:"left",
-                                    value:"0"
+                                    value:"40px"
                                 },
                                 {  
                                     property:"width",
-                                    value:"440px"
+                                    value:"400px"
                                 },
                                 {  
                                     property:"height",
                                     value:"70px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -442,10 +414,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"600px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -474,10 +442,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"40px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         }
@@ -569,10 +533,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"30px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -601,10 +561,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"170px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -633,10 +589,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"50px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -656,19 +608,15 @@ define([],
                                 },
                                 {  
                                     property:"left",
-                                    value:"0"
+                                    value:"40px"
                                 },
                                 {  
                                     property:"width",
-                                    value:"370px"
+                                    value:"330px"
                                 },
                                 {  
                                     property:"height",
-                                    value:"70px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
+                                    value:"80px"
                                 }
                             ]
                         },
@@ -725,10 +673,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"100px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -757,10 +701,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"190px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -780,19 +720,15 @@ define([],
                                 },
                                 {  
                                     property:"left",
-                                    value:"0"
+                                    value:"40px"
                                 },
                                 {  
                                     property:"width",
-                                    value:"440px"
+                                    value:"400px"
                                 },
                                 {  
                                     property:"height",
-                                    value:"70px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
+                                    value:"80px"
                                 }
                             ]
                         },
@@ -821,10 +757,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"600px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -853,10 +785,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"40px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         }
@@ -935,7 +863,7 @@ define([],
                                 },
                                 {  
                                     property:"top",
-                                    value:"440px"
+                                    value:"400px"
                                 },
                                 {  
                                     property:"left",
@@ -948,10 +876,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"130px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -1041,10 +965,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"100px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -1073,10 +993,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"190px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -1096,19 +1012,15 @@ define([],
                                 },
                                 {  
                                     property:"left",
-                                    value:"0"
+                                    value:"40px"
                                 },
                                 {  
                                     property:"width",
-                                    value:"440px"
+                                    value:"400px"
                                 },
                                 {  
                                     property:"height",
-                                    value:"70px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
+                                    value:"80px"
                                 }
                             ]
                         },
@@ -1137,10 +1049,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"600px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -1169,10 +1077,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"40px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         }
@@ -1264,10 +1168,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"130px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -1324,10 +1224,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"100px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -1356,10 +1252,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"190px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -1379,19 +1271,15 @@ define([],
                                 },
                                 {  
                                     property:"left",
-                                    value:"0"
+                                    value:"40px"
                                 },
                                 {  
                                     property:"width",
-                                    value:"440px"
+                                    value:"400px"
                                 },
                                 {  
                                     property:"height",
-                                    value:"70px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
+                                    value:"80px"
                                 }
                             ]
                         },
@@ -1420,10 +1308,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"600px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -1452,10 +1336,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"40px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         }
@@ -1547,10 +1427,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"600px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         }
@@ -1672,10 +1548,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"100px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -1704,10 +1576,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"30px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -1736,10 +1604,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"240px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -1768,10 +1632,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"240px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -1800,10 +1660,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"60px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -1832,10 +1688,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"60px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -1999,10 +1851,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"80px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -2031,10 +1879,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"25px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -2124,10 +1968,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"100px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -2156,10 +1996,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"170px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -2167,7 +2003,7 @@ define([],
                             name:"back_cta",
                             face:"Back",
                             type:"html",
-                            theme_class:"cta",
+                            theme_class:"cta_closer",
                             layout:[  
                                 {  
                                     property:"position",
@@ -2188,10 +2024,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"100px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -2248,10 +2080,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"600px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -2280,10 +2108,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"35px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         }
@@ -2347,10 +2171,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"40px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -2407,10 +2227,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"40px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -2467,10 +2283,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"40px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -2527,10 +2339,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"40px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -2587,10 +2395,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"40px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -2647,10 +2451,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"40px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -2679,10 +2479,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"200px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -2711,10 +2507,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"60px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -2743,10 +2535,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"140px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -2775,10 +2563,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"80px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -2807,10 +2591,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"60px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -2946,10 +2726,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"80px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -2978,10 +2754,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"25px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -3071,10 +2843,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"100px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -3103,10 +2871,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"170px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -3114,7 +2878,7 @@ define([],
                             name:"back_cta",
                             face:"Back",
                             type:"html",
-                            theme_class:"cta",
+                            theme_class:"cta_closer",
                             layout:[  
                                 {  
                                     property:"position",
@@ -3135,10 +2899,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"100px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -3195,10 +2955,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"600px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -3227,10 +2983,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"35px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         }
@@ -3322,10 +3074,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"40px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -3382,10 +3130,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"40px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -3442,10 +3186,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"40px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -3474,10 +3214,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"80px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -3506,10 +3242,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"40px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -3538,10 +3270,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"150px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -3570,10 +3298,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"80px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -3625,10 +3349,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"60px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -3741,10 +3461,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"80px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -3773,10 +3489,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"25px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -3866,10 +3578,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"100px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -3898,10 +3606,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"170px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -3909,7 +3613,7 @@ define([],
                             name:"back_cta",
                             face:"Back",
                             type:"html",
-                            theme_class:"cta",
+                            theme_class:"cta_closer",
                             layout:[  
                                 {  
                                     property:"position",
@@ -3930,10 +3634,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"100px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -3990,10 +3690,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"600px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -4022,10 +3718,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"35px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         }
@@ -4089,10 +3781,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"40px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -4149,10 +3837,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"40px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -4209,10 +3893,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"40px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -4241,10 +3921,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"160px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -4273,10 +3949,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"790px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -4305,10 +3977,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"80px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -4337,10 +4005,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"60px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -4476,10 +4140,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"80px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -4508,10 +4168,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"25px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -4601,10 +4257,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"100px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -4633,10 +4285,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"170px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -4644,7 +4292,7 @@ define([],
                             name:"back_cta",
                             face:"Back",
                             type:"html",
-                            theme_class:"cta",
+                            theme_class:"cta_closer",
                             layout:[  
                                 {  
                                     property:"position",
@@ -4665,10 +4313,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"100px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -4725,10 +4369,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"600px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -4757,10 +4397,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"35px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         }
@@ -4903,10 +4539,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"600px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         }
@@ -4972,10 +4604,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"180px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5004,10 +4632,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"100px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5036,10 +4660,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"550px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5068,10 +4688,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"150px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5100,10 +4716,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"60px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5167,10 +4779,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"180px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5199,10 +4807,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"100px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5231,10 +4835,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"360px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5263,10 +4863,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"25px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5323,10 +4919,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"40px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5355,10 +4947,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"30px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5387,10 +4975,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"150px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5419,10 +5003,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"60px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5486,10 +5066,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"180px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5518,10 +5094,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"100px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5550,10 +5122,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"450px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5582,10 +5150,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"150px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5614,10 +5178,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"120px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5646,10 +5206,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"60px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5713,10 +5269,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"180px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5745,10 +5297,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"60px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5777,10 +5325,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"300px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5809,10 +5353,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"25px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5869,10 +5409,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"40px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5901,10 +5437,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"30px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5933,10 +5465,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"150px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5965,10 +5493,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"120px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -5997,10 +5521,6 @@ define([],
                                 {  
                                     property:"height",
                                     value:"60px"
-                                },
-                                {  
-                                    property:"outline",
-                                    value:"1px solid #666"
                                 }
                             ]
                         },
@@ -6011,7 +5531,454 @@ define([],
             this.themeData = [
                 {
                     id: 3,
-                    name: 'Test Theme',
+                    name: 'Fashion',
+                    faces: [
+                    	{
+                    		name: 'Front',
+                    		styles: [
+                    			{
+	                    			property: 'background-color',
+	                    			value: '#4B4C4E'
+			                    },
+                    		]
+                    	},
+                    	{
+                    		name: 'Back',
+                    		styles: [
+                    			{
+	                    			property: 'background-color',
+	                    			value: '#4B4C4E'
+			                    }
+                    		]
+                    	},
+                        {
+                            name: 'Inside',
+                            styles: [
+                                {
+                                    property: 'background-color',
+                                    value: '#4B4C4E'
+                                }
+                            ]
+                        }
+                        
+                    ],
+                    colours: ['#D4E5E6', 'rgb(56, 63, 87)', 'rgb(50, 132, 134)', 'rgb(90, 93, 93)', '#FFF' ],
+                    fonts: [
+                    	{
+                    		name: 'Merriweather',
+                    		value: "'Merriweather', serif"
+                    	},
+                    	{
+                    		name: 'Roboto',
+                    		value: "'Roboto', serif"
+                    	}
+                    ],
+                    classes: [
+                        {
+                            name: 'roundel',
+                            font_sizes: ['18px', '19px', '20px', '21px', '22px', '23px', '24px', '25px', '26px', '27px', '28px', '29px', '30px', '31px', '32px', '33px', '34px', '35px', '36px', '37px', '38px', '39px', '40px', '41px', '42px', '43px', '44px', '45px', '46px', '48px', '50px', '52px'],
+                            styles: [
+                                {
+                                    property: 'text-align',
+                                    value: 'center'
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '48px'
+                                },
+                                {
+                                    property: 'font-weight',
+                                    value: 300
+                                },
+                                {
+                                    property: 'color',
+                                    value: '#4B4C4E'
+                                },
+                                {
+                                    property: 'background-color',
+                                    value: '#A0D0AA'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Merriweather', serif"
+                                },
+                                {
+                                    property: 'font-style',
+                                    value: 'italic'
+                                },
+                                {
+                                    property: 'font-weight',
+                                    value: 'bold'
+                                },
+                                {
+                                    property: 'border-radius',
+                                    value: "50%"
+                                },
+                                {
+                                    property: '-moz-border-radius',
+                                    value: "50%"
+                                },
+                                {
+                                    property: '-webkit-border-radius',
+                                    value: "50%"
+                                },
+                                {
+                                    property: 'padding',
+                                    value: '10px 15px'
+                                },
+                                {
+                                    property: 'transform',
+                                    value: 'rotate(-15deg)'
+                                },
+                                {
+                                    property: 'line-height',
+                                    value: '110%;'
+                                }
+                            ]
+                        },
+                        {
+                            name: 'topborderbox',
+                            styles: [
+                                {
+                                    property: 'border-top',
+                                    value: '20px solid'
+                                },
+                                {
+                                    property: 'border-color',
+                                    value: '#A0D0AA'
+                                },
+                                {
+                                    property: 'background-color',
+                                    value: '#4B4C4E'
+                                }
+                            ]
+                        },
+                        {
+                            name: 'inside_cta_block',
+                            styles: [
+                                {
+                                    property: 'background-color',
+                                    value: '#A0D0AA'
+                                }
+                            ]
+                        },
+                        {
+                            name: 'cta_block',
+                            styles: [
+                                {
+                                    property: 'background-color',
+                                    value: '#A0D0AA'
+                                }
+                            ]
+                        },
+                        {
+                            name: 'inside_footer_block',
+                            styles: [
+                                {
+                                    property: 'background-color',
+                                    value: '#4B4C4E'
+                                }
+                            ]
+                        },
+                        {
+                            name: 'footer_block',
+                            styles: [
+                                {
+                                    property: 'background-color',
+                                    value: '#4B4C4E'
+                                }
+                            ]
+                        },
+                        {
+                            name: 'thintopborderbox',
+                            styles: [
+                                {
+                                    property: 'border-top',
+                                    value: '2px solid'
+                                },
+                                {
+                                    property: 'border-color',
+                                    value: '#A0D0AA'
+                                }
+                            ]
+                        },
+                        {
+                            name: 'inside_cta',
+                            font_sizes: ['16px', '17px', '18px', '19px', '20px', '21px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            styles: [
+                                {
+                                    property: 'border',
+                                    value: '4px solid'
+                                },
+                                {
+                                    property: 'border-color',
+                                    value: '#A0D0AA'
+                                },
+                                {
+                                    property: 'color',
+                                    value: '#A0D0AA'
+                                },
+                                {
+                                    property: 'text-align',
+                                    value: 'center'
+                                },
+                                {
+                                    property: 'padding',
+                                    value: '15px'
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '20px'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Roboto', serif"
+                                },
+                            ]
+                        },
+                        {
+                            name: 'greeting',
+                            font_sizes: ['16px', '17px', '18px', '19px', '20px', '21px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            styles: [
+                                {
+                                    property: 'text-align',
+                                    value: 'left'
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '18px'
+                                },
+                                {
+                                    property: 'color',
+                                    value: '#FFFFFF'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Roboto', serif"
+                                },
+                                {
+                                    property: 'font-weight',
+                                    value: 'lighter'
+                                }
+                            ]
+                        },
+                        {
+                            name: 'headline',
+                            font_sizes: ['22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px', '38px', '40px', '42px', '44px', '46px', '48px', '50px', '52px'],
+                            styles: [
+                                {
+                                    property: 'text-align',
+                                    value: 'left'
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '48px'
+                                },
+                                {
+                                	property: 'color',
+                                	value: '#A0D0AA'
+                                },
+			                    {
+                                	property: 'font-family',
+                                	value: "'Merriweather', serif"
+                                },
+                                {
+                                    property: 'font-style',
+                                    value: 'italic'
+                                },
+                                {
+                                    property: 'font-weight',
+                                    value: 'bold'
+                                }
+                            ]
+                        },
+                        {
+                            name: 'subline',
+                            font_sizes: ['16px', '17px', '18px', '19px', '20px', '21px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            styles: [
+                                {
+                                    property: 'text-align',
+                                    value: 'left'
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '18px'
+                                },
+                                {
+                                    property: 'color',
+                                    value: '#FFFFFF'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Roboto', serif"
+                                },
+                                {
+                                    property: 'font-weight',
+                                    value: 'lighter'
+                                }
+                            ]
+                        },
+                        {
+                            name: 'body',
+                            font_sizes: ['8px', '9px', '10px', '11px', '12px', '13px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            styles: [
+                                {
+                                    property: 'color',
+                                    value: '#FFFFFF'
+                                },
+                                {
+                                	property: 'font-size',
+                                	value: '15px'
+                                },
+			                    {
+                                	property: 'font-family',
+                                	value: "'Roboto', serif"
+                                },
+                                {
+                                	property: 'text-align',
+                                	value: 'left'
+                                },
+                                {
+                                    property: 'font-weight',
+                                    value: 'lighter'
+                                }
+                            ]
+                        },
+                        {
+                            name: 'inside_footer',
+                            font_sizes: ['8px', '9px', '10px', '11px', '12px', '13px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            styles: [
+                                {
+                                    property: 'color',
+                                    value: '#FFFFFF'
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '15px'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Roboto', serif"
+                                },
+                                {
+                                    property: 'text-align',
+                                    value: 'left'
+                                },
+                                {
+                                    property: 'font-weight',
+                                    value: 'lighter'
+                                }
+                            ]
+                        },
+    					{
+                            name: 'cta',
+                            font_sizes: ['10px', '12px', '14px', '17px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            styles: [
+                                {
+                                    property: 'color',
+                                    value: '#4B4C4E'
+                                },
+                                {
+                                    property: 'background-color',
+                                    value: '#A0D0AA'
+                                },
+                                {
+                                    property: 'text-align',
+                                    value: 'left'
+                                },
+                                {
+                                	property: 'padding',
+                                	value: '11px 11px 11px 40px'
+                                },
+                                {
+                                	property: 'font-size',
+                                	value: '20px'
+                                },
+			                    {
+                                	property: 'font-family',
+                                	value: "'Roboto', serif"
+                                }
+                                ,
+                                {
+                                    property: 'margin-left',
+                                    value: '-40px'
+                                }
+                            ]
+                        },
+                        {
+                            name: 'cta_closer',
+                            font_sizes: ['10px', '12px', '14px', '17px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            styles: [
+                                {
+                                    property: 'color',
+                                    value: '#4B4C4E'
+                                },
+                                {
+                                    property: 'background-color',
+                                    value: '#A0D0AA'
+                                },
+                                {
+                                    property: 'text-align',
+                                    value: 'left'
+                                },
+                                {
+                                    property: 'padding',
+                                    value: '11px 11px 11px 30px'
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '20px'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Roboto', serif"
+                                },
+                                {
+                                    property: 'margin-left',
+                                    value: '-30px'
+                                }
+                            ]
+                        },
+                        {
+                            name: 'footer',
+                            font_sizes: ['10px', '12px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            styles: [
+                                {
+                                    property: 'color',
+                                    value: '#FFFFFF'
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '12px'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Roboto', serif"
+                                },
+                                {
+                                    property: 'text-align',
+                                    value: 'left'
+                                },
+                                {
+                                    property: 'font-weight',
+                                    value: 'lighter'
+                                }
+                            ]
+                        },
+                        {
+                            name: 'logo',
+                            src: '',
+                            img_position: {
+                                top: 0,
+                                left: 0
+                            },
+                            scale: 100
+                        }
+                    ]
+                },
+                {
+                    id: 4,
+                    name: 'Trusted / Traditional',
                     faces: [
                     	{
                     		name: 'Front',
@@ -6019,7 +5986,7 @@ define([],
                     			{
 	                    			property: 'background-color',
 	                    			value: '#FFFFFF'
-			                    },
+			                    }
                     		]
                     	},
                     	{
@@ -6040,23 +6007,22 @@ define([],
                                 }
                             ]
                         }
-                        
                     ],
-                    colours: ['#D4E5E6', 'rgb(56, 63, 87)', 'rgb(50, 132, 134)', 'rgb(90, 93, 93)', '#FFF' ],
                     fonts: [
-                    	{
-                    		name: 'Dosis',
-                    		value: "'Dosis', sans-serif"
-                    	},
-                    	{
-                    		name: 'Arial',
-                    		value: 'Arial'
-                    	}
+                        {
+                            name: 'Domine',
+                            value: "'Domine', serif"
+                        },
+                        {
+                            name: 'Lato',
+                            value: "'Lato', sans-serif"
+                        }
                     ],
+                    colours: ['rgb(224, 251, 255)', 'rgb(102, 154, 185)', 'rgb(69, 71, 81)' ],
                     classes: [
                         {
                             name: 'roundel',
-                            font_sizes: ['22px', '23px', '24px', '25px', '26px', '27px', '28px', '29px', '30px', '31px', '32px', '33px', '34px', '35px', '36px', '37px', '38px', '39px', '40px', '41px', '42px', '43px', '44px', '45px', '46px', '48px', '50px', '52px'],
+                            font_sizes: ['18px', '19px', '20px', '21px', '22px', '23px', '24px', '25px', '26px', '27px', '28px', '29px', '30px', '31px', '32px', '33px', '34px', '35px', '36px', '37px', '38px', '39px', '40px', '41px', '42px', '43px', '44px', '45px', '46px', '48px', '50px', '52px'],
                             styles: [
                                 {
                                     property: 'text-align',
@@ -6064,11 +6030,7 @@ define([],
                                 },
                                 {
                                     property: 'font-size',
-                                    value: '48px'
-                                },
-                                {
-                                    property: 'font-weight',
-                                    value: 300
+                                    value: '19px'
                                 },
                                 {
                                     property: 'color',
@@ -6076,11 +6038,11 @@ define([],
                                 },
                                 {
                                     property: 'background-color',
-                                    value: 'rgb(18, 115, 10)'
+                                    value: '#4C863D'
                                 },
                                 {
                                     property: 'font-family',
-                                    value: "'Dosis', sans-serif"
+                                    value: "'Lato', sans-serif"
                                 },
                                 {
                                     property: 'border-radius',
@@ -6096,11 +6058,11 @@ define([],
                                 },
                                 {
                                     property: 'padding',
-                                    value: '25px 15px'
+                                    value: '10px 15px'
                                 },
                                 {
-                                    property: 'transform',
-                                    value: 'rotate(10deg)'
+                                    property: 'line-height',
+                                    value: '110%;'
                                 }
                             ]
                         },
@@ -6171,7 +6133,104 @@ define([],
                             ]
                         },
                         {
+                            name: 'greeting',
+                            font_sizes: ['16px', '17px', '18px', '19px', '20px', '21px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            styles: [
+                                {
+                                    property: 'text-align',
+                                    value: 'left'
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '18px'
+                                },
+                                {
+                                    property: 'color',
+                                    value: '#FFFFFF'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Lato', sans-serif"
+                                },
+                                {
+                                    property: 'font-weight',
+                                    value: 'lighter'
+                                }
+                            ]
+                        },
+                        {
+                            name: 'headline',
+                            font_sizes: ['22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px', '38px', '40px', '42px', '44px', '46px', '48px', '50px', '52px'],
+                            styles: [
+                                {
+                                    property: 'text-align',
+                                    value: 'left'
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '48px'
+                                },
+                                {
+                                    property: 'color',
+                                    value: '#FFFFFF'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Domine', serif"
+                                }
+                            ]
+                        },
+                        {
+                            name: 'subline',
+                            font_sizes: ['12px', '13px', '14px', '15px', '16px', '17px', '18px', '19px', '20px', '21px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            styles: [
+                                {
+                                    property: 'text-align',
+                                    value: 'left'
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '18px'
+                                },
+                                {
+                                    property: 'color',
+                                    value: '#FFFFFF'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Lato', sans-serif"
+                                },
+                                {
+                                    property: 'font-weight',
+                                    value: 'lighter'
+                                }
+                            ]
+                        },
+                        {
+                            name: 'body',
+                            font_sizes: ['10px', '11px', '12px', '13px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            styles: [
+                                {
+                                    property: 'color',
+                                    value: '#FFFFFF'
+                                },
+                                {
+                                	property: 'font-weight',
+                                	value: 400
+                                },
+                                {
+                                	property: 'font-size',
+                                	value: '15px'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Lato', sans-serif"
+                                }
+                            ]
+                        },
+                        {
                             name: 'inside_cta',
+                            font_sizes: ['16px', '17px', '18px', '19px', '20px', '21px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
                             styles: [
                                 {
                                     property: 'border',
@@ -6180,458 +6239,26 @@ define([],
                                 {
                                     property: 'border-color',
                                     value: '#4C863D'
-                                }
-                            ]
-                        },
-                        {
-                            name: 'heading',
-                            font_sizes: ['22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px', '38px', '40px', '42px', '44px', '46px', '48px', '50px', '52px'],
-                            styles: [
-                                {
-                                    property: 'text-align',
-                                    value: 'left'
-                                },
-                                {
-                                    property: 'font-size',
-                                    value: '48px'
-                                },
-                                {
-                                	property: 'font-weight',
-                                	value: 300
-                                },
-                                {
-                                	property: 'color',
-                                	value: 'rgb(56, 63, 87)'
-                                },
-			                    {
-                                	property: 'font-family',
-                                	value: "'Dosis', sans-serif"
-                                }
-                            ]
-                        },
-                        {
-                            name: 'heading-large',
-                            font_sizes: ['30px', '32px', '34px', '36px', '38px', '40px', '42px', '44px', '46px', '48px', '50px', '52px', '56px', '60px', '64px', '68px', '70px', '74px', '80px', '84px', '90px'],
-                            styles: [
-                                {
-                                    property: 'text-align',
-                                    value: 'left'
-                                },
-                                {
-                                    property: 'font-size',
-                                    value: '74px'
-                                },
-                                {
-                                    property: 'font-weight',
-                                    value: 300
                                 },
                                 {
                                     property: 'color',
-                                    value: 'rgb(56, 63, 87)'
-                                },
-                                {
-                                    property: 'font-family',
-                                    value: "'Dosis', sans-serif"
-                                }
-                            ]
-                        },
-                        {
-                            name: 'subheading',
-                            font_sizes: ['10px', '12px', '14px', '17px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
-                            styles: [
-                                {
-                                    property: 'text-align',
-                                    value: 'left'
-                                },
-                                {
-                                    property: 'font-size',
-                                    value: '17px'
-                                },
-                                {
-                                	property: 'font-weight',
-                                	value: 600
-                                },
-                                {
-                                	property: 'color',
-                                	value: 'rgb(50, 132, 134)'
-                                },
-                                {
-                                	property: 'border-bottom',
-                                	value: '2px dashed rgb(50, 132, 134)'
-                                },
-			                    {
-                                	property: 'font-family',
-                                	value: "'Dosis', sans-serif"
-                                }
-                            ]
-                        },
-                        {
-                            name: 'subheading-large',
-                            font_sizes: ['10px', '12px', '14px', '17px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
-                            styles: [
-                                {
-                                    property: 'text-align',
-                                    value: 'left'
-                                },
-                                {
-                                    property: 'font-size',
-                                    value: '30px'
-                                },
-                                {
-                                    property: 'font-weight',
-                                    value: 600
-                                },
-                                {
-                                    property: 'color',
-                                    value: 'rgb(50, 132, 134)'
-                                },
-                                {
-                                    property: 'border-bottom',
-                                    value: '2px dashed rgb(50, 132, 134)'
-                                },
-                                {
-                                    property: 'font-family',
-                                    value: "'Dosis', sans-serif"
-                                }
-                            ]
-                        },
-                        {
-                            name: 'subheading-noline',
-                            font_sizes: ['10px', '12px', '14px', '17px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
-                            styles: [
-                                {
-                                    property: 'text-align',
-                                    value: 'left'
-                                },
-                                {
-                                    property: 'font-size',
-                                    value: '17px'
-                                },
-                                {
-                                    property: 'font-weight',
-                                    value: 600
-                                },
-                                {
-                                    property: 'color',
-                                    value: 'rgb(50, 132, 134)'
-                                },
-                                {
-                                    property: 'font-family',
-                                    value: "'Dosis', sans-serif"
-                                }
-                            ]
-                        },
-                        {
-                            name: 'body',
-                            font_sizes: ['10px', '12px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
-                            styles: [
-                                {
-                                    property: 'color',
-                                    value: 'rgb(90, 93, 93)'
-                                },
-                                {
-                                	property: 'font-weight',
-                                	value: 500
-                                },
-                                {
-                                	property: 'font-size',
-                                	value: '15px'
-                                },
-			                    {
-                                	property: 'font-family',
-                                	value: "'Dosis', sans-serif"
-                                },
-                                {
-                                	property: 'text-align',
-                                	value: 'left'
-                                }
-                            ]
-                        },
-    					{
-                            name: 'cta',
-                            font_sizes: ['10px', '12px', '14px', '17px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
-                            styles: [
-                                {
-                                    property: 'color',
-                                    value: 'rgb(50, 132, 134)'
+                                    value: '#FFFFFF'
                                 },
                                 {
                                     property: 'text-align',
-                                    value: 'left'
-                                },
-                                {
-                                	property: 'padding',
-                                	value: '16px'
-                                },
-                                {
-                                	property: 'font-weight',
-                                	value: 600
-                                },
-                                {
-                                	property: 'font-size',
-                                	value: '17px'
-                                },
-			                    {
-                                	property: 'font-family',
-                                	value: "'Dosis', sans-serif"
-                                }
-                            ]
-                        },
-                        {
-                            name: 'cta-bigger',
-                            font_sizes: ['10px', '12px', '14px', '17px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
-                            styles: [
-                                {
-                                    property: 'color',
-                                    value: 'rgb(50, 132, 134)'
-                                },
-                                {
-                                    property: 'text-align',
-                                    value: 'left'
-                                },
-                                {
-                                    property: 'border',
-                                    value: '2px dashed rgb(50, 132, 134)'
+                                    value: 'center'
                                 },
                                 {
                                     property: 'padding',
-                                    value: '24px 16px'
-                                },
-                                {
-                                    property: 'font-weight',
-                                    value: 600
+                                    value: '15px'
                                 },
                                 {
                                     property: 'font-size',
-                                    value: '17px'
+                                    value: '26px'
                                 },
                                 {
                                     property: 'font-family',
-                                    value: "'Dosis', sans-serif"
-                                }
-                            ]
-                        },
-                        {
-                            name: 'logo',
-                            src: '',
-                            img_position: {
-                                top: 0,
-                                left: 0
-                            },
-                            scale: 100
-                        },
-                        {
-                            name: 'background',
-                            src: 'file:///C:/Users/ext-jlovatt/work/RM.MailshotsOnlineFrontEnd/HC.RM.MailshotsOnline/images/little_cute_cat_1920x1080.jpg',
-                            img_position: {
-                                top: 0,
-                                left: 0
-                            },
-                            scale: 100
-                        }
-                    ]
-                },
-                {
-                    id: 4,
-                    name: 'Test Theme 2',
-                    faces: [
-                    	{
-                    		name: 'Front',
-                    		styles: [
-                    			{
-	                    			property: 'background-color',
-	                    			value: 'rgb(102, 154, 185)'
-			                    }
-                    		]
-                    	},
-                    	{
-                    		name: 'Back',
-                    		styles: [
-                    			{
-	                    			property: 'background-color',
-	                    			value: 'rgb(102, 154, 185)'
-			                    }
-                    		]
-                    	},
-                        {
-                            name: 'Inside',
-                            styles: [
-                                {
-                                    property: 'background-color',
-                                    value: 'rgb(102, 154, 185)'
-                                }
-                            ]
-                        }
-                    ],
-                    fonts: [
-                        {
-                            name: 'Dosis',
-                            value: "'Lusitana', serif"
-                        },
-                        {
-                            name: 'Arial',
-                            value: 'Arial'
-                        }
-                    ],
-                    colours: ['rgb(224, 251, 255)', 'rgb(102, 154, 185)', 'rgb(69, 71, 81)' ],
-                    classes: [
-                        {
-                            name: 'heading',
-                            font_sizes: ['22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px', '38px', '40px', '42px', '44px', '46px', '48px', '50px', '52px'],
-                            styles: [
-                                {
-                                    property: 'text-align',
-                                    value: 'left'
-                                },
-                                {
-                                    property: 'font-size',
-                                    value: '48px'
-                                },
-                                {
-                                	property: 'font-weight',
-                                	value: 400
-                                },
-                                {
-                                	property: 'color',
-                                	value: 'rgb(224, 251, 255)'
-                                },
-                                {
-                                    property: 'font-family',
-                                    value: "'Lusitana', serif"
-                                }
-                            ]
-                        },
-                        {
-                            name: 'heading-large',
-                            font_sizes: ['30px', '32px', '34px', '36px', '38px', '40px', '42px', '44px', '46px', '48px', '50px', '52px', '56px', '60px', '64px', '68px', '70px', '74px', '80px', '84px', '90px'],
-                            styles: [
-                                {
-                                    property: 'text-align',
-                                    value: 'left'
-                                },
-                                {
-                                    property: 'font-size',
-                                    value: '74px'
-                                },
-                                {
-                                    property: 'font-weight',
-                                    value: 400
-                                },
-                                {
-                                    property: 'color',
-                                    value: 'rgb(224, 251, 255)'
-                                },
-                                {
-                                    property: 'font-family',
-                                    value: "'Lusitana', serif"
-                                }
-                            ]
-                        },
-                        {
-                            name: 'subheading',
-                            font_sizes: ['10px', '12px', '14px', '17px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
-                            styles: [
-                                {
-                                    property: 'text-align',
-                                    value: 'left'
-                                },
-                                {
-                                    property: 'font-size',
-                                    value: '17px'
-                                },
-                                {
-                                	property: 'font-weight',
-                                	value: 700
-                                },
-                                {
-                                	property: 'color',
-                                	value: 'rgb(69, 71, 81)'
-                                },
-                                {
-                                	property: 'border-bottom',
-                                	value: '2px solid rgb(224, 251, 255)'
-                                },
-                                {
-                                    property: 'font-family',
-                                    value: "'Lusitana', serif"
-                                }
-                            ]
-                        },
-                        {
-                            name: 'subheading-large',
-                            font_sizes: ['10px', '12px', '14px', '17px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
-                            styles: [
-                                {
-                                    property: 'text-align',
-                                    value: 'left'
-                                },
-                                {
-                                    property: 'font-size',
-                                    value: '30px'
-                                },
-                                {
-                                    property: 'font-weight',
-                                    value: 700
-                                },
-                                {
-                                    property: 'color',
-                                    value: 'rgb(69, 71, 81)'
-                                },
-                                {
-                                    property: 'border-bottom',
-                                    value: '2px solid rgb(224, 251, 255)'
-                                },
-                                {
-                                    property: 'font-family',
-                                    value: "'Lusitana', serif"
-                                }
-                            ]
-                        },
-                        {
-                            name: 'subheading-noline',
-                            font_sizes: ['10px', '12px', '14px', '17px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
-                            styles: [
-                                {
-                                    property: 'text-align',
-                                    value: 'left'
-                                },
-                                {
-                                    property: 'font-size',
-                                    value: '17px'
-                                },
-                                {
-                                    property: 'font-weight',
-                                    value: 700
-                                },
-                                {
-                                    property: 'color',
-                                    value: 'rgb(69, 71, 81)'
-                                },
-                                {
-                                    property: 'font-family',
-                                    value: "'Lusitana', serif"
-                                }
-                            ]
-                        },
-                        {
-                            name: 'body',
-                            font_sizes: ['10px', '12px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
-                            styles: [
-                                {
-                                    property: 'color',
-                                    value: 'rgb(252, 253, 254)'
-                                },
-                                {
-                                	property: 'font-weight',
-                                	value: 400
-                                },
-                                {
-                                	property: 'font-size',
-                                	value: '15px'
-                                },
-                                {
-                                    property: 'font-family',
-                                    value: "'Lusitana', serif"
+                                    value: "'Domine', serif"
                                 }
                             ]
                         },

@@ -16,7 +16,8 @@ namespace RM.MailshotsOnline.Entities.Extensions
             var viewModel = new MailshotViewModel()
             {
                 MailshotId = mailshot.MailshotId,
-                Content = mailshot.Content != null ? mailshot.Content.Content : string.Empty,
+                //Content = mailshot.Content != null ? mailshot.Content.Content : string.Empty,
+                Content = mailshot.ContentText,
                 Name = mailshot.Name,
                 Draft = mailshot.Draft
             };

@@ -205,8 +205,9 @@ namespace RM.MailshotsOnline.Test.Processors
                 UserId = 1,
                 Draft = true
             };
-            mailshot.Content = new MailshotContent();
-            mailshot.Content.Content = input;
+            //mailshot.Content = new MailshotContent();
+            //mailshot.Content.Content = input;
+            mailshot.ContentText = input;
 
             //string xsl = File.ReadAllText("A4PageComplete.xsl");
             //var output = _processor.GetXmlAndXslForMailshot(mailshot, xsl);
