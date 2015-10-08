@@ -281,13 +281,13 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
         };
 
         imageViewModel.prototype.setUrlSrc = function setUrlSrc(src) {
-            console.log(src)
             this.imageObj.urlSrc(src);
         };
 
         imageViewModel.prototype.removeImage = function removeImage(src) {
             this.imageObj.src('');
             this.imageObj.urlSrc('');
+            this.imageObj.content('');
             var canvas = this.canvas(),
                 ctx = canvas[0].getContext("2d"),
                 canvas_width = canvas.width(),
@@ -412,7 +412,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
          * set image object content observable to equal base64 dump of canvas
          */
         imageViewModel.prototype.setContent = function setContent() {
-            if (this.imageObj.src) {
+            if (ko.utils.unwrapObservable(this.imageObj.src)) {
                 this.imageObj.content(this.exportCanvas());
             }
         };
