@@ -180,6 +180,8 @@ define(['knockout', 'components/input', 'components/image', 'view_models/templat
             ko.utils.arrayForEach(element.layout, function(style) {
                 styles[style.property] = style.value;
             });
+            // have been using outline for testing, delete in code for now
+            delete styles['outline'];
             return styles;
         };
 
