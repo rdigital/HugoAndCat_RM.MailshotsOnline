@@ -12,7 +12,7 @@ namespace RM.MailshotsOnline.Data.Services.Reporting
 {
     public class MembershipReportGenerator : IMembershipReportGenerator
     {
-        private static IMembershipService _membershipService;
+        private readonly IMembershipService _membershipService;
 
         public MembershipReportGenerator(IMembershipService membershipService)
         {
@@ -52,7 +52,7 @@ namespace RM.MailshotsOnline.Data.Services.Reporting
                 Updated = x.Updated.ToString("dd/mm/yyyy hh:mm"),
             });
 
-            var report = new MembershipReport {CreatedDate = DateTime.Now, Members = members};
+            var report = new MembershipReport {CreatedDate = DateTime.UtcNow, Members = members};
 
             return report;
         }

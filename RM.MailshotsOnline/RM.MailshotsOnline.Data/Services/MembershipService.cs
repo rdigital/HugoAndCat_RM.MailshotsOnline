@@ -6,11 +6,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Security;
 using RM.MailshotsOnline.Data.Extensions;
-using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using Umbraco.Core;
 using Umbraco.Core.Services;
 using System.Text;
+using umbraco;
+using Umbraco.Core.Models;
+using IMember = RM.MailshotsOnline.PCL.Models.IMember;
 
 namespace RM.MailshotsOnline.Data.Services
 {
@@ -70,7 +72,8 @@ namespace RM.MailshotsOnline.Data.Services
                 return null;
             }
 
-            var umbracoMember = _umbracoMemberService.CreateMemberWithIdentity(Guid.NewGuid().ToString(), member.EmailAddress,
+            var umbracoMember = _umbracoMemberService.CreateMemberWithIdentity(Guid.NewGuid().ToString(),
+                member.EmailAddress, member.EmailAddress, "Member");
 
             umbracoMember = umbracoMember.UpdateValues(member);
 
@@ -196,7 +199,7 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>Member object</returns>
         public IMember GetMemberById(int id)
         {
-            var umbracoMember = UmbracoMemberService.GetById(id);
+            var umbracoMember = _umbracoMemberService.GetById(id);
 
             if (umbracoMember == null)
             {

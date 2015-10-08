@@ -18,16 +18,13 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         private static IReportingService _reportingService;
         private static IReportingBlobService _blobService;
         private static IReportingSftpService _sftpService;
-        private static ILogger _logger;
         private static IAuthTokenService _authTokenService;
 
-        public ReportsController(IReportingService reportingService, IReportingBlobService blobService, IReportingSftpService sftpService,
-            ILogger logger, IAuthTokenService authTokenService)
+        public ReportsController(IReportingService reportingService, IReportingBlobService blobService, IReportingSftpService sftpService, IAuthTokenService authTokenService)
         {
             _reportingService = reportingService;
             _blobService = blobService;
             _sftpService = sftpService;
-            _logger = logger;
             _authTokenService = authTokenService;
         }
 

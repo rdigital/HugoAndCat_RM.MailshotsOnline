@@ -15,25 +15,61 @@
     </ConfigurationSettings>
     <Imports>
       <Import moduleName="RemoteAccess" />
-      <Import moduleName="RemoteForwarder" />
     </Imports>
   </WorkerRole>
   <WebRole name="RM.MailshotsOnline.Web" vmsize="Small">
     <Sites>
       <Site name="Web">
         <Bindings>
+          <Binding name="HttpIn" endpointName="HttpIn" />
           <Binding name="HttpsIn" endpointName="HttpsIn" />
         </Bindings>
       </Site>
     </Sites>
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+      <Setting name="StorageConnectionString" />
+      <Setting name="PrivateStorageConnectionString" />
+      <Setting name="AppInsightsKey" />
+      <Setting name="StorageContextEF" />
+      <!--<Setting name="SparqServiceUrl" />
+      <Setting name="SparqServiceUsername" />
+      <Setting name="SparqServicePassword" />-->
+      <Setting name="SparqServiceBlobConnectionString" />
+      <Setting name="SparqServiceBlobContainer" />
+      <Setting name="PrivateMediaBlobStorageContainer" />
+      <Setting name="SparqServiceBusConnectionString" />
+      <Setting name="Microsoft.ServiceBus.ConnectionString" />
+      <Setting name="SparqBlobContainer" />
+      <Setting name="RenderQueueName" />
+      <Setting name="PrintQueueName" />
+      <Setting name="HostedDomain" />
+      <Setting name="HostedScheme" />
+      <Setting name="HostedPort" />
+      <Setting name="PublicMediaLibraryId"/>
+      <Setting name="PrivateMediaLibraryId"/>
+      <Setting name="RoyalMailApprovalEmailAddress"/>
     </ConfigurationSettings>
     <Endpoints>
+      <InputEndpoint name="HttpIn" protocol="http" port="80" />
       <InputEndpoint name="HttpsIn" protocol="https" port="443" certificate="HugoCatCoUkWildcard" />
     </Endpoints>
+    <Certificates>
+      <Certificate name="HugoCatCoUkWildcard" storeLocation="LocalMachine" storeName="My" />
+    </Certificates>
     <Imports>
       <Import moduleName="RemoteAccess" />
+      <Import moduleName="RemoteForwarder" />
     </Imports>
+    <Startup>
+      <Task commandLine="AppInsightsAgent\InstallAgent.bat" executionContext="elevated" taskType="simple">
+        <Environment>
+          <Variable name="ApplicationInsightsAgent.DownloadLink" value="http://go.microsoft.com/fwlink/?LinkID=522371" />
+          <Variable name="RoleEnvironment.IsEmulated">
+            <RoleInstanceValue xpath="/RoleEnvironment/Deployment/@emulated" />
+          </Variable>
+        </Environment>
+      </Task>
+    </Startup>
   </WebRole>
 </ServiceDefinition>

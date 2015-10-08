@@ -240,5 +240,14 @@ namespace RM.MailshotsOnline.Data.Services
             _context.SaveChanges();
             return invoice;
         }
+
+        public IEnumerable<IInvoice> GetPaidInvoices(DateTime startDate, DateTime endDate)
+        {
+            return _context.Invoices
+                .Include("LineItems")
+                .Include("LineItems.Product")
+                .Include("Campaign")
+                .Where(i => i.PaidDate.HasValue && i.PaidDate.Value <= endDate && i.PaidDate.Value >= startDate);
+        }
     }
 }
