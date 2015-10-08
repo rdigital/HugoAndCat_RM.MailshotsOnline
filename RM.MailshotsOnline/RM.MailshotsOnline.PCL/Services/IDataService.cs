@@ -40,8 +40,9 @@ namespace RM.MailshotsOnline.PCL.Services
         /// Saves the distribution list back to the data store.
         /// </summary>
         /// <param name="distributionList">The distribution list.</param>
+        /// <param name="updateTimestamp"></param>
         /// <returns></returns>
-        IDistributionList SaveDistributionList(IDistributionList distributionList);
+        IDistributionList SaveDistributionList(IDistributionList distributionList, bool updateTimestamp = true);
 
         /// <summary>
         /// Creates a new distribution list with the supplied data file.

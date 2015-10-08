@@ -50,7 +50,7 @@ namespace RM.MailshotsOnline.Data.Services
 
         public IEnumerable<IDistributionList> GetDistributionListsForUser(int userId)
         {
-            return GetDistributionLists(d => d.UserId == userId).OrderBy(d=> d.Name);
+            return GetDistributionLists(d => d.UserId == userId).OrderBy(d=> d.UpdatedDate);
         }
 
         public bool ListNameIsAlreadyInUse(int userId, string listName)
@@ -63,9 +63,13 @@ namespace RM.MailshotsOnline.Data.Services
             return _context.DistributionLists.Where(filter);
         }
 
-        public IDistributionList SaveDistributionList(IDistributionList distributionList)
+        public IDistributionList SaveDistributionList(IDistributionList distributionList, bool updateTimestamp = true)
         {
-            distributionList.UpdatedDate = DateTime.UtcNow;
+            if (updateTimestamp)
+            {
+                distributionList.UpdatedDate = DateTime.UtcNow;
+            }
+
             if (distributionList.DistributionListId == Guid.Empty)
             {
                 _context.DistributionLists.Add((DistributionList)distributionList);
@@ -131,6 +135,8 @@ namespace RM.MailshotsOnline.Data.Services
                              listNameAsFileName, distributionList.UserId, distributionList.DistributionListId);
             }
 
+            bool updateTimestamp = false;
+
             try
             {
                 _blobStorage.StoreBytes(bytes, uploadedListName, contentType);
@@ -166,6 +172,7 @@ namespace RM.MailshotsOnline.Data.Services
 
                         distributionList.BlobFinal = listNameAsFileName;
                         distributionList.ListState = Enums.DistributionListState.Complete;
+                        updateTimestamp = true;
                         break;
                 }
 
@@ -216,7 +223,7 @@ namespace RM.MailshotsOnline.Data.Services
                 return null;
             }
 
-            return SaveDistributionList(distributionList);
+            return SaveDistributionList(distributionList, updateTimestamp);
         }
 
         public byte[] GetDataFile(IDistributionList distributionList, Enums.DistributionListFileType fileType)
@@ -257,7 +264,7 @@ namespace RM.MailshotsOnline.Data.Services
             {
                 // Reset back to complete
                 distributionList.ListState = Enums.DistributionListState.Complete;
-                SaveDistributionList(distributionList);
+                SaveDistributionList(distributionList, false);
             }
             else
             {
@@ -480,8 +487,6 @@ namespace RM.MailshotsOnline.Data.Services
                     }
                 }
             }
-
-
 
             int successfulAdd = 0;
             int invalidAdd = contactsUpdate.InvalidContactsCount;
