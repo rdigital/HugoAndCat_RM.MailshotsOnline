@@ -52,6 +52,11 @@ define(['knockout', 'view-models/state'],
             });
         };
 
+        dataSummaryComponentViewModel.prototype.edit = function edit(data) {
+            stateViewModel.currentContact(data);
+            stateViewModel.showEditModal(true);
+        };
+
         return {
             viewModel: dataSummaryComponentViewModel,
             template: { require: 'text!/scripts/src/templates/data-summary.html' }

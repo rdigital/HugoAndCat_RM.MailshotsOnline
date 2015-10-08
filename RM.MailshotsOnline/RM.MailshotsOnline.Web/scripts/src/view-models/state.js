@@ -18,6 +18,8 @@ define(['knockout', 'koMapping'],
                 "ListName": ''
             });
             this.createListStep = ko.observable('create');
+            this.showEditModal = ko.observable(false);
+            this.currentContact = ko.observable();
         }
 
         window.appState = new stateViewModel();

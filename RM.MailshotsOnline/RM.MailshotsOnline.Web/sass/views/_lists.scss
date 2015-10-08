@@ -153,3 +153,66 @@
 		margin-bottom: 60px;
 	}
 }
+
+.add-contact-modal {
+	height: 100%;
+	left: 0;
+	overflow-y: auto;
+	position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 2;
+}
+
+.add-contact-modal__form {
+	background-color: $bg-grey;
+	box-shadow: 0 2px 2px rgba(0,0,0,0.2);
+	left: 0;
+	margin: auto;
+	margin-bottom: 50px;
+	padding: 30px;
+	position: absolute;
+	right: 0;
+	top: 50px;
+	width: 820px;
+	z-index: 4;
+
+	h2 {
+		@include font-size(28);
+	}
+
+	label {
+		text-align: right;
+		margin-right: 20px;
+		min-width: 150px;
+		width: 150px;
+	}
+
+	p.strong {
+		margin-left: 175px;
+	}
+
+	input {
+		width: 485px;
+	}
+
+	.btn {
+		float: right;
+		margin-bottom: 0;
+		width: 145px;
+
+		&.close-btn {
+			width: auto;
+			
+			.icon-close {
+				@include font-size(30);
+				color: $filter-tab-grey;
+				display: block;
+			}
+		}
+	}
+}
+
+.modal-overlay {
+	@extend %modaloverlay;
+}

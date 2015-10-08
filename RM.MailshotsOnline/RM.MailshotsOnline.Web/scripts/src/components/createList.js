@@ -1,10 +1,18 @@
-define(['knockout', 'view-models/state', 'components/uploadData', 'components/matchData', 'components/dataSummary'],
+define([
+        'knockout',
+        'view-models/state',
+        'components/uploadData',
+        'components/matchData',
+        'components/dataSummary',
+        'components/addContact'
+    ],
 
-    function(ko, stateViewModel, uploadDataComponent, matchDataComponent, dataSummaryComponent) {
+    function(ko, stateViewModel, uploadDataComponent, matchDataComponent, dataSummaryComponent, addContactComponent) {
 
         ko.components.register('upload-data-component', uploadDataComponent);
         ko.components.register('match-data-component', matchDataComponent);
         ko.components.register('data-summary-component', dataSummaryComponent);
+        ko.components.register('add-contact-component', addContactComponent);
 
         function createListComponentViewModel() {
             this.listTitle = stateViewModel.currentList.ListName;
@@ -12,6 +20,7 @@ define(['knockout', 'view-models/state', 'components/uploadData', 'components/ma
             this.oldTitle = this.listTitle();
             this.titleEdit = ko.observable(true);
             this.step = stateViewModel.createListStep;
+            this.showEditModal = stateViewModel.showEditModal;
         }
 
         createListComponentViewModel.prototype.editTitle = function editTitle() {
@@ -27,6 +36,7 @@ define(['knockout', 'view-models/state', 'components/uploadData', 'components/ma
                 }).error(function(error){
                     self.titleEdit(true);
                     stateViewModel.showError(true);
+                    stateViewModel.errorTitle('Oops!');
                     stateViewModel.errorMessage(error.responseJSON.error);
                 });
                 this.oldTitle = this.listTitle();

@@ -30,7 +30,7 @@
 			</div>
 		</div>
 		<!-- ko if: hasInvalid -->
-			<div data-bind="afterRender: initPagination" class="data-summary__invalid content-box content-box--with-table">
+			<div class="data-summary__invalid content-box content-box--with-table">
 				<div class="intro-content">
 					<div class="icon-invalid content-left"></div>
 					<div class="content-right">
@@ -43,6 +43,7 @@
 						<tr>
 							<th>Name</th>
 							<th>Address</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -50,6 +51,7 @@
 							<tr>
 								<td><span data-bind="text: FirstName"></span> <span data-bind="text: Surname"></span></td>
 								<td><span data-bind="text: Address1"></span> <span data-bind="text: Address2"></span></td>
+								<td><a data-bind="click: $parent.edit" href="">Edit</a></td>
 							</tr>
 						<!-- /ko -->
 					</tbody>
