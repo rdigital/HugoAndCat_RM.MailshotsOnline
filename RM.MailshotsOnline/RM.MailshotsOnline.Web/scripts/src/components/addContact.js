@@ -39,20 +39,31 @@ define(['jquery', 'knockout', 'view-models/state', 'view-models/notification', '
                     message: 'Please provide a postcode'
                 },
                 pattern: {
-                    message: 'Please provide a valid UK postcode',
+                    message: 'Please provide a valid UK postcode (all caps, with a space)',
                     params: '^([A-PR-UWYZ0-9][A-HK-Y0-9][AEHMNPRTVXY0-9]?[ABEHMNPRVWXY0-9]? {1,2}[0-9][ABD-HJLN-UW-Z]{2}|GIR 0AA)$'
                 }
             });
 
 
             this.isValid = this.isValid.bind(this);
+            this.resetContact = this.resetContact.bind(this);
 
             $('html').addClass('modal-open');
 
             this.errors = koValidation.group(this, {deep: true});
         }
 
-        
+        addContactComponentViewModel.prototype.resetContact = function resetContact() {
+
+            for(var i in this.contact) {
+               if(ko.isObservable(this.contact[i])) {
+                  this.contact[i]('');
+               }
+            }
+
+            this.errors.showAllMessages(false);
+            
+        };      
 
         addContactComponentViewModel.prototype.isValid = function isValid() {
             if (this.errors().length === 0) {
@@ -65,7 +76,7 @@ define(['jquery', 'knockout', 'view-models/state', 'view-models/notification', '
         };
 
         addContactComponentViewModel.prototype.closeModal = function closeModal() {
-            this.contact = {};
+            this.resetContact();
             this.showEditModal(false);
             this.addNewContact(false);
         };
@@ -90,7 +101,6 @@ define(['jquery', 'knockout', 'view-models/state', 'view-models/notification', '
                 data: data,
                 method: "POST",
                 success: function(result) {
-                    console.log(result);
                     koMapping.fromJS(result, self.currentList);
                     self.loading(false);
                     self.showEditModal(false);
@@ -123,8 +133,6 @@ define(['jquery', 'knockout', 'view-models/state', 'view-models/notification', '
                     "Contacts": [koMapping.toJS(this.contact)]
                 };
 
-                console.log(data);
-
             this.loading(true);
 
             $.ajax({
@@ -132,9 +140,8 @@ define(['jquery', 'knockout', 'view-models/state', 'view-models/notification', '
                 data: data,
                 method: "POST",
                 success: function(result) {
-                    console.log(result);
                     koMapping.fromJS(result, self.currentList);
-                    self.contact = {};
+                    self.resetContact();
                     self.loading(false);
                     self.addNewContact(false);
                     self.showEditModal(false);
@@ -160,7 +167,7 @@ define(['jquery', 'knockout', 'view-models/state', 'view-models/notification', '
             if (!this.isValid()) {
                 return false;
             }
-            
+
             var self = this,
                 data = {
                     "ListName": this.currentList.ListName(),
@@ -185,7 +192,7 @@ define(['jquery', 'knockout', 'view-models/state', 'view-models/notification', '
                         notificationViewModel.hideWithMessage("Contact added to your list", 'addContact');
                     }
 
-                    self.contact = {};
+                    self.resetContact();
                     self.loading(false);
                 },
                 error: function(error) {
