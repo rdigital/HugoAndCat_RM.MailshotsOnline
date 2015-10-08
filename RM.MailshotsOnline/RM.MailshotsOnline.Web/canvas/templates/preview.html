@@ -1,5 +1,5 @@
 <div class="preview full-preview">
-	<div class="preview-modal">
+	<div class="preview-modal" data-bind="css: {'preview_single': sides.length == 1}">
 		<div class="preview-modal-close icon-close" data-bind="click: togglePreview"></div>
 		<div data-bind="template: {afterRender: doScale}">
 			<!-- ko foreach: sides -->
