@@ -43,16 +43,19 @@
       <HintPath>..\packages\Examine.0.1.65.0\lib\Examine.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HC.RM.Common, Version=1.0.13.45, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.1.0.13.45\lib\net45\HC.RM.Common.dll</HintPath>
+
+    <Reference Include="HC.RM.Common, Version=1.0.13.48, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.1.0.13.48\lib\net45\HC.RM.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HC.RM.Common.Azure, Version=1.0.13.45, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.Azure.1.0.13.45\lib\net45\HC.RM.Common.Azure.dll</HintPath>
+
+    <Reference Include="HC.RM.Common.Azure, Version=1.0.13.48, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.Azure.1.0.13.48\lib\net45\HC.RM.Common.Azure.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HC.RM.Common.PCL, Version=1.0.13.45, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.PCL.1.0.13.45\lib\portable-net45+win+wpa81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\HC.RM.Common.PCL.dll</HintPath>
+ 
+    <Reference Include="HC.RM.Common.PCL, Version=1.0.13.48, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.PCL.1.0.13.48\lib\portable-net45+win+wpa81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\HC.RM.Common.PCL.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
@@ -160,6 +163,7 @@
     <Compile Include="Extensions\ImageExtensions.cs" />
     <Compile Include="Extensions\MediaExtensions.cs" />
     <Compile Include="Extensions\MemberExtensions.cs" />
+    <Compile Include="Extensions\MigrationExtensions.cs" />
     <Compile Include="Helpers\BlobStorageHelper.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Media Conversion\Converters\ImageMediaConverter.cs" />
@@ -292,6 +296,46 @@
     <Compile Include="Migrations\201509301728453_AddAuthToken.cs" />
     <Compile Include="Migrations\201509301728453_AddAuthToken.Designer.cs">
       <DependentUpon>201509301728453_AddAuthToken.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509231339458_AddDatesToCampaign.cs" />
+    <Compile Include="Migrations\201509231339458_AddDatesToCampaign.Designer.cs">
+      <DependentUpon>201509231339458_AddDatesToCampaign.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509241053070_AddDeliveryEstimates.cs" />
+    <Compile Include="Migrations\201509241053070_AddDeliveryEstimates.Designer.cs">
+      <DependentUpon>201509241053070_AddDeliveryEstimates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509241104384_AddEstimatesToSettings.cs" />
+    <Compile Include="Migrations\201509241104384_AddEstimatesToSettings.Designer.cs">
+      <DependentUpon>201509241104384_AddEstimatesToSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509241413163_AddPublicHolidayDates.cs" />
+    <Compile Include="Migrations\201509241413163_AddPublicHolidayDates.Designer.cs">
+      <DependentUpon>201509241413163_AddPublicHolidayDates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509251500171_AddAddressesToInvoice.cs" />
+    <Compile Include="Migrations\201509251500171_AddAddressesToInvoice.Designer.cs">
+      <DependentUpon>201509251500171_AddAddressesToInvoice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509281049370_AddInvoiceLineItemDetails.cs" />
+    <Compile Include="Migrations\201509281049370_AddInvoiceLineItemDetails.Designer.cs">
+      <DependentUpon>201509281049370_AddInvoiceLineItemDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509281435529_AddOrderNumber.cs" />
+    <Compile Include="Migrations\201509281435529_AddOrderNumber.Designer.cs">
+      <DependentUpon>201509281435529_AddOrderNumber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509291218307_AddProducts.cs" />
+    <Compile Include="Migrations\201509291218307_AddProducts.Designer.cs">
+      <DependentUpon>201509291218307_AddProducts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509291748388_RemoveOrders.cs" />
+    <Compile Include="Migrations\201509291748388_RemoveOrders.Designer.cs">
+      <DependentUpon>201509291748388_RemoveOrders.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510051606175_InvoiceUpdates.cs" />
+    <Compile Include="Migrations\201510051606175_InvoiceUpdates.Designer.cs">
+      <DependentUpon>201510051606175_InvoiceUpdates.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -435,18 +479,50 @@
     <EmbeddedResource Include="Migrations\201509301728453_AddAuthToken.resx">
       <DependentUpon>201509301728453_AddAuthToken.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509231339458_AddDatesToCampaign.resx">
+      <DependentUpon>201509231339458_AddDatesToCampaign.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509241053070_AddDeliveryEstimates.resx">
+      <DependentUpon>201509241053070_AddDeliveryEstimates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509241104384_AddEstimatesToSettings.resx">
+      <DependentUpon>201509241104384_AddEstimatesToSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509241413163_AddPublicHolidayDates.resx">
+      <DependentUpon>201509241413163_AddPublicHolidayDates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509251500171_AddAddressesToInvoice.resx">
+      <DependentUpon>201509251500171_AddAddressesToInvoice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509281049370_AddInvoiceLineItemDetails.resx">
+      <DependentUpon>201509281049370_AddInvoiceLineItemDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509281435529_AddOrderNumber.resx">
+      <DependentUpon>201509281435529_AddOrderNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509291218307_AddProducts.resx">
+      <DependentUpon>201509291218307_AddProducts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509291748388_RemoveOrders.resx">
+      <DependentUpon>201509291748388_RemoveOrders.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510051606175_InvoiceUpdates.resx">
+      <DependentUpon>201510051606175_InvoiceUpdates.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\HC.RM.Common.Azure.1.0.13.45\build\HC.RM.Common.Azure.targets" Condition="Exists('..\packages\HC.RM.Common.Azure.1.0.13.45\build\HC.RM.Common.Azure.targets')" />
+
+  <Import Project="..\packages\HC.RM.Common.Azure.1.0.13.48\build\HC.RM.Common.Azure.targets" Condition="Exists('..\packages\HC.RM.Common.Azure.1.0.13.48\build\HC.RM.Common.Azure.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\HC.RM.Common.Azure.1.0.13.45\build\HC.RM.Common.Azure.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\HC.RM.Common.Azure.1.0.13.45\build\HC.RM.Common.Azure.targets'))" />
+
+    <Error Condition="!Exists('..\packages\HC.RM.Common.Azure.1.0.13.48\build\HC.RM.Common.Azure.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\HC.RM.Common.Azure.1.0.13.48\build\HC.RM.Common.Azure.targets'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

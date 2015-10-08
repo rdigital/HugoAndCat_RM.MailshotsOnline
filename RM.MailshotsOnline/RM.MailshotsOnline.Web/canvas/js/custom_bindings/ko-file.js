@@ -22,7 +22,9 @@ define(['knockout'],
 
           reader = (valueAccessor()['reader']);
         }
-
+        if (typeof(FileReader) == 'undefined') {
+          return
+        }
         reader || (reader = new FileReader());
         reader.onloadend = function() {
           fileContents(reader.result);

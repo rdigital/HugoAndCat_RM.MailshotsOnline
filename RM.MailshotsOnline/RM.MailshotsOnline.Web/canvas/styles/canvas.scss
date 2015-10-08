@@ -13,29 +13,44 @@ body {
     }
 }
 
+.component.component_selected {
+    z-index: 110;
+    &.box-component {
+        z-index: initial;
+    }
+    &.image-component canvas {
+        cursor: move;
+        &.canvas-empty {
+            cursor: auto;
+        }
+    }
+}
+
 .canvas-container {
-    
     @include transition(transform, 0s);
+    overflow: hidden;
     position: absolute;
     top: 50px;
-    left: 150px;
+    left: 170px;
     right: 0;
     bottom: 0;
     z-index: 2;
-    overflow: auto;
     background: $lightest-grey;
     transform: translate(0, 0);
     -ms-transform: translate(0, 0);
     .tools {
-        transform: translate(-150px, -50px);
-        -ms-transform: translate(-150px, -50px);
+        transform: translate(-170px, -50px);
+        -ms-transform: translate(-170px, -50px);
+    }
+    &.canvas-container_zoomed {
+        overflow-y: auto;
     }
     &.canvas-container_focused {
         top: 0;
         left: 0;
         .side {
-            transform: translate(150px, 50px);
-            -ms-transform: translate(150px, 50px);
+            transform: translate(170px, 50px);
+            -ms-transform: translate(170px, 50px);
             right: 150px;
 
         }
@@ -48,8 +63,8 @@ body {
         @include transition(transform);
         width: 500px;
         right: auto;
-        transform: translate(-190px, 0);
-        -ms-transform: translate(-190px, 0);
+        transform: translate(-200px, -100px);
+        -ms-transform: translate(-200px, -100px);
         pointer-events: none;
         .face {
             pointer-events: none;
@@ -68,14 +83,6 @@ body {
         animation: fadein .25s;
     }
 }
-
-// hide overlay in ie9 and 10
-@media screen\0 {
-    .selected-overlay_visible {
-        display: none !important;
-    }
-}
-
 
 @media all and (max-width: 1100px) {
     .canvas-container.canvas-container_small {
@@ -148,6 +155,7 @@ body {
 }
 
 .face {
+    text-align: left;
     display: inline-block;
     background: #FFF;
     position: relative;
@@ -174,15 +182,18 @@ body {
         right: 0;
         bottom: 0;
         cursor: pointer;
-        &.face-hover_active:before {
-            border: 1px solid rgba(0, 0, 0, 0.09);
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+        &.face-hover_active {
             pointer-events: none;
+            :before {
+                border: 1px solid rgba(0, 0, 0, 0.09);
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                pointer-events: none;
+            }
         }
     }
 }
@@ -208,7 +219,8 @@ body {
     //@include nohighlight();
     @include transition(background);
     cursor: pointer;
-    display: inline-block;
+    display: inline;
+    word-break: break-all;
     &:hover {
         background: rgba(0, 0, 0, 0.09);
         //outline: 1px solid $darkest-grey;
@@ -235,6 +247,12 @@ body {
         content: attr(data-fallback) !important;
     }
 }
+.full-preview {
+    .canvas-empty {
+        background: transparent !important;
+        border: none;
+    }
+}
 
 .loading {
     @include transition(opacity);
@@ -252,5 +270,44 @@ body {
     &.loading_complete {
         opacity: 0;
         pointer-events: none;
+    }
+}
+
+.uploading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.7);
+    z-index: 9999;
+    opacity: 1;
+    background-image: url(/canvas/images/loading_map.gif);
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+}
+
+.notification {
+    @include transition(transform);
+    @include shadow(1px, 3px, 0, $lightish-grey);
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    width: 200px;
+    min-height: 40px;
+    padding: 20px;
+    z-index: 9;
+    transform: translate(250px, 0);
+    -ms-transform: translate(250px, 0);
+    background: #fff;
+    font-family: PFDin Regular, Arial;
+    color: $darkest-grey;
+    border-left: 2px solid $green;
+    &.notification_error {
+        border-left: 2px solid $darkest-grey;
+    }
+    &.notification_visible {
+        transform: translate(0, 0);
+        -ms-transform: translate(0, 0);
     }
 }

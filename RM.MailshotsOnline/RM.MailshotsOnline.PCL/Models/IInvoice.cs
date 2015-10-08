@@ -66,10 +66,46 @@ namespace RM.MailshotsOnline.PCL.Models
         /// Gets or sets the PayPal approval URL
         /// </summary>
         string PaypalApprovalUrl { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the invoice order number
+        /// </summary>
+        string OrderNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the invoice PDF blob status
+        /// </summary>
+        string InvoicePdfBlobReference { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date the invoice was paid
+        /// </summary>
+        DateTime? PaidDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date the invoice was cancelled
+        /// </summary>
+        DateTime? CancelledDate { get; set; }
 
         /// <summary>
         /// The line items for the invoice
         /// </summary>
-        IEnumerable<IInvoiceLineItem> LineItems { get; set; }
+        ICollection<IInvoiceLineItem> LineItems { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Billing Address
+        /// </summary>
+        IAddress BillingAddress { get; set; }
+
+        /// <summary>
+        /// Gets or sets the email address specified during checkout
+        /// </summary>
+        string BillingEmail { get; set; }
+
+        /// <summary>
+        /// Gets the key invoice information as XML
+        /// </summary>
+        /// <returns>XML string</returns>
+        string ToXmlString();
     }
 }

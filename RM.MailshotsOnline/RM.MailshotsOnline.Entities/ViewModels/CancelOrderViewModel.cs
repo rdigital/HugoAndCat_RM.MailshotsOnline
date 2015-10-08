@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RM.MailshotsOnline.Entities.PageModels
+namespace RM.MailshotsOnline.Entities.ViewModels
 {
-    public class MyOrders : BasePage
+    public class CancelOrderViewModel
     {
+        public Guid CampaignId { get; set; }
     }
 }

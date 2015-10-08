@@ -24,7 +24,7 @@ define(['knockout', 'jquery', 'spectrum'],
                         value.colour(color.toHexString().toUpperCase());
                     },
 
-                    appendTo: '.colour-dropdown .dropdown-options'
+                    appendTo: $(element).closest('.colour-dropdown .dropdown-options')
                 });
 
                 ko.utils.domNodeDisposal.addDisposeCallback(element, function() {

@@ -1,6 +1,6 @@
 // viewmodel to handle format data
-define(['knockout', 'jquery', 'view_models/state'],
-    function(ko, $, stateViewModel) {
+define(['knockout', 'jquery', 'view_models/state', 'temp/data'],
+    function(ko, $, stateViewModel, tempData) {
 
         function formatViewModel() {
             // this.objects contains the data returned from the server
@@ -18,8 +18,11 @@ define(['knockout', 'jquery', 'view_models/state'],
 
         formatViewModel.prototype.fetch = function fetch() {
             // fetch data from server using fetchURL
+            /* TESTING ONLY
+            this.selected(tempData.formatData[0]);
+            return*/
             var fetchURL = "/Umbraco/Api/MailshotSettings/GetFormat/" + this.selectedID; 
-            console.log('fetching data from ' + fetchURL);
+            //console.log('fetching data from ' + fetchURL);
             $.getJSON(fetchURL, function(data) {
                 this.selected(data);
             }.bind(this));

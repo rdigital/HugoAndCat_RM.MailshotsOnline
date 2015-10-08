@@ -33,8 +33,9 @@ namespace RM.MailshotsOnline.Data.Services
         /// Creates a new invoice for a given campaign
         /// </summary>
         /// <param name="campaign">The campaign</param>
+        /// <param name="member">The member who owns the campaign</param>
         /// <returns>Invoice object</returns>
-        public IInvoice CreateInvoiceForCampaign(ICampaign campaign)
+        public IInvoice CreateInvoiceForCampaign(ICampaign campaign, IMember member)
         {
             var existingDraftInvoice = _context.Invoices.FirstOrDefault(i => i.CampaignId == campaign.CampaignId && i.Status == PCL.Enums.InvoiceStatus.Draft);
             List<PCL.Enums.InvoiceStatus> acceptableStatuses = new List<PCL.Enums.InvoiceStatus>()
@@ -79,21 +80,59 @@ namespace RM.MailshotsOnline.Data.Services
                 invoice = new Invoice();
             }
 
+            // Create order number
+            var invoiceCount = _context.Invoices.Count(i => i.Campaign.UserId == campaign.UserId);
+            var orderNumber = string.Format("{0}{1}{2:D5}", DateTime.UtcNow.Year, campaign.UserId, invoiceCount + 1);
+            invoice.OrderNumber = orderNumber;
             invoice.CampaignId = campaign.CampaignId;
             invoice.UpdatedDate = DateTime.UtcNow;
             invoice.Status = PCL.Enums.InvoiceStatus.Draft;
+            invoice.BillingAddress = new Address()
+            {
+                Title = member.Title,
+                FirstName = member.FirstName,
+                LastName = member.LastName,
+                FlatNumber = member.FlatNumber,
+                BuildingNumber = member.BuildingNumber,
+                BuildingName = member.BuildingName,
+                Address1 = member.Address1,
+                Address2 = member.Address2,
+                City = member.City,
+                Country = member.Country,
+                Postcode = member.Postcode
+            };
 
             var savedInvoice = Save(invoice);
 
             if (savedInvoice != null)
             {
+                // TODO: Get the names from the CMS
                 var lineItems = new List<InvoiceLineItem>();
+
+                lineItems.Add(new InvoiceLineItem()
+                {
+                    ProductSku = Constants.Constants.Products.MsolServiceFeeSku,
+                    Quantity = 1,
+                    UnitCost = priceBreakdown.ServiceFee,
+                    TaxRate = priceBreakdown.TaxRate,
+                    InvoiceId = savedInvoice.InvoiceId
+                });
+
+                lineItems.Add(new InvoiceLineItem()
+                {
+                    ProductSku = Constants.Constants.Products.YourDataSku,
+                    Quantity = campaign.OwnDataRecipientCount,
+                    UnitCost = 0,
+                    TaxRate = 0,
+                    InvoiceId = savedInvoice.InvoiceId
+                });
+
                 if (priceBreakdown.DataRentalCount.HasValue && priceBreakdown.DataRentalCount.Value > 0)
                 {
                     // Add data costs
                     lineItems.Add(new InvoiceLineItem()
                     {
-                        Name = string.Format("Data rental for {0} items", priceBreakdown.DataRentalCount.Value),
+                        ProductSku = Constants.Constants.Products.OurDataSku,
                         Quantity = priceBreakdown.DataRentalCount.Value,
                         UnitCost = priceBreakdown.DataRentalRate,
                         TaxRate = priceBreakdown.TaxRate,
@@ -102,7 +141,7 @@ namespace RM.MailshotsOnline.Data.Services
 
                     lineItems.Add(new InvoiceLineItem()
                     {
-                        Name = "Data rental fee",
+                        ProductSku = Constants.Constants.Products.DataSearchFeeSku,
                         Quantity = 1,
                         UnitCost = priceBreakdown.DataRentalFlatFee,
                         TaxRate = priceBreakdown.TaxRate,
@@ -112,25 +151,12 @@ namespace RM.MailshotsOnline.Data.Services
 
                 if (priceBreakdown.PrintCount.HasValue && priceBreakdown.PrintCount.Value > 0)
                 {
-                    if (priceBreakdown.PostageRate.HasValue)
-                    {
-                        // Add postage
-                        lineItems.Add(new InvoiceLineItem()
-                        {
-                            Name = string.Format("Postage cost for {0} items", priceBreakdown.PrintCount.Value),
-                            Quantity = priceBreakdown.PrintCount.Value,
-                            UnitCost = priceBreakdown.PostageRate.Value,
-                            TaxRate = priceBreakdown.TaxRate,
-                            InvoiceId = savedInvoice.InvoiceId
-                        });
-                    }
-
                     if (priceBreakdown.PrintingRate.HasValue)
                     {
                         // Add printing costs
                         lineItems.Add(new InvoiceLineItem()
                         {
-                            Name = string.Format("Printing cost for {0} items", priceBreakdown.PrintCount.Value),
+                            ProductSku = Constants.Constants.Products.PrintSku,
                             Quantity = priceBreakdown.PrintCount.Value,
                             UnitCost = priceBreakdown.PrintingRate.Value,
                             TaxRate = priceBreakdown.TaxRate,
@@ -138,21 +164,40 @@ namespace RM.MailshotsOnline.Data.Services
                         });
                     }
 
-                    lineItems.Add(new InvoiceLineItem()
+                    if (priceBreakdown.PostageRate.HasValue)
                     {
-                        Name = string.Format("Service fee", priceBreakdown.ServiceFee),
-                        Quantity = 1,
-                        UnitCost = priceBreakdown.ServiceFee,
-                        TaxRate = priceBreakdown.TaxRate,
-                        InvoiceId = savedInvoice.InvoiceId
-                    });
+                        // Add postage
+                        lineItems.Add(new InvoiceLineItem()
+                        {
+                            ProductSku = Constants.Constants.Products.PostSku,
+                            SubTitle = campaign.PostalOption.Name,
+                            Quantity = priceBreakdown.PrintCount.Value,
+                            UnitCost = priceBreakdown.PostageRate.Value,
+                            TaxRate = priceBreakdown.TaxRate,
+                            InvoiceId = savedInvoice.InvoiceId
+                        });
+                    }
                 }
 
-                savedInvoice.LineItems = lineItems;//.Cast<IInvoiceLineItem>();
+                savedInvoice.LineItems = lineItems.ToList<IInvoiceLineItem>();//.Cast<IInvoiceLineItem>();
                 savedInvoice = Save(savedInvoice);
             }
 
             return savedInvoice;
+        }
+
+        /// <summary>
+        /// Gets an invoice
+        /// </summary>
+        /// <param name="invoiceId">The ID of the invoice</param>
+        /// <returns>The specified invoice</returns>
+        public IInvoice GetInvoice(Guid invoiceId)
+        {
+            return _context.Invoices
+                .Include("LineItems")
+                .Include("LineItems.Product")
+                .Include("Campaign")
+                .FirstOrDefault(i => i.InvoiceId == invoiceId);
         }
 
         /// <summary>
@@ -162,7 +207,11 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>Collection of invoices</returns>
         public IEnumerable<IInvoice> GetInvoicesForCampaign(ICampaign campaign)
         {
-            return _context.Invoices.Where(i => i.CampaignId == campaign.CampaignId);
+            return _context.Invoices
+                .Include("LineItems")
+                .Include("LineItems.Product")
+                .Include("Campaign")
+                .Where(i => i.CampaignId == campaign.CampaignId);
         }
 
         /// <summary>

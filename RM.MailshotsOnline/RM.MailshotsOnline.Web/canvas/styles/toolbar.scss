@@ -9,13 +9,13 @@
 	left: 0;
 	right: 0;
 	height: 50px;
-	z-index: 111;
+	z-index: 503;
 	background: $darkest-grey;
 	color: $light-grey;
 	transform: translate(0, 0);
 	-ms-transform: translate(0, 0);
 	text-align: left;
-	overflow: hidden;
+	//overflow: hidden;
 	&.options-toolbar_hidden {
 		transform: translate(0, -50px);
 		-ms-transform: translate(0, -50px);
@@ -87,19 +87,19 @@
 	    border-right: 1px solid $dark-grey;
 	    text-align: left;
 	    float: left;
+	    .fa {
+    		position: absolute;
+    		top: 10px;
+    		right: 10px;
+    		font-size: 10px;
+    		:before {
+    			content: "\f078";
+    		}
+    	}
 	    &.toolbar-button_small {
 	    	margin: 10px 0;
 	    	&.toolbar-button_padright {
 	    		padding-right: 40px;
-	    	}
-	    	.fa {
-	    		position: absolute;
-	    		top: 10px;
-	    		right: 10px;
-	    		font-size: 10px;
-	    		:before {
-	    			content: "\f078";
-	    		}
 	    	}
 		}
 		&.active {
@@ -125,7 +125,11 @@
 			}
 		}
 	    &.toolbar-button_largest {
-	    	min-width: 220px;
+	    	padding: 0 12px;
+	    	min-width: 170px;
+	    	.fa {
+	    		top: 19px;
+	    	}
 	    }
 	    &.toolbar-button_right {
 	    	float: right;
@@ -140,6 +144,30 @@
 	    	width: 24px;
 	    	height: 25px;
 	    	background-image: url('/canvas/images/saving.gif');
+	    }
+	}
+	.menu {
+		position: fixed;
+		top: 50px;
+	    left: 0;
+	    width: 169px;
+	    background: $darkest-grey;
+		color: $light-grey;
+		border: 1px solid $dark-grey;
+		border-left: none;
+		font-family: PFDin Regular, Arial;
+		display: none;
+		&.menu_visible {
+			display: block;
+		}
+	    .menu-item {
+	    	@include transition(background);
+	    	cursor: pointer;
+	    	display: block;
+	    	padding: 15px 10px;
+	    	&:hover {
+	    		background: $blue;
+	    	}
 	    }
 	}
 }

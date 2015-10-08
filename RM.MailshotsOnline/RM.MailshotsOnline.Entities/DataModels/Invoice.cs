@@ -8,6 +8,7 @@ using RM.MailshotsOnline.PCL;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Linq;
 
 namespace RM.MailshotsOnline.Entities.DataModels
 {
@@ -27,7 +28,9 @@ namespace RM.MailshotsOnline.Entities.DataModels
 
         private decimal _totalTax;
 
-        private IEnumerable<InvoiceLineItem> _lineItems;
+        private Address _billingAddress;
+
+        private ICollection<InvoiceLineItem> _lineItems;
 
         /// <summary>
         /// Gets or sets the Invoice ID
@@ -77,23 +80,35 @@ namespace RM.MailshotsOnline.Entities.DataModels
         /// <summary>
         /// Gets or sets the PayPal Payment ID
         /// </summary>
+        [MaxLength(64)]
         public string PaypalOrderId { get; set; }
 
         /// <summary>
         /// Gets or sets the PayPal Order ID
         /// </summary>
+        [MaxLength(64)]
         public string PaypalPaymentId { get; set; }
 
         /// <summary>
         /// Gets or sets the PayPal approval URL
         /// </summary>
+        [MaxLength(2048)]
+        [JsonIgnore]
         public string PaypalApprovalUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets the invoice order number
+        /// </summary>
+        [MaxLength(13)]
+        [Index]
+        public string OrderNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the line items
         /// </summary>
+        [JsonIgnore]
         [InverseProperty("Invoice")]
-        public IEnumerable<InvoiceLineItem> LineItems
+        public virtual ICollection<InvoiceLineItem> LineItems
         {
             get
             {
@@ -105,98 +120,6 @@ namespace RM.MailshotsOnline.Entities.DataModels
                 _lineItems = value;
             }
         }
-
-        /// <summary>
-        /// Gets the calculated Data Rental cost
-        /// </summary>
-        /*public decimal DataRentalCost
-        {
-            get
-            {
-
-                if (DataRentalCount > 0)
-                {
-                    _dataRentalCost = DataRentalFlatFee + (DataRentalCount * DataRentalRate);
-                }
-                else
-                {
-                    _dataRentalCost = 0;
-                }
-
-                return _dataRentalCost;
-            }
-
-            private set
-            {
-                _dataRentalCost = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the data rental count
-        /// </summary>
-        public int DataRentalCount { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Data Rental flat fee
-        /// </summary>
-        public decimal DataRentalFlatFee { get; set; }
-
-        /// <summary>
-        /// Gets or sets the data renal rate
-        /// </summary>
-        public decimal DataRentalRate { get; set; }
-
-        /// <summary>
-        /// Gets the calculated postage cost
-        /// </summary>
-        public decimal PostageCost
-        {
-            get
-            {
-                _postageCost = PostageRate * PrintCount;
-                return _postageCost;
-            }
-
-            private set
-            {
-                _postageCost = value;
-            }
-        }
-
-        public decimal PostageRate { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Print Count
-        /// </summary>
-        public int PrintCount { get; set; }
-
-        /// <summary>
-        /// Gets the calculated postage cost
-        /// </summary>
-        public decimal PrintingCost
-        {
-            get
-            {
-                _printingCost = PrintCount * PrintingRate;
-                return _printingCost;
-            }
-
-            private set
-            {
-                _printingCost = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the postage rate
-        /// </summary>
-        public decimal PrintingRate { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Service Fee
-        /// </summary>
-        public decimal ServiceFee { get; set; } */
 
         /// <summary>
         /// Gets the calculated sub total
@@ -218,11 +141,6 @@ namespace RM.MailshotsOnline.Entities.DataModels
                 _subTotal = value;
             }
         }
-
-        /// <summary>
-        /// Gets or sets the tax rate applied
-        /// </summary>
-        /*public decimal TaxRate { get; set; }*/
 
         /// <summary>
         /// Gets the calculated total
@@ -262,6 +180,77 @@ namespace RM.MailshotsOnline.Entities.DataModels
             }
         }
 
+        /// <summary>
+        /// Gets or sets the billing address
+        /// </summary>
+        public Address BillingAddress
+        {
+            get { return _billingAddress; }
+            set { _billingAddress = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the invoice PDF blob status
+        /// </summary>
+        public string InvoicePdfBlobReference { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date the invoice was paid
+        /// </summary>
+        public DateTime? PaidDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date the invoice was cancelled
+        /// </summary>
+        public DateTime? CancelledDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the email address specified during checkout
+        /// </summary>
+        [MaxLength(256)]
+        public string BillingEmail { get; set; }
+
+        /// <summary>
+        /// Gets the key invoice information as XML
+        /// </summary>
+        /// <returns>XML string</returns>
+        public string ToXmlString()
+        {
+            XDocument xdoc = new XDocument();
+            XElement root = new XElement("invoice");
+            if (BillingAddress != null)
+            {
+                root.Add(new XElement("billing-address", BillingAddress.ToString()));
+            }
+            root.Add(new XElement("order-number", OrderNumber));
+            root.Add(new XElement("order-date", CreatedDate.ToString("dd-MM-yyyy")));
+            if (PaidDate.HasValue)
+            {
+                root.Add(new XElement("paid-date", PaidDate.Value.ToString("dd-MM-yyyy")));
+            }
+            root.Add(new XElement("sub-total", SubTotal.ToString("F2")));
+            root.Add(new XElement("tax-total", TotalTax.ToString("F2")));
+            root.Add(new XElement("total", Total.ToString("F2")));
+            var lineItemsElement = new XElement("line-items");
+            foreach (var lineItem in LineItems)
+            {
+                var element = new XElement("line-item");
+                element.Add(new XElement("name", lineItem.Name));
+                element.Add(new XElement("subtitle", lineItem.SubTitle));
+                element.Add(new XElement("quantity", lineItem.Quantity.ToString()));
+                element.Add(new XElement("unit-cost", lineItem.UnitCost.ToString("F2")));
+                element.Add(new XElement("sub-total", lineItem.SubTotal.ToString("F2")));
+                element.Add(new XElement("tax-rate", lineItem.TaxRate.ToString("F2")));
+                element.Add(new XElement("tax-total", lineItem.TaxTotal.ToString("F2")));
+                element.Add(new XElement("total", lineItem.Total.ToString("F2")));
+                lineItemsElement.Add(element);
+            }
+            root.Add(lineItemsElement);
+
+            xdoc.Add(root);
+            return xdoc.ToString();
+        }
+
         #region Explicit interface implementation
 
         ICampaign IInvoice.Campaign
@@ -270,7 +259,7 @@ namespace RM.MailshotsOnline.Entities.DataModels
             set { _campaign = (Campaign)value; }
         }
 
-        IEnumerable<IInvoiceLineItem> IInvoice.LineItems
+        ICollection<IInvoiceLineItem> IInvoice.LineItems
         {
             get
             {
@@ -280,10 +269,16 @@ namespace RM.MailshotsOnline.Entities.DataModels
                 }
 
                 var newSet = _lineItems.Cast<IInvoiceLineItem>();
-                return newSet;
+                return newSet.ToList();
             }
 
-            set { _lineItems = value.Cast<InvoiceLineItem>(); }
+            set { _lineItems = value.Cast<InvoiceLineItem>().ToList(); }
+        }
+
+        IAddress IInvoice.BillingAddress
+        {
+            get { return (IAddress)_billingAddress; }
+            set { _billingAddress = (Address)value; }
         }
 
         #endregion

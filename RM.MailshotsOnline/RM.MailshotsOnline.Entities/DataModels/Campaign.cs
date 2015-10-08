@@ -30,6 +30,11 @@ namespace RM.MailshotsOnline.Entities.DataModels
         private ICollection<CampaignDistributionList> _campaignDistributionLists;
 
         /// <summary>
+        /// The invoices (concrete models)
+        /// </summary>
+        private ICollection<Invoice> _invoices;
+
+        /// <summary>
         /// The chosen postal option (concrete model)
         /// </summary>
         private PostalOption _postalOption;
@@ -75,17 +80,20 @@ namespace RM.MailshotsOnline.Entities.DataModels
         /// The name of the campaign
         /// </summary>
         [Required]
+        [MaxLength(512)]
         public string Name { get; set; }
 
         /// <summary>
         /// User notes for the campaign
         /// </summary>
+        [MaxLength(1024)]
         public string Notes { get; set; }
 
         /// <summary>
         /// System notes for the campaign
         /// </summary>
         [JsonIgnore]
+        [MaxLength(2048)]
         public string SystemNotes { get; set; }
 
         /// <summary>
@@ -104,6 +112,10 @@ namespace RM.MailshotsOnline.Entities.DataModels
             set { _mailshot = value; }
         }
 
+        /// <summary>
+        /// Gets the title of the Mailshot (if attached)
+        /// </summary>
+        [NotMapped]
         public string MailshotTitle
         {
             get
@@ -111,6 +123,23 @@ namespace RM.MailshotsOnline.Entities.DataModels
                 if (_mailshot != null)
                 {
                     return _mailshot.Name;
+                }
+
+                return null;
+            }
+        }
+
+        [NotMapped]
+        public string MailshotFormat
+        {
+            get
+            {
+                if (_mailshot != null)
+                {
+                    if (_mailshot.Format != null)
+                    {
+                        return _mailshot.Format.Name;
+                    }
                 }
 
                 return null;
@@ -286,6 +315,32 @@ namespace RM.MailshotsOnline.Entities.DataModels
         [JsonIgnore]
         public Guid ModerationId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the campaign's invoices
+        /// </summary>
+        [JsonIgnore]
+        [InverseProperty("Campaign")]
+        public virtual ICollection<Invoice> Invoices
+        {
+            get { return _invoices; }
+            set { _invoices = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the date the campaign was ordered
+        /// </summary>
+        public DateTime? OrderPlacedDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date the campaign was cancelled
+        /// </summary>
+        public DateTime? CancelledDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date the campaign was despatched
+        /// </summary>
+        public DateTime? OrderDespatchedDate { get; set; }
+
         #region Explicit interface definition
 
         IMailshot ICampaign.Mailshot
@@ -327,6 +382,20 @@ namespace RM.MailshotsOnline.Entities.DataModels
         {
             get { return _postalOption; }
             set { _postalOption = (PostalOption)value; }
+        }
+
+        ICollection<IInvoice> ICampaign.Invoices
+        {
+            get
+            {
+                if (_invoices == null)
+                {
+                    return null;
+                }
+
+                return _invoices.Cast<IInvoice>().ToList();
+            }
+            set { _invoices = (ICollection<Invoice>)value; }
         }
 
         #endregion

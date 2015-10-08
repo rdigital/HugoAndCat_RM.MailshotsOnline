@@ -10,7 +10,7 @@ namespace RM.MailshotsOnline.Data.Constants
     {
         public static class Settings
         {
-            public static readonly int HeaderNavSettingsId = int.Parse(ConfigurationManager.AppSettings["HeaderNavSettingsId"]);
+            public static readonly int HeaderNavSettingsId = Helpers.ConfigHelper.GetConfigValue("HeaderNavSettingsId", 1121);
             public static readonly string DefaultMediaLibraryTagGroup = ConfigurationManager.AppSettings["DefaultMediaLibraryTagGroup"];
             public static readonly int ImageThumbnailSizeSmall = int.Parse(ConfigurationManager.AppSettings["ImageThumbnailSizeSmall"]);
             public static readonly int ImageThumbnailSizeLarge = int.Parse(ConfigurationManager.AppSettings["ImageThumbnailSizeLarge"]);
@@ -45,6 +45,16 @@ namespace RM.MailshotsOnline.Data.Constants
             public static readonly string SftpDirectory = Helpers.ConfigHelper.GetConfigValue("ReportingSftpDirectory");
             public static readonly string PrivateKeyFileName = Helpers.ConfigHelper.GetConfigValue("ReportingSftpPrivateKeyLocation");
             public static readonly string BlobContainer = Helpers.ConfigHelper.GetConfigValue("ReportingBlobContainer");
+		}
+
+        public static class Products
+        {
+            public static readonly string PrintSku = Helpers.ConfigHelper.GetConfigValue("PrintSku", "RMMSOL-PRINT");
+            public static readonly string PostSku = Helpers.ConfigHelper.GetConfigValue("PostSku", "RMMSOL-POST");
+            public static readonly string YourDataSku = Helpers.ConfigHelper.GetConfigValue("YourDataSku", "RMMSOL-YOUR-DATA");
+            public static readonly string OurDataSku = Helpers.ConfigHelper.GetConfigValue("OurDataSku", "RMMSOL-DATA-RENTAL");
+            public static readonly string MsolServiceFeeSku = Helpers.ConfigHelper.GetConfigValue("MsolServiceFeeSku", "RMMSOL-SERVICE-FEE");
+            public static readonly string DataSearchFeeSku = Helpers.ConfigHelper.GetConfigValue("DataSearchFeeSku", "RMMSOL-DATA-SEARCH-FEE");
         }
 
         public static class Apis

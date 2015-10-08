@@ -61,6 +61,7 @@ namespace RM.MailshotsOnline.Web.Installers
                 Component.For<ICryptographicService>().ImplementedBy<CryptographicService>().LifestyleTransient(),
                 Component.For<ILogger>().ImplementedBy<Logger>().LifestyleTransient(),
                 Component.For<HC.RM.Common.Azure.Helpers.ILogger>().ImplementedBy<Logger>().Named("OverridingImplementation").IsDefault().LifestyleTransient(),
+                Component.For<ISettingsService>().ImplementedBy<SettingsService>().LifestyleTransient(),
                 Component.For<IReportingService>().ImplementedBy<ReportingService>().LifestyleTransient(),
                 Component.For<IMembershipReportGenerator>().ImplementedBy<MembershipReportGenerator>().LifestyleTransient(),
                 Component.For<ITransactionsReportGenerator>().ImplementedBy<TransactionsReportGenerator>().LifestyleTransient(),

@@ -1,0 +1,146 @@
+@import 'mixins';
+@import 'variables';
+
+.editable {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	cursor: text;
+	height: 100%;
+	overflow: hidden;
+	&.editable_pointer {
+		cursor: pointer;
+	}
+	&:focus:before, &.editable_active:before, &:hover:before {
+		border: 1px solid $darkest-grey;
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		pointer-events: none;
+	}
+	&:hover:before {
+		border: 1px solid $darkest-grey;
+		//outline: 2px dotted white;
+		background: rgba(255, 255, 255, 0.1);
+	}
+	&:hover:after {
+		content: "\e602";
+		font-family: 'icomoon';
+		position: absolute;
+		top: 0;
+		right: -25px;
+		font-size: 20px;
+		color: $darkest-grey;
+		background-color: #fff;
+		@include borderradius(50%);
+		font-weight: normal;
+		width: 20px;
+		line-height: 19px;
+		height: 19px;
+		animation: fadein .5s;
+	}
+	&:focus:before, &.editable_active:before {
+		border: 1px solid rgba(0, 0, 0, 0.09);
+		//background: inherit;
+	}
+	&.editable_active, &.face-hover_active {
+		z-index: 110;
+		&:hover:after {
+			content: none !important;
+			color: #fff;
+		}
+	}
+	.editable-input {
+		min-height: 20px !important;
+		height: 100%;
+		outline: none;
+		word-wrap: break-word;
+		ol, ul {
+			margin: 5px 0;
+		}
+		p {
+			margin-top: 0px !important;
+			margin-bottom: 0px !important;
+		}
+	}
+	&.editable_error {
+		&:before, &:focus:before, &.editable_active:before, &:hover:before {
+			border: 2px solid #C00;
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			pointer-events: none;
+		}
+	}
+	b, strong {
+		font-weight: bold !important;
+	}
+}
+
+.no-print {
+    z-index: 100;
+    cursor: not-allowed;
+    color: #333;
+    background-color: #FFF;
+    border: 2px solid $grey;
+    display: table;
+    text-align: center;
+    font-family: PFDin Regular, Arial;
+    color: $darkest-grey;
+    .no-print_text {
+        display: table-cell;
+        vertical-align: middle;
+    }
+}
+
+.full-preview {
+	.no-print {
+		border: none;
+	}
+	.no-print_text {
+		display: none;
+	}
+}
+
+.fold {
+    border-bottom: 2px dashed rgba(14, 14, 14, 0.31);
+    pointer-events: none;
+}
+
+canvas {
+	cursor: pointer;
+	background: transparent;
+	
+	&.canvas-empty {
+		border: 5px solid $grey;
+		box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		background-image: url(/canvas/images/img_placeholder.png);
+		background-repeat: no-repeat;
+		//background-size: contain;
+		background-position: 50% 50%;
+		
+	}
+}
+
+.button {
+    @include transition(background);
+    font-family: PFDin Regular, Arial;
+    text-align: center;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 15px 25px;
+    background-color: $blue;
+    color: #fff;
+    &.button_green {
+        background-color: $green;
+    }
+    &.button_disabled {
+        background-color: $grey;
+    }
+}

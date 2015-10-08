@@ -46,6 +46,50 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         }
 
         [ChildActionOnly]
+        public ActionResult ShowStartDataButton(CampaignHub model)
+        {
+            return PartialView("~/Views/CampaignHub/Partials/StartDataButton.cshtml", model);
+        }
+
+        public ActionResult AddData(CampaignHub model)
+        {
+            // Fetch the campaign
+            ICampaign campaign = null;
+            Guid campaignId = Guid.Empty;
+            try
+            {
+                if (Guid.TryParse(Request.QueryString["campaignId"], out campaignId))
+                {
+                    campaign = _campaignService.GetCampaign(campaignId);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(this.GetType().Name, "AddData", ex);
+                Log.Error(this.GetType().Name, "AddData", "Unable to get campaign");
+                ModelState.AddModelError("PageModel", "Unable to get campaign");
+                return CurrentUmbracoPage();
+            }
+
+            if (campaign == null)
+            {
+                ModelState.AddModelError("PageModel", "Unable to get campaign");
+                return CurrentUmbracoPage();
+            }
+
+            if (campaign.UserId != LoggedInMember.Id)
+            {
+                Log.Error(this.GetType().Name, "AddData", "Unauthorised attempt to get campaign");
+                ModelState.AddModelError("PageModel", "Unable to get campaign");
+                return CurrentUmbracoPage();
+            }
+
+            _campaignService.AddTestDataToCampaign(campaign);
+
+            return CurrentUmbracoPage();
+        }
+
+        [ChildActionOnly]
         public ActionResult ShowDeleteDesignButton(CampaignHub model)
         {
             return PartialView("~/Views/CampaignHub/Partials/DeleteDesignButton.cshtml", model);
@@ -65,8 +109,8 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             }
             catch (Exception ex)
             {
-                Log.Exception(this.GetType().Name, "EditDesign", ex);
-                Log.Error(this.GetType().Name, "EditDesign", "Unable to get campaign");
+                Log.Exception(this.GetType().Name, "DeleteDesign", ex);
+                Log.Error(this.GetType().Name, "DeleteDesign", "Unable to get campaign");
                 ModelState.AddModelError("PageModel", "Unable to get campaign");
                 return CurrentUmbracoPage();
             }
@@ -79,7 +123,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             if (campaign.UserId != LoggedInMember.Id)
             {
-                Log.Error(this.GetType().Name, "EditDesign", "Unauthorised attempt to get campaign");
+                Log.Error(this.GetType().Name, "DeleteDesign", "Unauthorised attempt to get campaign");
                 ModelState.AddModelError("PageModel", "Unable to get campaign");
                 return CurrentUmbracoPage();
             }
@@ -92,7 +136,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             if (mailshot == null)
             {
-                Log.Error(this.GetType().Name, "EditDesign", "Unable to get mailshot");
+                Log.Error(this.GetType().Name, "DeleteDesign", "Unable to get mailshot");
                 ModelState.AddModelError("PageModel", "Unable to get mailshot");
                 return CurrentUmbracoPage();
             }
@@ -201,7 +245,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             // Create new Mailshot
             // TODO: Include the ability to choose the format.  For now hard-coding to Layout 2 (Card)
-            var defaultContent = _settingsService.GetMailshotDefaultContent(1);
+            var defaultContent = _settingsService.GetMailshotDefaultContent(ConfigHelper.DefaultMailshotContentJsonIndex);
             IFormat format = null;
             ITemplate template = null;
             ITheme theme = null;
@@ -349,7 +393,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             IInvoice invoice = null;
             try
             {
-                invoice = _invoiceService.CreateInvoiceForCampaign(campaign);
+                invoice = _invoiceService.CreateInvoiceForCampaign(campaign, LoggedInMember);
             }
             catch (Exception ex)
             {

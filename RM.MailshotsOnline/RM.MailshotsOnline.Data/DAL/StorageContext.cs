@@ -34,7 +34,6 @@ namespace RM.MailshotsOnline.Data.DAL
         public DbSet<MailshotDefaultContent> MailshotDefaultContent { get; set; }
         public DbSet<MailshotImageUse> MailshotImageUse { get; set; }
         public DbSet<Mailshot> Mailshots { get; set; }
-        public DbSet<Order> Orders { get; set; }
         public DbSet<PostalOption> PostalOptions { get; set; }
         public DbSet<Template> Templates { get; set; }
         public DbSet<Theme> Themes { get; set; }
@@ -42,6 +41,7 @@ namespace RM.MailshotsOnline.Data.DAL
         public DbSet<InvoiceLineItem> InvoiceLineItems { get; set; }
         public DbSet<SettingsFromCms> Settings { get; set; }
         public DbSet<AuthToken> AuthTokens { get; set; }
+        public DbSet<Product> Products { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

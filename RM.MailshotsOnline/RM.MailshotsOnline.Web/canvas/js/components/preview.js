@@ -5,7 +5,12 @@ define(['knockout', 'view_models/format', 'view_models/state'],
         // ViewModel
         function previewViewModel(params) {
             this.faces = formatViewModel.allFaces;
-            this.sides = ['front', 'back'];
+            this.sides = [];
+            ko.utils.arrayForEach(this.faces(), function(face) {
+                if (this.sides.indexOf(face.side) < 0) {
+                    this.sides.push(face.side);
+                }
+            }.bind(this));
             this.showPreview = stateViewModel.showPreview;
             this.container = ko.observable();
             this.scale = ko.observable();

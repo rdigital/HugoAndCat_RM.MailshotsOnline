@@ -23,9 +23,29 @@ namespace RM.MailshotsOnline.PCL.Models
         IInvoice Invoice { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the item
+        /// The Product SKU
         /// </summary>
-        string Name { get; set; }
+        string ProductSku { get; set; }
+
+        /// <summary>
+        /// The Product purchased
+        /// </summary>
+        IProduct Product { get; set; }
+
+        /// <summary>
+        /// The Name of the product
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
+        /// The category of the product
+        /// </summary>
+        string Category { get; }
+
+        /// <summary>
+        /// Gets or sets the line-item subtitle
+        /// </summary>
+        string SubTitle { get; set; }
 
         /// <summary>
         /// Gets or sets the quantity of the item

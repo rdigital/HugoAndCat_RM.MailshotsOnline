@@ -71,7 +71,6 @@ namespace RM.MailshotsOnline.Data.Services
             }
 
             var umbracoMember = _umbracoMemberService.CreateMemberWithIdentity(Guid.NewGuid().ToString(), member.EmailAddress,
-                member.EmailAddress, "Member");
 
             umbracoMember = umbracoMember.UpdateValues(member);
 
@@ -191,6 +190,24 @@ namespace RM.MailshotsOnline.Data.Services
         }
 
         /// <summary>
+        /// Gets a member by their Umbraco ID
+        /// </summary>
+        /// <param name="id">Umbraco ID of the member</param>
+        /// <returns>Member object</returns>
+        public IMember GetMemberById(int id)
+        {
+            var umbracoMember = UmbracoMemberService.GetById(id);
+
+            if (umbracoMember == null)
+            {
+                return null;
+            }
+
+            var member = umbracoMember.ToMemberEntityModel();
+            return member;
+        }
+
+        /// <summary>
         /// Sets a new password for the given member
         /// </summary>
         /// <param name="member">The member</param>
@@ -296,6 +313,7 @@ namespace RM.MailshotsOnline.Data.Services
         private Umbraco.Core.Models.IMember GetUmbracoMember(IMember member)
         {
             return
+
                 _umbracoMemberService.GetByEmail(_cryptographicService.Encrypt(member.EmailAddress,
                     _cryptographicService.GenerateEmailSalt(member.EmailAddress)));
         }
@@ -303,6 +321,7 @@ namespace RM.MailshotsOnline.Data.Services
         private Umbraco.Core.Models.IMember GetUmbracoMember(string plaintextEmail)
         {
             var encryptedEmail = _cryptographicService.EncryptEmailAddress(plaintextEmail);
+
 
             return _umbracoMemberService.GetByEmail(encryptedEmail);
         }

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="InvoiceTemplate.xsl"?>
+<invoice>
+  <billing-address>
+    Mark Radford
+    Hugo &amp; Cat
+    22 Commercial Street
+    London
+    E1 6LP
+    United Kingdom
+  </billing-address>
+  <order-number>000-0000-0000</order-number>
+  <order-date>2015-00-00</order-date>
+  <paid-date>2015-00-00</paid-date>
+  <sub-total>1005.00</sub-total>
+  <tax-total>201.00</tax-total>
+  <total>1206.00</total>
+  <line-items>
+    <line-item>
+      <name>Postage</name>
+      <subtitle>Second class</subtitle>
+      <quantity>1500</quantity>
+      <unit-cost>0.54</unit-cost>
+      <sub-total>810.00</sub-total>
+      <tax-rate>0.2</tax-rate>
+      <tax-total>162.00</tax-total>
+      <total>972.00</total>
+    </line-item>
+    <line-item>
+      <name>Printing</name>
+      <subtitle></subtitle>
+      <quantity>1500</quantity>
+      <unit-cost>0.05</unit-cost>
+      <sub-total>75.00</sub-total>
+      <tax-rate>0.2</tax-rate>
+      <tax-total>15.00</tax-total>
+      <total>90.00</total>
+    </line-item>
+    <line-item>
+      <name>Our data</name>
+      <subtitle></subtitle>
+      <quantity>1000</quantity>
+      <unit-cost>0.10</unit-cost>
+      <sub-total>100.00</sub-total>
+      <tax-rate>0.20</tax-rate>
+      <tax-total>20.00</tax-total>
+      <total>120.00</total>
+    </line-item>
+    <line-item>
+      <name>Service fee</name>
+      <subtitle></subtitle>
+      <quantity>1</quantity>
+      <unit-cost>5.00</unit-cost>
+      <sub-total>5.00</sub-total>
+      <tax-rate>0.20</tax-rate>
+      <tax-total>1.00</tax-total>
+      <total>6.00</total>
+    </line-item>
+    <line-item>
+      <name>Data search fee</name>
+      <subtitle></subtitle>
+      <quantity>1</quantity>
+      <unit-cost>15.00</unit-cost>
+      <sub-total>15.00</sub-total>
+      <tax-rate>0.20</tax-rate>
+      <tax-total>3.00</tax-total>
+      <total>18.00</total>
+    </line-item>
+  </line-items>
+</invoice>

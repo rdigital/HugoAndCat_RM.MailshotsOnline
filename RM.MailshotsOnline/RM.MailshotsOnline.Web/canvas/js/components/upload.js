@@ -1,14 +1,16 @@
-define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/history', 'view_models/state'],
+define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/notification', 'view_models/history', 'view_models/state', 'view_models/auth'],
 
-    function(ko, $, kofile, myImagesViewModel, historyViewModel, stateViewModel) {
+    function(ko, $, kofile, myImagesViewModel, notificationViewModel, historyViewModel, stateViewModel, authViewModel) {
 
         function imageUploadViewModel(params) {
             this.src = ko.observable();
             this.fileData = ko.observable({
                 dataURL: ko.observable()
             });
+            this.deleteImage = ko.observable();
             this.selectedTab = ko.observable(stateViewModel.imageTab() || 'upload');
             this.selectedElement = stateViewModel.selectedElement();
+            this.isAuthenticated = authViewModel.isAuthenticated;
 
             // XXX note to whoever has time, move these into their own data model so
             // they can be persisted between opening up the image panel
@@ -32,17 +34,20 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/his
             this.fileData.subscribe(this.loadFile, this);
             this.src.subscribe(this.render, this);
             this.libraryImage.subscribe(this.renderLibraryImage, this);
-            this.myImage.subscribe(this.renderMyImage, this);
+            this.subscription = this.myImage.subscribe(this.renderMyImage, this);
 
             // bound functions
             this.selectLibraryImage = this.selectLibraryImage.bind(this);
             this.selectTab = this.selectTab.bind(this);
             this.dispose = this.dispose.bind(this);
+            this.setDeleteImage = this.setDeleteImage.bind(this);
+            this.clearDeleteImage = this.clearDeleteImage.bind(this);
 
             this.fetchLibrary();
         }
 
         imageUploadViewModel.prototype.dispose = function dispose() {
+            this.subscription.dispose();
             var element = this.selectedElement;
             if (this.src() || this.libraryImage() || this.myImage()) {
                 // we are updating the image, set element src to null
@@ -51,20 +56,25 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/his
             if (this.src()) {
 
                 // we are uploading a new image
+                notificationViewModel.show('Uploading Image...')
+
                 var name = this.getRandomInt().toString(),
                     data = {
                         imageString: this.src(),
                         name: this.getRandomInt().toString() 
                     },
+                    imageSrc = '',
                     post = $.post('/Umbraco/Api/ImageLibrary/UploadImage', data, function(image) {
                         myImagesViewModel.add(image);
                         element.setUrlSrc(image.Src);
+                        imageSrc = image.Src;
+                        notificationViewModel.hideWithMessage("Upload complete!");
                     }).fail(function(error) {
-                        console.log('There was an error uploading image', error);
+                        notificationViewModel.show("Error uploading image", "error");
                         element.setUrlSrc(null);
                     }).always(function() {
                         stateViewModel.uploadingImages.remove(name);
-                        historyViewModel.replaceUrlSrc(name, element.setUrlSrc());
+                        historyViewModel.replaceUrlSrc(name, imageSrc);
                     });
 
                 // push the unique identifier for this upload onto the upload trackin array
@@ -196,7 +206,9 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/his
             if(!src.type.match(/image.*/)){
                 return;
             }
-
+            if (typeof(FileReader) == 'undefined') {
+                return
+            }
             var reader = new FileReader();
             reader.onload = function(e){
                 this.src(e.target.result);
@@ -220,6 +232,14 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/his
             stateViewModel.toggleImageUpload();
             $('.canvas-container').css({opacity: 1});
         };
+
+        imageUploadViewModel.prototype.setDeleteImage = function setDeleteImage(image) {
+            this.deleteImage(image);
+        }
+
+        imageUploadViewModel.prototype.clearDeleteImage = function clearDeleteImage() {
+            this.deleteImage(null);
+        }
 
         return {
             viewModel: imageUploadViewModel,

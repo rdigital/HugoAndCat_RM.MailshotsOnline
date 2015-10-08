@@ -12,10 +12,12 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
             this.element = ko.observable();
             this.data = params.data;
             this.preview = params.preview;
+            this.colorOnly = params.colorOnly;
             this.isBold = ko.observable(false);
             this.isUnderline = ko.observable(false);
             this.isItalic = ko.observable(false);
             this.currentFontSize = ko.observable(1);
+            this.fallbackBackground = ko.observable(null);
 
             // if theme override passed in, process it
             this.override_theme = params.override_theme;
@@ -30,6 +32,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
             // scroll visible computed
             this.isScrollVisible = this.getScrollVisibleComputed();
             this.message = this.getMessageComputed();
+            this.title = this.getTitleComputed();
 
             // bound functions
             this.dispose = this.dispose.bind(this);
@@ -40,6 +43,10 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
         // extend the element view model
         inputViewModel.prototype = Object.create(elementViewModel.prototype);
         inputViewModel.prototype.constructor = inputViewModel;
+
+        inputViewModel.prototype.select = function select() {
+            this.isSelected(true);
+        }
 
         /**
          * sets focus to the element
@@ -55,6 +62,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
          * this is useful when the contenteditable div is smaller than its container
          */
         inputViewModel.prototype.clickSetFocus = function clickSetFocus(data, e) {
+            this.fallbackBackground(null);
             var target = $(e.target);
             if (target.hasClass('dynamic-field-content') || target.hasClass('dynamic-field-nohighlight')) {
                 // the personalization elements are inserted outside of the framework, so cannot have bound functions
@@ -63,6 +71,9 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
             } else {
                 $(window).trigger('closeEditPersonalization');
             }
+
+            this.getBackgroundColour(e);
+
             if (target.hasClass('editable')) {
                 this.setFocus();
                 this.getState();
@@ -163,7 +174,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
                 this.setStyle('font-size', font_sizes[index+1]);
                 return true;
             }
-            console.log('no more sizes');
+            //console.log('no more sizes');
             return false;
         };
 
@@ -179,7 +190,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
                 this.setStyle('font-size', font_sizes[index-1]);
                 return this.scrollVisible();
             }
-            console.log('no more sizes');
+            //console.log('no more sizes');
             return false;
         };
 
@@ -229,7 +240,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
                 this.element().css('font-size', font_sizes[index-1]);
                 return this.scrollVisible();
             }
-            console.log('no more sizes');
+            //console.log('no more sizes');
             return false;
         };
 
@@ -281,24 +292,6 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
             var text = e.originalEvent.clipboardData.getData("text/plain");
             document.execCommand("insertHTML", false, text);
             this.handleKeyup();
-        };
-
-        inputViewModel.prototype.getMessageComputed = function getMessageComputed() {
-            return ko.pureComputed(function() {
-                if (this.isScrollVisible()) {
-                    return {
-                        type: 'error',
-                        message: "You've run out of room in this text field. Try reducing the amount of text, or use a smaller font size if available."
-                    };
-                }
-                if (this.data.message) {
-                    return {
-                        type: 'message',
-                        message: this.data.message
-                    };
-                }
-                return null;
-            }, this);
         };
 
         //return

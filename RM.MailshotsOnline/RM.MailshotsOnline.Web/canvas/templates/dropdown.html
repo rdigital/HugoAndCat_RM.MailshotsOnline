@@ -1,4 +1,6 @@
-<div class="dropdown" data-bind="css: {'dropdown_full': full, 'dropdown_active': open}, element: element">
+<div class="dropdown" data-bind="css: {'dropdown_full': full, 'dropdown_active': open}, template: template, element: element"></div>
+
+<script type="text/html" id="dropdown">
 	<span data-bind="css: anchorClass, click: toggle">
 		<span data-bind="text: (selected()) ? selected() : placeholder"></span>
 	</span>
@@ -7,4 +9,15 @@
 		<div data-bind="text: name, click: $parent.selected" class="dropdown-option"></div>
 		<!-- /ko -->
 	</div>
-</div>
+</script>
+
+<script type="text/html" id="font-dropdown">
+	<span data-bind="css: anchorClass, click: toggle">
+		<span data-bind="text: (selected()) ? selected() : placeholder, style: {'font-family': (selectedObs()) ? selectedObs() : ''}"></span>
+	</span>
+	<div class="dropdown-options" data-bind="css: {'dropdown-options_active': open}">
+		<!-- ko foreach: options -->
+		<div data-bind="text: name, click: $parent.selected, style: {'font-family': value}" class="dropdown-option"></div>
+		<!-- /ko -->
+	</div>
+</script>

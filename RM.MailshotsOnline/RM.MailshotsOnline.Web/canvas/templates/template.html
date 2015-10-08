@@ -17,7 +17,8 @@
 	</div>
 	<div class="layout-preview">
 		<!-- ko foreach: templates -->
-		<div class="preview-modal layout-container" data-bind="css: {'layout-container_previewing': id == $parent.previewingTemplate()}">
+		<div class="preview-modal layout-container" data-bind="css: {'layout-container_previewing': id == $parent.previewingTemplate(), 'preview_single': $parent.sides.length == 1}">
+			<div class="preview-modal-close icon-close" data-bind="click: $parent.toggleTemplatePicker"></div>
 			<div data-bind="template: {afterRender: $parent.doScale}">
 				<!-- ko foreach: $parent.sides -->
 					<div class="preview-side" data-bind="element: $parents[1].container, style: {'transform': 'translate(0, ' + $parents[1].margin() + ')', '-ms-transform': 'translate(0, ' + $parents[1].margin() + ')'}">

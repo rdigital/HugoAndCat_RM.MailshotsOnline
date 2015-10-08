@@ -7,7 +7,7 @@
 	position: absolute;
 	background: #fff;
 	min-width: 262px;
-	min-height: 202px;
+	min-height: 160px;
 	display: none;
 	pointer-events: none;
 	//transition: opacity .25s ease-out;
@@ -26,14 +26,18 @@
 		padding: 4px 20px;
 		min-height: 45px;
 		.tools-left {
-			width: 55px;
 			height: 35px;
 			float: left;
+			&.tools-left_fixed {
+				width: 55px;
+			}
 		}
 		.tools-right {
-			width: 160px;
 			height: 35px;
 			float: right;
+			&.tools-right_fixed {
+				width: 160px;
+			}
 		}
 		label {
 			font-size: 14px;
@@ -93,14 +97,22 @@
 		&.tools-button-wide {
 			min-width: 100px;
 		}
+		&.tools-button-full {
+			width: 100%;
+		}
 		&.tools-button-cancel {
+			padding: 12px 0 0 0;
 			border-color: transparent;
 			color: $red;
-			@include shadow(0, 0, 0, transparent)
+			@include shadow(0, 0, 0, transparent);
+			&.tools-button-cancel_right {
+				float: right;
+			}
 		}
 		.fa-arrows {
 			line-height: 19px;
 			transform: rotate(45deg);
+			-ms-transform: rotate(45deg);
 		}
 	}
 	.tools-label {
@@ -110,24 +122,8 @@
 		color: $dark-grey;
 		font-size: 14px;
 	}
-	.tools-image {
-		display: table-cell;
-		vertical-align: bottom;
-		text-align: center;
-		width: 150px;
-		height: 115px;
-		background-position: 50% 0%;
-		background-repeat: no-repeat;
-		cursor: pointer;
-		font-family: Chevin Medium, Arial;
-		font-size: 15px;
-		color: $dark-grey;
-		&.tools-image_own {
-			background-image: url(/canvas/images/own_image.png);
-		}
-		&.tools-image_library {
-			background-image: url(/canvas/images/library_image.png);
-		}
+	.tools-image_own_old_ie {
+		display: none;
 	}
 	.tools-image-spacer {
 		display: table-cell;
@@ -137,10 +133,28 @@
 			border-right: 1px solid $light-grey;
 		}
 	}
+	.tools-slider-container {
+		float: left;
+		width: 180px;
+	}
+	.tools-size-reset {
+		@include transition(color);
+		float: left;
+	    width: 30px;
+	    height: 30px;
+	    margin-left: 10px;
+	    font-size: 22px;
+	    line-height: 30px;
+	    text-align: center;
+	    cursor: pointer;
+	    &:hover {
+	    	color: $blue;
+	    }
+	}
 	&.background-tools {
 		position: fixed;
 		min-height: 60px;
-		margin-left: -100px;
+		margin-top: -20px;
 	}
 }
 
@@ -177,6 +191,7 @@
     	position: absolute;
     	right: 13px;
 	    top: -5px;
+	    -ms-transform: rotate(180deg);
 	    transform: rotate(180deg);
 	    font-size: 20px;
     	color: $dark-grey;
@@ -185,6 +200,7 @@
 .dropdown.dropdown_active .tools-dropdown:after {
 	top: 4px;
 	transform: scaleY(-1) rotate(180deg);
+	-ms-transform: scaleY(-1) rotate(180deg);
 }
 .dropdown-options {
 	z-index: 1;
@@ -195,7 +211,7 @@
 	min-height: 347px !important;
 	.colour-dropdown-info {
 		position: absolute; 
-		bottom: 20px; 
+		bottom: 15px; 
 		left: 20px;
 		right: 20px;
 		height:	130px;
@@ -218,6 +234,8 @@
 	    padding: 10px;
 	    float: right;
 	    border: 1px solid $grey;
+	    box-sizing: border-box;
+	    -moz-box-sizing: border-box;
 	}
 }
 
@@ -249,5 +267,7 @@
     	background: #fff;
     	height: 7px;
     	width: 7px;
+    	transform: translate(2px, 2px);
+    	-ms-transform: translate(2px, 2px);
     }
 }

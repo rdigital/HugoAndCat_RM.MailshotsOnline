@@ -100,5 +100,10 @@ namespace RM.MailshotsOnline.PCL.Models
         /// Gets or sets the status of the proof PDF render job
         /// </summary>
         Enums.PdfRenderStatus ProofPdfStatus { get; set; }
+
+        /// <summary>
+        /// Gets or sets the associated campaigns for this mailshot
+        /// </summary>
+        ICollection<ICampaign> Campaigns { get; set; }
     }
 }

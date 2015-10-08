@@ -1,6 +1,6 @@
-define(['knockout', 'components/dropdown', 'components/slider', 'components/colourpicker', 'view_models/state'],
+define(['knockout', 'components/dropdown', 'components/slider', 'components/colourpicker', 'view_models/myimages', 'view_models/state'],
 
-    function(ko, dropdownComponent, sliderComponent, colourpickerComponent, stateViewModel) {
+    function(ko, dropdownComponent, sliderComponent, colourpickerComponent, myImagesViewModel, stateViewModel) {
         // register required components
         ko.components.register('dropdown-component', dropdownComponent);
         ko.components.register('colourpicker-component', colourpickerComponent);
@@ -10,8 +10,12 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
         function toolsViewModel(params) {
             this.element = ko.observable();
             this.selectedElement = stateViewModel.selectedElement;
+            this.previousSelectedElement = null;
             this.window_width = ko.observable(0);
             this.window_height = ko.observable(0);
+            this.uploading = ko.observable(false);
+            this.recentColours = ko.observableArray();
+            window.tools = this;
 
             // personalization specific variables
             this.personalizing = ko.observable(false);
@@ -25,8 +29,15 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             this.personalizationEl = ko.observable(null);
             this.caretPosition = 0;
 
+            // variables for tracking applied colour changes
+            this.previousColour = null;
+            this.newColour = null;
+            this.previousBackgroundColour = null;
+            this.newBackgroundColour = null;
+            this.previousBorderColour = null;
+            this.newBorderColour = null;
+
             // computeds
-            this.isVisible = this.getIsVisibleComputed();
             this.elementType = this.getElementTypeComputed();
             this.showScale = this.getScaleComputed();
             this.attachment = this.getAttachmentComputed();
@@ -35,7 +46,10 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             this.colours = this.getColoursComputed();
             this.colour = this.getStyleComputed('color');
             this.backgroundColour = this.getStyleComputed('background-color');
+            this.borderColour = this.getStyleComputed('border-color');
+            this.isVisible = this.getIsVisibleComputed();
             this.font = this.getStyleComputed('font-family');
+            this.my_images = this.getMyImagesComputed();
 
             // bound methods
             this.focusInput = this.focusInput.bind(this);
@@ -44,6 +58,10 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             this.setCaretPosition = this.setCaretPosition.bind(this);
             this.showPersonalization = this.showPersonalization.bind(this);
             this.closeEditPersonalization = this.closeEditPersonalization.bind(this);
+            this.oldIeSetup = this.oldIeSetup.bind(this);
+            this.storePreviousColours = this.storePreviousColours.bind(this);
+            this.addAllRecentColours = this.addAllRecentColours.bind(this);
+            this.addToRecentColours = this.addToRecentColours.bind(this);
 
             // resize handlers
             $(window).resize(this.handleResize);
@@ -51,6 +69,9 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
 
             // subscriptions
             this.selectedElement.subscribe(this.closePersonalization, this);
+            this.colour.subscribe(this.storeNewColours, this);
+            this.backgroundColour.subscribe(this.storeNewColours, this);
+            this.borderColour.subscribe(this.storeNewColours, this);
             stateViewModel.zoom.subscribe(this.handleResize, this);
             stateViewModel.overrideZoom.subscribe(this.handleResize, this);
             this.handleResize();
@@ -69,8 +90,14 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
         toolsViewModel.prototype.getIsVisibleComputed = function getIsVisibleComputed() {
             return ko.pureComputed(function() {
                 if (this.selectedElement()) {
+                    if (this.previousSelectedElement == this.selectedElement()) {
+                        return true;
+                    }
+                    this.previousSelectedElement = this.selectedElement();
+                    this.storePreviousColours();
                     return true;
                 }
+                this.previousSelectedElement = null;
                 this.personalizing(false);
                 return false;
             }, this).extend({throttle: 50});
@@ -415,6 +442,13 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
         /**
          * toggle the image library modal
          */
+        toolsViewModel.prototype.toggleMyImages = function toggleMyImages() {
+            stateViewModel.toggleMyImages();
+        }
+
+        /**
+         * toggle the image library modal
+         */
         toolsViewModel.prototype.toggleImageLibrary = function toggleImageLibrary() {
             stateViewModel.toggleImageLibrary();
         }
@@ -554,7 +588,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
                     isIE = this.isIE(),
                     content = (fallback != '') ? '['+ field + '/' + fallback +']' : '['+ field + ']';
                 if (isIE){
-                    var innerHTML = '<span contenteditable="false" class="dynamic-field-content" data-content="'+ content +'" data-field="'+ field +'" data-fallback="'+ fallback +'"></span>',
+                    var innerHTML = '<span contenteditable="false" unselectable="on" class="dynamic-field-content" data-content="'+ content +'" data-field="'+ field +'" data-fallback="'+ fallback +'"></span>',
                         html = '<span contenteditable="false" class="dynamic-field" class="editable">' + innerHTML + '</span>&#8202;'
                 } else {
                     var innerHTML = '<span class="dynamic-field-content" data-content="'+ content +'" data-field="'+ field +'" data-fallback="'+ fallback +'"></span>',
@@ -626,8 +660,108 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
             return false;
         }
 
+        toolsViewModel.prototype.oldIeSetup = function oldIeSetup() {
+            $(window).on('checkIeUpload', {self:this}, this.checkIeUpload.bind(this));
+            window.fireUpload = function() {
+                $(window).trigger('checkIeUpload')
+            }
+        }
+
+        toolsViewModel.prototype.checkIeUpload = function checkIeUpload(e) {
+            var iframe = $('#uploadIframe')[0].contentWindow,
+                i = 0,
+                self = e.data.self;
+            function timeout(self) {
+                self.uploading(true);
+                setTimeout(function () {
+                    // check for success
+                    var result = iframe.$('#imageResult');
+                    if (result && result.val()) {
+                        self.selectedElement().setUrlSrc(result.val());
+                        self.selectedElement().render(result.val(), true);
+                        myImagesViewModel.add({
+                            Src: result.val(),
+                            SmallSrc: iframe.$('#imageResultSmall').val()
+                        });
+                        i = 0;
+                        $('#uploadIframe')[0].src = $('#uploadIframe')[0].src;
+                        self.uploading(false);
+                        return
+                    }
+                    i++;
+                    if (i < 90) {
+                        timeout(self);
+                    } else {
+                        i = 0;
+                        $('#uploadIframe')[0].src = $('#uploadIframe')[0].src;
+                        self.uploading(false);
+                        console.log('error uploading image')
+                    }
+                }.bind(this), 1000);
+            }
+            timeout(self);
+        }
+
+        toolsViewModel.prototype.ieClickImageUpload = function ieClickImageUpload() {
+            var iframe = $('#uploadIframe')[0].contentWindow,
+                name = Math.floor(Math.random() * 99999999);
+            iframe.$('#nameInput').val(name.toString());
+            iframe.$('#fileUpload').click();
+        }
+
+        toolsViewModel.prototype.getMyImagesComputed = function getMyImagesComputed() {
+            return ko.pureComputed(function() {
+                return myImagesViewModel.objects().length > 0;
+            }, this)
+        }
+
+        toolsViewModel.prototype.removeImage = function removeImage() {
+            this.selectedElement().removeImage();
+        }
+
+        toolsViewModel.prototype.storePreviousColours = function storePreviousColours() {
+            this.previousColour = this.colour() ? this.colour() : null;
+            this.previousBackgroundColour = this.backgroundColour() ? this.backgroundColour() : null;
+            this.previousBorderColour = this.borderColour() ? this.borderColour() : null;
+            this.newColour = null;
+            this.newBackgroundColour = null;
+            this.newBorderColour = null;
+        }
+
+        toolsViewModel.prototype.storeNewColours = function storeNewColours() {
+            if (this.colour()) {
+                this.newColour = this.colour();
+            }
+            if (this.backgroundColour()) {
+                this.newBackgroundColour = this.backgroundColour();
+            }  
+            if (this.borderColour()) {
+                this.newBorderColour = this.borderColour();
+            }    
+        }
+
+        toolsViewModel.prototype.addAllRecentColours = function addAllRecentColours() {
+            if (this.newColour && this.newColour != this.previousColour) {
+                this.addToRecentColours(this.newColour);
+            }
+            if (this.newBackgroundColour && this.newBackgroundColour != this.previousBackgroundColour) {
+                this.addToRecentColours(this.newBackgroundColour);
+            }
+            if (this.newBorderColour && this.newBorderColour != this.previousBorderColour) {
+                this.addToRecentColours(this.newBorderColour);
+            }
+        }
+
+        toolsViewModel.prototype.addToRecentColours = function addToRecentColours(colour) {
+            this.recentColours.remove(colour);
+            this.recentColours.unshift(colour);
+            var colours = this.recentColours();
+            this.recentColours(colours.slice(0, Math.min(10, colours.length)));
+        }
+
         return {
             viewModel: toolsViewModel,
             template: { require: 'text!/canvas/templates/tools.html' }
         }
-});
+    }
+);

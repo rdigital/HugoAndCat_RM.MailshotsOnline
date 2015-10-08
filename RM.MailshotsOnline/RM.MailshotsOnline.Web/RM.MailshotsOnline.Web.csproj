@@ -118,8 +118,8 @@
       <HintPath>..\packages\HC.RM.Common.Azure.1.0.13.48\lib\net45\HC.RM.Common.Azure.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HC.RM.Common.AzureWeb, Version=1.0.13.16, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.AzureWeb.1.0.13.16\lib\net45\HC.RM.Common.AzureWeb.dll</HintPath>
+    <Reference Include="HC.RM.Common.AzureWeb, Version=1.0.13.48, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.AzureWeb.1.0.13.48\lib\net45\HC.RM.Common.AzureWeb.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="HC.RM.Common.PCL, Version=1.0.13.48, Culture=neutral, processorArchitecture=MSIL">
@@ -402,17 +402,21 @@
     <Content Include="App_Plugins\PrivateImageViewer\imageviewer.controller.js" />
     <Content Include="App_Plugins\PrivateImageViewer\imageviewer.html" />
     <Content Include="canvas\app.html" />
-    <Content Include="canvas\fonts\icomoon.svg" />
+    <Content Include="canvas\fonts\icomoon.svg">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="canvas\gruntfile.js" />
     <Content Include="canvas\images\img_placeholder.PNG" />
     <Content Include="canvas\images\library_image.PNG" />
     <Content Include="canvas\images\loading.gif" />
+    <Content Include="canvas\images\loading_map.gif" />
     <Content Include="canvas\images\own_image.PNG" />
     <Content Include="canvas\images\saving.gif" />
     <Content Include="canvas\images\temp_layout_icon.PNG" />
     <Content Include="canvas\images\temp_layout_icon_active.PNG" />
     <Content Include="canvas\images\upload.png" />
     <Content Include="canvas\js\app.js" />
+    <Content Include="canvas\js\components\auth.js" />
     <Content Include="canvas\js\components\backgroundtools.js" />
     <Content Include="canvas\js\components\colourpicker.js" />
     <Content Include="canvas\js\components\dropdown.js" />
@@ -420,6 +424,7 @@
     <Content Include="canvas\js\components\face.js" />
     <Content Include="canvas\js\components\image.js" />
     <Content Include="canvas\js\components\input.js" />
+    <Content Include="canvas\js\components\notification.js" />
     <Content Include="canvas\js\components\options.js" />
     <Content Include="canvas\js\components\preview.js" />
     <Content Include="canvas\js\components\side.js" />
@@ -448,26 +453,35 @@
     <Content Include="canvas\js\vendor\requirejs\require.js" />
     <Content Include="canvas\js\vendor\spectrum\spectrum.css" />
     <Content Include="canvas\js\vendor\spectrum\spectrum.js" />
+    <Content Include="canvas\js\view_models\auth.js" />
     <Content Include="canvas\js\view_models\data.js" />
     <Content Include="canvas\js\view_models\element.js" />
     <Content Include="canvas\js\view_models\format.js" />
     <Content Include="canvas\js\view_models\history.js" />
     <Content Include="canvas\js\view_models\myimages.js" />
+    <Content Include="canvas\js\view_models\notification.js" />
     <Content Include="canvas\js\view_models\state.js" />
     <Content Include="canvas\js\view_models\template.js" />
     <Content Include="canvas\js\view_models\theme.js" />
     <Content Include="canvas\js\view_models\user.js" />
+    <Content Include="canvas\styles\compiled\auth.css" />
     <Content Include="canvas\styles\compiled\canvas.css" />
+    <Content Include="canvas\styles\compiled\canvascontrols.css" />
+    <Content Include="canvas\styles\compiled\dropdown.css" />
     <Content Include="canvas\styles\compiled\help.css" />
+    <Content Include="canvas\styles\compiled\iehacks.css" />
     <Content Include="canvas\styles\compiled\layoutpicker.css" />
     <Content Include="canvas\styles\compiled\mailshot.css" />
     <Content Include="canvas\styles\compiled\preview.css" />
     <Content Include="canvas\styles\compiled\sidepicker.css" />
+    <Content Include="canvas\styles\compiled\slider.css" />
     <Content Include="canvas\styles\compiled\themepicker.css" />
     <Content Include="canvas\styles\compiled\toolbar.css" />
     <Content Include="canvas\styles\compiled\tools.css" />
     <Content Include="canvas\styles\compiled\upload.css" />
+    <Content Include="canvas\styles\compiled\zoom.css" />
     <Content Include="canvas\styles\vendor\bootstrap.min.css" />
+    <Content Include="canvas\templates\auth.html" />
     <Content Include="canvas\templates\backgroundtools.html" />
     <Content Include="canvas\templates\colourpicker.html" />
     <Content Include="canvas\templates\dropdown.html" />
@@ -475,6 +489,7 @@
     <Content Include="canvas\templates\face.html" />
     <Content Include="canvas\templates\image.html" />
     <Content Include="canvas\templates\input.html" />
+    <Content Include="canvas\templates\notification.html" />
     <Content Include="canvas\templates\options.html" />
     <Content Include="canvas\templates\preview.html" />
     <Content Include="canvas\templates\side.html" />
@@ -490,6 +505,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="css\fountain.css" />
+    <Content Include="css\orders.css" />
     <Content Include="css\temp.css" />
     <Content Include="default.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -549,6 +565,25 @@
     <Content Include="App_Plugins\CryptoTitleLabel\package.manifest" />
     <Content Include="canvas\styles\layoutpicker.scss" />
     <Content Include="canvas\styles\compiled\layoutpicker.css.map" />
+    <Content Include="canvas\styles\compiled\auth.css.map" />
+    <Content Include="canvas\styles\compiled\canvascontrols.css.map" />
+    <Content Include="canvas\styles\compiled\dropdown.css.map" />
+    <Content Include="canvas\styles\compiled\iehacks.css.map" />
+    <Content Include="canvas\styles\compiled\slider.css.map" />
+    <Content Include="canvas\styles\compiled\zoom.css.map" />
+    <Content Include="canvas\styles\auth.scss" />
+    <Content Include="canvas\styles\canvascontrols.scss" />
+    <Content Include="canvas\styles\dropdown.scss" />
+    <Content Include="canvas\styles\iehacks.scss" />
+    <Content Include="canvas\styles\slider.scss" />
+    <Content Include="canvas\styles\zoom.scss" />
+    <Content Include="AppInsightsAgent\InstallAgent.ps1" />
+    <Content Include="AppInsightsAgent\InstallAgent.bat" />
+    <Content Include="Views\CampaignHub\Partials\StartDataButton.cshtml" />
+    <None Include="WaIISHost.exe.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="AppInsightsAgent\InstallAgent.ps1" />
     <Content Include="AppInsightsAgent\InstallAgent.bat" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
@@ -563,6 +598,8 @@
     <Content Include="scripts\logintest.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="imageUpload.aspx" />
+    <Content Include="scripts\myorders.js" />
+    <Content Include="scripts\order-functions.js" />
     <Content Include="umbraco\Actions\delete.aspx" />
     <Content Include="umbraco\Actions\editContent.aspx" />
     <Content Include="umbraco\Actions\preview.aspx" />
@@ -3058,6 +3095,7 @@
     <Compile Include="Attributes\RequireSecureConnectionFilter.cs" />
     <Compile Include="Controllers\Api\ApiBaseController.cs" />
     <Compile Include="Controllers\Api\CampaignController.cs" />
+    <Compile Include="Controllers\Api\OrdersController.cs" />
     <Compile Include="Controllers\Api\ReportsController.cs" />
     <Compile Include="Controllers\Api\MemberSearchController.cs" />
     <Compile Include="Controllers\Api\CryptoApiController.cs" />
@@ -3083,8 +3121,10 @@
     <Compile Include="Controllers\LogoutController.cs" />
     <Compile Include="Controllers\MarketingPreferencesController.cs" />
     <Compile Include="Controllers\ModerationPageController.cs" />
+    <Compile Include="Controllers\MyCampaignsController.cs" />
     <Compile Include="Controllers\MyOrdersController.cs" />
     <Compile Include="Controllers\MyImagesController.cs" />
+    <Compile Include="Controllers\OrderDetailsController.cs" />
     <Compile Include="Controllers\OrganisationDetailsController.cs" />
     <Compile Include="Controllers\PaymentCancelledController.cs" />
     <Compile Include="Controllers\PaymentConfirmationController.cs" />
@@ -3097,13 +3137,16 @@
     <Compile Include="Controllers\SurfaceControllers\CaptureDetailsSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\LoginSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ModerationSurfaceController.cs" />
+    <Compile Include="Controllers\SurfaceControllers\OrderDetailSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ProfileSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\RegisterSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ResetPasswordSurfaceController.cs" />
     <Compile Include="Extensions\BasePageExtensions.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\ModelExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\ControllersHelper.cs" />
+    <Compile Include="Helpers\InvoiceHelper.cs" />
     <Compile Include="Helpers\MembershipHelper.cs" />
     <Compile Include="Installers\ControllersInstaller.cs" />
     <Compile Include="Plumbing\WindsorCompositionRoot.cs" />
@@ -3322,7 +3365,9 @@
     </Content>
     <Content Include="Views\Home.cshtml" />
     <Content Include="Views\ContentPage.cshtml" />
-    <Content Include="Config\uSyncSettings.config" />
+    <Content Include="Config\uSyncSettings.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Config\uSyncSettings.Debug.config">
       <DependentUpon>uSyncSettings.config</DependentUpon>
     </Content>
@@ -3508,6 +3553,14 @@
     <Content Include="uSync\DocumentType\Basepage\MyOrders\def.config" />
     <Content Include="uSync\Template\CaptureDetails\CaptureDetails.config" />
     <Content Include="uSync\Template\CaptureDetails\CaptureDetails.config.orig" />
+    <Content Include="Views\OrderDetails.cshtml" />
+    <Content Include="Views\Orders\Partials\CancelButton.cshtml" />
+    <Content Include="Views\MyCampaigns.cshtml" />
+    <Content Include="uSync\Template\MyCampaigns\MyCampaigns.config" />
+    <Content Include="uSync\DocumentType\Basepage\MyCampaigns\def.config" />
+    <Content Include="Views\Partials\LineItemCostBreakdown.cshtml" />
+    <Content Include="uSync\DocumentType\Basepage\OrderDetails\def.config" />
+    <Content Include="Views\Moderation\Partials\PaymentFailed.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -3543,12 +3596,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="uSync\Template\EditProfileBasePage\" />
-    <Folder Include="Views\Dashboard\" />
-    <Folder Include="Views\ListDetail\" />
-    <Folder Include="Views\Lists\" />
-    <Folder Include="Views\MailshotSettings\" />
-    <Folder Include="Views\MyAccounts\" />
-    <Folder Include="Views\MyImages\" />
+    <Folder Include="Views\MyCampaigns\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -3593,11 +3641,12 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.2.8\build\UmbracoCms.props'))" />
     <Error Condition="!Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets'))" />
+    <Error Condition="!Exists('..\packages\HC.RM.Common.Azure.1.0.13.39\build\HC.RM.Common.Azure.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\HC.RM.Common.Azure.1.0.13.39\build\HC.RM.Common.Azure.targets'))" />
     <Error Condition="!Exists('..\packages\HC.RM.Common.Azure.1.0.13.48\build\HC.RM.Common.Azure.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\HC.RM.Common.Azure.1.0.13.48\build\HC.RM.Common.Azure.targets'))" />
   </Target>
   <Import Project="..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets" Condition="Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets')" />
-  <Import Project="..\packages\HC.RM.Common.Azure.1.0.13.48\build\HC.RM.Common.Azure.targets" Condition="Exists('..\packages\HC.RM.Common.Azure.1.0.13.48\build\HC.RM.Common.Azure.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+
+  <Import Project="..\packages\HC.RM.Common.Azure.1.0.13.48\build\HC.RM.Common.Azure.targets" Condition="Exists('..\packages\HC.RM.Common.Azure.1.0.13.48\build\HC.RM.Common.Azure.targets')" />  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

@@ -1,4 +1,5 @@
-﻿using HC.RM.Common.PayPal.Models;
+﻿using Glass.Mapper.Umb;
+using HC.RM.Common.PayPal.Models;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.Helpers;
 using RM.MailshotsOnline.Entities.PageModels;
@@ -19,16 +20,19 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         private ICampaignService _campaignService;
         private ISparqQueueService _sparqService;
         private IInvoiceService _invoiceService;
+        private IUmbracoService _umbracoService;
         private PayPalService _paypalService;
         private const string CompletedFlag = "ModerationResultSaved";
+        private const string PaymentFailedFlag = "PaymentFailed";
 
-        public ModerationSurfaceController(IMembershipService membershipService, ILogger logger, ICampaignService campaignService, ISparqQueueService sparqService, IInvoiceService invoiceService)
+        public ModerationSurfaceController(IMembershipService membershipService, ILogger logger, ICampaignService campaignService, ISparqQueueService sparqService, IInvoiceService invoiceService, IUmbracoService umbracoService)
             : base(membershipService, logger)
         {
             _campaignService = campaignService;
             _sparqService = sparqService;
             _invoiceService = invoiceService;
             _paypalService = new PayPalService();
+            _umbracoService = umbracoService;
         }
 
         [ChildActionOnly]
@@ -37,6 +41,10 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             if (TempData[CompletedFlag] != null && (bool)TempData[CompletedFlag])
             {
                 return Complete(model);
+            }
+            if (TempData[PaymentFailedFlag] != null && (bool)TempData[PaymentFailedFlag] == true)
+            {
+                return PaymentFailed(model);
             }
 
             Guid moderationId = Guid.Parse(Request.QueryString["moderationId"]);
@@ -63,13 +71,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return CurrentUmbracoPage();
             }
 
-            campaign.Status = PCL.Enums.CampaignStatus.Fulfilled;
-            campaign.SystemNotes += string.Format("{0}{1:yyyy-MM-dd HH:mm:ss} - Campaign has been printed.", Environment.NewLine, DateTime.UtcNow);
-            _campaignService.SaveCampaign(campaign);
-
-            Log.Info(this.GetType().Name, "ConfirmPrinted", "Campaign with ID {0} has been printed", campaign.CampaignId);
-
-            //TODO: Charge paypal
+            // Charge paypal
             // Get the invoice
             var campaignInvoices = _invoiceService.GetInvoicesForCampaign(campaign);
             if (campaignInvoices == null || !campaignInvoices.Any())
@@ -86,26 +88,6 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 ModelState.AddModelError("ModerationId", "Internal invoicing error.");
                 return CurrentUmbracoPage();
             }
-
-            /*// Get the PayPal payment / order
-            Payment payment = null;
-            try
-            {
-                payment = _paypalService.GetPayment(invoice.PaypalPaymentId);
-            }
-            catch (Exception ex)
-            {
-                Log.Exception(this.GetType().Name, "ConfirmPrinted", ex);
-                Log.Error(this.GetType().Name, "ConfirmPrinted", "Error getting PayPal payment information for payment ID {0}.", invoice.PaypalPaymentId);
-            }
-
-            if (payment == null)
-            {
-                campaign.SystemNotes += string.Format("{0}{1:yyyy-MM-dd HH:mm:ss} - Error getting PayPal payment information for payment ID {2}.", Environment.NewLine, DateTime.UtcNow, invoice.PaypalPaymentId);
-                _campaignService.SaveCampaign(campaign);
-                ModelState.AddModelError("ModerationId", "Error getting PayPal payment information.");
-                return CurrentUmbracoPage();
-            }*/
 
             // Get the PayPal order
             Order order = null;
@@ -139,16 +121,45 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 Log.Error(this.GetType().Name, "ConfirmPrinted", "Unable to capture payment for order {0}.", order.Id);
             }
 
-            if (result == null)
+            if (result == null || !(result.State == CaptureState.completed || result.State == CaptureState.pending))
             {
+                invoice.Status = PCL.Enums.InvoiceStatus.Failed;
+                invoice.CancelledDate = DateTime.UtcNow;
+                _invoiceService.Save(invoice);
+
+                campaign.Status = PCL.Enums.CampaignStatus.PaymentFailed;
                 campaign.SystemNotes += string.Format("{0}{1:yyyy-MM-dd HH:mm:ss} - Error capturing payment for PayPal order {2}", Environment.NewLine, DateTime.UtcNow, order.Id);
+                campaign.SystemNotes += string.Format("{0}{1:yyyy-MM-dd HH:mm:ss} - Payment failed for campaign.", Environment.NewLine, DateTime.UtcNow);
                 _campaignService.SaveCampaign(campaign);
+
                 ModelState.AddModelError("ModerationId", "Error getting PayPal order information");
+                TempData[PaymentFailedFlag] = true;
                 return CurrentUmbracoPage();
             }
 
             invoice.Status = PCL.Enums.InvoiceStatus.Paid;
+            invoice.PaidDate = DateTime.UtcNow;
             _invoiceService.Save(invoice);
+
+            var fullInvoice = _invoiceService.GetInvoice(invoice.InvoiceId);
+
+            // Generate invoice PDF
+            var moderationPage = _umbracoService.GetItem<ModerationPage>(CurrentPage.Id);
+            var xmlAndXsl = new XmlAndXslData()
+            {
+                XslStylesheet = moderationPage.InvoiceXsl,
+                XmlData = fullInvoice.ToXmlString()
+            };
+            var baseUrl = string.Format("{0}://{1}:{2}", ConfigHelper.HostedScheme, ConfigHelper.HostedDomain, ConfigHelper.HostedPort);
+            var postbackUrl = string.Format("{0}/Umbraco/Api/Orders/InvoicePdfReady/{1}", baseUrl, invoice.InvoiceId);
+            _sparqService.SendRenderJob(xmlAndXsl, invoice.InvoiceId.ToString(), "Invoice", postbackUrl);
+
+            campaign.Status = PCL.Enums.CampaignStatus.Fulfilled;
+            campaign.SystemNotes += string.Format("{0}{1:yyyy-MM-dd HH:mm:ss} - Campaign has been printed.", Environment.NewLine, DateTime.UtcNow);
+            campaign.OrderDespatchedDate = DateTime.UtcNow;
+            _campaignService.SaveCampaign(campaign);
+
+            Log.Info(this.GetType().Name, "ConfirmPrinted", "Campaign with ID {0} has been printed", campaign.CampaignId);
 
             TempData[CompletedFlag] = true;
             return CurrentUmbracoPage();
@@ -208,7 +219,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return CurrentUmbracoPage();
             }
 
-            var invoice = campaignInvoices.FirstOrDefault(i => i.Status == PCL.Enums.InvoiceStatus.Submitted);
+            var invoice = campaignInvoices.FirstOrDefault(i => i.Status == PCL.Enums.InvoiceStatus.Processing);
             if (invoice == null)
             {
                 Log.Warn(this.GetType().Name, "Reject", "No submitted invoices found for campaign ID {0}", campaign.CampaignId);
@@ -291,6 +302,11 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         private ActionResult Complete(ModerationPage pageModel)
         {
             return PartialView("~/Views/Moderation/Partials/Complete.cshtml", pageModel);
+        }
+
+        private ActionResult PaymentFailed(ModerationPage pageModel)
+        {
+            return PartialView("~/Views/Moderation/Partials/PaymentFailed.cshtml", pageModel);
         }
     }
 }

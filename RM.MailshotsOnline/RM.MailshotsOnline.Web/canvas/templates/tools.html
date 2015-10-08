@@ -21,27 +21,50 @@
 
         <div class="tools-row">
             <div class="tools-left">
-                <label>Text:</label>
+                <label>Text Colour:</label>
             </div>
             <div class="tools-right">
-                <colourpicker-component params="{options: colours, selected: colour, focusCallback: focusInput, anchorClass: 'tools-dropdown'}"></colourpicker-component>
+                <colourpicker-component params="{options: colours, selected: colour, focusCallback: focusInput, closeCallback: addAllRecentColours, recentColours: recentColours, anchorClass: 'tools-dropdown'}"></colourpicker-component>
             </div>
         </div>
         <div class="tools-row">
             <div class="tools-left">
-                <label>Background:</label>
+                <label>Background Colour:</label>
             </div>
             <div class="tools-right">
-                <colourpicker-component params="{options: colours, selected: backgroundColour, focusCallback: focusInput, anchorClass: 'tools-dropdown'}"></colourpicker-component>
+                <colourpicker-component params="{options: colours, selected: backgroundColour, focusCallback: focusInput, closeCallback: addAllRecentColours, recentColours: recentColours, anchorClass: 'tools-dropdown'}"></colourpicker-component>
             </div>
         </div>
 
+    <!-- /ko -->
+    <!-- ko if: elementType() == 'box' -->
+        <!-- ko if: borderColour() -->
+        <div class="tools-row">
+            <div class="tools-left">
+                <label>Border Colour:</label>
+            </div>
+            <div class="tools-right">
+                <colourpicker-component params="{options: colours, selected: borderColour, focusCallback: focusInput, closeCallback: addAllRecentColours, recentColours: recentColours, anchorClass: 'tools-dropdown'}"></colourpicker-component>
+            </div>
+        </div>
+        <!-- /ko -->
+
+        <!-- ko if: backgroundColour() -->
+        <div class="tools-row">
+            <div class="tools-left">
+                <label>Background Colour:</label>
+            </div>
+            <div class="tools-right">
+                <colourpicker-component params="{options: colours, selected: backgroundColour, focusCallback: focusInput, closeCallback: addAllRecentColours, recentColours: recentColours, anchorClass: 'tools-dropdown'}"></colourpicker-component>
+            </div>
+        </div>
+        <!-- /ko -->
     <!-- /ko -->
     <!-- ko if: elementType() == 'html' -->
 
         <!-- ko ifnot: personalizing -->
         <div class="tools-row">
-            <dropdown-component params="{options: fonts, selected: font, full: true, focusCallback: focusInput, anchorClass: 'tools-dropdown tools-dropdown_full'}"></dropdown-component>
+            <dropdown-component params="{options: fonts, selected: font, full: true, template: 'font-dropdown', focusCallback: focusInput, anchorClass: 'tools-dropdown tools-dropdown_full'}"></dropdown-component>
         </div>
 
         <div class="tools-row">
@@ -72,42 +95,68 @@
         </div>
 
         <div class="tools-row">
-            <span class="tools-group">
-                <colourpicker-component params="{options: colours, selected: colour, focusCallback: focusInput, anchorClass: 'tools-dropdown'}"></colourpicker-component>
-            </span>
-            <span class="tools-group tools-group_right">
-                <div class="tools-button" data-bind="click: togglePersonalization" style="font-size: 13px; width: 140px;">
+            <div class="tools-left">
+                <label>Text Colour:</label>
+            </div>
+            <div class="tools-right">
+                <colourpicker-component params="{options: colours, selected: colour, focusCallback: focusInput, closeCallback: addAllRecentColours, recentColours: recentColours, anchorClass: 'tools-dropdown'}"></colourpicker-component>
+            </div>
+        </div>
+
+        <!-- ko if: borderColour() -->
+        <div class="tools-row">
+            <div class="tools-left">
+                <label>Border Colour:</label>
+            </div>
+            <div class="tools-right">
+                <colourpicker-component params="{options: colours, selected: borderColour, focusCallback: focusInput, closeCallback: addAllRecentColours, recentColours: recentColours, anchorClass: 'tools-dropdown'}"></colourpicker-component>
+            </div>
+        </div>
+        <!-- /ko -->
+
+        <!-- ko if: backgroundColour() -->
+        <div class="tools-row">
+            <div class="tools-left">
+                <label>Background Colour:</label>
+            </div>
+            <div class="tools-right">
+                <colourpicker-component params="{options: colours, selected: backgroundColour, focusCallback: focusInput, closeCallback: addAllRecentColours, recentColours: recentColours, anchorClass: 'tools-dropdown'}"></colourpicker-component>
+            </div>
+        </div>
+        <!-- /ko -->
+
+        <div class="tools-row">
+            <div class="tools-button tools-button-full" data-bind="click: togglePersonalization">
                     Add personalization
-                </div>
-            </span>
+            </div>
         </div>
         <!-- /ko -->
 
         <!-- ko if: personalizing -->
         <div class="tools-row">
-            <div class="tools-left">
+            <div class="tools-left tools-left_fixed">
                 <label>Field:</label>
             </div>
-            <div class="tools-right">
+            <div class="tools-right tools-right_fixed">
                 <dropdown-component params="{options: peronalizationOptions, selected: personalizationField, full: true, focusCallback: focusInput, anchorClass: 'tools-dropdown tools-dropdown_full', autohide: true}"></dropdown-component>
             </div>
         </div>
         <div class="tools-row">
-            <div class="tools-left">
+            <div class="tools-left tools-left_fixed">
                 <label>Fallback:</label>
             </div>
-            <div class="tools-right">
+            <div class="tools-right tools-right_fixed">
                 <input type="text" class="tools-input" data-bind="click: focusToolsInput, event: {blur: setCaretPosition}, clickBubble: false, value: personalizationFallback"/>
             </div>
         </div>
-        <div class="tools-row"></div>
+        <!-- <div class="tools-row"></div> -->
         <!-- ko ifnot: personalizationEl -->
         <div class="tools-row">
             <span class="tools-group">
                 <div class="tools-button tools-button-cancel" data-bind="click: closePersonalization">Back</div>
             </span>
             <span class="tools-group tools-group_right">
-                <div class="tools-button" data-bind="click: insertPersonalization">Insert</div>
+                <div class="tools-button" data-bind="click: insertPersonalization" style="width: 120px;">Insert</div>
             </span>
         </div>
         <!-- /ko -->
@@ -117,7 +166,7 @@
                 <div class="tools-button tools-button-cancel" data-bind="click: deletePersonalization">Remove</div>
             </span>
             <span class="tools-group tools-group_right">
-                <div class="tools-button" data-bind="click: insertPersonalization">Update</div>
+                <div class="tools-button" data-bind="click: insertPersonalization" style="width: 120px;">Update</div>
             </span>
         </div>
         <!-- /ko -->
@@ -126,26 +175,39 @@
     <!-- /ko -->
     <!-- ko if: elementType() == 'image' -->
         <!-- ko if: showScale() -->
-        <div class="tools-label">
-            Size:
-        </div>
         <div class="tools-row">
-            <slider-component params="{min: 1, max: 400, current: selectedElement().imageObj.scale}"></slider-component>
-        </div>
-        <div class="tools-label">
-            Change Image:
-        </div>
-        <!-- /ko -->
-        <!-- ko ifnot: showScale() -->
-        <div class="tools-label">
-            Add Image:
+            <div class="tools-slider-container">
+                <slider-component params="{min: 1, max: 400, current: selectedElement().imageObj.scale}"></slider-component>
+            </div>
+            <div class="tools-size-reset icon-undo" data-bind="click: function() {selectedElement().resetSizePosition()}"></div>
         </div>
         <!-- /ko -->
         <div class="tools-row">
-            <span class="tools-image tools-image_own" data-bind="click: toggleImageUpload">Use my own Image</span>
-            <span class="tools-image-spacer tools-image-spacer_border"></span>
-            <span class="tools-image-spacer"></span>
-            <span class="tools-image tools-image_library" data-bind="click: toggleImageLibrary">Choose from Library</span>
+            <div class="tools-button tools-button-full tools-image_own" data-bind="click: toggleImageUpload">Upload a new image</div>
+            <div class="tools-button tools-button-full tools-image_own_old_ie" data-bind="click: ieClickImageUpload">Upload a new image</div>
         </div>
+        <!-- ko if: my_images -->
+        <div class="tools-row">
+            <div class="tools-button tools-button-full" data-bind="click: toggleMyImages">Use one of My Images</div>
+        </div>
+        <!-- /ko -->
+        <div class="tools-row">
+            <div class="tools-button tools-button-full" data-bind="click: toggleImageLibrary">Choose image from Library</div>
+        </div>
+        <!-- ko if: showScale() -->
+        <div class="tools-row">
+            <div class="tools-button tools-button-cancel tools-button-cancel_right" data-bind="click: removeImage">Remove image</div>
+        </div>
+        <!-- /ko -->
     <!-- /ko -->
 </div>
+
+<!--[if IE ]>
+<div data-bind="template: { afterRender: oldIeSetup }" style="opacity: 0; position: absolute; top: -10000px">
+<iframe src="/imageUpload.aspx" id="uploadIframe"></iframe>
+</div>
+<![endif]-->
+
+<!-- ko if: uploading -->
+<div class="uploading" data-bind="click: function() {return false}"></div>
+<!-- /ko -->

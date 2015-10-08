@@ -35,7 +35,7 @@ namespace RM.MailshotsOnline.Test.Processors
         [Test]
         public void MailshotsProcessorReturnsOutput()
         {
-            var output = GetMailshotsOutout();
+            var output = GetMailshotsOutput();
 
             Assert.NotNull(output);
             Assert.NotNull(output.XmlData);
@@ -45,7 +45,7 @@ namespace RM.MailshotsOnline.Test.Processors
         [Test]
         public void MailshotsProcessorOutputIsValid()
         {
-            var output = GetMailshotsOutout();
+            var output = GetMailshotsOutput();
 
             // Check that XML is valid
             var xml = output.XmlData;
@@ -68,9 +68,9 @@ namespace RM.MailshotsOnline.Test.Processors
             Assert.Greater(transformBuilder.Length, 0);
         }
 
-        private ProcessedMailshotData GetMailshotsOutout()
+        private XmlAndXslData GetMailshotsOutput()
         {
-            string input = File.ReadAllText("editorcontent.json");
+            string input = File.ReadAllText("newcontent.json");
             var format = new Format()
             {
                 Name = "A4 Page",

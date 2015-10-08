@@ -1,12 +1,13 @@
 // user data view model, manages the user-defined data (content and styles) as
 // well as the format / template / theme IDs
-define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', 'view_models/state'],
-    function(ko, komapping, $, tempData, historyViewModel, stateViewModel) {
+define(['knockout', 'komapping', 'jquery', 'view_models/notification', 'view_models/auth', 'view_models/history', 'view_models/state', 'temp/data'],
+    function(ko, komapping, $, notificationViewModel, authViewModel, historyViewModel, stateViewModel, tempData) {
 
         function userViewModel() {
             // initialize this.objects
             this.objects = komapping.fromJS({});
             this.ready = stateViewModel.ready;
+            this.authChecked = stateViewModel.authChecked;
             this.name = ko.observable('TEST123');
             this.saving = stateViewModel.saving;
 
@@ -66,42 +67,68 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
          * fetch userData JSON from server and store it in this.objects
          */
         userViewModel.prototype.fetch = function fetch() {
-            if (stateViewModel.mailshotID) {
-                $.getJSON('/Umbraco/Api/Mailshots/Get/' + stateViewModel.mailshotID, function(data) {
+            /* XXX TESTING ONLY
+            komapping.fromJS(tempData.userData, this.objects);
+            this.ready(true);
+            setTimeout(this.applyChanges.bind(this),1000);
+            return */
+            if (stateViewModel.mailshotID()) {
+                $.getJSON('/Umbraco/Api/Mailshots/Get/' + stateViewModel.mailshotID(), function(data) {
                     komapping.fromJSON(data.ContentText, this.objects);
                     this.ready(true);
                     setTimeout(this.applyChanges.bind(this),1000);
                 }.bind(this));
             } else {
-                // XXX TEMP XXX
-                this.ready(true);
-                komapping.fromJS(tempData.userData, this.objects);
-                setTimeout(this.applyChanges.bind(this),1000);
-                this.objects.themeID.subscribe(this.resetUserStyles.bind(this));
-                return;
+                $.getJSON('/umbraco/api/mailshotsettings/getcontent/' + stateViewModel.formatID, function(data) {
+                    komapping.fromJS(data, this.objects);
+                    this.ready(true);
+                    setTimeout(this.applyChanges.bind(this),1000);
+                }.bind(this));
             }
         };
 
-        userViewModel.prototype.save = function save() {
+        userViewModel.prototype.restart = function restart() {
+            
+            $.getJSON('/umbraco/api/mailshotsettings/getcontent', function(data) {
+                komapping.fromJS(data, this.objects);
+                this.ready(true);
+                setTimeout(this.applyChanges.bind(this),1000);
+            }.bind(this));
+            this.ready(false);
+        }
+
+        userViewModel.prototype.save = function save(callback) {
             if (this.saving()) {
                 return;
             }
             this.saving(true);
+            notificationViewModel.show("Saving mailshot...", 'message');
 
             var data = {
                 name: this.name(),
                 contentText: this.toJSON(),
                 draft: true
             };
-            var url = (stateViewModel.mailshotID) ? '/Umbraco/Api/Mailshots/Update/' + stateViewModel.mailshotID : '/Umbraco/Api/Mailshots/Save';
+            var url = (stateViewModel.mailshotID()) ? '/Umbraco/Api/Mailshots/Update/' + stateViewModel.mailshotID() : '/Umbraco/Api/Mailshots/Save';
             
             $.post(url, data, function(response) {
                     if (response.id) {
-                        stateViewModel.mailshotID = response.id;
+                        stateViewModel.mailshotID(response.id);
+                        stateViewModel.campaignID = response.campaignId;
                     }
+                    if (callback) {
+                        callback();
+                    }
+                    notificationViewModel.hideWithMessage("Save complete!");
                 }.bind(this))
-                .fail(function() {
-                    console.log('error saving user data');
+                .fail(function(data) {
+                    if (data.status == 401) {
+                        authViewModel.isAuthenticated(false);
+                        stateViewModel.toggleAuth();
+                        notificationViewModel.hide();
+                        return
+                    }
+                    notificationViewModel.show("Error saving mailshot", "error");
                 })
                 .always(function() {
                     this.saving(false);
@@ -110,6 +137,9 @@ define(['knockout', 'komapping', 'jquery', 'temp/data', 'view_models/history', '
 
         userViewModel.prototype.resetUserFontSizes = function resetUserFontSizes() {
             ko.utils.arrayForEach(this.get('elements') || [], function(element) {
+                if (!element.styles) {
+                    return
+                }
                 element.styles.remove(function(style) {
                     return style.property() == 'font-size';
                 });

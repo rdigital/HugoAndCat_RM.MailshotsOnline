@@ -2,6 +2,7 @@
 using HC.RM.Common.Network;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.Helpers;
+using RM.MailshotsOnline.Entities.DataModels;
 using RM.MailshotsOnline.Entities.PageModels;
 using RM.MailshotsOnline.PCL.Services;
 using System;
@@ -13,6 +14,7 @@ using System.Web.Mvc;
 using Umbraco.Web.Models;
 using Order = HC.RM.Common.PayPal.Models.Order;
 using Payment = HC.RM.Common.PayPal.Models.Payment;
+using PplAddress = HC.RM.Common.PayPal.Models.Address;
 using PayPalService = HC.RM.Common.PayPal.Service;
 
 namespace RM.MailshotsOnline.Web.Controllers
@@ -26,6 +28,7 @@ namespace RM.MailshotsOnline.Web.Controllers
         private readonly IInvoiceService _invoiceService;
         private readonly IEmailService _emailService;
         private readonly ISparqQueueService _sparqService;
+        private readonly IMailshotsService _mailshotService;
 
         public PaymentConfirmationController(
             IUmbracoService umbracoService, 
@@ -35,7 +38,8 @@ namespace RM.MailshotsOnline.Web.Controllers
             IPricingService pricingService,
             IInvoiceService invoiceService,
             IEmailService emailService,
-            ISparqQueueService sparqService)
+            ISparqQueueService sparqService,
+            IMailshotsService mailshotService)
             : base(umbracoService, logger)
         {
             _campaignService = campaignService;
@@ -44,6 +48,7 @@ namespace RM.MailshotsOnline.Web.Controllers
             _invoiceService = invoiceService;
             _emailService = emailService;
             _sparqService = sparqService;
+            _mailshotService = mailshotService;
         }
 
         // GET: PaymentConfirmation
@@ -163,9 +168,35 @@ namespace RM.MailshotsOnline.Web.Controllers
             // Save the details
             invoice.PaypalOrderId = order.Id;
             invoice.Status = PCL.Enums.InvoiceStatus.Processing;
+            if (payment.Payer != null)
+            {
+                PplAddress payerAddress = payment.Payer.BillingAddress;
+                if (payerAddress == null)
+                {
+                    payerAddress = payment.Payer.ShippingAddress;
+                }
+
+                if (payerAddress != null)
+                {
+                    invoice.BillingAddress = new Address()
+                    {
+                        Address1 = payerAddress.Line1,
+                        Address2 = payerAddress.Line2,
+                        Postcode = payerAddress.PostalCode,
+                        City = payerAddress.City,
+                        Country = payerAddress.CountryCode,
+                        FirstName = payment.Payer.FirstName,
+                        LastName = payment.Payer.LastName,
+                        Title = payment.Payer.Salutation
+                    };
+                }
+
+                invoice.BillingEmail = payment.Payer.Email;
+            }
             _invoiceService.Save(invoice);
 
             campaign.Status = PCL.Enums.CampaignStatus.PendingModeration;
+            campaign.OrderPlacedDate = DateTime.UtcNow;
             campaign.ModerationId = Guid.NewGuid();
             _campaignService.SaveCampaign(campaign);
 
@@ -180,9 +211,12 @@ namespace RM.MailshotsOnline.Web.Controllers
                 sender);
 
             // Generate preview PDF and send to Royal Mail for approval
+            var fullMailshot = _mailshotService.GetMailshot(campaign.MailshotId.Value);
+            fullMailshot.ProofPdfOrderNumber = Guid.NewGuid();
+            _mailshotService.SaveMailshot(fullMailshot);
             var baseUrl = string.Format("{0}://{1}:{2}", ConfigHelper.HostedScheme, ConfigHelper.HostedDomain, ConfigHelper.HostedPort);
             var postbackUrl = string.Format("{0}/Umbraco/Api/ProofPdf/SendProofForApproval/{1}", baseUrl, campaign.CampaignId);
-            _sparqService.SendRenderJob(campaign.Mailshot, postbackUrl);
+            _sparqService.SendRenderJob(fullMailshot, postbackUrl);
 
             return View("~/Views/PaymentConfirmation.cshtml", pageModel);
         }

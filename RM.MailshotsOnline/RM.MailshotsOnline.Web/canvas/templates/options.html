@@ -1,6 +1,12 @@
 <div class="options-toolbar" data-bind="click: unfocus, css: {'options-toolbar_hidden': hidden, 'disabled': showTemplatePicker() || showThemePicker() || showPreview()}">
-	<!-- <dropdown-component params="{options: formats, selected: formatID, anchorClass: 'toolbar-button'}"></dropdown-component> -->
-	<a class="toolbar-button toolbar-button_largest">Campaign Design 1</a>
+	<a class="toolbar-button toolbar-button_largest" data-bind="click: showMenu, css: {'toolbar-button_active': menuVisible}">
+        <span data-bind="text: (format.selected()) ? format.selected().name : ''"></span>
+        <i class="fa fa-chevron-down"></i>   
+    </a>
+    <div class="menu" data-bind="css: {'menu_visible': menuVisible}">
+        <a class="menu-item" data-bind="click: toggleRestartModal">Restart Design</a>
+        <a class="menu-item" data-bind="click: toggleFormatModal">Change Format</a>
+    </div>
 	<span class="toolbar-buttons">
 		<a data-bind="click: toggleTemplatePicker, css: {'toolbar-button-container_active': showTemplatePicker}, clickBubble: false" class="toolbar-button-container">
 			<span class="toolbar-button toolbar-button_small toolbar-button_padright">Layout<i class="fa fa-chevron-down"></i></span>
@@ -27,7 +33,7 @@
         </a>
         <!-- /ko -->
 	</span>
-	<span class="toolbar-button toolbar-button_large toolbar-button_right" data-bind="click: output">Done  <span class="icon-tick" style="position: absolute;
+	<span class="toolbar-button toolbar-button_large toolbar-button_right" data-bind="click: done">Done  <span class="icon-tick" style="position: absolute;
     right: 25px;
     font-size: 29px;
     top: 10px;"></span></span>
@@ -36,3 +42,32 @@
     font-size: 29px;
     top: 10px;"></span></span>
 </div>
+
+
+<!-- ko if: showRestart -->
+<div class="modal-bg" data-bind="click: toggleRestartModal">
+</div>
+<div class="modal-container">
+    <div class="modal">
+        <div class="modal-text">Are you sure you want start your design from scratch? This will remove all changes made.</div>
+        <div class="modal-buttons">
+        <a class="button button_grey" data-bind="click: toggleRestartModal">Go Back</a>
+        <a class="button" data-bind="click: restart">Restart</a>
+        </div>
+    </div>
+</div>
+<!-- /ko -->
+
+<!-- ko if: showFormat -->
+<div class="modal-bg" data-bind="click: toggleFormatModal">
+</div>
+<div class="modal-container">
+    <div class="modal">
+        <div class="modal-text">Are you sure you want to discard your changes and select a new format?</div>
+        <div class="modal-buttons">
+        <a class="button button_grey" data-bind="click: toggleFormatModal">Go Back</a>
+        <a class="button" data-bind="click: changeFormat">Choose Format</a>
+        </div>
+    </div>
+</div>
+<!-- /ko -->

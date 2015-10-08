@@ -38,6 +38,11 @@ namespace RM.MailshotsOnline.Entities.DataModels
         /// </summary>
         private Theme _theme;
 
+        /// <summary>
+        /// The concrete Campaigns collection
+        /// </summary>
+        private ICollection<Campaign> _campaigns;
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid MailshotId { get; set; }
@@ -61,6 +66,7 @@ namespace RM.MailshotsOnline.Entities.DataModels
         public int UserId { get; set; }
 
         [Required]
+        [MaxLength(256)]
         public string Name { get; set; }
 
         public DateTime UpdatedDate { get; set; }
@@ -107,13 +113,23 @@ namespace RM.MailshotsOnline.Entities.DataModels
         }
 
         [JsonIgnore]
+        [MaxLength(2048)]
         public string ProofPdfBlobId { get; set; }
 
+        [MaxLength(2048)]
         public string ProofPdfUrl { get; set; }
 
         public Guid ProofPdfOrderNumber { get; set; }
 
         public Enums.PdfRenderStatus ProofPdfStatus { get; set; }
+
+        [JsonIgnore]
+        [InverseProperty("Mailshot")]
+        public virtual ICollection<Campaign> Campaigns
+        {
+            get { return _campaigns; }
+            set { _campaigns = value; }
+        }
 
         #region Explicit Interface Implementations
 
@@ -143,6 +159,20 @@ namespace RM.MailshotsOnline.Entities.DataModels
         {
             get { return _theme; }
             set { _theme = (Theme)value; }
+        }
+
+        ICollection<ICampaign> IMailshot.Campaigns
+        {
+            get
+            {
+                if (_campaigns == null)
+                {
+                    return null;
+                }
+
+                return _campaigns.Cast<ICampaign>().ToList();
+            }
+            set { _campaigns = (ICollection<Campaign>)value; }
         }
 
         #endregion

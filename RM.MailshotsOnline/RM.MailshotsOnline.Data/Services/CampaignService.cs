@@ -43,6 +43,7 @@ namespace RM.MailshotsOnline.Data.Services
         {
             return _context.Campaigns
                 .Include("Mailshot")
+                .Include("Mailshot.Format")
                 .Include("CampaignDistributionLists")
                 .Include("CampaignDistributionLists.DistributionList")
                 .Include("DataSearches")
@@ -61,6 +62,33 @@ namespace RM.MailshotsOnline.Data.Services
         }
 
         /// <summary>
+        /// Gets orders (campaigns that are in progress or completed) for a given user ID
+        /// </summary>
+        /// <param name="userId">The ID of the user to search on</param>
+        /// <returns>Collection of Campaigns</returns>
+        public IEnumerable<ICampaign> GetOrdersForUser(int userId)
+        {
+            var inProgressOrCompletedStatuses = new List<PCL.Enums.CampaignStatus>()
+            {
+                PCL.Enums.CampaignStatus.Exception,
+                PCL.Enums.CampaignStatus.Fulfilled,
+                PCL.Enums.CampaignStatus.PendingModeration,
+                PCL.Enums.CampaignStatus.ReadyForFulfilment,
+                PCL.Enums.CampaignStatus.SentForFulfilment,
+                PCL.Enums.CampaignStatus.Cancelled,
+                PCL.Enums.CampaignStatus.PaymentFailed
+            };
+
+            return _context.Campaigns
+                .Include("Invoices")
+                .Include("Invoices.LineItems")
+                .Include("Invoices.LineItems.Product")
+                .Include("PostalOption")
+                .Where(c => c.UserId == userId && inProgressOrCompletedStatuses.Contains(c.Status))
+                .OrderByDescending(c => c.UpdatedDate);
+        }
+
+        /// <summary>
         /// Gets a specific campaign
         /// </summary>
         /// <param name="campaignId">ID of the campaign to find</param>
@@ -74,6 +102,26 @@ namespace RM.MailshotsOnline.Data.Services
                 .Include("CampaignDistributionLists.DistributionList")
                 .Include("DataSearches")
                 .Include("PostalOption")
+                .FirstOrDefault(c => c.CampaignId == campaignId);
+        }
+
+        /// <summary>
+        /// Gets a specific campaign (including the attached invoices)
+        /// </summary>
+        /// <param name="campaignId">ID of the campaign</param>
+        /// <returns>Campaign object</returns>
+        public ICampaign GetCampaignWithInvoices(Guid campaignId)
+        {
+            return _context.Campaigns
+                .Include("Mailshot")
+                .Include("Mailshot.Format")
+                .Include("CampaignDistributionLists")
+                .Include("CampaignDistributionLists.DistributionList")
+                .Include("DataSearches")
+                .Include("PostalOption")
+                .Include("Invoices")
+                .Include("Invoices.LineItems")
+                .Include("Invoices.LineItems.Product")
                 .FirstOrDefault(c => c.CampaignId == campaignId);
         }
 
@@ -149,6 +197,64 @@ namespace RM.MailshotsOnline.Data.Services
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Adds test data to a campaign
+        /// </summary>
+        /// <param name="campaign">The campaign</param>
+        /// <returns>True on success</returns>
+        public bool AddTestDataToCampaign(ICampaign campaign)
+        {
+            var random = new Random();
+            random.Next(500, 1500);
+            var dataAdded = false;
+
+            if (!_context.CampaignDistributionLists.Any(cdl => cdl.CampaignId == campaign.CampaignId))
+            {
+                Guid distListId = Guid.Empty;
+                var existingDataList = _context.DistributionLists.FirstOrDefault(dl => dl.UserId == campaign.UserId);
+                if (existingDataList != null)
+                {
+                    distListId = existingDataList.DistributionListId;
+                }
+                else
+                {
+                    var newDistributionList = new DistributionList()
+                    {
+                        Name = "Test list",
+                        RecordCount = random.Next(500, 1500),
+                        UserId = campaign.UserId
+                    };
+                    var savedList = _context.DistributionLists.Add(newDistributionList);
+                    distListId = savedList.DistributionListId;
+                }
+
+                if (distListId != Guid.Empty)
+                {
+                    _context.CampaignDistributionLists.Add(new CampaignDistributionList() { CampaignId = campaign.CampaignId, DistributionListId = distListId });
+                    dataAdded = true;
+                }
+
+                _context.SaveChanges();
+            }
+
+            if (!_context.DataSearch.Any(ds => ds.CampaignId == campaign.CampaignId))
+            {
+                _context.DataSearch.Add(new DataSearch()
+                {
+                    CampaignId = campaign.CampaignId,
+                    Name = "Test data search",
+                    SearchCriteria = "Test",
+                    Status = PCL.Enums.DataSearchStatus.Draft,
+                    ThirdPartyIdentifier = "Test",
+                    RecordCount = random.Next(500, 1500)
+                });
+                _context.SaveChanges();
+                dataAdded = true;
+            }
+
+            return dataAdded;
         }
     }
 }

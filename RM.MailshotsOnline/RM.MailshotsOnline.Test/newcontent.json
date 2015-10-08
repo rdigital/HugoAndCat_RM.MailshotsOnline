@@ -1,0 +1,132 @@
+﻿{  
+  "formatID":3,
+  "templateID":6,
+  "themeID":3,
+  "faces":[  
+    {  
+      "name":"Front",
+      "styles":[  
+
+      ]
+    },
+    {  
+      "name":"Back",
+      "styles":[  
+
+      ]
+    }
+  ],
+  "elements":[  
+    {  
+      "name":"logo",
+      "content":"",
+      "styles":[  
+
+      ],
+      "scale":null,
+      "img_position":{  
+        "top":null,
+        "left":null
+      },
+      "src":"http://example.com/image.jpg"
+    },
+    {  
+      "name":"hero_image",
+      "content":"",
+      "styles":[  
+
+      ],
+      "scale":null,
+      "img_position":{  
+        "top":null,
+        "left":null
+      },
+      "src":"http://example.com/image.jpg"
+    },
+    {  
+      "name":"back_logo",
+      "content":"",
+      "styles":[  
+
+      ],
+      "scale":null,
+      "img_position":{  
+        "top":null,
+        "left":null
+      },
+      "src":"http://example.com/image.jpg"
+    },
+    {  
+      "name":"greeting",
+      "content":"Hi <i>Jenny</i>",
+      "styles":[  
+
+      ]
+    },
+    {  
+      "name":"headline",
+      "content":"It's time for your next hair appointment",
+      "styles":[  
+
+      ]
+    },
+    {  
+      "name":"subline",
+      "content":"Why not contact us now to talk about your brand new look for summer?",
+      "styles":[  
+
+      ]
+    },
+    {  
+      "name":"cta",
+      "content":"<span style=\"font-weight: normal;\">Book now: </span>0123 456 7890<div><span style=\"font-weight: normal;\">or: </span>bookings@example.com</div>",
+      "styles":[  
+        {  
+          "property":"font-size",
+          "value":"14px"
+        }
+      ]
+    },
+    {  
+      "name":"offer",
+      "content":"20% off in July",
+      "styles":[  
+        {  
+          "property":"font-size",
+          "value":"40px"
+        }
+      ]
+    },
+    {  
+      "name":"back_headline",
+      "content":"Fallen out of love with your style?",
+      "styles":[  
+
+      ]
+    },
+    {  
+      "name":"body",
+      "content":"Come and take advantage of our summer offer, with <b>20%</b>&nbsp;off these treatments<div><ul><li>Hair cutting</li><li>Hair colouring</li><li>Beauty treatments</li></ul><div><br></div></div><div>We look forward to seeing you again soon!</div><div><br></div><div><b><i>Raquel &amp; The Cutting Room team</i></b></div>",
+      "styles":[  
+
+      ]
+    },
+    {  
+      "name":"back_cta",
+      "content":"<span style=\"font-weight: normal;\">Book now: </span>0123 456 7890<div><span style=\"font-weight: normal;\">or: </span>bookings@example.com</div>",
+      "styles":[  
+        {  
+          "property":"font-size",
+          "value":"14px"
+        }
+      ]
+    },
+    {  
+      "name":"footer",
+      "content":"<b>www.example.com | @example</b><div>4 High Street, Barnet, London, N11 3NT</div>",
+      "styles":[  
+
+      ]
+    }
+  ]
+}

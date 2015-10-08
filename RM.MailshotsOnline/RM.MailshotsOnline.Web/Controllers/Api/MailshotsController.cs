@@ -1,6 +1,7 @@
 ﻿using HC.RM.Common.Azure.Extensions;
 using HC.RM.Common.PCL.Helpers;
 using Newtonsoft.Json;
+using RM.MailshotsOnline.Data.Constants;
 using RM.MailshotsOnline.Entities.DataModels;
 using RM.MailshotsOnline.Entities.DataModels.MailshotSettings;
 using RM.MailshotsOnline.Entities.Extensions;
@@ -26,12 +27,14 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
     {
         private IMailshotsService _mailshotsService;
         private IMailshotSettingsService _settingsService;
+        private ICampaignService _campaignService;
 
-        public MailshotsController(IMailshotSettingsService settingsService, IMailshotsService mailshotsService, IMembershipService membershipService, ILogger logger)
+        public MailshotsController(IMailshotSettingsService settingsService, IMailshotsService mailshotsService, IMembershipService membershipService, ILogger logger, ICampaignService campaignService)
             : base(membershipService, logger)
         {
             _mailshotsService = mailshotsService;
             _settingsService = settingsService;
+            _campaignService = campaignService;
         }
 
         /// <summary>
@@ -151,7 +154,22 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             {
                 var savedMailshot = _mailshotsService.SaveMailshot(mailshotData);
                 _mailshotsService.UpdateLinkedImages(savedMailshot, linkedImages);
-                return Request.CreateResponse(HttpStatusCode.Created, new { id = savedMailshot.MailshotId });
+
+                var navSettings = Umbraco.Content(Constants.Settings.HeaderNavSettingsId);
+                var myCampaignsPage = Umbraco.Content(navSettings.MyCampaignsPage);
+                var defaultTitle = myCampaignsPage.DefaultTitleForNewCampaigns ?? "Draft Campaign";
+
+                var campaign = new Campaign()
+                {
+                    Name = defaultTitle,
+                    DataSetsApproved = false,
+                    MailshotId = savedMailshot.MailshotId,
+                    Status = PCL.Enums.CampaignStatus.Draft,
+                    UpdatedDate = DateTime.UtcNow,
+                    UserId = _loggedInMember.Id
+                };
+                var savedCampaign = _campaignService.SaveCampaign(campaign);
+                return Request.CreateResponse(HttpStatusCode.Created, new { id = savedMailshot.MailshotId, campaignId = savedCampaign.CampaignId });
             }
             catch (Exception ex)
             {
@@ -185,7 +203,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
 
             // Confirm that mailshot exists
-            var mailshotData = _mailshotsService.GetMailshot(id);
+            var mailshotData = _mailshotsService.GetMailshotWithCampaignData(id);
             if (mailshotData == null)
             {
                 _logger.Info(this.GetType().Name, "Update", "Attempt to update unknown mailshot with ID {0}.", id);
@@ -245,7 +263,13 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 _logger.Error(this.GetType().Name, "Update", "Error updating mailshot with ID {0}: {1}", id, ex.Message);
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, new { success = success });
+            var campaign = mailshotData.Campaigns.FirstOrDefault();
+            if (campaign != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { success = success, id = mailshotData.MailshotId, campaignId = campaign.CampaignId });
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, new { success = success, id = mailshotData.MailshotId });
         }
 
         /// <summary>

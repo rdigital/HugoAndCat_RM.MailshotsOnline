@@ -69,8 +69,11 @@
                 }
 
                 var mailshot = $(document.createElement('td'))
-                if (campaign.MailshotTitle != null) {
-                    mailshot.text(campaign.MailshotTitle);
+                //if (campaign.MailshotTitle != null) {
+                //    mailshot.text(campaign.MailshotTitle);
+                //}
+                if (campaign.MailshotFormat != null) {
+                    mailshot.text(campaign.MailshotFormat);
                 }
                 else {
                     mailshot.attr('class', 'empty').text('None selected');
@@ -177,6 +180,12 @@
                 break;
             case -1:
                 status = "Exception";
+                break;
+            case -2:
+                status = "Payment failed";
+                break;
+            case 7:
+                status = "Cancelled";
                 break;
         }
         return status;

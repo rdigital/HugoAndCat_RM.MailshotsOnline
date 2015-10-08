@@ -4,9 +4,11 @@ define(['knockout', 'kospectrum'],
         // ViewModel
         function colourPickerViewModel(params) {
             this.options = params.options;
+            this.recentColours = params.recentColours;
             this.action = params.action;
             this.selectedObs = params.selected;
             this.focusCallback = params.focusCallback;
+            this.closeCallback = params.closeCallback;
             this.anchorClass = params.anchorClass;
             this.open = ko.observable(false);
             this.customShown = ko.observable(false);
@@ -45,6 +47,9 @@ define(['knockout', 'kospectrum'],
                     $(document).on('mousedown', this.hideOnDocClick);
                 } else {
                     $(document).off('mousedown', this.hideOnDocClick);
+                    if (this.closeCallback) {
+                        this.closeCallback();
+                    }
                 }
             }, this);
         };

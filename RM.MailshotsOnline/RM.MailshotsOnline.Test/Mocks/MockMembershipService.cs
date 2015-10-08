@@ -26,6 +26,20 @@ namespace RM.MailshotsOnline.Test.Mocks
             };
         }
 
+        public IMember GetMemberById(int id)
+        {
+            return new Member
+            {
+                Id = id,
+                EmailAddress = "ext-mradford@hugoandcat.com",
+                FirstName = "Mark",
+                LastName = "Radford",
+                Title = "Mr",
+                IsApproved = true,
+                IsLockedOut = false
+            };
+        }
+
         public IMember CreateMember(IMember member, string password)
         {
             throw new NotImplementedException();

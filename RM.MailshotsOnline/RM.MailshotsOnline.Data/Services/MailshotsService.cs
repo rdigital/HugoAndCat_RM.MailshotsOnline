@@ -33,6 +33,17 @@ namespace RM.MailshotsOnline.Data.Services
         }
 
         /// <summary>
+        /// Checks if a mailshot belongs to a user
+        /// </summary>
+        /// <param name="mailshotId">ID of the mailshot</param>
+        /// <param name="userId">ID of the user</param>
+        /// <returns>Returns true if the mailshot belongs to the user</returns>
+        public bool MailshotBelongsToUser(Guid mailshotId, int userId)
+        {
+            return _context.Mailshots.Any(m => m.MailshotId == mailshotId && m.UserId == userId);
+        }
+
+        /// <summary>
         /// Gets a specific Mailshot
         /// </summary>
         /// <param name="mailshotId">The ID of the mailshot to get</param>
@@ -44,6 +55,22 @@ namespace RM.MailshotsOnline.Data.Services
                 .Include("Template")
                 .Include("Format")
                 .Include("Theme")
+                .FirstOrDefault(m => m.MailshotId == mailshotId);
+        }
+
+        /// <summary>
+        /// Gets a specific Mailshot
+        /// </summary>
+        /// <param name="mailshotId">The ID of the mailshot to get</param>
+        /// <returns>Mailshot object</returns>
+        public IMailshot GetMailshotWithCampaignData(Guid mailshotId)
+        {
+            return _context.Mailshots
+                .Include("Content")
+                .Include("Template")
+                .Include("Format")
+                .Include("Theme")
+                .Include("Campaigns")
                 .FirstOrDefault(m => m.MailshotId == mailshotId);
         }
 

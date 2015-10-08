@@ -9,13 +9,13 @@ define(['knockout', 'jquery', 'view_models/state'],
             this.fitToWidth = stateViewModel.fitToWidth;
             this.scaleElement = stateViewModel.scaleElement;
             this.viewingSide = stateViewModel.viewingSide;
-            this.availableZooms = [0.125, 0.25, 0.375, 
+            /*this.availableZooms = [0.125, 0.25, 0.375, 
                                    0.5, 0.625, 0.75, 
                                    0.875, 1, 1.125, 
                                    1.25, 1.375, 1.5, 
                                    1.625, 1.75, 1.875, 
                                    2, 2.125, 2.25,
-                                   2.375, 2.5];
+                                   2.375, 2.5];*/
 
             // bound functions
             this.handleScale = this.handleScale.bind(this);
@@ -69,15 +69,19 @@ define(['knockout', 'jquery', 'view_models/state'],
             
         };
 
-        zoomComponentViewModel.prototype.toggleZoom = function toggleZoom() {
+        /*zoomComponentViewModel.prototype.toggleZoom = function toggleZoom() {
             if (this.overrideZoom()) {
                 this.overrideZoom(null);
             } else {
                 this.overrideZoom(this.availableZooms[this.availableZooms.length-1]);
             }
+        };*/
+
+        zoomComponentViewModel.prototype.toggleZoom = function toggleZoom() {
+            this.fitToWidth(!this.fitToWidth());
         };
 
-        zoomComponentViewModel.prototype.getZoomAvailableComputed = function getZoomAvailableComputed() {
+        /*zoomComponentViewModel.prototype.getZoomAvailableComputed = function getZoomAvailableComputed() {
             return this.zoom() != this.availableZooms[this.availableZooms.length-1];
         };
 
@@ -97,7 +101,7 @@ define(['knockout', 'jquery', 'view_models/state'],
                 return true;
             }
             return false;
-        };
+        };*/
 
         return {
             viewModel: zoomComponentViewModel,

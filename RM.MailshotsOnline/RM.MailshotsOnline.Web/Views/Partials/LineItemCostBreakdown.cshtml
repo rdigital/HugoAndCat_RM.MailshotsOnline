@@ -1,0 +1,41 @@
+﻿@model RM.MailshotsOnline.Entities.DataModels.InvoiceLineItem
+
+<tr>
+    @if (string.IsNullOrEmpty(Model.SubTitle))
+    {
+        if (Model.Quantity > 1)
+        {
+            if (Model.UnitCost > 0)
+            {
+                <td>@Model.Name (@Model.Quantity @@ &pound;@Model.UnitCost.ToString("F"))</td>
+            }
+            else
+            {
+                <td>@Model.Name (@Model.Quantity)</td>
+            }
+        }
+        else
+        {
+            <td>@Model.Name</td>
+        }
+    }
+    else
+    {
+        if (Model.Quantity > 1)
+        {
+            if (Model.UnitCost > 0)
+            {
+                <td><span class="name">@Model.Name</span><span class="sub-title">@Model.SubTitle (@Model.Quantity @@ &pound; @Model.UnitCost.ToString("F"))</span></td>
+            }
+            else
+            {
+                <td><span class="name">@Model.Name</span><span class="sub-title">@Model.SubTitle (@Model.Quantity)</span></td>
+            }
+        }
+        else
+        {
+            <td><span class="name">@Model.Name</span><span class="sub-title">@Model.SubTitle</span></td>
+        }
+    }
+    <td class="money">&pound;@Model.SubTotal.ToString("F")</td>
+</tr>

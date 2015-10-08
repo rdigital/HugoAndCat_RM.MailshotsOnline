@@ -105,13 +105,15 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         }
 
         // Uncomment the method below in order to set the required CORS headers for the Umbraco Media container
-        /*[HttpPost]
+        [HttpPost]
         public HttpResponseMessage SetCorsForContainer()
         {
-            var blobHelper = new BlobStorageHelper(ConfigHelper.StorageConnectionString, "umbracomedia");
-            blobHelper.SetCorsAccess("umbracoMedia");
+            string connectionString = "DefaultEndpointsProtocol=https;AccountName=rmqamsoststore;AccountKey=tCYxukHllJYe4pyXIDeoJRpDRCpab9/D2oQS97uUYtlpz3ZSnP7MQXZkfOY/0F7dEubIQulco49YjC/fvCz91g==";
+            //string connectionString = ConfigHelper.StorageConnectionString;
+            var blobHelper = new BlobStorageHelper(connectionString, "umbracomedia");
+            blobHelper.SetCorsAccess("umbracomedia");
             return Request.CreateResponse(HttpStatusCode.OK);
-        }*/
+        }
 
         public HttpResponseMessage GetPrivateImageById(int id)
         {
