@@ -5844,6 +5844,32 @@ define([],
                                 }
                             ]
                         },
+                        {
+                            name: 'inside_footer',
+                            font_sizes: ['8px', '9px', '10px', '11px', '12px', '13px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            styles: [
+                                {
+                                    property: 'color',
+                                    value: '#FFFFFF'
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '15px'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Roboto', serif"
+                                },
+                                {
+                                    property: 'text-align',
+                                    value: 'left'
+                                },
+                                {
+                                    property: 'font-weight',
+                                    value: 'lighter'
+                                }
+                            ]
+                        },
     					{
                             name: 'cta',
                             font_sizes: ['10px', '12px', '14px', '17px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
@@ -5952,14 +5978,14 @@ define([],
                 },
                 {
                     id: 4,
-                    name: 'Test Theme 2',
+                    name: 'Trusted / Traditional',
                     faces: [
                     	{
                     		name: 'Front',
                     		styles: [
                     			{
 	                    			property: 'background-color',
-	                    			value: 'rgb(102, 154, 185)'
+	                    			value: '#FFFFFF'
 			                    }
                     		]
                     	},
@@ -5968,7 +5994,7 @@ define([],
                     		styles: [
                     			{
 	                    			property: 'background-color',
-	                    			value: 'rgb(102, 154, 185)'
+	                    			value: '#FFFFFF'
 			                    }
                     		]
                     	},
@@ -5977,46 +6003,66 @@ define([],
                             styles: [
                                 {
                                     property: 'background-color',
-                                    value: 'rgb(102, 154, 185)'
+                                    value: '#FFFFFF'
                                 }
                             ]
                         }
                     ],
                     fonts: [
                         {
-                            name: 'Dosis',
-                            value: "'Lusitana', serif"
+                            name: 'Domine',
+                            value: "'Domine', serif"
                         },
                         {
-                            name: 'Arial',
-                            value: 'Arial'
+                            name: 'Lato',
+                            value: "'Lato', sans-serif"
                         }
                     ],
                     colours: ['rgb(224, 251, 255)', 'rgb(102, 154, 185)', 'rgb(69, 71, 81)' ],
                     classes: [
                         {
-                            name: 'heading',
-                            font_sizes: ['22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px', '38px', '40px', '42px', '44px', '46px', '48px', '50px', '52px'],
+                            name: 'roundel',
+                            font_sizes: ['18px', '19px', '20px', '21px', '22px', '23px', '24px', '25px', '26px', '27px', '28px', '29px', '30px', '31px', '32px', '33px', '34px', '35px', '36px', '37px', '38px', '39px', '40px', '41px', '42px', '43px', '44px', '45px', '46px', '48px', '50px', '52px'],
                             styles: [
                                 {
                                     property: 'text-align',
-                                    value: 'left'
+                                    value: 'center'
                                 },
                                 {
                                     property: 'font-size',
-                                    value: '48px'
+                                    value: '19px'
                                 },
                                 {
-                                	property: 'font-weight',
-                                	value: 400
+                                    property: 'color',
+                                    value: '#FFFFFF'
                                 },
                                 {
-                                	property: 'color',
-                                	value: 'rgb(224, 251, 255)'
+                                    property: 'background-color',
+                                    value: '#4C863D'
                                 },
                                 {
                                     property: 'font-family',
-                                    value: "'Lusitana', serif"
+                                    value: "'Lato', sans-serif"
+                                },
+                                {
+                                    property: 'border-radius',
+                                    value: "50%"
+                                },
+                                {
+                                    property: '-moz-border-radius',
+                                    value: "50%"
+                                },
+                                {
+                                    property: '-webkit-border-radius',
+                                    value: "50%"
+                                },
+                                {
+                                    property: 'padding',
+                                    value: '10px 15px'
+                                },
+                                {
+                                    property: 'line-height',
+                                    value: '110%;'
                                 }
                             ]
                         },
@@ -6087,8 +6133,8 @@ define([],
                             ]
                         },
                         {
-                            name: 'heading-large',
-                            font_sizes: ['30px', '32px', '34px', '36px', '38px', '40px', '42px', '44px', '46px', '48px', '50px', '52px', '56px', '60px', '64px', '68px', '70px', '74px', '80px', '84px', '90px'],
+                            name: 'greeting',
+                            font_sizes: ['16px', '17px', '18px', '19px', '20px', '21px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
                             styles: [
                                 {
                                     property: 'text-align',
@@ -6096,25 +6142,25 @@ define([],
                                 },
                                 {
                                     property: 'font-size',
-                                    value: '74px'
-                                },
-                                {
-                                    property: 'font-weight',
-                                    value: 400
+                                    value: '18px'
                                 },
                                 {
                                     property: 'color',
-                                    value: 'rgb(224, 251, 255)'
+                                    value: '#FFFFFF'
                                 },
                                 {
                                     property: 'font-family',
-                                    value: "'Lusitana', serif"
+                                    value: "'Lato', sans-serif"
+                                },
+                                {
+                                    property: 'font-weight',
+                                    value: 'lighter'
                                 }
                             ]
                         },
                         {
-                            name: 'subheading',
-                            font_sizes: ['10px', '12px', '14px', '17px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            name: 'headline',
+                            font_sizes: ['22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px', '38px', '40px', '42px', '44px', '46px', '48px', '50px', '52px'],
                             styles: [
                                 {
                                     property: 'text-align',
@@ -6122,29 +6168,21 @@ define([],
                                 },
                                 {
                                     property: 'font-size',
-                                    value: '17px'
+                                    value: '48px'
                                 },
                                 {
-                                	property: 'font-weight',
-                                	value: 700
-                                },
-                                {
-                                	property: 'color',
-                                	value: 'rgb(69, 71, 81)'
-                                },
-                                {
-                                	property: 'border-bottom',
-                                	value: '2px solid rgb(224, 251, 255)'
+                                    property: 'color',
+                                    value: '#FFFFFF'
                                 },
                                 {
                                     property: 'font-family',
-                                    value: "'Lusitana', serif"
+                                    value: "'Domine', serif"
                                 }
                             ]
                         },
                         {
-                            name: 'subheading-large',
-                            font_sizes: ['10px', '12px', '14px', '17px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            name: 'subline',
+                            font_sizes: ['12px', '13px', '14px', '15px', '16px', '17px', '18px', '19px', '20px', '21px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
                             styles: [
                                 {
                                     property: 'text-align',
@@ -6152,49 +6190,19 @@ define([],
                                 },
                                 {
                                     property: 'font-size',
-                                    value: '30px'
-                                },
-                                {
-                                    property: 'font-weight',
-                                    value: 700
+                                    value: '18px'
                                 },
                                 {
                                     property: 'color',
-                                    value: 'rgb(69, 71, 81)'
-                                },
-                                {
-                                    property: 'border-bottom',
-                                    value: '2px solid rgb(224, 251, 255)'
+                                    value: '#FFFFFF'
                                 },
                                 {
                                     property: 'font-family',
-                                    value: "'Lusitana', serif"
-                                }
-                            ]
-                        },
-                        {
-                            name: 'subheading-noline',
-                            font_sizes: ['10px', '12px', '14px', '17px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
-                            styles: [
-                                {
-                                    property: 'text-align',
-                                    value: 'left'
-                                },
-                                {
-                                    property: 'font-size',
-                                    value: '17px'
+                                    value: "'Lato', sans-serif"
                                 },
                                 {
                                     property: 'font-weight',
-                                    value: 700
-                                },
-                                {
-                                    property: 'color',
-                                    value: 'rgb(69, 71, 81)'
-                                },
-                                {
-                                    property: 'font-family',
-                                    value: "'Lusitana', serif"
+                                    value: 'lighter'
                                 }
                             ]
                         },
@@ -6204,7 +6212,7 @@ define([],
                             styles: [
                                 {
                                     property: 'color',
-                                    value: 'rgb(252, 253, 254)'
+                                    value: '#FFFFFF'
                                 },
                                 {
                                 	property: 'font-weight',
@@ -6216,7 +6224,41 @@ define([],
                                 },
                                 {
                                     property: 'font-family',
-                                    value: "'Lusitana', serif"
+                                    value: "'Lato', sans-serif"
+                                }
+                            ]
+                        },
+                        {
+                            name: 'inside_cta',
+                            font_sizes: ['16px', '17px', '18px', '19px', '20px', '21px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            styles: [
+                                {
+                                    property: 'border',
+                                    value: '4px solid'
+                                },
+                                {
+                                    property: 'border-color',
+                                    value: '#4C863D'
+                                },
+                                {
+                                    property: 'color',
+                                    value: '#FFFFFF'
+                                },
+                                {
+                                    property: 'text-align',
+                                    value: 'center'
+                                },
+                                {
+                                    property: 'padding',
+                                    value: '15px'
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '26px'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Domine', serif"
                                 }
                             ]
                         },
