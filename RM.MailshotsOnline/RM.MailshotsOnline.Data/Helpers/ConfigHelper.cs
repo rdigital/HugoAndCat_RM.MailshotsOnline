@@ -94,6 +94,16 @@ namespace RM.MailshotsOnline.Data.Helpers
             get { return GetConfigValue("StorageConnectionString"); }
         }
 
+        public static string SparqServiceIpRangeStart
+        {
+            get { return GetConfigValue("SparqServiceIpRangeStart"); }
+        }
+
+        public static string SparqServiceIpRangeEnd
+        {
+            get { return GetConfigValue("SparqServiceIpRangeEnd"); }
+        }
+
         /// <summary>
         /// The System "From" email address
         /// </summary>
