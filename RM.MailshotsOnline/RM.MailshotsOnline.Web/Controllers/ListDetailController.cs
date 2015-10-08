@@ -2,14 +2,12 @@
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Entities.PageModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Umbraco.Web.Models;
 
 namespace RM.MailshotsOnline.Web.Controllers
 {
+    [Authorize]
     public class ListDetailController : GlassController
     {
         public ListDetailController(IUmbracoService umbracoService, ILogger logger)
@@ -18,10 +16,12 @@ namespace RM.MailshotsOnline.Web.Controllers
         }
 
         // GET: ListDetail
-        public override ActionResult Index(RenderModel model)
+        public ActionResult Index(RenderModel model, Guid distributionListId)
         {
             // Fetch the Glass model of the page
             var pageModel = GetModel<ListDetail>();
+
+            pageModel.DistributionListId = distributionListId;
 
             return View("~/Views/ListDetail.cshtml", pageModel);
         }
