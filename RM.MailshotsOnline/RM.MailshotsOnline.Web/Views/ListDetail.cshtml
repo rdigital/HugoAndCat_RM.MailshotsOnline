@@ -3,6 +3,13 @@
     Layout = "Master.cshtml";
 }
 
+@section headerScripts
+{
+    <script type="text/javascript">
+        var listId = "@Model.DistributionListId";
+    </script>
+}
+
 <div class="content">
     <h1>@Model.Name</h1>
     <h2>List detail page</h2>
