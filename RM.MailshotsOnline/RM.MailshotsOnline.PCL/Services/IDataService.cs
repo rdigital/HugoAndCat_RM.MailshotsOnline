@@ -130,6 +130,8 @@ namespace RM.MailshotsOnline.PCL.Services
         /// <param name="distributionList">The distribution list.</param>
         /// <param name="contactsUpdate">The contacts to update.</param>
         /// <returns></returns>
-        IModifyListSummaryModel<T> UpdateWorkingXml<T>(IDistributionList distributionList, List<T> contactsUpdate) where T : IDistributionContact;
+        IModifyListSummaryModel<T> UpdateWorkingXml<T>(IDistributionList distributionList, IModifyListMappedFieldsModel<T> contactsUpdate) where T : IDistributionContact;
+
+        List<T> GetFinalContacts<T>(IDistributionList distributionList) where T: IDistributionContact;
     }
 }

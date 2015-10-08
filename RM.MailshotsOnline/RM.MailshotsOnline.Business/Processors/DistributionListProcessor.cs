@@ -136,8 +136,9 @@ namespace RM.MailshotsOnline.Business.Processors
         /// <param name="columnCount">The column count.</param>
         /// <param name="firstRowIsHeader">if set to <c>true</c> [first row is header].</param>
         /// <param name="csvBytes">The CSV bytes.</param>
+        /// <param name="existingContacts"></param>
         /// <returns></returns>
-        public ModifyListMappedFieldsModel<T> BuildListsFromFieldMappings<T>(List<string> mappings, int columnCount, bool firstRowIsHeader, byte[] csvBytes)
+        public ModifyListMappedFieldsModel<T> BuildListsFromFieldMappings<T>(List<string> mappings, int columnCount, bool firstRowIsHeader, byte[] csvBytes, List<T> existingContacts)
             where T : IDistributionContact
         {
             var validContacts = new Dictionary<string, T>();
@@ -182,8 +183,7 @@ namespace RM.MailshotsOnline.Business.Processors
                                 ICollection<ValidationResult> results;
                                 bool isValid = contact.TryValidate(out results);
 
-                                // TODO: Dedupe against existing list as well
-                                if (isValid && !validContacts.ContainsKey(contact.AddressRef))
+                                if (isValid && !validContacts.ContainsKey(contact.AddressRef) && existingContacts.All(ec => ec.AddressRef != contact.AddressRef))
                                 {
                                     validContacts.Add(contact.AddressRef, contact);
                                 }
@@ -214,7 +214,7 @@ namespace RM.MailshotsOnline.Business.Processors
             return mappedFields;
         }
 
-        public ModifyListMappedFieldsModel<T> BuildListsFromContacts<T>(IEnumerable<T> contacts) where T : class, IDistributionContact
+        public ModifyListMappedFieldsModel<T> BuildListsFromContacts<T>(IEnumerable<T> contacts, List<T> existingContacts) where T : class, IDistributionContact
         {
             var validContacts = new Dictionary<string, T>();
             var duplicateContacts = new List<T>();
@@ -230,8 +230,7 @@ namespace RM.MailshotsOnline.Business.Processors
                 ICollection<ValidationResult> results;
                 bool isValid = contact.TryValidate(out results);
 
-                // TODO: Dedupe against existing list as well
-                if (isValid && !validContacts.ContainsKey(contact.AddressRef))
+                if (isValid && !validContacts.ContainsKey(contact.AddressRef) && existingContacts.All(ec => ec.AddressRef != contact.AddressRef))
                 {
                     validContacts.Add(contact.AddressRef, contact);
                 }

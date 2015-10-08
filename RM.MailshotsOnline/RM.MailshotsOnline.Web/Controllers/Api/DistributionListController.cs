@@ -342,7 +342,9 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             byte[] data = _dataService.GetDataFile(list, Enums.DistributionListFileType.Working);
 
-            ModifyListMappedFieldsModel<DistributionContact> mappedContacts = _listProcessor.BuildListsFromFieldMappings<DistributionContact>(model.Mappings, model.ColumnCount, model.FirstRowIsHeader ?? false, data);
+            List<DistributionContact> existingContacts = _dataService.GetFinalContacts<DistributionContact>(list);
+
+            ModifyListMappedFieldsModel<DistributionContact> mappedContacts = _listProcessor.BuildListsFromFieldMappings(model.Mappings, model.ColumnCount, model.FirstRowIsHeader ?? false, data, existingContacts);
 
             // Could all be errors/duplicates
             if (mappedContacts.ValidContacts.Any())
@@ -465,7 +467,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                            ListState = Enums.DistributionListState.AddNewContacts
                        };
 
-                ModifyListMappedFieldsModel<DistributionContact> mappedContacts = _listProcessor.BuildListsFromContacts(model.Contacts);
+                ModifyListMappedFieldsModel<DistributionContact> mappedContacts = _listProcessor.BuildListsFromContacts(model.Contacts, new List<DistributionContact>());
 
                 // Could all be errors/duplicates
                 if (mappedContacts.ValidContacts.Any())
@@ -499,7 +501,9 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             else
             {
                 // Adding to an existing list - could be "in progress" or "complete"
-                summaryModel = _dataService.UpdateWorkingXml(list, model.Contacts.ToList());
+                ModifyListMappedFieldsModel<DistributionContact> mappedContacts = _listProcessor.BuildListsFromContacts(model.Contacts, _dataService.GetFinalContacts<DistributionContact>(list));
+
+                summaryModel = _dataService.UpdateWorkingXml(list, mappedContacts);
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, summaryModel);
@@ -547,7 +551,6 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             switch (model.Command.ToLower())
             {
                 case "finish":
-                    // TODO: Merge with existing
                     if (!string.IsNullOrEmpty(list.BlobWorking))
                     {
                         _dataService.CompleteContactEdits(list);

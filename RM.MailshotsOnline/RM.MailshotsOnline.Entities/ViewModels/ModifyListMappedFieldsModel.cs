@@ -3,7 +3,7 @@ using RM.MailshotsOnline.PCL.Models;
 
 namespace RM.MailshotsOnline.Entities.ViewModels
 {
-    public class ModifyListMappedFieldsModel<T> where T: IDistributionContact
+    public class ModifyListMappedFieldsModel<T> : IModifyListMappedFieldsModel<T> where T: IDistributionContact
     {
         public int ValidContactsCount { get; set; }
 
