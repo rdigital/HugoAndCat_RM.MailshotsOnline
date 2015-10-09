@@ -6111,6 +6111,32 @@ define([],
                             ]
                         },
                         {
+                            name: 'inside_footer',
+                            font_sizes: ['8px', '9px', '10px', '11px', '12px', '13px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            styles: [
+                                {
+                                    property: 'color',
+                                    value: '#FFFFFF'
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '15px'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Lato', sans-serif"
+                                },
+                                {
+                                    property: 'text-align',
+                                    value: 'left'
+                                },
+                                {
+                                    property: 'font-weight',
+                                    value: 'lighter'
+                                }
+                            ]
+                        },
+                        {
                             name: 'footer_block',
                             styles: [
                                 {

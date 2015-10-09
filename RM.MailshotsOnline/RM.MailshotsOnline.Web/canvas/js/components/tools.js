@@ -129,7 +129,7 @@ define(['knockout', 'components/dropdown', 'components/slider', 'components/colo
          */
         toolsViewModel.prototype.getScaleComputed = function getScaleComputed() {
             return ko.pureComputed(function() {
-                if (this.elementType() == 'image') {
+                if (this.elementType() == 'image' || this.elementType() == 'logo') {
                     if (this.selectedElement().imageObj.src && this.selectedElement().imageObj.src()) {
                         return true;
                     }

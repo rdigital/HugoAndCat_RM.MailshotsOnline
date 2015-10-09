@@ -6,6 +6,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
 
             this.data = params.data;
             this.preview = params.preview;
+            this.fit = params.fit;
             this.isSelected = ko.observable(false);
             this.element = ko.observable();
             this.canvas = ko.observable();
@@ -320,7 +321,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
                         // work out initial alignment for image
                         var width_factor = canvas_width / this.image.width,
                             height_factor = canvas_height / this.image.height,
-                            base_scale = Math.max(width_factor, height_factor),
+                            base_scale = (this.fit) ? Math.min(width_factor, height_factor) : Math.max(width_factor, height_factor),
                             user_scale = (this.imageObj.scale() || 100) / 100,
                             width_offset = (canvas_width - (this.image.width * base_scale * user_scale)) / 2,
                             height_offset = (canvas_height - (this.image.height * base_scale * user_scale)) / 2;
@@ -384,7 +385,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
                 // work out scale to apply to image
                 var width_factor = canvas_width / this.image.width,
                     height_factor = canvas_height / this.image.height,
-                    base_scale = Math.max(width_factor, height_factor),
+                    base_scale = (this.fit) ? Math.min(width_factor, height_factor) : Math.max(width_factor, height_factor),
                     user_scale = (this.imageObj.scale() || 100) / 100,
                     width = this.image.width * base_scale * user_scale * this.scaleFactor,
                     height = this.image.height * base_scale * user_scale * this.scaleFactor;
