@@ -9,7 +9,6 @@ using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Business.Processors;
 using RM.MailshotsOnline.Data.Helpers;
 using RM.MailshotsOnline.Entities.DataModels;
-using RM.MailshotsOnline.Entities.PageModels;
 using RM.MailshotsOnline.Entities.PageModels.Settings;
 using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.PCL;
@@ -19,6 +18,9 @@ using RM.MailshotsOnline.Web.Models;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
+    // TODO: DELETE LISTS
+    // TODO: DELETE CONTACTS
+
     public class DistributionListController: ApiBaseController
     {
         private readonly string _controllerName;
@@ -378,7 +380,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             // Could all be errors/duplicates
             if (mappedContacts.ValidContacts.Any())
             {
-                list = _dataService.CreateWorkingXml(list, mappedContacts.ValidContactsCount,
+                list = _dataService.CreateValidXml(list, mappedContacts.ValidContactsCount,
                                                                  mappedContacts.ValidContacts);
             }
 
@@ -486,6 +488,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             IModifyListSummaryModel<DistributionContact> summaryModel;
 
+            // Sorting the contacts adds a contactId so check now
+            bool allContactsAreNew = model.Contacts.All(mc => mc.ContactId == Guid.Empty);
             if (list == null)
             {
                 // Creating a new list
@@ -496,43 +500,80 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                            ListState = Enums.DistributionListState.AddNewContacts
                        };
 
-                ModifyListMappedFieldsModel<DistributionContact> mappedContacts = _listProcessor.BuildListsFromContacts(model.Contacts, new List<DistributionContact>());
+                ModifyListMappedFieldsModel<DistributionContact> mappedContacts =
+                    _listProcessor.BuildListsFromContacts(model.Contacts, new List<DistributionContact>());
 
-                // Could all be errors/duplicates
-                if (mappedContacts.ValidContacts.Any())
+                if (allContactsAreNew &&
+                    mappedContacts.InvalidContactsCount == 0 && mappedContacts.DuplicateContactsCount == 0)
                 {
-                    list = _dataService.CreateWorkingXml(list, mappedContacts.ValidContactsCount,
-                                                                     mappedContacts.ValidContacts);
+                    list.RecordCount = mappedContacts.ValidContactsCount;
+                    // These are all new contacts with no errors - save them straight to the list without going to draft
+                    list = _dataService.CreateValidXml(list, mappedContacts.ValidContactsCount,
+                                                       mappedContacts.ValidContacts,
+                                                       Enums.DistributionListFileType.Final);
+                }
+                // Could all be errors/duplicates
+                else if (mappedContacts.ValidContactsCount > 0)
+                {
+                    // There are some valid contacts, but they aren't all new, or there are some errors, so we'll need a summary.
+                    list = _dataService.CreateValidXml(list, mappedContacts.ValidContactsCount,
+                                                       mappedContacts.ValidContacts);
                 }
 
-                if (mappedContacts.InvalidContacts.Any() || mappedContacts.DuplicateContacts.Any())
+                if (mappedContacts.InvalidContactsCount > 0 || mappedContacts.DuplicateContactsCount > 0)
                 {
                     list = _dataService.CreateErrorXml(list, mappedContacts.InvalidContactsCount,
-                                                                   mappedContacts.InvalidContacts,
-                                                                   mappedContacts.DuplicateContactsCount,
-                                                                   mappedContacts.DuplicateContacts);
+                                                       mappedContacts.InvalidContacts,
+                                                       mappedContacts.DuplicateContactsCount,
+                                                       mappedContacts.DuplicateContacts);
                 }
 
                 summaryModel = new ModifyListSummaryModel<DistributionContact>
-                {
-                    DistributionListId = list.DistributionListId,
-                    ListName = list.Name,
-                    ValidContactCount = mappedContacts.ValidContactsCount,
-                    ValidContactsAdded = mappedContacts.ValidContactsCount,
-                    InvalidContactCount = mappedContacts.InvalidContactsCount,
-                    InvalidContactsAdded = mappedContacts.InvalidContactsCount,
-                    InvalidContacts = mappedContacts.InvalidContacts,
-                    DuplicateContactCount = mappedContacts.DuplicateContactsCount,
-                    DuplicateContactsAdded = mappedContacts.DuplicateContactsCount,
-                    DuplicateContacts = mappedContacts.DuplicateContacts
-                };
+                               {
+                                   DistributionListId = list.DistributionListId,
+                                   ListName = list.Name,
+                                   ValidContactCount = mappedContacts.ValidContactsCount,
+                                   ValidContactsAdded = mappedContacts.ValidContactsCount,
+                                   InvalidContactCount = mappedContacts.InvalidContactsCount,
+                                   InvalidContactsAdded = mappedContacts.InvalidContactsCount,
+                                   InvalidContacts = mappedContacts.InvalidContacts,
+                                   DuplicateContactCount = mappedContacts.DuplicateContactsCount,
+                                   DuplicateContactsAdded = mappedContacts.DuplicateContactsCount,
+                                   DuplicateContacts = mappedContacts.DuplicateContacts
+                               };
             }
             else
             {
                 // Adding to an existing list - could be "in progress" or "complete"
-                ModifyListMappedFieldsModel<DistributionContact> mappedContacts = _listProcessor.BuildListsFromContacts(model.Contacts, _dataService.GetFinalContacts<DistributionContact>(list));
+                ModifyListMappedFieldsModel<DistributionContact> mappedContacts =
+                    _listProcessor.BuildListsFromContacts(model.Contacts,
+                                                          _dataService.GetFinalContacts<DistributionContact>(list));
 
-                summaryModel = _dataService.UpdateWorkingXml(list, mappedContacts);
+                if (allContactsAreNew &&
+                    mappedContacts.InvalidContactsCount == 0 && mappedContacts.DuplicateContactsCount == 0)
+                {
+                    // These are all new contacts with no errors - save them straight to the list without going to draft
+                    list = _dataService.UpdateFinalXml(list, mappedContacts.ValidContactsCount,
+                                                       mappedContacts.ValidContacts);
+
+                    summaryModel = new ModifyListSummaryModel<DistributionContact>
+                                   {
+                                       DistributionListId = list.DistributionListId,
+                                       ListName = list.Name,
+                                       ValidContactCount = mappedContacts.ValidContactsCount,
+                                       ValidContactsAdded = mappedContacts.ValidContactsCount,
+                                       InvalidContactCount = mappedContacts.InvalidContactsCount,
+                                       InvalidContactsAdded = mappedContacts.InvalidContactsCount,
+                                       InvalidContacts = mappedContacts.InvalidContacts,
+                                       DuplicateContactCount = mappedContacts.DuplicateContactsCount,
+                                       DuplicateContactsAdded = mappedContacts.DuplicateContactsCount,
+                                       DuplicateContacts = mappedContacts.DuplicateContacts
+                                   };
+                }
+                else
+                {
+                    summaryModel = _dataService.UpdateWorkingXml(list, mappedContacts);
+                }
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, summaryModel);
