@@ -18,7 +18,6 @@ using RM.MailshotsOnline.Web.Models;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
-    // TODO: DELETE LISTS
     // TODO: DELETE CONTACTS
 
     public class DistributionListController: ApiBaseController
