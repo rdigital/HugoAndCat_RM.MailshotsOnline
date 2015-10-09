@@ -36,5 +36,13 @@ namespace RM.MailshotsOnline.PCL.Services
         /// <param name="invoice">Invoice to save</param>
         /// <returns>Saved invoice object</returns>
         IInvoice Save(IInvoice invoice);
+
+        /// <summary>
+        /// Retrieve all paid invoices in the given date range.
+        /// </summary>
+        /// <param name="startDate">The start date</param>
+        /// <param name="endDate">The end date</param>
+        /// <returns></returns>
+        IEnumerable<IInvoice> GetPaidInvoices(DateTime startDate, DateTime endDate);
     }
 }

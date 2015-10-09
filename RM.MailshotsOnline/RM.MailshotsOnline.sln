@@ -21,6 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XML", "XML", "{61BD6155-3F8
 	ProjectSection(SolutionItems) = preProject
 		XML\card.xml = XML\card.xml
 		XML\data.xml = XML\data.xml
+		..\..\RM.PalPics\PalPics App\keys\private key.ppk = ..\..\RM.PalPics\PalPics App\keys\private key.ppk
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Formats", "Formats", "{2867E7DB-2EB7-402B-BE27-1FFD3298E4AA}"
@@ -55,6 +56,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HC.RM.Common.Images", "HC.RM.Common.Images\HC.RM.Common.Images.csproj", "{B90FF7F0-D68B-47A3-90DA-EE6776210F3A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HC.RM.Common.PayPal", "HC.RM.Common.PayPal\HC.RM.Common.PayPal.csproj", "{5CECFBD1-8591-4D0A-9032-2DA879DBEA75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RM.MailshotsOnline.WorkerRole", "RM.MailshotsOnline.WorkerRole\RM.MailshotsOnline.WorkerRole.csproj", "{6CA7AD73-2F14-427E-9A49-CECA89C9BB5F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Keys", "Keys", "{5D019E8D-AE6A-4F6A-A53B-121705D416EA}"
+	ProjectSection(SolutionItems) = preProject
+		Keys\private-key.ppk = Keys\private-key.ppk
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -117,6 +125,12 @@ Global
 		{5CECFBD1-8591-4D0A-9032-2DA879DBEA75}.QA|Any CPU.Build.0 = Release|Any CPU
 		{5CECFBD1-8591-4D0A-9032-2DA879DBEA75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CECFBD1-8591-4D0A-9032-2DA879DBEA75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CA7AD73-2F14-427E-9A49-CECA89C9BB5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CA7AD73-2F14-427E-9A49-CECA89C9BB5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CA7AD73-2F14-427E-9A49-CECA89C9BB5F}.QA|Any CPU.ActiveCfg = Release|Any CPU
+		{6CA7AD73-2F14-427E-9A49-CECA89C9BB5F}.QA|Any CPU.Build.0 = Release|Any CPU
+		{6CA7AD73-2F14-427E-9A49-CECA89C9BB5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CA7AD73-2F14-427E-9A49-CECA89C9BB5F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="Models\IAuthToken.cs" />
     <Compile Include="Models\IAddress.cs" />
     <Compile Include="Models\ICampaign.cs" />
     <Compile Include="Models\ICampaignDistributionList.cs" />
@@ -75,6 +76,10 @@
     <Compile Include="Models\Reporting\IMembershipReportEntity.cs" />
     <Compile Include="Models\Reporting\ITransactionsReport.cs" />
     <Compile Include="Models\Reporting\ITransactionsReportEntity.cs" />
+    <Compile Include="Services\IAuthTokenService.cs" />
+    <Compile Include="Services\Reporting\IReportingBlobService.cs" />
+    <Compile Include="Services\Reporting\IReportingBlobStorage.cs" />
+    <Compile Include="Services\Reporting\IReportingSftpService.cs" />
     <Compile Include="Services\Reporting\IReportingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ICampaignService.cs" />

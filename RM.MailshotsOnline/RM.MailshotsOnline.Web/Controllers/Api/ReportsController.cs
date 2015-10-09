@@ -4,11 +4,11 @@ using System.Web.Mvc;
 using System;
 using System.Collections;
 using System.IO;
-using System.Net.Http.Headers;
 using CsvHelper;
-using RM.MailshotsOnline.Data.Services.Reporting;
-using RM.MailshotsOnline.Entities.DataModels.Reports;
+using HC.RM.Common.PCL.Helpers;
+using RM.MailshotsOnline.Data.Constants;
 using RM.MailshotsOnline.PCL.Models.Reporting;
+using RM.MailshotsOnline.PCL.Services;
 using RM.MailshotsOnline.PCL.Services.Reporting;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
@@ -16,78 +16,114 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
     public class ReportsController : ApiBaseController
     {
         private static IReportingService _reportingService;
+        private static IReportingBlobService _blobService;
+        private static IReportingSftpService _sftpService;
+        private static IAuthTokenService _authTokenService;
 
-        public ReportsController(IReportingService reportingService)
+        public ReportsController(IReportingService reportingService, IReportingBlobService blobService, IReportingSftpService sftpService, IAuthTokenService authTokenService)
         {
             _reportingService = reportingService;
+            _blobService = blobService;
+            _sftpService = sftpService;
+            _authTokenService = authTokenService;
         }
 
-        [HttpGet]
-        public HttpResponseMessage GetReport(string type)
+        [HttpPost]
+        public HttpResponseMessage GenerateReport(AuthTokenPostModel tokenPostModel)
         {
-            // Check to see if the user is logged into the front-end site
-            //var authResult = Authenticate();
-            //if (authResult != null)
-            //{
-            //    return authResult;
-            //}
+            if (string.IsNullOrEmpty(tokenPostModel.Type) || string.IsNullOrEmpty(tokenPostModel.Token))
+            {
+                var message = "Method was called with bad parameters";
+
+                _logger.Error(this.GetType().Name, "GenerateReport", message);
+                return ErrorMessageDebug(HttpStatusCode.BadRequest, message);
+            }
+
+            if (!_authTokenService.Consume(tokenPostModel.Service, tokenPostModel.Token))
+            {
+                var message = "Method was called with an invalid token";
+
+                _logger.Error(this.GetType().Name, "GenerateReport", message);
+                return ErrorMessageDebug(HttpStatusCode.BadRequest, message);
+            }
 
             IReport report;
-            switch (type.ToLower())
+            IEnumerable data;
+
+            switch (tokenPostModel.Type.ToLower())
             {
                 case "membership":
+
                     report = _reportingService.MembershipReportGenerator.Generate();
-                    return CreateCsvResponse(report, ((MembershipReport)report).Members);
+                    data = ((IMembershipReport) report).Members;
+
+                    break;
+
                 case "transactions":
+
                     report = _reportingService.TransactionsReportGenerator.Generate();
-                    return CreateCsvResponse(report, ((TransactionsReport)report).Transactions);
+                    data = ((ITransactionsReport)report).Transactions;
+
+                    break;
+
                 default:
-                    return new HttpResponseMessage(HttpStatusCode.BadRequest);
-            }
-        }
 
-        private HttpResponseMessage CreateCsvResponse(IReport report, IEnumerable data)
-        {
-            if (report == null)
-            {
-                return new HttpResponseMessage(HttpStatusCode.NoContent);
+                    return ErrorMessageDebug(HttpStatusCode.BadRequest, "Method was called with an invalid report type");
             }
 
-            byte[] csvBytes;
-            using (var memoryStream = new MemoryStream())
+            if (data != null)
             {
-                using (var streamWriter = new StreamWriter(memoryStream))
+                using (var m = new MemoryStream())
+                using (var streamWriter = new StreamWriter(m))
                 using (var csvWriter = new CsvWriter(streamWriter))
                 {
                     csvWriter.WriteRecords(data);
+
+                    var filename = report.Name + ".csv";
+
+                    try
+                    {
+                        var success = _sftpService.Put(m, $"{Constants.Reporting.SftpDirectory}/{filename}");
+
+                        if (!success)
+                        {
+                            throw new Exception("SFTP service not transfer the file.");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.Error(this.GetType().Name, "GenerateReport", "Upload to SFTP server failed!", e);
+                    }
+
+                    try
+                    {
+                        var blobName = _blobService.Store(m.ToArray(), filename, "text/csv");
+
+                        if (!string.IsNullOrEmpty(blobName))
+                        {
+                            throw new Exception("The blob service did not return a blob name after attempting to store the report.");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.Error(this.GetType().Name, "GenerateReport", "Upload to blob store failed!", e);
+                    }
+
+                    return new HttpResponseMessage(HttpStatusCode.OK);
                 }
-
-                csvBytes = memoryStream.ToArray();
             }
 
-            if (csvBytes.Length == 0)
-            {
-                return new HttpResponseMessage(HttpStatusCode.NoContent);
-            }
+            _logger.Error(this.GetType().Name, "GenerateReport", "Stream was empty");
+            return ErrorMessageDebug(HttpStatusCode.InternalServerError, "Stream was empty");
+        }
 
-            var result = Request.CreateResponse(HttpStatusCode.OK);
-            result.Content = new ByteArrayContent(csvBytes);
-            result.Content.Headers.ContentType = new MediaTypeHeaderValue("text/csv");
-            result.Content.Headers.ContentDisposition =
-                new ContentDispositionHeaderValue("attachment")
-                {
-                    FileName = $"{report.Name} - {report.CreatedDate.ToString("yyyyMMddHHmmss")}.csv",
-                    Size = csvBytes.Length,
-                    CreationDate = report.CreatedDate
-                };
-            result.Headers.CacheControl = new CacheControlHeaderValue()
-            {
-                Public = true,
-                MaxAge = TimeSpan.FromSeconds(3600),
-                NoCache = false
-            };
+        public class AuthTokenPostModel
+        {
+            public string Type { get; set; }
 
-            return result;
+            public string Token { get; set; }
+
+            public string Service { get; set; }
         }
     }
 }

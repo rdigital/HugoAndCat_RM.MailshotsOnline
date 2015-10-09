@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace RM.MailshotsOnline.PCL.Models.Reporting
 {
