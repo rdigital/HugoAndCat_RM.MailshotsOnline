@@ -354,6 +354,10 @@
     <Compile Include="Migrations\201510081731126_PostMergeMigrations.Designer.cs">
       <DependentUpon>201510081731126_PostMergeMigrations.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510092220153_PostDeployMerge2.cs" />
+    <Compile Include="Migrations\201510092220153_PostDeployMerge2.Designer.cs">
+      <DependentUpon>201510092220153_PostDeployMerge2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AuthTokenService.cs" />
@@ -541,6 +545,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510081731126_PostMergeMigrations.resx">
       <DependentUpon>201510081731126_PostMergeMigrations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510092220153_PostDeployMerge2.resx">
+      <DependentUpon>201510092220153_PostDeployMerge2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
