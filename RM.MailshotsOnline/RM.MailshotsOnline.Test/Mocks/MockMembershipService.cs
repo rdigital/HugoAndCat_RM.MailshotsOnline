@@ -74,5 +74,10 @@ namespace RM.MailshotsOnline.Test.Mocks
         {
             throw new NotImplementedException();
         }
+
+        public IEnumerable<IMember> GetActiveMembers(DateTime startDate, DateTime endDate)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

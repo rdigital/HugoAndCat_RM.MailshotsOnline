@@ -106,7 +106,6 @@ namespace RM.MailshotsOnline.Data.Services
 
             if (savedInvoice != null)
             {
-                // TODO: Get the names from the CMS
                 var lineItems = new List<InvoiceLineItem>();
 
                 lineItems.Add(new InvoiceLineItem()
@@ -160,7 +159,8 @@ namespace RM.MailshotsOnline.Data.Services
                             Quantity = priceBreakdown.PrintCount.Value,
                             UnitCost = priceBreakdown.PrintingRate.Value,
                             TaxRate = priceBreakdown.TaxRate,
-                            InvoiceId = savedInvoice.InvoiceId
+                            InvoiceId = savedInvoice.InvoiceId,
+                            SubTitle = campaign.Mailshot.Format.Name
                         });
                     }
 

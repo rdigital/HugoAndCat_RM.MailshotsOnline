@@ -68,7 +68,7 @@ namespace RM.MailshotsOnline.Data.Services.Reporting
                         Type = "LineItems",
                         PaymentId = invoice.PaypalPaymentId,
                         SaleIdProductSku = lineItem.ProductSku,
-                        PaymentTimeProductName = lineItem.Product.ToString(),
+                        PaymentTimeProductName = string.IsNullOrEmpty(lineItem.SubTitle) ? lineItem.Product.Name : string.Format("{0} ({1})", lineItem.Product.Name, lineItem.SubTitle),
                         UserIdQuantity = lineItem.Quantity.ToString(),
                         EmailAddressUnitPrice = lineItem.UnitCost.ToString(CultureInfo.InvariantCulture),
                         OrderSubtotalLineSubtotal = lineItem.SubTotal,

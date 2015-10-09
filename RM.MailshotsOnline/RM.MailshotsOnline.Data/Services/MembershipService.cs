@@ -286,6 +286,17 @@ namespace RM.MailshotsOnline.Data.Services
         }
 
         /// <summary>
+        /// Returns the list of members updated in the given time frame.
+        /// </summary>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns></returns>
+        public IEnumerable<IMember> GetActiveMembers(DateTime startDate, DateTime endDate)
+        {
+            return GetAllActiveMembers().Where(x => x.Updated >= startDate && x.Updated <= endDate);
+        }
+
+        /// <summary>
         /// Saves the new password against the member
         /// </summary>
         /// <param name="umbracoMember">Member to update the password for</param>

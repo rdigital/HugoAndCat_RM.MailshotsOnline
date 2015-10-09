@@ -7,6 +7,7 @@ using System.IO;
 using CsvHelper;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.Constants;
+using RM.MailshotsOnline.Entities.JsonModels;
 using RM.MailshotsOnline.PCL.Models.Reporting;
 using RM.MailshotsOnline.PCL.Services;
 using RM.MailshotsOnline.PCL.Services.Reporting;
@@ -20,7 +21,9 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         private static IReportingSftpService _sftpService;
         private static IAuthTokenService _authTokenService;
 
-        public ReportsController(IReportingService reportingService, IReportingBlobService blobService, IReportingSftpService sftpService, IAuthTokenService authTokenService)
+        public ReportsController(ILogger logger, IReportingService reportingService, IReportingBlobService blobService,
+            IReportingSftpService sftpService, IAuthTokenService authTokenService)
+            : base(logger)
         {
             _reportingService = reportingService;
             _blobService = blobService;
@@ -99,7 +102,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                     {
                         var blobName = _blobService.Store(m.ToArray(), filename, "text/csv");
 
-                        if (!string.IsNullOrEmpty(blobName))
+                        if (string.IsNullOrEmpty(blobName))
                         {
                             throw new Exception("The blob service did not return a blob name after attempting to store the report.");
                         }
@@ -115,15 +118,6 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             _logger.Error(this.GetType().Name, "GenerateReport", "Stream was empty");
             return ErrorMessageDebug(HttpStatusCode.InternalServerError, "Stream was empty");
-        }
-
-        public class AuthTokenPostModel
-        {
-            public string Type { get; set; }
-
-            public string Token { get; set; }
-
-            public string Service { get; set; }
         }
     }
 }
