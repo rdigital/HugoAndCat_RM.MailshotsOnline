@@ -90,9 +90,9 @@ namespace RM.MailshotsOnline.PCL.Services
         /// <param name="distributionList">The distribution list.</param>
         /// <param name="contactsCount">The contacts count.</param>
         /// <param name="contacts">The contacts.</param>
+        /// <param name="fileType">The file type to save the contacts as. Defaults to <see cref="Enums.DistributionListFileType.Working"/></param>
         /// <returns></returns>
-        IDistributionList CreateWorkingXml<T>(IDistributionList distributionList, int contactsCount,
-                                           IEnumerable<T> contacts) where T: IDistributionContact;
+        IDistributionList CreateValidXml<T>(IDistributionList distributionList, int contactsCount, IEnumerable<T> contacts, Enums.DistributionListFileType fileType = Enums.DistributionListFileType.Working) where T: IDistributionContact;
 
         /// <summary>
         /// Creates an "errors" XML file with from lists of duplicate and invalid contacts.
@@ -127,12 +127,28 @@ namespace RM.MailshotsOnline.PCL.Services
         /// <summary>
         /// Updates the Working and Error XML files.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">The concrete type of the contacts</typeparam>
         /// <param name="distributionList">The distribution list.</param>
         /// <param name="contactsUpdate">The contacts to update.</param>
         /// <returns></returns>
         IModifyListSummaryModel<T> UpdateWorkingXml<T>(IDistributionList distributionList, IModifyListMappedFieldsModel<T> contactsUpdate) where T : IDistributionContact;
 
+        /// <summary>
+        /// Extracts the list of finalised contacts from the stored XML and converts them back to Contacts.
+        /// </summary>
+        /// <typeparam name="T">The concrete type of the contacts</typeparam>
+        /// <param name="distributionList">The distribution list.</param>
+        /// <returns></returns>
         List<T> GetFinalContacts<T>(IDistributionList distributionList) where T: IDistributionContact;
+
+        /// <summary>
+        /// Merges the contacts with the existing Final Distribution list - only used when adding individual contacts.
+        /// </summary>
+        /// <typeparam name="T">The concrete type of the contacts</typeparam>
+        /// <param name="distributionList">The distribution list.</param>
+        /// <param name="contactsCount">The contact count.</param>
+        /// <param name="contacts">The contacts.</param>
+        /// <returns></returns>
+        IDistributionList UpdateFinalXml<T>(IDistributionList distributionList, int contactsCount, IEnumerable<T> contacts) where T : IDistributionContact;
     }
 }

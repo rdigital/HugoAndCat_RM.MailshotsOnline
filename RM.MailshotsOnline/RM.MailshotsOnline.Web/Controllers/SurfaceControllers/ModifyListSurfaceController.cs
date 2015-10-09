@@ -171,7 +171,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             // Could all be errors/duplicates
             if (mappedContacts.ValidContacts.Any())
             {
-                distributionList = _dataService.CreateWorkingXml(distributionList, mappedContacts.ValidContactsCount,
+                distributionList = _dataService.CreateValidXml(distributionList, mappedContacts.ValidContactsCount,
                                                                  mappedContacts.ValidContacts);
             }
 

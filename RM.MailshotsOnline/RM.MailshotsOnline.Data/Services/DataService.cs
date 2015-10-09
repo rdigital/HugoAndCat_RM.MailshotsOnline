@@ -50,7 +50,7 @@ namespace RM.MailshotsOnline.Data.Services
 
         public IEnumerable<IDistributionList> GetDistributionListsForUser(int userId)
         {
-            return GetDistributionLists(d => d.UserId == userId).OrderBy(d=> d.UpdatedDate);
+            return GetDistributionLists(d => d.UserId == userId).OrderByDescending(d=> d.UpdatedDate);
         }
 
         public bool ListNameIsAlreadyInUse(int userId, string listName)
@@ -273,8 +273,7 @@ namespace RM.MailshotsOnline.Data.Services
             }
         }
 
-        public IDistributionList CreateWorkingXml<T>(IDistributionList distributionList, int contactsCount,
-                                                  IEnumerable<T> contacts) where T : IDistributionContact
+        public IDistributionList CreateValidXml<T>(IDistributionList distributionList, int contactsCount, IEnumerable<T> contacts, Enums.DistributionListFileType fileType = Enums.DistributionListFileType.Working) where T : IDistributionContact
         {
             if (contactsCount == 0)
             {
@@ -287,19 +286,7 @@ namespace RM.MailshotsOnline.Data.Services
 
             // Convert Successful items into an XML doc
             var successfulXml = new XDocument();
-            var distributionListElement = new XElement(_elementDistributionList,
-                                                       new XAttribute(_attributeListName, updatedList.Name),
-                                                       new XAttribute(_attributeCount, contactsCount));
-
-            DataContractSerializer serialiser = new DataContractSerializer(typeof(T));
-
-            using (var successWriter = distributionListElement.CreateWriter())
-            {
-                foreach (var contact in contacts)
-                {
-                    serialiser.WriteObject(successWriter, contact);
-                }
-            }
+            var distributionListElement = createDistributionListElement(contactsCount, contacts, updatedList, _elementDistributionList);
 
             successfulXml.Add(distributionListElement);
 
@@ -310,7 +297,7 @@ namespace RM.MailshotsOnline.Data.Services
 
                 updatedList = UpdateDistributionList(updatedList, successfulStream.ToArray(),
                                                      PCL.Constants.MimeTypes.Xml,
-                                                     Enums.DistributionListFileType.Working);
+                                                     fileType);
             }
 
             return updatedList;
@@ -336,32 +323,16 @@ namespace RM.MailshotsOnline.Data.Services
 
             if (errorsCount > 0)
             {
-                var invalidElement = new XElement(_elementInvalid, new XAttribute(_attributeListName, updatedList.Name),
-                                                 new XAttribute(_attributeCount, errorsCount));
-
-                using (var errorWriter = invalidElement.CreateWriter())
-                {
-                    foreach (var contact in errorContacts)
-                    {
-                        serialiser.WriteObject(errorWriter, contact);
-                    }
-                }
-
+                var invalidElement = createDistributionListElement(errorsCount, errorContacts, updatedList,
+                                                                   _elementInvalid, serialiser);
+                
                 errorElement.Add(invalidElement);
             }
 
             if (duplicatesCount > 0)
             {
-                var duplicateElement = new XElement(_elementDuplicates, new XAttribute(_attributeListName, updatedList.Name),
-                                                 new XAttribute(_attributeCount, duplicatesCount));
-
-                using (var dupWriter = duplicateElement.CreateWriter())
-                {
-                    foreach (var contact in duplicateContacts)
-                    {
-                        serialiser.WriteObject(dupWriter, contact);
-                    }
-                }
+                var duplicateElement = createDistributionListElement(duplicatesCount, duplicateContacts, updatedList,
+                                                                     _elementDuplicates, serialiser);
 
                 errorElement.Add(duplicateElement);
             }
@@ -393,6 +364,8 @@ namespace RM.MailshotsOnline.Data.Services
                 return null;
             }
 
+            // TODO: If there's no existing final list to merge into, just mark Working as Final?
+            // DO NOT TRY AND COPY/RENAME THE BLOB: http://stackoverflow.com/a/26549519/33051
             byte[] data = GetDataFile(distributionList, Enums.DistributionListFileType.Working);
 
             XElement workingListElement;
@@ -522,7 +495,7 @@ namespace RM.MailshotsOnline.Data.Services
 
             if (successfulAdd > 0)
             {
-                distributionList = CreateWorkingXml(distributionList, summaryModel.ValidContactCount + successfulAdd, validContacts);
+                distributionList = CreateValidXml(distributionList, summaryModel.ValidContactCount + successfulAdd, validContacts);
             }
 
             if (removedErrors < 0 || invalidAdd > 0 || addedDuplicates > 0)
@@ -557,6 +530,56 @@ namespace RM.MailshotsOnline.Data.Services
             }
 
             return new List<T>();
+        }
+
+        public IDistributionList UpdateFinalXml<T>(IDistributionList distributionList, int contactsCount, IEnumerable<T> contacts) where T : IDistributionContact
+        {
+            XDocument finalXml;
+
+            var finalElement = createDistributionListElement(contactsCount, contacts, distributionList,
+                                                             _elementDistributionList);
+
+            if (!string.IsNullOrEmpty(distributionList.BlobFinal))
+            {
+                // Merge into existing final list
+                byte[] data = GetDataFile(distributionList, Enums.DistributionListFileType.Final);
+
+                using (var finalStream = new MemoryStream(data))
+                {
+                    using (var finalReader = new StreamReader(finalStream))
+                    {
+                        finalXml = XDocument.Load(finalReader);
+
+                        var existingListElement = finalXml.Element(_elementDistributionList);
+
+                        if (existingListElement == null)
+                        {
+                            _logger.Critical(_className, "CompleteContactEdits",
+                                             "Unable to load existing final XML document for user list: {0}:{1} - {2} ",
+                                             distributionList.UserId, distributionList.DistributionListId,
+                                             distributionList.BlobFinal);
+                            throw new ArgumentException();
+                        }
+
+                        existingListElement.Add(finalElement.Elements());
+                    }
+                }
+            }
+            else
+            {
+                finalXml = new XDocument();
+                finalXml.Add(finalElement);
+            }
+
+            using (var saveStream = new MemoryStream())
+            {
+                finalXml.Save(saveStream);
+                saveStream.Position = 0;
+
+                return UpdateDistributionList(distributionList, saveStream.ToArray(),
+                                              PCL.Constants.MimeTypes.Xml,
+                                              Enums.DistributionListFileType.Final);
+            }
         }
 
         private IModifyListSummaryModel<T> getAllDetailsFromWorkingFiles<T>(IDistributionList distributionList, bool includeValidList, out List<T> validContacts) where T : IDistributionContact
@@ -661,6 +684,30 @@ namespace RM.MailshotsOnline.Data.Services
             }
 
             return new CountAndContacts<T>(contactCount, contacts);
+        }
+
+        private XElement createDistributionListElement<T>(int contactsCount, IEnumerable<T> contacts,
+                                                          IDistributionList updatedList, string elementName,
+                                                          DataContractSerializer serialiser = null)
+            where T : IDistributionContact
+        {
+            var distributionListElement = new XElement(elementName,
+                                                       new XAttribute(_attributeListName, updatedList.Name),
+                                                       new XAttribute(_attributeCount, contactsCount));
+
+            if (serialiser == null)
+            {
+                serialiser = new DataContractSerializer(typeof (T));
+            }
+
+            using (var successWriter = distributionListElement.CreateWriter())
+            {
+                foreach (var contact in contacts)
+                {
+                    serialiser.WriteObject(successWriter, contact);
+                }
+            }
+            return distributionListElement;
         }
 
         private static List<T> getContactsFromXElement<T>(XContainer listElement, int contactCount) where T : IDistributionContact
