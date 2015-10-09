@@ -177,6 +177,10 @@
 	width: 820px;
 	z-index: 4;
 
+	> div {
+		position: relative;
+	}
+
 	h2 {
 		@include font-size(28);
 	}

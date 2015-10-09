@@ -11,12 +11,12 @@
 			<div>
 				<label for="editFirstName">First Name*</label>
 				<input data-bind="value: contact.FirstName" type="text" id="editFirstName">
-				<p class="validation-msg" data-bind="validationMessage: contact.FirstName"><span class="icon-alert"></span></p>
+				<p class="validation-msg" data-bind="validationMessage: contact.FirstName"></p>
 			</div>
 			<div>
 				<label for="editSurname">Surname*</label>
 				<input data-bind="value: contact.Surname" type="text" id="editSurname">
-				<p class="validation-msg" data-bind="validationMessage: contact.Surname"><span class="icon-alert"></span></p>
+				<p class="validation-msg" data-bind="validationMessage: contact.Surname"></p>
 			</div>
 
 			<p class="strong">Contact Address</p>
@@ -35,7 +35,7 @@
 			<div>
 				<label for="editAddress1">Address 1*</label>
 				<input data-bind="value: contact.Address1" type="text" id="editAddress1">
-				<p class="validation-msg" data-bind="validationMessage: contact.Address1"><span class="icon-alert"></span></p>
+				<p class="validation-msg" data-bind="validationMessage: contact.Address1"></p>
 			</div>
 			<div>
 				<label for="editAddress2">Address 2</label>
@@ -52,7 +52,7 @@
 			<div>
 				<label for="editPostCode">Postcode*</label>
 				<input data-bind="value: contact.PostCode" type="text" id="editPostCode">
-				<p class="validation-msg" data-bind="validationMessage: contact.PostCode"><span class="icon-alert"></span></p>
+				<p class="validation-msg" data-bind="validationMessage: contact.PostCode"></p>
 			</div>
 			<div class="actions">
 				<button data-bind="visible: !addNewContact(), click: updateSingleContact" type="button" class="btn btn--green confirm-edit">Ok</button>
