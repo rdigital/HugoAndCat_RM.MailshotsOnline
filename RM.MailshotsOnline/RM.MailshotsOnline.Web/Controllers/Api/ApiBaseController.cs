@@ -66,5 +66,17 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         {
             return Request.CreateResponse(statusCode, new { error = errorMessage, statusCode = statusCode });
         }
+
+        internal HttpResponseMessage ErrorMessageDebug(HttpStatusCode statusCode, string errorMessage)
+        {
+            if (Request.IsLocal())
+            {
+                return Request.CreateResponse(statusCode, new {error = errorMessage, statusCode = statusCode});
+            }
+            else
+            {
+                return Request.CreateResponse(statusCode);
+            }
+        }
     }
 }

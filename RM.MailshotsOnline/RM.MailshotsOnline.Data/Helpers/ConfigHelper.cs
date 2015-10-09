@@ -54,6 +54,11 @@ namespace RM.MailshotsOnline.Data.Helpers
             get { return GetConfigValue("HostedScheme"); }
         }
 
+        public static string MailshotContentBlobContainer
+        {
+            get { return GetConfigValue("MailshotContentBlobContainer", "mailshotcontent"); }
+        }
+
         public static string MailshotDefaultContentTypeAlias
         {
             get { return GetConfigValue("MailshotDefaultContentTypeAlias", "MailshotDefaultContent"); }

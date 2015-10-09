@@ -19,12 +19,22 @@ namespace RM.MailshotsOnline.PCL.Models
         /// <summary>
         /// Gets or sets the ID of the mailshot content
         /// </summary>
-        Guid MailshotContentId { get; set; }
+        Guid? MailshotContentId { get; set; }
 
         /// <summary>
         /// Gets or sets the Mailshot Content
         /// </summary>
         IMailshotContent Content { get; set; }
+
+        /// <summary>
+        /// Gets or sets the content text
+        /// </summary>
+        string ContentText { get; set; }
+
+        /// <summary>
+        /// Gets or sets the content blob ID
+        /// </summary>
+        string ContentBlobId { get; set; }
 
         /// <summary>
         /// Gets or sets the ID of the user who owns the Mailshot

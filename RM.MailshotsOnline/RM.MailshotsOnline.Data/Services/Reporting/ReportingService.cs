@@ -12,7 +12,6 @@ namespace RM.MailshotsOnline.Data.Services.Reporting
 
         public ITransactionsReportGenerator TransactionsReportGenerator { get; }
 
-
         public ReportingService(IMembershipReportGenerator membershipReportGenerator, ITransactionsReportGenerator transactionsReportGenerator)
         {
             MembershipReportGenerator = membershipReportGenerator;

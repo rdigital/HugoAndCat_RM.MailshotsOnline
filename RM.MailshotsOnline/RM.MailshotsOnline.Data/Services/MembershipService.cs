@@ -6,11 +6,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Security;
 using RM.MailshotsOnline.Data.Extensions;
-using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using Umbraco.Core;
 using Umbraco.Core.Services;
 using System.Text;
+using umbraco;
+using Umbraco.Core.Models;
+using IMember = RM.MailshotsOnline.PCL.Models.IMember;
 
 namespace RM.MailshotsOnline.Data.Services
 {
@@ -18,13 +20,19 @@ namespace RM.MailshotsOnline.Data.Services
     {
         // this UmbracoMemberService could be replaced with a custom version, containing methods
         // that perform encryption of input values and decryption of output values.
-        private static readonly IMemberService UmbracoMemberService = ApplicationContext.Current.Services.MemberService;
+        private static IMemberService _umbracoMemberService;
 
         private static ICryptographicService _cryptographicService;
 
-        public MembershipService(ICryptographicService cryptographicService)
+        public MembershipService(ICryptographicService cryptographicService) :
+            this(cryptographicService, ApplicationContext.Current.Services.MemberService)
+        {
+        }
+
+        public MembershipService(ICryptographicService cryptographicService, IMemberService umbracoMemberService)
         {
             _cryptographicService = cryptographicService;
+            _umbracoMemberService = umbracoMemberService;
         }
 
         /// <summary>
@@ -42,7 +50,7 @@ namespace RM.MailshotsOnline.Data.Services
 
             if (securityMember != null)
             {
-                var umbracoMember = UmbracoMemberService.GetByProviderKey(securityMember.ProviderUserKey);
+                var umbracoMember = _umbracoMemberService.GetByProviderKey(securityMember.ProviderUserKey);
                 return umbracoMember.ToMemberEntityModel();
             }
 
@@ -59,17 +67,18 @@ namespace RM.MailshotsOnline.Data.Services
         {
             member.EmailAddress = member.EmailAddress.ToLower();
 
-            if (UmbracoMemberService.Exists(member.EmailAddress))
+            if (_umbracoMemberService.Exists(member.EmailAddress))
             {
                 return null;
             }
 
-            var umbracoMember = UmbracoMemberService.CreateMemberWithIdentity(Guid.NewGuid().ToString(), member.EmailAddress, member.EmailAddress, "Member");
+            var umbracoMember = _umbracoMemberService.CreateMemberWithIdentity(Guid.NewGuid().ToString(),
+                member.EmailAddress, member.EmailAddress, "Member");
 
             umbracoMember = umbracoMember.UpdateValues(member);
 
-            UmbracoMemberService.SavePassword(umbracoMember, password);
-            UmbracoMemberService.Save(umbracoMember);
+            _umbracoMemberService.Save(umbracoMember);
+            _umbracoMemberService.SavePassword(umbracoMember, password);
 
             member.Id = umbracoMember.Id;
 
@@ -92,7 +101,7 @@ namespace RM.MailshotsOnline.Data.Services
 
                 member.SetValue("passwordResetToken", token.ToString());
                 member.SetValue("passwordResetTokenExpiryDate", DateTime.UtcNow.AddDays(expiryDays).ToString(CultureInfo.InvariantCulture));
-                UmbracoMemberService.Save(member);
+                _umbracoMemberService.Save(member);
 
                 return token;
             }
@@ -132,7 +141,7 @@ namespace RM.MailshotsOnline.Data.Services
             }
 
             // else proceed in trying to get the member based on the token
-            var umbracoMember = UmbracoMemberService.GetMembersByPropertyValue("passwordResetToken",
+            var umbracoMember = _umbracoMemberService.GetMembersByPropertyValue("passwordResetToken",
                 token).FirstOrDefault();
 
             return ChangePassword(umbracoMember, password, true);
@@ -163,7 +172,7 @@ namespace RM.MailshotsOnline.Data.Services
                 return null;
             }
 
-            var umbracoMember = UmbracoMemberService.GetMembersByPropertyValue("passwordResetToken", token).FirstOrDefault();
+            var umbracoMember = _umbracoMemberService.GetMembersByPropertyValue("passwordResetToken", token).FirstOrDefault();
 
             // if we're null at this point, then the token was old/spurious.
             if (umbracoMember == null)
@@ -190,7 +199,7 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>Member object</returns>
         public IMember GetMemberById(int id)
         {
-            var umbracoMember = UmbracoMemberService.GetById(id);
+            var umbracoMember = _umbracoMemberService.GetById(id);
 
             if (umbracoMember == null)
             {
@@ -211,7 +220,7 @@ namespace RM.MailshotsOnline.Data.Services
             try
             {
                 var umbracoMember = GetUmbracoMember(member);
-                UmbracoMemberService.SavePassword(umbracoMember, password);
+                _umbracoMemberService.SavePassword(umbracoMember, password);
             }
             catch
             {
@@ -238,7 +247,7 @@ namespace RM.MailshotsOnline.Data.Services
                 if (umbracoMember != null)
                 {
                     umbracoMember = umbracoMember.UpdateValues(member);
-                    UmbracoMemberService.Save(umbracoMember);
+                    _umbracoMemberService.Save(umbracoMember);
 
                     success = true;
                 }
@@ -248,12 +257,12 @@ namespace RM.MailshotsOnline.Data.Services
                     var emailSalt = _cryptographicService.GenerateEmailSalt(emailAddress);
                     var encryptedEmail = _cryptographicService.Encrypt(emailAddress, emailSalt);
 
-                    umbracoMember = UmbracoMemberService.GetByEmail(encryptedEmail);
+                    umbracoMember = _umbracoMemberService.GetByEmail(encryptedEmail);
 
                     if (umbracoMember != null)
                     {
                         umbracoMember = umbracoMember.UpdateValues(member);
-                        UmbracoMemberService.Save(umbracoMember);
+                        _umbracoMemberService.Save(umbracoMember);
 
                         success = true;
                     }
@@ -273,7 +282,7 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>The list of all active members</returns>
         public IEnumerable<IMember> GetAllActiveMembers()
         {
-            return UmbracoMemberService.GetAllMembers().Where(x => x.IsApproved).Select(x => x.ToMemberEntityModel());
+            return _umbracoMemberService.GetAllMembers().Where(x => x.IsApproved).Select(x => x.ToMemberEntityModel());
         }
 
         /// <summary>
@@ -287,7 +296,7 @@ namespace RM.MailshotsOnline.Data.Services
         {
             if (umbracoMember != null)
             {
-                UmbracoMemberService.SavePassword(umbracoMember, password);
+                _umbracoMemberService.SavePassword(umbracoMember, password);
 
                 if (clearPasswordResetToken)
                 {
@@ -295,7 +304,7 @@ namespace RM.MailshotsOnline.Data.Services
                     umbracoMember.SetValue("passwordResetTokenExpiryDate",
                         DateTime.MinValue.ToString(CultureInfo.InvariantCulture));
 
-                    UmbracoMemberService.Save(umbracoMember);
+                    _umbracoMemberService.Save(umbracoMember);
                 }
 
                 return true;
@@ -307,7 +316,8 @@ namespace RM.MailshotsOnline.Data.Services
         private Umbraco.Core.Models.IMember GetUmbracoMember(IMember member)
         {
             return
-                UmbracoMemberService.GetByEmail(_cryptographicService.Encrypt(member.EmailAddress,
+
+                _umbracoMemberService.GetByEmail(_cryptographicService.Encrypt(member.EmailAddress,
                     _cryptographicService.GenerateEmailSalt(member.EmailAddress)));
         }
 
@@ -315,7 +325,8 @@ namespace RM.MailshotsOnline.Data.Services
         {
             var encryptedEmail = _cryptographicService.EncryptEmailAddress(plaintextEmail);
 
-            return UmbracoMemberService.GetByEmail(encryptedEmail);
+
+            return _umbracoMemberService.GetByEmail(encryptedEmail);
         }
     }
 }

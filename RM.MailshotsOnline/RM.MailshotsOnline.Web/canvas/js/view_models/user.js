@@ -148,10 +148,18 @@ define(['knockout', 'komapping', 'jquery', 'view_models/notification', 'view_mod
 
         userViewModel.prototype.resetUserStyles = function resetUserStyles() {
             ko.utils.arrayForEach(this.get('elements') || [], function(element) {
-                element.styles([]);
+                if (element.styles) {
+                    element.styles([]);
+                } else {
+                    element.styles = ko.observableArray();
+                }
             });
             ko.utils.arrayForEach(this.get('faces') || [], function(face) {
-                face.styles([]);
+                if (face.styles) {
+                    face.styles([]);
+                } else {
+                    face.styles = ko.observableArray();
+                }
             });
         };
 
@@ -277,7 +285,7 @@ define(['knockout', 'komapping', 'jquery', 'view_models/notification', 'view_mod
             // but silently upload in the background and maintain a URL
             elem.urlSrc = elem.urlSrc || ko.observable('');
             elem.writeSrc = ko.pureComputed(function() {
-                return this.urlSrc() || this.src(); 
+                return ko.utils.unwrapObservable(this.urlSrc) || ko.utils.unwrapObservable(this.src); 
             }, elem);
             return elem;
         };

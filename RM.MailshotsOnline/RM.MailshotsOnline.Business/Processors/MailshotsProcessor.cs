@@ -116,12 +116,17 @@ namespace RM.MailshotsOnline.Business.Processors
 </xsl:stylesheet>";
 
             // Generate the XML
-            if (mailshot.Content == null || string.IsNullOrEmpty(mailshot.Content.Content))
+            //if (mailshot.Content == null || string.IsNullOrEmpty(mailshot.Content.Content))
+            //{
+            //    throw new ArgumentException("Mailshot content cannot be null", "mailshot");
+            //}
+
+            if (string.IsNullOrEmpty(mailshot.ContentText))
             {
                 throw new ArgumentException("Mailshot content cannot be null", "mailshot");
             }
 
-            MailshotEditorContent content = JsonConvert.DeserializeObject<MailshotEditorContent>(mailshot.Content.Content);
+            MailshotEditorContent content = JsonConvert.DeserializeObject<MailshotEditorContent>(mailshot.ContentText);
             result.UsedImageSrcs = content.Elements.Where(e => !string.IsNullOrEmpty(e.Src)).Select(e => e.Src);
 
             var finalXml = GetContentXmlFromJson(content, mailshot);
