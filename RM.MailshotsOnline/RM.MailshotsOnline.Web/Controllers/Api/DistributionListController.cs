@@ -437,6 +437,31 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, _dataService.CreateSummaryModel<DistributionContact>(list));
         }
 
+        [HttpDelete]
+        public HttpResponseMessage DeleteMyList(Guid distributionListId)
+        {
+            var authResult = Authenticate();
+
+            if (authResult != null)
+            {
+                return authResult;
+            }
+
+            IDistributionList list;
+            HttpResponseMessage listResult = validateDistributionListId(distributionListId, out list);
+
+            if (listResult != null)
+            {
+                return listResult;
+            }
+
+            _logger.Info(_controllerName, "DeleteMyList", "Deleting user list: {0}:{1}:{2}", _loggedInMember.Id, list.DistributionListId, list.Name);
+
+            _dataService.DeleteDistributionList(list);
+
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
         [HttpPost]
         public HttpResponseMessage PostAddContactsToList(ModifyListAddContactModel<DistributionContact> model)
         {
