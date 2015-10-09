@@ -330,14 +330,13 @@
     <Compile Include="Migrations\201510051606175_InvoiceUpdates.Designer.cs">
       <DependentUpon>201510051606175_InvoiceUpdates.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201510080939408_PostMergeMigration.cs" />
-    <Compile Include="Migrations\201510080939408_PostMergeMigration.Designer.cs">
-      <DependentUpon>201510080939408_PostMergeMigration.cs</DependentUpon>
-    </Compile>
-        <Compile Include="Migrations\201510081629397_MailshotContentBlobStorage.cs" />
+    <Compile Include="Migrations\201510081629397_MailshotContentBlobStorage.cs" />
     <Compile Include="Migrations\201510081629397_MailshotContentBlobStorage.Designer.cs">
       <DependentUpon>201510081629397_MailshotContentBlobStorage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510081731126_PostMergeMigrations.cs" />
+    <Compile Include="Migrations\201510081731126_PostMergeMigrations.Designer.cs">
+      <DependentUpon>201510081731126_PostMergeMigrations.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -511,8 +510,8 @@
     <EmbeddedResource Include="Migrations\201510081629397_MailshotContentBlobStorage.resx">
       <DependentUpon>201510081629397_MailshotContentBlobStorage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510080939408_PostMergeMigration.resx">
-      <DependentUpon>201510080939408_PostMergeMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201510081731126_PostMergeMigrations.resx">
+      <DependentUpon>201510081731126_PostMergeMigrations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

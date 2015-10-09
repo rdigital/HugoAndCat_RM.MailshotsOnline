@@ -3,7 +3,7 @@ namespace RM.MailshotsOnline.Data.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class PostMergeMigration : DbMigration
+    public partial class PostMergeMigrations : DbMigration
     {
         public override void Up()
         {

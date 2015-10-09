@@ -7,13 +7,13 @@ namespace RM.MailshotsOnline.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class PostMergeMigration : IMigrationMetadata
+    public sealed partial class PostMergeMigrations : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(PostMergeMigration));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(PostMergeMigrations));
         
         string IMigrationMetadata.Id
         {
-            get { return "201510080939408_PostMergeMigration"; }
+            get { return "201510081731126_PostMergeMigrations"; }
         }
         
         string IMigrationMetadata.Source
