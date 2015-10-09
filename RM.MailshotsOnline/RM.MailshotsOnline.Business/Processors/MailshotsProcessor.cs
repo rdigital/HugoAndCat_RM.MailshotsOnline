@@ -39,9 +39,9 @@ namespace RM.MailshotsOnline.Business.Processors
             _endIpAddress = null;
         }
 
-        public XmlAndXslData GetXmlAndXslForMailshot(IMailshot mailshot, string xslOverride = null)
+        public async Task<XmlAndXslData> GetXmlAndXslForMailshot(IMailshot mailshot, string xslOverride = null)
         {
-            return GetXmlAndXslForMailshot(mailshot, null, null, xslOverride);
+            return await GetXmlAndXslForMailshot(mailshot, null, null, xslOverride);
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace RM.MailshotsOnline.Business.Processors
         /// <param name="mailshot">Mailshot to be generated</param>
         /// <param name="xslOverride">Specify the XSL to use as an override, rather than generating XSL from the Mailshot format / template / theme</param>
         /// <returns>Item 1: XML content; Item 2: XSLT transform file</returns>
-        public XmlAndXslData GetXmlAndXslForMailshot(IMailshot mailshot, string ipAddressStart, string ipAddressEnd, string xslOverride = null)
+        public async Task<XmlAndXslData> GetXmlAndXslForMailshot(IMailshot mailshot, string ipAddressStart, string ipAddressEnd, string xslOverride = null)
         {
             IPAddress parsedIpAddress = null;
             if (IPAddress.TryParse(ipAddressStart, out parsedIpAddress))
@@ -129,7 +129,7 @@ namespace RM.MailshotsOnline.Business.Processors
             MailshotEditorContent content = JsonConvert.DeserializeObject<MailshotEditorContent>(mailshot.ContentText);
             result.UsedImageSrcs = content.Elements.Where(e => !string.IsNullOrEmpty(e.Src)).Select(e => e.Src);
 
-            var finalXml = GetContentXmlFromJson(content, mailshot);
+            var finalXml = await GetContentXmlFromJson(content, mailshot);
             result.XmlData = finalXml;
 
             if (!string.IsNullOrEmpty(xslOverride))
@@ -149,7 +149,7 @@ namespace RM.MailshotsOnline.Business.Processors
         /// </summary>
         /// <param name="jsonContent">Parsed JSON content from the editor interface</param>
         /// <returns>XML string</returns>
-        private string GetContentXmlFromJson(MailshotEditorContent jsonContent, IMailshot mailshot)
+        private async Task<string> GetContentXmlFromJson(MailshotEditorContent jsonContent, IMailshot mailshot)
         {
             var contentXml = new XDocument();
             var ticket = new XElement("page", new XAttribute(XNamespace.Xmlns + "fo", _foNamespace));
@@ -214,7 +214,7 @@ namespace RM.MailshotsOnline.Business.Processors
                                         }
 
                                         string filename = $"pdf-images/{mailshot.UserId}/{mailshot.ProofPdfOrderNumber}/{jsonElement.Name}.{extension}";
-                                        var blobId = _blobService.Store(imageBytes, filename, imageMimeType);
+                                        var blobId = await _blobService.StoreAsync(imageBytes, filename, imageMimeType);
 
                                         if (_startIpAddress != null)
                                         {
