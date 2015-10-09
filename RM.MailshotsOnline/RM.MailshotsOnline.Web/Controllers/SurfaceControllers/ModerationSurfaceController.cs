@@ -71,89 +71,6 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return CurrentUmbracoPage();
             }
 
-            // Charge paypal
-            // Get the invoice
-            var campaignInvoices = _invoiceService.GetInvoicesForCampaign(campaign);
-            if (campaignInvoices == null || !campaignInvoices.Any())
-            {
-                Log.Error(this.GetType().Name, "ConfirmPrinted", "No invoices found for campaign ID {0}", campaign.CampaignId);
-                ModelState.AddModelError("ModerationId", "Internal invoicing error.");
-                return CurrentUmbracoPage();
-            }
-
-            var invoice = campaignInvoices.FirstOrDefault(i => i.Status == PCL.Enums.InvoiceStatus.Processing);
-            if (invoice == null)
-            {
-                Log.Error(this.GetType().Name, "ConfirmPrinted", "No invoices in progress found for campaign ID {0}", campaign.CampaignId);
-                ModelState.AddModelError("ModerationId", "Internal invoicing error.");
-                return CurrentUmbracoPage();
-            }
-
-            // Get the PayPal order
-            Order order = null;
-            try
-            {
-                order = _paypalService.GetOrder(invoice.PaypalOrderId);
-            }
-            catch(Exception ex)
-            {
-                Log.Exception(this.GetType().Name, "ConfirmPrinted", ex);
-                Log.Error(this.GetType().Name, "ConfirmPrinted", "Unable to fetch PayPal order {0}.", invoice.PaypalOrderId);
-            }
-
-            if (order == null)
-            {
-                campaign.SystemNotes += string.Format("{0}{1:yyyy-MM-dd HH:mm:ss} - Error getting PayPal order information for order {2}", Environment.NewLine, DateTime.UtcNow, invoice.PaypalOrderId);
-                _campaignService.SaveCampaign(campaign);
-                ModelState.AddModelError("ModerationId", "Error getting PayPal order information");
-                return CurrentUmbracoPage();
-            }
-
-            // Capture the full order amount
-            Capture result = null;
-            try
-            {
-                result = _paypalService.CaptureFullAmountForOrder(order);
-            }
-            catch (Exception ex)
-            {
-                Log.Exception(this.GetType().Name, "ConfirmPrinted", ex);
-                Log.Error(this.GetType().Name, "ConfirmPrinted", "Unable to capture payment for order {0}.", order.Id);
-            }
-
-            if (result == null || !(result.State == CaptureState.completed || result.State == CaptureState.pending))
-            {
-                invoice.Status = PCL.Enums.InvoiceStatus.Failed;
-                invoice.CancelledDate = DateTime.UtcNow;
-                _invoiceService.Save(invoice);
-
-                campaign.Status = PCL.Enums.CampaignStatus.PaymentFailed;
-                campaign.SystemNotes += string.Format("{0}{1:yyyy-MM-dd HH:mm:ss} - Error capturing payment for PayPal order {2}", Environment.NewLine, DateTime.UtcNow, order.Id);
-                campaign.SystemNotes += string.Format("{0}{1:yyyy-MM-dd HH:mm:ss} - Payment failed for campaign.", Environment.NewLine, DateTime.UtcNow);
-                _campaignService.SaveCampaign(campaign);
-
-                ModelState.AddModelError("ModerationId", "Error getting PayPal order information");
-                TempData[PaymentFailedFlag] = true;
-                return CurrentUmbracoPage();
-            }
-
-            invoice.Status = PCL.Enums.InvoiceStatus.Paid;
-            invoice.PaidDate = DateTime.UtcNow;
-            _invoiceService.Save(invoice);
-
-            var fullInvoice = _invoiceService.GetInvoice(invoice.InvoiceId);
-
-            // Generate invoice PDF
-            var moderationPage = _umbracoService.GetItem<ModerationPage>(CurrentPage.Id);
-            var xmlAndXsl = new XmlAndXslData()
-            {
-                XslStylesheet = moderationPage.InvoiceXsl,
-                XmlData = fullInvoice.ToXmlString()
-            };
-            var baseUrl = string.Format("{0}://{1}:{2}", ConfigHelper.HostedScheme, ConfigHelper.HostedDomain, ConfigHelper.HostedPort);
-            var postbackUrl = string.Format("{0}/Umbraco/Api/Orders/InvoicePdfReady/{1}", baseUrl, invoice.InvoiceId);
-            _sparqService.SendRenderJob(xmlAndXsl, invoice.InvoiceId.ToString(), "Invoice", postbackUrl);
-
             campaign.Status = PCL.Enums.CampaignStatus.Fulfilled;
             campaign.SystemNotes += string.Format("{0}{1:yyyy-MM-dd HH:mm:ss} - Campaign has been printed.", Environment.NewLine, DateTime.UtcNow);
             campaign.OrderDespatchedDate = DateTime.UtcNow;
@@ -284,6 +201,90 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return CurrentUmbracoPage();
             }
 
+            // Charge paypal
+            // Get the invoice
+            var campaignInvoices = _invoiceService.GetInvoicesForCampaign(campaign);
+            if (campaignInvoices == null || !campaignInvoices.Any())
+            {
+                Log.Error(this.GetType().Name, "Approve", "No invoices found for campaign ID {0}", campaign.CampaignId);
+                ModelState.AddModelError("ModerationId", "Internal invoicing error.");
+                return CurrentUmbracoPage();
+            }
+
+            var invoice = campaignInvoices.FirstOrDefault(i => i.Status == PCL.Enums.InvoiceStatus.Processing);
+            if (invoice == null)
+            {
+                Log.Error(this.GetType().Name, "Approve", "No invoices in progress found for campaign ID {0}", campaign.CampaignId);
+                ModelState.AddModelError("ModerationId", "Internal invoicing error.");
+                return CurrentUmbracoPage();
+            }
+
+            // Get the PayPal order
+            Order order = null;
+            try
+            {
+                order = _paypalService.GetOrder(invoice.PaypalOrderId);
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(this.GetType().Name, "Approve", ex);
+                Log.Error(this.GetType().Name, "ConfirmPrinted", "Unable to fetch PayPal order {0}.", invoice.PaypalOrderId);
+            }
+
+            if (order == null)
+            {
+                campaign.SystemNotes += string.Format("{0}{1:yyyy-MM-dd HH:mm:ss} - Error getting PayPal order information for order {2}", Environment.NewLine, DateTime.UtcNow, invoice.PaypalOrderId);
+                _campaignService.SaveCampaign(campaign);
+                ModelState.AddModelError("ModerationId", "Error getting PayPal order information");
+                return CurrentUmbracoPage();
+            }
+
+            // Capture the full order amount
+            Capture result = null;
+            try
+            {
+                result = _paypalService.CaptureFullAmountForOrder(order);
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(this.GetType().Name, "Approve", ex);
+                Log.Error(this.GetType().Name, "Approve", "Unable to capture payment for order {0}.", order.Id);
+            }
+
+            if (result == null || !(result.State == CaptureState.completed || result.State == CaptureState.pending))
+            {
+                invoice.Status = PCL.Enums.InvoiceStatus.Failed;
+                invoice.CancelledDate = DateTime.UtcNow;
+                _invoiceService.Save(invoice);
+
+                campaign.Status = PCL.Enums.CampaignStatus.PaymentFailed;
+                campaign.SystemNotes += string.Format("{0}{1:yyyy-MM-dd HH:mm:ss} - Error capturing payment for PayPal order {2}", Environment.NewLine, DateTime.UtcNow, order.Id);
+                campaign.SystemNotes += string.Format("{0}{1:yyyy-MM-dd HH:mm:ss} - Payment failed for campaign.", Environment.NewLine, DateTime.UtcNow);
+                _campaignService.SaveCampaign(campaign);
+
+                ModelState.AddModelError("ModerationId", "Error getting PayPal order information");
+                TempData[PaymentFailedFlag] = true;
+                return CurrentUmbracoPage();
+            }
+
+            invoice.Status = PCL.Enums.InvoiceStatus.Paid;
+            invoice.PaidDate = DateTime.UtcNow;
+            _invoiceService.Save(invoice);
+
+            var fullInvoice = _invoiceService.GetInvoice(invoice.InvoiceId);
+
+            // Generate invoice PDF
+            var moderationPage = _umbracoService.GetItem<ModerationPage>(CurrentPage.Id);
+            var xmlAndXsl = new XmlAndXslData()
+            {
+                XslStylesheet = moderationPage.InvoiceXsl,
+                XmlData = fullInvoice.ToXmlString()
+            };
+
+            var baseUrl = string.Format("{0}://{1}:{2}", ConfigHelper.HostedScheme, ConfigHelper.HostedDomain, ConfigHelper.HostedPort);
+            var postbackUrl = string.Format("{0}/Umbraco/Api/Orders/InvoicePdfReady/{1}", baseUrl, invoice.InvoiceId);
+            _sparqService.SendRenderJob(xmlAndXsl, invoice.InvoiceId.ToString(), "Invoice", postbackUrl);
+
             campaign.Status = PCL.Enums.CampaignStatus.ReadyForFulfilment;
             campaign.SystemNotes += string.Format("{0}{1:yyyy-MM-dd HH:mm:ss} - Campaign has been approved.", Environment.NewLine, DateTime.UtcNow);
             _campaignService.SaveCampaign(campaign);
@@ -291,9 +292,9 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             Log.Info(this.GetType().Name, "Approve", "Campaign with ID {0} has been approved", campaign.CampaignId);
 
             //TODO: Send the PDF off to print
-            var baseUrl = string.Format("{0}://{1}:{2}", ConfigHelper.HostedScheme, ConfigHelper.HostedDomain, ConfigHelper.HostedPort);
-            var postbackUrl = string.Format("{0}/Umbraco/Api/ProofPdf/JobReadyForPrint/{1}&campaignId={2}", baseUrl, campaign.Mailshot.MailshotId, campaign.CampaignId);
-            _sparqService.SendRenderAndPrintJob(campaign.Mailshot, postbackUrl);
+            var printPostbackUrl = string.Format("{0}/Umbraco/Api/ProofPdf/PrintRenderReady/{1}&campaignId={2}", baseUrl, campaign.Mailshot.MailshotId, campaign.CampaignId);
+            var ftpPostbackUrl = string.Format("{0}/Umbraco/Api/ProofPdf/JobReadyForPrint/{1}", baseUrl, campaign.CampaignId);
+            _sparqService.SendRenderAndPrintJob(campaign.Mailshot, printPostbackUrl, ftpPostbackUrl);
 
             TempData[CompletedFlag] = true;
             return CurrentUmbracoPage();
