@@ -300,10 +300,6 @@
       <Project>{BB08379A-7CB5-4142-BA89-3B3E2356B354}</Project>
       <Name>RM.MailshotsOnline.PCL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RM.MailshotsOnline.Web\RM.MailshotsOnline.Web.csproj">
-      <Project>{2b9bc4ff-5840-4a1f-963d-9f4794a110bd}</Project>
-      <Name>RM.MailshotsOnline.Web</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\HC.RM.Common.AzureWeb.Forms.js" />

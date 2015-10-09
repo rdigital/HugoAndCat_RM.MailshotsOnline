@@ -23,7 +23,9 @@ namespace RM.MailshotsOnline.Test.Processors
         [SetUp]
         public void SetupMailshotsProcessor()
         {
-            _processor = new MailshotsProcessor();
+            var logger = new Mocks.MockLogger();
+            var blobService = new Mocks.MockBlobService();
+            _processor = new MailshotsProcessor(logger, blobService);
         }
 
         [TearDown]
