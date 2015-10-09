@@ -9,7 +9,6 @@ using HC.RM.Common.Azure.EntryPoints;
 using Microsoft.ApplicationInsights;
 using Microsoft.Azure;
 using RM.MailshotsOnline.PCL.Services;
-using RM.MailshotsOnline.Web.Plumbing;
 using RM.MailshotsOnline.WorkerRole.EntryPoints;
 using RM.MailshotsOnline.WorkerRole.Installers;
 
