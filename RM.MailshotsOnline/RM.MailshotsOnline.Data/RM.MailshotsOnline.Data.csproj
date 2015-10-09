@@ -330,6 +330,10 @@
     <Compile Include="Migrations\201510051606175_InvoiceUpdates.Designer.cs">
       <DependentUpon>201510051606175_InvoiceUpdates.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510081629397_MailshotContentBlobStorage.cs" />
+    <Compile Include="Migrations\201510081629397_MailshotContentBlobStorage.Designer.cs">
+      <DependentUpon>201510081629397_MailshotContentBlobStorage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CampaignService.cs" />
@@ -489,6 +493,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510051606175_InvoiceUpdates.resx">
       <DependentUpon>201510051606175_InvoiceUpdates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510081629397_MailshotContentBlobStorage.resx">
+      <DependentUpon>201510081629397_MailshotContentBlobStorage.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

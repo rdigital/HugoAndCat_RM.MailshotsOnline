@@ -141,7 +141,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             // Save the mailshot
             IMailshot mailshotData = mailshot;
 
-            mailshotData.Content = new MailshotContent() { Content = mailshot.ContentText };
+            //mailshotData.Content = new MailshotContent() { Content = mailshot.ContentText };
+            mailshotData.ContentText = mailshot.ContentText;
             mailshotData.UserId = _loggedInMember.Id;
             mailshotData.UpdatedDate = DateTime.UtcNow;
             mailshotData.FormatId = format.FormatId;
@@ -232,16 +233,17 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             // Save new data
             mailshotData.Name = mailshot.Name;
-            if (mailshotData.Content == null)
-            {
-                MailshotContent contentData = new MailshotContent() { Content = mailshot.ContentText };
-                mailshotData.Content = contentData;
-            }
-            else
-            {
-                mailshotData.Content.Content = mailshot.ContentText;
-            }
-
+            //if (mailshotData.Content == null)
+            //{
+            //    MailshotContent contentData = new MailshotContent() { Content = mailshot.ContentText };
+            //    mailshotData.Content = contentData;
+            //}
+            //else
+            //{
+            //    mailshotData.Content.Content = mailshot.ContentText;
+            //}
+            
+            mailshotData.ContentText = mailshot.ContentText;
             mailshotData.Draft = mailshot.Draft;
             mailshotData.UpdatedDate = DateTime.UtcNow;
             mailshotData.FormatId = format.FormatId;
