@@ -718,15 +718,13 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             if (distributionListId == Guid.Empty)
             {
-                {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest,
-                                                         new
-                                                         {
-                                                             error = "You must supply a List Id.",
-                                                             param = "DistributionListId",
-                                                             statusCode = HttpStatusCode.BadRequest
-                                                         });
-                }
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                                              new
+                                              {
+                                                  error = "You must supply a List Id.",
+                                                  param = "DistributionListId",
+                                                  statusCode = HttpStatusCode.BadRequest
+                                              });
             }
 
             list = _dataService.GetDistributionListForUser(_loggedInMember.Id, distributionListId);
