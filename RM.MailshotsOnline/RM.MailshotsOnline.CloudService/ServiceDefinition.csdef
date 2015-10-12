@@ -49,6 +49,7 @@
       <Setting name="PublicMediaLibraryId"/>
       <Setting name="PrivateMediaLibraryId"/>
       <Setting name="RoyalMailApprovalEmailAddress"/>
+      <Setting name="SaveMailshotInfoForDebug"/>
     </ConfigurationSettings>
     <Endpoints>
       <InputEndpoint name="HttpIn" protocol="http" port="80" />

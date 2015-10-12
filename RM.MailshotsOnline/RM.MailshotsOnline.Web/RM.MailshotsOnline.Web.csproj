@@ -510,8 +510,10 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="css\fountain.css" />
+    <Content Include="css\main.css" />
     <Content Include="css\orders.css" />
     <Content Include="css\temp.css" />
+    <Content Include="CsvUpload.aspx" />
     <Content Include="default.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -586,6 +588,7 @@
     <Content Include="AppInsightsAgent\InstallAgent.ps1" />
     <Content Include="AppInsightsAgent\InstallAgent.bat" />
     <Content Include="Views\CampaignHub\Partials\StartDataButton.cshtml" />
+    <Content Include="uSync\Template\ListDetailDownload\ListDetailDownload.config" />
     <None Include="WaIISHost.exe.config">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -595,6 +598,7 @@
     <Content Include="scripts\campaign-hub.js" />
     <Content Include="scripts\campaignstest.js" />
     <Content Include="scripts\editor.js" />
+    <Content Include="scripts\HC.RM.Common.AzureWeb.Forms.js" />
     <Content Include="scripts\imagelibrarytest.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
@@ -3089,6 +3093,7 @@
     <Compile Include="App_Start\GlassMapperUmbCustom.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Handlers\DocumentTypeNodeRouteHandler.cs" />
     <Compile Include="App_Start\RegisterApplicationStartEvents.cs" />
     <Compile Include="App_Start\RegisterIoCEvents.cs" />
     <Compile Include="App_Start\RegisterStartupEvents.cs" />
@@ -3099,6 +3104,7 @@
     <Compile Include="Attributes\RequireSecureConnectionFilter.cs" />
     <Compile Include="Controllers\Api\ApiBaseController.cs" />
     <Compile Include="Controllers\Api\CampaignController.cs" />
+    <Compile Include="Controllers\Api\DistributionListController.cs" />
     <Compile Include="Controllers\Api\OrdersController.cs" />
     <Compile Include="Controllers\Api\ReportsController.cs" />
     <Compile Include="Controllers\Api\MemberSearchController.cs" />
@@ -3116,6 +3122,7 @@
     <Compile Include="Controllers\ContentPageController.cs" />
     <Compile Include="Controllers\CreateCanvasController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\ListCreateController.cs" />
     <Compile Include="Controllers\ListDetailController.cs" />
     <Compile Include="Controllers\ListsController.cs" />
     <Compile Include="Controllers\MailshotEditorController.cs" />
@@ -3139,20 +3146,30 @@
     <Compile Include="Controllers\SurfaceControllers\BaseSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\CampaignSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\CaptureDetailsSurfaceController.cs" />
+    <Compile Include="Controllers\SurfaceControllers\ModifyListSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\LoginSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ModerationSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\OrderDetailSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ProfileSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\RegisterSurfaceController.cs" />
     <Compile Include="Controllers\SurfaceControllers\ResetPasswordSurfaceController.cs" />
+    <Compile Include="CsvUpload.aspx.cs">
+      <DependentUpon>CsvUpload.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CsvUpload.aspx.designer.cs">
+      <DependentUpon>CsvUpload.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\BasePageExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\ModelExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Handlers\TemplatedUmbracoVirtualRouteHandler.cs" />
     <Compile Include="Helpers\ControllersHelper.cs" />
     <Compile Include="Helpers\InvoiceHelper.cs" />
     <Compile Include="Helpers\MembershipHelper.cs" />
     <Compile Include="Installers\ControllersInstaller.cs" />
+    <Compile Include="Models\DistributionContact.cs" />
     <Compile Include="Plumbing\WindsorCompositionRoot.cs" />
     <Compile Include="Plumbing\WindsorControllerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -3557,7 +3574,13 @@
     <Content Include="uSync\DocumentType\Basepage\MyOrders\def.config" />
     <Content Include="uSync\Template\CaptureDetails\CaptureDetails.config" />
     <Content Include="uSync\Template\CaptureDetails\CaptureDetails.config.orig" />
+    <Content Include="Views\Lists\Lists.cshtml" />
     <Content Include="Views\OrderDetails.cshtml" />
+    <Content Include="Views\Lists\Create.cshtml" />
+    <Content Include="Views\ListCreate.cshtml" />
+    <Content Include="Views\Lists\Partials\ShowCreateListForm.cshtml" />
+    <Content Include="Views\Lists\Partials\ShowConfirmFieldsForm.cshtml" />
+    <Content Include="Views\Lists\Partials\ShowSummaryListForm.cshtml" />
     <Content Include="Views\Orders\Partials\CancelButton.cshtml" />
     <Content Include="Views\MyCampaigns.cshtml" />
     <Content Include="uSync\Template\MyCampaigns\MyCampaigns.config" />
@@ -3584,6 +3607,10 @@
     <ProjectReference Include="..\HC.RM.Common.PayPal\HC.RM.Common.PayPal.csproj">
       <Project>{5cecfbd1-8591-4d0a-9032-2da879dbea75}</Project>
       <Name>HC.RM.Common.PayPal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RM.MailshotsOnline.Business\RM.MailshotsOnline.Business.csproj">
+      <Project>{dcc80db8-069c-4b0b-a955-b8486d795f6d}</Project>
+      <Name>RM.MailshotsOnline.Business</Name>
     </ProjectReference>
     <ProjectReference Include="..\RM.MailshotsOnline.Data\RM.MailshotsOnline.Data.csproj">
       <Project>{0d159929-5a8f-4e0c-84a6-3c7e9de5f5ad}</Project>

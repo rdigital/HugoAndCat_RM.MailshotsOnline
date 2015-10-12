@@ -1,0 +1,22 @@
+﻿@inherits Glass.Mapper.Umb.Web.Ui.GlassViewPage<RM.MailshotsOnline.Entities.PageModels.Lists>
+@{
+    Layout = "~/Views/Master.cshtml";
+}
+
+<div class="content">
+    <h1>@Model.Name (@Model.UsersLists.Count())</h1>
+    @if (Model.UsersLists.Any())
+    {
+        <p>
+            <a href="/lists/create/">@Model.AddNewButtonText <span>+</span></a>
+        </p>
+    }
+    else
+    {
+        <p>@Model.NoListsCopy</p>
+        <p>
+            <a href="/lists/create/" class="big-button">@Model.CreateFirstButtonText <span>-></span></a>
+        </p>
+    }
+</div>
+

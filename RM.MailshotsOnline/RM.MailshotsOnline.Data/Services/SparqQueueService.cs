@@ -149,7 +149,7 @@ namespace RM.MailshotsOnline.Data.Services
 
             try
             {
-                xmlAndXsl = mailshotProcessor.GetXmlAndXslForMailshot(mailshot, ConfigHelper.SparqServiceIpRangeStart, ConfigHelper.SparqServiceIpRangeEnd);
+                xmlAndXsl = await mailshotProcessor.GetXmlAndXslForMailshot(mailshot, ConfigHelper.SparqServiceIpRangeStart, ConfigHelper.SparqServiceIpRangeEnd);
             }
             catch (Exception ex)
             {
@@ -164,6 +164,14 @@ namespace RM.MailshotsOnline.Data.Services
             }
             else
             {
+                if (ConfigHelper.SaveMailshotInfoForDebug)
+                {
+                    // Save the XML and XSL to blob storage so we can see what's being saved
+                    DateTime saveDate = DateTime.UtcNow;
+                    await blobService.StoreAsync(Encoding.UTF8.GetBytes(xmlAndXsl.XmlData), string.Format("debug/{0}/{1}/{2:yyyyMMdd-HHmmss}/xmlData.xml", mailshot.UserId, mailshot.MailshotId, saveDate), "text/xml");
+                    await blobService.StoreAsync(Encoding.UTF8.GetBytes(xmlAndXsl.XslStylesheet), string.Format("debug/{0}/{1}/{2:yyyyMMdd-HHmmss}/stylesheet.xslt", mailshot.UserId, mailshot.MailshotId, saveDate), "text/xml");
+                }
+
                 var ftpPostbackUrl = printAfterRender ? string.Format("{0}/Umbraco/Api/ProofPdf/PrintPdfReady/{1}", _baseUrl, mailshot.MailshotId) : null;
                 var orderNumber = mailshot.ProofPdfOrderNumber.ToString();
                 success = await SendJob(xmlAndXsl, orderNumber, mailshot.FormatId.ToString(), printAfterRender, postbackUrl, ftpPostbackUrl);

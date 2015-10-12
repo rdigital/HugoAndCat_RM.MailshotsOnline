@@ -69,6 +69,11 @@ namespace RM.MailshotsOnline.Data.Helpers
             get { return GetConfigValue("RoyalMailApprovalEmailAddress"); }
         }
 
+        public static bool SaveMailshotInfoForDebug
+        {
+            get { return GetConfigValue("SaveMailshotInfoForDebug", false); }
+        }
+
         public static string SettingsFolderContentTypeAlias
         {
             get { return GetConfigValue("SettingsFolderContentTypeAlias", "SettingsFolder"); }
@@ -173,6 +178,17 @@ namespace RM.MailshotsOnline.Data.Helpers
             get { return GetConfigValue("ThemeContentTypeAlias", "Theme"); }
         }
 
+        internal static bool GetConfigValue(string key, bool defaultValue)
+        {
+            bool result;
+            if (!bool.TryParse(GetConfigValue(key), out result))
+            {
+                return defaultValue;
+            }
+
+            return result;
+        }
+
         internal static int GetConfigValue(string key, int defaultValue)
         {
             int result;
@@ -204,5 +220,32 @@ namespace RM.MailshotsOnline.Data.Helpers
         {
             return CloudConfigurationManager.GetSetting(key) ?? ConfigurationManager.AppSettings[key];
         }
+
+        /// <summary>
+        /// The Blob Storage container name for the Private Media container
+        /// </summary>
+        internal static string PrivateDistributionListBlobStorageContainer
+        {
+            get { return GetConfigValue("PrivateDistributionListBlobStorageContainer", "privatelists"); }
+        }
+
+        /// <summary>
+        /// The node id of the DataMapping folder in Umbraco
+        /// </summary>
+        public static int DataMappingFolderId
+        {
+            get
+            {
+                if (_dataMappingFolderId == Int32.MinValue)
+                {
+                    _dataMappingFolderId = GetConfigValue("DataMappingFolderId", 1432);
+                }
+
+                return _dataMappingFolderId;
+            }
+        }
+
+        // Don't need to get this every time.
+        private static int _dataMappingFolderId = Int32.MinValue;
     }
 }

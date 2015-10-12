@@ -1,50 +1,90 @@
 ﻿using RM.MailshotsOnline.PCL.Models;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security.Cryptography;
+using Newtonsoft.Json;
+using RM.MailshotsOnline.PCL;
 
 namespace RM.MailshotsOnline.Entities.DataModels
 {
     [Table("DistributionLists")]
     public class DistributionList : IDistributionList
     {
-        private ICollection<Contact> _contacts;
+        Enums.DistributionListState _listStep = Enums.DistributionListState.Unknown;
+
+        public DistributionList()
+        {
+            fillSalt();
+        }
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid DistributionListId { get; set; }
 
-        [MaxLength(256)]
+        [StringLength(100)]
         public string Name { get; set; }
 
+        [JsonIgnore]
         public int UserId { get; set; }
 
-        public DateTime CreatedDate
-        {
-            get { return CreatedUtc; }
-        }
+        public DateTime CreatedDate => DateTime.SpecifyKind(CreatedUtc, DateTimeKind.Utc);
 
         [Required, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [JsonIgnore]
         public DateTime CreatedUtc { get; private set; }
 
-        public ICollection<Contact> Contacts
-        {
-            get { return _contacts; }
-            set { _contacts = value; }
-        }
+        [StringLength(500)]
+        [JsonIgnore]
+        public string BlobFinal { get; set; }
+
+        [StringLength(500)]
+        [JsonIgnore]
+        public string BlobWorking { get; set; }
+
+        [StringLength(500)]
+        [JsonIgnore]
+        public string BlobErrors { get; set; }
 
         public int RecordCount { get; set; }
 
-        #region Explicit Interface Implementations
-        ICollection<IContact> IDistributionList.Contacts
+        public DateTime UpdatedDate { get; set; }
+
+        [MaxLength(32)]
+        [JsonIgnore]
+        public byte[] DataSalt { get; private set; }
+
+        [MaxLength(20)]
+        [Column("ListState")]
+        public string CurrentImportState { get; private set; }
+
+        [NotMapped]
+        [JsonIgnore]
+        public Enums.DistributionListState ListState
         {
-            get { return (ICollection<IContact>)_contacts; }
-            set { _contacts = (ICollection<Contact>)value; }
+            get
+            {
+                if (_listStep == Enums.DistributionListState.Unknown)
+                {
+                    Enum.TryParse(CurrentImportState, out _listStep);
+                }
+
+                return _listStep;
+            }
+            set
+            {
+                _listStep = value;
+                CurrentImportState = _listStep.ToString();
+            }
         }
-        #endregion
+
+        private void fillSalt()
+        {
+            var rngCsp = new RNGCryptoServiceProvider();
+            var salt = new byte[16];
+            rngCsp.GetBytes(salt);
+
+            DataSalt = salt;
+        }
     }
 }

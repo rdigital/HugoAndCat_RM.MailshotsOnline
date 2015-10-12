@@ -1,0 +1,65 @@
+<div class="add-contact-modal">
+	<!-- ko if: contact -->
+		<div class="add-contact-modal__form">
+			<button data-bind="click: closeModal" type="button" class="close-btn btn btn--icon"><span class="icon-close"></span></button>
+			<h2>Edit Contact</h2>
+			<p class="strong">Contact Name</p>
+			<div>
+				<label for="editTitle">Title</label>
+				<input data-bind="value: contact.Title" type="text" id="editTitle">
+			</div>
+			<div>
+				<label for="editFirstName">First Name*</label>
+				<input data-bind="value: contact.FirstName" type="text" id="editFirstName">
+				<p class="validation-msg" data-bind="validationMessage: contact.FirstName"></p>
+			</div>
+			<div>
+				<label for="editSurname">Surname*</label>
+				<input data-bind="value: contact.Surname" type="text" id="editSurname">
+				<p class="validation-msg" data-bind="validationMessage: contact.Surname"></p>
+			</div>
+
+			<p class="strong">Contact Address</p>
+			<div>
+				<label for="editFlatId">Flat ID</label>
+				<input data-bind="value: contact.FlatId" type="text" id="editFlatId">
+			</div>
+			<div>
+				<label for="editHouseName">House Name</label>
+				<input data-bind="value: contact.HouseName" type="text" id="editHouseName">
+			</div>
+			<div>
+				<label for="editHouseNumber">House Number</label>
+				<input data-bind="value: contact.HouseNumber" type="text" id="editHouseNumber">
+			</div>
+			<div>
+				<label for="editAddress1">Address 1*</label>
+				<input data-bind="value: contact.Address1" type="text" id="editAddress1">
+				<p class="validation-msg" data-bind="validationMessage: contact.Address1"></p>
+			</div>
+			<div>
+				<label for="editAddress2">Address 2</label>
+				<input data-bind="value: contact.Address2" type="text" id="editAddress2">
+			</div>
+			<div>
+				<label for="editAddress3">Address 3</label>
+				<input data-bind="value: contact.Address3" type="text" id="editAddress3">
+			</div>
+			<div>
+				<label for="editAddress4">Address 4</label>
+				<input data-bind="value: contact.Address4" type="text" id="editAddress4">
+			</div>
+			<div>
+				<label for="editPostCode">Postcode*</label>
+				<input data-bind="value: contact.PostCode" type="text" id="editPostCode">
+				<p class="validation-msg" data-bind="validationMessage: contact.PostCode"></p>
+			</div>
+			<div class="actions">
+				<button data-bind="visible: !addNewContact(), click: updateSingleContact" type="button" class="btn btn--green confirm-edit">Ok</button>
+				<button data-bind="visible: addNewContact, click: addMultipleContacts" type="button" class="btn btn--blue add-and-continue">Save &amp; Add another contact</button>
+				<button data-bind="visible: addNewContact, click: addSingleContact" type="button" class="btn btn--green confirm-add">Save and Close</button>
+			</div>
+		</div>
+	<!-- /ko -->
+	<div class="modal-overlay"></div>
+</div>

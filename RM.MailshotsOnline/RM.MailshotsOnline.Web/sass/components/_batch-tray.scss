@@ -1,0 +1,154 @@
+.batch-tray {
+	background-color: $dark-grey;
+	box-sizing: border-box;
+	bottom: 0;
+	color: $white;
+	left: 0;
+	height: 0;
+	position: fixed;
+	transition: $expandable-transition;
+	width: 100%;
+	z-index: 2;
+
+	&.visible {
+		height: 180px;
+
+		@include bp-large {
+			height: 105px;
+		}
+		
+
+		&.open {
+			height: 345px;
+
+			@include bp-large {
+				height: 270px;
+			}
+		}
+	}
+
+	.batch-tray-container {
+		border-top: 10px solid $RM-blue;
+		padding: 24px $outer-container-padding 0;
+
+		@include bp-xtra-large {
+			padding: 24px $lrg-outer-padding 0;
+		}
+	}
+
+	.batch-tray__info {
+		padding-top: 10px;
+
+		@include bp-large {
+			float: left;
+		}
+	}
+
+	.batch-tray__actions {
+		margin-top: 20px;
+
+		@include bp-large {
+			float: right;
+			margin-top: 0;
+		}
+
+		#sendtoself {
+			position: relative;
+			top: 2px;
+		}
+
+		label {
+			line-height: 50px;
+			margin-right: 30px;
+			min-width: auto;
+		}
+
+		.btn {
+			height: 50px;
+			padding-left: 18px;
+			padding-right: 60px;
+		}
+	}
+
+	.batch-tray__list-container {
+		clear: both;
+		height: 145px;
+	}
+
+	.batch-tray__list {
+		width: calc(100% - 30px);
+
+		li {
+			border-top: 1px solid $filter-tab-grey;
+			box-sizing: border-box;
+			color: $white;
+			height: 45px;
+			padding: 10px 0;
+
+			.icon-tick {
+				@include font-size(20);
+				background-color: $white;
+				border-radius: 50%;
+				color: $RM-blue;
+				margin-right: 15px;
+				position: relative;
+				top: 2px;
+			}
+
+			.list-name {
+				display: inline-block;
+				font-family: $DINBold;
+				min-width: 150px;
+			}
+
+			.list-count {
+				margin-left: 5px;
+			}
+
+			.remove {
+				float: right;
+				vertical-align: middle;
+
+				.icon-close {
+					@include font-size(20);
+					margin-left: 5px;
+					top: -1px;
+					vertical-align: middle;
+				}
+			}
+		}
+
+	}
+
+	.constrain {
+		@extend %clearfix;
+	}
+
+	.arrow {
+		@include font-size(28);
+		height: auto;
+		padding: 0;
+		margin: 0 10px 0 0;
+		position: relative;
+		top: -2px;
+		transform: rotate(-90deg);
+		vertical-align: middle;
+		transition: all 0.2s linear;
+	}
+
+	&.open .arrow {
+		transform: rotate(90deg);
+	}
+
+	.lists-text {
+		@include font-size(24);
+		display: inline-block;
+		font-family: $ChevinLight;
+		margin-bottom: 0;
+		vertical-align: middle;
+
+		.number {
+			font-family: $ChevinMedium;
+		}
+	}
+}
