@@ -309,7 +309,7 @@ define([],
                             name:"back_headline",
                             face:"Back",
                             type:"html",
-                            theme_class:"headline",
+                            theme_class:"back_headline",
                             layout:[  
                                 {  
                                     property:"position",
@@ -337,7 +337,7 @@ define([],
                             name:"body",
                             face:"Back",
                             type:"html",
-                            theme_class:"body",
+                            theme_class:"back_body",
                             layout:[  
                                 {  
                                     property:"position",
@@ -652,7 +652,7 @@ define([],
                             name:"back_headline",
                             face:"Back",
                             type:"html",
-                            theme_class:"headline",
+                            theme_class:"back_headline",
                             layout:[  
                                 {  
                                     property:"position",
@@ -680,7 +680,7 @@ define([],
                             name:"body",
                             face:"Back",
                             type:"html",
-                            theme_class:"body",
+                            theme_class:"back_body",
                             layout:[  
                                 {  
                                     property:"position",
@@ -944,7 +944,7 @@ define([],
                             name:"back_headline",
                             face:"Back",
                             type:"html",
-                            theme_class:"headline",
+                            theme_class:"back_headline",
                             layout:[  
                                 {  
                                     property:"position",
@@ -972,7 +972,7 @@ define([],
                             name:"body",
                             face:"Back",
                             type:"html",
-                            theme_class:"body",
+                            theme_class:"back_body",
                             layout:[  
                                 {  
                                     property:"position",
@@ -1203,7 +1203,7 @@ define([],
                             name:"back_headline",
                             face:"Back",
                             type:"html",
-                            theme_class:"headline",
+                            theme_class:"back_headline",
                             layout:[  
                                 {  
                                     property:"position",
@@ -1231,7 +1231,7 @@ define([],
                             name:"body",
                             face:"Back",
                             type:"html",
-                            theme_class:"body",
+                            theme_class:"back_body",
                             layout:[  
                                 {  
                                     property:"position",
@@ -1947,7 +1947,7 @@ define([],
                             name:"back_headline",
                             face:"Back",
                             type:"html",
-                            theme_class:"headline",
+                            theme_class:"back_headline",
                             layout:[  
                                 {  
                                     property:"position",
@@ -1975,7 +1975,7 @@ define([],
                             name:"body",
                             face:"Back",
                             type:"html",
-                            theme_class:"body",
+                            theme_class:"back_body",
                             layout:[  
                                 {  
                                     property:"position",
@@ -2822,7 +2822,7 @@ define([],
                             name:"back_headline",
                             face:"Back",
                             type:"html",
-                            theme_class:"headline",
+                            theme_class:"back_headline",
                             layout:[  
                                 {  
                                     property:"position",
@@ -2850,7 +2850,7 @@ define([],
                             name:"body",
                             face:"Back",
                             type:"html",
-                            theme_class:"body",
+                            theme_class:"back_body",
                             layout:[  
                                 {  
                                     property:"position",
@@ -3557,7 +3557,7 @@ define([],
                             name:"back_headline",
                             face:"Back",
                             type:"html",
-                            theme_class:"headline",
+                            theme_class:"back_headline",
                             layout:[  
                                 {  
                                     property:"position",
@@ -3585,7 +3585,7 @@ define([],
                             name:"body",
                             face:"Back",
                             type:"html",
-                            theme_class:"body",
+                            theme_class:"back_body",
                             layout:[  
                                 {  
                                     property:"position",
@@ -4236,7 +4236,7 @@ define([],
                             name:"back_headline",
                             face:"Back",
                             type:"html",
-                            theme_class:"headline",
+                            theme_class:"back_headline",
                             layout:[  
                                 {  
                                     property:"position",
@@ -4264,7 +4264,7 @@ define([],
                             name:"body",
                             face:"Back",
                             type:"html",
-                            theme_class:"body",
+                            theme_class:"back_body",
                             layout:[  
                                 {  
                                     property:"position",
@@ -5624,16 +5624,16 @@ define([],
                                 },
                                 {
                                     property: 'padding',
-                                    value: '10px 15px'
+                                    value: '0 15px'
                                 },
-                                {
+                                /*{
                                     property: 'transform',
                                     value: 'rotate(-15deg)'
                                 },
                                 {
                                     property: 'line-height',
                                     value: '110%;'
-                                }
+                                }*/
                             ]
                         },
                         {
@@ -5793,6 +5793,36 @@ define([],
                             ]
                         },
                         {
+                            name: 'back_headline',
+                            font_sizes: ['22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px', '38px', '40px', '42px', '44px', '46px', '48px', '50px', '52px'],
+                            styles: [
+                                {
+                                    property: 'text-align',
+                                    value: 'left'
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '48px'
+                                },
+                                {
+                                    property: 'color',
+                                    value: '#A0D0AA'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Merriweather', serif"
+                                },
+                                {
+                                    property: 'font-style',
+                                    value: 'italic'
+                                },
+                                {
+                                    property: 'font-weight',
+                                    value: 'bold'
+                                }
+                            ]
+                        },
+                        {
                             name: 'subline',
                             font_sizes: ['16px', '17px', '18px', '19px', '20px', '21px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
                             styles: [
@@ -5837,6 +5867,32 @@ define([],
                                 {
                                 	property: 'text-align',
                                 	value: 'left'
+                                },
+                                {
+                                    property: 'font-weight',
+                                    value: 'lighter'
+                                }
+                            ]
+                        },
+                        {
+                            name: 'back_body',
+                            font_sizes: ['8px', '9px', '10px', '11px', '12px', '13px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            styles: [
+                                {
+                                    property: 'color',
+                                    value: '#FFFFFF'
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '15px'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Roboto', serif"
+                                },
+                                {
+                                    property: 'text-align',
+                                    value: 'left'
                                 },
                                 {
                                     property: 'font-weight',
@@ -5985,7 +6041,7 @@ define([],
                     		styles: [
                     			{
 	                    			property: 'background-color',
-	                    			value: '#FFFFFF'
+	                    			value: '#371B4C'
 			                    }
                     		]
                     	},
@@ -6058,7 +6114,7 @@ define([],
                                 },
                                 {
                                     property: 'padding',
-                                    value: '10px 15px'
+                                    value: '0 15px'
                                 },
                                 {
                                     property: 'line-height',
@@ -6111,11 +6167,63 @@ define([],
                             ]
                         },
                         {
+                            name: 'inside_footer',
+                            font_sizes: ['8px', '9px', '10px', '11px', '12px', '13px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            styles: [
+                                {
+                                    property: 'color',
+                                    value: '#FFFFFF'
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '15px'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Lato', sans-serif"
+                                },
+                                {
+                                    property: 'text-align',
+                                    value: 'left'
+                                },
+                                {
+                                    property: 'font-weight',
+                                    value: 'lighter'
+                                }
+                            ]
+                        },
+                        {
                             name: 'footer_block',
                             styles: [
                                 {
                                     property: 'background-color',
                                     value: '#371B4C'
+                                }
+                            ]
+                        },
+                        {
+                            name: 'footer',
+                            font_sizes: ['8px', '9px', '10px', '11px', '12px', '13px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            styles: [
+                                {
+                                    property: 'color',
+                                    value: '#FFFFFF'
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '15px'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Lato', sans-serif"
+                                },
+                                {
+                                    property: 'text-align',
+                                    value: 'left'
+                                },
+                                {
+                                    property: 'font-weight',
+                                    value: 'lighter'
                                 }
                             ]
                         },
@@ -6181,6 +6289,32 @@ define([],
                             ]
                         },
                         {
+                            name: 'back_headline',
+                            font_sizes: ['22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px', '38px', '40px', '42px', '44px', '46px', '48px', '50px', '52px'],
+                            styles: [
+                                {
+                                    property: 'text-align',
+                                    value: 'left'
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '48px'
+                                },
+                                {
+                                    property: 'color',
+                                    value: '#371B4C'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Domine', serif"
+                                },
+                                {
+                                    property: 'font-weight',
+                                    value: 'bold'
+                                }
+                            ]
+                        },
+                        {
                             name: 'subline',
                             font_sizes: ['12px', '13px', '14px', '15px', '16px', '17px', '18px', '19px', '20px', '21px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
                             styles: [
@@ -6229,6 +6363,28 @@ define([],
                             ]
                         },
                         {
+                            name: 'back_body',
+                            font_sizes: ['10px', '11px', '12px', '13px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            styles: [
+                                {
+                                    property: 'color',
+                                    value: '#000000'
+                                },
+                                {
+                                    property: 'font-weight',
+                                    value: 400
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '15px'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Lato', sans-serif"
+                                }
+                            ]
+                        },
+                        {
                             name: 'inside_cta',
                             font_sizes: ['16px', '17px', '18px', '19px', '20px', '21px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
                             styles: [
@@ -6264,84 +6420,109 @@ define([],
                         },
     					{
                             name: 'cta',
-                            font_sizes: ['10px', '12px', '14px', '16px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            font_sizes: ['10px', '12px', '14px', '16px', '17px', '18px', '19px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
                             styles: [
                                 {
+                                    property: 'border',
+                                    value: '4px solid'
+                                },
+                                {
+                                    property: 'border-color',
+                                    value: '#4C863D'
+                                },
+                                {
                                     property: 'color',
-                                    value: 'rgb(252, 253, 254)'
+                                    value: '#FFFFFF'
                                 },
                                 {
                                     property: 'text-align',
                                     value: 'left'
                                 },
                                 {
-                                	property: 'border',
-                                	value: '2px solid rgb(252, 253, 254)'
+                                    property: 'padding',
+                                    value: '10px'
                                 },
                                 {
-                                	property: 'padding',
-                                	value: '16px'
-                                },
-                                {
-                                	property: 'font-weight',
-                                	value: 700
-                                },
-                                {
-                                	property: 'font-size',
-                                	value: '16px'
+                                    property: 'font-size',
+                                    value: '26px'
                                 },
                                 {
                                     property: 'font-family',
-                                    value: "'Lusitana', serif"
+                                    value: "'Domine', serif"
                                 }
                             ]
                         },
                         {
-                            name: 'cta-bigger',
-                            font_sizes: ['10px', '12px', '14px', '16px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            name: 'back_cta',
+                            font_sizes: ['10px', '12px', '14px', '16px', '17px', '18px', '19px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
                             styles: [
                                 {
+                                    property: 'border',
+                                    value: '4px solid'
+                                },
+                                {
+                                    property: 'border-color',
+                                    value: '#371B4C'
+                                },
+                                {
                                     property: 'color',
-                                    value: 'rgb(252, 253, 254)'
+                                    value: '#4C863D'
                                 },
                                 {
                                     property: 'text-align',
                                     value: 'left'
                                 },
                                 {
-                                    property: 'border',
-                                    value: '2px solid rgb(252, 253, 254)'
-                                },
-                                {
                                     property: 'padding',
-                                    value: '24px 16px'
-                                },
-                                {
-                                    property: 'font-weight',
-                                    value: 700
+                                    value: '5px'
                                 },
                                 {
                                     property: 'font-size',
-                                    value: '16px'
+                                    value: '26px'
                                 },
                                 {
                                     property: 'font-family',
-                                    value: "'Lusitana', serif"
+                                    value: "'Domine', serif"
+                                }
+                            ]
+                        },
+                        {
+                            name: 'cta_closer',
+                            font_sizes: ['16px', '17px', '18px', '19px', '20px', '21px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            styles: [
+                                {
+                                    property: 'border',
+                                    value: '4px solid'
+                                },
+                                {
+                                    property: 'border-color',
+                                    value: '#371B4C'
+                                },
+                                {
+                                    property: 'color',
+                                    value: '#4C863D'
+                                },
+                                {
+                                    property: 'text-align',
+                                    value: 'center'
+                                },
+                                {
+                                    property: 'padding',
+                                    value: '15px'
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '26px'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Domine', serif"
                                 }
                             ]
                         },
                         {
                             name: 'logo',
                             src: '',
-                            img_position: {
-                                top: 0,
-                                left: 0
-                            },
-                            scale: 100
-                        },
-                        {
-                            name: 'background',
-                            src: 'file:///C:/Users/ext-jlovatt/work/RM.MailshotsOnlineFrontEnd/HC.RM.MailshotsOnline/images/little_cute_cat_1920x1080.jpg',
                             img_position: {
                                 top: 0,
                                 left: 0

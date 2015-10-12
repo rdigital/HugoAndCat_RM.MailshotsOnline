@@ -3,10 +3,10 @@ using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Entities.PageModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Net;
+using System.Net.Mime;
 using System.Web.Mvc;
-using Castle.Core.Internal;
 using RM.MailshotsOnline.Business.Processors;
 using RM.MailshotsOnline.PCL;
 using RM.MailshotsOnline.PCL.Models;
@@ -64,23 +64,35 @@ namespace RM.MailshotsOnline.Web.Controllers
             }
 
             List<DistributionContact> contacts = null;
+            string fileName = string.Empty;
 
             switch (fileType)
             {
                 case Enums.DistributionListFileType.Final:
                     contacts = _dataService.GetFinalContacts<DistributionContact>(list);
+                    fileName = list.BlobFinal;
                     break;
                 case Enums.DistributionListFileType.Errors:
                     var csm = _dataService.CreateSummaryModel<DistributionContact>(list);
                     contacts = csm.InvalidContacts.ToList();
+                    fileName = list.BlobErrors;
                     break;
             }
 
             if (contacts != null && contacts.Any())
             {
+                fileName = Path.GetFileNameWithoutExtension(fileName);
+
+                var cd = new ContentDisposition
+                         {
+                             FileName = fileName + ".csv",
+                             Inline = false,
+                         };
+
                 byte[] contactsCsv = _listProcessor.BuildCsvFromContacts(contacts);
 
-                return File(contactsCsv, PCL.Constants.MimeTypes.Csv);
+                Response.AppendHeader("Content-Disposition", cd.ToString());
+                return File(contactsCsv, Constants.MimeTypes.Csv);
             }
 
             return new HttpNotFoundResult("No contacts of that type found on the list.");

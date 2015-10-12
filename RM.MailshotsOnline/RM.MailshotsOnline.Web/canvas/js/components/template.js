@@ -37,10 +37,9 @@ define(['knockout', 'view_models/format', 'view_models/template', 'view_models/u
          * @param  {templateViewModel} template template view model instance
          */
         templateComponentViewModel.prototype.selectTemplate = function selectTemplate(template) {
-            userViewModel.resetUserFontSizes();
             if (userViewModel.objects.templateID() != template.id) {
+                userViewModel.resetUserFontSizes();
                 stateViewModel.repositionImages = true;
-                console.log(stateViewModel.repositionImages);
                 userViewModel.objects.templateID(template.id);
             }
             stateViewModel.toggleTemplatePicker();
