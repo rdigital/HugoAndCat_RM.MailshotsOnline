@@ -1,11 +1,16 @@
 <div class="list-detail">
+	<!-- ko if: !list() -->
+		<div class="constrain">
+			<div class="loading-gif"></div>
+		</div>
+	<!-- /ko -->
 	<!-- ko if: list -->
 			<div class="title-bar">
 				<div class="constrain">
 					<a href="/lists" class="back"><span class="icon-previous"></span><span class="back-text">Back to Add data page</span></a>
 					<h1 data-bind="text: list().Name"></h1>
 					<div class="actions">
-						<button class="btn" type="button"><span class="icon-download btn-icon"></span></button>
+						<a data-bind="attr: {href: '/lists/'+ list().DistributionListId + '/Download/'}" href="" class="download-link"><span class="icon-download btn-icon"></span></a>
 						<button data-bind="click: deleteList" class="btn" type="button"><span class="icon-delete btn-icon"></span></button>
 					</div>
 				</div>

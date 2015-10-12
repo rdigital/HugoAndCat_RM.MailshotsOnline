@@ -1,4 +1,16 @@
 .list-detail {
+
+	.loading-gif {
+		bottom: 0;
+		height: 130px;
+		left: 0;
+		margin: auto;
+		position: absolute;
+		right: 0;
+		top: 500px;
+		width: 130px;
+	}
+
 	.info-bar {
 		@extend %clearfix;
 		margin-bottom: 20px;

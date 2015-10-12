@@ -63,9 +63,16 @@
 		right: 0;
 		top: 0;
 
+		.download-link {
+			@include font-size(30);
+			color: $filter-tab-grey;
+			text-decoration: none;
+		}
+
 		.btn {
+			height: auto;
 			margin-bottom: 0;
-			margin-right: 10px;
+			margin-left: 10px;
 			padding: 0;
 
 			span {
