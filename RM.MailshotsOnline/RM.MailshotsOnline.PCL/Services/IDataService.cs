@@ -150,5 +150,11 @@ namespace RM.MailshotsOnline.PCL.Services
         /// <param name="contacts">The contacts.</param>
         /// <returns></returns>
         IDistributionList UpdateFinalXml<T>(IDistributionList distributionList, int contactsCount, IEnumerable<T> contacts) where T : IDistributionContact;
+
+        /// <summary>
+        /// Deletes a distribution list.
+        /// </summary>
+        /// <param name="distributionList">The distribution list.</param>
+        void DeleteDistributionList(IDistributionList distributionList);
     }
 }

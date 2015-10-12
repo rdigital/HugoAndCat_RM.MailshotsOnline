@@ -1,9 +1,11 @@
 ﻿using RM.MailshotsOnline.Data.DAL;
+using RM.MailshotsOnline.Data.Helpers;
 using RM.MailshotsOnline.Entities.DataModels;
 using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +15,8 @@ namespace RM.MailshotsOnline.Data.Services
     public class MailshotsService : IMailshotsService
     {
         private StorageContext _context;
+        private HC.RM.Common.PCL.Persistence.IBlobService _blobService;
+        private HC.RM.Common.PCL.Persistence.IBlobStorage _blobStorage;
 
         public MailshotsService() 
             : this(new StorageContext())
@@ -21,6 +25,8 @@ namespace RM.MailshotsOnline.Data.Services
         public MailshotsService(StorageContext storageContext)
         {
             _context = storageContext;
+            _blobStorage = new HC.RM.Common.Azure.Persistence.BlobStorage(ConfigHelper.PrivateStorageConnectionString);
+            _blobService = new HC.RM.Common.Azure.Persistence.BlobService(_blobStorage, ConfigHelper.MailshotContentBlobContainer);
         }
 
         /// <summary>
@@ -50,12 +56,43 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>Mailshot object</returns>
         public IMailshot GetMailshot(Guid mailshotId)
         {
-            return _context.Mailshots
+            var mailshot = _context.Mailshots
                 .Include("Content")
                 .Include("Template")
                 .Include("Format")
                 .Include("Theme")
                 .FirstOrDefault(m => m.MailshotId == mailshotId);
+
+            if (!string.IsNullOrEmpty(mailshot.ContentBlobId))
+            {
+                // Get blob content
+                mailshot.ContentText = GetBlobContent(mailshot.ContentBlobId);
+            }
+
+            return mailshot;
+        }
+
+        /// <summary>
+        /// Gets a specific Mailshot
+        /// </summary>
+        /// <param name="mailshotId">The ID of the mailshot to get</param>
+        /// <returns>Mailshot object</returns>
+        public async Task<IMailshot> GetMailshotAsync(Guid mailshotId)
+        {
+            var mailshot = _context.Mailshots
+                .Include("Content")
+                .Include("Template")
+                .Include("Format")
+                .Include("Theme")
+                .FirstOrDefault(m => m.MailshotId == mailshotId);
+
+            if (!string.IsNullOrEmpty(mailshot.ContentBlobId))
+            {
+                // Get blob content
+                mailshot.ContentText = await GetBlobContentAsync(mailshot.ContentBlobId);
+            }
+
+            return mailshot;
         }
 
         /// <summary>
@@ -65,13 +102,45 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>Mailshot object</returns>
         public IMailshot GetMailshotWithCampaignData(Guid mailshotId)
         {
-            return _context.Mailshots
+            var mailshot = _context.Mailshots
                 .Include("Content")
                 .Include("Template")
                 .Include("Format")
                 .Include("Theme")
                 .Include("Campaigns")
                 .FirstOrDefault(m => m.MailshotId == mailshotId);
+
+            if (!string.IsNullOrEmpty(mailshot.ContentBlobId))
+            {
+                // Get blob content
+                mailshot.ContentText = GetBlobContent(mailshot.ContentBlobId);
+            }
+
+            return mailshot;
+        }
+
+        /// <summary>
+        /// Gets a specific Mailshot
+        /// </summary>
+        /// <param name="mailshotId">The ID of the mailshot to get</param>
+        /// <returns>Mailshot object</returns>
+        public async Task<IMailshot> GetMailshotWithCampaignDataAsync(Guid mailshotId)
+        {
+            var mailshot = _context.Mailshots
+                .Include("Content")
+                .Include("Template")
+                .Include("Format")
+                .Include("Theme")
+                .Include("Campaigns")
+                .FirstOrDefault(m => m.MailshotId == mailshotId);
+
+            if (!string.IsNullOrEmpty(mailshot.ContentBlobId))
+            {
+                // Get blob content
+                mailshot.ContentText = await GetBlobContentAsync(mailshot.ContentBlobId);
+            }
+
+            return mailshot;
         }
 
         /// <summary>
@@ -97,11 +166,66 @@ namespace RM.MailshotsOnline.Data.Services
         /// </summary>
         /// <param name="mailshot"></param>
         /// <returns></returns>
+        public async Task<IMailshot> SaveMailshotAsync(IMailshot mailshot)
+        {
+            if (!string.IsNullOrEmpty(mailshot.ContentText))
+            {
+                // Save blob
+                string blobId = mailshot.ContentBlobId;
+                if (string.IsNullOrEmpty(blobId))
+                {
+                    blobId = string.Format("{0}/{1}.txt", mailshot.UserId, mailshot.MailshotId);
+                }
+
+                mailshot.ContentBlobId = await _blobService.StoreAsync(Encoding.UTF8.GetBytes(mailshot.ContentText), blobId, "text/plain");
+            }
+
+            return PerformSave(mailshot);
+        }
+
+        /// <summary>
+        /// Saves a Mailshot to the database
+        /// </summary>
+        /// <param name="mailshot"></param>
+        /// <returns></returns>
         public IMailshot SaveMailshot(IMailshot mailshot)
+        {
+            if (!string.IsNullOrEmpty(mailshot.ContentText))
+            {
+                // Save blob
+                string blobId = mailshot.ContentBlobId;
+                if (string.IsNullOrEmpty(blobId))
+                {
+                    blobId = string.Format("{0}/{1}.txt", mailshot.UserId, mailshot.MailshotId);
+                }
+
+                mailshot.ContentBlobId = _blobService.Store(Encoding.UTF8.GetBytes(mailshot.ContentText), blobId, "text/plain");
+            }
+
+            return PerformSave(mailshot);
+        }
+
+        private IMailshot PerformSave(IMailshot mailshot)
         {
             if (mailshot.MailshotId == Guid.Empty)
             {
                 _context.Mailshots.Add((Mailshot)mailshot);
+            }
+            else
+            {
+                if (mailshot.MailshotContentId.HasValue)
+                {
+                    // Remove MailshotContent blocks for old mailshots
+                    Guid mailshotContentId = Guid.Empty;
+                    mailshotContentId = mailshot.MailshotContentId.Value;
+                    mailshot.Content = null;
+                    mailshot.MailshotContentId = null;
+                    var mailshotContent = _context.MailshotContents.FirstOrDefault(mc => mc.MailshotContentId == mailshotContentId);
+                    if (mailshotContentId != null)
+                    {
+                        _context.MailshotContents.Remove(mailshotContent);
+                    }
+                }
             }
 
             _context.SaveChanges();
@@ -125,8 +249,18 @@ namespace RM.MailshotsOnline.Data.Services
             var usedImages = _context.MailshotImageUse.Where(ui => ui.MailshotId == mailshot.MailshotId);
             _context.MailshotImageUse.RemoveRange(usedImages);
 
+            // Remove the mailshot content
+            var contentEntity = _context.MailshotContents.FirstOrDefault(mc => mc.MailshotContentId == mailshot.MailshotContentId);
+
+            // Remove the blob
+            if (!string.IsNullOrEmpty(mailshot.ContentBlobId))
+            {
+                _blobService.DeleteBlob(mailshot.ContentBlobId);
+            }
+
             // Remove the mailshot
             _context.Mailshots.Remove((Mailshot)mailshot);
+            _context.MailshotContents.Remove(contentEntity);
             _context.SaveChanges();
 
             return true;
@@ -166,6 +300,46 @@ namespace RM.MailshotsOnline.Data.Services
         public bool MailshotIsUsedInCampaign(IMailshot mailshot)
         {
             return _context.Campaigns.Any(c => c.MailshotId == mailshot.MailshotId);
+        }
+
+        /// <summary>
+        /// Fetches the content of a given blob
+        /// </summary>
+        /// <param name="blobId">Path of the blob</param>
+        /// <returns></returns>
+        private async Task<string> GetBlobContentAsync(string blobId)
+        {
+            using (MemoryStream blobStream = await _blobService.DownloadToStreamAsync(blobId) as MemoryStream)
+            {
+                if (blobStream != null)
+                {
+                    var bytes = blobStream.ToArray();
+                    var output = Encoding.UTF8.GetString(bytes);
+                    return output;
+                }
+
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Fetches the content of a given blob
+        /// </summary>
+        /// <param name="blobId">Path of the blob</param>
+        /// <returns></returns>
+        private string GetBlobContent(string blobId)
+        {
+            using (MemoryStream blobStream = _blobService.DownloadToStream(blobId) as MemoryStream)
+            {
+                if (blobStream != null)
+                {
+                    var bytes = blobStream.ToArray();
+                    var output = Encoding.UTF8.GetString(bytes);
+                    return output;
+                }
+
+                return null;
+            }
         }
     }
 }

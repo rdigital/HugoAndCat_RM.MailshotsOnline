@@ -40,6 +40,15 @@ namespace RM.MailshotsOnline.Web.App_Start
         private static void setupCustomRouting()
         {
             RouteTable.Routes.MapUmbracoRoute(
+                                              name: "DownloadListDetails",
+                                              url: "lists/{distributionListId}/Download",
+                                              defaults: new {Controller = "ListDetail", Action = "ListDetailDownload"},
+                                              virtualNodeHandler:
+                                                  new DocumentTypeNodeRouteHandler(typeof (ListDetail).Name),
+                                              constraints: new {distributionListId = new GuidRouteConstraint()}
+                );
+
+            RouteTable.Routes.MapUmbracoRoute(
                                               name: "ListDetails",
                                               url: "lists/{distributionListId}/",
                                               defaults: new {Controller = "ListDetail", Action = "ListDetail"},

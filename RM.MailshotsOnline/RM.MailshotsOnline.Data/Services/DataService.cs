@@ -82,15 +82,60 @@ namespace RM.MailshotsOnline.Data.Services
 
         public void DeleteDistributionList(IDistributionList distributionList)
         {
+            var methodName = "DeleteDistributionList";
+
+            _logger.Info(_className, methodName, "Deleting list: {0}", distributionList.DistributionListId);
+
+            deleteBlob(distributionList, Enums.DistributionListFileType.Working);
+            deleteBlob(distributionList, Enums.DistributionListFileType.Errors);
+            deleteBlob(distributionList, Enums.DistributionListFileType.Final);
+
             _context.DistributionLists.Remove((DistributionList)distributionList);
 
             _context.SaveChanges();
+        }
+
+        private IDistributionList deleteBlob(IDistributionList distributionList, Enums.DistributionListFileType fileType)
+        {
+            var updatedList = distributionList;
+
+            switch (fileType)
+            {
+                case Enums.DistributionListFileType.Errors:
+                    deleteBlob(updatedList.BlobErrors, updatedList.UserId, fileType);
+                    updatedList.BlobErrors = null;
+                    break;
+                case Enums.DistributionListFileType.Working:
+                    deleteBlob(updatedList.BlobWorking, updatedList.UserId, fileType);
+                    updatedList.BlobWorking = null;
+                    break;
+                case Enums.DistributionListFileType.Final:
+                    deleteBlob(updatedList.BlobFinal, updatedList.UserId, fileType);
+                    updatedList.BlobFinal= null;
+                    break;
+            }
+
+            return updatedList;
+        }
+
+        private void deleteBlob(string blobReference, int userId, Enums.DistributionListFileType fileType)
+        {
+            if (!string.IsNullOrEmpty(blobReference))
+            {
+                _logger.Info(_className, "deleteBlob",
+                             "Deleting file: {0}:{1}\\{1}", fileType,
+                             userId, blobReference);
+
+                _blobStorage.DeleteBlob($"{userId}/{blobReference}");
+            }
         }
 
         public IDistributionList CreateDistributionList(IMember member, string listName, Enums.DistributionListState listState, byte[] bytes, string contentType, Enums.DistributionListFileType fileType)
         {
             string listNameAsFileName = convertToFileName(listName, contentType, fileType);
             var uploadedListName = $"{member.Id}/{listNameAsFileName}";
+
+            _logger.Info(_className, "CreateDistributionList", "Creating new list for user: {0}, listName: {1}", member.Id, listName);
 
             try
             {
@@ -182,7 +227,7 @@ namespace RM.MailshotsOnline.Data.Services
                                  "Cleaning old version of file {0}:{1} for list {2}:{3}", fileType, blobToClean,
                                  distributionList.UserId, distributionList.DistributionListId);
 
-                    _blobStorage.DeleteBlob($"{distributionList.UserId}/{blobToClean}");
+                    deleteBlob(blobToClean, distributionList.UserId, fileType);
                 }
 
                 if (fileType == Enums.DistributionListFileType.Final && (!string.IsNullOrEmpty(distributionList.BlobErrors) || !string.IsNullOrEmpty(distributionList.BlobWorking)))
@@ -192,33 +237,14 @@ namespace RM.MailshotsOnline.Data.Services
                                  "New final list has been uploaded, attempting to remove any old working files for list: {0}:{1}", distributionList.UserId,
                                  distributionList.DistributionListId);
 
-                    if (!string.IsNullOrEmpty(distributionList.BlobErrors))
-                    {
-                        _blobStorage.DeleteBlob($"{distributionList.UserId}/{distributionList.BlobErrors}");
+                    distributionList = deleteBlob(distributionList, Enums.DistributionListFileType.Errors);
 
-                        _logger.Info(_className, methodName,
-                                     "Successfully removed Errors file {0} for list: {1}:{2}",
-                                     distributionList.BlobErrors, distributionList.UserId,
-                                     distributionList.DistributionListId);
-
-                        distributionList.BlobErrors = null;
-                    }
-
-                    if (!string.IsNullOrEmpty(distributionList.BlobWorking))
-                    {
-                        _blobStorage.DeleteBlob($"{distributionList.UserId}/{distributionList.BlobWorking}");
-                        _logger.Info(_className, methodName,
-                                     "Successfully removed Working file {0} for list: {1}:{2}",
-                                     distributionList.BlobWorking, distributionList.UserId,
-                                     distributionList.DistributionListId);
-
-                        distributionList.BlobWorking = null;
-                    }
+                    distributionList = deleteBlob(distributionList, Enums.DistributionListFileType.Working);
                 }
             }
             catch (Exception ex)
             {
-                _logger.Exception(_className, "CreateDistributionList", ex);
+                _logger.Exception(_className, methodName, ex);
 
                 return null;
             }
@@ -248,21 +274,15 @@ namespace RM.MailshotsOnline.Data.Services
 
         public void AbandonContactEdits(IDistributionList distributionList)
         {
-            if (!string.IsNullOrEmpty(distributionList.BlobWorking))
-            {
-                _blobStorage.DeleteBlob($"{distributionList.UserId}/{distributionList.BlobWorking}");
-                distributionList.BlobWorking = null;
-            }
-
-            if (!string.IsNullOrEmpty(distributionList.BlobErrors))
-            {
-                _blobStorage.DeleteBlob($"{distributionList.UserId}/{distributionList.BlobErrors}");
-                distributionList.BlobErrors = null;
-            }
+            _logger.Info(_className, "AbandonContactEdits", "Abandoning contact edits on user list: {0}:{1}",
+                         distributionList.UserId, distributionList.DistributionListId);
 
             if (!string.IsNullOrEmpty(distributionList.BlobFinal))
             {
                 // Reset back to complete
+                distributionList = deleteBlob(distributionList, Enums.DistributionListFileType.Working);
+                distributionList = deleteBlob(distributionList, Enums.DistributionListFileType.Errors);
+
                 distributionList.ListState = Enums.DistributionListState.Complete;
                 SaveDistributionList(distributionList, false);
             }
@@ -554,7 +574,7 @@ namespace RM.MailshotsOnline.Data.Services
 
                         if (existingListElement == null)
                         {
-                            _logger.Critical(_className, "CompleteContactEdits",
+                            _logger.Critical(_className, "UpdateFinalXml",
                                              "Unable to load existing final XML document for user list: {0}:{1} - {2} ",
                                              distributionList.UserId, distributionList.DistributionListId,
                                              distributionList.BlobFinal);
@@ -618,7 +638,7 @@ namespace RM.MailshotsOnline.Data.Services
 
                         if (errorElement == null)
                         {
-                            _logger.Critical(GetType().Name, "ShowSummaryListForm",
+                            _logger.Critical(GetType().Name, "getAllDetailsFromWorkingFiles",
                                              "Unable to load error XML document for user list: {0}:{1} - {2} ",
                                              distributionList.UserId, distributionList.DistributionListId,
                                              distributionList.BlobErrors);

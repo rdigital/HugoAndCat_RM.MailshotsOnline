@@ -54,6 +54,11 @@ namespace RM.MailshotsOnline.Data.Helpers
             get { return GetConfigValue("HostedScheme"); }
         }
 
+        public static string MailshotContentBlobContainer
+        {
+            get { return GetConfigValue("MailshotContentBlobContainer", "mailshotcontent"); }
+        }
+
         public static string MailshotDefaultContentTypeAlias
         {
             get { return GetConfigValue("MailshotDefaultContentTypeAlias", "MailshotDefaultContent"); }
@@ -62,6 +67,11 @@ namespace RM.MailshotsOnline.Data.Helpers
         public static string RoyalMailApprovalEmailAddress
         {
             get { return GetConfigValue("RoyalMailApprovalEmailAddress"); }
+        }
+
+        public static bool SaveMailshotInfoForDebug
+        {
+            get { return GetConfigValue("SaveMailshotInfoForDebug", false); }
         }
 
         public static string SettingsFolderContentTypeAlias
@@ -92,6 +102,16 @@ namespace RM.MailshotsOnline.Data.Helpers
         public static string StorageConnectionString
         {
             get { return GetConfigValue("StorageConnectionString"); }
+        }
+
+        public static string SparqServiceIpRangeStart
+        {
+            get { return GetConfigValue("SparqServiceIpRangeStart"); }
+        }
+
+        public static string SparqServiceIpRangeEnd
+        {
+            get { return GetConfigValue("SparqServiceIpRangeEnd"); }
         }
 
         /// <summary>
@@ -156,6 +176,17 @@ namespace RM.MailshotsOnline.Data.Helpers
         public static string ThemeContentTypeAlias
         {
             get { return GetConfigValue("ThemeContentTypeAlias", "Theme"); }
+        }
+
+        internal static bool GetConfigValue(string key, bool defaultValue)
+        {
+            bool result;
+            if (!bool.TryParse(GetConfigValue(key), out result))
+            {
+                return defaultValue;
+            }
+
+            return result;
         }
 
         internal static int GetConfigValue(string key, int defaultValue)

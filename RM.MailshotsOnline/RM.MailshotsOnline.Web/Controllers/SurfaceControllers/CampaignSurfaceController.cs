@@ -290,7 +290,8 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             // Save the mailshot
             Mailshot mailshotData = new Mailshot();
 
-            mailshotData.Content = new MailshotContent() { Content = defaultContent.JsonData };
+            //mailshotData.Content = new MailshotContent() { Content = defaultContent.JsonData };
+            mailshotData.ContentText = defaultContent.JsonData;
             mailshotData.UserId = LoggedInMember.Id;
             mailshotData.UpdatedDate = DateTime.UtcNow;
             mailshotData.FormatId = format.FormatId;

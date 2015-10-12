@@ -110,20 +110,20 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Glass.Mapper.Umb.CastleWindsor.3.0.4.5\lib\net45\Glass.Mapper.Umb.CastleWindsor.dll</HintPath>
     </Reference>
-    <Reference Include="HC.RM.Common, Version=1.0.13.48, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.1.0.13.48\lib\net45\HC.RM.Common.dll</HintPath>
+    <Reference Include="HC.RM.Common, Version=1.0.13.52, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.1.0.13.52\lib\net45\HC.RM.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HC.RM.Common.Azure, Version=1.0.13.48, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.Azure.1.0.13.48\lib\net45\HC.RM.Common.Azure.dll</HintPath>
+    <Reference Include="HC.RM.Common.Azure, Version=1.0.13.52, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.Azure.1.0.13.52\lib\net45\HC.RM.Common.Azure.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HC.RM.Common.AzureWeb, Version=1.0.13.48, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.AzureWeb.1.0.13.48\lib\net45\HC.RM.Common.AzureWeb.dll</HintPath>
+    <Reference Include="HC.RM.Common.AzureWeb, Version=1.0.13.52, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.AzureWeb.1.0.13.52\lib\net45\HC.RM.Common.AzureWeb.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HC.RM.Common.PCL, Version=1.0.13.48, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.PCL.1.0.13.48\lib\portable-net45+win+wpa81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\HC.RM.Common.PCL.dll</HintPath>
+    <Reference Include="HC.RM.Common.PCL, Version=1.0.13.52, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.PCL.1.0.13.52\lib\portable-net45+win+wpa81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\HC.RM.Common.PCL.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="HtmlAgilityPack">
@@ -161,24 +161,36 @@
     <Reference Include="Lucene.Net">
       <HintPath>..\packages\Lucene.Net.2.9.4.1\lib\net40\Lucene.Net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.0.1011, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector, Version=1.2.1.210, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.1.2.1\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=1.2.1.210, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.1.2.1\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=1.2.1.210, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.1.2.1\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web, Version=1.2.1.210, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.1.2.1\lib\net45\Microsoft.AI.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer, Version=1.2.1.210, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.1.2.1\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.1559.20655, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\UmbracoCms.Core.7.2.8\lib\Microsoft.ApplicationBlocks.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ApplicationInsights, Version=1.0.0.4220, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.1.0.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.ApplicationInsights.Extensibility.DependencyCollector, Version=1.0.0.4227, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.1.0.0\lib\net45\Microsoft.ApplicationInsights.Extensibility.DependencyCollector.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.ApplicationInsights.Extensibility.PerfCounterCollector, Version=1.0.0.4231, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.1.0.0\lib\net45\Microsoft.ApplicationInsights.Extensibility.PerfCounterCollector.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.ApplicationInsights.Extensibility.Web, Version=1.0.0.4227, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.1.0.0\lib\net45\Microsoft.ApplicationInsights.Extensibility.Web.dll</HintPath>
+    <Reference Include="Microsoft.ApplicationInsights, Version=1.2.0.5639, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.1.2.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ApplicationInsights.Web.TelemetryChannel, Version=1.0.0.4227, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -222,8 +234,8 @@
       <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.ServiceBus, Version=2.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAzure.ServiceBus.2.7.5\lib\net40-full\Microsoft.ServiceBus.dll</HintPath>
+    <Reference Include="Microsoft.ServiceBus, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.ServiceBus.3.0.3\lib\net45-full\Microsoft.ServiceBus.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -240,8 +252,8 @@
     <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=2.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Storage, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAzure.Storage.5.0.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.Storage.6.0.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MiniProfiler">
@@ -331,7 +343,8 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="Tamir.SharpSSH, Version=1.1.1.13, Culture=neutral">
-      <HintPath>..\packages\Tamir.SharpSSH.1.1.1.13\lib\Tamir.SharpSSH.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libraries\SharpSSH.1.1.1\Tamir.SharpSSH.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TidyNet, Version=1.0.0.0, Culture=neutral">
@@ -571,9 +584,11 @@
     <Content Include="canvas\styles\iehacks.scss" />
     <Content Include="canvas\styles\slider.scss" />
     <Content Include="canvas\styles\zoom.scss" />
+    <Content Include="Views\CampaignHub\Partials\StartDataButton.cshtml" />
     <Content Include="AppInsightsAgent\InstallAgent.ps1" />
     <Content Include="AppInsightsAgent\InstallAgent.bat" />
     <Content Include="Views\CampaignHub\Partials\StartDataButton.cshtml" />
+    <Content Include="uSync\Template\ListDetailDownload\ListDetailDownload.config" />
     <None Include="WaIISHost.exe.config">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -3362,9 +3377,12 @@
     <Content Include="Config\BaseRestExtensions.config" />
     <Content Include="Config\applications.config" />
     <Content Include="Config\404handlers.config" />
-    <Content Include="ApplicationInsights.config" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="ApplicationInsights.QA.config">
       <DependentUpon>ApplicationInsights.config</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Home.cshtml" />
     <Content Include="Views\ContentPage.cshtml" />
@@ -3654,12 +3672,10 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.2.8\build\UmbracoCms.props'))" />
     <Error Condition="!Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.Agent.Intercept.0.17.0\build\Microsoft.ApplicationInsights.Agent.Intercept.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.Agent.Intercept.0.17.0\build\Microsoft.ApplicationInsights.Agent.Intercept.targets'))" />
-    <Error Condition="!Exists('..\packages\HC.RM.Common.Azure.1.0.13.48\build\HC.RM.Common.Azure.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\HC.RM.Common.Azure.1.0.13.48\build\HC.RM.Common.Azure.targets'))" />
+    <Error Condition="!Exists('..\packages\HC.RM.Common.Azure.1.0.13.52\build\HC.RM.Common.Azure.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\HC.RM.Common.Azure.1.0.13.52\build\HC.RM.Common.Azure.targets'))" />
   </Target>
   <Import Project="..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets" Condition="Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets')" />
-  <Import Project="..\packages\Microsoft.ApplicationInsights.Agent.Intercept.0.17.0\build\Microsoft.ApplicationInsights.Agent.Intercept.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.Agent.Intercept.0.17.0\build\Microsoft.ApplicationInsights.Agent.Intercept.targets')" />
-  <Import Project="..\packages\HC.RM.Common.Azure.1.0.13.48\build\HC.RM.Common.Azure.targets" Condition="Exists('..\packages\HC.RM.Common.Azure.1.0.13.48\build\HC.RM.Common.Azure.targets')" />
+  <Import Project="..\packages\HC.RM.Common.Azure.1.0.13.52\build\HC.RM.Common.Azure.targets" Condition="Exists('..\packages\HC.RM.Common.Azure.1.0.13.52\build\HC.RM.Common.Azure.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

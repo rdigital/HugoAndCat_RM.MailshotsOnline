@@ -48,7 +48,7 @@ namespace RM.MailshotsOnline.Entities.DataModels
         public Guid MailshotId { get; set; }
 
         [JsonIgnore]
-        public Guid MailshotContentId { get; set; }
+        public Guid? MailshotContentId { get; set; }
 
         [JsonIgnore]
         [ForeignKey("MailshotContentId")]
@@ -60,6 +60,10 @@ namespace RM.MailshotsOnline.Entities.DataModels
 
         [NotMapped]
         public string ContentText { get; set; }
+
+        [JsonIgnore]
+        [MaxLength(256)]
+        public string ContentBlobId { get; set; }
 
         [JsonIgnore]
         [Required]

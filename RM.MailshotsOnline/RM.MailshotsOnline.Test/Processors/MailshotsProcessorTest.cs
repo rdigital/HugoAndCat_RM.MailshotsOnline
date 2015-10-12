@@ -23,7 +23,9 @@ namespace RM.MailshotsOnline.Test.Processors
         [SetUp]
         public void SetupMailshotsProcessor()
         {
-            _processor = new MailshotsProcessor();
+            var logger = new Mocks.MockLogger();
+            var blobService = new Mocks.MockBlobService();
+            _processor = new MailshotsProcessor(logger, blobService);
         }
 
         [TearDown]
@@ -33,9 +35,9 @@ namespace RM.MailshotsOnline.Test.Processors
         }
 
         [Test]
-        public void MailshotsProcessorReturnsOutput()
+        public async void MailshotsProcessorReturnsOutput()
         {
-            var output = GetMailshotsOutput();
+            var output = await GetMailshotsOutput();
 
             Assert.NotNull(output);
             Assert.NotNull(output.XmlData);
@@ -43,9 +45,9 @@ namespace RM.MailshotsOnline.Test.Processors
         }
 
         [Test]
-        public void MailshotsProcessorOutputIsValid()
+        public async void MailshotsProcessorOutputIsValid()
         {
-            var output = GetMailshotsOutput();
+            var output = await GetMailshotsOutput();
 
             // Check that XML is valid
             var xml = output.XmlData;
@@ -68,7 +70,7 @@ namespace RM.MailshotsOnline.Test.Processors
             Assert.Greater(transformBuilder.Length, 0);
         }
 
-        private XmlAndXslData GetMailshotsOutput()
+        private async Task<XmlAndXslData> GetMailshotsOutput()
         {
             string input = File.ReadAllText("newcontent.json");
             var format = new Format()
@@ -205,13 +207,14 @@ namespace RM.MailshotsOnline.Test.Processors
                 UserId = 1,
                 Draft = true
             };
-            mailshot.Content = new MailshotContent();
-            mailshot.Content.Content = input;
+            //mailshot.Content = new MailshotContent();
+            //mailshot.Content.Content = input;
+            mailshot.ContentText = input;
 
             //string xsl = File.ReadAllText("A4PageComplete.xsl");
             //var output = _processor.GetXmlAndXslForMailshot(mailshot, xsl);
 
-            var output = _processor.GetXmlAndXslForMailshot(mailshot);
+            var output = await _processor.GetXmlAndXslForMailshot(mailshot);
             return output;
         }
     }

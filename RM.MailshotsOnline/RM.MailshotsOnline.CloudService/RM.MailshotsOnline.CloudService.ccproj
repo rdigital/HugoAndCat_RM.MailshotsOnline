@@ -47,12 +47,22 @@
       <RoleName>RM.MailshotsOnline.Web</RoleName>
       <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
     </ProjectReference>
+    <ProjectReference Include="..\RM.MailshotsOnline.WorkerRole\RM.MailshotsOnline.WorkerRole.csproj">
+      <Name>RM.MailshotsOnline.WorkerRole</Name>
+      <Project>{6ca7ad73-2f14-427e-9a49-ceca89c9bb5f}</Project>
+      <Private>True</Private>
+      <RoleType>Worker</RoleType>
+      <RoleName>RM.MailshotsOnline.WorkerRole</RoleName>
+      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="RM.MailshotsOnline.WebContent\" />
+    <Folder Include="RM.MailshotsOnline.WorkerRoleContent\" />
   </ItemGroup>
   <ItemGroup>
     <DiagnosticsConfiguration Include="RM.MailshotsOnline.WebContent\diagnostics.wadcfgx" />
+    <DiagnosticsConfiguration Include="RM.MailshotsOnline.WorkerRoleContent\diagnostics.wadcfgx" />
   </ItemGroup>
   <!-- Import the target files for this project template -->
   <PropertyGroup>

@@ -256,5 +256,49 @@ namespace RM.MailshotsOnline.Business.Processors
 
             return mappedFields;
         }
+
+        public Byte[] BuildCsvFromContacts<T>(IEnumerable<T> contacts) where T : IDistributionContact
+        {
+            Byte[] csvData = null;
+
+            using (var ms = new MemoryStream())
+            {
+                using (var sw = new StreamWriter(ms))
+                {
+                    // Should already have returned if FirstRowIsHeader is null.
+                    var csvConfig = new CsvConfiguration { HasHeaderRecord = true};
+
+                    csvConfig.RegisterClassMap(new DistributionContactMap<T>());
+
+                    using (var csvw = new CsvWriter(sw, csvConfig))
+                    {
+                        csvw.WriteRecords(contacts);
+                        sw.Flush();
+
+                        csvData = ms.ToArray();
+                    }
+                }
+            }
+
+            return csvData;
+        }
+    }
+
+    internal sealed class DistributionContactMap<T> : CsvClassMap<T> where T : IDistributionContact
+    {
+        public DistributionContactMap()
+        {
+            Map(m => m.Title);
+            Map(m => m.FirstName);
+            Map(m => m.Surname);
+            Map(m => m.FlatId);
+            Map(m => m.HouseName);
+            Map(m => m.HouseNumber);
+            Map(m => m.Address1);
+            Map(m => m.Address2);
+            Map(m => m.Address3);
+            Map(m => m.Address4);
+            Map(m => m.PostCode);
+        }
     }
 }

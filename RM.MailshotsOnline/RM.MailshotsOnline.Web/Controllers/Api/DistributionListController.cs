@@ -18,7 +18,6 @@ using RM.MailshotsOnline.Web.Models;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
-    // TODO: DELETE LISTS
     // TODO: DELETE CONTACTS
 
     public class DistributionListController: ApiBaseController
@@ -437,6 +436,31 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, _dataService.CreateSummaryModel<DistributionContact>(list));
         }
 
+        [HttpDelete]
+        public HttpResponseMessage DeleteMyList(Guid distributionListId)
+        {
+            var authResult = Authenticate();
+
+            if (authResult != null)
+            {
+                return authResult;
+            }
+
+            IDistributionList list;
+            HttpResponseMessage listResult = validateDistributionListId(distributionListId, out list);
+
+            if (listResult != null)
+            {
+                return listResult;
+            }
+
+            _logger.Info(_controllerName, "DeleteMyList", "Deleting user list: {0}:{1}:{2}", _loggedInMember.Id, list.DistributionListId, list.Name);
+
+            _dataService.DeleteDistributionList(list);
+
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
         [HttpPost]
         public HttpResponseMessage PostAddContactsToList(ModifyListAddContactModel<DistributionContact> model)
         {
@@ -468,7 +492,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                                               new
                                               {
-                                                  error = "You must supply a contact.",
+                                                  error = "You must supply at least one contact.",
                                                   param = "Contact",
                                                   statusCode = HttpStatusCode.BadRequest
                                               });
@@ -553,6 +577,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                     mappedContacts.InvalidContactsCount == 0 && mappedContacts.DuplicateContactsCount == 0)
                 {
                     // These are all new contacts with no errors - save them straight to the list without going to draft
+                    list.RecordCount = list.RecordCount + mappedContacts.ValidContactsCount;
                     list = _dataService.UpdateFinalXml(list, mappedContacts.ValidContactsCount,
                                                        mappedContacts.ValidContacts);
 
@@ -578,6 +603,55 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             return Request.CreateResponse(HttpStatusCode.OK, summaryModel);
         }
+
+        /// <summary>
+        /// Deletes contacts from the specified list - if this removes all contacts, the list is deleted.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
+        [HttpPost]
+        public HttpResponseMessage PostDeleteContactsFromList(ModifyListDeleteContactModel model)
+        {
+            var authResult = Authenticate();
+
+            if (authResult != null)
+            {
+                return authResult;
+            }
+
+
+            IDistributionList list;
+            HttpResponseMessage listResult = validateDistributionListId(model.DistributionListId, out list);
+
+            if (listResult != null)
+            {
+                return listResult;
+            }
+
+            var existingContacts = _dataService.GetFinalContacts<DistributionContact>(list);
+
+            existingContacts.RemoveAll(ec => model.ContactIds.Contains(ec.ContactId));
+
+            list.RecordCount = existingContacts.Count;
+
+            if (list.RecordCount > 0)
+            {
+                list = _dataService.CreateValidXml(list, list.RecordCount, existingContacts,
+                                                         Enums.DistributionListFileType.Final);
+
+                return Request.CreateResponse(HttpStatusCode.OK,
+                                              new ListDetailsModel<DistributionContact>
+                                              {
+                                                  List = list,
+                                                  Contacts = existingContacts
+                                              });
+            }
+
+            _dataService.DeleteDistributionList(list);
+
+            return Request.CreateResponse(HttpStatusCode.OK, (ListDetailsModel<DistributionContact>)null);
+        }
+
 
         /// <summary>
         /// Finishes editing the list - either adds the working list to the existing list, or cleans up the in-progress parts.
@@ -644,15 +718,13 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             if (distributionListId == Guid.Empty)
             {
-                {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest,
-                                                         new
-                                                         {
-                                                             error = "You must supply a List Id.",
-                                                             param = "DistributionListId",
-                                                             statusCode = HttpStatusCode.BadRequest
-                                                         });
-                }
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                                              new
+                                              {
+                                                  error = "You must supply a List Id.",
+                                                  param = "DistributionListId",
+                                                  statusCode = HttpStatusCode.BadRequest
+                                              });
             }
 
             list = _dataService.GetDistributionListForUser(_loggedInMember.Id, distributionListId);
