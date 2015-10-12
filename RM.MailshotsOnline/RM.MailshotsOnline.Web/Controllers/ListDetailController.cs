@@ -2,6 +2,8 @@
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Entities.PageModels;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using Castle.Core.Internal;
@@ -60,12 +62,28 @@ namespace RM.MailshotsOnline.Web.Controllers
             {
                 return HttpNotFound("No distribution list found for that user.");
             }
-            // Todo: Switch based on FileType to get errors.
-            var contacts = _dataService.GetFinalContacts<DistributionContact>(list);
 
-            byte[] contactsCsv = _listProcessor.BuildCsvFromContacts(contacts);
+            List<DistributionContact> contacts = null;
 
-            return File(contactsCsv, PCL.Constants.MimeTypes.Csv);
+            switch (fileType)
+            {
+                case Enums.DistributionListFileType.Final:
+                    contacts = _dataService.GetFinalContacts<DistributionContact>(list);
+                    break;
+                case Enums.DistributionListFileType.Errors:
+                    var csm = _dataService.CreateSummaryModel<DistributionContact>(list);
+                    contacts = csm.InvalidContacts.ToList();
+                    break;
+            }
+
+            if (contacts != null && contacts.Any())
+            {
+                byte[] contactsCsv = _listProcessor.BuildCsvFromContacts(contacts);
+
+                return File(contactsCsv, PCL.Constants.MimeTypes.Csv);
+            }
+
+            return new HttpNotFoundResult("No contacts of that type found on the list.");
         }
 
         public ActionResult ListDetailEmpty(RenderModel model)
