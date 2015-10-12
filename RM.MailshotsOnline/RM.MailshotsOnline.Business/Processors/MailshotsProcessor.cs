@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using HC.RM.Common.PCL.Helpers;
+using HC.RM.Common.PCL.Persistence;
+using Newtonsoft.Json;
 using RM.MailshotsOnline.Entities.JsonModels;
 using RM.MailshotsOnline.Entities.PageModels.Settings;
 using RM.MailshotsOnline.Entities.ViewModels;
@@ -7,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -17,10 +20,28 @@ namespace RM.MailshotsOnline.Business.Processors
     public class MailshotsProcessor
     {
         private XNamespace _foNamespace;
+        private IBlobService _blobService;
+        private ILogger _logger;
+        private IPAddress _startIpAddress;
+        private IPAddress _endIpAddress;
 
-        public MailshotsProcessor()
+        /// <summary>
+        /// Creates a new instance of the MailshotsProcessor class
+        /// </summary>
+        /// <param name="logger">The Logger</param>
+        /// <param name="blobStorageService">The Blob Storage service</param>
+        public MailshotsProcessor(ILogger logger, IBlobService blobStorageService)
         {
             _foNamespace = "http://www.w3.org/1999/XSL/Format";
+            _logger = logger;
+            _blobService = blobStorageService;
+            _startIpAddress = null;
+            _endIpAddress = null;
+        }
+
+        public async Task<XmlAndXslData> GetXmlAndXslForMailshot(IMailshot mailshot, string xslOverride = null)
+        {
+            return await GetXmlAndXslForMailshot(mailshot, null, null, xslOverride);
         }
 
         /// <summary>
@@ -29,8 +50,18 @@ namespace RM.MailshotsOnline.Business.Processors
         /// <param name="mailshot">Mailshot to be generated</param>
         /// <param name="xslOverride">Specify the XSL to use as an override, rather than generating XSL from the Mailshot format / template / theme</param>
         /// <returns>Item 1: XML content; Item 2: XSLT transform file</returns>
-        public XmlAndXslData GetXmlAndXslForMailshot(IMailshot mailshot, string xslOverride = null)
+        public async Task<XmlAndXslData> GetXmlAndXslForMailshot(IMailshot mailshot, string ipAddressStart, string ipAddressEnd, string xslOverride = null)
         {
+            IPAddress parsedIpAddress = null;
+            if (IPAddress.TryParse(ipAddressStart, out parsedIpAddress))
+            {
+                _startIpAddress = parsedIpAddress;
+                if (IPAddress.TryParse(ipAddressEnd, out parsedIpAddress))
+                {
+                    _endIpAddress = parsedIpAddress;
+                }
+            }
+
             XmlAndXslData result = new XmlAndXslData();
 
             if (mailshot == null)
@@ -98,7 +129,7 @@ namespace RM.MailshotsOnline.Business.Processors
             MailshotEditorContent content = JsonConvert.DeserializeObject<MailshotEditorContent>(mailshot.ContentText);
             result.UsedImageSrcs = content.Elements.Where(e => !string.IsNullOrEmpty(e.Src)).Select(e => e.Src);
 
-            var finalXml = GetContentXmlFromJson(content);
+            var finalXml = await GetContentXmlFromJson(content, mailshot);
             result.XmlData = finalXml;
 
             if (!string.IsNullOrEmpty(xslOverride))
@@ -118,7 +149,7 @@ namespace RM.MailshotsOnline.Business.Processors
         /// </summary>
         /// <param name="jsonContent">Parsed JSON content from the editor interface</param>
         /// <returns>XML string</returns>
-        private string GetContentXmlFromJson(MailshotEditorContent jsonContent)
+        private async Task<string> GetContentXmlFromJson(MailshotEditorContent jsonContent, IMailshot mailshot)
         {
             var contentXml = new XDocument();
             var ticket = new XElement("page", new XAttribute(XNamespace.Xmlns + "fo", _foNamespace));
@@ -126,10 +157,10 @@ namespace RM.MailshotsOnline.Business.Processors
             foreach (var jsonElement in jsonContent.Elements)
             {
                 var content = jsonElement.Content;
-                if (!string.IsNullOrWhiteSpace(jsonElement.Src))
-                {
-                    content = jsonElement.Src;
-                }
+                //if (!string.IsNullOrWhiteSpace(jsonElement.Src))
+                //{
+                //    content = jsonElement.Src;
+                //}
 
                 if (!string.IsNullOrEmpty(content))
                 {
@@ -142,9 +173,77 @@ namespace RM.MailshotsOnline.Business.Processors
                     }
                     else
                     {
-                        //contentElement.Value = jsonElement.Content;
-                        // TODO: Move the image to blob storage
-                        contentElement.Add(new XCData(content));
+                        // Move the image to blob storage
+                        string imageUrl = string.Empty;
+                        var parts = content.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                        if (parts.Length == 2)
+                        {
+                            // Check first part to see what type of image this is
+                            string imageMimeType = "image/jpeg"; // Assume JPG by default
+                            var formatParts = parts[0].Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                            if (formatParts.Length == 2)
+                            {
+                                imageMimeType = formatParts[1];
+                            }
+
+                            // Convert second part into byte array for storage
+                            var contentParts = parts[1].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                            if (contentParts.Length == 2)
+                            {
+                                if (contentParts[0] == "base64")
+                                {
+                                    byte[] imageBytes = null;
+                                    try
+                                    {
+                                        imageBytes = Convert.FromBase64String(contentParts[1]);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        _logger.Exception(this.GetType().Name, "GetContentXmlFromJson", ex);
+                                        _logger.Error(this.GetType().Name, "GetContentXmlFromJson", "Error converting base64 string into byte array");
+                                    }
+
+                                    if (imageBytes != null)
+                                    {
+                                        // Save bytes to blob and generate URL
+                                        string extension = "jpeg";
+                                        var mimeTypeParts = imageMimeType.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+                                        if (mimeTypeParts.Length == 2)
+                                        {
+                                            extension = mimeTypeParts[1];
+                                        }
+
+                                        string filename = $"pdf-images/{mailshot.UserId}/{mailshot.ProofPdfOrderNumber}/{jsonElement.Name}.{extension}";
+                                        var blobId = await _blobService.StoreAsync(imageBytes, filename, imageMimeType);
+
+                                        if (_startIpAddress != null)
+                                        {
+                                            if (_endIpAddress != null)
+                                            {
+                                                imageUrl = _blobService.GetBlobUriWithSas(blobId, new TimeSpan(1, 0, 0, 0), true, false, false, "StIves", _startIpAddress.ToString(), _endIpAddress.ToString()).ToString();
+                                            }
+                                            else
+                                            {
+                                                imageUrl = _blobService.GetBlobUriWithSas(blobId, new TimeSpan(1, 0, 0, 0), true, false, false, "StIves", _startIpAddress.ToString()).ToString();
+                                            }
+                                        }
+                                        else
+                                        {
+                                            imageUrl = _blobService.GetBlobUriWithSas(blobId, new TimeSpan(1, 0, 0, 0), true, false, false).ToString();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (string.IsNullOrEmpty(imageUrl))
+                        {
+                            contentElement.Add(new XCData(content));
+                        }
+                        else
+                        {
+                            contentElement.Add(imageUrl);
+                        }
                     }
 
                     ticket.Add(contentElement);

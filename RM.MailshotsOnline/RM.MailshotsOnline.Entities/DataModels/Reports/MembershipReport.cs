@@ -13,7 +13,7 @@ namespace RM.MailshotsOnline.Entities.DataModels.Reports
     {
         public override DateTime CreatedDate { get; set; }
 
-        public override string Name => "Membership Report";
+        public override string Name => "mso-membership";
 
         public IEnumerable<IMembershipReportEntity> Members { get; set; }
     }

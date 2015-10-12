@@ -145,7 +145,14 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 try
                 {
                     messageSent = await _sparqQueueService.SendRenderJob(mailshot, postbackUrl);
-                    _logger.Info(_controllerName, methodName, "Proof PDF requested for mailshot {0}", id);
+                    if (messageSent)
+                    {
+                        _logger.Info(_controllerName, methodName, "Proof PDF requested for mailshot {0}", id);
+                    }
+                    else
+                    {
+                        _logger.Warn(_controllerName, methodName, "Unable to send proof PDF for mailshot {0}", id);
+                    }
                 }
                 catch (Exception ex)
                 {

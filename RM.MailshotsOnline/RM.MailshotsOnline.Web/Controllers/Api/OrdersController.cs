@@ -22,6 +22,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using RM.MailshotsOnline.PCL.Services.Reporting;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
@@ -34,7 +35,9 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         private IUmbracoService _umbracoService;
         private IEmailService _emailService;
 
-        public OrdersController(IUmbracoService umbracoService, IInvoiceService invoiceService, ICampaignService campaignService, ISettingsService settingsService, IMembershipService membershipService, ILogger logger, IEmailService emailService)
+        public OrdersController(IUmbracoService umbracoService, IInvoiceService invoiceService,
+            ICampaignService campaignService, ISettingsService settingsService, IMembershipService membershipService,
+            ILogger logger, IEmailService emailService, ITransactionsReportGenerator transactionsReportGenerator)
             : base (membershipService, logger)
         {
             _umbracoService = umbracoService;

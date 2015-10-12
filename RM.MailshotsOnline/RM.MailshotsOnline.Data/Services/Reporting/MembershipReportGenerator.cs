@@ -12,7 +12,7 @@ namespace RM.MailshotsOnline.Data.Services.Reporting
 {
     public class MembershipReportGenerator : IMembershipReportGenerator
     {
-        private static IMembershipService _membershipService;
+        private readonly IMembershipService _membershipService;
 
         public MembershipReportGenerator(IMembershipService membershipService)
         {
@@ -49,10 +49,10 @@ namespace RM.MailshotsOnline.Data.Services.Reporting
                 ThirdPartyContactPhone = x.ThirdPartyMarketingPreferences.Phone.ToString(),
                 ThirdPartyContactSms = x.ThirdPartyMarketingPreferences.SmsAndOther.ToString(),
                 Disabled = (!x.IsApproved).ToString(),
-                Updated = x.Updated.ToString("dd/mm/yyyy hh:mm")
+                Updated = x.Updated.ToString("dd/mm/yyyy hh:mm"),
             });
 
-            var report = new MembershipReport {CreatedDate = DateTime.Now, Members = members};
+            var report = new MembershipReport {CreatedDate = DateTime.UtcNow, Members = members};
 
             return report;
         }
