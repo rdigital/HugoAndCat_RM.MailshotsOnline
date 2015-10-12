@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.IO;
 using CsvHelper;
+using CsvHelper.Configuration;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.Constants;
 using RM.MailshotsOnline.Entities.JsonModels;
@@ -81,6 +82,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 using (var csvWriter = new CsvWriter(streamWriter))
                 {
                     csvWriter.WriteRecords(data);
+                    streamWriter.Flush();
+                    m.Flush();
 
                     var filename = report.Name + ".csv";
 
@@ -90,7 +93,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
                         if (!success)
                         {
-                            throw new Exception("SFTP service not transfer the file.");
+                            throw new Exception("SFTP service could not transfer the file.");
                         }
                     }
                     catch (Exception e)
@@ -116,8 +119,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 }
             }
 
-            _logger.Error(this.GetType().Name, "GenerateReport", "Stream was empty");
-            return ErrorMessageDebug(HttpStatusCode.InternalServerError, "Stream was empty");
+            _logger.Error(this.GetType().Name, "GenerateReport", "Data was null - exiting");
+            return ErrorMessageDebug(HttpStatusCode.InternalServerError, "Data was null - exiting");
         }
     }
 }
