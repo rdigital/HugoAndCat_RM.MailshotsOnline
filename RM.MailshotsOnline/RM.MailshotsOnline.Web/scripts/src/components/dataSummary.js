@@ -19,6 +19,12 @@ define(['knockout', 'view-models/state'],
             this.hasDuplicates = ko.pureComputed(function() {
                 return this.duplicateList().length > 0;
             }, this);
+            this.hadInvalid = ko.observable(false);
+            this.resolved = ko.pureComputed(function() {
+                return this.hadInvalid() && !this.hasInvalid();
+            }, this);
+
+            this.edit = this.edit.bind(this);
         }
 
         dataSummaryComponentViewModel.prototype.cancel = function cancel() {
@@ -45,7 +51,7 @@ define(['knockout', 'view-models/state'],
                 self = this;
 
             $.post('/Umbraco/API/DistributionList/PostFinishList', data, function() {
-                self.step('summary');
+                window.location = '/lists/'+ self.currentList.DistributionListId();
             }).error(function(error){
                 stateViewModel.showError(true);
                 stateViewModel.errorMessage(error.responseJSON.error);
@@ -53,7 +59,7 @@ define(['knockout', 'view-models/state'],
         };
 
         dataSummaryComponentViewModel.prototype.edit = function edit(data) {
-            console.log(data);
+            this.hadInvalid(true);
             stateViewModel.currentContact(data);
             stateViewModel.showEditModal(true);
         };

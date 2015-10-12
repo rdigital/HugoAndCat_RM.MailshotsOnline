@@ -206,6 +206,10 @@
 			}
 		}
 
+		.data-summary__resolved {
+			border-top: 3px solid $RM-green;
+		}
+
 		.intro-content {
 			@extend %clearfix;
 
