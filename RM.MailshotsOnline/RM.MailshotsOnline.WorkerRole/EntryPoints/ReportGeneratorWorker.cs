@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -121,7 +122,7 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
                                     Token = token.AuthTokenId.ToString()
                                 });
 
-                                var response =
+                                var response = 
                                     SendHttpPost($"{Constants.Apis.ReportsApi}/generatereport", postModel);
 
                                 Logger.Info(GetType().Name, "Run", $"Reports API responded with status {response}");
@@ -183,6 +184,7 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
             using (var dataStream = tokenRequest.GetRequestStream())
             {
                 dataStream.Write(byteArray, 0, byteArray.Length);
+                dataStream.Flush();
 
                 using (var response = (HttpWebResponse)tokenRequest.GetResponse())
                 {

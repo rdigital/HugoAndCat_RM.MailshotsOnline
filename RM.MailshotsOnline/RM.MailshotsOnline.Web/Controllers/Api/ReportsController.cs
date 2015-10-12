@@ -40,7 +40,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 var message = "Method was called with bad parameters";
 
                 _logger.Error(this.GetType().Name, "GenerateReport", message);
-                return ErrorMessageDebug(HttpStatusCode.BadRequest, message);
+                return ErrorMessageDebug(HttpStatusCode.NotAcceptable, message);    //todo: change this back to 400
             }
 
             if (!_authTokenService.Consume(tokenPostModel.Service, tokenPostModel.Token))
@@ -48,7 +48,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 var message = "Method was called with an invalid token";
 
                 _logger.Error(this.GetType().Name, "GenerateReport", message);
-                return ErrorMessageDebug(HttpStatusCode.BadRequest, message);
+                return ErrorMessageDebug(HttpStatusCode.Unauthorized, message); //todo: change this back to 400
             }
 
             IReport report;
@@ -72,7 +72,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
                 default:
 
-                    return ErrorMessageDebug(HttpStatusCode.BadRequest, "Method was called with an invalid report type");
+                    return ErrorMessageDebug(HttpStatusCode.Ambiguous, "Method was called with an invalid report type"); //todo: change this back to 400
             }
 
             if (data != null)
