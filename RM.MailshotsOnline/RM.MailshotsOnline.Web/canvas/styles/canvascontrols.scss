@@ -87,7 +87,7 @@
     }
 }
 
-.preview-side, .side_small {
+.preview-side, .side_small, .theme-container {
 	.editable_error {
 		&:before, &:focus:before, &.editable_active:before, &:hover:before {
 			border: none !important;
