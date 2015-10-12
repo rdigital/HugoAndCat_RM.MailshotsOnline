@@ -24,7 +24,7 @@
 					<div class="preview-side" data-bind="element: $parents[1].container, style: {'transform': 'translate(0, ' + $parents[1].margin() + ')', '-ms-transform': 'translate(0, ' + $parents[1].margin() + ')'}">
 						<div class="preview-side-inner" data-bind="style: {'transform': $parents[1].scale, '-ms-transform': $parents[1].ms_scale, 'width': $parents[1].width, 'height': $parents[1].height}">
 							<!-- ko if: $parent.id == $parents[1].currentTemplate() --> 
-							<side-component class="side" params="{side: $data, override_template: $parent}"></side-component>
+							<side-component class="side" params="{side: $data, preview: true}"></side-component>
 							<!-- /ko -->
 							<!-- ko ifnot: $parent.id == $parents[1].currentTemplate() --> 
 							<side-component class="side" params="{side: $data, override_template: $parent, preview: true}"></side-component>
