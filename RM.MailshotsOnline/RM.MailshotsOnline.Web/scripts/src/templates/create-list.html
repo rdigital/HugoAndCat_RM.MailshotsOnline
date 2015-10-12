@@ -4,8 +4,10 @@
             <a href="/lists" class="back"><span class="icon-previous"></span><span class="back-text">Back to add data page</span></a>
             <h1 data-bind="visible: !titleEdit()"><span data-bind="text: listTitle"></span><span data-bind="click: editTitle" class="edit icon-edit2"></span></h1>
             <div class="edit-controls">
-                <input data-bind="visible: titleEdit, textInput: listTitle" type="text" name="listname" id="listname" placeholder="My List">
-                <button data-bind="visible: listTitle().length && titleEdit, click: checkTitle" type="button" class="btn btn--blue">Ok</button>
+                <form data-bind="submit: checkTitle">
+                    <input data-bind="visible: titleEdit, textInput: listTitle" type="text" name="listname" id="listname" placeholder="My List" autocomplete="off">
+                    <button data-bind="visible: listTitle().length && titleEdit" type="submit" class="btn btn--blue">Ok</button>
+                </form>
                 <div data-bind="visible: titleEdit" class="tooltip tooltip--top">Give your list a new name</div>
             </div>
             <a data-bind="visible: step() === 'match', click: cancel" href="" class="cancel"><span class="cancel-text">Cancel import</span><span class="icon-close"></span></a>
