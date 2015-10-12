@@ -37,10 +37,42 @@
 			width: 400px;
 		}
 
+		:-ms-input-placeholder {
+		  color: $light-grey;
+		}
+		::-moz-placeholder {
+		  color: $light-grey;
+		}
+		::-webkit-input-placeholder {
+		  color: $light-grey;
+		}
+
+		::placeholder {
+		  color: $light-grey;
+		}
+
 		.btn {
 			height: 50px;
 			margin-left: 10px;
 			position: absolute;
+		}
+	}
+
+	.actions {
+		position: absolute;
+		right: 0;
+		top: 0;
+
+		.btn {
+			margin-bottom: 0;
+			margin-right: 10px;
+			padding: 0;
+
+			span {
+				@include font-size(30);
+				color: $filter-tab-grey;
+				position: relative;
+			}
 		}
 	}
 

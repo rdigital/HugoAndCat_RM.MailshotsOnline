@@ -1,0 +1,81 @@
+.list-detail {
+	.info-bar {
+		@extend %clearfix;
+		margin-bottom: 20px;
+
+		.icon-person {
+			@include font-size(40);
+			margin-right: 10px;
+			position: relative;
+			top: 5px;
+			vertical-align: middle;
+		}
+
+		.count {
+			@include font-size(26);
+			font-family: $ChevinMedium;
+			position: relative;
+			top: 5px;
+			vertical-align: middle;
+		}
+
+		.search-grp {
+			float: right;
+		}
+	}
+
+	.full-width-table {
+		margin-bottom: 20px;
+		width: 100%;
+
+		thead {
+			border-left: 1px solid $filter-tab-grey;
+			border-right: 1px solid $filter-tab-grey;
+		}
+
+		th {
+			background-color: $filter-tab-grey;
+			color: $white;
+			padding: 10px 30px;
+		}
+
+		tbody {
+			border-left: 1px solid $shadow-grey;
+			border-right: 1px solid $shadow-grey;
+			border-bottom: 2px solid $shadow-grey;
+
+			td {
+				background-color: $white;
+				border-bottom: 1px solid $shadow-grey;
+				padding: 12px 30px;
+
+				.select2-container {
+					width: 90% !important;
+				}
+			}
+		}
+
+		.select {
+			width: 5%;
+		}
+
+		.custom-checkbox-round.checked {
+			background-color: $RM-blue;
+		}
+	}
+
+	.delete-selected {
+		float: right;
+		font-family: $ChevinMedium;
+		text-decoration: none;
+
+		.icon-delete {
+			@include font-size(30);
+			color: $filter-tab-grey;
+			margin-left: 15px;
+			position: relative;
+			top: -2px;
+			vertical-align: middle
+		}
+	}
+}

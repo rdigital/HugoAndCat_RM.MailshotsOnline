@@ -10,12 +10,19 @@ define(['jquery', 'knockout', 'view-models/state', 'view-models/notification', '
             this.addNewContact = stateViewModel.addNewContact;
             this.loading = ko.observable(false);
 
-            //validation stuff
+            this.contact.Title = this.contact.Title || ko.observable();
             this.contact.FirstName = this.contact.FirstName || ko.observable();
             this.contact.Surname = this.contact.Surname || ko.observable();
+            this.contact.FlatId = this.contact.FlatId || ko.observable();
+            this.contact.HouseName = this.contact.HouseName || ko.observable();
+            this.contact.HouseNumber = this.contact.HouseNumber || ko.observable();
             this.contact.Address1 = this.contact.Address1 || ko.observable();
+            this.contact.Address2 = this.contact.Address2 || ko.observable();
+            this.contact.Address3 = this.contact.Address3 || ko.observable();
+            this.contact.Address4 = this.contact.Address4 || ko.observable();
             this.contact.PostCode = this.contact.PostCode || ko.observable();
 
+            //validation stuff
             this.contact.FirstName.extend({
                 required: {
                     message: 'Please provide a First Name'
@@ -56,9 +63,11 @@ define(['jquery', 'knockout', 'view-models/state', 'view-models/notification', '
         addContactComponentViewModel.prototype.resetContact = function resetContact() {
 
             for(var i in this.contact) {
-               if(ko.isObservable(this.contact[i])) {
-                  this.contact[i]('');
-               }
+                if(ko.isObservable(this.contact[i])) {
+                    this.contact[i]('');
+                } else {
+                    this.contact[i] = ko.observable('');
+                }
             }
 
             this.errors.showAllMessages(false);
@@ -183,7 +192,7 @@ define(['jquery', 'knockout', 'view-models/state', 'view-models/notification', '
                 method: "POST",
                 success: function(result) {
                     koMapping.fromJS(result, self.currentList);
-
+                    console.log(result);
                     if (result.InvalidContactsAdded === 1) {
                         notificationViewModel.hideWithMessage("There was a problem saving this contact.", 'error');
                     } else if (result.DuplicateContactsAdded === 1) {

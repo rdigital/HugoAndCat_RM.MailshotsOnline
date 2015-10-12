@@ -1,0 +1,55 @@
+<div class="list-detail">
+	<!-- ko if: list -->
+			<div class="title-bar">
+				<div class="constrain">
+					<a href="" class="back"><span class="icon-previous"></span><span class="back-text">Back to Add data page</span></a>
+					<h1 data-bind="text: list().Name"></h1>
+					<div class="actions">
+						<button class="btn" type="button"><span class="icon-download btn-icon"></span></button>
+						<button data-bind="click: deleteList" class="btn" type="button"><span class="icon-delete btn-icon"></span></button>
+					</div>
+				</div>
+			</div>
+
+			<div class="constrain">
+				
+				<div class="info-bar">
+			   		<span class="icon-person"></span>
+			   		<span data-bind="text: count" class="count"></span>
+			   		<div class="search-grp">
+			   			<input data-bind="value: searchTerm" type="text" class="search" placeholder="Name or Address"><!--
+			   			--><button type="submit" class="search-submit btn"><span class="icon-search"></span></button>
+			   		</div>
+			   	</div>
+
+			   	<table class="list-detail__table full-width-table">
+			   		<thead>
+			   			<tr>
+			   				<th>Name</th>
+			   				<th>Address</th>
+			   				<th class="select"></th>
+			   			</tr>
+			   		</thead>
+			   		<tbody>
+			   			<!-- ko foreach: displayedList -->
+		   				<tr>
+		   					<td><span data-bind="text: FirstName"></span> <span data-bind="text: Surname"></span></td>
+		   					<td><span data-bind="text: HouseNumber"></span> <span data-bind="text: Address1"></span>, <span data-bind="text: PostCode"></span></td>
+		   					<td class="select">
+		   						<div class="custom-checkbox-grp">
+		   							<input class="visually-hidden" type="checkbox" name="listSelect" id="listSelect">
+		   							<span  data-bind="css: {checked: selected}, click: $parent.toggleSelect" class="custom-checkbox-round" aria-label="select list"></span>
+		   						</div>
+		   					</td>
+		   				</tr>
+		   				<!-- /ko -->
+			   		</tbody>
+			   	</table>
+
+			   	<a data-bind="visible: selectedContacts().length > 0, click: deleteContacts" href="" class="delete-selected">Delete selected (<span data-bind="text: selectedContacts().length"></span>)<span class="icon-delete"></span></a>
+
+			   	<pagination-component params="data: filteredContacts, perPage: 8, displayedList: displayedList"></pagination-component>
+
+			</div>
+	<!-- /ko -->
+</div>
