@@ -1,0 +1,57 @@
+<div class="match-data content-box content-box--with-table">
+	<div class="intro-content">
+		<h2>Confirm your fields</h2>
+		<p class="intro-text">Let us know if your file has column headers and for each column of your contact list, select a field that it corresponds to.</p>
+		<p class="strong">Should we import your first row?</p>
+		<!-- ko if: currentList && step() === 'match' -->
+			<fieldset>
+				<div>
+					<input data-bind="checkedValue: true, checked: currentList.FirstRowIsHeader" type="radio" name="importoptions" id="importno" value="true">
+					<label for="importno">My first row is a header - don't import it</label>
+				</div>
+				<div>
+					<input data-bind="checkedValue: false, checked: currentList.FirstRowIsHeader" type="radio" name="importoptions" id="importyes" value="false">
+					<label for="importyes">My first row is a contact - import it</label>
+				</div>
+			</fieldset>
+		<!-- /ko -->
+	</div>
+	<table class="match-data__table full-width-table">
+		<thead>
+			<tr>
+				<th>Your column header</th>
+				<th>Sample of your data</th>
+				<th>Maps to our field</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!-- ko if: currentList && step() === 'match' -->
+				<!-- ko foreach: {
+					data: currentList.FirstTwoRowsWithGuessedMappings(),
+					afterRender: initSelect
+				} -->
+				<tr>
+					<td data-bind="text: m_Item1"></td>
+					<td data-bind="text: m_Item2"></td>
+					<td>
+						<select data-bind="
+							options: $parent.currentList.MappingOptions,
+							optionsText: function(item) {
+								return item.Name;
+							},
+							optionsValue: function(item) {
+								return item.Value;
+							},
+							optionsCaption: 'Please select...',
+							value: m_Item3
+						">
+						</select>
+					</td>
+				</tr>
+
+				<!-- /ko -->
+			<!-- /ko -->
+		</tbody>
+	</table>
+	<button type="button" data-bind="click: createMappings" class="btn btn--blue btn--icon-right">Finish adding contacts<span class="btn-icon icon-next"></span></button>
+</div>

@@ -1,0 +1,29 @@
+﻿@using RM.MailshotsOnline.Entities.PageModels
+@using RM.MailshotsOnline.PCL
+@inherits Glass.Mapper.Umb.Web.Ui.GlassViewPage<RM.MailshotsOnline.Entities.PageModels.ListCreate>
+@{
+    Layout = "~/Views/Master.cshtml";
+}
+
+@* <div class="content">
+        <h1>@Model.Name</h1>
+        Add in the steps here
+        @switch (Model.CurrentStep)
+        {
+            case Enums.DistributionListState.AddNewContacts:
+                @Html.Action("ShowCreateListForm", "ModifyListSurface", new {model = Model})
+
+                break;
+            case Enums.DistributionListState.ConfirmFields:
+                @Html.Action("ShowConfirmFieldsForm", "ModifyListSurface", new { model = Model })
+
+                break;
+            case Enums.DistributionListState.FixIssues:
+                @Html.Action("ShowSummaryListForm", "ModifyListSurface", new { model = Model })
+
+                break;
+        }
+    </div> *@
+
+<create-list-component></create-list-component>
+

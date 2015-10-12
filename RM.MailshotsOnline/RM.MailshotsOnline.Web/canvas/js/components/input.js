@@ -18,6 +18,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
             this.isItalic = ko.observable(false);
             this.currentFontSize = ko.observable(1);
             this.fallbackBackground = ko.observable(null);
+            this.verticalAlign = ko.observable(params.verticalAlign);
 
             // if theme override passed in, process it
             this.override_theme = params.override_theme;
@@ -36,8 +37,9 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
 
             // bound functions
             this.dispose = this.dispose.bind(this);
-            this.sizeAdjustBound = this.sizeAdjust.bind(this);
-            this.sizeAdjustPreviewBound = this.sizeAdjustPreview.bind(this);
+            this.sizeAdjust = this.sizeAdjust.bind(this);
+            this.sizeAdjustDelayed = this.sizeAdjustDelayed.bind(this);
+            this.sizeAdjustPreview = this.sizeAdjustPreview.bind(this);
         }
 
         // extend the element view model
@@ -139,7 +141,6 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
 
         /**
          * Call to automatically adjust font size downward if the element has overflown
-         * @return {[type]} [description]
          */
         inputViewModel.prototype.sizeAdjust = function sizeAdjust() {
             var scrollVisible = this.scrollVisible();
@@ -148,7 +149,49 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
                     scrollVisible = this.decreaseFontSize();
                 }
             }
+            if (this.verticalAlign() == 'middle') {
+                this.verticalAlignMiddle();
+            }
         };
+
+        /**
+         * this is kinda lame, but not much else we can do
+         * after rendering the template, call size adjust a few times on different delays
+         * to help account for fonts loading in etc
+         */
+        inputViewModel.prototype.sizeAdjustDelayed = function sizeAdjustDelayed() {
+            this.sizeAdjust();
+            setTimeout(this.sizeAdjust, 500);
+            setTimeout(this.sizeAdjust, 1000);
+            setTimeout(this.sizeAdjust, 2000);
+            setTimeout(this.sizeAdjust, 4000);
+        }
+
+        /**
+         * use padding to vertically align element
+         * this will only work if the theme has no padding on this element
+         * @return {[type]} [description]
+         */
+        inputViewModel.prototype.verticalAlignMiddle = function verticalAlignMiddle() {
+            var el = this.element(),
+                el_height = el.height(),
+                container_height = el.closest('.component').height(),
+                margin = (container_height - el_height) / 2;
+            this.setStyle('padding-top', margin + 'px');
+        }
+
+        /**
+         * inline version of verical align function, used for previews
+         * does not modify view model
+         */
+        inputViewModel.prototype.verticalAlignMiddleInline = function verticalAlignMiddleInline() {
+            var el = this.element(),
+                el_height = el.height(),
+                container_height = el.closest('.component').height(),
+                margin = (container_height - el_height) / 2;
+            this.setStyle('padding-top', margin + 'px');
+            this.element().css('padding-top', margin + 'px');
+        }
 
         inputViewModel.prototype.fitFontSize = function fitFontSize() {
             var font_sizes = this.getFontSizes(),
@@ -158,6 +201,9 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
             var scrollVisible = this.scrollVisible();
             while (scrollVisible) {
                 scrollVisible = this.decreaseFontSize();
+            }
+            if (this.verticalAlign() == 'middle') {
+                this.verticalAlignMiddle();
             }
         };
 
@@ -172,6 +218,9 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
 
             if (index < font_sizes.length-1) {
                 this.setStyle('font-size', font_sizes[index+1]);
+                if (this.verticalAlign() == 'middle') {
+                    this.verticalAlignMiddle();
+                }
                 return true;
             }
             //console.log('no more sizes');
@@ -188,6 +237,9 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
                 index = font_sizes.indexOf(font_size || 0);
             if (index > 0) {
                 this.setStyle('font-size', font_sizes[index-1]);
+                if (this.verticalAlign() == 'middle') {
+                    this.verticalAlignMiddle();
+                }
                 return this.scrollVisible();
             }
             //console.log('no more sizes');
@@ -223,7 +275,10 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
                         scrollVisible = this.decreaseFontSizeInline();
                     }
                 }
-            }.bind(this), 10);
+                if (this.verticalAlign() == 'middle') {
+                    this.verticalAlignMiddleInline();
+                }
+            }.bind(this), 100);
         };
 
         /**

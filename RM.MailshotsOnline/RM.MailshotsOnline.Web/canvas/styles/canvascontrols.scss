@@ -38,7 +38,7 @@
 	}
 	.editable-input {
 		min-height: 20px !important;
-		height: 100%;
+		max-height: 100%;
 		outline: none;
 		word-wrap: break-word;
 		ol, ul {
@@ -85,6 +85,14 @@
         display: table-cell;
         vertical-align: middle;
     }
+}
+
+.preview-side, .side_small, .theme-container {
+	.editable_error {
+		&:before, &:focus:before, &.editable_active:before, &:hover:before {
+			border: none !important;
+		}
+	}
 }
 
 .full-preview {

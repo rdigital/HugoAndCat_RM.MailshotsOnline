@@ -1,0 +1,27 @@
+<div class="pagination" data-bind="visible: totalPages() > 1">
+	
+	<ul data-bind="visible: !flippedPagination()">
+		<li class="previous" data-bind="visible: hasPrevious, click: previous"><a href=""><span class="icon-previous"></span></a></li>
+
+		<!-- ko foreach : visibleNumbers -->
+		<li data-bind="css: {current: $parent.pageNumber() +1 === $data}"><a href="" data-bind="text: $data, click: $parent.pageController"></a></li>
+		<!-- /ko -->
+		<span class="etc">...</span>
+		<li><a href="" data-bind="text: pagesArray().length, click: function() {pageController(pagesArray().length)}"></a></li>
+
+		<li class="next" data-bind="visible: hasNext, click: next"><a href=""><span class="icon-next"></span></a></li>		
+	</ul>
+
+	<ul data-bind="visible: flippedPagination()">
+		<li class="previous" data-bind="visible: hasPrevious, click: previous"><a href=""><span class="icon-previous"></span></a></li>
+
+		<li><a href="" data-bind="click: function() {pageController(1)}">1</a></li>
+		<span class="etc">...</span>
+		<!-- ko foreach : visibleNumbers -->
+		<li data-bind="css: {current: $parent.pageNumber() +1 === $data}"><a href="" data-bind="text: $data, click: $parent.pageController"></a></li>
+		<!-- /ko -->
+
+		<li class="next" data-bind="visible: hasNext, click: next"><a href=""><span class="icon-next"></span></a></li>
+	</ul>
+
+</div>

@@ -15,8 +15,18 @@ namespace RM.MailshotsOnline.PCL.Models
 
         DateTime CreatedDate { get; }
 
-        ICollection<IContact> Contacts { get; set; }
-
         int RecordCount { get; set; }
+
+        string BlobFinal { get; set; }
+
+        DateTime UpdatedDate { get; set; }
+
+        string BlobWorking { get; set; }
+
+        string BlobErrors { get; set; }
+
+        byte[] DataSalt { get; }
+
+        Enums.DistributionListState ListState { get; set; }
     }
 }

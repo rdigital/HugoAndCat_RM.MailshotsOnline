@@ -1,0 +1,105 @@
+.title-bar {
+	@extend %clearfix;
+	background-color: $white;
+	border-bottom: 3px solid $shadow-grey;
+	border-top: 1px solid $shadow-grey;
+	box-sizing: border-box;
+	height: 82px;
+	margin-bottom: 30px;
+	padding-top: 20px;
+
+	.constrain {
+		text-align: center;
+	}
+
+	h1 {
+		@include font-size(28);
+		text-align: center;
+
+		.edit {
+			color: $filter-tab-grey;
+			cursor: pointer;
+			margin-left: 10px;
+			position: absolute;
+			top: 5px;
+		}
+	}
+
+	.edit-controls {
+		position: relative;
+		top: -5px;
+
+		input {
+			@include font-size(28);
+			font-family: $ChevinLight;
+			height: 50px;
+			text-align: center;
+			width: 400px;
+		}
+
+		:-ms-input-placeholder {
+		  color: $light-grey;
+		}
+		::-moz-placeholder {
+		  color: $light-grey;
+		}
+		::-webkit-input-placeholder {
+		  color: $light-grey;
+		}
+
+		::placeholder {
+		  color: $light-grey;
+		}
+
+		.btn {
+			height: 50px;
+			margin-left: 10px;
+			position: absolute;
+		}
+	}
+
+	.actions {
+		position: absolute;
+		right: 0;
+		top: 0;
+
+		.download-link {
+			@include font-size(30);
+			color: $filter-tab-grey;
+			text-decoration: none;
+		}
+
+		.btn {
+			height: auto;
+			margin-bottom: 0;
+			margin-left: 10px;
+			padding: 0;
+
+			span {
+				@include font-size(30);
+				color: $filter-tab-grey;
+				position: relative;
+			}
+		}
+	}
+
+	.back {
+		color: $filter-tab-grey;
+		font-family: $ChevinMedium;
+		left: 0;
+		position: absolute;
+		text-decoration: none;
+
+		.icon-previous {
+			@include font-size(30);
+			color: $RM-red;
+			margin-right: 10px;
+			vertical-align: middle;
+		}
+
+		.back-text {
+			position: relative;
+			top: 2px;
+		}
+	}
+}

@@ -1,0 +1,54 @@
+// colours
+
+$white: #fff;
+$black: #000; 
+$RM-red: #da202a;
+$RM-green: #62a509;
+$RM-green-hover: #7ed609;
+$RM-blue: #0892cb;
+$RM-blue-hover: #07b7ff;
+$light-blue: #aadaea;
+$text-grey: #5f6267;
+$bg-grey: #f4f4f3;
+$lightest-grey: #f7f7f7;
+$shadow-grey: #dcdcdb;
+$header-link: #f9b9b9;
+$light-grey: #e1e1e1;
+$mid-grey: #53535a;
+$dark-grey: #26262a;
+$form-field: #c1c6c8;
+$btn-border: #dee1e2;
+$filter-border: #d5d5d5;
+$light-pink: #fbe8e9;
+$icon-grey: #87878c;
+$filter-tab-grey: #404044;
+$yellow: #fdda24;
+$pale-yellow: #fffcf2;
+$error-text: #bd1c1c;
+
+// common transitions
+
+$link-transition: color 0.2s linear;
+$btn-transition: background-color 0.2s linear;
+$opacity-transition: opacity 0.2s linear;
+$expandable-transition: height 0.3s linear;
+
+// dimensions
+
+$constrain-width: 980px;
+$lrg-constrain-width: 1266px;
+$content-width: 1004px;
+$outer-container-padding: 20px;
+$lrg-outer-padding: 50px;
+$footer-height: 100px;
+$bottom-padding: 60px;
+
+// breakpoints
+
+$bp-xtra-large: 83.5em; // 1336px ie laptop screen
+$bp-large: 64em; // 1024px ie landscape tablet
+$bp-medium: 48em; // 768px ie portrait tablet
+
+// common box-shadows
+
+$solid-shadow: 0px 2px 0px 0px $shadow-grey;

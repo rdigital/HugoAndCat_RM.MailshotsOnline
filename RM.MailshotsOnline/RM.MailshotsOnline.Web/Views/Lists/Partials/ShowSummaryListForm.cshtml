@@ -1,0 +1,103 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<RM.MailshotsOnline.Entities.ViewModels.ModifyListSummaryModel<RM.MailshotsOnline.Web.Models.DistributionContact>>
+
+@{
+    HtmlHelper.UnobtrusiveJavaScriptEnabled = true;
+    HtmlHelper.ClientValidationEnabled = true;
+}
+<h1>@Model.PageModel.SummaryTitle</h1>
+<h2>@Model.PageModel.DistributionList.Name</h2>
+<p>@Pluralise(Model.PageModel.SummaryIntroText, Model.TotalFoundCount)</p>
+<hr width="75%" />
+@if (Model.ValidContactCount > 0)
+{
+    <p>@Model.ValidContactCount.ToString("#,###") @PluraliseNoCount(Model.PageModel.SummaryContactsAddedText, Model.ValidContactCount)</p>
+    <p>@Pluralise(Model.PageModel.SummaryContactsAddedReportText, Model.TotalContactCount)</p>
+    <hr width="75%" />
+}
+@if (Model.InvalidContactCount > 0)
+{
+    <p>@Model.InvalidContactCount.ToString("#,###") @PluraliseNoCount(Model.PageModel.SummaryContactsErrorText, Model.InvalidContactCount)</p>
+    <p>@Pluralise(Model.PageModel.SummaryContactsErrorReportText, Model.InvalidContactCount)</p>
+    <hr width="75%" />
+}
+@if (Model.DuplicateContactCount > 0)
+{
+    <p>@Model.DuplicateContactCount.ToString("#,###") @PluraliseNoCount(@Model.PageModel.SummaryContactsDuplicatedText, Model.DuplicateContactCount)</p>
+    <p>@Pluralise(Model.PageModel.SummaryContactsDuplicatedReportSummary, Model.DuplicateContactCount)</p>
+    <hr width="75%" />
+}
+@using (Html.BeginUmbracoForm("FinishList", "ModifyListSurface", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.DistributionListId)
+    <div>
+        <div><button type="submit" name="command" value="cancel">@Model.PageModel.SummaryCancelButtonText</button></div>
+    </div>
+    <div>
+        <div><button type="submit" name="command" value="finish">@Model.PageModel.SummaryFinishButtonText</button></div>
+    </div>
+}
+<hr/>
+
+@if (Model.InvalidContactCount > 0)
+{
+    <section>
+        <h2>@Model.PageModel.SummaryContactsErrorTitle</h2>
+        <p>@Pluralise(Umbraco.Field("SummaryContactsErrorIntroText"), Model.InvalidContactCount)</p>
+        <table border="1" width="600">
+            <thead>
+            <tr>
+                <td width="40%">@Model.PageModel.SummaryNameHeaderText</td>
+                <td width="60%">@Model.PageModel.SummaryAddressHeaderText</td>
+            </tr>
+            </thead>
+            @foreach (var invalidContact in Model.InvalidContacts)
+            {
+                <tr>
+                    <td>@invalidContact.ToString("n")</td>
+                    <td>@invalidContact.ToString("a")</td>
+                </tr>
+            }
+        </table>
+    </section>
+    <hr/>
+}
+
+@if (Model.DuplicateContactCount > 0)
+{
+    <section>
+        <h2>@Model.PageModel.SummaryContactsDuplicateTitle</h2>
+        <p>@Pluralise(Model.PageModel.SummaryContactsDuplicateIntroText, Model.DuplicateContactCount)</p>
+        <table border="1" width="600">
+            <thead>
+                <tr>
+                    <td width="40%">@Model.PageModel.SummaryNameHeaderText</td>
+                    <td width="60%">@Model.PageModel.SummaryAddressHeaderText</td>
+                </tr>
+            </thead>
+            @foreach (var duplicateContact in Model.DuplicateContacts)
+            {
+                <tr>
+                    <td>@duplicateContact.ToString("n")</td>
+                    <td>@duplicateContact.ToString("a")</td>
+                </tr>
+            }
+        </table>
+    </section>
+}
+
+
+@helper Pluralise(IHtmlString format, int count)
+{
+    @Pluralise(format.ToHtmlString(), count)
+}
+
+@helper Pluralise(string format, int count)
+{
+    @Html.Raw(string.Format(format, count.ToString("#,##0"), count != 1 ? "s" : string.Empty))
+}
+
+@helper PluraliseNoCount(string format, int count)
+{
+    @Html.Raw(string.Format(format, count != 1 ? "s" : string.Empty))
+}

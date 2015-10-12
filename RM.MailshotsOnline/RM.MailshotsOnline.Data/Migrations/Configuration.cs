@@ -1,3 +1,5 @@
+using RM.MailshotsOnline.Data.DAL;
+
 namespace RM.MailshotsOnline.Data.Migrations
 {
     using RM.MailshotsOnline.Entities.DataModels;
@@ -34,6 +36,24 @@ namespace RM.MailshotsOnline.Data.Migrations
                 new Product { ProductSku = Constants.Constants.Products.MsolServiceFeeSku, Category = "Service Fees", Name = "Service fee", UpdatedDate = DateTime.UtcNow },
                 new Product { ProductSku = Constants.Constants.Products.DataSearchFeeSku, Category = "Service Fees", Name = "Data search fee", UpdatedDate = DateTime.UtcNow }
                 );
+            // Populate dummy rows for Testing
+            //fillContextWithListData(context);
+        }
+
+        private void fillContextWithListData(StorageContext context)
+        {
+            int userId = 1504;
+            for (int listId = 0; listId < 50; listId++)
+            {
+                context.DistributionLists.AddOrUpdate(dl => new {dl.Name, dl.UserId},
+                                                      new DistributionList
+                                                      {
+                                                          Name = $"List Id: {listId:00}",
+                                                          RecordCount = ((listId + 1)*13) - (listId*7),
+                                                          UserId = userId,
+                                                          UpdatedDate = DateTime.UtcNow,
+                                                      });
+            }
         }
 
         /// <summary>
