@@ -18,10 +18,7 @@ namespace RM.MailshotsOnline.Data.Services
 {
     public class MembershipService : IMembershipService
     {
-        // this UmbracoMemberService could be replaced with a custom version, containing methods
-        // that perform encryption of input values and decryption of output values.
         private static IMemberService _umbracoMemberService;
-
         private static ICryptographicService _cryptographicService;
 
         public MembershipService(ICryptographicService cryptographicService) :

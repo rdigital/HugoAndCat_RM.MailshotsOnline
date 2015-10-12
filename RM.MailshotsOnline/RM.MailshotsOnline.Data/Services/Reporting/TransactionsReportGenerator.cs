@@ -27,7 +27,7 @@ namespace RM.MailshotsOnline.Data.Services.Reporting
 
         public ITransactionsReport Generate()
         {
-            var invoices =  _invoiceService.GetPaidInvoices(DateTime.Today, DateTime.Today.AddDays(1).AddMilliseconds(-1));
+            var invoices = _invoiceService.GetPaidInvoices(DateTime.Today, DateTime.Today.AddDays(1).AddMilliseconds(-1));
 
             var items = new List<ITransactionsReportEntity>();
 
@@ -68,7 +68,7 @@ namespace RM.MailshotsOnline.Data.Services.Reporting
                         Type = "LineItems",
                         PaymentId = invoice.PaypalPaymentId,
                         SaleIdProductSku = lineItem.ProductSku,
-                        PaymentTimeProductName = string.IsNullOrEmpty(lineItem.SubTitle) ? lineItem.Product.Name : string.Format("{0} ({1})", lineItem.Product.Name, lineItem.SubTitle),
+                        PaymentTimeProductName = string.IsNullOrEmpty(lineItem.SubTitle) ? lineItem.Product.Name : $"{lineItem.Product.Name} ({lineItem.SubTitle})",
                         UserIdQuantity = lineItem.Quantity.ToString(),
                         EmailAddressUnitPrice = lineItem.UnitCost.ToString(CultureInfo.InvariantCulture),
                         OrderSubtotalLineSubtotal = lineItem.SubTotal,

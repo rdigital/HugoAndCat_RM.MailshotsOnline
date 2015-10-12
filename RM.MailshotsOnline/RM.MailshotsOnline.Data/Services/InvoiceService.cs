@@ -9,6 +9,7 @@ using RM.MailshotsOnline.Data.DAL;
 using HC.RM.Common.PCL.Helpers;
 using HC.RM.Common.Azure;
 using RM.MailshotsOnline.Entities.DataModels;
+using RM.MailshotsOnline.PCL;
 
 namespace RM.MailshotsOnline.Data.Services
 {
@@ -247,7 +248,10 @@ namespace RM.MailshotsOnline.Data.Services
                 .Include("LineItems")
                 .Include("LineItems.Product")
                 .Include("Campaign")
-                .Where(i => i.PaidDate.HasValue && i.PaidDate.Value <= endDate && i.PaidDate.Value >= startDate);
+                .Where(
+                    i =>
+                        i.PaidDate.HasValue && i.PaidDate.Value <= endDate && i.PaidDate.Value >= startDate &&
+                        i.Status == Enums.InvoiceStatus.Paid);
         }
     }
 }
