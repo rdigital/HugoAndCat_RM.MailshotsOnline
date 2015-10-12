@@ -12,7 +12,7 @@
 	</div>
 	<ul class="lists__my-lists--lists lists__my-lists__list" data-bind="foreach: displayedList">
 		<li data-bind="css: {selected: selected}">
-			<a href="" class="lists__my-lists__name" data-bind="text: Name"></a>
+			<a href="" class="lists__my-lists__name" data-bind="text: Name, attr: { href: '/lists/' + DistributionListId}"></a>
 			<span class="lists__my-lists__number">
 				<span class="icon-person"></span>
 				<span class="number" data-bind="text: RecordCount"></span>
