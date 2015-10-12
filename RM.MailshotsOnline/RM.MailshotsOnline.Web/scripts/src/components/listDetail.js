@@ -78,7 +78,6 @@ define(['jquery', 'knockout', 'view-models/state'],
         };
 
         listDetailComponentViewModel.prototype.deleteContacts = function deleteContacts() {
-            console.log('deleteContacts');
             var data = {
                     "DistributionListId": this.listID,
                     "ContactIds": this.selectedContacts()
