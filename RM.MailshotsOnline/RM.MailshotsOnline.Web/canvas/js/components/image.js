@@ -25,6 +25,14 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             this.offsetY = 0;
             this.image = null;
             this.old_scale = 0;
+            this.width = ko.utils.arrayFirst(this.data.layout, function(layout) {
+                return layout.property == 'width';
+            })
+            this.width = this.width.value.replace('px', '');
+            this.height = ko.utils.arrayFirst(this.data.layout, function(layout) {
+                return layout.property == 'height';
+            })
+            this.height = this.height.value.replace('px', '');
             this.adjusted_width = 0;
             this.adjusted_height = 0;
 
@@ -291,8 +299,8 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             this.imageObj.content('');
             var canvas = this.canvas(),
                 ctx = canvas[0].getContext("2d"),
-                canvas_width = canvas.width(),
-                canvas_height = canvas.height();
+                canvas_width = this.width,
+                canvas_height = this.height;
 
             // clear the canvas
             ctx.clearRect(0, 0, canvas_width * this.scaleFactor, canvas_height * this.scaleFactor);
@@ -315,8 +323,8 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
 
                 this.image.onload = function(){
                     if (new_upload) {
-                        var canvas_width = canvas.width(),
-                            canvas_height = canvas.height();
+                        var canvas_width = this.width,
+                            canvas_height = this.height;
 
                         // work out initial alignment for image
                         var width_factor = canvas_width / this.image.width,
@@ -331,7 +339,6 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
                     }
                     // ie 9 randomly wouldn't render the image without this timeout
                     setTimeout(this.rerender.bind(this), 0);
-                    setTimeout(this.rerender.bind(this), 100);
                 }.bind(this);
                 
                 this.image.src = src;
@@ -341,8 +348,8 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
                 }
             } else {
                 var ctx = canvas[0].getContext("2d"),
-                    canvas_width = canvas.width(),
-                    canvas_height = canvas.height();
+                    canvas_width = this.width,
+                    canvas_height = this.height;
 
                 // clear the canvas
                 ctx.clearRect(0, 0, canvas_width * this.scaleFactor, canvas_height * this.scaleFactor);
@@ -361,21 +368,17 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
 
                 if (!this.image) {
                     if (this.override_template && this.override_template.selectedID() == userViewModel.objects.templateID()) {
-                        console.log('a');
                         return this.render(this.imageObj.src(), false);
                     }
-                    console.log(stateViewModel.repositionImages);
                     if (this.override_template || stateViewModel.repositionImages) {
-                        console.log('b');
                         return this.render(this.imageObj.src(), true);
                     }
-                    console.log('c');
                     return this.render(this.imageObj.src(), false);
                 }
                 var canvas = this.canvas(),
                     ctx = canvas[0].getContext("2d"),
-                    canvas_width = canvas.width(),
-                    canvas_height = canvas.height();
+                    canvas_width = this.width,
+                    canvas_height = this.height;
 
                 // clear the canvas
                 ctx.clearRect(0, 0, canvas_width * this.scaleFactor, canvas_height * this.scaleFactor);
