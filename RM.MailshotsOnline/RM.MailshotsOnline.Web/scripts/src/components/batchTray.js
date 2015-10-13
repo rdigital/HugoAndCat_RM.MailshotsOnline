@@ -38,7 +38,7 @@ define(['jquery', 'knockout', 'perfectScrollbar', 'koelement', 'view-models/stat
         };
 
         batchTrayComponentViewModel.prototype.updateScroll = function updateScroll() {
-                this.listsContainer().perfectScrollbar('update');    
+            this.listsContainer().perfectScrollbar('update');    
         };
 
         batchTrayComponentViewModel.prototype.remove = function remove(list) {
