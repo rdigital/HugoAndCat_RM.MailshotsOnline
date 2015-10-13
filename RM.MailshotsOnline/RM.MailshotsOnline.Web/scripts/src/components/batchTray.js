@@ -25,6 +25,7 @@ define(['jquery', 'knockout', 'perfectScrollbar', 'koelement', 'view-models/stat
 
             this.initScroll = this.initScroll.bind(this);
             this.updateScroll = this.updateScroll.bind(this);
+            this.remove = this.remove.bind(this);
         }
 
         batchTrayComponentViewModel.prototype.expandTray = function expandTray() {
@@ -38,6 +39,12 @@ define(['jquery', 'knockout', 'perfectScrollbar', 'koelement', 'view-models/stat
 
         batchTrayComponentViewModel.prototype.updateScroll = function updateScroll() {
                 this.listsContainer().perfectScrollbar('update');    
+        };
+
+        batchTrayComponentViewModel.prototype.remove = function remove(list) {
+            var pos = this.selectedLists().map(function(e) { return e.DistributionListId; }).indexOf(list.DistributionListId);
+            this.selectedLists.splice(pos, 1);
+            list.selected(false);
         };
 
         return {

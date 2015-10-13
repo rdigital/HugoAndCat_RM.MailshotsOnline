@@ -19,7 +19,7 @@
 						<span class="icon-tick"></span>
 						<span class="list-name" data-bind="text: Name"></span>
 						<span class="list-count" data-bind="text: RecordCount"></span>
-						<button type="button" class="text-btn remove">Remove
+						<button data-bind="click: $parent.remove" type="button" class="text-btn remove">Remove
 							<span class="icon-close"></span>
 						</button>
 					</li>
