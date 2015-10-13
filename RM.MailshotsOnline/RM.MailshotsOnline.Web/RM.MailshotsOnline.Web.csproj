@@ -510,7 +510,6 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="css\fountain.css" />
-    <Content Include="css\main.css" />
     <Content Include="css\orders.css" />
     <Content Include="css\temp.css" />
     <Content Include="CsvUpload.aspx" />
