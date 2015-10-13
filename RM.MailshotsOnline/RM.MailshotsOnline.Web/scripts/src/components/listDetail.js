@@ -44,6 +44,11 @@ define(['jquery', 'knockout', 'view-models/state'],
             });
         }
 
+        listDetailComponentViewModel.prototype.submitSearch = function submitSearch(e) {
+            // annoying workaround to allow the search to submit on pressing enter in IE
+            return;
+        };
+
         // toggle the selected state for lists and add/remove from the selectedLists array
         listDetailComponentViewModel.prototype.toggleSelect = function toggleSelect(contact) {
             if (contact.selected() === false) {

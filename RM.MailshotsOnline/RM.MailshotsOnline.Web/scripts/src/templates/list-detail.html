@@ -22,8 +22,10 @@
 			   		<span class="icon-person"></span>
 			   		<span data-bind="text: count" class="count"></span>
 			   		<div class="search-grp">
-			   			<input data-bind="value: searchTerm" type="text" class="search" placeholder="Name or Address"><!--
-			   			--><button type="submit" class="search-submit btn"><span class="icon-search"></span></button>
+			   			<form data-bind="submit: submitSearch">
+			   				<input data-bind="value: searchTerm" type="text" class="search" placeholder="Name or Address"><!--
+			   				--><button type="submit" class="search-submit btn"><span class="icon-search"></span></button>
+			   			</form>
 			   		</div>
 			   	</div>
 
