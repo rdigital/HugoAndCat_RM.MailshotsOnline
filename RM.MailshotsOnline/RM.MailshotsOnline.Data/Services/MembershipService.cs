@@ -18,10 +18,7 @@ namespace RM.MailshotsOnline.Data.Services
 {
     public class MembershipService : IMembershipService
     {
-        // this UmbracoMemberService could be replaced with a custom version, containing methods
-        // that perform encryption of input values and decryption of output values.
         private static IMemberService _umbracoMemberService;
-
         private static ICryptographicService _cryptographicService;
 
         public MembershipService(ICryptographicService cryptographicService) :
@@ -283,6 +280,17 @@ namespace RM.MailshotsOnline.Data.Services
         public IEnumerable<IMember> GetAllActiveMembers()
         {
             return _umbracoMemberService.GetAllMembers().Where(x => x.IsApproved).Select(x => x.ToMemberEntityModel());
+        }
+
+        /// <summary>
+        /// Returns the list of members updated in the given time frame.
+        /// </summary>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns></returns>
+        public IEnumerable<IMember> GetActiveMembers(DateTime startDate, DateTime endDate)
+        {
+            return GetAllActiveMembers().Where(x => x.Updated >= startDate && x.Updated <= endDate);
         }
 
         /// <summary>

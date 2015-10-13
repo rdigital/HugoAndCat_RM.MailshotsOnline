@@ -383,6 +383,7 @@
   <ItemGroup>
     <None Include="..\Keys\private-key.ppk">
       <Link>Keys\private-key.ppk</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="App.config" />
     <None Include="AppInsightsAgent\InstallAgent.bat" />
