@@ -228,7 +228,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             catch (Exception ex)
             {
                 Log.Exception(this.GetType().Name, "Approve", ex);
-                Log.Error(this.GetType().Name, "ConfirmPrinted", "Unable to fetch PayPal order {0}.", invoice.PaypalOrderId);
+                Log.Error(this.GetType().Name, "Approve", "Unable to fetch PayPal order {0}.", invoice.PaypalOrderId);
             }
 
             if (order == null)
@@ -251,7 +251,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 Log.Error(this.GetType().Name, "Approve", "Unable to capture payment for order {0}.", order.Id);
             }
 
-            if (result == null || !(result.State == CaptureState.completed || result.State == CaptureState.pending))
+            if (result == null)
             {
                 invoice.Status = PCL.Enums.InvoiceStatus.Failed;
                 invoice.CancelledDate = DateTime.UtcNow;
@@ -259,6 +259,48 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
                 campaign.Status = PCL.Enums.CampaignStatus.PaymentFailed;
                 campaign.SystemNotes += string.Format("{0}{1:yyyy-MM-dd HH:mm:ss} - Error capturing payment for PayPal order {2}", Environment.NewLine, DateTime.UtcNow, order.Id);
+                campaign.SystemNotes += string.Format("{0}{1:yyyy-MM-dd HH:mm:ss} - Payment failed for campaign.", Environment.NewLine, DateTime.UtcNow);
+                _campaignService.SaveCampaign(campaign);
+
+                Log.Error(this.GetType().Name, "Approve", "Payment failed for campaign: Error capturing payment for PayPal order {0}.", order.Id);
+
+                ModelState.AddModelError("ModerationId", "Error getting PayPal order information");
+                TempData[PaymentFailedFlag] = true;
+                return CurrentUmbracoPage();
+            }
+
+            // Get the Order again and confirm that the payment has worked
+            Order updatedOrder = null;
+            try
+            {
+                updatedOrder = _paypalService.GetOrder(invoice.PaypalOrderId);
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(this.GetType().Name, "Approve", ex);
+                Log.Error(this.GetType().Name, "Approve", "Unable to fetch updated PayPal order {0} after capture attempt.", invoice.PaypalOrderId);
+            }
+
+            if (updatedOrder == null || updatedOrder.State != OrderState.completed)
+            {
+                invoice.Status = PCL.Enums.InvoiceStatus.Failed;
+                invoice.CancelledDate = DateTime.UtcNow;
+                _invoiceService.Save(invoice);
+
+                var errorMessage = string.Format("Payment failed for campaign: PayPal order {0} is not in the \"Complete\" state..", invoice.PaypalOrderId);
+                if (updatedOrder != null)
+                {
+                    errorMessage += string.Format(" Returned state is: {0}.", updatedOrder.State);
+                    if (updatedOrder.ReasonCode.HasValue)
+                    {
+                        errorMessage += string.Format("  Reason code is: {0}.", updatedOrder.ReasonCode);
+                    }
+                }
+
+                Log.Error(this.GetType().Name, "Approve", errorMessage);
+
+                campaign.Status = PCL.Enums.CampaignStatus.PaymentFailed;
+                campaign.SystemNotes += string.Format("{0}{1:yyyy-MM-dd HH:mm:ss} - {2}.", Environment.NewLine, DateTime.UtcNow, errorMessage);
                 campaign.SystemNotes += string.Format("{0}{1:yyyy-MM-dd HH:mm:ss} - Payment failed for campaign.", Environment.NewLine, DateTime.UtcNow);
                 _campaignService.SaveCampaign(campaign);
 
