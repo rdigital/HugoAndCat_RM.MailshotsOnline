@@ -3449,7 +3449,6 @@
     <Content Include="uSync\DocumentType\Basepage\Register\def.config" />
     <Content Include="uSync\DocumentType\Basepage\ResetPasswordComplete\def.config" />
     <Content Include="uSync\DocumentType\Basepage\ResetPassword\def.config" />
-    <Content Include="uSync\DocumentType\Basepage\ResetPassword\def.config.orig" />
     <Content Include="uSync\DocumentType\Basepage\Validate\def.config" />
     <Content Include="uSync\DocumentType\ContentPage\def.config" />
     <Content Include="uSync\DocumentType\Formatfolder\def.config" />
@@ -3473,12 +3472,9 @@
     <Content Include="uSync\Template\Master\Home\Home.config" />
     <Content Include="uSync\Template\Master\Master.config" />
     <Content Include="uSync\Template\PageCollection\PageCollection.config" />
-    <Content Include="uSync\Template\PageCollection\PageCollection.config.orig" />
     <Content Include="uSync\Template\Register\Register.config" />
     <Content Include="uSync\Template\ResetPasswordComplete\ResetPasswordComplete.config" />
-    <Content Include="uSync\Template\ResetPasswordComplete\ResetPasswordComplete.config.orig" />
     <Content Include="uSync\Template\ResetPassword\ResetPassword.config" />
-    <Content Include="uSync\Template\ResetPassword\ResetPassword.config.orig" />
     <Content Include="uSync\Template\Validate\Validate.config" />
     <Content Include="Views\MailshotEditor.cshtml" />
     <Content Include="uSync\Template\Master\MailshotEditor\MailshotEditor.config" />
@@ -3573,7 +3569,6 @@
     <Content Include="uSync\DocumentType\Basepage\MyImages\def.config" />
     <Content Include="uSync\DocumentType\Basepage\MyOrders\def.config" />
     <Content Include="uSync\Template\CaptureDetails\CaptureDetails.config" />
-    <Content Include="uSync\Template\CaptureDetails\CaptureDetails.config.orig" />
     <Content Include="Views\Lists\Lists.cshtml" />
     <Content Include="Views\OrderDetails.cshtml" />
     <Content Include="Views\Lists\Create.cshtml" />
