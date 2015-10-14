@@ -56,16 +56,23 @@ namespace RM.MailshotsOnline.Data.Helpers
         public byte[] FetchBytes(string blobId)
         {
             var blobStream = _blobService.DownloadToStream(blobId);
-            if (blobStream is MemoryStream)
+            if (blobStream != null)
             {
-                return ((MemoryStream)blobStream).ToArray();
-            }
+                if (blobStream is MemoryStream)
+                {
+                    return ((MemoryStream)blobStream).ToArray();
+                }
 
-            using (var ms = new MemoryStream())
+                using (var ms = new MemoryStream())
+                {
+                    blobStream.CopyTo(ms);
+                    var result = ms.ToArray();
+                    return result;
+                }
+            }
+            else
             {
-                blobStream.CopyTo(ms);
-                var result = ms.ToArray();
-                return result;
+                return null;
             }
         }
 

@@ -53,6 +53,7 @@
       <Setting name="RoyalMailApprovalEmailAddress" value="ext-mradford@hugoandcat.com" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
       <Setting name="SaveMailshotInfoForDebug" value="true"/>
+      <Setting name="StIvesPrintNotificationAddress" value="ext-mradford@hugoandcat.com"/>
     </ConfigurationSettings>
     <Certificates>
       <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="A8758600C049A567CCAFF3FDCE236C3C81E6CD06" thumbprintAlgorithm="sha1" />

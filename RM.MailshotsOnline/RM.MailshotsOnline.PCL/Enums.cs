@@ -48,6 +48,11 @@
             Cancelled = 7,
 
             /// <summary>
+            /// Campaign has been refunded
+            /// </summary>
+            Refunded = 8,
+
+            /// <summary>
             /// Payment for this campaign has failed
             /// </summary>
             PaymentFailed = -2

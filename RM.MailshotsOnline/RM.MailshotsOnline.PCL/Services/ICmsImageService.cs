@@ -112,5 +112,26 @@ namespace RM.MailshotsOnline.PCL.Services
         /// <param name="userId">ID of the user</param>
         /// <returns>Collection of images</returns>
         IEnumerable<ICmsImage> FindImagesUsedByUser(int userId);
+
+        /// <summary>
+        /// Finds all of the campaigns that use a given image
+        /// </summary>
+        /// <param name="cmsImageId">ID of the image to search for</param>
+        /// <returns>Collection of campaigns</returns>
+        IEnumerable<ICampaign> FindCampaignsThatUseImage(Guid cmsImageId);
+
+        /// <summary>
+        /// Finds all of the campaigns that use a given image
+        /// </summary>
+        /// <param name="imageSrc">Src of the image to search for</param>
+        /// <returns>Collection of campaigns</returns>
+        IEnumerable<ICampaign> FindCampaignsThatUseImage(string imageSrc);
+
+        /// <summary>
+        /// Finds all of the campaigns that use a given image
+        /// </summary>
+        /// <param name="umbracoId">Umbraco ID of the image to check</param>
+        /// <returns>Collection of campaigns</returns>
+        IEnumerable<ICampaign> FindCampaignsThatUseImage(int umbracoId);
     }
 }

@@ -51,6 +51,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C5A06D3E
 		XML\Tests\InvoiceTemplate.xslt = XML\Tests\InvoiceTemplate.xslt
 		XML\Tests\PostcardTemplate1.xslt = XML\Tests\PostcardTemplate1.xslt
 		XML\Tests\PostcardTemplate2.xslt = XML\Tests\PostcardTemplate2.xslt
+		XML\Tests\PostcardTemplate5.xslt = XML\Tests\PostcardTemplate5.xslt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HC.RM.Common.Images", "HC.RM.Common.Images\HC.RM.Common.Images.csproj", "{B90FF7F0-D68B-47A3-90DA-EE6776210F3A}"

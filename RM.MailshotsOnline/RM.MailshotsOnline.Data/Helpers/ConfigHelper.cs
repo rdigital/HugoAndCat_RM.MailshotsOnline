@@ -114,6 +114,11 @@ namespace RM.MailshotsOnline.Data.Helpers
             get { return GetConfigValue("SparqServiceIpRangeEnd"); }
         }
 
+        public static string StIvesPrintNotificationAddress
+        {
+            get { return GetConfigValue("StIvesPrintNotificationAddress"); }
+        }
+
         /// <summary>
         /// The System "From" email address
         /// </summary>

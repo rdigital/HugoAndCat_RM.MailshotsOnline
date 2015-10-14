@@ -27,12 +27,15 @@ namespace HC.RM.Common.PayPal.Models
             }
             this.Links = pplOrder.links.ToHateoasLinks();
             this.State = (OrderState)Enum.Parse(typeof(OrderState), pplOrder.state);
+            this.ReasonCode = (ReasonCode)Enum.Parse(typeof(ReasonCode), pplOrder.reason_code);
         }
 
         /// <summary>
         /// Gets the State of the Order
         /// </summary>
         public OrderState State { get; private set; }
+
+        public ReasonCode? ReasonCode { get; private set; }
 
         /// <summary>
         /// Converts the Order to a PayPal Order object
@@ -52,6 +55,7 @@ namespace HC.RM.Common.PayPal.Models
             };
             result.links = this.Links.ToPplLinks();
             result.state = this.State.ToString();
+            result.reason_code = this.ReasonCode.ToString();
 
             return result;
         }
@@ -67,5 +71,21 @@ namespace HC.RM.Common.PayPal.Models
         refunded,
         partially_refunded,
         voided
+    }
+
+    public enum ReasonCode
+    {
+        chargeback,
+        guarantee,
+        buyer_complaint,
+        refund,
+        unconfirmed_shipping_address,
+        echeck,
+        international_withdrawal,
+        receiving_preference_mandates_manual_action,
+        payment_review,
+        regulatory_review,
+        unilateral,
+        verification_required
     }
 }
