@@ -7,13 +7,13 @@
     <div>
 		<div class="library my-library" data-bind="css: {'library_loading': loading}">
 	    	<!-- ko foreach: displayedObjects() -->
-	    	<!-- ko if: typeof(uploading) != 'undefined' -->
+	    	<!-- ko if: typeof(uploading) != 'undefined' || deleting()-->
 	    	<div class="library-image library-image_uploading">
 	    		<div class="library-image_spinner"></div>
 	    		<div class="library-image-inner" data-bind="style: {backgroundImage: 'url(' + SmallSrc + ')'}"></div>
 	    	</div>
 	    	<!-- /ko -->
-	    	<!-- ko if: typeof(uploading) == 'undefined' -->
+	    	<!-- ko if: typeof(uploading) == 'undefined' && !deleting() -->
 	    	<div class="library-image" data-bind="click: $parent.previewImage">
 	    		
 	    		<div class="library-image-delete" data-bind="click: $parent.deleteImage, clickBubble: false, css: {'library-image-delete_disabled': MailshotUses}">

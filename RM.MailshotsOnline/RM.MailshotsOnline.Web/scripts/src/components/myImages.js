@@ -39,6 +39,9 @@ define(['knockout', 'view-models/notification', 'components/uploadImage'],
         myImagesViewModel.prototype.fetch = function fetch() {
             $.get('/Umbraco/Api/ImageLibrary/GetMyImages', function(data) {
                 this.loading(false);
+                ko.utils.arrayForEach(data, function(obj) {
+                    obj.deleting = ko.observable(false);
+                });
                 this.objects(data);
             }.bind(this)).fail(function() {
                 console.log('There was an error fetching my images');
@@ -74,13 +77,44 @@ define(['knockout', 'view-models/notification', 'components/uploadImage'],
         };
 
         myImagesViewModel.prototype.remove = function remove() {
-            var images = this.deleteImages();
-            this.objects.removeAll(images);
-            /*$.post('/Umbraco/Api/ImageLibrary/ProcessDeleteImage/' + image.ImageId, {}, function() {
-                notificationViewModel.hideWithMessage('Image deleted', 'message');
-            }.bind(this)).fail(function() {
-                notificationViewModel.show('This image could not be deleted', 'error');
-            });*/
+            var images = this.deleteImages(),
+                ids = [];
+            ko.utils.arrayForEach(images, function(image) {
+                image.deleting(true);
+                ids.push(image.ImageId);
+            });
+
+            notificationViewModel.show('Deleting images', 'message');
+            
+            $.ajax({
+                url: '/Umbraco/Api/ImageLibrary/DeleteMultipleImages',
+                method: 'DELETE',
+                data: {
+                    Ids: ids
+                },
+                success: function(result) {
+                    // Do something with the result
+                    if (result.failure.length) {
+                        notificationViewModel.hideWithMessage('Error deleting ' + result.failure.length +' images', 'error');
+                    } else {
+                        notificationViewModel.hideWithMessage('Images deleted', 'message');
+                    }
+                    this.objects.remove(function(image) {
+                        return result.success.indexOf(image.ImageId) > -1;
+                    });
+                    ko.utils.arrayForEach(this.objects(), function(image) {
+                        if (result.failure.indexOf(image.ImageId) > -1) {
+                            image.deleting(false);
+                        }
+                    });
+                }.bind(this),
+                error: function() {
+                    ko.utils.arrayForEach(images, function(image) {
+                        image.deleting(false);
+                        notificationViewModel.show('There was an error deleting images', 'error');
+                    })
+                }.bind(this)
+            });
             return false;
         };
 

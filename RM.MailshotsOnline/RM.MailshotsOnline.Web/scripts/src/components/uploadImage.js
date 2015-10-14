@@ -20,7 +20,8 @@ define(['knockout', 'view-models/notification'],
                     "MediumSrc":this.src(),
                     "SmallSrc":this.src(),
                     "MailshotUses":0,
-                    "uploading": true
+                    "uploading": true,
+                    "deleting": ko.observable(false)
                 };
                 this.imageArray.unshift(newImage);
                 // we are uploading a new image
@@ -33,6 +34,7 @@ define(['knockout', 'view-models/notification'],
                     },
                     post = $.post('/Umbraco/Api/ImageLibrary/UploadImage', data, function(image) {
                         notificationViewModel.hideWithMessage("Upload complete!");
+                        image.deleting = ko.observable(false);
                         this.imageArray.replace(newImage, image);
                     }.bind(this)).fail(function(error) {
                         notificationViewModel.show("Error uploading image", "error");
