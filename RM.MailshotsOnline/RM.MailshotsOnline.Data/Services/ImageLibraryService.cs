@@ -90,7 +90,7 @@ namespace RM.MailshotsOnline.Data.Services
             {
                 var requiredType = publicImage ? typeof(PublicLibraryImage) : typeof(PrivateLibraryImage);
                 IMedia image = MediaFactory.Convert(_helper.TypedMedia(mediaId), requiredType);
-                if (includeImageUsageCount)
+                if (image != null && includeImageUsageCount)
                 {
                     image.MailshotUses = _cmsImageService.GetImageUsageCount(mediaId);
                 }

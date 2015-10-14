@@ -389,6 +389,66 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         }
 
         [HttpDelete]
+        public HttpResponseMessage DeleteMultipleImages(IntListModel list)
+        {
+            var authResult = Authenticate();
+            if (authResult != null)
+            {
+                return authResult;
+            }
+
+            if (list == null)
+            {
+                return ErrorMessage(HttpStatusCode.BadRequest, "You must provide a list of IDs.");
+            }
+
+            var successList = new List<int>();
+            var failureList = new List<int>();
+
+            foreach (int imageId in list.Ids)
+            {
+                var image = _imageLibrary.GetImage(imageId, false, false) as PrivateLibraryImage;
+                if (image != null)
+                {
+                    if (image.Username == _loggedInMember.Username)
+                    {
+                        if (!_cmsImageService.IsImageUsedInMailshot(imageId))
+                        {
+                            var success = _imageLibrary.DeleteImage(image);
+                            if (success)
+                            {
+                                _logger.Info(this.GetType().Name, "DeleteMultipleImages", "Deleted image with ID {0}.", imageId);
+                                successList.Add(imageId);
+                            }
+                            else
+                            {
+                                _logger.Info(this.GetType().Name, "DeleteMultipleImages", "Unable to delete image with ID {0}.", imageId);
+                                failureList.Add(imageId);
+                            }
+                        }
+                        else
+                        {
+                            _logger.Info(this.GetType().Name, "DeleteMultipleImages", "Attempt to delete image {0} that is in use.", imageId);
+                            failureList.Add(imageId);
+                        }
+                    }
+                    else
+                    {
+                        _logger.Error(this.GetType().Name, "DeleteMultipleImages", "Unauthorised attempt to delete image with ID {0} by user {1}.", imageId, _loggedInMember.Id);
+                        failureList.Add(imageId);
+                    }
+                }
+                else
+                {
+                    _logger.Error(this.GetType().Name, "DeleteMultipleImages", "Unable to find image with ID {0}.", imageId);
+                    failureList.Add(imageId);
+                }
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, new { success = successList, failure = failureList });
+        }
+
+        [HttpDelete]
         public HttpResponseMessage DeleteImage(int id)
         {
             var authResult = Authenticate();
