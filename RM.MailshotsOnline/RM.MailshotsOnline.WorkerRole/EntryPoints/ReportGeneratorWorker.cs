@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -6,7 +7,9 @@ using System.Threading;
 using System.Xml.Linq;
 using HC.RM.Common.Azure.EntryPoints;
 using HC.RM.Common.Azure.Helpers;
+using Newtonsoft.Json;
 using RM.MailshotsOnline.Data.Constants;
+using RM.MailshotsOnline.Entities.JsonModels;
 using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 
@@ -112,8 +115,15 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
 
                             if (token != null)
                             {
-                                var response =
-                                    SendHttpPost($"{Constants.Apis.ReportsApi}/generatereport?type={message}&token={token.AuthTokenId}&service={GetType().Name}");
+                                var postModel = JsonConvert.SerializeObject(new AuthTokenPostModel()
+                                {
+                                    Type = message,
+                                    Service = GetType().Name,
+                                    Token = token.AuthTokenId.ToString()
+                                });
+
+                                var response = 
+                                    SendHttpPost($"{Constants.Apis.ReportsApi}/generatereport", postModel);
 
                                 Logger.Info(GetType().Name, "Run", $"Reports API responded with status {response}");
                             }
@@ -160,12 +170,13 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
             Thread.Sleep(_queueInterval);
         }
 
-        private HttpStatusCode SendHttpPost(string url, object data = null)
+        private HttpStatusCode SendHttpPost(string url, string data = null)
         {
             var tokenRequest = WebRequest.Create(url);
             tokenRequest.Method = WebRequestMethods.Http.Post;
+            tokenRequest.ContentType = "application/json";
 
-            var postData = data?.ToString();
+            var postData = data;
             var byteArray = Encoding.UTF8.GetBytes(postData ?? "");
 
             tokenRequest.ContentLength = byteArray.Length;
@@ -173,6 +184,7 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
             using (var dataStream = tokenRequest.GetRequestStream())
             {
                 dataStream.Write(byteArray, 0, byteArray.Length);
+                dataStream.Flush();
 
                 using (var response = (HttpWebResponse)tokenRequest.GetResponse())
                 {

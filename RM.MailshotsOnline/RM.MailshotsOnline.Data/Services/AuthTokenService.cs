@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HC.RM.Common.Azure.Helpers;
 using RM.MailshotsOnline.Data.DAL;
 using RM.MailshotsOnline.Entities.DataModels;
 using RM.MailshotsOnline.PCL.Models;

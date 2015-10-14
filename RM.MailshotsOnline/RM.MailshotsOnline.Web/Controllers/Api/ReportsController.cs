@@ -5,8 +5,10 @@ using System;
 using System.Collections;
 using System.IO;
 using CsvHelper;
+using CsvHelper.Configuration;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.Constants;
+using RM.MailshotsOnline.Entities.JsonModels;
 using RM.MailshotsOnline.PCL.Models.Reporting;
 using RM.MailshotsOnline.PCL.Services;
 using RM.MailshotsOnline.PCL.Services.Reporting;
@@ -20,7 +22,9 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         private static IReportingSftpService _sftpService;
         private static IAuthTokenService _authTokenService;
 
-        public ReportsController(IReportingService reportingService, IReportingBlobService blobService, IReportingSftpService sftpService, IAuthTokenService authTokenService)
+        public ReportsController(ILogger logger, IReportingService reportingService, IReportingBlobService blobService,
+            IReportingSftpService sftpService, IAuthTokenService authTokenService)
+            : base(logger)
         {
             _reportingService = reportingService;
             _blobService = blobService;
@@ -36,7 +40,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 var message = "Method was called with bad parameters";
 
                 _logger.Error(this.GetType().Name, "GenerateReport", message);
-                return ErrorMessageDebug(HttpStatusCode.BadRequest, message);
+                return ErrorMessageDebug(HttpStatusCode.NotAcceptable, message);    //todo: change this back to 400
             }
 
             if (!_authTokenService.Consume(tokenPostModel.Service, tokenPostModel.Token))
@@ -44,7 +48,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 var message = "Method was called with an invalid token";
 
                 _logger.Error(this.GetType().Name, "GenerateReport", message);
-                return ErrorMessageDebug(HttpStatusCode.BadRequest, message);
+                return ErrorMessageDebug(HttpStatusCode.Unauthorized, message); //todo: change this back to 400
             }
 
             IReport report;
@@ -68,7 +72,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
                 default:
 
-                    return ErrorMessageDebug(HttpStatusCode.BadRequest, "Method was called with an invalid report type");
+                    return ErrorMessageDebug(HttpStatusCode.Ambiguous, "Method was called with an invalid report type"); //todo: change this back to 400
             }
 
             if (data != null)
@@ -78,6 +82,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 using (var csvWriter = new CsvWriter(streamWriter))
                 {
                     csvWriter.WriteRecords(data);
+                    streamWriter.Flush();
+                    m.Flush();
 
                     var filename = report.Name + ".csv";
 
@@ -87,7 +93,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
                         if (!success)
                         {
-                            throw new Exception("SFTP service not transfer the file.");
+                            throw new Exception("SFTP service could not transfer the file.");
                         }
                     }
                     catch (Exception e)
@@ -99,7 +105,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                     {
                         var blobName = _blobService.Store(m.ToArray(), filename, "text/csv");
 
-                        if (!string.IsNullOrEmpty(blobName))
+                        if (string.IsNullOrEmpty(blobName))
                         {
                             throw new Exception("The blob service did not return a blob name after attempting to store the report.");
                         }
@@ -113,17 +119,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 }
             }
 
-            _logger.Error(this.GetType().Name, "GenerateReport", "Stream was empty");
-            return ErrorMessageDebug(HttpStatusCode.InternalServerError, "Stream was empty");
-        }
-
-        public class AuthTokenPostModel
-        {
-            public string Type { get; set; }
-
-            public string Token { get; set; }
-
-            public string Service { get; set; }
+            _logger.Error(this.GetType().Name, "GenerateReport", "Data was null - exiting");
+            return ErrorMessageDebug(HttpStatusCode.InternalServerError, "Data was null - exiting");
         }
     }
 }
