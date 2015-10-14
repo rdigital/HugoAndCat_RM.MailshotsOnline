@@ -126,7 +126,7 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
                                     Token = token.AuthTokenId.ToString()
                                 });
 
-                                var response = 
+                                var response =
                                     SendHttpPost($"{Constants.Apis.ReportsApi}/generatereport", postModel);
 
                                 Logger.Info(GetType().Name, "Run", $"Reports API responded with status {response}");
@@ -170,13 +170,15 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
                 _working = false;
             }
 
-			
+
             Logger.Info(GetType().Name, "Run", "Sleeping for " + _queueInterval.ToString());
             Thread.Sleep(_queueInterval);
         }
 
         private HttpStatusCode SendHttpPost(string url, string data = null)
         {
+            Logger.Info(GetType().Name, "SendHtpPost", $"Sending POST to {url}");
+
             var tokenRequest = WebRequest.Create(url);
             tokenRequest.Method = WebRequestMethods.Http.Post;
             tokenRequest.ContentType = "application/json";
