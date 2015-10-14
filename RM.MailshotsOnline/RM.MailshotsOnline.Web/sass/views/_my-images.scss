@@ -87,6 +87,21 @@
 			width: 100%;
     		height: 100%;
 		}
+		&.library-image_uploading {
+			.library-image_spinner {
+				position: absolute;
+				top: 10px;
+				left: 10px;
+				right: 10px;
+				bottom: 10px;
+				background-image: url(/canvas/images/loading.gif);
+				background-position: 50% 50%;
+				background-repeat: no-repeat;
+			}
+			.library-image-inner {
+				opacity: 0.5;
+			}
+		}
 	}
 	.library-image-select {
 		@include transition(background);
@@ -189,4 +204,86 @@
     &.button_disabled {
         background-color: $light-grey;
     }
+}
+
+.uploadmodal {
+	@include vertical-align(fixed);
+	font-family: Chevin Light, Arial;
+    z-index: 1000;
+    background: #fff;
+    box-sizing: border-box;
+    height: 450px;
+    width: 900px;
+    left: 50%;
+    margin-left: -450px;
+    animation: fadein 0.25s;
+    text-align: left;
+    color: $dark-grey;
+    border: 1px solid $lightish-grey;
+    .uploadmodal-close {
+		position: absolute;
+	    top: -10px;
+	    right: -16px;
+	    width: 30px;
+	    height: 30px;
+	    font-size: 23px;
+	    color: $dark-grey;
+	    cursor: pointer;
+	    z-index: 100;
+	}
+	.uploadmodal-preview {
+		background-color: #FFF;
+		background-repeat: no-repeat;
+		background-position: 50% 50%;
+		cursor: pointer;
+		position: absolute;
+		top: 25px;
+		left: 25px;
+		right: 420px;
+		bottom: 25px;
+		//background-image: url(/canvas/images/upload.png);
+		border: 2px dashed $lightish-grey;
+		&.uploadmodal-preview_populated {
+			background-size: contain;
+		}
+	}
+	.uploadmodal-button {
+		transition: all .25s ease-out;
+		border: 2px solid #C00;
+	    margin-top: 17px;
+	    float: right;
+	    padding: 10px;
+	    color: #C00;
+	    border-radius: 4px;
+	    font-size: 18px;
+	    cursor: pointer;
+	    &:hover {
+	    	color: #333;
+	    	border-color: #333;
+	    }
+	}
+	.uploadmodal-info {
+		position: absolute;
+	    width: 360px;
+	    right: 30px;
+	    h2 {
+	    	font-weight: 100;
+	    }
+	    .uploadmodal-info-footer {
+	    	padding: 20px;
+	    	background: $light-grey;
+	    }
+	}
+	.button {
+	    position: absolute;
+	    bottom: 25px;
+		right: 25px;
+		text-decoration: none;
+	}
+	ul {
+		margin-bottom: 20px;
+		li {
+			margin-bottom: 6px;
+		}
+	}
 }

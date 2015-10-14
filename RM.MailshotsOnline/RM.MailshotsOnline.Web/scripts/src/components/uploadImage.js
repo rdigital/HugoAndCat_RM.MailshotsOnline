@@ -2,7 +2,9 @@
 define(['knockout', 'view-models/notification'],
     function(ko, notificationViewModel) {
 
-        function uploadImageViewModel() {
+        function uploadImageViewModel(params) {
+            this.closeCallback = params.closeCallback;
+            this.imageArray = params.imageArray;
             this.src = ko.observable();
             console.log(notificationViewModel);
             this.fileData = ko.observable({
@@ -10,6 +12,34 @@ define(['knockout', 'view-models/notification'],
             });
             this.fileData.subscribe(this.loadFile, this);
         }
+
+        uploadImageViewModel.prototype.upload = function upload() {
+            this.closeCallback();
+            if (this.src()) {
+                var newImage = {
+                    "MediumSrc":this.src(),
+                    "SmallSrc":this.src(),
+                    "MailshotUses":0,
+                    "uploading": true
+                };
+                this.imageArray.unshift(newImage);
+                // we are uploading a new image
+                notificationViewModel.show('Uploading Image...')
+
+                var name = this.getRandomInt().toString(),
+                    data = {
+                        imageString: this.src(),
+                        name: name 
+                    },
+                    post = $.post('/Umbraco/Api/ImageLibrary/UploadImage', data, function(image) {
+                        notificationViewModel.hideWithMessage("Upload complete!");
+                        this.imageArray.replace(newImage, image);
+                    }.bind(this)).fail(function(error) {
+                        notificationViewModel.show("Error uploading image", "error");
+                        this.imageArray.remove(newImage);
+                    }.bind(this))
+            }
+        };
 
         uploadImageViewModel.prototype.loadFile = function loadFile(fileData){
             this.src(fileData);         
@@ -49,6 +79,16 @@ define(['knockout', 'view-models/notification'],
                 //this.render(e.target.result, target);
             }.bind(this);
             reader.readAsDataURL(src);
+        };
+
+        uploadImageViewModel.prototype.getRandomInt = function getRandomInt() {
+            var min = 0,
+                max = 99999999;
+            return Math.floor(Math.random() * (max - min)) + min;
+        };
+
+        uploadImageViewModel.prototype.clickUpload = function clickUpload(){
+            $('#image-upload').click();
         };
 
 

@@ -1,6 +1,7 @@
 // viewmodel to handle my images data
-define(['knockout', 'view-models/notification'],
-    function(ko, notificationViewModel) {
+define(['knockout', 'view-models/notification', 'components/uploadImage'],
+    function(ko, notificationViewModel, uploadImageComponent) {
+        ko.components.register('upload-image-component', uploadImageComponent);
 
         function myImagesViewModel() {
             // this.objects contains the data returned from the server
@@ -9,7 +10,6 @@ define(['knockout', 'view-models/notification'],
             // use selection by ID (instead of direct ref to object)
             // in case we want to use routing to describe selections
             this.selected = ko.observableArray();
-            window.s = this.selected;
             this.loading = ko.observable(true);
             this.deleteImages = ko.observable(false);
             this.uploadImage = ko.observable(false);
@@ -22,6 +22,7 @@ define(['knockout', 'view-models/notification'],
             this.selectImage = this.selectImage.bind(this);
             this.deleteImage = this.deleteImage.bind(this);
             this.clearDeleteImage = this.clearDeleteImage.bind(this);
+            this.toggleUploadImage = this.toggleUploadImage.bind(this);
 
             // fetch data if / when authenticated
             this.fetch();
@@ -81,6 +82,10 @@ define(['knockout', 'view-models/notification'],
                 notificationViewModel.show('This image could not be deleted', 'error');
             });*/
             return false;
+        };
+
+        myImagesViewModel.prototype.toggleUploadImage = function toggleUploadImage() {
+            this.uploadImage(!this.uploadImage());
         };
 
         return {
