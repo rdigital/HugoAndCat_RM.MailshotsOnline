@@ -37,7 +37,7 @@
 
 	.campaign-list__list {
 		min-height: 1040px;
-		
+
 		.content-box {
 			margin-bottom: 15px;
 			padding-right: 20px;
@@ -91,11 +91,23 @@
 			.status {
 				@extend %clearfix;
 
-				.icon-edit {
+				.status-icon {
 					@include font-size(35);
-					color: $blue-green;
 					float: left;
 					margin-right: 10px;
+				}
+
+				.icon-edit {
+					color: $blue-green;
+				}
+
+				.icon-refresh {
+					color: $RM-blue;
+				}
+
+				.icon-next,
+				.icon-tick {
+					color: $RM-green;
 				}
 
 				.status-text {

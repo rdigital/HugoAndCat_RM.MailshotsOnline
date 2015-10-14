@@ -22,15 +22,26 @@
 							<button class="btn" type="button"><span class="icon-delete btn-icon"></span></button>
 						</div>
 						<div class="status">
-							<span class="icon-edit"></span>
+							<!-- ko if: StatusTitle === 'Draft' -->
+							<span class="status-icon icon-edit"></span>
+							<!-- /ko -->
+							<!-- ko if: StatusTitle === 'Processing' -->
+							<span class="status-icon icon-refresh"></span>
+							<!-- /ko -->
+							<!-- ko if: StatusTitle === 'Despatched' -->
+							<span class="status-icon icon-next"></span>
+							<!-- /ko -->
+							<!-- ko if: StatusTitle === 'Delivered' -->
+							<span class="status-icon icon-tick"></span>
+							<!-- /ko -->
 							<div class="status-text">
-								<p class="strong">Draft</p>
-								<p>Created 1 day ago. 21/07/15</p>
+								<p data-bind="text: StatusTitle" class="strong"></p>
+								<p data-bind="html: StatusSubtitle"></p>
 							</div>
 						</div>
 						<div class="details">
-							<span class="format">Format: A5 Postcard</span>
-							<span class="recipients">Recipients: 400 (+100 rented)</span>
+							<span class="format">Format: <span data-bind="text: Format"></span></span>
+							<span class="recipients">Recipients: <span data-bind="text: TotalRecipientCount"></span></span>
 						</div>
 					</div>
 				</li>

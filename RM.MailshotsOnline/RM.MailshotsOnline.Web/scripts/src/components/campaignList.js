@@ -1,6 +1,6 @@
-define(['jquery', 'knockout', 'view-models/state'],
+define(['jquery', 'knockout', 'koMapping', 'view-models/state'],
 
-    function($, ko, stateViewModel) {
+    function($, ko, koMapping, stateViewModel) {
 
         // ViewModel
         function campaignListComponentViewModel() {
@@ -12,7 +12,6 @@ define(['jquery', 'knockout', 'view-models/state'],
         	    url: '/Umbraco/Api/Campaign/GetAll',
         	    type: 'GET',
         	    success: function (data) {
-        	        console.log(data);
         	        self.campaignList(data);
         	    },
         	    error: function(error) {
