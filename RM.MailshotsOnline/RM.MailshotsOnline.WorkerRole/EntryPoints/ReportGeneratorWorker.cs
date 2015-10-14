@@ -99,6 +99,8 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
                         continue;
                     }
 
+                    Logger.Info(GetType().Name, "Run", $"Message: {message}");
+
                     switch (message)
                     {
                         case "membership":
@@ -171,7 +173,7 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
             }
 
 
-            Logger.Info(GetType().Name, "Run", "Sleeping for " + _queueInterval.ToString());
+            Logger.Info(GetType().Name, "Run", "Sleeping for " + _queueInterval);
             Thread.Sleep(_queueInterval);
         }
 
