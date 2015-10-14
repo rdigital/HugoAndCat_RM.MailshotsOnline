@@ -36,8 +36,11 @@
 	}
 
 	.campaign-list__list {
+		min-height: 1040px;
+		
 		.content-box {
 			margin-bottom: 15px;
+			padding-right: 20px;
 
 			&:last-child {
 				margin-bottom: 40px;
@@ -60,6 +63,70 @@
 		.content {
 			float: right;
 			width: 75%;
+
+			h2 {
+				@include font-size(28);
+				margin-bottom: 15px;
+			}
+
+			.actions {
+				position: absolute;
+				right: 20px;
+				top: 25px;
+
+				.btn {
+					height: 30px;
+					padding: 0;
+					margin: 0 0 0 10px;
+					width: 28px;
+
+					span {
+						@include font-size(28);
+						color: $filter-tab-grey;
+						position: relative;
+					}
+				}
+			}
+
+			.status {
+				@extend %clearfix;
+
+				.icon-edit {
+					@include font-size(35);
+					color: $blue-green;
+					float: left;
+					margin-right: 10px;
+				}
+
+				.status-text {
+					float: left;
+
+					.strong {
+						margin-bottom: 0;
+					}
+
+					p {
+						line-height: 1.2;
+					}
+				}
+			}
+
+			.details {
+				border-top: 1px solid $shadow-grey;
+				line-height: 1;
+				margin-top: 15px;
+				padding-top: 9px;
+
+				.format,
+				.recipients {
+					position: relative;
+					top: 4px;
+				}
+
+				.format {
+					margin-right: 30px;
+				}
+			}
 		}
 	}
 }
