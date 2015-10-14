@@ -170,7 +170,8 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
                 _working = false;
             }
 
-            // Reports only really happen once a day
+			
+            Logger.Info(GetType().Name, "Run", "Sleeping for " + _queueInterval.ToString());
             Thread.Sleep(_queueInterval);
         }
 
