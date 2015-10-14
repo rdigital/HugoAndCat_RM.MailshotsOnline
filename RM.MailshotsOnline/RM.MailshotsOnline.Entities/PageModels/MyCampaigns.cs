@@ -13,5 +13,7 @@ namespace RM.MailshotsOnline.Entities.PageModels
         public string MainContent { get; set; }
 
         public string DefaultTitleForNewCampaigns { get; set; }
+
+        public BasePage CampaignHubPage { get; set; }
     }
 }

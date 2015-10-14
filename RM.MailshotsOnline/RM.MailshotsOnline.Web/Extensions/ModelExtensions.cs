@@ -151,6 +151,96 @@ namespace RM.MailshotsOnline.Web.Extensions
             return result;
         }
 
+        public static string GetStatusText(this CampaignHub campaignHubPage, ICampaign campaign, ISettingsFromCms settings)
+        {
+            string result = campaignHubPage.DraftStatusTitle;
+            var deliveryEstimate = campaign.GetDeliveryEstimate(settings).Date;
+            switch (campaign.Status)
+            {
+                case PCL.Enums.CampaignStatus.Cancelled:
+                    result = campaignHubPage.CancelledStatusTitle;
+                    break;
+                case PCL.Enums.CampaignStatus.Draft:
+                case PCL.Enums.CampaignStatus.ReadyToCheckout:
+                    result = campaignHubPage.DraftStatusTitle;
+                    break;
+                case PCL.Enums.CampaignStatus.PendingModeration:
+                case PCL.Enums.CampaignStatus.ReadyForFulfilment:
+                case PCL.Enums.CampaignStatus.SentForFulfilment:
+                    result = campaignHubPage.ProcessingStatusTitle;
+                    break;
+                case PCL.Enums.CampaignStatus.Exception:
+                    result = campaignHubPage.FailedChecksStatusTitle;
+                    break;
+                case PCL.Enums.CampaignStatus.Fulfilled:
+                    if (deliveryEstimate.Date <= DateTime.UtcNow.Date)
+                    {
+                        result = campaignHubPage.DeliveredStatusTitle;
+                    }
+                    else
+                    {
+                        result = campaignHubPage.DespatchedStatusTitle;
+                    }
+                    break;
+                case PCL.Enums.CampaignStatus.PaymentFailed:
+                    result = campaignHubPage.PaymentDeclinedStatusTitle;
+                    break;
+            }
+
+            return result;
+        }
+
+        public static string GetStatusDescription(this CampaignHub campaignHubPage, ICampaign campaign, ISettingsFromCms settings)
+        {
+            string result = string.Empty;
+            var deliveryEstimate = campaign.GetDeliveryEstimate(settings).Date;
+            var despatchEstimate = campaign.GetDespatchEstimate(settings).Date;
+            switch (campaign.Status)
+            {
+                case PCL.Enums.CampaignStatus.Draft:
+                case PCL.Enums.CampaignStatus.ReadyToCheckout:
+                    string daysAgoText = "today";
+                    TimeSpan campaignAge = DateTime.UtcNow - campaign.CreatedDate;
+                    int daysOld = (int)campaignAge.TotalDays;
+                    if (daysOld > 0)
+                    {
+                        if (daysOld > 1)
+                        {
+                            daysAgoText = string.Format("{0} days ago", daysOld);
+                        }
+                        else
+                        {
+                            daysAgoText = string.Format("{0} day ago.", daysOld);
+                        }
+                    }
+                    result = string.Format(campaignHubPage.DraftStatusDescription, daysAgoText, campaign.CreatedDate.ToString("dd/MM/yyyy"));
+                    break;
+                case PCL.Enums.CampaignStatus.Fulfilled:
+                    if (deliveryEstimate.Date <= DateTime.UtcNow.Date)
+                    {
+                        result = string.Format(campaignHubPage.DeliveredStatusDescription, deliveryEstimate.ToString("dd/MM/yy"));
+                    }
+                    else
+                    {
+                        result = string.Format(campaignHubPage.DespatchedStatusDescription, despatchEstimate.ToString("dd/MM/yy"));
+                    }
+                    break;
+                case PCL.Enums.CampaignStatus.ReadyForFulfilment:
+                case PCL.Enums.CampaignStatus.SentForFulfilment:
+                case PCL.Enums.CampaignStatus.PendingModeration:
+                    result = string.Format(campaignHubPage.ProcessingStatusDescription, deliveryEstimate.ToString("dd/MM/yy"));
+                    break;
+                case PCL.Enums.CampaignStatus.Cancelled:
+                case PCL.Enums.CampaignStatus.Exception:
+                case PCL.Enums.CampaignStatus.PaymentFailed:
+                case PCL.Enums.CampaignStatus.Refunded:
+                    result = string.Format("{0}<a href=\"{1}\">{2}</a>", campaignHubPage.MoreInformationPrompt, campaignHubPage.MyCampaignsPage.Url(), campaignHubPage.MyCampaignsPageLinkText);
+                    break;
+            }
+
+            return result;
+        }
+
         public static HC.RM.Common.PayPal.Models.Transaction ToPaypalTransaction(this IInvoiceLineItem lineItem)
         {
             var result = new HC.RM.Common.PayPal.Models.Transaction(

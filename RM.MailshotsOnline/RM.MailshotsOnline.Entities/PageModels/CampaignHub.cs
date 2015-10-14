@@ -12,6 +12,38 @@ namespace RM.MailshotsOnline.Entities.PageModels
     [UmbracoType(AutoMap = true)]
     public class CampaignHub : BasePage
     {
+        #region Campaign Status Text
+
+        public string DraftStatusTitle { get; set; }
+
+        public string DraftStatusDescription { get; set; }
+
+        public string ProcessingStatusTitle { get; set; }
+
+        public string ProcessingStatusDescription { get; set; }
+
+        public string DespatchedStatusTitle { get; set; }
+
+        public string DespatchedStatusDescription { get; set; }
+
+        public string DeliveredStatusTitle { get; set; }
+
+        public string DeliveredStatusDescription { get; set; }
+
+        public string CancelledStatusTitle { get; set; }
+
+        public string FailedChecksStatusTitle { get; set; }
+
+        public string PaymentDeclinedStatusTitle { get; set; }
+
+        public string MoreInformationPrompt { get; set; }
+
+        public string OrderDetailsPageLinkText { get; set; }
+
+        public BasePage OrderDetailsPage { get; set; }
+
+        #endregion
+
         #region Introduction
 
         public string IntroText { get; set; }
@@ -99,6 +131,8 @@ namespace RM.MailshotsOnline.Entities.PageModels
         public string ApprovedLabel { get; set; }
 
         public string UnapproveButtonText { get; set; }
+
+        public string FailedLabel { get; set; }
         
         #endregion
 
