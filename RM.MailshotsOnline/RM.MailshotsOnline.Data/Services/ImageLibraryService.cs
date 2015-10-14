@@ -280,6 +280,7 @@ namespace RM.MailshotsOnline.Data.Services
             convertedMedia.OriginalUrl = originalUrl;
             convertedMedia.SmallThumbUrl = $"{originalUrl}?size=small";
             convertedMedia.LargeThumbUrl = $"{originalUrl}?size=medium";
+            convertedMedia.MediaId = createdMedia.Id;
 
             return convertedMedia;
         }
