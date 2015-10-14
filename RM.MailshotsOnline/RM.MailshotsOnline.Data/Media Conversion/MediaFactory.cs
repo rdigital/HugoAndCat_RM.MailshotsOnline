@@ -39,6 +39,12 @@ namespace RM.MailshotsOnline.Data.Media_Conversion
         /// <returns>The converted media</returns>
         public static IMedia Convert(IPublishedContent content, Type type)
         {
+            // Check if the content was found
+            if (content == null)
+            {
+                return null;
+            }
+
             // Create a new instance of our type
             var newMedia = (IMedia) Activator.CreateInstance(type);
             var mediaConverters = GetMediaConverters(type, new Stack<IMediaConverter>());

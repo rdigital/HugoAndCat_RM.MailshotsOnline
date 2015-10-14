@@ -40,18 +40,22 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
                     return;
                 }
 
+                Logger.Info(GetType().Name, "Run", "Working...");
+
                 _working = true;
             }
 
             try
             {
+                Logger.Info(GetType().Name, "Run", "Checking queue for message...");
+
                 // Get the message at the head of the queue. Note: FIFO is
                 // not guaranteed
                 var queueMsg = Queue.GetMessage();
 
                 while (queueMsg != null)
                 {
-                    Logger.Info(GetType().Name, "Run", "Processing Message: {0}", queueMsg.Id);
+                    Logger.Info(GetType().Name, "Run", "Found message: {0}", queueMsg.Id);
 
                     /*
                       <?xml version="1.0" encoding="utf-16"?>
@@ -74,7 +78,7 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
 
                     if (messageElement == null)
                     {
-                        Logger.Error(GetType().Name, "Run", "Queue Message did not contain a Message element: {0}: {1}", queueMsg.Id, queueMsg.AsString);
+                        Logger.Error(GetType().Name, "Run", "Queue message did not contain a Message element: {0}: {1}", queueMsg.Id, queueMsg.AsString);
 
                         Queue.DeleteMessage(queueMsg);
                         queueMsg = Queue.GetMessage();
@@ -87,7 +91,7 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
 
                     if (string.IsNullOrEmpty(message))
                     {
-                        Logger.Error(GetType().Name, "Run", "Queue Message was parsed successfully but didn't contain a message: {0}: {1}", queueMsg.Id, queueMsg.AsString);
+                        Logger.Error(GetType().Name, "Run", "Queue message was parsed successfully but didn't contain a message: {0}: {1}", queueMsg.Id, queueMsg.AsString);
 
                         Queue.DeleteMessage(queueMsg);
                         queueMsg = Queue.GetMessage();
@@ -108,7 +112,7 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
                             }
                             catch
                             {
-                                Logger.Info(GetType().Name, "Run", "Failed to set token before starting report generation.");
+                                Logger.Info(GetType().Name, "Run", "Failed to set auth token before starting report generation.");
 
                                 return;
                             }
@@ -166,7 +170,8 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
                 _working = false;
             }
 
-            // Reports only really happen once a day
+			
+            Logger.Info(GetType().Name, "Run", "Sleeping for " + _queueInterval.ToString());
             Thread.Sleep(_queueInterval);
         }
 
