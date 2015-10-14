@@ -40,8 +40,6 @@ define(['knockout', 'view-models/state', 'koelement', 'kofile', 'koMapping'],
                 this.postData(reader.result);
             }.bind(this);
             reader.readAsDataURL(src);
-
-
         };
 
         uploadDataComponentViewModel.prototype.addContact = function addContact() {

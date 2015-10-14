@@ -1,0 +1,192 @@
+.my-images_header {
+	border-bottom: 2px solid $light-grey;
+	padding: 20px 0;
+	margin: 20px 0;
+	font-size: 30px;
+	line-height: 30px;
+	.my-images_toggle-upload {
+		float: right;
+	    padding-right: 40px;
+	    position: relative;
+	    line-height: 30px;
+	    cursor: pointer;
+	    font-size: 15px;
+		> span {
+			color: $RM-red;
+			font-size: 30px;
+			position: absolute;
+			right: 0;
+			top: 0;
+		}
+	}
+}
+.my-images_footer {
+	height: 25px;
+	width: 100%;
+	overflow: hidden;
+}
+.my-images_delete {
+	@include transition(color);
+	animation: fadein .5s;
+	float: right;
+	padding-right: 35px;
+	line-height: 25px;
+	position: relative;
+	cursor: pointer;
+	> .icon-delete {
+		font-size: 25px;
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+	&:hover {
+		color: $RM-blue-hover;
+	}
+}
+
+.library {
+	min-height: 580px;
+	&.library_loading {
+		background-image: url(/canvas/images/loading.gif);
+		background-position: 50% 50%;
+		background-repeat: no-repeat;
+	}
+	.library-image-delete {
+		@include transition(color);
+		position: absolute;
+	    top: 8px;
+	    right: 8px;
+	    font-size: 25px;
+	    &:hover {
+	    	color: $RM-blue-hover;
+	    }
+	    &.library-image-delete_disabled {
+	    	color: $light-grey;
+	    } 
+	}
+	.library-image {
+		@include transition(background);
+		animation: fadein .4s;
+		display: inline-block;
+		width: 222px;
+		height: 200px;
+		background-color: #FFF;
+		padding: 40px 10px;
+		position: relative;
+		cursor: pointer;
+		&:hover {
+			background-color: $lightest-grey;
+		}
+		&.library-image_selected {
+			background-color: $RM-blue;
+		}
+		.library-image-inner {
+			background-size: contain;
+			background-position: 50% 50%;
+			background-repeat: no-repeat;
+			width: 100%;
+    		height: 100%;
+		}
+	}
+	.library-image-select {
+		@include transition(background);
+		@include borderradius(50%);
+		width: 25px;
+		height: 25px;
+		bottom: 9px;
+		right: 8px;
+		background: $lightish-grey;
+		position: absolute;
+		&:hover {
+			background-color: $mid-grey;
+		}
+		&.library-image-select_active {
+			background-color: $RM-blue;
+			&:hover {
+				background-color: $RM-blue-hover;
+			}
+		}
+	}
+}
+
+.modal-bg {
+	animation: fadein .25s;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	min-height: 500px;
+	background: rgba(0,0,0,0.6);
+	z-index: 999;
+}
+
+.image-modal {
+	@include vertical-align(fixed);
+	z-index: 1000;
+	left: 50%;
+	width: 500px;
+	margin-left: -250px;
+	min-height: 100px;
+	background: #FFF;
+	img {
+		width: 500px;
+	}
+	.image-modal_info {
+		padding: 20px;
+	}
+}
+
+.modal-container {
+	animation: fadein .25s;
+}
+
+.modal {
+	@include borderradius(3px);
+	@include vertical-align(fixed);
+	z-index: 1000;
+	left: 50%;
+	width: 400px;
+	height: 90px;
+	margin-left: -200px;
+	background: $light-grey;
+	overflow: hidden;
+	font-family: Chevin Medium, Arial;
+	padding: 40px;
+	color: $dark-grey;
+	.modal-buttons {
+		height: 50px;
+		margin-top: 30px;
+		> a {
+			display: inline-block;
+			width: 145px;
+			text-decoration: none;
+		}
+		.button_grey {
+			background: $mid-grey;
+		}
+	}
+}
+
+.button {
+    @include transition(background);
+    font-family: PFDin Regular, Arial;
+    text-align: center;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 15px 25px;
+    background-color: $RM-blue;
+    color: #fff;
+    &:hover {
+    	background-color: $RM-blue-hover;
+    }
+    &.button_green {
+        background-color: $RM-green;
+        &:hover {
+	    	background-color: $RM-green-hover;
+	    }
+    }
+    &.button_disabled {
+        background-color: $light-grey;
+    }
+}

@@ -1,0 +1,89 @@
+<div class="my-images_header">
+	Images (<span data-bind="text: objects().length"></span>)
+	<div class="my-images_toggle-upload">Upload a new image <span class="icon-upload"></span></div>
+</div>
+
+<div class="my-images">
+    <div>
+		<div class="library my-library" data-bind="css: {'library_loading': loading}">
+	    	<!-- ko foreach: displayedObjects() -->
+	    	<div class="library-image" data-bind="click: $parent.previewImage">
+	    		
+	    		<div class="library-image-delete" data-bind="click: $parent.deleteImage, clickBubble: false, css: {'library-image-delete_disabled': MailshotUses}">
+	    			<span class="icon-delete"></span>
+	    		</div>
+	    		<div class="library-image-inner" data-bind="style: {backgroundImage: 'url(' + SmallSrc + ')'}"></div>
+	    		<!-- ko ifnot: MailshotUses -->
+	    		<div class="library-image-select" data-bind="click: $parent.selectImage, clickBubble: false, css: {'library-image-select_active': $parent.selected().indexOf($data) > -1}"></div>
+	    		<!-- /ko -->
+	    	</div>
+	    	<!-- /ko -->
+	    </div>
+    </div>
+</div>
+<div class="my-images_footer">
+<!-- ko if: selected().length -->
+	<div class="my-images_delete" data-bind="click: deleteSelected">Delete selected (<span data-bind="text: selected().length"></span>) <span class="icon-delete"></span></div>
+<!-- /ko -->
+</div>
+<pagination-component params="data: objects, perPage: 8, displayedList: displayedObjects"></pagination-component>
+
+<!-- ko if: previewingImage -->
+<!-- ko with: previewingImage -->
+<div class="modal-bg" data-bind="click: $parent.clearPreviewingImage">
+</div>
+<div class="modal-container">
+	<div class="image-modal">
+		<img data-bind="attr: {src: MediumSrc}"/>
+		<div class="image-modal_info">
+			<!-- ko ifnot: MailshotUses -->
+			Not used in any campaigns
+			<!-- /ko -->
+			<!-- ko if: MailshotUses -->
+			Used in <span data-bind="text: MailshotUses"></span> campaign<!--ko if: MailshotUses > 1-->s<!-- /ko -->
+			<!-- /ko -->
+		</div>
+	</div>
+</div>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: deleteImages().length -->
+<!-- ko with: deleteImages -->
+<div class="modal-bg" data-bind="click: $parent.clearDeleteImage">
+</div>
+<div class="modal-container">
+	<div class="modal">
+		<div class="modal-text">Are you sure you want to delete <!-- ko if: $data.length == 1 -->this image<!-- /ko --><!-- ko if: $data.length > 1 -->these <span data-bind="text: $data.length"></span> images<!-- /ko -->?</div>
+		<div class="modal-buttons">
+		<a class="button button_grey" data-bind="click: $parent.clearDeleteImage">Keep</a>
+		<a class="button" data-bind="click: function() {$parent.remove(); $parent.clearDeleteImage()}">Delete</a>
+		</div>
+	</div>
+</div>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: uploadImage -->
+<div data-bind="visible: false">
+    <div class="uploadmodal-preview" data-bind="click: clickUpload, event:{ dragover: dragOver, drop: drop}, style: { backgroundImage: 'url(\'' + (src() ? src() : '/canvas/images/upload.png') + '\')' }, css: {'uploadmodal-preview_populated': src()}"></div>
+    <input type="file" id="image-upload" accept="image/*" data-bind="file: {data: fileData, allowed: ['image/jpg', 'image/png', 'image/jpeg', 'image/svg+xml']}" style="opacity: 0;">
+
+    <div class="uploadmodal-info">
+    	<h2>Here are some tips for making your images look great in print</h2>
+    	<ul>
+    		<li>Choose high quality images</li>
+    		<li>We accept .JPG, .JPEG and .PNG files</li>
+    		<li>Minimum file size 150 KB</li>
+    		<li>Maximum file size 10 MB</li>
+    		<li>You can crop and resize after upload</li>
+    	</ul>
+    	<div class="uploadmodal-info-footer">
+    		Any images uploaded will automatically be added to My Images
+    	</div>
+    </div>
+    <!-- ko if: src() -->
+    <a class="button" data-bind="click: confirm">Use this image</a>
+    <!-- /ko -->
+</div>
+<!-- /ko -->
