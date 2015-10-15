@@ -30,10 +30,8 @@
                 <div class="input-wrapper" >
                     @Html.TextBoxFor(m => m.ViewModel.Email, new { data_bind = "value: stage1.Email" })
                 </div>
-
-                <span data-bind="text: stage1.Email"></span>
-
-                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.Email)</p>
+                @Html.ValidationMessageFor(m => m.ViewModel.Email)
+                <p class="validation-msg" data-bind="validationMessage: stage1.Email"></p>
             </div>
 
             <div class="form-row">
@@ -41,8 +39,8 @@
                 <div class="input-wrapper">
                     @Html.TextBoxFor(m => m.ViewModel.ConfirmEmail, new { data_bind = "value: stage1.ConfirmEmail" })
                 </div>
-
-                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.ConfirmEmail)</p>
+                @Html.ValidationMessageFor(m => m.ViewModel.ConfirmEmail)
+                <p class="validation-msg" data-bind="validationMessage: stage1.ConfirmEmail"></p>
             </div>
 
             <div class="form-row">
@@ -50,7 +48,8 @@
                 <div class="input-wrapper">
                     @Html.TextBoxFor(m => m.ViewModel.FirstName, new { data_bind = "value: stage1.FirstName" })
                 </div>
-                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.FirstName)</p>
+                @Html.ValidationMessageFor(m => m.ViewModel.FirstName)
+                <p class="validation-msg" data-bind="validationMessage: stage1.FirstName"></p>
             </div>
 
             <div class="form-row">
@@ -58,7 +57,8 @@
                 <div class="input-wrapper">
                     @Html.TextBoxFor(m => m.ViewModel.LastName, new { data_bind = "value: stage1.LastName" })
                 </div>
-                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.LastName)</p>
+                @Html.ValidationMessageFor(m => m.ViewModel.LastName)
+                <p class="validation-msg" data-bind="validationMessage: stage1.LastName"></p>
             </div>
 
 
@@ -67,7 +67,8 @@
                 <div class="input-wrapper">
                     @Html.DropDownListFor(m => m.ViewModel.Title, new SelectList(Model.TitleOptions, "Key", "Value", Model.ViewModel.Title), new { data_bind = "value: stage1.Title" })
                 </div>
-                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.Title)</p>
+                @Html.ValidationMessageFor(m => m.ViewModel.Title)
+                <p class="validation-msg" data-bind="validationMessage: stage1.Title"></p>
             </div>
 
             <div class="form-row">
@@ -75,7 +76,8 @@
                 <div class="input-wrapper">
                     @Html.PasswordFor(m => m.ViewModel.Password, new { data_bind = "value: stage1.Password" })
                 </div>
-                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.Password)</p>
+                @Html.ValidationMessageFor(m => m.ViewModel.Password)
+                <p class="validation-msg" data-bind="validationMessage: stage1.Password"></p>
             </div>
 
 
@@ -84,7 +86,8 @@
                 <div class="input-wrapper">
                     @Html.PasswordFor(m => m.ViewModel.ConfirmPassword, new { data_bind = "value: stage1.ConfirmPassword" })
                 </div>
-                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.ConfirmPassword)</p>
+                @Html.ValidationMessageFor(m => m.ViewModel.ConfirmPassword)
+                <p class="validation-msg" data-bind="validationMessage: stage1.ConfirmPassword"></p>
 
             </div>
 
@@ -131,9 +134,9 @@
 
             <div class="form-row form-row--align-right">
                 @Html.LabelFor(m => m.ViewModel.AgreeToTermsAndConditions, Model.AgreeToTermsAndConditionsLabel)
-                @Html.EditorFor(m => m.ViewModel.AgreeToTermsAndConditions)
-
-                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.AgreeToTermsAndConditions)</p>
+                @Html.CheckBoxFor(m => m.ViewModel.AgreeToTermsAndConditions, new { data_bind = "value: stage1.AgreeToTermsAndConditions" })
+                @Html.ValidationMessageFor(m => m.ViewModel.AgreeToTermsAndConditions)
+                <p class="validation-msg" data-bind="validationMessage: stage1.AgreeToTermsAndConditions"></p>
             </div>
 
             <div class="form-row form-row--align-right">
@@ -310,7 +313,7 @@
                 <a href="" class="btn btn--green" data-bind="click: $root.submitRegistration" title="">Register</a>
             </div>
 
-            <input type="submit" value="@Model.RegisterCtaText" />
+            <input type="submit" value="@Model.RegisterCtaText"  />
         </section>
 
 }
