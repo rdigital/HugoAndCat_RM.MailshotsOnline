@@ -19,7 +19,7 @@ namespace RM.MailshotsOnline.WorkerRole.Installers
         {
             container.Register(Classes.FromThisAssembly().BasedOn<ThreadedRoleEntryPoint>().LifestyleTransient(),
                 Component.For<ILogger>().ImplementedBy<Logger>().LifestyleTransient(),
-                Component.For<HC.RM.Common.PCL.Helpers.ILogger>().ImplementedBy<Logger>().LifestyleTransient(),
+                Component.For<HC.RM.Common.PCL.Helpers.ILogger>().ImplementedBy<Logger>().Named("OverridingImplementation").IsDefault().LifestyleTransient(),
                 Component.For<StorageContext>().ImplementedBy<StorageContext>().LifestyleTransient(),
                 Component.For<IAuthTokenService>().ImplementedBy<AuthTokenService>().LifestyleTransient());
         }

@@ -358,6 +358,10 @@
     <Compile Include="Migrations\201510092220153_PostDeployMerge2.Designer.cs">
       <DependentUpon>201510092220153_PostDeployMerge2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510151526168_InvoiceAdditions.cs" />
+    <Compile Include="Migrations\201510151526168_InvoiceAdditions.Designer.cs">
+      <DependentUpon>201510151526168_InvoiceAdditions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AuthTokenService.cs" />
@@ -549,6 +553,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510092220153_PostDeployMerge2.resx">
       <DependentUpon>201510092220153_PostDeployMerge2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510151526168_InvoiceAdditions.resx">
+      <DependentUpon>201510151526168_InvoiceAdditions.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
