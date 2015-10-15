@@ -205,9 +205,6 @@ namespace RM.MailshotsOnline.Data.Services
                     originalHeight = original.Height;
                     originalWidth = original.Width;
                 }
-                //original = _imageResizer.GetImage(bytes);
-                //smallThumb = _imageResizer.ResizeImageBytes(original, Constants.Settings.ImageThumbnailSizeSmall);
-                //largeThumb = _imageResizer.ResizeImageBytes(original, Constants.Settings.ImageThumbnailSizeLarge);
             }
             catch (Exception e)
             {

@@ -32,6 +32,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
         public IEnumerable<MemberResult> GetSearchResults(string query)
         {
+            _logger.Info(GetType().Name, "GetSearchResults", $"Searching membership service for {query}");
+
             query = query.ToLower();
 
             var results =

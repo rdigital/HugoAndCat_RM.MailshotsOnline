@@ -22,9 +22,9 @@ namespace RM.MailshotsOnline.Data.Services
         private ILogger _log;
         private string _baseUrl;
 
-        public SparqQueueService()
+        public SparqQueueService(ILogger logger)
         {
-            _log = new Logger();
+            _log = logger;
             _baseUrl = string.Format("{0}://{1}:{2}", ConfigHelper.HostedScheme, ConfigHelper.HostedDomain, ConfigHelper.HostedPort);
         }
 
