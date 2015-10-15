@@ -5,200 +5,310 @@
 
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
-@using (Html.BeginUmbracoForm("RegisterForm", "RegisterSurface"))
-{
-    <section>
-        @Html.DisplayFor(m => m.RequiredFieldsLabel)
-        <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.Email)
-            @Html.ValidationMessageFor(m => m.ViewModel.ConfirmEmail)
-            @Html.ValidationMessageFor(m => m.ViewModel.FirstName)
-            @Html.ValidationMessageFor(m => m.ViewModel.LastName)
-            @Html.ValidationMessageFor(m => m.ViewModel.Title)
-            @Html.ValidationMessageFor(m => m.ViewModel.Password)
-            @Html.ValidationMessageFor(m => m.ViewModel.ConfirmPassword)
-            @Html.ValidationMessageFor(m => m.ViewModel.AgreeToTermsAndConditions)
-        </div>
+@using (Html.BeginUmbracoForm("RegisterForm", "RegisterSurface", null, new Dictionary<string, object> { { "class" , "register__form" } })) {
+        <section class="content-box">
 
-        <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.Email)
-        </div>
-        <div>
-            @Html.LabelFor(m => m.ViewModel.Email, Model.EmailLabel)
-            @Html.EditorFor(m => m.ViewModel.Email)
-        </div>
-        <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.ConfirmEmail)
-        </div>
-        <div>
-            @Html.LabelFor(m => m.ViewModel.ConfirmEmail, Model.ConfirmEmailLabel)
-            @Html.EditorFor(m => m.ViewModel.ConfirmEmail)
-        </div>
-        <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.FirstName)
-        </div>
-        <div>
-            @Html.LabelFor(m => m.ViewModel.FirstName, Model.FirstNameLabel)
-            @Html.EditorFor(m => m.ViewModel.FirstName)
-        </div>
-        <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.LastName)
-        </div>
-        <div>
-            @Html.LabelFor(m => m.ViewModel.LastName, Model.LastNameLabel)
-            @Html.EditorFor(m => m.ViewModel.LastName)
-        </div>
-        <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.Title)
-        </div>
-        <div>
-            @Html.LabelFor(m => m.ViewModel.Title, Model.TitleLabel)
-            @Html.DropDownListFor(m => m.ViewModel.Title, new SelectList(Model.TitleOptions, "Key", "Value", Model.ViewModel.Title))
-        </div>
-        <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.Password)
-        </div>
-        <div>
-            @Html.LabelFor(m => m.ViewModel.Password, Model.PasswordLabel)
-            @Html.PasswordFor(m => m.ViewModel.Password)
-        </div>
-        <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.ConfirmPassword)
-        </div>
-        <div>
-            @Html.LabelFor(m => m.ViewModel.ConfirmPassword, Model.ConfirmPasswordLabel)
-            @Html.PasswordFor(m => m.ViewModel.ConfirmPassword)
-        </div>
-        <div>
-            <span for="RoyalMailContactOptions">@Model.RoyalMailContactOptionsDisclaimer</span>
-        </div>
-        <div>
-            <label for="RoyalMailContactOptions">@Model.RoyalMailContactOptionsLabel</label>
-            @Html.EditorFor(m => m.ViewModel.MarketingPreferencesViewModel.RoyalMailMarketingPreferences)
-        </div>
-        <div>
-            <span for="ThirdPartyContactOptionsDisclaimer">@Model.ThirdPartyContactOptionsDisclaimer</span>
-        </div>
-        <div>
-            <label for="ThirdPartyContactOptions">@Model.ThirdPartyContactOptionsLabel</label>
-            @Html.EditorFor(m => m.ViewModel.MarketingPreferencesViewModel.ThirdPartyMarketingPreferences)
-        </div>
-        <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.AgreeToTermsAndConditions)
-        </div>
-        <div>
-            @Html.LabelFor(m => m.ViewModel.AgreeToTermsAndConditions, Model.AgreeToTermsAndConditionsLabel)
-            @Html.EditorFor(m => m.ViewModel.AgreeToTermsAndConditions)
-        </div>
-    </section>
+            <h2 class="heading01 heading01--line-on-sides"><span class="text">First we need a few details</span></h2>
 
-    <section>
-        @Html.DisplayFor(m => m.RequiredFieldsLabel)
-        <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode)
-            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.OrganisationName)
-            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.JobTitle)
-            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.FlatNumber)
-            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingNumber)
-            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingName)
-            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Address1)
-            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Address2)
-            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.City)
-            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Country)
-            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber)
-            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.MobilePhoneNumber)
-            @Html.ValidationMessageFor(m => m.ViewModel.IsRecaptchaValidated)
-        </div>
+            <div class="form-row">
+                <div class="required-field">@Html.DisplayFor(m => m.RequiredFieldsLabel)</div>
+            </div>
 
-        <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode)
-        </div>
-        <div>
-            @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode, Model.PostcodeLabel)
-            @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode)
-        </div>
-        <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.OrganisationName)
-        </div>
-        <div>
-            @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.OrganisationName, Model.OrganisationNameLabel)
-            @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.OrganisationName)
-        </div>
-        <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.JobTitle)
-        </div>
-        <div>
-            @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.JobTitle, Model.JobTitleLabel)
-            @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.JobTitle)
-        </div>
-        <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.FlatNumber)
-        </div>
-        <div>
-            @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.FlatNumber, Model.FlatNumberLabel)
-            @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.FlatNumber)
-        </div>
-        <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingNumber)
-        </div>
-        <div>
-            @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingNumber, Model.BuildingNumberLabel)
-            @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingNumber)
-        </div>
-        <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingName)
-        </div>
-        <div>
-            @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingName, Model.BuildingNameLabel)
-            @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingName)
-        </div>
-        <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Address1)
-        </div>
-        <div>
-            @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Address1, Model.Address1Label)
-            @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.Address1)
-        </div>
-        <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Address2)
-        </div>
-        <div>
-            @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Address2, Model.Address2Label)
-            @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.Address2)
-        </div>
-        <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.City)
-        </div>
-        <div>
-            @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.City, Model.CityLabel)
-            @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.City)
-        </div>
-        <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Country)
-        </div>
-        <div>
-            @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Country, Model.CountryLabel)
-            @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.Country)
-        </div>
-        <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber)
-        </div>
-        <div>
-            @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber, Model.WorkPhoneNumberLabel)
-            @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber)
-        </div>
-        <div>
-            @Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.MobilePhoneNumber)
-        </div>
-        <div>
-            @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.MobilePhoneNumber, Model.MobilePhoneNumberLabel)
-            @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.MobilePhoneNumber)
-        </div>
-        <div>
-            @Html.HiddenFor(m => m.ViewModel.IsRecaptchaValidated)
-            <div class="g-recaptcha" data-sitekey="@ConfigurationManager.AppSettings["RecaptchaSiteKey"]"></div>
-        </div>
-    </section>
+            <div class="form-row validation-messages">
+                <p>@Html.ValidationMessageFor(m => m.ViewModel.Email)</p>
+                <p>@Html.ValidationMessageFor(m => m.ViewModel.ConfirmEmail)</p>
+                <p>@Html.ValidationMessageFor(m => m.ViewModel.FirstName)</p>
+                <p>@Html.ValidationMessageFor(m => m.ViewModel.LastName)</p>
+                <p>@Html.ValidationMessageFor(m => m.ViewModel.Title)</p>
+                <p>@Html.ValidationMessageFor(m => m.ViewModel.Password)</p>
+                <p>@Html.ValidationMessageFor(m => m.ViewModel.ConfirmPassword)</p>
+                <p>@Html.ValidationMessageFor(m => m.ViewModel.AgreeToTermsAndConditions)</p>
+            </div>
 
-    <input type="submit" value="@Model.RegisterCtaText" />
+            <div class="form-row">
+                @Html.LabelFor(m => m.ViewModel.Email, Model.EmailLabel)
+                <div class="input-wrapper">
+                    @Html.EditorFor(m => m.ViewModel.Email)
+                </div>
+
+                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.Email)</p>
+            </div>
+
+            <div class="form-row">
+                @Html.LabelFor(m => m.ViewModel.ConfirmEmail, Model.ConfirmEmailLabel)
+                <div class="input-wrapper">
+                    @Html.EditorFor(m => m.ViewModel.ConfirmEmail)
+                </div>
+
+                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.ConfirmEmail)</p>
+            </div>
+
+            <div class="form-row">
+                @Html.LabelFor(m => m.ViewModel.FirstName, Model.FirstNameLabel)
+                <div class="input-wrapper">
+                    @Html.EditorFor(m => m.ViewModel.FirstName)
+                </div>
+                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.FirstName)</p>
+            </div>
+
+            <div class="form-row">
+                @Html.LabelFor(m => m.ViewModel.LastName, Model.LastNameLabel)
+                <div class="input-wrapper">
+                    @Html.EditorFor(m => m.ViewModel.LastName)
+                </div>
+                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.LastName)</p>
+            </div>
+
+
+            <div class="form-row">
+                @Html.LabelFor(m => m.ViewModel.Title, Model.TitleLabel)
+                <div class="input-wrapper">
+                    @Html.DropDownListFor(m => m.ViewModel.Title, new SelectList(Model.TitleOptions, "Key", "Value", Model.ViewModel.Title))
+                </div>
+                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.Title)</p>
+            </div>
+
+            <div class="form-row">
+                @Html.LabelFor(m => m.ViewModel.Password, Model.PasswordLabel)
+                <div class="input-wrapper">
+                    @Html.PasswordFor(m => m.ViewModel.Password)
+                </div>
+                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.Password)</p>
+            </div>
+
+
+            <div class="form-row">
+                @Html.LabelFor(m => m.ViewModel.ConfirmPassword, Model.ConfirmPasswordLabel)
+                <div class="input-wrapper">
+                    @Html.PasswordFor(m => m.ViewModel.ConfirmPassword)
+                </div>
+                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.ConfirmPassword)</p>
+            </div>
+
+
+            <hr>
+
+            <h3 class="heading01">We would like to keep you informed</h3>
+
+            <p>For full details of how we collect, use, share and protect your information, please refer to our <a href="/privacy-policy" title="Please read our Privacy Policy">Privacy Policy</a></p>
+
+
+            <div class="form-row form-row--align-left">
+                <div class="input-wrapper">
+                    <input id="royalMailMailAgreement" class="check-box" type="checkbox" value="true">
+                </div>
+                <label for="royalMailMailAgreement">I agree to be contacted about Royal Mail products, services, special offers and promotions. This could include post, email, telephone and SMS.</label>
+            </div>
+            <div class="form-row form-row--align-left">
+                <div class="input-wrapper">
+                    <input id="thirdPartyMailAgreement" class="check-box custom-checkbox" type="checkbox" value="true">
+                </div>
+                <label for="thirdPartyMailAgreement">I agree to be contacted about about products, services, special offers and promotions by carefully selected third parties. This could include post, email, telephone and SMS.</label>
+            </div>
+
+            <hr>
+
+@* 
+            <div>
+                <span for="RoyalMailContactOptions">@Model.RoyalMailContactOptionsDisclaimer</span>
+            </div>
+            <div>
+                <label for="RoyalMailContactOptions">@Model.RoyalMailContactOptionsLabel</label>
+                @Html.EditorFor(m => m.ViewModel.MarketingPreferencesViewModel.RoyalMailMarketingPreferences)
+            </div>
+            <div>
+                <span for="ThirdPartyContactOptionsDisclaimer">@Model.ThirdPartyContactOptionsDisclaimer</span>
+            </div>
+            <div>
+                <label for="ThirdPartyContactOptions">@Model.ThirdPartyContactOptionsLabel</label>
+                @Html.EditorFor(m => m.ViewModel.MarketingPreferencesViewModel.ThirdPartyMarketingPreferences)
+            </div>
+            <div>
+            </div> *@
+
+            <div class="form-row form-row--align-right">
+                @Html.LabelFor(m => m.ViewModel.AgreeToTermsAndConditions, Model.AgreeToTermsAndConditionsLabel)
+                @Html.EditorFor(m => m.ViewModel.AgreeToTermsAndConditions)
+
+                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.AgreeToTermsAndConditions)</p>
+            </div>
+
+            <div class="form-row form-row--align-right">
+                <a href="" class="btn btn--blue btn--next" data-bind="click: proceedToNextStage" title="">Next</a>
+            </div>
+        </section>
+
+
+
+
+        <section class="content-box">
+            <h2 class="heading01 heading01--line-on-sides">
+                <span class="text">About your organisation</span>
+            </h2>
+
+            <div class="form-row">
+                <div class="required-field"><span class="required-field__star">*</span> Indicates a required field</div>
+            </div>
+
+            <div class="form-row">
+                <label for="ViewModel_PostCode"><span class="required-field__star">*</span>Postcode:</label>
+                <div class="input-wrapper">
+                    <input class="text-box single-line" id="ViewModel_PostCode" name="ViewModel.PostCode" type="text" value="">
+                </div>
+            </div>
+
+            <div class="form-row form-row--align-right">
+                <a href="" class="btn btn--blue btn--next" data-bind="click: proceedToNextStage" title="">Find Address</a>
+            </div>
+        </section>
+
+
+
+
+
+        <section class="content-box">
+
+            <div class="form-row">
+                <div class="required-field">@Html.DisplayFor(m => m.RequiredFieldsLabel)</div>
+            </div>
+
+            <div class="form-row validation-messages">
+                <p>@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode)</p>
+                <p>@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.OrganisationName)</p>
+                <p>@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.JobTitle)</p>
+                <p>@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.FlatNumber)</p>
+                <p>@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingNumber)</p>
+                <p>@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingName)</p>
+                <p>@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Address1)</p>
+                <p>@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Address2)</p>
+                <p>@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.City)</p>
+                <p>@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Country)</p>
+                <p>@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber)</p>
+                <p>@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.MobilePhoneNumber)</p>
+                <p>@Html.ValidationMessageFor(m => m.ViewModel.IsRecaptchaValidated)</p>
+            </div>
+
+
+
+            <div class="form-row">
+                @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode, Model.PostcodeLabel)
+                <div class="input-wrapper">
+                    @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode)
+                </div>
+                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode)</p>
+            </div>
+
+            <div class="form-row">
+                @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.OrganisationName, Model.OrganisationNameLabel)
+                <div class="input-wrapper">
+                    @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.OrganisationName)
+                </div>
+
+                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.OrganisationName)</p>
+            </div>
+
+            <div class="form-row">
+                @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.JobTitle, Model.JobTitleLabel)
+                <div class="input-wrapper">
+                    @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.JobTitle)
+                </div>
+
+                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.JobTitle)</p>
+            </div>
+
+            <div class="form-row">
+                @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.FlatNumber, Model.FlatNumberLabel)
+                <div class="input-wrapper">
+                    @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.FlatNumber)
+                </div>
+
+                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.FlatNumber)</p>
+            </div>
+
+            <div class="form-row">
+                @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingNumber, Model.BuildingNumberLabel)
+                <div class="input-wrapper">
+                    @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingNumber)
+                </div>
+
+                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingNumber)</p>
+            </div>
+
+            <div class="form-row">
+                @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingName, Model.BuildingNameLabel)
+                <div class="input-wrapper">
+                    @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingName)
+                </div>
+
+                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingName)</p>
+            </div>
+
+            <div class="form-row">
+                @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Address1, Model.Address1Label)
+                <div class="input-wrapper">
+                    @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.Address1)
+                </div>
+                
+                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Address1)</p>
+            </div>
+
+            <div class="form-row">
+                @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Address2, Model.Address2Label)
+                <div class="input-wrapper">
+                    @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.Address2)
+                </div>
+
+                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Address2)</p>
+            </div>
+
+            <div class="form-row">
+                @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.City, Model.CityLabel)
+                <div class="input-wrapper">
+                    @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.City)
+                </div>
+                
+                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.City)</p>
+            </div>
+
+            <div class="form-row">
+                @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Country, Model.CountryLabel)
+                <div class="input-wrapper">
+                    @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.Country)
+                </div>
+
+                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Country)</p>
+            </div>
+
+            <div class="form-row">
+                @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber, Model.WorkPhoneNumberLabel)
+                <div class="input-wrapper">
+                    @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber)
+                </div>
+
+                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber)</p>
+            </div>
+
+            <div class="form-row">
+                @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.MobilePhoneNumber, Model.MobilePhoneNumberLabel)
+                <div class="input-wrapper">
+                    @Html.EditorFor(m => m.ViewModel.OrganisationDetailsViewModel.MobilePhoneNumber)
+                </div>
+
+                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.MobilePhoneNumber)</p>
+            </div>
+
+            <div class="form-row">
+                @Html.HiddenFor(m => m.ViewModel.IsRecaptchaValidated)
+                <div class="g-recaptcha" data-sitekey="@ConfigurationManager.AppSettings["RecaptchaSiteKey"]"></div>
+            </div>
+
+
+            <div class="form-row form-row--align-right">
+                <a href="" class="btn btn--green" data-bind="click: submitRegistration" title="">Register</a>
+            </div>
+
+            <input type="submit" value="@Model.RegisterCtaText" />
+        </section>
+
 }
+

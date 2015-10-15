@@ -9,7 +9,8 @@ require([
 		'components/myImages',
 		'components/pagination',
 		'components/error',
-		'components/notification'
+		'components/notification',
+		'components/register'
 	],
 	function(
 		ko, 
@@ -22,7 +23,8 @@ require([
 		myImagesComponent,
 		paginationComponent, 
 		errorComponent, 
-		notificationComponent
+		notificationComponent,
+		registerComponent
 	) {
 
 		// register components
@@ -33,6 +35,7 @@ require([
 		ko.components.register('pagination-component', paginationComponent);
 		ko.components.register('error-component', errorComponent);
 		ko.components.register('notification-component', notificationComponent);
+		ko.components.register('register-component', registerComponent);
 
 		koValidation.init({insertMessages: false});
 

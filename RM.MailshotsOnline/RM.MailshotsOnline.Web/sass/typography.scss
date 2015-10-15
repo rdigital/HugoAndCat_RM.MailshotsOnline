@@ -43,6 +43,10 @@ p {
 	&:last-child {
 		margin-bottom: 0;
 	}
+
+	&:first-child {
+		margin-bottom: 20px;
+	}
 }
 
 p.strong {
@@ -50,6 +54,21 @@ p.strong {
 	font-weight: normal;
 }
 
+hr {
+    border: 0 none;
+    height: 1px;
+    background-color: $color-silver;
+    margin: 60px 0;
+}
+
 input[type="checkbox"], input[type="radio"], select{
 	cursor: pointer;
+}
+
+.list {
+	padding: 0 0 0 16px; 
+	li {
+		list-style: disc;
+		padding-bottom: 20px;
+	}
 }

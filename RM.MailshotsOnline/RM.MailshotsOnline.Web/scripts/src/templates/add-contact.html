@@ -4,54 +4,76 @@
 			<button data-bind="click: closeModal" type="button" class="close-btn btn btn--icon"><span class="icon-close"></span></button>
 			<h2>Edit Contact</h2>
 			<p class="strong">Contact Name</p>
-			<div>
+			<div class="form-row">
 				<label for="editTitle">Title</label>
-				<input data-bind="value: contact.Title" type="text" id="editTitle">
+				<div class="input-wrapper">
+					<input data-bind="value: contact.Title" type="text" id="editTitle">
+				</div>
 			</div>
-			<div>
+			<div class="form-row">
 				<label for="editFirstName">First Name*</label>
-				<input data-bind="value: contact.FirstName" type="text" id="editFirstName">
+				<div class="input-wrapper">
+					<input data-bind="value: contact.FirstName" type="text" id="editFirstName">
+				</div>
 				<p class="validation-msg" data-bind="validationMessage: contact.FirstName"></p>
 			</div>
-			<div>
+			<div class="form-row">
 				<label for="editSurname">Surname*</label>
-				<input data-bind="value: contact.Surname" type="text" id="editSurname">
+				<div class="input-wrapper">
+					<input data-bind="value: contact.Surname" type="text" id="editSurname">
+				</div>
 				<p class="validation-msg" data-bind="validationMessage: contact.Surname"></p>
 			</div>
 
 			<p class="strong">Contact Address</p>
-			<div>
+			<div class="form-row">
 				<label for="editFlatId">Flat ID</label>
-				<input data-bind="value: contact.FlatId" type="text" id="editFlatId">
+				<div class="input-wrapper">
+					<input data-bind="value: contact.FlatId" type="text" id="editFlatId">
+				</div>
 			</div>
-			<div>
+			<div class="form-row">
 				<label for="editHouseName">House Name</label>
-				<input data-bind="value: contact.HouseName" type="text" id="editHouseName">
+				<div class="input-wrapper">
+					<input data-bind="value: contact.HouseName" type="text" id="editHouseName">
+				</div>
 			</div>
-			<div>
+			<div class="form-row">
 				<label for="editHouseNumber">House Number</label>
-				<input data-bind="value: contact.HouseNumber" type="text" id="editHouseNumber">
+				<div class="input-wrapper">
+					<input data-bind="value: contact.HouseNumber" type="text" id="editHouseNumber">
+				</div>
 			</div>
-			<div>
+			<div class="form-row">
 				<label for="editAddress1">Address 1*</label>
-				<input data-bind="value: contact.Address1" type="text" id="editAddress1">
+				<div class="input-wrapper">
+					<input data-bind="value: contact.Address1" type="text" id="editAddress1">
+				</div>
 				<p class="validation-msg" data-bind="validationMessage: contact.Address1"></p>
 			</div>
-			<div>
+			<div class="form-row">
 				<label for="editAddress2">Address 2</label>
-				<input data-bind="value: contact.Address2" type="text" id="editAddress2">
+				<div class="input-wrapper">
+					<input data-bind="value: contact.Address2" type="text" id="editAddress2">
+				</div>
 			</div>
-			<div>
+			<div class="form-row">
 				<label for="editAddress3">Address 3</label>
-				<input data-bind="value: contact.Address3" type="text" id="editAddress3">
+				<div class="input-wrapper">
+					<input data-bind="value: contact.Address3" type="text" id="editAddress3">
+				</div>
 			</div>
-			<div>
+			<div class="form-row">
 				<label for="editAddress4">Address 4</label>
-				<input data-bind="value: contact.Address4" type="text" id="editAddress4">
+				<div class="input-wrapper">
+					<input data-bind="value: contact.Address4" type="text" id="editAddress4">
+				</div>
 			</div>
-			<div>
+			<div class="form-row">
 				<label for="editPostCode">Postcode*</label>
-				<input data-bind="value: contact.PostCode" type="text" id="editPostCode">
+				<div class="input-wrapper">
+					<input data-bind="value: contact.PostCode" type="text" id="editPostCode">
+				</div>
 				<p class="validation-msg" data-bind="validationMessage: contact.PostCode"></p>
 			</div>
 			<div class="actions">

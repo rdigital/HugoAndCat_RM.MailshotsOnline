@@ -7,7 +7,6 @@ input[type="password"] {
 	box-sizing: border-box;
 	color: $text-grey;
 	font-family: $DINRegular;
-	margin-bottom: 20px;
 	padding: 10px 15px;
 	text-align: left;
 }
@@ -82,6 +81,7 @@ input {
 	position: relative;
 	transition: $btn-transition;
 	vertical-align: top;
+	display: inline-block;
 
 	.btn-icon {
 		position: absolute;
@@ -398,15 +398,35 @@ select {
 
 .validation-msg {
 	background-color: $text-grey;
-	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAXCAMAAADJPRQhAAABHVBMVEX92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iQAAFgEEVQNGVIOGVISHFETHVEUHVEXIFAZIk8bI08xNktDREhYVURaVkRpYkBxaD9zaj96bz16cD1/dDx/dTuHezqIezuIfDuKfTqPgTqQgjqThDiUhjmmlDS0nzLRti3dwCrwzifx0Sb43yP82ST91yX92CX92ST92iT+2yT+3CP+3SP+4CL/2yT/3CP/3CT/3SP/3iP/3yP/4CL/4SL/4SP/4iL/5CL/5iH/5yH/6CD/6SD/6iD/7SD/7h//7x//8R//8x7/9R1UNgS9AAAAHHRSTlMACxAUJSY0QE5faW94jJakpbbBxM7T2ubn6O/7Gzcj8QAAAPtJREFUeAFtyedC2lAAgNGwNy2DFsE9UFHcQ5R9PwGVASYRB/D+j6G5QUTI+XuUGYF/AcWSHbBbThgIW4ULg8tiIhgii+Gm1v3o1nAvTFw0K3eVpojPh5fGy9n6+aCBd26S9Fr723tPPZZ+hx866uHOwXMH/LNhS0Fby23ltDakbDMTAh5fTzaOBy0g9BOONHD/frF6+vYApB3T+YNhdLVyOcLw9zucSOOb5esxknMyMSStcFTQkGJmeJCEGI6HQiB55CSQ6np+N6/XkRJG+DDpxcxmpqhj8n3Nf0z9cnYtW+5jSipKkAmhlm5LqmAiqDBVVUdqlSklirXoJ3WnUE9OhskqAAAAAElFTkSuQmCC);
-	background-repeat: no-repeat;
-	background-position: 10px center;
+	bottom: calc(100% + 8px);
+	color: $white;
+	left: 90%;
+	padding: 7px 15px 7px 15px;
+	position: absolute;
+    width: 200px;
+    top: 5px;
+    display: inherit;
+
+
+	&:after {
+		border-top: 8px solid transparent;
+	    border-left: 0;
+	    border-right: 6px solid $text-grey;
+	    border-bottom: 6px solid transparent;
+		content: ' ';
+		left: -5px;
+		position: absolute;
+    	top: 10px;
+	}
+}
+
+.validation-msg--bottom {
+	background-color: $text-grey;
 	bottom: calc(100% + 8px);
 	color: $white;
 	left: 40%;
-	padding: 7px 15px 7px 50px;
+	padding: 7px 15px 7px 15px;
 	position: absolute;
-
 	&:after {
 		border-top: 8px solid $text-grey;
 	    border-left: 6px solid transparent;
@@ -416,5 +436,75 @@ select {
 		left: 15px;
 		position: absolute;
 		bottom: -8px;
+	}
+}
+
+.validation-msg--warn {
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAXCAMAAADJPRQhAAABHVBMVEX92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iT92iQAAFgEEVQNGVIOGVISHFETHVEUHVEXIFAZIk8bI08xNktDREhYVURaVkRpYkBxaD9zaj96bz16cD1/dDx/dTuHezqIezuIfDuKfTqPgTqQgjqThDiUhjmmlDS0nzLRti3dwCrwzifx0Sb43yP82ST91yX92CX92ST92iT+2yT+3CP+3SP+4CL/2yT/3CP/3CT/3SP/3iP/3yP/4CL/4SL/4SP/4iL/5CL/5iH/5yH/6CD/6SD/6iD/7SD/7h//7x//8R//8x7/9R1UNgS9AAAAHHRSTlMACxAUJSY0QE5faW94jJakpbbBxM7T2ubn6O/7Gzcj8QAAAPtJREFUeAFtyedC2lAAgNGwNy2DFsE9UFHcQ5R9PwGVASYRB/D+j6G5QUTI+XuUGYF/AcWSHbBbThgIW4ULg8tiIhgii+Gm1v3o1nAvTFw0K3eVpojPh5fGy9n6+aCBd26S9Fr723tPPZZ+hx866uHOwXMH/LNhS0Fby23ltDakbDMTAh5fTzaOBy0g9BOONHD/frF6+vYApB3T+YNhdLVyOcLw9zucSOOb5esxknMyMSStcFTQkGJmeJCEGI6HQiB55CSQ6np+N6/XkRJG+DDpxcxmpqhj8n3Nf0z9cnYtW+5jSipKkAmhlm5LqmAiqDBVVUdqlSklirXoJ3WnUE9OhskqAAAAAElFTkSuQmCC);
+	background-repeat: no-repeat;
+	background-position: 10px center;
+	padding-left: 15px;
+}
+
+
+.form-row {
+	padding: 0 70px;
+	margin-bottom: 20px;
+	display: table;
+	box-sizing: border-box;
+	position: relative;
+
+	label {
+	    text-align: right;
+	    min-width: 150px;
+	    width: 150px;
+	    display: table-cell;
+	    vertical-align: middle;
+	}
+	.input-wrapper {
+		margin-left: 20px;
+	}
+	.required-field {
+		margin-left: 170px; 
+	}
+
+	.required-field {
+	    margin-top: 15px;
+	    margin-bottom: 15px;
+	}
+
+	.select2,
+	select,
+	input {
+		width: 100%;
+	}
+}
+.form-row--align-right {
+	width: 100%;
+	text-align: right;
+	padding-left: 0;
+	padding-right: 0;
+
+	label {
+		min-width: 0;
+		width: auto;
+		text-align: auto;
+	}
+}
+.form-row--align-left {
+	width: 100%;
+	text-align: left;
+	padding-left: 0;
+	padding-right: 0;
+
+	label {
+		min-width: 0;
+		width: auto;
+		text-align: auto;
+		text-align: left;
+	}
+
+	.input-wrapper {
+		margin-left: 0;
 	}
 }

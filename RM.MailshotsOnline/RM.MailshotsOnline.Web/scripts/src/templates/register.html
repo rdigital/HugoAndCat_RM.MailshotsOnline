@@ -1,0 +1,263 @@
+
+<div class="register">
+    <div class="constrain">
+        <script src="https://www.google.com/recaptcha/api.js"></script>
+
+
+        <form action="/register/" enctype="multipart/form-data" method="post" class="register__form">    
+            
+            <section class="content-box">
+                <h2 class="heading01 heading01--line-on-sides"><span class="text">First we need a few details</span></h2>
+                
+                <div class="form-row">
+                    <div class="required-field"><span class="required-field__star">*</span> Indicates a required field</div>
+                </div>
+
+                <div class="form-row">
+                    <label for="ViewModel_Title"><span class="required-field__star">*</span>Title</label>
+                    <div class="input-wrapper">
+                        <select id="ViewModel_Title" name="ViewModel.Title" data-bind="template: {afterRender: initSelect}">
+                            <option value="21">Mr</option>
+                            <option value="22">Mrs</option>
+                            <option value="24">Miss</option>
+                            <option value="23">Ms</option>
+                            <option value="48">Mx</option>
+                            <option value="25">Dr</option>
+                            <option value="49">Sir</option>
+                            <option value="50">Dame</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label for="ViewModel_FirstName"><span class="required-field__star">*</span>First name</label>
+                    <div class="input-wrapper">
+                        <input class="text-box single-line" id="ViewModel_FirstName" name="ViewModel.FirstName" type="text" value="">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label for="ViewModel_LastName"><span class="required-field__star">*</span>Last name</label>
+                    <div class="input-wrapper">
+                        <input class="text-box single-line" id="ViewModel_LastName" name="ViewModel.LastName" type="text" value="">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label for="ViewModel_Email"><span class="required-field__star">*</span>Your email address</label>
+                    <div class="input-wrapper">
+                        <input class="text-box single-line" id="ViewModel_Email" name="ViewModel.Email" type="email" value="">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label for="ViewModel_ConfirmEmail"><span class="required-field__star">*</span>Confirm email address</label>
+                    <div class="input-wrapper">
+                        <input class="text-box single-line" id="ViewModel_ConfirmEmail" name="ViewModel.ConfirmEmail" type="text" value="">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label for="ViewModel_Password"><span class="required-field__star">*</span>Password</label>
+                    <div class="input-wrapper">
+                        <input id="ViewModel_Password" name="ViewModel.Password" type="password">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label for="ViewModel_ConfirmPassword"><span class="required-field__star">*</span>Confirm password</label>
+                    <div class="input-wrapper">
+                        <input id="ViewModel_ConfirmPassword" name="ViewModel.ConfirmPassword" type="password">
+                    </div>
+                </div>
+
+                <hr>
+
+                <h3 class="heading01">We would like to keep you informed</h3>
+                <div>
+                    <span for="RoyalMailContactOptions">For full details of how we collect, use, share and protect your information, please refer to our <a href="/privacy-policy" title="Please read our Privacy Policy">Privacy Policy</a></span>
+                </div>
+                <div>
+                    <label for="RoyalMailContactOptions"></label>
+
+
+                    <div class="form-row form-row--align-left">
+                        <div class="input-wrapper">
+                            <input id="royalMailMailAgreement" class="check-box" type="checkbox" value="true">
+                        </div>
+                        <label for="royalMailMailAgreement">I agree to be contacted about Royal Mail products, services, special offers and promotions. This could include post, email, telephone and SMS.</label>
+                    </div>
+                    <div class="form-row form-row--align-left">
+                        <div class="input-wrapper">
+                            <input id="thirdPartyMailAgreement" class="check-box custom-checkbox" type="checkbox" value="true">
+                        </div>
+                        <label for="thirdPartyMailAgreement">I agree to be contacted about about products, services, special offers and promotions by carefully selected third parties. This could include post, email, telephone and SMS.</label>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="form-row form-row--align-right">
+                    <label for="ViewModel_AgreeToTermsAndConditions"><span class="required-field__star">*</span>I agree to the <a href="/terms-conditions" title="Read the full terms and conditions">full terms and conditions</a> </label>
+                    
+                    <input class="check-box" id="ViewModel_AgreeToTermsAndConditions" name="ViewModel.AgreeToTermsAndConditions" type="checkbox" value="true">
+                    <input name="ViewModel.AgreeToTermsAndConditions" type="hidden" value="false">
+                </div>
+
+                <div class="form-row form-row--align-right">
+                    <a href="" class="btn btn--blue btn--next" data-bind="click: proceedToNextStage" title="">Next</a>
+                </div>
+            </section>
+
+
+
+
+
+
+            <section class="content-box">
+                <h2 class="heading01 heading01--line-on-sides">
+                    <span class="text">About your organisation</span>
+                </h2>
+
+                <div class="form-row">
+                    <div class="required-field"><span class="required-field__star">*</span> Indicates a required field</div>
+                </div>
+
+                <div class="form-row">
+                    <label for="ViewModel_PostCode"><span class="required-field__star">*</span>Postcode:</label>
+                    <div class="input-wrapper">
+                        <input class="text-box single-line" id="ViewModel_PostCode" name="ViewModel.PostCode" type="text" value="">
+                    </div>
+                </div>
+
+                <div class="form-row form-row--align-right">
+                    <a href="" class="btn btn--blue btn--next" data-bind="click: proceedToNextStage" title="">Find Address</a>
+                </div>
+            </section>
+
+
+
+
+
+
+
+            <section class="content-box">
+                <div class="form-row">
+                    <div class="required-field"><span class="required-field__star">*</span> Indicates a required field</div>
+                </div>
+
+                <div class="form-row">
+                    <label for="ViewModel_OrganisationDetailsViewModel_OrganisationName">Name of your business or organisation <span class="required-field__star">*</span></label>
+                    
+                    <div class="input-wrapper">
+                        <input class="text-box single-line" id="ViewModel_OrganisationDetailsViewModel_OrganisationName" name="ViewModel.OrganisationDetailsViewModel.OrganisationName" type="text" value="">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label for="ViewModel_OrganisationDetailsViewModel_JobTitle"><span class="required-field__star">*</span>Your job title </label>
+                    <div class="input-wrapper">
+                        <input class="text-box single-line" id="ViewModel_OrganisationDetailsViewModel_JobTitle" name="ViewModel.OrganisationDetailsViewModel.JobTitle" type="text" value="">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label for="ViewModel_OrganisationDetailsViewModel_FlatNumber">Flat number</label>
+                    <div class="input-wrapper">
+                        <input class="text-box single-line" id="ViewModel_OrganisationDetailsViewModel_FlatNumber" name="ViewModel.OrganisationDetailsViewModel.FlatNumber" type="text" value="">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label for="ViewModel_OrganisationDetailsViewModel_BuildingNumber">Building number</label>
+                    <div class="input-wrapper">
+                        <input class="text-box single-line" id="ViewModel_OrganisationDetailsViewModel_BuildingNumber" name="ViewModel.OrganisationDetailsViewModel.BuildingNumber" type="text" value="">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label for="ViewModel_OrganisationDetailsViewModel_Address1"><span class="required-field__star">*</span>Street address 1 </label>
+                    <div class="input-wrapper">
+                        <input class="text-box single-line" id="ViewModel_OrganisationDetailsViewModel_Address1" name="ViewModel.OrganisationDetailsViewModel.Address1" type="text" value="">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label for="ViewModel_OrganisationDetailsViewModel_Address2">Street address 2</label>
+                    <div class="input-wrapper">
+                        <input class="text-box single-line" id="ViewModel_OrganisationDetailsViewModel_Address2" name="ViewModel.OrganisationDetailsViewModel.Address2" type="text" value="">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label for="ViewModel_OrganisationDetailsViewModel_City"><span class="required-field__star">*</span>Town/city </label>
+                    <div class="input-wrapper">
+                        <input class="text-box single-line" id="ViewModel_OrganisationDetailsViewModel_City" name="ViewModel.OrganisationDetailsViewModel.City" type="text" value="">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label for="ViewModel_OrganisationDetailsViewModel_Postcode"><span class="required-field__star">*</span>Postcode </label>
+                    
+                    <div class="input-wrapper">
+                        <input class="text-box single-line" id="ViewModel_OrganisationDetailsViewModel_Postcode" name="ViewModel.OrganisationDetailsViewModel.Postcode" type="text" value="">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label for="ViewModel_OrganisationDetailsViewModel_Country"><span class="required-field__star">*</span>Country </label>
+                    <div class="input-wrapper">
+                        <input class="text-box single-line" id="ViewModel_OrganisationDetailsViewModel_Country" name="ViewModel.OrganisationDetailsViewModel.Country" type="text" value="">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label for="ViewModel_OrganisationDetailsViewModel_WorkPhoneNumber"><span class="required-field__star">*</span>Work phone number </label>
+                    <div class="input-wrapper">
+                        <input class="text-box single-line" id="ViewModel_OrganisationDetailsViewModel_WorkPhoneNumber" name="ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber" type="text" value="">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label for="ViewModel_OrganisationDetailsViewModel_MobilePhoneNumber">Mobile phone number</label>
+                    <div class="input-wrapper">
+                        <input class="text-box single-line" id="ViewModel_OrganisationDetailsViewModel_MobilePhoneNumber" name="ViewModel.OrganisationDetailsViewModel.MobilePhoneNumber" type="text" value="">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <input id="ViewModel_IsRecaptchaValidated" name="ViewModel.IsRecaptchaValidated" type="hidden" value="False">
+                    <div class="g-recaptcha" data-sitekey="6LecKwoTAAAAABNgC26LCUFC9bhTODQv8McHP25G"></div>
+                </div>
+
+                <div class="form-row form-row--align-right">
+                    <a href="" class="btn btn--green" data-bind="click: submitRegistration" title="">Register</a>
+                </div>
+
+<!-- 
+                <div class="form-row">
+                    <label for="ViewModel_OrganisationDetailsViewModel_BuildingName">Building name</label>
+                    <div class="input-wrapper">
+                        <input class="text-box single-line" id="ViewModel_OrganisationDetailsViewModel_BuildingName" name="ViewModel.OrganisationDetailsViewModel.BuildingName" type="text" value="">
+                    </div>
+                </div>
+ -->
+
+                
+            </section>
+
+            <!-- 
+                <input type="submit" value="Register"> 
+            -->
+            <input name="ufprt" type="hidden" value="A0145E7F1E2AFBEEAD0B3A39CB75E9D33F8697B1DF7632D1AEED02D89BE9994D613B4466F58689CEA01ED259972280DFEA28C996CD25AEAAF60266FF52D027D83533F6819D9E3E5C515353E0451A647336FA8B265771FC3F24CA1FC6A0CE5760CB654F53F858FE8D92325CCCB2DEBE7DE412E73B8C64995F51D7BABA858257A894445DE3E5F7D5D75EEE4ACB7ED73EF091F6B9553565C4EE7139E7C772F2071A">
+        </form>
+
+        <div class="register__sidebar">
+            <h2 class="callout">Why Register?</h2>
+            <div class="register__infobox">
+                <p>Register with Royal Mail Mailshots Online and you'll be able to:</p>
+
+                <ul class="list">
+                    <li>Create effective direct mail campaigns</li>
+                    <li>Save designs, images and customer lists to your account</li>
+                    <li>Send campaigns to print</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
