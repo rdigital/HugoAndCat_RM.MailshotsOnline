@@ -132,6 +132,11 @@ define(['knockout', 'view_models/data', 'view_models/user', 'temp/data'],
             return (classObj) ? classObj.font_sizes : [];
         };
 
+        themeViewModel.prototype.getVerticalMiddle = function getVerticalMiddle(name) {
+            var classObj = this.getClassByName(name);
+            return (classObj) ? (classObj.vertical_middle || false) : false;
+        };
+
         /**
          * get the available fonts for a theme
          * @return {Object} name value pairs for available fonts

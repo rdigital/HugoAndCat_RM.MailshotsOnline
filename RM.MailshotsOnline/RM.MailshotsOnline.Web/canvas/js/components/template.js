@@ -38,7 +38,7 @@ define(['knockout', 'view_models/format', 'view_models/template', 'view_models/u
          */
         templateComponentViewModel.prototype.selectTemplate = function selectTemplate(template) {
             if (userViewModel.objects.templateID() != template.id) {
-                userViewModel.resetUserFontSizes();
+                //userViewModel.resetUserFontSizes();
                 stateViewModel.repositionImages = true;
                 userViewModel.objects.templateID(template.id);
             }

@@ -16,15 +16,15 @@ define([],
                         {
                             name:'Front',
                             side:'front',
-                            width: 849,
-                            height: 600,
+                            width: 840, //210mm - ratio = 4 pixels per mm
+                            height: 592, //148mm
                             default_face: true
                         },
                         {
                             name:'Back',
                             side:'back',
-                            width: 849,
-                            height: 600
+                            width: 840,
+                            height: 592
                         }
                     ]
                 },
@@ -35,7 +35,7 @@ define([],
                         {
                             name:'Front',
                             side:'front',
-                            width: 849,
+                            width: 851,
                             height: 1200,
                             default_face: true
                         }
@@ -48,20 +48,20 @@ define([],
                         {
                             name:'Front',
                             side:'front',
-                            width: 849,
+                            width: 851,
                             height: 600,
                             default_face: true
                         },
                         {
                             name:'Back',
                             side:'front',
-                            width: 849,
+                            width: 851,
                             height: 600
                         },
                         {
                             name:'Inside',
                             side:'back',
-                            width: 849,
+                            width: 851,
                             height: 1200
                         }
                     ]
@@ -71,7 +71,7 @@ define([],
             this.templateData = [
 
                 // card templates
-                /*{  
+                {  
                     id:4,
                     format_id:2,
                     name:"Card Template 1",
@@ -79,7 +79,7 @@ define([],
                         {  
                             name:"logo",
                             face:"Front",
-                            type:"image",
+                            type:"logo",
                             theme_class:"logo",
                             layout:[  
                                 {  
@@ -124,39 +124,11 @@ define([],
                                 },
                                 {  
                                     property:"width",
-                                    value:"449px"
+                                    value:"440px"
                                 },
                                 {  
                                     property:"height",
-                                    value:"600px"
-                                }
-                            ]
-                        },
-                        {  
-                            name:"greeting",
-                            face:"Front",
-                            type:"html",
-                            theme_class:"greeting",
-                            layout:[  
-                                {  
-                                    property:"position",
-                                    value:"absolute"
-                                },
-                                {  
-                                    property:"top",
-                                    value:"160px"
-                                },
-                                {  
-                                    property:"left",
-                                    value:"40px"
-                                },
-                                {  
-                                    property:"width",
-                                    value:"330px"
-                                },
-                                {  
-                                    property:"height",
-                                    value:"30px"
+                                    value:"592px"
                                 }
                             ]
                         },
@@ -164,7 +136,7 @@ define([],
                             name:"headline",
                             face:"Front",
                             type:"html",
-                            theme_class:"headline",
+                            theme_class:"headline_1",
                             layout:[  
                                 {  
                                     property:"position",
@@ -172,7 +144,7 @@ define([],
                                 },
                                 {  
                                     property:"top",
-                                    value:"210px"
+                                    value:"180px"
                                 },
                                 {  
                                     property:"left",
@@ -184,7 +156,7 @@ define([],
                                 },
                                 {  
                                     property:"height",
-                                    value:"170px"
+                                    value:"180px"
                                 }
                             ]
                         },
@@ -192,7 +164,7 @@ define([],
                             name:"subline",
                             face:"Front",
                             type:"html",
-                            theme_class:"subline",
+                            theme_class:"subline_1",
                             layout:[  
                                 {  
                                     property:"position",
@@ -200,7 +172,7 @@ define([],
                                 },
                                 {  
                                     property:"top",
-                                    value:"400px"
+                                    value:"370px"
                                 },
                                 {  
                                     property:"left",
@@ -212,7 +184,7 @@ define([],
                                 },
                                 {  
                                     property:"height",
-                                    value:"50px"
+                                    value:"70px"
                                 }
                             ]
                         },
@@ -228,7 +200,7 @@ define([],
                                 },
                                 {  
                                     property:"top",
-                                    value:"480px"
+                                    value:"470px"
                                 },
                                 {  
                                     property:"left",
@@ -240,7 +212,7 @@ define([],
                                 },
                                 {  
                                     property:"height",
-                                    value:"80px"
+                                    value:"85px"
                                 }
                             ]
                         },
@@ -280,7 +252,7 @@ define([],
                         {  
                             name:"back_logo",
                             face:"Back",
-                            type:"image",
+                            type:"logo",
                             theme_class:"logo",
                             layout:[  
                                 {  
@@ -297,11 +269,11 @@ define([],
                                 },
                                 {  
                                     property:"width",
-                                    value:"200px"
+                                    value:"100px"
                                 },
                                 {  
                                     property:"height",
-                                    value:"90px"
+                                    value:"50px"
                                 }
                             ]
                         },
@@ -309,7 +281,7 @@ define([],
                             name:"back_headline",
                             face:"Back",
                             type:"html",
-                            theme_class:"back_headline",
+                            theme_class:"headline_2",
                             layout:[  
                                 {  
                                     property:"position",
@@ -317,7 +289,7 @@ define([],
                                 },
                                 {  
                                     property:"top",
-                                    value:"150px"
+                                    value:"110px"
                                 },
                                 {  
                                     property:"left",
@@ -325,11 +297,11 @@ define([],
                                 },
                                 {  
                                     property:"width",
-                                    value:"400px"
+                                    value:"390px"
                                 },
                                 {  
                                     property:"height",
-                                    value:"100px"
+                                    value:"80px"
                                 }
                             ]
                         },
@@ -337,7 +309,7 @@ define([],
                             name:"body",
                             face:"Back",
                             type:"html",
-                            theme_class:"back_body",
+                            theme_class:"body_2",
                             layout:[  
                                 {  
                                     property:"position",
@@ -345,7 +317,7 @@ define([],
                                 },
                                 {  
                                     property:"top",
-                                    value:"260px"
+                                    value:"220px"
                                 },
                                 {  
                                     property:"left",
@@ -353,7 +325,7 @@ define([],
                                 },
                                 {  
                                     property:"width",
-                                    value:"400px"
+                                    value:"390px"
                                 },
                                 {  
                                     property:"height",
@@ -373,7 +345,7 @@ define([],
                                 },
                                 {  
                                     property:"top",
-                                    value:"460px"
+                                    value:"440px"
                                 },
                                 {  
                                     property:"left",
@@ -381,7 +353,7 @@ define([],
                                 },
                                 {  
                                     property:"width",
-                                    value:"400px"
+                                    value:"390px"
                                 },
                                 {  
                                     property:"height",
@@ -390,7 +362,63 @@ define([],
                             ]
                         },
                         {
-                            name: "Postage Info",
+                            name: "footer",
+                            face:"Back",
+                            type:"html",
+                            theme_class:"body_2",
+                            layout:[  
+                                {  
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {  
+                                    property:"top",
+                                    value:"520px"
+                                },
+                                {  
+                                    property:"left",
+                                    value:"40px"
+                                },
+                                {  
+                                    property:"width",
+                                    value:"250px"
+                                },
+                                {  
+                                    property:"height",
+                                    value:"40px"
+                                }
+                            ]
+                        },
+                        {
+                            name: "return_address",
+                            face:"Back",
+                            type:"html",
+                            theme_class:"body_2",
+                            layout:[  
+                                {  
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {  
+                                    property:"top",
+                                    value:"450px"
+                                },
+                                {  
+                                    property:"right",
+                                    value:"70px"
+                                },
+                                {  
+                                    property:"width",
+                                    value:"230px"
+                                },
+                                {  
+                                    property:"height",
+                                    value:"60px"
+                                }
+                            ]
+                        },
+                        {
+                            name: "Indicia",
                             face:"Back",
                             type:"noprint",
                             theme_class:"noprint",
@@ -404,24 +432,24 @@ define([],
                                     value:"0"
                                 },
                                 {  
-                                    property:"left",
-                                    value:"520px"
+                                    property:"right",
+                                    value:"0"
                                 },
                                 {  
                                     property:"width",
-                                    value:"329px"
+                                    value:"300px"
                                 },
                                 {  
                                     property:"height",
-                                    value:"600px"
+                                    value:"160px"
                                 }
                             ]
                         },
                         {
-                            name: "footer",
+                            name: "Tag Codemark",
                             face:"Back",
-                            type:"html",
-                            theme_class:"footer",
+                            type:"noprint",
+                            theme_class:"noprint",
                             layout:[  
                                 {  
                                     property:"position",
@@ -429,11 +457,11 @@ define([],
                                 },
                                 {  
                                     property:"top",
-                                    value:"540px"
+                                    value:"160px"
                                 },
                                 {  
-                                    property:"left",
-                                    value:"40px"
+                                    property:"right",
+                                    value:"0"
                                 },
                                 {  
                                     property:"width",
@@ -442,6 +470,90 @@ define([],
                                 {  
                                     property:"height",
                                     value:"40px"
+                                }
+                            ]
+                        },
+                        {
+                            name: "Route Codemark",
+                            face:"Back",
+                            type:"noprint",
+                            theme_class:"noprint",
+                            layout:[  
+                                {  
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {  
+                                    property:"bottom",
+                                    value:"0"
+                                },
+                                {  
+                                    property:"right",
+                                    value:"0"
+                                },
+                                {  
+                                    property:"width",
+                                    value:"520px"
+                                },
+                                {  
+                                    property:"height",
+                                    value:"72px"
+                                }
+                            ]
+                        },
+                        {
+                            name: "",
+                            face:"Back",
+                            type:"noprint",
+                            theme_class:"noprint",
+                            layout:[  
+                                {  
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {  
+                                    property:"top",
+                                    value:"200px"
+                                },
+                                {  
+                                    property:"right",
+                                    value:"0"
+                                },
+                                {  
+                                    property:"width",
+                                    value:"60px"
+                                },
+                                {  
+                                    property:"height",
+                                    value:"320px"
+                                }
+                            ]
+                        },
+                        {
+                            name: "Delivery Address",
+                            face:"Back",
+                            type:"noprint",
+                            theme_class:"noprint",
+                            layout:[  
+                                {  
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {  
+                                    property:"top",
+                                    value:"200px"
+                                },
+                                {  
+                                    property:"right",
+                                    value:"60px"
+                                },
+                                {  
+                                    property:"width",
+                                    value:"240px"
+                                },
+                                {  
+                                    property:"height",
+                                    value:"240px"
                                 }
                             ]
                         }
@@ -455,7 +567,7 @@ define([],
                         {  
                             name:"logo",
                             face:"Front",
-                            type:"image",
+                            type:"logo",
                             theme_class:"logo",
                             layout:[  
                                 {  
@@ -500,39 +612,11 @@ define([],
                                 },
                                 {  
                                     property:"width",
-                                    value:"449px"
+                                    value:"440px"
                                 },
                                 {  
                                     property:"height",
-                                    value:"600px"
-                                }
-                            ]
-                        },
-                        {  
-                            name:"greeting",
-                            face:"Front",
-                            type:"html",
-                            theme_class:"greeting",
-                            layout:[  
-                                {  
-                                    property:"position",
-                                    value:"absolute"
-                                },
-                                {  
-                                    property:"top",
-                                    value:"160px"
-                                },
-                                {  
-                                    property:"left",
-                                    value:"40px"
-                                },
-                                {  
-                                    property:"width",
-                                    value:"330px"
-                                },
-                                {  
-                                    property:"height",
-                                    value:"30px"
+                                    value:"592px"
                                 }
                             ]
                         },
@@ -540,7 +624,7 @@ define([],
                             name:"headline",
                             face:"Front",
                             type:"html",
-                            theme_class:"headline",
+                            theme_class:"headline_1",
                             layout:[  
                                 {  
                                     property:"position",
@@ -548,7 +632,7 @@ define([],
                                 },
                                 {  
                                     property:"top",
-                                    value:"210px"
+                                    value:"180px"
                                 },
                                 {  
                                     property:"left",
@@ -560,7 +644,7 @@ define([],
                                 },
                                 {  
                                     property:"height",
-                                    value:"170px"
+                                    value:"180px"
                                 }
                             ]
                         },
@@ -568,7 +652,7 @@ define([],
                             name:"subline",
                             face:"Front",
                             type:"html",
-                            theme_class:"subline",
+                            theme_class:"subline_1",
                             layout:[  
                                 {  
                                     property:"position",
@@ -576,7 +660,7 @@ define([],
                                 },
                                 {  
                                     property:"top",
-                                    value:"400px"
+                                    value:"370px"
                                 },
                                 {  
                                     property:"left",
@@ -588,7 +672,7 @@ define([],
                                 },
                                 {  
                                     property:"height",
-                                    value:"50px"
+                                    value:"70px"
                                 }
                             ]
                         },
@@ -604,7 +688,7 @@ define([],
                                 },
                                 {  
                                     property:"top",
-                                    value:"480px"
+                                    value:"470px"
                                 },
                                 {  
                                     property:"left",
@@ -616,14 +700,14 @@ define([],
                                 },
                                 {  
                                     property:"height",
-                                    value:"80px"
+                                    value:"85px"
                                 }
                             ]
                         },
                         {  
                             name:"back_logo",
                             face:"Back",
-                            type:"image",
+                            type:"logo",
                             theme_class:"logo",
                             layout:[  
                                 {  
@@ -640,11 +724,11 @@ define([],
                                 },
                                 {  
                                     property:"width",
-                                    value:"200px"
+                                    value:"100px"
                                 },
                                 {  
                                     property:"height",
-                                    value:"90px"
+                                    value:"50px"
                                 }
                             ]
                         },
@@ -652,7 +736,7 @@ define([],
                             name:"back_headline",
                             face:"Back",
                             type:"html",
-                            theme_class:"back_headline",
+                            theme_class:"headline_2",
                             layout:[  
                                 {  
                                     property:"position",
@@ -660,7 +744,7 @@ define([],
                                 },
                                 {  
                                     property:"top",
-                                    value:"150px"
+                                    value:"110px"
                                 },
                                 {  
                                     property:"left",
@@ -668,11 +752,11 @@ define([],
                                 },
                                 {  
                                     property:"width",
-                                    value:"400px"
+                                    value:"390px"
                                 },
                                 {  
                                     property:"height",
-                                    value:"100px"
+                                    value:"80px"
                                 }
                             ]
                         },
@@ -680,7 +764,7 @@ define([],
                             name:"body",
                             face:"Back",
                             type:"html",
-                            theme_class:"back_body",
+                            theme_class:"body_2",
                             layout:[  
                                 {  
                                     property:"position",
@@ -688,7 +772,7 @@ define([],
                                 },
                                 {  
                                     property:"top",
-                                    value:"260px"
+                                    value:"220px"
                                 },
                                 {  
                                     property:"left",
@@ -696,7 +780,7 @@ define([],
                                 },
                                 {  
                                     property:"width",
-                                    value:"400px"
+                                    value:"390px"
                                 },
                                 {  
                                     property:"height",
@@ -716,7 +800,7 @@ define([],
                                 },
                                 {  
                                     property:"top",
-                                    value:"460px"
+                                    value:"440px"
                                 },
                                 {  
                                     property:"left",
@@ -724,16 +808,72 @@ define([],
                                 },
                                 {  
                                     property:"width",
-                                    value:"400px"
+                                    value:"390px"
                                 },
                                 {  
                                     property:"height",
-                                    value:"80px"
+                                    value:"70px"
                                 }
                             ]
                         },
                         {
-                            name: "Postage Info",
+                            name: "footer",
+                            face:"Back",
+                            type:"html",
+                            theme_class:"body_2",
+                            layout:[  
+                                {  
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {  
+                                    property:"top",
+                                    value:"520px"
+                                },
+                                {  
+                                    property:"left",
+                                    value:"40px"
+                                },
+                                {  
+                                    property:"width",
+                                    value:"250px"
+                                },
+                                {  
+                                    property:"height",
+                                    value:"40px"
+                                }
+                            ]
+                        },
+                        {
+                            name: "return_address",
+                            face:"Back",
+                            type:"html",
+                            theme_class:"body_2",
+                            layout:[  
+                                {  
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {  
+                                    property:"top",
+                                    value:"450px"
+                                },
+                                {  
+                                    property:"right",
+                                    value:"70px"
+                                },
+                                {  
+                                    property:"width",
+                                    value:"230px"
+                                },
+                                {  
+                                    property:"height",
+                                    value:"60px"
+                                }
+                            ]
+                        },
+                        {
+                            name: "Indicia",
                             face:"Back",
                             type:"noprint",
                             theme_class:"noprint",
@@ -747,24 +887,24 @@ define([],
                                     value:"0"
                                 },
                                 {  
-                                    property:"left",
-                                    value:"520px"
+                                    property:"right",
+                                    value:"0"
                                 },
                                 {  
                                     property:"width",
-                                    value:"329px"
+                                    value:"300px"
                                 },
                                 {  
                                     property:"height",
-                                    value:"600px"
+                                    value:"160px"
                                 }
                             ]
                         },
                         {
-                            name: "footer",
+                            name: "Tag Codemark",
                             face:"Back",
-                            type:"html",
-                            theme_class:"footer",
+                            type:"noprint",
+                            theme_class:"noprint",
                             layout:[  
                                 {  
                                     property:"position",
@@ -772,11 +912,11 @@ define([],
                                 },
                                 {  
                                     property:"top",
-                                    value:"540px"
+                                    value:"160px"
                                 },
                                 {  
-                                    property:"left",
-                                    value:"40px"
+                                    property:"right",
+                                    value:"0"
                                 },
                                 {  
                                     property:"width",
@@ -785,6 +925,90 @@ define([],
                                 {  
                                     property:"height",
                                     value:"40px"
+                                }
+                            ]
+                        },
+                        {
+                            name: "Route Codemark",
+                            face:"Back",
+                            type:"noprint",
+                            theme_class:"noprint",
+                            layout:[  
+                                {  
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {  
+                                    property:"bottom",
+                                    value:"0"
+                                },
+                                {  
+                                    property:"right",
+                                    value:"0"
+                                },
+                                {  
+                                    property:"width",
+                                    value:"520px"
+                                },
+                                {  
+                                    property:"height",
+                                    value:"72px"
+                                }
+                            ]
+                        },
+                        {
+                            name: "",
+                            face:"Back",
+                            type:"noprint",
+                            theme_class:"noprint",
+                            layout:[  
+                                {  
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {  
+                                    property:"top",
+                                    value:"200px"
+                                },
+                                {  
+                                    property:"right",
+                                    value:"0"
+                                },
+                                {  
+                                    property:"width",
+                                    value:"60px"
+                                },
+                                {  
+                                    property:"height",
+                                    value:"320px"
+                                }
+                            ]
+                        },
+                        {
+                            name: "Delivery Address",
+                            face:"Back",
+                            type:"noprint",
+                            theme_class:"noprint",
+                            layout:[  
+                                {  
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {  
+                                    property:"top",
+                                    value:"200px"
+                                },
+                                {  
+                                    property:"right",
+                                    value:"60px"
+                                },
+                                {  
+                                    property:"width",
+                                    value:"240px"
+                                },
+                                {  
+                                    property:"height",
+                                    value:"240px"
                                 }
                             ]
                         }
@@ -815,7 +1039,7 @@ define([],
                                 },
                                 {  
                                     property:"width",
-                                    value:"849px"
+                                    value:"840px"
                                 },
                                 {  
                                     property:"height",
@@ -826,7 +1050,7 @@ define([],
                         {  
                             name:"logo",
                             face:"Front",
-                            type:"image",
+                            type:"logo",
                             theme_class:"logo",
                             layout:[  
                                 {  
@@ -834,8 +1058,8 @@ define([],
                                     value:"absolute"
                                 },
                                 {  
-                                    property:"bottom",
-                                    value:"30px"
+                                    property:"top",
+                                    value:"445px"
                                 },
                                 {  
                                     property:"right",
@@ -847,7 +1071,7 @@ define([],
                                 },
                                 {  
                                     property:"height",
-                                    value:"100px"
+                                    value:"125px"
                                 }
                             ]
                         },
@@ -855,7 +1079,7 @@ define([],
                             name:"headline",
                             face:"Front",
                             type:"html",
-                            theme_class:"headline",
+                            theme_class:"headline_1",
                             layout:[  
                                 {  
                                     property:"position",
@@ -863,7 +1087,7 @@ define([],
                                 },
                                 {  
                                     property:"top",
-                                    value:"400px"
+                                    value:"445px"
                                 },
                                 {  
                                     property:"left",
@@ -875,7 +1099,7 @@ define([],
                                 },
                                 {  
                                     property:"height",
-                                    value:"130px"
+                                    value:"125px"
                                 }
                             ]
                         },
@@ -915,7 +1139,7 @@ define([],
                         {  
                             name:"back_logo",
                             face:"Back",
-                            type:"image",
+                            type:"logo",
                             theme_class:"logo",
                             layout:[  
                                 {  
@@ -932,11 +1156,11 @@ define([],
                                 },
                                 {  
                                     property:"width",
-                                    value:"200px"
+                                    value:"100px"
                                 },
                                 {  
                                     property:"height",
-                                    value:"90px"
+                                    value:"50px"
                                 }
                             ]
                         },
@@ -944,7 +1168,7 @@ define([],
                             name:"back_headline",
                             face:"Back",
                             type:"html",
-                            theme_class:"back_headline",
+                            theme_class:"headline_2",
                             layout:[  
                                 {  
                                     property:"position",
@@ -952,7 +1176,7 @@ define([],
                                 },
                                 {  
                                     property:"top",
-                                    value:"150px"
+                                    value:"110px"
                                 },
                                 {  
                                     property:"left",
@@ -960,11 +1184,11 @@ define([],
                                 },
                                 {  
                                     property:"width",
-                                    value:"400px"
+                                    value:"390px"
                                 },
                                 {  
                                     property:"height",
-                                    value:"100px"
+                                    value:"80px"
                                 }
                             ]
                         },
@@ -972,7 +1196,7 @@ define([],
                             name:"body",
                             face:"Back",
                             type:"html",
-                            theme_class:"back_body",
+                            theme_class:"body_2",
                             layout:[  
                                 {  
                                     property:"position",
@@ -980,7 +1204,7 @@ define([],
                                 },
                                 {  
                                     property:"top",
-                                    value:"260px"
+                                    value:"220px"
                                 },
                                 {  
                                     property:"left",
@@ -988,7 +1212,7 @@ define([],
                                 },
                                 {  
                                     property:"width",
-                                    value:"400px"
+                                    value:"390px"
                                 },
                                 {  
                                     property:"height",
@@ -1008,7 +1232,7 @@ define([],
                                 },
                                 {  
                                     property:"top",
-                                    value:"460px"
+                                    value:"440px"
                                 },
                                 {  
                                     property:"left",
@@ -1016,16 +1240,72 @@ define([],
                                 },
                                 {  
                                     property:"width",
-                                    value:"400px"
+                                    value:"390px"
                                 },
                                 {  
                                     property:"height",
-                                    value:"80px"
+                                    value:"70px"
                                 }
                             ]
                         },
                         {
-                            name: "Postage Info",
+                            name: "footer",
+                            face:"Back",
+                            type:"html",
+                            theme_class:"body_2",
+                            layout:[  
+                                {  
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {  
+                                    property:"top",
+                                    value:"520px"
+                                },
+                                {  
+                                    property:"left",
+                                    value:"40px"
+                                },
+                                {  
+                                    property:"width",
+                                    value:"250px"
+                                },
+                                {  
+                                    property:"height",
+                                    value:"40px"
+                                }
+                            ]
+                        },
+                        {
+                            name: "return_address",
+                            face:"Back",
+                            type:"html",
+                            theme_class:"body_2",
+                            layout:[  
+                                {  
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {  
+                                    property:"top",
+                                    value:"450px"
+                                },
+                                {  
+                                    property:"right",
+                                    value:"70px"
+                                },
+                                {  
+                                    property:"width",
+                                    value:"230px"
+                                },
+                                {  
+                                    property:"height",
+                                    value:"60px"
+                                }
+                            ]
+                        },
+                        {
+                            name: "Indicia",
                             face:"Back",
                             type:"noprint",
                             theme_class:"noprint",
@@ -1039,24 +1319,24 @@ define([],
                                     value:"0"
                                 },
                                 {  
-                                    property:"left",
-                                    value:"520px"
+                                    property:"right",
+                                    value:"0"
                                 },
                                 {  
                                     property:"width",
-                                    value:"329px"
+                                    value:"300px"
                                 },
                                 {  
                                     property:"height",
-                                    value:"600px"
+                                    value:"160px"
                                 }
                             ]
                         },
                         {
-                            name: "footer",
+                            name: "Tag Codemark",
                             face:"Back",
-                            type:"html",
-                            theme_class:"footer",
+                            type:"noprint",
+                            theme_class:"noprint",
                             layout:[  
                                 {  
                                     property:"position",
@@ -1064,11 +1344,11 @@ define([],
                                 },
                                 {  
                                     property:"top",
-                                    value:"540px"
+                                    value:"160px"
                                 },
                                 {  
-                                    property:"left",
-                                    value:"40px"
+                                    property:"right",
+                                    value:"0"
                                 },
                                 {  
                                     property:"width",
@@ -1077,6 +1357,90 @@ define([],
                                 {  
                                     property:"height",
                                     value:"40px"
+                                }
+                            ]
+                        },
+                        {
+                            name: "Route Codemark",
+                            face:"Back",
+                            type:"noprint",
+                            theme_class:"noprint",
+                            layout:[  
+                                {  
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {  
+                                    property:"bottom",
+                                    value:"0"
+                                },
+                                {  
+                                    property:"right",
+                                    value:"0"
+                                },
+                                {  
+                                    property:"width",
+                                    value:"520px"
+                                },
+                                {  
+                                    property:"height",
+                                    value:"72px"
+                                }
+                            ]
+                        },
+                        {
+                            name: "",
+                            face:"Back",
+                            type:"noprint",
+                            theme_class:"noprint",
+                            layout:[  
+                                {  
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {  
+                                    property:"top",
+                                    value:"200px"
+                                },
+                                {  
+                                    property:"right",
+                                    value:"0"
+                                },
+                                {  
+                                    property:"width",
+                                    value:"60px"
+                                },
+                                {  
+                                    property:"height",
+                                    value:"320px"
+                                }
+                            ]
+                        },
+                        {
+                            name: "Delivery Address",
+                            face:"Back",
+                            type:"noprint",
+                            theme_class:"noprint",
+                            layout:[  
+                                {  
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {  
+                                    property:"top",
+                                    value:"200px"
+                                },
+                                {  
+                                    property:"right",
+                                    value:"60px"
+                                },
+                                {  
+                                    property:"width",
+                                    value:"240px"
+                                },
+                                {  
+                                    property:"height",
+                                    value:"240px"
                                 }
                             ]
                         }
@@ -1107,7 +1471,7 @@ define([],
                                 },
                                 {  
                                     property:"width",
-                                    value:"849px"
+                                    value:"840px"
                                 },
                                 {  
                                     property:"height",
@@ -1118,7 +1482,7 @@ define([],
                         {  
                             name:"logo",
                             face:"Front",
-                            type:"image",
+                            type:"logo",
                             theme_class:"logo",
                             layout:[  
                                 {  
@@ -1126,8 +1490,8 @@ define([],
                                     value:"absolute"
                                 },
                                 {  
-                                    property:"bottom",
-                                    value:"30px"
+                                    property:"top",
+                                    value:"445px"
                                 },
                                 {  
                                     property:"right",
@@ -1139,7 +1503,7 @@ define([],
                                 },
                                 {  
                                     property:"height",
-                                    value:"100px"
+                                    value:"125px"
                                 }
                             ]
                         },
@@ -1147,7 +1511,7 @@ define([],
                             name:"headline",
                             face:"Front",
                             type:"html",
-                            theme_class:"headline",
+                            theme_class:"headline_1",
                             layout:[  
                                 {  
                                     property:"position",
@@ -1155,7 +1519,7 @@ define([],
                                 },
                                 {  
                                     property:"top",
-                                    value:"440px"
+                                    value:"445px"
                                 },
                                 {  
                                     property:"left",
@@ -1167,14 +1531,14 @@ define([],
                                 },
                                 {  
                                     property:"height",
-                                    value:"130px"
+                                    value:"125px"
                                 }
                             ]
                         },
                         {  
                             name:"back_logo",
                             face:"Back",
-                            type:"image",
+                            type:"logo",
                             theme_class:"logo",
                             layout:[  
                                 {  
@@ -1191,11 +1555,11 @@ define([],
                                 },
                                 {  
                                     property:"width",
-                                    value:"200px"
+                                    value:"100px"
                                 },
                                 {  
                                     property:"height",
-                                    value:"90px"
+                                    value:"50px"
                                 }
                             ]
                         },
@@ -1203,7 +1567,7 @@ define([],
                             name:"back_headline",
                             face:"Back",
                             type:"html",
-                            theme_class:"back_headline",
+                            theme_class:"headline_2",
                             layout:[  
                                 {  
                                     property:"position",
@@ -1211,7 +1575,7 @@ define([],
                                 },
                                 {  
                                     property:"top",
-                                    value:"150px"
+                                    value:"110px"
                                 },
                                 {  
                                     property:"left",
@@ -1219,11 +1583,11 @@ define([],
                                 },
                                 {  
                                     property:"width",
-                                    value:"400px"
+                                    value:"390px"
                                 },
                                 {  
                                     property:"height",
-                                    value:"100px"
+                                    value:"80px"
                                 }
                             ]
                         },
@@ -1231,7 +1595,7 @@ define([],
                             name:"body",
                             face:"Back",
                             type:"html",
-                            theme_class:"back_body",
+                            theme_class:"body_2",
                             layout:[  
                                 {  
                                     property:"position",
@@ -1239,7 +1603,7 @@ define([],
                                 },
                                 {  
                                     property:"top",
-                                    value:"260px"
+                                    value:"220px"
                                 },
                                 {  
                                     property:"left",
@@ -1247,7 +1611,7 @@ define([],
                                 },
                                 {  
                                     property:"width",
-                                    value:"400px"
+                                    value:"390px"
                                 },
                                 {  
                                     property:"height",
@@ -1267,7 +1631,7 @@ define([],
                                 },
                                 {  
                                     property:"top",
-                                    value:"460px"
+                                    value:"440px"
                                 },
                                 {  
                                     property:"left",
@@ -1275,16 +1639,72 @@ define([],
                                 },
                                 {  
                                     property:"width",
-                                    value:"400px"
+                                    value:"390px"
                                 },
                                 {  
                                     property:"height",
-                                    value:"80px"
+                                    value:"70px"
                                 }
                             ]
                         },
                         {
-                            name: "Postage Info",
+                            name: "footer",
+                            face:"Back",
+                            type:"html",
+                            theme_class:"body_2",
+                            layout:[  
+                                {  
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {  
+                                    property:"top",
+                                    value:"520px"
+                                },
+                                {  
+                                    property:"left",
+                                    value:"40px"
+                                },
+                                {  
+                                    property:"width",
+                                    value:"250px"
+                                },
+                                {  
+                                    property:"height",
+                                    value:"40px"
+                                }
+                            ]
+                        },
+                        {
+                            name: "return_address",
+                            face:"Back",
+                            type:"html",
+                            theme_class:"body_2",
+                            layout:[  
+                                {  
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {  
+                                    property:"top",
+                                    value:"450px"
+                                },
+                                {  
+                                    property:"right",
+                                    value:"70px"
+                                },
+                                {  
+                                    property:"width",
+                                    value:"230px"
+                                },
+                                {  
+                                    property:"height",
+                                    value:"60px"
+                                }
+                            ]
+                        },
+                        {
+                            name: "Indicia",
                             face:"Back",
                             type:"noprint",
                             theme_class:"noprint",
@@ -1298,24 +1718,24 @@ define([],
                                     value:"0"
                                 },
                                 {  
-                                    property:"left",
-                                    value:"520px"
+                                    property:"right",
+                                    value:"0"
                                 },
                                 {  
                                     property:"width",
-                                    value:"329px"
+                                    value:"300px"
                                 },
                                 {  
                                     property:"height",
-                                    value:"600px"
+                                    value:"160px"
                                 }
                             ]
                         },
                         {
-                            name: "footer",
+                            name: "Tag Codemark",
                             face:"Back",
-                            type:"html",
-                            theme_class:"footer",
+                            type:"noprint",
+                            theme_class:"noprint",
                             layout:[  
                                 {  
                                     property:"position",
@@ -1323,11 +1743,11 @@ define([],
                                 },
                                 {  
                                     property:"top",
-                                    value:"540px"
+                                    value:"160px"
                                 },
                                 {  
-                                    property:"left",
-                                    value:"40px"
+                                    property:"right",
+                                    value:"0"
                                 },
                                 {  
                                     property:"width",
@@ -1336,6 +1756,90 @@ define([],
                                 {  
                                     property:"height",
                                     value:"40px"
+                                }
+                            ]
+                        },
+                        {
+                            name: "Route Codemark",
+                            face:"Back",
+                            type:"noprint",
+                            theme_class:"noprint",
+                            layout:[  
+                                {  
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {  
+                                    property:"bottom",
+                                    value:"0"
+                                },
+                                {  
+                                    property:"right",
+                                    value:"0"
+                                },
+                                {  
+                                    property:"width",
+                                    value:"520px"
+                                },
+                                {  
+                                    property:"height",
+                                    value:"72px"
+                                }
+                            ]
+                        },
+                        {
+                            name: "",
+                            face:"Back",
+                            type:"noprint",
+                            theme_class:"noprint",
+                            layout:[  
+                                {  
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {  
+                                    property:"top",
+                                    value:"200px"
+                                },
+                                {  
+                                    property:"right",
+                                    value:"0"
+                                },
+                                {  
+                                    property:"width",
+                                    value:"60px"
+                                },
+                                {  
+                                    property:"height",
+                                    value:"320px"
+                                }
+                            ]
+                        },
+                        {
+                            name: "Delivery Address",
+                            face:"Back",
+                            type:"noprint",
+                            theme_class:"noprint",
+                            layout:[  
+                                {  
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {  
+                                    property:"top",
+                                    value:"200px"
+                                },
+                                {  
+                                    property:"right",
+                                    value:"60px"
+                                },
+                                {  
+                                    property:"width",
+                                    value:"240px"
+                                },
+                                {  
+                                    property:"height",
+                                    value:"240px"
                                 }
                             ]
                         }
@@ -1366,11 +1870,11 @@ define([],
                                 },
                                 {  
                                     property:"width",
-                                    value:"849px"
+                                    value:"840px"
                                 },
                                 {  
                                     property:"height",
-                                    value:"600px"
+                                    value:"592px"
                                 }
                             ]
                         },
@@ -1394,16 +1898,16 @@ define([],
                                 },
                                 {  
                                     property:"width",
-                                    value:"520px"
+                                    value:"780px"
                                 },
                                 {  
                                     property:"height",
-                                    value:"600px"
+                                    value:"592px"
                                 }
                             ]
                         },
                         {
-                            name: "Postage Info",
+                            name: "Indicia",
                             face:"Back",
                             type:"noprint",
                             theme_class:"noprint",
@@ -1417,21 +1921,133 @@ define([],
                                     value:"0"
                                 },
                                 {  
-                                    property:"left",
-                                    value:"520px"
+                                    property:"right",
+                                    value:"0"
                                 },
                                 {  
                                     property:"width",
-                                    value:"329px"
+                                    value:"300px"
                                 },
                                 {  
                                     property:"height",
-                                    value:"600px"
+                                    value:"160px"
+                                }
+                            ]
+                        },
+                        {
+                            name: "Tag Codemark",
+                            face:"Back",
+                            type:"noprint",
+                            theme_class:"noprint",
+                            layout:[  
+                                {  
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {  
+                                    property:"top",
+                                    value:"160px"
+                                },
+                                {  
+                                    property:"right",
+                                    value:"0"
+                                },
+                                {  
+                                    property:"width",
+                                    value:"400px"
+                                },
+                                {  
+                                    property:"height",
+                                    value:"40px"
+                                }
+                            ]
+                        },
+                        {
+                            name: "Route Codemark",
+                            face:"Back",
+                            type:"noprint",
+                            theme_class:"noprint",
+                            layout:[  
+                                {  
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {  
+                                    property:"bottom",
+                                    value:"0"
+                                },
+                                {  
+                                    property:"right",
+                                    value:"0"
+                                },
+                                {  
+                                    property:"width",
+                                    value:"520px"
+                                },
+                                {  
+                                    property:"height",
+                                    value:"72px"
+                                }
+                            ]
+                        },
+                        {
+                            name: "",
+                            face:"Back",
+                            type:"noprint",
+                            theme_class:"noprint",
+                            layout:[  
+                                {  
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {  
+                                    property:"top",
+                                    value:"200px"
+                                },
+                                {  
+                                    property:"right",
+                                    value:"0"
+                                },
+                                {  
+                                    property:"width",
+                                    value:"60px"
+                                },
+                                {  
+                                    property:"height",
+                                    value:"320px"
+                                }
+                            ]
+                        },
+                        {
+                            name: "Delivery Address",
+                            face:"Back",
+                            type:"noprint",
+                            theme_class:"noprint",
+                            layout:[  
+                                {  
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {  
+                                    property:"top",
+                                    value:"200px"
+                                },
+                                {  
+                                    property:"right",
+                                    value:"60px"
+                                },
+                                {  
+                                    property:"width",
+                                    value:"240px"
+                                },
+                                {  
+                                    property:"height",
+                                    value:"240px"
                                 }
                             ]
                         }
                     ]
-                }*/
+                }
 
                 // self mailer templates
                 /*{  
@@ -4546,7 +5162,7 @@ define([],
                 }*/
 
                 // letter templates
-                {  
+                /*{  
                     id:14,
                     format_id:4,
                     name:"Letter Template 1",
@@ -5525,7 +6141,7 @@ define([],
                             ]
                         },
                     ]
-                }
+                }*/
             ]
 
             this.themeData = [
@@ -5547,7 +6163,7 @@ define([],
                     		styles: [
                     			{
 	                    			property: 'background-color',
-	                    			value: '#4B4C4E'
+	                    			value: '#FFFFFF'
 			                    }
                     		]
                     	},
@@ -5562,7 +6178,7 @@ define([],
                         }
                         
                     ],
-                    colours: ['#D4E5E6', 'rgb(56, 63, 87)', 'rgb(50, 132, 134)', 'rgb(90, 93, 93)', '#FFF' ],
+                    colours: ['#4B4C4E', '#A0D0AA', '#FFFFFF', '#393939'],
                     fonts: [
                     	{
                     		name: 'Merriweather',
@@ -5577,6 +6193,7 @@ define([],
                         {
                             name: 'roundel',
                             font_sizes: ['18px', '19px', '20px', '21px', '22px', '23px', '24px', '25px', '26px', '27px', '28px', '29px', '30px', '31px', '32px', '33px', '34px', '35px', '36px', '37px', '38px', '39px', '40px', '41px', '42px', '43px', '44px', '45px', '46px', '48px', '50px', '52px'],
+                            vertical_middle: true,
                             styles: [
                                 {
                                     property: 'text-align',
@@ -5585,10 +6202,6 @@ define([],
                                 {
                                     property: 'font-size',
                                     value: '48px'
-                                },
-                                {
-                                    property: 'font-weight',
-                                    value: 300
                                 },
                                 {
                                     property: 'color',
@@ -5601,14 +6214,6 @@ define([],
                                 {
                                     property: 'font-family',
                                     value: "'Merriweather', serif"
-                                },
-                                {
-                                    property: 'font-style',
-                                    value: 'italic'
-                                },
-                                {
-                                    property: 'font-weight',
-                                    value: 'bold'
                                 },
                                 {
                                     property: 'border-radius',
@@ -5637,133 +6242,7 @@ define([],
                             ]
                         },
                         {
-                            name: 'topborderbox',
-                            styles: [
-                                {
-                                    property: 'border-top',
-                                    value: '20px solid'
-                                },
-                                {
-                                    property: 'border-color',
-                                    value: '#A0D0AA'
-                                },
-                                {
-                                    property: 'background-color',
-                                    value: '#4B4C4E'
-                                }
-                            ]
-                        },
-                        {
-                            name: 'inside_cta_block',
-                            styles: [
-                                {
-                                    property: 'background-color',
-                                    value: '#A0D0AA'
-                                }
-                            ]
-                        },
-                        {
-                            name: 'cta_block',
-                            styles: [
-                                {
-                                    property: 'background-color',
-                                    value: '#A0D0AA'
-                                }
-                            ]
-                        },
-                        {
-                            name: 'inside_footer_block',
-                            styles: [
-                                {
-                                    property: 'background-color',
-                                    value: '#4B4C4E'
-                                }
-                            ]
-                        },
-                        {
-                            name: 'footer_block',
-                            styles: [
-                                {
-                                    property: 'background-color',
-                                    value: '#4B4C4E'
-                                }
-                            ]
-                        },
-                        {
-                            name: 'thintopborderbox',
-                            styles: [
-                                {
-                                    property: 'border-top',
-                                    value: '2px solid'
-                                },
-                                {
-                                    property: 'border-color',
-                                    value: '#A0D0AA'
-                                }
-                            ]
-                        },
-                        {
-                            name: 'inside_cta',
-                            font_sizes: ['16px', '17px', '18px', '19px', '20px', '21px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
-                            styles: [
-                                {
-                                    property: 'border',
-                                    value: '4px solid'
-                                },
-                                {
-                                    property: 'border-color',
-                                    value: '#A0D0AA'
-                                },
-                                {
-                                    property: 'color',
-                                    value: '#A0D0AA'
-                                },
-                                {
-                                    property: 'text-align',
-                                    value: 'center'
-                                },
-                                {
-                                    property: 'padding',
-                                    value: '15px'
-                                },
-                                {
-                                    property: 'font-size',
-                                    value: '20px'
-                                },
-                                {
-                                    property: 'font-family',
-                                    value: "'Roboto', serif"
-                                },
-                            ]
-                        },
-                        {
-                            name: 'greeting',
-                            font_sizes: ['16px', '17px', '18px', '19px', '20px', '21px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
-                            styles: [
-                                {
-                                    property: 'text-align',
-                                    value: 'left'
-                                },
-                                {
-                                    property: 'font-size',
-                                    value: '18px'
-                                },
-                                {
-                                    property: 'color',
-                                    value: '#FFFFFF'
-                                },
-                                {
-                                    property: 'font-family',
-                                    value: "'Roboto', serif"
-                                },
-                                {
-                                    property: 'font-weight',
-                                    value: 'lighter'
-                                }
-                            ]
-                        },
-                        {
-                            name: 'headline',
+                            name: 'headline_1',
                             font_sizes: ['22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px', '38px', '40px', '42px', '44px', '46px', '48px', '50px', '52px'],
                             styles: [
                                 {
@@ -5781,49 +6260,11 @@ define([],
 			                    {
                                 	property: 'font-family',
                                 	value: "'Merriweather', serif"
-                                },
-                                {
-                                    property: 'font-style',
-                                    value: 'italic'
-                                },
-                                {
-                                    property: 'font-weight',
-                                    value: 'bold'
                                 }
                             ]
                         },
                         {
-                            name: 'back_headline',
-                            font_sizes: ['22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px', '38px', '40px', '42px', '44px', '46px', '48px', '50px', '52px'],
-                            styles: [
-                                {
-                                    property: 'text-align',
-                                    value: 'left'
-                                },
-                                {
-                                    property: 'font-size',
-                                    value: '48px'
-                                },
-                                {
-                                    property: 'color',
-                                    value: '#A0D0AA'
-                                },
-                                {
-                                    property: 'font-family',
-                                    value: "'Merriweather', serif"
-                                },
-                                {
-                                    property: 'font-style',
-                                    value: 'italic'
-                                },
-                                {
-                                    property: 'font-weight',
-                                    value: 'bold'
-                                }
-                            ]
-                        },
-                        {
-                            name: 'subline',
+                            name: 'subline_1',
                             font_sizes: ['16px', '17px', '18px', '19px', '20px', '21px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
                             styles: [
                                 {
@@ -5841,15 +6282,11 @@ define([],
                                 {
                                     property: 'font-family',
                                     value: "'Roboto', serif"
-                                },
-                                {
-                                    property: 'font-weight',
-                                    value: 'lighter'
                                 }
                             ]
                         },
                         {
-                            name: 'body',
+                            name: 'body_1',
                             font_sizes: ['8px', '9px', '10px', '11px', '12px', '13px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
                             styles: [
                                 {
@@ -5875,38 +6312,56 @@ define([],
                             ]
                         },
                         {
-                            name: 'back_body',
-                            font_sizes: ['8px', '9px', '10px', '11px', '12px', '13px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            name: 'headline_2',
+                            font_sizes: ['22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px', '38px', '40px', '42px', '44px', '46px', '48px', '50px', '52px'],
                             styles: [
-                                {
-                                    property: 'color',
-                                    value: '#FFFFFF'
-                                },
-                                {
-                                    property: 'font-size',
-                                    value: '15px'
-                                },
-                                {
-                                    property: 'font-family',
-                                    value: "'Roboto', serif"
-                                },
                                 {
                                     property: 'text-align',
                                     value: 'left'
                                 },
                                 {
-                                    property: 'font-weight',
-                                    value: 'lighter'
+                                    property: 'font-size',
+                                    value: '48px'
+                                },
+                                {
+                                    property: 'color',
+                                    value: '#A0D0AA'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Merriweather', serif"
                                 }
                             ]
                         },
                         {
-                            name: 'inside_footer',
+                            name: 'subline_2',
+                            font_sizes: ['16px', '17px', '18px', '19px', '20px', '21px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            styles: [
+                                {
+                                    property: 'text-align',
+                                    value: 'left'
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '18px'
+                                },
+                                {
+                                    property: 'color',
+                                    value: '#4B4C4E'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Roboto', serif"
+                                }
+                            ]
+                        },
+                        {
+                            name: 'body_2',
                             font_sizes: ['8px', '9px', '10px', '11px', '12px', '13px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
                             styles: [
                                 {
                                     property: 'color',
-                                    value: '#FFFFFF'
+                                    value: '#393939'
                                 },
                                 {
                                     property: 'font-size',
@@ -5926,9 +6381,11 @@ define([],
                                 }
                             ]
                         },
+
     					{
                             name: 'cta',
                             font_sizes: ['10px', '12px', '14px', '17px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            vertical_middle: true,
                             styles: [
                                 {
                                     property: 'color',
@@ -5944,92 +6401,18 @@ define([],
                                 },
                                 {
                                 	property: 'padding',
-                                	value: '11px 11px 11px 40px'
+                                	value: '0 20px'
                                 },
                                 {
                                 	property: 'font-size',
-                                	value: '20px'
+                                	value: '26px'
                                 },
 			                    {
                                 	property: 'font-family',
-                                	value: "'Roboto', serif"
-                                }
-                                ,
-                                {
-                                    property: 'margin-left',
-                                    value: '-40px'
-                                }
+                                	value: "'Merriweather', serif"
+                                },
                             ]
                         },
-                        {
-                            name: 'cta_closer',
-                            font_sizes: ['10px', '12px', '14px', '17px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
-                            styles: [
-                                {
-                                    property: 'color',
-                                    value: '#4B4C4E'
-                                },
-                                {
-                                    property: 'background-color',
-                                    value: '#A0D0AA'
-                                },
-                                {
-                                    property: 'text-align',
-                                    value: 'left'
-                                },
-                                {
-                                    property: 'padding',
-                                    value: '11px 11px 11px 30px'
-                                },
-                                {
-                                    property: 'font-size',
-                                    value: '20px'
-                                },
-                                {
-                                    property: 'font-family',
-                                    value: "'Roboto', serif"
-                                },
-                                {
-                                    property: 'margin-left',
-                                    value: '-30px'
-                                }
-                            ]
-                        },
-                        {
-                            name: 'footer',
-                            font_sizes: ['10px', '12px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
-                            styles: [
-                                {
-                                    property: 'color',
-                                    value: '#FFFFFF'
-                                },
-                                {
-                                    property: 'font-size',
-                                    value: '12px'
-                                },
-                                {
-                                    property: 'font-family',
-                                    value: "'Roboto', serif"
-                                },
-                                {
-                                    property: 'text-align',
-                                    value: 'left'
-                                },
-                                {
-                                    property: 'font-weight',
-                                    value: 'lighter'
-                                }
-                            ]
-                        },
-                        {
-                            name: 'logo',
-                            src: '',
-                            img_position: {
-                                top: 0,
-                                left: 0
-                            },
-                            scale: 100
-                        }
                     ]
                 },
                 {
@@ -6041,7 +6424,7 @@ define([],
                     		styles: [
                     			{
 	                    			property: 'background-color',
-	                    			value: '#371B4C'
+	                    			value: '#37154D'
 			                    }
                     		]
                     	},
@@ -6074,11 +6457,12 @@ define([],
                             value: "'Lato', sans-serif"
                         }
                     ],
-                    colours: ['rgb(224, 251, 255)', 'rgb(102, 154, 185)', 'rgb(69, 71, 81)' ],
+                    colours: ['#37154D', '#4F8436', '#393939', '#FFFFFF' ],
                     classes: [
                         {
                             name: 'roundel',
                             font_sizes: ['18px', '19px', '20px', '21px', '22px', '23px', '24px', '25px', '26px', '27px', '28px', '29px', '30px', '31px', '32px', '33px', '34px', '35px', '36px', '37px', '38px', '39px', '40px', '41px', '42px', '43px', '44px', '45px', '46px', '48px', '50px', '52px'],
+                            vertical_middle: true,
                             styles: [
                                 {
                                     property: 'text-align',
@@ -6086,7 +6470,7 @@ define([],
                                 },
                                 {
                                     property: 'font-size',
-                                    value: '19px'
+                                    value: '48px'
                                 },
                                 {
                                     property: 'color',
@@ -6094,11 +6478,11 @@ define([],
                                 },
                                 {
                                     property: 'background-color',
-                                    value: '#4C863D'
+                                    value: '#37154D'
                                 },
                                 {
                                     property: 'font-family',
-                                    value: "'Lato', sans-serif"
+                                    value: "'Domine', serif"
                                 },
                                 {
                                     property: 'border-radius',
@@ -6117,157 +6501,25 @@ define([],
                                     value: '0 15px'
                                 },
                                 {
+                                    property: 'border',
+                                    value: '4px solid'
+                                },
+                                {
+                                    property: 'border-color',
+                                    value: '#4F8436'
+                                },
+                                /*{
+                                    property: 'transform',
+                                    value: 'rotate(-15deg)'
+                                },
+                                {
                                     property: 'line-height',
                                     value: '110%;'
-                                }
+                                }*/
                             ]
                         },
                         {
-                            name: 'topborderbox',
-                            styles: [
-                                {
-                                    property: 'border-top',
-                                    value: '20px solid'
-                                },
-                                {
-                                    property: 'border-color',
-                                    value: '#4C863D'
-                                },
-                                {
-                                    property: 'background-color',
-                                    value: '#371B4C'
-                                }
-                            ]
-                        },
-                        {
-                            name: 'inside_cta_block',
-                            styles: [
-                                {
-                                    property: 'background-color',
-                                    value: '#4C863D'
-                                }
-                            ]
-                        },
-                        {
-                            name: 'cta_block',
-                            styles: [
-                                {
-                                    property: 'background-color',
-                                    value: '#4C863D'
-                                }
-                            ]
-                        },
-                        {
-                            name: 'inside_footer_block',
-                            styles: [
-                                {
-                                    property: 'background-color',
-                                    value: '#371B4C'
-                                }
-                            ]
-                        },
-                        {
-                            name: 'inside_footer',
-                            font_sizes: ['8px', '9px', '10px', '11px', '12px', '13px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
-                            styles: [
-                                {
-                                    property: 'color',
-                                    value: '#FFFFFF'
-                                },
-                                {
-                                    property: 'font-size',
-                                    value: '15px'
-                                },
-                                {
-                                    property: 'font-family',
-                                    value: "'Lato', sans-serif"
-                                },
-                                {
-                                    property: 'text-align',
-                                    value: 'left'
-                                },
-                                {
-                                    property: 'font-weight',
-                                    value: 'lighter'
-                                }
-                            ]
-                        },
-                        {
-                            name: 'footer_block',
-                            styles: [
-                                {
-                                    property: 'background-color',
-                                    value: '#371B4C'
-                                }
-                            ]
-                        },
-                        {
-                            name: 'footer',
-                            font_sizes: ['8px', '9px', '10px', '11px', '12px', '13px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
-                            styles: [
-                                {
-                                    property: 'color',
-                                    value: '#FFFFFF'
-                                },
-                                {
-                                    property: 'font-size',
-                                    value: '15px'
-                                },
-                                {
-                                    property: 'font-family',
-                                    value: "'Lato', sans-serif"
-                                },
-                                {
-                                    property: 'text-align',
-                                    value: 'left'
-                                },
-                                {
-                                    property: 'font-weight',
-                                    value: 'lighter'
-                                }
-                            ]
-                        },
-                        {
-                            name: 'thintopborderbox',
-                            styles: [
-                                {
-                                    property: 'border-top',
-                                    value: '2px solid'
-                                },
-                                {
-                                    property: 'border-color',
-                                    value: '#4C863D'
-                                }
-                            ]
-                        },
-                        {
-                            name: 'greeting',
-                            font_sizes: ['16px', '17px', '18px', '19px', '20px', '21px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
-                            styles: [
-                                {
-                                    property: 'text-align',
-                                    value: 'left'
-                                },
-                                {
-                                    property: 'font-size',
-                                    value: '18px'
-                                },
-                                {
-                                    property: 'color',
-                                    value: '#FFFFFF'
-                                },
-                                {
-                                    property: 'font-family',
-                                    value: "'Lato', sans-serif"
-                                },
-                                {
-                                    property: 'font-weight',
-                                    value: 'lighter'
-                                }
-                            ]
-                        },
-                        {
-                            name: 'headline',
+                            name: 'headline_1',
                             font_sizes: ['22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px', '38px', '40px', '42px', '44px', '46px', '48px', '50px', '52px'],
                             styles: [
                                 {
@@ -6289,34 +6541,8 @@ define([],
                             ]
                         },
                         {
-                            name: 'back_headline',
-                            font_sizes: ['22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px', '38px', '40px', '42px', '44px', '46px', '48px', '50px', '52px'],
-                            styles: [
-                                {
-                                    property: 'text-align',
-                                    value: 'left'
-                                },
-                                {
-                                    property: 'font-size',
-                                    value: '48px'
-                                },
-                                {
-                                    property: 'color',
-                                    value: '#371B4C'
-                                },
-                                {
-                                    property: 'font-family',
-                                    value: "'Domine', serif"
-                                },
-                                {
-                                    property: 'font-weight',
-                                    value: 'bold'
-                                }
-                            ]
-                        },
-                        {
-                            name: 'subline',
-                            font_sizes: ['12px', '13px', '14px', '15px', '16px', '17px', '18px', '19px', '20px', '21px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            name: 'subline_1',
+                            font_sizes: ['16px', '17px', '18px', '19px', '20px', '21px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
                             styles: [
                                 {
                                     property: 'text-align',
@@ -6333,46 +6559,16 @@ define([],
                                 {
                                     property: 'font-family',
                                     value: "'Lato', sans-serif"
-                                },
-                                {
-                                    property: 'font-weight',
-                                    value: 'lighter'
                                 }
                             ]
                         },
                         {
-                            name: 'body',
-                            font_sizes: ['10px', '11px', '12px', '13px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            name: 'body_1',
+                            font_sizes: ['8px', '9px', '10px', '11px', '12px', '13px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
                             styles: [
                                 {
                                     property: 'color',
                                     value: '#FFFFFF'
-                                },
-                                {
-                                	property: 'font-weight',
-                                	value: 400
-                                },
-                                {
-                                	property: 'font-size',
-                                	value: '15px'
-                                },
-                                {
-                                    property: 'font-family',
-                                    value: "'Lato', sans-serif"
-                                }
-                            ]
-                        },
-                        {
-                            name: 'back_body',
-                            font_sizes: ['10px', '11px', '12px', '13px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
-                            styles: [
-                                {
-                                    property: 'color',
-                                    value: '#000000'
-                                },
-                                {
-                                    property: 'font-weight',
-                                    value: 400
                                 },
                                 {
                                     property: 'font-size',
@@ -6381,36 +6577,28 @@ define([],
                                 {
                                     property: 'font-family',
                                     value: "'Lato', sans-serif"
-                                }
-                            ]
-                        },
-                        {
-                            name: 'inside_cta',
-                            font_sizes: ['16px', '17px', '18px', '19px', '20px', '21px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
-                            styles: [
-                                {
-                                    property: 'border',
-                                    value: '4px solid'
-                                },
-                                {
-                                    property: 'border-color',
-                                    value: '#4C863D'
-                                },
-                                {
-                                    property: 'color',
-                                    value: '#FFFFFF'
                                 },
                                 {
                                     property: 'text-align',
-                                    value: 'center'
-                                },
+                                    value: 'left'
+                                }
+                            ]
+                        },
+                        {
+                            name: 'headline_2',
+                            font_sizes: ['22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px', '38px', '40px', '42px', '44px', '46px', '48px', '50px', '52px'],
+                            styles: [
                                 {
-                                    property: 'padding',
-                                    value: '15px'
+                                    property: 'text-align',
+                                    value: 'left'
                                 },
                                 {
                                     property: 'font-size',
-                                    value: '26px'
+                                    value: '48px'
+                                },
+                                {
+                                    property: 'color',
+                                    value: '#37154D'
                                 },
                                 {
                                     property: 'font-family',
@@ -6418,55 +6606,71 @@ define([],
                                 }
                             ]
                         },
-    					{
+                        {
+                            name: 'subline_2',
+                            font_sizes: ['16px', '17px', '18px', '19px', '20px', '21px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            styles: [
+                                {
+                                    property: 'text-align',
+                                    value: 'left'
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '18px'
+                                },
+                                {
+                                    property: 'color',
+                                    value: '#4F8436'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Lato', sans-serif"
+                                }
+                            ]
+                        },
+                        {
+                            name: 'body_2',
+                            font_sizes: ['8px', '9px', '10px', '11px', '12px', '13px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            styles: [
+                                {
+                                    property: 'color',
+                                    value: '#393939'
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '15px'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Lato', sans-serif"
+                                },
+                                {
+                                    property: 'text-align',
+                                    value: 'left'
+                                }
+                            ]
+                        },
+
+                        {
                             name: 'cta',
-                            font_sizes: ['10px', '12px', '14px', '16px', '17px', '18px', '19px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            font_sizes: ['10px', '12px', '14px', '17px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            vertical_middle: true,
                             styles: [
-                                {
-                                    property: 'border',
-                                    value: '4px solid'
-                                },
-                                {
-                                    property: 'border-color',
-                                    value: '#4C863D'
-                                },
                                 {
                                     property: 'color',
                                     value: '#FFFFFF'
                                 },
                                 {
-                                    property: 'text-align',
-                                    value: 'left'
+                                    property: 'background-color',
+                                    value: '#37154D'
                                 },
-                                {
-                                    property: 'padding',
-                                    value: '10px'
-                                },
-                                {
-                                    property: 'font-size',
-                                    value: '26px'
-                                },
-                                {
-                                    property: 'font-family',
-                                    value: "'Domine', serif"
-                                }
-                            ]
-                        },
-                        {
-                            name: 'back_cta',
-                            font_sizes: ['10px', '12px', '14px', '16px', '17px', '18px', '19px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
-                            styles: [
                                 {
                                     property: 'border',
                                     value: '4px solid'
                                 },
                                 {
                                     property: 'border-color',
-                                    value: '#371B4C'
-                                },
-                                {
-                                    property: 'color',
-                                    value: '#4C863D'
+                                    value: '#4F8436'
                                 },
                                 {
                                     property: 'text-align',
@@ -6474,73 +6678,30 @@ define([],
                                 },
                                 {
                                     property: 'padding',
-                                    value: '5px'
+                                    value: '0 20px'
                                 },
                                 {
                                     property: 'font-size',
-                                    value: '26px'
+                                    value: '28px'
                                 },
                                 {
                                     property: 'font-family',
                                     value: "'Domine', serif"
-                                }
+                                },
                             ]
                         },
-                        {
-                            name: 'cta_closer',
-                            font_sizes: ['16px', '17px', '18px', '19px', '20px', '21px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
-                            styles: [
-                                {
-                                    property: 'border',
-                                    value: '4px solid'
-                                },
-                                {
-                                    property: 'border-color',
-                                    value: '#371B4C'
-                                },
-                                {
-                                    property: 'color',
-                                    value: '#4C863D'
-                                },
-                                {
-                                    property: 'text-align',
-                                    value: 'center'
-                                },
-                                {
-                                    property: 'padding',
-                                    value: '15px'
-                                },
-                                {
-                                    property: 'font-size',
-                                    value: '26px'
-                                },
-                                {
-                                    property: 'font-family',
-                                    value: "'Domine', serif"
-                                }
-                            ]
-                        },
-                        {
-                            name: 'logo',
-                            src: '',
-                            img_position: {
-                                top: 0,
-                                left: 0
-                            },
-                            scale: 100
-                        }
                     ]
                 },
                 {
                     id: 5,
-                    name: 'Test Theme 3',
+                    name: 'Approachable',
                     faces: [
                     	{
                     		name: 'Front',
                     		styles: [
                     			{
 	                    			property: 'background-color',
-	                    			value: 'rgb(255, 158, 50)'
+	                    			value: '#FFFFFF'
 			                    }
                     		]
                     	},
@@ -6549,7 +6710,7 @@ define([],
                     		styles: [
                     			{
 	                    			property: 'background-color',
-	                    			value: 'rgb(255, 158, 50)'
+	                    			value: '#FFFFFF'
 			                    }
                     		]
                     	},
@@ -6558,74 +6719,77 @@ define([],
                             styles: [
                                 {
                                     property: 'background-color',
-                                    value: 'rgb(255, 158, 50)'
+                                    value: '#FFFFFF'
                                 }
                             ]
                         }
                     ],
                     fonts: [
                         {
-                            name: 'Dosis',
-                            value: "'Fredoka One', cursive"
+                            name: 'Open Sans',
+                            value: "'Open Sans', sans-serif"
                         },
                         {
-                            name: 'Arial',
-                            value: 'Arial'
+                            name: 'Montserrat',
+                            value: "'Montserrat', sans-serif"
                         }
                     ],
-                    colours: ['rgb(255, 158, 50)', 'rgb(253, 233, 95)', 'rgb(246, 125, 40)' ],
+                    colours: ['#FFFFFF', '#009EE3', '#30AB62', '#393939' ],
                     classes: [
                         {
-                            name: 'heading',
-                            font_sizes: ['22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px', '38px', '40px', '42px', '44px', '45px', '48px', '50px', '52px'],
+                            name: 'roundel',
+                            font_sizes: ['18px', '19px', '20px', '21px', '22px', '23px', '24px', '25px', '26px', '27px', '28px', '29px', '30px', '31px', '32px', '33px', '34px', '35px', '36px', '37px', '38px', '39px', '40px', '41px', '42px', '43px', '44px', '45px', '46px', '48px', '50px', '52px'],
+                            vertical_middle: true,
                             styles: [
                                 {
                                     property: 'text-align',
-                                    value: 'left'
+                                    value: 'center'
                                 },
                                 {
                                     property: 'font-size',
-                                    value: '45px'
-                                },
-                                {
-                                	property: 'color',
-                                	value: 'rgb(253, 233, 95)'
-                                },
-                                {
-                                    property: 'font-family',
-                                    value: "'Fredoka One', cursive"
-                                }
-                            ]
-                        },
-                        {
-                            name: 'heading-large',
-                            font_sizes: ['30px', '32px', '34px', '36px', '38px', '40px', '42px', '44px', '46px', '48px', '50px', '52px', '56px', '60px', '64px', '68px', '70px', '74px', '80px', '84px', '90px'],
-                            styles: [
-                                {
-                                    property: 'text-align',
-                                    value: 'left'
-                                },
-                                {
-                                    property: 'font-size',
-                                    value: '74px'
-                                },
-                                {
-                                    property: 'font-weight',
-                                    value: 400
+                                    value: '48px'
                                 },
                                 {
                                     property: 'color',
-                                    value: 'rgb(253, 233, 95)'
+                                    value: '#FFFFFF'
+                                },
+                                {
+                                    property: 'background-color',
+                                    value: '#009EE3'
                                 },
                                 {
                                     property: 'font-family',
-                                    value: "'Fredoka One', cursive"
-                                }
+                                    value: "'Montserrat', sans-serif"
+                                },
+                                {
+                                    property: 'border-radius',
+                                    value: "50%"
+                                },
+                                {
+                                    property: '-moz-border-radius',
+                                    value: "50%"
+                                },
+                                {
+                                    property: '-webkit-border-radius',
+                                    value: "50%"
+                                },
+                                {
+                                    property: 'padding',
+                                    value: '0 15px'
+                                },
+                                /*{
+                                    property: 'transform',
+                                    value: 'rotate(-15deg)'
+                                },
+                                {
+                                    property: 'line-height',
+                                    value: '110%;'
+                                }*/
                             ]
                         },
                         {
-                            name: 'subheading',
-                            font_sizes: ['10px', '12px', '14px', '17px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            name: 'headline_1',
+                            font_sizes: ['22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px', '38px', '40px', '42px', '44px', '46px', '48px', '50px', '52px'],
                             styles: [
                                 {
                                     property: 'text-align',
@@ -6633,25 +6797,21 @@ define([],
                                 },
                                 {
                                     property: 'font-size',
-                                    value: '17px'
+                                    value: '48px'
                                 },
                                 {
-                                	property: 'color',
-                                	value: 'rgb(253, 233, 95)'
-                                },
-                                {
-                                	property: 'border-bottom',
-                                	value: '6px dotted rgb(246, 125, 40)'
+                                    property: 'color',
+                                    value: '#30AB62'
                                 },
                                 {
                                     property: 'font-family',
-                                    value: "'Fredoka One', cursive"
+                                    value: "'Montserrat', sans-serif"
                                 }
                             ]
                         },
                         {
-                            name: 'subheading-large',
-                            font_sizes: ['10px', '12px', '14px', '17px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            name: 'subline_1',
+                            font_sizes: ['16px', '17px', '18px', '19px', '20px', '21px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
                             styles: [
                                 {
                                     property: 'text-align',
@@ -6659,25 +6819,43 @@ define([],
                                 },
                                 {
                                     property: 'font-size',
-                                    value: '28px'
+                                    value: '18px'
                                 },
                                 {
                                     property: 'color',
-                                    value: 'rgb(253, 233, 95)'
-                                },
-                                {
-                                    property: 'border-bottom',
-                                    value: '6px dotted rgb(246, 125, 40)'
+                                    value: '#009EE3'
                                 },
                                 {
                                     property: 'font-family',
-                                    value: "'Fredoka One', cursive"
+                                    value: "'Open Sans', sans-serif"
                                 }
                             ]
                         },
                         {
-                            name: 'subheading-noline',
-                            font_sizes: ['10px', '12px', '14px', '17px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            name: 'body_1',
+                            font_sizes: ['8px', '9px', '10px', '11px', '12px', '13px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            styles: [
+                                {
+                                    property: 'color',
+                                    value: '#FFFFFF'
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '15px'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Open Sans', sans-serif"
+                                },
+                                {
+                                    property: 'text-align',
+                                    value: 'left'
+                                }
+                            ]
+                        },
+                        {
+                            name: 'headline_2',
+                            font_sizes: ['22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px', '38px', '40px', '42px', '44px', '46px', '48px', '50px', '52px'],
                             styles: [
                                 {
                                     property: 'text-align',
@@ -6685,69 +6863,75 @@ define([],
                                 },
                                 {
                                     property: 'font-size',
-                                    value: '17px'
+                                    value: '48px'
                                 },
                                 {
                                     property: 'color',
-                                    value: 'rgb(253, 233, 95)'
+                                    value: '#30AB62'
                                 },
                                 {
                                     property: 'font-family',
-                                    value: "'Fredoka One', cursive"
+                                    value: "'Montserrat', sans-serif"
                                 }
                             ]
                         },
                         {
-                            name: 'body',
-                            font_sizes: ['10px', '12px', '13px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            name: 'subline_2',
+                            font_sizes: ['16px', '17px', '18px', '19px', '20px', '21px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
                             styles: [
                                 {
-                                    property: 'color',
-                                    value: '#FFF'
+                                    property: 'text-align',
+                                    value: 'left'
                                 },
                                 {
-                                	property: 'font-size',
-                                	value: '13px'
+                                    property: 'font-size',
+                                    value: '18px'
+                                },
+                                {
+                                    property: 'color',
+                                    value: '#009EE3'
                                 },
                                 {
                                     property: 'font-family',
-                                    value: "'Fredoka One', cursive"
+                                    value: "'Open Sans', sans-serif"
                                 }
                             ]
                         },
-    					{
+                        {
+                            name: 'body_2',
+                            font_sizes: ['8px', '9px', '10px', '11px', '12px', '13px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            styles: [
+                                {
+                                    property: 'color',
+                                    value: '#393939'
+                                },
+                                {
+                                    property: 'font-size',
+                                    value: '15px'
+                                },
+                                {
+                                    property: 'font-family',
+                                    value: "'Open Sans', sans-serif"
+                                },
+                                {
+                                    property: 'text-align',
+                                    value: 'left'
+                                }
+                            ]
+                        },
+
+                        {
                             name: 'cta',
-                            font_sizes: ['10px', '12px', '14px', '16px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            font_sizes: ['10px', '12px', '14px', '17px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            vertical_middle: true,
                             styles: [
                                 {
                                     property: 'color',
-                                    value: 'rgb(252, 253, 254)'
+                                    value: '#FFFFFF'
                                 },
                                 {
-                                    property: 'text-align',
-                                    value: 'left'
-                                },
-                                {
-                                	property: 'padding',
-                                	value: '16px'
-                                },
-                                {
-                                	property: 'font-size',
-                                	value: '20px'
-                                },
-                                {
-                                    property: 'font-family',
-                                    value: "'Fredoka One', cursive"
-                                }
-                            ]
-                        },
-                        {
-                            name: 'cta-bigger',
-                            font_sizes: ['10px', '12px', '14px', '16px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
-                            styles: [
-                                {
-                                    property: 'color',
-                                    value: 'rgb(252, 253, 254)'
+                                    property: 'background-color',
+                                    value: '#009ee3'
                                 },
                                 {
                                     property: 'text-align',
@@ -6755,36 +6939,18 @@ define([],
                                 },
                                 {
                                     property: 'padding',
-                                    value: '24px 16px'
+                                    value: '0 20px'
                                 },
                                 {
                                     property: 'font-size',
-                                    value: '20px'
+                                    value: '28px'
                                 },
                                 {
                                     property: 'font-family',
-                                    value: "'Fredoka One', cursive"
-                                }
+                                    value: "'Montserrat', sans-serif"
+                                },
                             ]
                         },
-                        {
-                            name: 'logo',
-                            src: '',
-                            img_position: {
-                                top: 0,
-                                left: 0
-                            },
-                            scale: 100
-                        },
-                        {
-                            name: 'background',
-                            src: 'file:///C:/Users/ext-jlovatt/work/RM.MailshotsOnlineFrontEnd/HC.RM.MailshotsOnline/images/little_cute_cat_1920x1080.jpg',
-                            img_position: {
-                                top: 0,
-                                left: 0
-                            },
-                            scale: 100
-                        }
                     ]
                 }
             ]

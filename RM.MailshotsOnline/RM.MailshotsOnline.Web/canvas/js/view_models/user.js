@@ -280,6 +280,7 @@ define(['knockout', 'komapping', 'jquery', 'view_models/notification', 'view_mod
                 elem = komapping.fromJS(new_elem);
                 this.objects.elements.push(elem);
             }
+            elem.src = elem.src || ko.observable('');
             // add on the temporary urlSrc observable, used so that we can
             // use the base64 version of an image to display it on a canvas immediately
             // but silently upload in the background and maintain a URL
