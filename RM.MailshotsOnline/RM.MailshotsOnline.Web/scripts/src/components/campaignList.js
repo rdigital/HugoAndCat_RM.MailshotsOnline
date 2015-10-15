@@ -26,14 +26,7 @@ define(['jquery', 'knockout', 'koMapping', 'view-models/state', 'view-models/not
 					self.loading(false);
 				},
 				error: function(error) {
-					stateViewModel.showError(true);
-					if (error) {
-						stateViewModel.errorTitle("Oops!");
-						stateViewModel.errorMessage(error.responseJSON.error);
-					} else {
-						stateViewModel.errorTitle("Oops!");
-						stateViewModel.errorMessage("Looks like something went wrong, please try again");
-					}
+					self.handleError(error);
 					self.loading(false);
 				}
 			});
@@ -50,14 +43,7 @@ define(['jquery', 'knockout', 'koMapping', 'view-models/state', 'view-models/not
 					notificationViewModel.hideWithMessage("Campaign deleted", 'message');
 				},
 				error: function(error) {
-					stateViewModel.showError(true);
-					if (error) {
-						stateViewModel.errorTitle("Oops!");
-						stateViewModel.errorMessage(error.responseJSON.error);
-					} else {
-						stateViewModel.errorTitle("Oops!");
-						stateViewModel.errorMessage("Looks like something went wrong, please try again");
-					}
+					self.handleError(error);
 				}
 			});
 		};
@@ -73,14 +59,7 @@ define(['jquery', 'knockout', 'koMapping', 'view-models/state', 'view-models/not
 					notificationViewModel.hideWithMessage("Campign copied", 'addContact');
 				},
 				error: function(error) {
-					stateViewModel.showError(true);
-					if (error) {
-						stateViewModel.errorTitle("Oops!");
-						stateViewModel.errorMessage(error.responseJSON.error);
-					} else {
-						stateViewModel.errorTitle("Oops!");
-						stateViewModel.errorMessage("Looks like something went wrong, please try again");
-					}
+					self.handleError(error);
 				}
 			});
 		};
@@ -101,17 +80,21 @@ define(['jquery', 'knockout', 'koMapping', 'view-models/state', 'view-models/not
 					window.location = '/campaigns/campaign-hub/?campaignId=' + result.CampaignId;
 				},
 				error: function(error) {
-					stateViewModel.showError(true);
-					if (error) {
-						stateViewModel.errorTitle("Oops!");
-						stateViewModel.errorMessage(error.responseJSON.error);
-					} else {
-						stateViewModel.errorTitle("Oops!");
-						stateViewModel.errorMessage("Looks like something went wrong, please try again");
-					}
+					self.handleError(error);
 					self.loading(false);
 				}
 			});
+		};
+
+		campaignListComponentViewModel.prototype.handleError = function handleError(error) {
+			stateViewModel.showError(true);
+			if (error) {
+				stateViewModel.errorTitle("Oops!");
+				stateViewModel.errorMessage(error.responseJSON.error);
+			} else {
+				stateViewModel.errorTitle("Oops!");
+				stateViewModel.errorMessage("Looks like something went wrong, please try again");
+			}
 		};
 
 		return {
