@@ -44,8 +44,9 @@ require([
 		// apply bindings
 		ko.applyBindings();
 
-
-		ko.applyBindings(registerView, $('.register')[0]);
+		if ($('.register').length > 0) {
+			ko.applyBindings(registerView, $('.register')[0]);
+		}
 		
 
 		// initialise perfect scrollbar plugin
