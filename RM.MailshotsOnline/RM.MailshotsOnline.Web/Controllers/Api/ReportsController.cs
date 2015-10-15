@@ -87,11 +87,14 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
                     var filename = report.Name + ".csv";
 
+                    bool fileTransferSuccess = false;
+                    bool blobStoreageSuccess = false;
+
                     try
                     {
-                        var success = _sftpService.Put(m, $"{Constants.Reporting.SftpDirectory}/{filename}");
+                        fileTransferSuccess = _sftpService.Put(m, $"{Constants.Reporting.SftpDirectory}/{filename}");
 
-                        if (!success)
+                        if (!fileTransferSuccess)
                         {
                             throw new Exception("SFTP service could not transfer the file.");
                         }
@@ -107,13 +110,19 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
                         if (string.IsNullOrEmpty(blobName))
                         {
-                            throw new Exception("The blob service did not return a blob name after attempting to store the report.");
+                            throw new Exception(
+                                "The blob service did not return a blob name after attempting to store the report.");
                         }
+
+                        blobStoreageSuccess = true;
                     }
                     catch (Exception e)
                     {
                         _logger.Error(this.GetType().Name, "GenerateReport", "Upload to blob store failed!", e);
                     }
+
+                    _logger.Info(this.GetType().Name, "GenerateReport",
+                        $"Report generation complete! SFTP success: {fileTransferSuccess}, blob storage success: {blobStoreageSuccess}");
 
                     return new HttpResponseMessage(HttpStatusCode.OK);
                 }
