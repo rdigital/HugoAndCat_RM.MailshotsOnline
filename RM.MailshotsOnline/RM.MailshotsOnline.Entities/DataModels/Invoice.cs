@@ -90,6 +90,18 @@ namespace RM.MailshotsOnline.Entities.DataModels
         public string PaypalPaymentId { get; set; }
 
         /// <summary>
+        /// Gets or sets the PayPal Transaction ID
+        /// </summary>
+        [MaxLength(64)]
+        public string PaypalCaptureTransactionId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the PayPal Refund transaction ID
+        /// </summary>
+        [MaxLength(64)]
+        public string PaypalRefundTransactionId { get; set; }
+
+        /// <summary>
         /// Gets or sets the PayPal approval URL
         /// </summary>
         [MaxLength(2048)]

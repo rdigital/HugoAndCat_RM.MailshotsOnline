@@ -12,6 +12,7 @@ using RM.MailshotsOnline.Entities.JsonModels;
 using RM.MailshotsOnline.PCL.Models.Reporting;
 using RM.MailshotsOnline.PCL.Services;
 using RM.MailshotsOnline.PCL.Services.Reporting;
+using System.Threading.Tasks;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
@@ -33,7 +34,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         }
 
         [HttpPost]
-        public HttpResponseMessage GenerateReport(AuthTokenPostModel tokenPostModel)
+        public async Task<HttpResponseMessage> GenerateReport(AuthTokenPostModel tokenPostModel)
         {
             if (string.IsNullOrEmpty(tokenPostModel.Type) || string.IsNullOrEmpty(tokenPostModel.Token))
             {
@@ -106,7 +107,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
                     try
                     {
-                        var blobName = _blobService.Store(m.ToArray(), filename, "text/csv");
+                        var blobName = await _blobService.StoreAsync(m.ToArray(), filename, "text/csv");
 
                         if (string.IsNullOrEmpty(blobName))
                         {
