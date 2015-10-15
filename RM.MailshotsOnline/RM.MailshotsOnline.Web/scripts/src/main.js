@@ -10,7 +10,8 @@ require([
 		'components/pagination',
 		'components/error',
 		'components/notification',
-		'components/register'
+		'view-models/register',
+		'stopbinding'
 	],
 	function(
 		ko, 
@@ -24,7 +25,8 @@ require([
 		paginationComponent, 
 		errorComponent, 
 		notificationComponent,
-		registerComponent
+		registerView,
+		stopBinding
 	) {
 
 		// register components
@@ -35,12 +37,17 @@ require([
 		ko.components.register('pagination-component', paginationComponent);
 		ko.components.register('error-component', errorComponent);
 		ko.components.register('notification-component', notificationComponent);
-		ko.components.register('register-component', registerComponent);
+
 
 		koValidation.init({insertMessages: false});
 
+
 		// apply bindings
 		ko.applyBindings();
+
+
+		ko.applyBindings(registerView, $('.register')[0]);
+		
 
 		// initialise perfect scrollbar plugin
 

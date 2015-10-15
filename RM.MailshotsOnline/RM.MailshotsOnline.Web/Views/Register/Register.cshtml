@@ -8,6 +8,8 @@
         <h1 class="heading01">@Model.Name</h1>
     </div>
     @* @Umbraco.RenderMacro("Breadcrumbs") *@
+
+    <!-- ko stopBinding: true -->
     <div class="register">
         <div class="constrain">
             @Html.Action("ShowRegisterForm", "RegisterSurface", new { model = Model})
@@ -26,4 +28,5 @@
             </div>
         </div>
     </div>
+    <!-- /ko -->
 </div>

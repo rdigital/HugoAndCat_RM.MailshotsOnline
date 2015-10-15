@@ -134,7 +134,7 @@
             </div>
 
             <div class="form-row form-row--align-right">
-                <a href="" class="btn btn--blue btn--next" data-bind="click: proceedToNextStage" title="">Next</a>
+                <a href="" class="btn btn--blue btn--next" data-bind="click: $root.proceedToNextStage" title="">Next</a>
             </div>
         </section>
 
@@ -158,7 +158,7 @@
             </div>
 
             <div class="form-row form-row--align-right">
-                <a href="" class="btn btn--blue btn--next" data-bind="click: proceedToNextStage" title="">Find Address</a>
+                <a href="" class="btn btn--blue btn--next" data-bind="click: $root.proceedToNextStage" title="">Find Address</a>
             </div>
         </section>
 
@@ -304,7 +304,7 @@
 
 
             <div class="form-row form-row--align-right">
-                <a href="" class="btn btn--green" data-bind="click: submitRegistration" title="">Register</a>
+                <a href="" class="btn btn--green" data-bind="click: $root.submitRegistration" title="">Register</a>
             </div>
 
             <input type="submit" value="@Model.RegisterCtaText" />
