@@ -27,7 +27,7 @@ namespace RM.MailshotsOnline.Data.Services.Reporting
 
         public ITransactionsReport Generate()
         {
-            var invoices =  _invoiceService.GetPaidInvoices(DateTime.Today, DateTime.Today.AddDays(1).AddMilliseconds(-1));
+            var invoices = _invoiceService.GetPaidInvoices(DateTime.Today, DateTime.Today.AddDays(1).AddMilliseconds(-1));
 
             var items = new List<ITransactionsReportEntity>();
 
@@ -47,18 +47,18 @@ namespace RM.MailshotsOnline.Data.Services.Reporting
                     OrderTaxLineTax = invoice.TotalTax,
                     OrderTotal = invoice.Total.ToString(CultureInfo.InvariantCulture),
                     OrderCurrency = "",
-                    InvoiceAddressTitle = member.Title,
-                    InvoiceAddressFirstName = member.FirstName,
-                    InvoiceAddressLastName = member.LastName,
+                    InvoiceAddressTitle = invoice.BillingAddress.Title,
+                    InvoiceAddressFirstName = invoice.BillingAddress.FirstName,
+                    InvoiceAddressLastName = invoice.BillingAddress.LastName,
                     InvoiceAddressOrganisation = member.OrganisationName,
-                    InvoiceAddressFlatNumber = member.FlatNumber,
-                    InvoiceAddressBuildingNumber = member.BuildingNumber,
-                    InvoiceAddressBuildingName = member.BuildingName,
-                    InvoiceAddressAddress1 = member.Address1,
-                    InvoiceAddressAddress2 = member.Address2,
-                    InvoiceAddressCity = member.City,
-                    InvoiceAddressPostcode = member.Postcode,
-                    InvoiceAddressCountry = member.Country
+                    InvoiceAddressFlatNumber = invoice.BillingAddress.FlatNumber,
+                    InvoiceAddressBuildingNumber = invoice.BillingAddress.BuildingNumber,
+                    InvoiceAddressBuildingName = invoice.BillingAddress.BuildingName,
+                    InvoiceAddressAddress1 = invoice.BillingAddress.Address1,
+                    InvoiceAddressAddress2 = invoice.BillingAddress.Address2,
+                    InvoiceAddressCity = invoice.BillingAddress.City,
+                    InvoiceAddressPostcode = invoice.BillingAddress.Postcode,
+                    InvoiceAddressCountry = invoice.BillingAddress.Country
                 });
 
                 foreach (var lineItem in invoice.LineItems)
@@ -68,7 +68,7 @@ namespace RM.MailshotsOnline.Data.Services.Reporting
                         Type = "LineItems",
                         PaymentId = invoice.PaypalPaymentId,
                         SaleIdProductSku = lineItem.ProductSku,
-                        PaymentTimeProductName = lineItem.Product.ToString(),
+                        PaymentTimeProductName = string.IsNullOrEmpty(lineItem.SubTitle) ? lineItem.Product.Name : $"{lineItem.Product.Name} ({lineItem.SubTitle})",
                         UserIdQuantity = lineItem.Quantity.ToString(),
                         EmailAddressUnitPrice = lineItem.UnitCost.ToString(CultureInfo.InvariantCulture),
                         OrderSubtotalLineSubtotal = lineItem.SubTotal,

@@ -71,5 +71,13 @@ namespace RM.MailshotsOnline.PCL.Services
         /// </summary>
         /// <returns></returns>
         IEnumerable<IMember> GetAllActiveMembers();
+
+        /// <summary>
+        /// Gets all active users whose membership details have been edited in the given timeframe.
+        /// </summary>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns></returns>
+        IEnumerable<IMember> GetActiveMembers(DateTime startDate, DateTime endDate);
     }
 }

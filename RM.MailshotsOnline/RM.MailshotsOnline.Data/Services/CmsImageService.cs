@@ -238,5 +238,53 @@ namespace RM.MailshotsOnline.Data.Services
 
             return images;
         }
+
+        /// <summary>
+        /// Finds all of the campaigns that use a given image
+        /// </summary>
+        /// <param name="cmsImageId">ID of the image to search for</param>
+        /// <returns>Collection of campaigns</returns>
+        public IEnumerable<ICampaign> FindCampaignsThatUseImage(Guid cmsImageId)
+        {
+            var campaigns = from ui in _context.MailshotImageUse
+                            join c in _context.Campaigns on ui.MailshotId equals c.MailshotId
+                            where ui.CmsImageId == cmsImageId
+                            orderby c.UpdatedDate descending
+                            select c;
+
+            return campaigns;
+        }
+
+        /// <summary>
+        /// Finds all of the campaigns that use a given image
+        /// </summary>
+        /// <param name="imageSrc">Src of the image to search for</param>
+        /// <returns>Collection of campaigns</returns>
+        public IEnumerable<ICampaign> FindCampaignsThatUseImage(string imageSrc)
+        {
+            var image = GetCmsImage(imageSrc);
+            if (image != null)
+            {
+                return FindCampaignsThatUseImage(image.CmsImageId);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Finds all of the campaigns that use a given image
+        /// </summary>
+        /// <param name="umbracoId">Umbraco ID of the image to check</param>
+        /// <returns>Collection of campaigns</returns>
+        public IEnumerable<ICampaign> FindCampaignsThatUseImage(int umbracoId)
+        {
+            var image = GetCmsImage(umbracoId);
+            if (image != null)
+            {
+                return FindCampaignsThatUseImage(image.CmsImageId);
+            }
+
+            return null;
+        }
     }
 }

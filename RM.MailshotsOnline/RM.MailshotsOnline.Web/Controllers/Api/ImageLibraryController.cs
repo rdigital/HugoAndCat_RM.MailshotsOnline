@@ -1,18 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using Examine;
 using HC.RM.Common.PCL.Helpers;
+using RM.MailshotsOnline.Data.Helpers;
+using RM.MailshotsOnline.Entities.JsonModels;
+using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.PCL.Services;
+using RM.MailshotsOnline.Web.Attributes;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Mvc;
-using System;
-using RM.MailshotsOnline.Entities.ViewModels;
-using Examine;
-using RM.MailshotsOnline.Entities.JsonModels;
-using RM.MailshotsOnline.Data.Helpers;
-using System.Web;
-using Umbraco.Core.Security;
+using System.Text;
 using System.Threading.Tasks;
-using RM.MailshotsOnline.Web.Attributes;
+using System.Web;
+using System.Web.Mvc;
+using Umbraco.Core.Security;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
@@ -191,16 +193,23 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 BlobStorageHelper blobHelper = new BlobStorageHelper(ConfigHelper.PrivateStorageConnectionString, ConfigHelper.PrivateMediaBlobStorageContainer);
                 var blobBytes = blobHelper.FetchBytes(blobId);
 
-                //TODO: Get the proper image type
-                result = Request.CreateResponse(HttpStatusCode.OK);
-                result.Content = new ByteArrayContent(blobBytes);
-                result.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/jpg");
-                result.Headers.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue()
+                if (blobBytes != null)
                 {
-                    Public = true,
-                    MaxAge = TimeSpan.FromSeconds(3600),
-                    NoCache = false
-                };
+                    //TODO: Get the proper image type
+                    result = Request.CreateResponse(HttpStatusCode.OK);
+                    result.Content = new ByteArrayContent(blobBytes);
+                    result.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/jpg");
+                    result.Headers.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue()
+                    {
+                        Public = true,
+                        MaxAge = TimeSpan.FromSeconds(3600),
+                        NoCache = false
+                    };
+                }
+                else
+                {
+                    result = ErrorMessage(HttpStatusCode.InternalServerError, "Unable to fetch image content from Azure storage");
+                }
             }
             else
             {
@@ -380,6 +389,66 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         }
 
         [HttpDelete]
+        public HttpResponseMessage DeleteMultipleImages(IntListModel list)
+        {
+            var authResult = Authenticate();
+            if (authResult != null)
+            {
+                return authResult;
+            }
+
+            if (list == null)
+            {
+                return ErrorMessage(HttpStatusCode.BadRequest, "You must provide a list of IDs.");
+            }
+
+            var successList = new List<int>();
+            var failureList = new List<int>();
+
+            foreach (int imageId in list.Ids)
+            {
+                var image = _imageLibrary.GetImage(imageId, false, false) as PrivateLibraryImage;
+                if (image != null)
+                {
+                    if (image.Username == _loggedInMember.Username)
+                    {
+                        if (!_cmsImageService.IsImageUsedInMailshot(imageId))
+                        {
+                            var success = _imageLibrary.DeleteImage(image);
+                            if (success)
+                            {
+                                _logger.Info(this.GetType().Name, "DeleteMultipleImages", "Deleted image with ID {0}.", imageId);
+                                successList.Add(imageId);
+                            }
+                            else
+                            {
+                                _logger.Info(this.GetType().Name, "DeleteMultipleImages", "Unable to delete image with ID {0}.", imageId);
+                                failureList.Add(imageId);
+                            }
+                        }
+                        else
+                        {
+                            _logger.Info(this.GetType().Name, "DeleteMultipleImages", "Attempt to delete image {0} that is in use.", imageId);
+                            failureList.Add(imageId);
+                        }
+                    }
+                    else
+                    {
+                        _logger.Error(this.GetType().Name, "DeleteMultipleImages", "Unauthorised attempt to delete image with ID {0} by user {1}.", imageId, _loggedInMember.Id);
+                        failureList.Add(imageId);
+                    }
+                }
+                else
+                {
+                    _logger.Error(this.GetType().Name, "DeleteMultipleImages", "Unable to find image with ID {0}.", imageId);
+                    failureList.Add(imageId);
+                }
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, new { success = successList, failure = failureList });
+        }
+
+        [HttpDelete]
         public HttpResponseMessage DeleteImage(int id)
         {
             var authResult = Authenticate();
@@ -398,6 +467,20 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             if (image.Username != _loggedInMember.Username)
             {
                 return ErrorMessage(HttpStatusCode.Forbidden, "You do not have permission to delete this image");
+            }
+
+            var campaignsUsingImage = _cmsImageService.FindCampaignsThatUseImage(image.ImageId);
+            if (campaignsUsingImage != null && campaignsUsingImage.Any())
+            {
+                var campaignWord = "campaign";
+                if (campaignsUsingImage.Count() > 1)
+                {
+                    campaignWord = "campaigns";
+                }
+
+                var errorMessage = string.Format("The image cannot be deleted while it is being used in the following {0}: {1}", campaignWord, string.Join(", ", campaignsUsingImage.Select(c => c.Name)));
+
+                return ErrorMessage(HttpStatusCode.ExpectationFailed, errorMessage);
             }
 
             bool success = _imageLibrary.DeleteImage(image);

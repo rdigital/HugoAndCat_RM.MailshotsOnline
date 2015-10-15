@@ -90,7 +90,7 @@ namespace RM.MailshotsOnline.Data.Services
             {
                 var requiredType = publicImage ? typeof(PublicLibraryImage) : typeof(PrivateLibraryImage);
                 IMedia image = MediaFactory.Convert(_helper.TypedMedia(mediaId), requiredType);
-                if (includeImageUsageCount)
+                if (image != null && includeImageUsageCount)
                 {
                     image.MailshotUses = _cmsImageService.GetImageUsageCount(mediaId);
                 }
@@ -166,7 +166,7 @@ namespace RM.MailshotsOnline.Data.Services
             var memberMediaFolder = privateMediaFolder.Children.FirstOrDefault(x => x.Name.Equals(member.Username));
             if (memberMediaFolder != null)
             {
-                var privateImages = memberMediaFolder.Children().Where(x => x.ContentType.Alias == Constants.Constants.MediaContent.PrivateLibraryImageMediaTypeAlias);
+                var privateImages = memberMediaFolder.Children().Where(x => x.ContentType.Alias == Constants.Constants.MediaContent.PrivateLibraryImageMediaTypeAlias).OrderByDescending(i => i.CreateDate);
                 return PopulateUsageCounts(privateImages.Select(x => MediaFactory.Convert(x, typeof(PrivateLibraryImage))));
             }
             else
@@ -205,9 +205,6 @@ namespace RM.MailshotsOnline.Data.Services
                     originalHeight = original.Height;
                     originalWidth = original.Width;
                 }
-                //original = _imageResizer.GetImage(bytes);
-                //smallThumb = _imageResizer.ResizeImageBytes(original, Constants.Settings.ImageThumbnailSizeSmall);
-                //largeThumb = _imageResizer.ResizeImageBytes(original, Constants.Settings.ImageThumbnailSizeLarge);
             }
             catch (Exception e)
             {
@@ -280,6 +277,7 @@ namespace RM.MailshotsOnline.Data.Services
             convertedMedia.OriginalUrl = originalUrl;
             convertedMedia.SmallThumbUrl = $"{originalUrl}?size=small";
             convertedMedia.LargeThumbUrl = $"{originalUrl}?size=medium";
+            convertedMedia.MediaId = createdMedia.Id;
 
             return convertedMedia;
         }

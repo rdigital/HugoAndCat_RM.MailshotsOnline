@@ -24,7 +24,6 @@ define(['jquery', 'knockout'],
                 for(var i=0; i < pageNumbers + 1; i++) {
                     self.pagesArray.push(i + 1);
                 }
-
                 return pages - 1;
             });
 
@@ -40,10 +39,12 @@ define(['jquery', 'knockout'],
             this.calcVisNumbers = function() {
                 this.flippedPagination(false);
                 var i;
-                
                 if (this.pagesArray().length < 5) {
-                    return;
-
+                    var visibleNumbers = [];
+                    for(var n=0; n < this.pagesArray().length-1; n++) {
+                        visibleNumbers.push(n + 1);
+                    }
+                    this.visibleNumbers(visibleNumbers);
                 } else {
                     this.visibleNumbers([]);
 

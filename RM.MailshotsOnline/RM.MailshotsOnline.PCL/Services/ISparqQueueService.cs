@@ -22,8 +22,9 @@ namespace RM.MailshotsOnline.PCL.Services
         /// </summary>
         /// <param name="mailshot">Mailshot to be printed</param>
         /// <param name="postbackUrl">The URL the service needs to post back to</param>
+        /// <param name="ftpPostbackUrl">FTP postback URL</param>
         /// <returns>True on success</returns>
-        Task<bool> SendRenderAndPrintJob(IMailshot mailshot, string postbackUrl);
+        Task<bool> SendRenderAndPrintJob(IMailshot mailshot, string postbackUrl, string ftpPostbackUrl);
 
         /// <summary>
         /// Send a render job to the queue
@@ -32,6 +33,7 @@ namespace RM.MailshotsOnline.PCL.Services
         /// <param name="orderNumber">Order number</param>
         /// <param name="formatId">Format ID</param>
         /// <param name="renderPostbackUrl">Render postback URL</param>
+        /// <param name="ftpPostbackUrl">FTP postback URL</param>
         /// <returns>True on success</returns>
         Task<bool> SendRenderJob(IXmlAndXslData data, string orderNumber, string formatId, string renderPostbackUrl);
     }

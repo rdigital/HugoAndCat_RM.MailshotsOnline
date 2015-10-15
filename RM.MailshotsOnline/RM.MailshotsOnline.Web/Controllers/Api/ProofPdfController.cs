@@ -6,6 +6,7 @@ using RM.MailshotsOnline.Data.Helpers;
 using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
+using RM.MailshotsOnline.Web.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -193,6 +194,47 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
         }
 
+        public async Task<HttpResponseMessage> JobReadyForPrint(Guid id, OrderResults orderResults)
+        {
+            string methodName = "JobReadyForPrint";
+            var campaign = _campaignService.GetCampaign(id);
+            var invoice = campaign.LatestInvoice();
+
+            var result = await HandleProofResponse(campaign.Mailshot.MailshotId, orderResults, methodName);
+
+            if (result != null)
+            {
+                return result;
+            }
+
+            // Handle the next steps - send email to St. Ives
+            // Send Email to Royal Mail for approval
+            var baseUrl = string.Format("{0}://{1}:{2}", ConfigHelper.HostedScheme, ConfigHelper.HostedDomain, ConfigHelper.HostedPort);
+            var notificationUrl = string.Format("{0}/moderation?moderationId={1}&action=confirmprinting", baseUrl, campaign.ModerationId);
+            var recipients = new List<string>() { ConfigHelper.StIvesPrintNotificationAddress };
+            var sender = new System.Net.Mail.MailAddress(ConfigHelper.SystemEmailAddress);
+            _emailService.SendEmail(
+                recipients,
+                "A new MailshotsOnline campaign is ready for printing.",
+                $@"<p>Order number: {campaign.LatestInvoice().OrderNumber}</p>
+<p>Product type: {campaign.Mailshot.Format.Name}</p>
+<p>Volume: {campaign.TotalRecipientCount}</p>
+<p>Postage: {campaign.PostalOption.Name}</p>
+<p>Customer details: {invoice.BillingAddress.FirstName} {invoice.BillingAddress.LastName} ({invoice.BillingEmail})</p>
+<p>Notification URL: {notificationUrl}</p>",
+                System.Net.Mail.MailPriority.Normal,
+                sender
+                );
+
+            campaign.Status = PCL.Enums.CampaignStatus.SentForFulfilment;
+            campaign.UpdatedDate = DateTime.UtcNow;
+            campaign.SystemNotes += string.Format("{0:yyyy-MM-dd HH:mm:ss - Campaign PDF generation complete.  St Ives has been notified.");
+            _campaignService.SaveCampaign(campaign);
+
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+
         [HttpPost]
         [Route("ProofReady/{id}", Name = "ProofReady")]
         public async Task<HttpResponseMessage> ProofReady(Guid id, OrderResults orderResults)
@@ -236,9 +278,9 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             _emailService.SendEmail(
                 recipients,
                 "A new MailshotsOnline campaign needs approval",
-                $@"Proof PDF: {mailshot.ProofPdfUrl}
-Approve: {approvalUrl}
-Reject: {rejectUrl}",
+                $@"<p>Proof PDF: {mailshot.ProofPdfUrl}</p>
+<p>Approve: {approvalUrl}</p>
+<p>Reject: {rejectUrl}</p>",
                 System.Net.Mail.MailPriority.Normal,
                 sender
                 );

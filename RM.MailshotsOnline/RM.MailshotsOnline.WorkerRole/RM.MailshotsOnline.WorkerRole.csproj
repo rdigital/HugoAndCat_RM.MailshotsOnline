@@ -292,6 +292,10 @@
       <Project>{0d159929-5a8f-4e0c-84a6-3c7e9de5f5ad}</Project>
       <Name>RM.MailshotsOnline.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RM.MailshotsOnline.Entities\RM.MailshotsOnline.Entities.csproj">
+      <Project>{1d34baad-7432-4d2b-9af8-7e211ea44a94}</Project>
+      <Name>RM.MailshotsOnline.Entities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RM.MailshotsOnline.PCL\RM.MailshotsOnline.PCL.csproj">
       <Project>{BB08379A-7CB5-4142-BA89-3B3E2356B354}</Project>
       <Name>RM.MailshotsOnline.PCL</Name>
