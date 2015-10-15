@@ -13,7 +13,7 @@
     <div>@ViewBag.ErrorMessage</div>
 }
 
-@using (Html.BeginUmbracoForm("LoginForm", "LoginSurface"))
+@using (Html.BeginUmbracoForm("LoginForm", "LoginSurface", null, new Dictionary<string, object> { { "data-bind", "submit: validateAndSubmit" } }))
 {
     @Html.ValidationSummary()
 
@@ -21,13 +21,13 @@
     <div class="form-row">
         @Html.LabelFor(m => m.Email, Model.PageModel.EmailLabel)
         <div class="input-wrapper">
-            @Html.EditorFor(m => m.Email)
+            @Html.TextBoxFor(m => m.Email, new { data_bind = "value: email" })
         </div>
     </div>
     <div class="form-row">
         @Html.LabelFor(m => m.Password, Model.PageModel.PasswordLabel)
         <div class="input-wrapper">
-            @Html.PasswordFor(m => m.Password)
+            @Html.TextBoxFor(m => m.Password, new { data_bind = "value: password" })
         </div>
     </div>
     <div class="form-row password-reset">

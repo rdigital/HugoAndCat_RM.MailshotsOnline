@@ -49,6 +49,10 @@ require([
 		if ($('.register').length > 0) {
 			ko.applyBindings(registerView, $('.register')[0]);
 		}
+
+		if ($('#login').length > 0) {
+			ko.applyBindings(loginViewModel, $('#login')[0]);
+		}
 		
 
 		// initialise perfect scrollbar plugin

@@ -3,12 +3,12 @@
     Layout = "~/Views/Master.cshtml";
 }
 
+<!-- ko stopBinding: true -->
 <div id="login" class="login constrain">
     @* @Umbraco.RenderMacro("Breadcrumbs") *@
     <h1 class="heading01">Log in to Mail Shots Online</h1>
-    <!-- ko stopBinding: true -->
     <div class="login-form content-box">
         @Html.Action("ShowLoginForm", "LoginSurface", new {model = Model})
     </div>
-    <!-- /ko -->
 </div>
+<!-- /ko -->
