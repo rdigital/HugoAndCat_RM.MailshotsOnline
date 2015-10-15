@@ -22,5 +22,11 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         public string BadLoginMessage { get; set; }
 
+        public string RegisterPrompt { get; set; }
+
+        public string RegisterCtaText { get; set; }
+
+        public BasePage RegisterPage { get; set; }
+
     }
 }

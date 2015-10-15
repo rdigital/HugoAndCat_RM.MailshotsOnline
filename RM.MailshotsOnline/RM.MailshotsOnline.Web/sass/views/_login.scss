@@ -1,0 +1,43 @@
+.login {
+	
+	.login-form {
+		width: 650px;
+
+		form {
+			@extend %clearfix;
+		}
+
+		.info {
+			display: block;
+			margin: 0 0 10px 240px;
+		}
+
+		.form-row {
+			width: 100%;
+		}
+
+		.password-reset {
+			margin-bottom: 30px;
+			text-align: right;
+
+			a {
+				color: $RM-red;
+				text-decoration: none;
+			}
+		}
+
+		.btn {
+			float: right;
+			margin-bottom: 15px;
+		}
+
+		.register-prompt {
+			text-align: right;
+
+			a {
+				color: $RM-red;
+				text-decoration: none;
+			}
+		}
+	}
+}

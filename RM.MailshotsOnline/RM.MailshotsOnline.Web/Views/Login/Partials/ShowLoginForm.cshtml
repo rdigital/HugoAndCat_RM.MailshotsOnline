@@ -16,19 +16,27 @@
 @using (Html.BeginUmbracoForm("LoginForm", "LoginSurface"))
 {
     @Html.ValidationSummary()
-    <div>
+
+    <span class="info">*indicates a required field</span>
+    <div class="form-row">
         @Html.LabelFor(m => m.Email, Model.PageModel.EmailLabel)
-        @Html.EditorFor(m => m.Email)
+        <div class="input-wrapper">
+            @Html.EditorFor(m => m.Email)
+        </div>
     </div>
-    <div>
+    <div class="form-row">
         @Html.LabelFor(m => m.Password, Model.PageModel.PasswordLabel)
-        @Html.PasswordFor(m => m.Password)
+        <div class="input-wrapper">
+            @Html.PasswordFor(m => m.Password)
+        </div>
+    </div>
+    <div class="form-row password-reset">
+        <a href="@passwordResetUrl">@Model.PageModel.PasswordResetCtaText</a>
     </div>
     <div>
-        <input type="submit" value="@Model.PageModel.LoginCtaText" />
+        <button class="btn btn--blue" type="submit">@Model.PageModel.LoginCtaText</button>
     </div>
 }
-
-<div>
-    <a href="@passwordResetUrl">@Model.PageModel.PasswordResetCtaText</a>
+<div class="register-prompt">
+    @Model.PageModel.RegisterPrompt <a href="@Model.PageModel.RegisterPage.Url()">@Model.PageModel.RegisterCtaText</a>
 </div>
