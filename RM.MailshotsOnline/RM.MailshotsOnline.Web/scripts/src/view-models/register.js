@@ -9,8 +9,7 @@ define([
         var registerViewModel = {
 
             proceedToNextStage: function() {
-                console.log('register view model');
-                alert('proceed to next stage');
+                console.log('proceedToNextStage');
             }
         }
 

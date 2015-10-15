@@ -25,8 +25,7 @@ require([
 		paginationComponent, 
 		errorComponent, 
 		notificationComponent,
-		registerView,
-		stopBinding
+		registerView
 	) {
 
 		// register components
