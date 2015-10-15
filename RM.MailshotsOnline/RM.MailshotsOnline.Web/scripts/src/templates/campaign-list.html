@@ -1,11 +1,23 @@
 <div class="campaign-list constrain">
-	<!-- ko if: !campaignList().length -->
+	<!-- ko if: loading -->
 		<div class="loading-gif"></div>
 	<!-- /ko -->
+	<!-- ko if: !loading() -->
+
+	<!-- ko if: !campaignList().length -->
+		<div class="campaign-list__header-bar">
+			<h1>Campaigns (<span data-bind="text: campaignList().length"></span>)</h1>
+		</div>
+		<div class="content-box campaign-list__empty">
+			<h5>You don't have any campaigns yet</h5>
+			<a href="" class="btn btn--blue btn--icon-right">Create a new campaign<span class="btn-icon icon-add"></span></a>
+		</div>
+	<!-- /ko -->
+
 	<!-- ko if: campaignList().length -->
 		<div class="campaign-list__header-bar">
 			<h1>Campaigns (<span data-bind="text: campaignList().length"></span>)</h1>
-			<a href="" class="create">
+			<a data-bind="visible: campaignList().length" href="" class="create">
 				<span class="link-text">New Campaign</span>
 				<span class="icon-add"></span>
 			</a>
@@ -14,12 +26,12 @@
 		<ul class="campaign-list__list">
 			<!-- ko foreach: displayedList -->
 				<li class="content-box">
-					<div class="image placeholder"></div>
+					<div data-bind="css: {'placeholder': PreviewImageUrl === ''}" class="image"></div>
 					<div class="content">
-						<a href=""><h2 data-bind="text: Name"></h2></a>
+						<a data-bind="attr: {href: CampaignHubUrl}" href=""><h2 data-bind="text: Name"></h2></a>
 						<div class="actions">
-							<button class="btn" type="button"><span class="icon-copy btn-icon"></span></button>
-							<button class="btn" type="button"><span class="icon-delete btn-icon"></span></button>
+							<button data-bind="click: $parent.copy" class="btn" type="button"><span class="icon-copy btn-icon"></span></button>
+							<button data-bind="click: $parent.deleteCampaign" class="btn" type="button"><span class="icon-delete btn-icon"></span></button>
 						</div>
 						<div class="status">
 							<!-- ko if: StatusTitle === 'Draft' -->
@@ -49,5 +61,7 @@
 		</ul>
 
 		<pagination-component params="data: campaignList, perPage: 5, displayedList: displayedList"></pagination-component>
+	<!-- /ko -->
+
 	<!-- /ko -->
 </div>

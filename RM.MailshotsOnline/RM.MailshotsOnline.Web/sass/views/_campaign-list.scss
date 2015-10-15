@@ -35,6 +35,27 @@
 		}
 	}
 
+	.campaign-list__empty {
+		min-height: 50px;
+
+		h5 {
+			@include font-size(24);
+			font-family: $ChevinLight;
+			display: inline-block;
+			line-height: 50px;
+			margin-bottom: 0;
+			width: 60%;
+		}
+
+		.btn {
+			float: right;
+			height: 50px;
+			margin-bottom: 0;
+			padding-top: 13px;
+			text-decoration: none;
+		}
+	}
+
 	.campaign-list__list {
 		min-height: 1040px;
 
@@ -140,5 +161,9 @@
 				}
 			}
 		}
+	}
+
+	.pagination {
+		margin-bottom: 50px;
 	}
 }
