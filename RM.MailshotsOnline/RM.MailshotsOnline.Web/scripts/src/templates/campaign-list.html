@@ -10,14 +10,14 @@
 		</div>
 		<div class="content-box campaign-list__empty">
 			<h5>You don't have any campaigns yet</h5>
-			<a href="" class="btn btn--blue btn--icon-right">Create a new campaign<span class="btn-icon icon-add"></span></a>
+			<a data-bind="click: createNew" href="" class="btn btn--blue btn--icon-right">Create a new campaign<span class="btn-icon icon-add"></span></a>
 		</div>
 	<!-- /ko -->
 
 	<!-- ko if: campaignList().length -->
 		<div class="campaign-list__header-bar">
 			<h1>Campaigns (<span data-bind="text: campaignList().length"></span>)</h1>
-			<a data-bind="visible: campaignList().length" href="" class="create">
+			<a data-bind="visible: campaignList().length, click: createNew" href="" class="create">
 				<span class="link-text">New Campaign</span>
 				<span class="icon-add"></span>
 			</a>
