@@ -112,7 +112,7 @@ define(['knockout', 'view-models/notification', 'components/uploadImage'],
                     ko.utils.arrayForEach(images, function(image) {
                         image.deleting(false);
                         notificationViewModel.show('There was an error deleting images', 'error');
-                    })
+                    });
                 }.bind(this)
             });
             return false;

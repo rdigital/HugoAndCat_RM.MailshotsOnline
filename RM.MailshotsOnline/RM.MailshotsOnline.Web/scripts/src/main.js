@@ -11,6 +11,7 @@ require([
 		'components/error',
 		'components/notification',
 		'view-models/register',
+		'view-models/login',
 		'stopbinding'
 	],
 	function(
@@ -25,7 +26,8 @@ require([
 		paginationComponent, 
 		errorComponent, 
 		notificationComponent,
-		registerView
+		registerView,
+		loginViewModel
 	) {
 
 		// register components

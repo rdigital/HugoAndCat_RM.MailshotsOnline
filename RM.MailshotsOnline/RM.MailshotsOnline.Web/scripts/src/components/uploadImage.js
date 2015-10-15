@@ -25,7 +25,7 @@ define(['knockout', 'view-models/notification'],
                 };
                 this.imageArray.unshift(newImage);
                 // we are uploading a new image
-                notificationViewModel.show('Uploading Image...')
+                notificationViewModel.show('Uploading Image...');
 
                 var name = this.getRandomInt().toString(),
                     data = {
@@ -39,7 +39,7 @@ define(['knockout', 'view-models/notification'],
                     }.bind(this)).fail(function(error) {
                         notificationViewModel.show("Error uploading image", "error");
                         this.imageArray.remove(newImage);
-                    }.bind(this))
+                    }.bind(this));
             }
         };
 
