@@ -59,7 +59,11 @@ namespace RM.MailshotsOnline.Data.Constants
 
         public static class Apis
         {
-            public static readonly string ReportsApi = Helpers.ConfigHelper.GetConfigValue("ReportsApiUrl");
+            public static readonly string ReportsApi = string.Format("{0}://{1}:{2}{3}",
+                Helpers.ConfigHelper.HostedScheme, 
+                Helpers.ConfigHelper.HostedDomain, 
+                Helpers.ConfigHelper.HostedPort,
+                Helpers.ConfigHelper.GetConfigValue("ReportsApiUrl"));
         }
     }
 }

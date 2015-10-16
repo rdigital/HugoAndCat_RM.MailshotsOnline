@@ -12,6 +12,9 @@
       <Setting name="ReportSFTPHost" />
       <Setting name="ReportsApiUrl" />
       <Setting name="StorageConnectionString" />
+      <Setting name="HostedDomain" />
+      <Setting name="HostedScheme" />
+      <Setting name="HostedPort" />
     </ConfigurationSettings>
     <Imports>
       <Import moduleName="RemoteAccess" />
@@ -50,6 +53,7 @@
       <Setting name="PrivateMediaLibraryId"/>
       <Setting name="RoyalMailApprovalEmailAddress"/>
       <Setting name="SaveMailshotInfoForDebug"/>
+      <Setting name="StIvesPrintNotificationAddress"/>
     </ConfigurationSettings>
     <Endpoints>
       <InputEndpoint name="HttpIn" protocol="http" port="80" />

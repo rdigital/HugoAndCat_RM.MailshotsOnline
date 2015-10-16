@@ -1,0 +1,8 @@
+<page xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <heading>Big headline goes here.</heading>
+  <sub-heading>Sub-line with a bit more detail goes here.</sub-heading>
+  <body>Far far away, behind the word mountains, far from the countries, there live the blind texts. Separated they live in right at the coast of the Semantics, a large language ocean.  It is a paradisematic country.</body>
+  <cta>Call to action! What do you want them to do?</cta>
+  <hero_image>https://mrhcrmmsol.blob.core.windows.net/privateimages/pdf-images/1308/f4f06987-5059-40e5-8e52-345e1961cca6/hero_image.png?sv=2015-04-05&amp;sr=b&amp;sig=0y32KfH1NmaSrcZ1N4eFl5IvLTnLGNAoPEpZAqw%2Ff%2FY%3D&amp;st=2015-10-15T10:46:48Z&amp;se=2015-10-16T10:51:48Z&amp;sp=r&amp;rscc=private%2C max-age%3D0</hero_image>
+  <back_hero_image>https://mrhcrmmsol.blob.core.windows.net/privateimages/pdf-images/1308/f4f06987-5059-40e5-8e52-345e1961cca6/back_hero_image.png?sv=2015-04-05&amp;sr=b&amp;sig=6dcaWlxWlTRF7whcdJAUjkwPu8X446sWqI17vdR0%2BGc%3D&amp;st=2015-10-15T10:46:49Z&amp;se=2015-10-16T10:51:49Z&amp;sp=r&amp;rscc=private%2C max-age%3D0</back_hero_image>
+</page>

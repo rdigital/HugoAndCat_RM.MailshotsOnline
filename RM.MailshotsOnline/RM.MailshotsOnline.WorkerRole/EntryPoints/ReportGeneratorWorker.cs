@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -6,7 +7,9 @@ using System.Threading;
 using System.Xml.Linq;
 using HC.RM.Common.Azure.EntryPoints;
 using HC.RM.Common.Azure.Helpers;
+using Newtonsoft.Json;
 using RM.MailshotsOnline.Data.Constants;
+using RM.MailshotsOnline.Entities.JsonModels;
 using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 
@@ -37,18 +40,22 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
                     return;
                 }
 
+                Logger.Info(GetType().Name, "Run", "Working...");
+
                 _working = true;
             }
 
             try
             {
+                Logger.Info(GetType().Name, "Run", "Checking queue for message...");
+
                 // Get the message at the head of the queue. Note: FIFO is
                 // not guaranteed
                 var queueMsg = Queue.GetMessage();
 
                 while (queueMsg != null)
                 {
-                    Logger.Info(GetType().Name, "Run", "Processing Message: {0}", queueMsg.Id);
+                    Logger.Info(GetType().Name, "Run", "Found message: {0}", queueMsg.Id);
 
                     /*
                       <?xml version="1.0" encoding="utf-16"?>
@@ -56,8 +63,8 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
                         <ExecutionTag>e927cf76d24da9625608248ce654cfa7</ExecutionTag>
                         <ClientRequestId>3c4b84e2-aee5-43ac-913e-c05c8827ac41</ClientRequestId>
                         <ExpectedExecutionTime>2015-09-10T00:00:00</ExpectedExecutionTime>
-                        <SchedulerJobId>rm-photopost-creditreports</SchedulerJobId>
-                        <SchedulerJobCollectionId>bdhcjobs</SchedulerJobCollectionId>
+                        <SchedulerJobId>rm-msol-membership</SchedulerJobId>
+                        <SchedulerJobCollectionId>rmmsol</SchedulerJobCollectionId>
                         <Region>West Europe</Region>
                         <Message>membership</Message>
                       </StorageQueueMessage>
@@ -71,7 +78,7 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
 
                     if (messageElement == null)
                     {
-                        Logger.Error(GetType().Name, "Run", "Queue Message did not contain a Message element: {0}: {1}", queueMsg.Id, queueMsg.AsString);
+                        Logger.Error(GetType().Name, "Run", "Queue message did not contain a Message element: {0}: {1}", queueMsg.Id, queueMsg.AsString);
 
                         Queue.DeleteMessage(queueMsg);
                         queueMsg = Queue.GetMessage();
@@ -84,13 +91,15 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
 
                     if (string.IsNullOrEmpty(message))
                     {
-                        Logger.Error(GetType().Name, "Run", "Queue Message was parsed successfully but didn't contain a message: {0}: {1}", queueMsg.Id, queueMsg.AsString);
+                        Logger.Error(GetType().Name, "Run", "Queue message was parsed successfully but didn't contain a message: {0}: {1}", queueMsg.Id, queueMsg.AsString);
 
                         Queue.DeleteMessage(queueMsg);
                         queueMsg = Queue.GetMessage();
 
                         continue;
                     }
+
+                    Logger.Info(GetType().Name, "Run", $"Message: {message}");
 
                     switch (message)
                     {
@@ -105,15 +114,22 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
                             }
                             catch
                             {
-                                Logger.Info(GetType().Name, "Run", "Failed to set token before starting report generation.");
+                                Logger.Info(GetType().Name, "Run", "Failed to set auth token before starting report generation.");
 
                                 return;
                             }
 
                             if (token != null)
                             {
+                                var postModel = JsonConvert.SerializeObject(new AuthTokenPostModel()
+                                {
+                                    Type = message,
+                                    Service = GetType().Name,
+                                    Token = token.AuthTokenId.ToString()
+                                });
+
                                 var response =
-                                    SendHttpPost($"{Constants.Apis.ReportsApi}/generatereport?type={message}&token={token.AuthTokenId}&service={GetType().Name}");
+                                    SendHttpPost($"{Constants.Apis.ReportsApi}/generatereport", postModel);
 
                                 Logger.Info(GetType().Name, "Run", $"Reports API responded with status {response}");
                             }
@@ -156,16 +172,20 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
                 _working = false;
             }
 
-            // Reports only really happen once a day
+
+            Logger.Info(GetType().Name, "Run", "Sleeping for " + _queueInterval);
             Thread.Sleep(_queueInterval);
         }
 
-        private HttpStatusCode SendHttpPost(string url, object data = null)
+        private HttpStatusCode SendHttpPost(string url, string data = null)
         {
+            Logger.Info(GetType().Name, "SendHtpPost", $"Sending POST to {url}");
+
             var tokenRequest = WebRequest.Create(url);
             tokenRequest.Method = WebRequestMethods.Http.Post;
+            tokenRequest.ContentType = "application/json";
 
-            var postData = data?.ToString();
+            var postData = data;
             var byteArray = Encoding.UTF8.GetBytes(postData ?? "");
 
             tokenRequest.ContentLength = byteArray.Length;
@@ -173,6 +193,7 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
             using (var dataStream = tokenRequest.GetRequestStream())
             {
                 dataStream.Write(byteArray, 0, byteArray.Length);
+                dataStream.Flush();
 
                 using (var response = (HttpWebResponse)tokenRequest.GetResponse())
                 {

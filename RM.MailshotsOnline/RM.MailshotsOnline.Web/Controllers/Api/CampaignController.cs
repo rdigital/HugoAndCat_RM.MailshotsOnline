@@ -1,8 +1,13 @@
-﻿using HC.RM.Common.PCL.Helpers;
+﻿using Glass.Mapper.Umb;
+using HC.RM.Common.PCL.Helpers;
+using RM.MailshotsOnline.Data.Constants;
 using RM.MailshotsOnline.Entities.DataModels;
+using RM.MailshotsOnline.Entities.JsonModels;
+using RM.MailshotsOnline.Entities.PageModels;
 using RM.MailshotsOnline.Entities.ViewModels;
 using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
+using RM.MailshotsOnline.Web.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,13 +23,24 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         private ICampaignService _campaignService;
         private IMailshotsService _mailshotService;
         private IPricingService _pricingService;
+        private ISettingsService _settingsService;
+        private IUmbracoService _umbracoService;
 
-        public CampaignController(ICampaignService campaignService, IMailshotsService mailshotService, IPricingService pricingService, IMembershipService membershipService, ILogger logger)
+        public CampaignController(
+            ICampaignService campaignService, 
+            IMailshotsService mailshotService, 
+            IPricingService pricingService, 
+            IMembershipService membershipService,
+            ISettingsService settingsService,
+            IUmbracoService umbracoService, 
+            ILogger logger)
             : base (membershipService, logger)
         {
             _campaignService = campaignService;
             _mailshotService = mailshotService;
             _pricingService = pricingService;
+            _settingsService = settingsService;
+            _umbracoService = umbracoService;
         }
 
         [Authorize]
@@ -41,7 +57,22 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             // Get the user's campaigns
             var campaigns = _campaignService.GetCampaignsForUser(_loggedInMember.Id).Select(c => (Campaign)c);
 
-            return Request.CreateResponse(HttpStatusCode.OK, campaigns);
+            // Get content pages
+            var settings = _settingsService.GetCurrentSettings();
+            var navSettings = Umbraco.Content(Constants.Settings.HeaderNavSettingsId);
+            var campaignHubPage = _umbracoService.GetItem<CampaignHub>((int)navSettings.CampaignHubPage);
+            var summaryModels = new List<CampaignSummaryModel>();
+            foreach (var campaign in campaigns)
+            {
+                var model = new CampaignSummaryModel(campaign);
+                model.StatusTitle = campaignHubPage.GetStatusText(campaign, settings);
+                model.StatusSubtitle = campaignHubPage.GetStatusDescription(campaign, settings);
+                model.CampaignHubUrl = string.Format("{0}?campaignId={1}", campaignHubPage.Url(), campaign.CampaignId);
+
+                summaryModels.Add(model);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, summaryModels);
         }
 
         [Authorize]

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HC.RM.Common.Azure.Helpers;
+using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.DAL;
 using RM.MailshotsOnline.Entities.DataModels;
 using RM.MailshotsOnline.PCL.Models;
@@ -14,9 +15,9 @@ namespace RM.MailshotsOnline.Data.Services
     public class AuthTokenService : IAuthTokenService
     {
         private StorageContext _context;
-        private static HC.RM.Common.PCL.Helpers.ILogger _logger;
+        private static ILogger _logger;
 
-        public AuthTokenService(HC.RM.Common.PCL.Helpers.ILogger logger)
+        public AuthTokenService(ILogger logger)
             : this(new StorageContext())
         {
             _logger = logger;

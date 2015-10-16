@@ -11,12 +11,15 @@
       <Setting name="StorageConnectionString" value="UseDevelopmentStorage=true" />
       <Setting name="AppInsightsKey" value="f4926bc4-a07f-420c-89f1-40e38682d0c6" />
       <Setting name="ReportsServiceQueueName" value="reportsqueue" />
-      <Setting name="ReportsServiceBusConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="ReportsServiceBusConnectionString" value="DefaultEndpointsProtocol=https;AccountName=mrhcrmmsol;AccountKey=EDu8h+0zzlP9T8roDBXdFd58ti0UQyQNeON0BsT87rfpRSaKxXQ6xCKymGhO/vtsZPygpHrAXY63HkSjQEO5ig==" />
       <Setting name="ReportStorageContainer" value="reports" />
       <Setting name="ReportSFTPPrivateKeyLocation" value="private-key.ppk" />
-      <Setting name="ReportSFTPUsername" value="hcadmin" />
+      <Setting name="ReportSFTPUsername" value="rm-reportingservice" />
       <Setting name="ReportSFTPHost" value="jghclinux.cloudapp.net" />
-      <Setting name="ReportsApiUrl" value="http://localhost/umbraco/api/reports" />
+      <Setting name="ReportsApiUrl" value="/umbraco/api/reports" />
+      <Setting name="HostedDomain" value="mrhcrmmsol.cloudapp.net" />
+      <Setting name="HostedScheme" value="http" />
+      <Setting name="HostedPort" value="80" />
     </ConfigurationSettings>
     <Certificates>
       <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="A8758600C049A567CCAFF3FDCE236C3C81E6CD06" thumbprintAlgorithm="sha1" />
@@ -32,7 +35,7 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2016-07-21T23:59:59.0000000+01:00" />
       <Setting name="StorageConnectionString" value="UseDevelopmentStorage=true" />
       <Setting name="PrivateStorageConnectionString" value="UseDevelopmentStorage=true" />
-      <Setting name="StorageContextEF" value="Data Source=.\local;Initial Catalog=mrhcrmmsol-sql;User ID=admin;Password=squid;MultipleActiveResultSets=True" />
+      <Setting name="StorageContextEF" value="Server=tcp:gpxfbusuk8.database.windows.net,1433;Database=mrhcrmmsol-sql;User ID=rmphoto@gpxfbusuk8;Password=ZA8X461t7yQwdTDUZDTl;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;" />
       <Setting name="AppInsightsKey" value="f4926bc4-a07f-420c-89f1-40e38682d0c6" />
       <!--<Setting name="SparqServiceUrl" value="https://re-sparq.sp-systems.co.uk/sparq" />
       <Setting name="SparqServiceUsername" value="gosborne" />
@@ -53,6 +56,7 @@
       <Setting name="RoyalMailApprovalEmailAddress" value="ext-mradford@hugoandcat.com" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
       <Setting name="SaveMailshotInfoForDebug" value="true"/>
+      <Setting name="StIvesPrintNotificationAddress" value="ext-mradford@hugoandcat.com"/>
     </ConfigurationSettings>
     <Certificates>
       <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="A8758600C049A567CCAFF3FDCE236C3C81E6CD06" thumbprintAlgorithm="sha1" />

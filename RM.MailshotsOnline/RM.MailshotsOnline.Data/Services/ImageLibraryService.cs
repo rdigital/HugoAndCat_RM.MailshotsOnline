@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using HC.RM.Common.Images;
 using HC.RM.Common.PCL.Helpers;
@@ -90,7 +91,7 @@ namespace RM.MailshotsOnline.Data.Services
             {
                 var requiredType = publicImage ? typeof(PublicLibraryImage) : typeof(PrivateLibraryImage);
                 IMedia image = MediaFactory.Convert(_helper.TypedMedia(mediaId), requiredType);
-                if (includeImageUsageCount)
+                if (image != null && includeImageUsageCount)
                 {
                     image.MailshotUses = _cmsImageService.GetImageUsageCount(mediaId);
                 }
@@ -166,7 +167,7 @@ namespace RM.MailshotsOnline.Data.Services
             var memberMediaFolder = privateMediaFolder.Children.FirstOrDefault(x => x.Name.Equals(member.Username));
             if (memberMediaFolder != null)
             {
-                var privateImages = memberMediaFolder.Children().Where(x => x.ContentType.Alias == Constants.Constants.MediaContent.PrivateLibraryImageMediaTypeAlias);
+                var privateImages = memberMediaFolder.Children().Where(x => x.ContentType.Alias == Constants.Constants.MediaContent.PrivateLibraryImageMediaTypeAlias).OrderByDescending(i => i.CreateDate);
                 return PopulateUsageCounts(privateImages.Select(x => MediaFactory.Convert(x, typeof(PrivateLibraryImage))));
             }
             else
@@ -184,7 +185,7 @@ namespace RM.MailshotsOnline.Data.Services
         /// <param name="name">The name of the image.</param>
         /// <param name="member">The member creating this image. The image will be stored in this member's personal image store.</param>
         /// <returns></returns>
-        public IMedia AddImage(byte[] bytes, string name, IMember member)
+        public async Task<IMedia> AddImage(byte[] bytes, string name, IMember member)
         {
             byte[] smallThumb;
             byte[] largeThumb;
@@ -205,9 +206,6 @@ namespace RM.MailshotsOnline.Data.Services
                     originalHeight = original.Height;
                     originalWidth = original.Width;
                 }
-                //original = _imageResizer.GetImage(bytes);
-                //smallThumb = _imageResizer.ResizeImageBytes(original, Constants.Settings.ImageThumbnailSizeSmall);
-                //largeThumb = _imageResizer.ResizeImageBytes(original, Constants.Settings.ImageThumbnailSizeLarge);
             }
             catch (Exception e)
             {
@@ -223,9 +221,9 @@ namespace RM.MailshotsOnline.Data.Services
 
             try
             {
-                _blobStorage.StoreBytes(bytes, originalFilename, $"image/{extension.ToLower().Trim(".")}");
-                _blobStorage.StoreBytes(smallThumb, smallThumbFilename, $"image/{extension.ToLower().Trim(".")}");
-                _blobStorage.StoreBytes(largeThumb, largeThumbFilename, $"image/{extension.ToLower().Trim(".")}");
+                await _blobStorage.StoreBytesAsync(bytes, originalFilename, $"image/{extension.ToLower().Trim(".")}");
+                await _blobStorage.StoreBytesAsync(smallThumb, smallThumbFilename, $"image/{extension.ToLower().Trim(".")}");
+                await _blobStorage.StoreBytesAsync(largeThumb, largeThumbFilename, $"image/{extension.ToLower().Trim(".")}");
             }
             catch (Exception e)
             {
@@ -280,6 +278,7 @@ namespace RM.MailshotsOnline.Data.Services
             convertedMedia.OriginalUrl = originalUrl;
             convertedMedia.SmallThumbUrl = $"{originalUrl}?size=small";
             convertedMedia.LargeThumbUrl = $"{originalUrl}?size=medium";
+            convertedMedia.MediaId = createdMedia.Id;
 
             return convertedMedia;
         }
