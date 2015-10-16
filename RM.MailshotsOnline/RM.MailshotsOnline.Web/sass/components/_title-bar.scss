@@ -90,6 +90,7 @@
 		left: 0;
 		position: absolute;
 		text-decoration: none;
+		z-index: 4;
 
 		.icon-previous {
 			@include font-size(30);
