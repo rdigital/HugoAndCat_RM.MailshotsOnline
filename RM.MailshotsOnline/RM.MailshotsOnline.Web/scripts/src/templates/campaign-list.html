@@ -46,6 +46,12 @@
 							<!-- ko if: StatusTitle === 'Delivered' -->
 							<span class="status-icon icon-tick"></span>
 							<!-- /ko -->
+							<!-- ko if: StatusTitle === 'Cancelled' -->
+							<span class="status-icon icon-close"></span>
+							<!-- /ko -->
+							<!-- ko if: StatusTitle === 'Failed Checks' || StatusTitle === 'Payment Declined' -->
+							<span class="status-icon icon-alert"></span>
+							<!-- /ko -->
 							<div class="status-text">
 								<p data-bind="text: StatusTitle" class="strong"></p>
 								<p data-bind="html: StatusSubtitle"></p>
