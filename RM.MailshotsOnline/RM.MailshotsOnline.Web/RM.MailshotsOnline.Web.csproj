@@ -582,6 +582,7 @@
     <Content Include="canvas\styles\zoom.scss" />
     <Content Include="scripts\src\components\addContact.js" />
     <Content Include="scripts\src\components\batchTray.js" />
+    <Content Include="scripts\src\components\campaignList.js" />
     <Content Include="scripts\src\components\createList.js" />
     <Content Include="scripts\src\components\dataSummary.js" />
     <Content Include="scripts\src\components\error.js" />
@@ -602,6 +603,7 @@
     <Content Include="scripts\src\require_config.js" />
     <Content Include="scripts\src\templates\add-contact.html" />
     <Content Include="scripts\src\templates\batch-tray.html" />
+    <Content Include="scripts\src\templates\campaign-list.html" />
     <Content Include="scripts\src\templates\create-list.html" />
     <Content Include="scripts\src\templates\data-summary.html" />
     <Content Include="scripts\src\templates\error.html" />

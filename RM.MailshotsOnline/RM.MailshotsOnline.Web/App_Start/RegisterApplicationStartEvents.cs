@@ -11,6 +11,7 @@ using RM.MailshotsOnline.Web.Handlers;
 using Umbraco.Core;
 using Umbraco.Web;
 using Umbraco.Web.Models;
+using RM.MailshotsOnline.Data.Helpers;
 
 namespace RM.MailshotsOnline.Web.App_Start
 {
@@ -43,7 +44,7 @@ namespace RM.MailshotsOnline.Web.App_Start
             RouteTable.Routes.MapUmbracoRoute(
                                               name: "DownloadListDetails",
                                               url: "lists/{distributionListId}/Download",
-                                              defaults: new { Controller = "ListDetail", Action = "ListDetailDownload", ParentId = "1407" },
+                                              defaults: new { Controller = "ListDetail", Action = "ListDetailDownload", ParentId = ConfigHelper.MyListsPageId.ToString() },
                                               virtualNodeHandler:
                                                   new FilteredDocumentTypeNodeRouteHandler(typeof (ListDetail).Name),
                                               constraints: new {distributionListId = new GuidRouteConstraint()}
@@ -52,7 +53,7 @@ namespace RM.MailshotsOnline.Web.App_Start
             RouteTable.Routes.MapUmbracoRoute(
                                               name: "ListDetails",
                                               url: "lists/{distributionListId}/",
-                                              defaults: new { Controller = "ListDetail", Action = "ListDetail", ParentId = "1407" },
+                                              defaults: new { Controller = "ListDetail", Action = "ListDetail", ParentId = ConfigHelper.MyListsPageId.ToString() },
                                               virtualNodeHandler:
                                                   new FilteredDocumentTypeNodeRouteHandler(typeof (ListDetail).Name),
                                               constraints: new {distributionListId = new GuidRouteConstraint()}
