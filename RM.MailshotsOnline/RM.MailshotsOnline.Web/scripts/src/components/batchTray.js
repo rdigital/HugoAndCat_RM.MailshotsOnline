@@ -7,6 +7,7 @@ define(['jquery', 'knockout', 'perfectScrollbar', 'koelement', 'view-models/stat
             var self = this;
 
             this.campaignId = window.campaignId;
+            this.backUrl = window.backUrl;
             this.selectedLists = stateViewModel.selectedLists;
             this.listsContainer = ko.observable();
             this.isOpen = ko.observable(false);
@@ -50,9 +51,35 @@ define(['jquery', 'knockout', 'perfectScrollbar', 'koelement', 'view-models/stat
 
         // add data to campaign functionality to be added here
         batchTrayComponentViewModel.prototype.addDataToCampaign = function addDataToCampaign() {
-            console.log('add data to campaign', this.campaignId);
+            //console.log('add data to campaign', this.campaignId);
             // add API call here and redirect back to campaign page on success
             // campaign ID is stored in this.campaignId
+            
+            var distribuitionLists = new Array();
+            this.selectedLists().forEach(function (list) {
+                distribuitionLists.push(list.DistributionListId);
+            });
+
+            //console.log('add the following IDs', distribuitionLists);
+
+            $.ajax({
+                url: '/Umbraco/Api/Campaign/AttachDistributionListsToCampaign/' + this.campaignId,
+                method: 'POST',
+                data: { Ids: distribuitionLists },
+                success: function () {
+                    window.location = window.backUrl;
+                },
+                error: function (error) {
+                    stateViewModel.showError(true);
+                    if (error) {
+                        stateViewModel.errorTitle("Oops!");
+                        stateViewModel.errorMessage(error.responseJSON.error);
+                    } else {
+                        stateViewModel.errorTitle("Oops!");
+                        stateViewModel.errorMessage("Looks like something went wrong, please try again");
+                    }
+                }
+            });
         };
 
         return {

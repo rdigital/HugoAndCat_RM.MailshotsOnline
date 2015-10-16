@@ -7,8 +7,8 @@
 }
 
 <script>
-    var createUrl = "@Model.CreateLinkUrl",
-		backUrl = "@Model.BackLinkUrl",
+    var createUrl = "@Model.CreatePage.Url()",
+		backUrl = "@Model.BackPage.Url()",
 		backText = "@Model.BackText",
 		campaignId = "@campaignId";
 </script>

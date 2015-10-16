@@ -68,6 +68,8 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         public string OurDataHeading { get; set; }
 
+        public BasePage AddDataPage { get; set; }
+
         #endregion
 
         #region Design section

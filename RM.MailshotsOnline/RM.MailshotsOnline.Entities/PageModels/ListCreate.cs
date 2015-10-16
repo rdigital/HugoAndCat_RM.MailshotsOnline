@@ -4,7 +4,7 @@ using RM.MailshotsOnline.PCL.Models;
 
 namespace RM.MailshotsOnline.Entities.PageModels
 {
-    [UmbracoType]
+    [UmbracoType(AutoMap = true)]
     public class ListCreate : BasePage
     {
         // Upload File
@@ -73,6 +73,12 @@ namespace RM.MailshotsOnline.Entities.PageModels
         public string CancelImportText { get; set; }
 
         [UmbracoProperty]
+        public string BackLinkText { get; set; }
+
+        [UmbracoProperty]
+        public BasePage BackPage { get; set; }
+
+        [UmbracoProperty]
         public string FinishAndImportText { get; set; }
 
         [UmbracoProperty]
@@ -138,5 +144,11 @@ namespace RM.MailshotsOnline.Entities.PageModels
         public IDistributionList DistributionList { get; set; }
 
         public Enums.DistributionListState CurrentStep { get; set; }
+
+        public string BackUrl { get; set; }
+
+        public string ListDetailBaseUrl { get; set; }
+
+        public string CampaignId { get; set; }
     }
 }

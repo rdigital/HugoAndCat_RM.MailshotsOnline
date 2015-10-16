@@ -592,11 +592,13 @@
     <Content Include="scripts\src\components\listDetail.js" />
     <Content Include="scripts\src\components\lists.js" />
     <Content Include="scripts\src\components\matchData.js" />
+    <Content Include="scripts\src\components\myImages.js" />
     <Content Include="scripts\src\components\myLists.js" />
     <Content Include="scripts\src\components\notification.js" />
     <Content Include="scripts\src\components\pagination.js" />
     <Content Include="scripts\src\components\rentList.js" />
     <Content Include="scripts\src\components\uploadData.js" />
+    <Content Include="scripts\src\components\uploadImage.js" />
     <Content Include="scripts\src\custom-bindings\ko-attrif.js" />
     <Content Include="scripts\src\custom-bindings\ko-element.js" />
     <Content Include="scripts\src\custom-bindings\ko-file.js" />
@@ -610,11 +612,13 @@
     <Content Include="scripts\src\templates\list-detail.html" />
     <Content Include="scripts\src\templates\lists.html" />
     <Content Include="scripts\src\templates\match-data.html" />
+    <Content Include="scripts\src\templates\my-images.html" />
     <Content Include="scripts\src\templates\my-lists.html" />
     <Content Include="scripts\src\templates\notification.html" />
     <Content Include="scripts\src\templates\pagination.html" />
     <Content Include="scripts\src\templates\rent-list.html" />
     <Content Include="scripts\src\templates\upload-data.html" />
+    <Content Include="scripts\src\templates\upload-image.html" />
     <Content Include="scripts\src\vendor\jquery-1.10.2.min.js" />
     <Content Include="scripts\src\vendor\knockout-mapping.js" />
     <Content Include="scripts\src\vendor\knockout-validation.min.js" />
@@ -633,6 +637,7 @@
     <Content Include="AppInsightsAgent\InstallAgent.bat" />
     <Content Include="Views\CampaignHub\Partials\StartDataButton.cshtml" />
     <Content Include="uSync\Template\ListDetailDownload\ListDetailDownload.config" />
+    <Content Include="Views\MyLists.cshtml" />
     <None Include="WaIISHost.exe.config">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -3137,6 +3142,7 @@
     <Compile Include="App_Start\GlassMapperUmbCustom.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Handlers\FilteredDocumentTypeNodeRouteHandler.cs" />
     <Compile Include="Handlers\DocumentTypeNodeRouteHandler.cs" />
     <Compile Include="App_Start\RegisterApplicationStartEvents.cs" />
     <Compile Include="App_Start\RegisterIoCEvents.cs" />
@@ -3212,6 +3218,7 @@
     <Compile Include="Helpers\ControllersHelper.cs" />
     <Compile Include="Helpers\InvoiceHelper.cs" />
     <Compile Include="Helpers\MembershipHelper.cs" />
+    <Compile Include="Helpers\SiteUrlHelper.cs" />
     <Compile Include="Installers\ControllersInstaller.cs" />
     <Compile Include="Models\DistributionContact.cs" />
     <Compile Include="Plumbing\WindsorCompositionRoot.cs" />
@@ -3593,9 +3600,7 @@
     <Content Include="Views\CampaignHub\Partials\EditButton.cshtml" />
     <Content Include="Views\CampaignHub\Partials\DeleteDesignButton.cshtml" />
     <Content Include="Views\ListDetail.cshtml" />
-    <Content Include="Views\ListDetailEmpty.cshtml" />
     <Content Include="Views\Lists.cshtml" />
-    <Content Include="Views\ListsEmpty.cshtml" />
     <Content Include="Views\Dashboard.cshtml" />
     <Content Include="Views\MyImages.cshtml" />
     <Content Include="Views\MyOrders.cshtml" />
@@ -3613,10 +3618,8 @@
     <Content Include="uSync\DocumentType\Basepage\MyImages\def.config" />
     <Content Include="uSync\DocumentType\Basepage\MyOrders\def.config" />
     <Content Include="uSync\Template\CaptureDetails\CaptureDetails.config" />
-    <Content Include="Views\Lists\Lists.cshtml" />
     <Content Include="Views\OrderDetails.cshtml" />
     <Content Include="Views\Lists\Create.cshtml" />
-    <Content Include="Views\ListCreate.cshtml" />
     <Content Include="Views\Lists\Partials\ShowCreateListForm.cshtml" />
     <Content Include="Views\Lists\Partials\ShowConfirmFieldsForm.cshtml" />
     <Content Include="Views\Lists\Partials\ShowSummaryListForm.cshtml" />

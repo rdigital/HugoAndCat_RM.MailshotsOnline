@@ -68,7 +68,7 @@ namespace RM.MailshotsOnline.PCL.Models
         /// <summary>
         /// The distribution lists for the campaign
         /// </summary>
-        IEnumerable<IDistributionList> DistributionLists { get; set; }
+        IEnumerable<IDistributionList> DistributionLists { get; }
 
         /// <summary>
         /// The data searches for the campaign

@@ -43,28 +43,46 @@ namespace RM.MailshotsOnline.Web.App_Start
             RouteTable.Routes.MapUmbracoRoute(
                                               name: "DownloadListDetails",
                                               url: "lists/{distributionListId}/Download",
-                                              defaults: new {Controller = "ListDetail", Action = "ListDetailDownload"},
+                                              defaults: new { Controller = "ListDetail", Action = "ListDetailDownload", ParentId = "1407" },
                                               virtualNodeHandler:
-                                                  new DocumentTypeNodeRouteHandler(typeof (ListDetail).Name),
+                                                  new FilteredDocumentTypeNodeRouteHandler(typeof (ListDetail).Name),
                                               constraints: new {distributionListId = new GuidRouteConstraint()}
                 );
 
             RouteTable.Routes.MapUmbracoRoute(
                                               name: "ListDetails",
                                               url: "lists/{distributionListId}/",
-                                              defaults: new {Controller = "ListDetail", Action = "ListDetail"},
+                                              defaults: new { Controller = "ListDetail", Action = "ListDetail", ParentId = "1407" },
                                               virtualNodeHandler:
-                                                  new DocumentTypeNodeRouteHandler(typeof (ListDetail).Name),
+                                                  new FilteredDocumentTypeNodeRouteHandler(typeof (ListDetail).Name),
                                               constraints: new {distributionListId = new GuidRouteConstraint()}
                 );
 
             RouteTable.Routes.MapUmbracoRoute(
-                                              name: "CampaignListDetails",
-                                              url: "campaigns/{campaignId}/add-data",
+                                              name: "CampaignData",
+                                              url: "campaigns/{campaignId}/data",
                                               defaults: new { Controller = "Lists", Action = "Lists" },
                                               virtualNodeHandler:
                                                   new DocumentTypeNodeRouteHandler(typeof(Lists).Name),
                                               constraints: new { campaignId = new GuidRouteConstraint() }
+                );
+
+            RouteTable.Routes.MapUmbracoRoute(
+                                              name: "CampaignListCreate",
+                                              url: "campaigns/{campaignId}/data/create",
+                                              defaults: new { Controller = "ListCreate", Action = "ListCreate" },
+                                              virtualNodeHandler:
+                                                  new DocumentTypeNodeRouteHandler(typeof(ListCreate).Name),
+                                              constraints: new { campaignId = new GuidRouteConstraint() }
+                );
+
+            RouteTable.Routes.MapUmbracoRoute(
+                                              name: "CampaignListDetails",
+                                              url: "campaigns/{campaignId}/data/{distributionListId}",
+                                              defaults: new { Controller = "ListDetail", Action = "ListDetail" },
+                                              virtualNodeHandler:
+                                                  new DocumentTypeNodeRouteHandler(typeof(ListDetail).Name),
+                                              constraints: new { campaignId = new GuidRouteConstraint(), distributionListId = new GuidRouteConstraint() }
                 );
         }
     }

@@ -7,6 +7,8 @@ using RM.MailshotsOnline.Entities.DataModels;
 using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using Umbraco.Web.Models;
+using RM.MailshotsOnline.Web.Extensions;
+using RM.MailshotsOnline.Web.Helpers;
 
 namespace RM.MailshotsOnline.Web.Controllers
 {
@@ -27,7 +29,7 @@ namespace RM.MailshotsOnline.Web.Controllers
         }
 
         // GET: Lists
-        public override ActionResult Index(RenderModel model)
+        public ActionResult MyLists(RenderModel model)
         {
             // Fetch the Glass model of the page
             var pageModel = GetModel<Lists>();
@@ -38,7 +40,7 @@ namespace RM.MailshotsOnline.Web.Controllers
 
             pageModel.UsersLists = distributionLists;
 
-            return View("~/Views/Lists.cshtml", pageModel);
+            return View("~/Views/MyLists.cshtml", pageModel);
         }
 
         // GET: Lists
@@ -71,6 +73,17 @@ namespace RM.MailshotsOnline.Web.Controllers
 
             //pageModel.UsersLists = campaign.DistributionLists;
             pageModel.Campaign = campaign;
+
+            if (campaign == null)
+            {
+                pageModel.BackLinkUrl = pageModel.BackPage.Url();
+                pageModel.CreateLinkUrl = pageModel.CreatePage.Url();
+            }
+            else
+            {
+                pageModel.BackLinkUrl = SiteUrlHelper.GetUrlForCampaign(campaign.CampaignId);
+                pageModel.CreateLinkUrl = SiteUrlHelper.GetUrlForCampaignDataCreate(campaign.CampaignId);
+            }
 
             return View("~/Views/Lists.cshtml", pageModel);
         }

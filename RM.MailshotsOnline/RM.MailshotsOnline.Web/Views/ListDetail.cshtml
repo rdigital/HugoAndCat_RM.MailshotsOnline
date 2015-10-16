@@ -7,9 +7,9 @@
 {
     <script type="text/javascript">
         var listId = "@Model.DistributionListId",
-        	backUrl = '/lists', // this is also used to redirect the user when a list is deleted
-        	backText = 'Back to Add data page',
-        	campaignId = '';
+        	backUrl = '@Model.BackUrl', // this is also used to redirect the user when a list is deleted
+        	backText = '@Model.BackLinkText',
+        	campaignId = '@Model.CampaignId';
     </script>
 }
 

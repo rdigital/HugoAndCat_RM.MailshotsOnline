@@ -6,10 +6,10 @@
 }
 
 <script>
-    var backUrl = '/lists/',
-        backText = 'Back to add data page',
-        campaignId = '',
-        listDetailBaseUrl = /lists/; // JS redirect to detail view (dataSummary.js line 54)
+    var backUrl = '@Model.BackUrl',
+        backText = '@Model.BackLinkText',
+        campaignId = '@Model.CampaignId',
+        listDetailBaseUrl = '@Model.ListDetailBaseUrl'; // JS redirect to detail view (dataSummary.js line 54)
 </script>
 
 @* <div class="content">
