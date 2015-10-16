@@ -2282,7 +2282,7 @@ define([],
                         {
                             name:"inside_logo",
                             face:"Inside",
-                            type:"image",
+                            type:"logo",
                             theme_class:"logo",
                             layout:[
                                 {
@@ -2763,6 +2763,62 @@ define([],
                     name:"Self Mailer Template 2",
                     elements: [
                         {
+                            name:"box",
+                            face:"Inside",
+                            type:"box",
+                            theme_class:"complimentarybox",
+                            layout:[
+                                {
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {
+                                    property:"top",
+                                    value:"220px"
+                                },
+                                {
+                                    property:"left",
+                                    value:"0"
+                                },
+                                {
+                                    property:"width",
+                                    value:"840px"
+                                },
+                                {
+                                    property:"height",
+                                    value:"20px"
+                                }
+                            ]
+                        },
+                        {
+                            name:"thinbox",
+                            face:"Inside",
+                            type:"box",
+                            theme_class:"thintopborder",
+                            layout:[
+                                {
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {
+                                    property:"top",
+                                    value:"1060px"
+                                },
+                                {
+                                    property:"left",
+                                    value:"40px"
+                                },
+                                {
+                                    property:"width",
+                                    value:"760px"
+                                },
+                                {
+                                    property:"height",
+                                    value:"25px"
+                                }
+                            ]
+                        },
+                        {
                             name:"inside_image_1",
                             face:"Inside",
                             type:"image",
@@ -2774,7 +2830,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"500px"
+                                    value:"560px"
                                 },
                                 {
                                     property:"left",
@@ -2782,11 +2838,11 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"243px"
+                                    value:"234px"
                                 },
                                 {
                                     property:"height",
-                                    value:"200px"
+                                    value:"160px"
                                 }
                             ]
                         },
@@ -2794,7 +2850,7 @@ define([],
                             name:"image_caption_1",
                             face:"Inside",
                             type:"html",
-                            theme_class:"caption",
+                            theme_class:"body_1",
                             layout:[
                                 {
                                     property:"position",
@@ -2802,7 +2858,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"710px"
+                                    value:"725px"
                                 },
                                 {
                                     property:"left",
@@ -2810,7 +2866,7 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"243px"
+                                    value:"234px"
                                 },
                                 {
                                     property:"height",
@@ -2830,7 +2886,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"500px"
+                                    value:"560px"
                                 },
                                 {
                                     property:"left",
@@ -2842,7 +2898,7 @@ define([],
                                 },
                                 {
                                     property:"height",
-                                    value:"200px"
+                                    value:"160px"
                                 }
                             ]
                         },
@@ -2850,7 +2906,7 @@ define([],
                             name:"image_caption_2",
                             face:"Inside",
                             type:"html",
-                            theme_class:"caption",
+                            theme_class:"body_1",
                             layout:[
                                 {
                                     property:"position",
@@ -2858,7 +2914,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"710px"
+                                    value:"725px"
                                 },
                                 {
                                     property:"left",
@@ -2866,7 +2922,7 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"243px"
+                                    value:"234px"
                                 },
                                 {
                                     property:"height",
@@ -2886,7 +2942,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"500px"
+                                    value:"560px"
                                 },
                                 {
                                     property:"left",
@@ -2894,11 +2950,11 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"243px"
+                                    value:"234px"
                                 },
                                 {
                                     property:"height",
-                                    value:"200px"
+                                    value:"160px"
                                 }
                             ]
                         },
@@ -2906,7 +2962,7 @@ define([],
                             name:"image_caption_3",
                             face:"Inside",
                             type:"html",
-                            theme_class:"caption",
+                            theme_class:"body_1",
                             layout:[
                                 {
                                     property:"position",
@@ -2914,7 +2970,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"710px"
+                                    value:"725px"
                                 },
                                 {
                                     property:"left",
@@ -2922,7 +2978,7 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"243px"
+                                    value:"234px"
                                 },
                                 {
                                     property:"height",
@@ -2942,7 +2998,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"770px"
+                                    value:"780px"
                                 },
                                 {
                                     property:"left",
@@ -2950,11 +3006,11 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"243px"
+                                    value:"234px"
                                 },
                                 {
                                     property:"height",
-                                    value:"200px"
+                                    value:"160px"
                                 }
                             ]
                         },
@@ -2962,7 +3018,7 @@ define([],
                             name:"image_caption_4",
                             face:"Inside",
                             type:"html",
-                            theme_class:"caption",
+                            theme_class:"body_1",
                             layout:[
                                 {
                                     property:"position",
@@ -2970,7 +3026,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"980px"
+                                    value:"945px"
                                 },
                                 {
                                     property:"left",
@@ -2978,7 +3034,7 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"243px"
+                                    value:"234px"
                                 },
                                 {
                                     property:"height",
@@ -2998,7 +3054,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"770px"
+                                    value:"780px"
                                 },
                                 {
                                     property:"left",
@@ -3006,11 +3062,11 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"243px"
+                                    value:"234px"
                                 },
                                 {
                                     property:"height",
-                                    value:"200px"
+                                    value:"160px"
                                 }
                             ]
                         },
@@ -3018,7 +3074,7 @@ define([],
                             name:"image_caption_5",
                             face:"Inside",
                             type:"html",
-                            theme_class:"caption",
+                            theme_class:"body_1",
                             layout:[
                                 {
                                     property:"position",
@@ -3026,7 +3082,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"980px"
+                                    value:"945px"
                                 },
                                 {
                                     property:"left",
@@ -3034,7 +3090,7 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"243px"
+                                    value:"234px"
                                 },
                                 {
                                     property:"height",
@@ -3054,7 +3110,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"770px"
+                                    value:"780px"
                                 },
                                 {
                                     property:"left",
@@ -3062,11 +3118,11 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"243px"
+                                    value:"234px"
                                 },
                                 {
                                     property:"height",
-                                    value:"200px"
+                                    value:"160px"
                                 }
                             ]
                         },
@@ -3074,7 +3130,7 @@ define([],
                             name:"image_caption_6",
                             face:"Inside",
                             type:"html",
-                            theme_class:"caption",
+                            theme_class:"body_1",
                             layout:[
                                 {
                                     property:"position",
@@ -3082,7 +3138,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"980px"
+                                    value:"945px"
                                 },
                                 {
                                     property:"left",
@@ -3090,7 +3146,7 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"243px"
+                                    value:"234px"
                                 },
                                 {
                                     property:"height",
@@ -3102,7 +3158,7 @@ define([],
                             name:"inside_headline",
                             face:"Inside",
                             type:"html",
-                            theme_class:"headline",
+                            theme_class:"headline_1",
                             layout:[
                                 {
                                     property:"position",
@@ -3118,11 +3174,11 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"769px"
+                                    value:"760px"
                                 },
                                 {
                                     property:"height",
-                                    value:"200px"
+                                    value:"100px"
                                 }
                             ]
                         },
@@ -3130,7 +3186,7 @@ define([],
                             name:"inside_subline",
                             face:"Inside",
                             type:"html",
-                            theme_class:"subline",
+                            theme_class:"subline_1",
                             layout:[
                                 {
                                     property:"position",
@@ -3138,7 +3194,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"260px"
+                                    value:"150px"
                                 },
                                 {
                                     property:"left",
@@ -3146,11 +3202,11 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"769px"
+                                    value:"760px"
                                 },
                                 {
                                     property:"height",
-                                    value:"60px"
+                                    value:"50px"
                                 }
                             ]
                         },
@@ -3158,7 +3214,7 @@ define([],
                             name:"inside_body",
                             face:"Inside",
                             type:"html",
-                            theme_class:"body",
+                            theme_class:"body_1",
                             layout:[
                                 {
                                     property:"position",
@@ -3166,7 +3222,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"340px"
+                                    value:"270px"
                                 },
                                 {
                                     property:"left",
@@ -3174,11 +3230,11 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"769px"
+                                    value:"459px"
                                 },
                                 {
                                     property:"height",
-                                    value:"140px"
+                                    value:"240px"
                                 }
                             ]
                         },
@@ -3186,27 +3242,27 @@ define([],
                             name:"inside_cta",
                             face:"Inside",
                             type:"html",
-                            theme_class:"inside_cta_block",
+                            theme_class:"cta",
                             layout:[
                                 {
                                     property:"position",
                                     value:"absolute"
                                 },
                                 {
-                                    property:"bottom",
-                                    value:"60px"
+                                    property:"top",
+                                    value:"270px"
                                 },
                                 {
-                                    property:"left",
-                                    value:"0"
+                                    property:"right",
+                                    value:"40px"
                                 },
                                 {
                                     property:"width",
-                                    value:"849px"
+                                    value:"250px"
                                 },
                                 {
                                     property:"height",
-                                    value:"80px"
+                                    value:"240px"
                                 }
                             ]
                         },
@@ -3214,23 +3270,51 @@ define([],
                             name:"inside_footer",
                             face:"Inside",
                             type:"html",
-                            theme_class:"inside_footer_block",
+                            theme_class:"body_1",
                             layout:[
                                 {
                                     property:"position",
                                     value:"absolute"
                                 },
                                 {
-                                    property:"bottom",
-                                    value:"0"
+                                    property:"top",
+                                    value:"1090px"
                                 },
                                 {
                                     property:"left",
-                                    value:"0"
+                                    value:"40px"
                                 },
                                 {
                                     property:"width",
-                                    value:"849px"
+                                    value:"540px"
+                                },
+                                {
+                                    property:"height",
+                                    value:"60px"
+                                }
+                            ]
+                        },
+                        {
+                            name:"inside_logo",
+                            face:"Inside",
+                            type:"logo",
+                            theme_class:"logo",
+                            layout:[
+                                {
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {
+                                    property:"top",
+                                    value:"1090px"
+                                },
+                                {
+                                    property:"right",
+                                    value:"40px"
+                                },
+                                {
+                                    property:"width",
+                                    value:"120px"
                                 },
                                 {
                                     property:"height",
@@ -3249,7 +3333,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"599px"
+                                    value:"592px"
                                 },
                                 {
                                     property:"left",
@@ -3694,6 +3778,62 @@ define([],
                     name:"Self Mailer Template 3",
                     elements: [
                         {
+                            name:"box",
+                            face:"Inside",
+                            type:"box",
+                            theme_class:"complimentarybox",
+                            layout:[
+                                {
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {
+                                    property:"top",
+                                    value:"500px"
+                                },
+                                {
+                                    property:"left",
+                                    value:"0"
+                                },
+                                {
+                                    property:"width",
+                                    value:"840px"
+                                },
+                                {
+                                    property:"height",
+                                    value:"20px"
+                                }
+                            ]
+                        },
+                        {
+                            name:"thinbox",
+                            face:"Inside",
+                            type:"box",
+                            theme_class:"thintopborder",
+                            layout:[
+                                {
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {
+                                    property:"top",
+                                    value:"1060px"
+                                },
+                                {
+                                    property:"left",
+                                    value:"40px"
+                                },
+                                {
+                                    property:"width",
+                                    value:"760px"
+                                },
+                                {
+                                    property:"height",
+                                    value:"25px"
+                                }
+                            ]
+                        },
+                        {
                             name:"inside_hero",
                             face:"Inside",
                             type:"image",
@@ -3713,11 +3853,11 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"849px"
+                                    value:"840px"
                                 },
                                 {
                                     property:"height",
-                                    value:"400px"
+                                    value:"500px"
                                 }
                             ]
                         },
@@ -3733,7 +3873,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"770px"
+                                    value:"700px"
                                 },
                                 {
                                     property:"left",
@@ -3741,11 +3881,11 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"243px"
+                                    value:"234px"
                                 },
                                 {
                                     property:"height",
-                                    value:"200px"
+                                    value:"160px"
                                 }
                             ]
                         },
@@ -3753,7 +3893,7 @@ define([],
                             name:"image_caption_1",
                             face:"Inside",
                             type:"html",
-                            theme_class:"caption",
+                            theme_class:"body_1",
                             layout:[
                                 {
                                     property:"position",
@@ -3761,7 +3901,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"980px"
+                                    value:"865px"
                                 },
                                 {
                                     property:"left",
@@ -3769,7 +3909,7 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"243px"
+                                    value:"234px"
                                 },
                                 {
                                     property:"height",
@@ -3789,7 +3929,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"770px"
+                                    value:"700px"
                                 },
                                 {
                                     property:"left",
@@ -3801,7 +3941,7 @@ define([],
                                 },
                                 {
                                     property:"height",
-                                    value:"200px"
+                                    value:"160px"
                                 }
                             ]
                         },
@@ -3809,7 +3949,7 @@ define([],
                             name:"image_caption_2",
                             face:"Inside",
                             type:"html",
-                            theme_class:"caption",
+                            theme_class:"body_1",
                             layout:[
                                 {
                                     property:"position",
@@ -3817,7 +3957,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"980px"
+                                    value:"865px"
                                 },
                                 {
                                     property:"left",
@@ -3825,7 +3965,7 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"243px"
+                                    value:"234px"
                                 },
                                 {
                                     property:"height",
@@ -3845,7 +3985,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"770px"
+                                    value:"700px"
                                 },
                                 {
                                     property:"left",
@@ -3853,11 +3993,11 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"243px"
+                                    value:"234px"
                                 },
                                 {
                                     property:"height",
-                                    value:"200px"
+                                    value:"160px"
                                 }
                             ]
                         },
@@ -3865,7 +4005,7 @@ define([],
                             name:"image_caption_3",
                             face:"Inside",
                             type:"html",
-                            theme_class:"caption",
+                            theme_class:"body_1",
                             layout:[
                                 {
                                     property:"position",
@@ -3873,7 +4013,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"980px"
+                                    value:"865px"
                                 },
                                 {
                                     property:"left",
@@ -3881,7 +4021,7 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"243px"
+                                    value:"234px"
                                 },
                                 {
                                     property:"height",
@@ -3893,7 +4033,7 @@ define([],
                             name:"inside_headline",
                             face:"Inside",
                             type:"html",
-                            theme_class:"headline",
+                            theme_class:"headline_1",
                             layout:[
                                 {
                                     property:"position",
@@ -3901,7 +4041,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"430px"
+                                    value:"540px"
                                 },
                                 {
                                     property:"left",
@@ -3909,39 +4049,11 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"769px"
+                                    value:"370px"
                                 },
                                 {
                                     property:"height",
-                                    value:"80px"
-                                }
-                            ]
-                        },
-                        {
-                            name:"inside_subline",
-                            face:"Inside",
-                            type:"html",
-                            theme_class:"subline",
-                            layout:[
-                                {
-                                    property:"position",
-                                    value:"absolute"
-                                },
-                                {
-                                    property:"top",
-                                    value:"530px"
-                                },
-                                {
-                                    property:"left",
-                                    value:"40px"
-                                },
-                                {
-                                    property:"width",
-                                    value:"769px"
-                                },
-                                {
-                                    property:"height",
-                                    value:"40px"
+                                    value:"140px"
                                 }
                             ]
                         },
@@ -3949,7 +4061,7 @@ define([],
                             name:"inside_body",
                             face:"Inside",
                             type:"html",
-                            theme_class:"body",
+                            theme_class:"body_1",
                             layout:[
                                 {
                                     property:"position",
@@ -3957,19 +4069,19 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"590px"
+                                    value:"540px"
                                 },
                                 {
                                     property:"left",
-                                    value:"40px"
+                                    value:"430px"
                                 },
                                 {
                                     property:"width",
-                                    value:"769px"
+                                    value:"370px"
                                 },
                                 {
                                     property:"height",
-                                    value:"150px"
+                                    value:"140px"
                                 }
                             ]
                         },
@@ -3977,7 +4089,7 @@ define([],
                             name:"inside_cta",
                             face:"Inside",
                             type:"html",
-                            theme_class:"inside_cta_block",
+                            theme_class:"cta",
                             layout:[
                                 {
                                     property:"position",
@@ -3985,19 +4097,75 @@ define([],
                                 },
                                 {
                                     property:"bottom",
-                                    value:"60px"
+                                    value:"150px"
                                 },
                                 {
                                     property:"left",
-                                    value:"0"
+                                    value:"40px"
                                 },
                                 {
                                     property:"width",
-                                    value:"849px"
+                                    value:"760px"
                                 },
                                 {
                                     property:"height",
-                                    value:"80px"
+                                    value:"110px"
+                                }
+                            ]
+                        },
+                        {
+                            name:"inside_footer",
+                            face:"Inside",
+                            type:"html",
+                            theme_class:"body_1",
+                            layout:[
+                                {
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {
+                                    property:"top",
+                                    value:"1090px"
+                                },
+                                {
+                                    property:"left",
+                                    value:"40px"
+                                },
+                                {
+                                    property:"width",
+                                    value:"540px"
+                                },
+                                {
+                                    property:"height",
+                                    value:"60px"
+                                }
+                            ]
+                        },
+                        {
+                            name:"inside_logo",
+                            face:"Inside",
+                            type:"logo",
+                            theme_class:"logo",
+                            layout:[
+                                {
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {
+                                    property:"top",
+                                    value:"1090px"
+                                },
+                                {
+                                    property:"right",
+                                    value:"40px"
+                                },
+                                {
+                                    property:"width",
+                                    value:"120px"
+                                },
+                                {
+                                    property:"height",
+                                    value:"60px"
                                 }
                             ]
                         },
@@ -4012,7 +4180,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"599px"
+                                    value:"592px"
                                 },
                                 {
                                     property:"left",
@@ -4021,34 +4189,6 @@ define([],
                                 {
                                     property:"right",
                                     value:"0"
-                                }
-                            ]
-                        },
-                        {
-                            name:"inside_footer",
-                            face:"Inside",
-                            type:"html",
-                            theme_class:"inside_footer_block",
-                            layout:[
-                                {
-                                    property:"position",
-                                    value:"absolute"
-                                },
-                                {
-                                    property:"bottom",
-                                    value:"0"
-                                },
-                                {
-                                    property:"left",
-                                    value:"0"
-                                },
-                                {
-                                    property:"width",
-                                    value:"849px"
-                                },
-                                {
-                                    property:"height",
-                                    value:"60px"
                                 }
                             ]
                         },
@@ -4485,6 +4625,62 @@ define([],
                     name:"Self Mailer Template 4",
                     elements: [
                         {
+                            name:"box",
+                            face:"Inside",
+                            type:"box",
+                            theme_class:"complimentarybox",
+                            layout:[
+                                {
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {
+                                    property:"top",
+                                    value:"220px"
+                                },
+                                {
+                                    property:"left",
+                                    value:"0"
+                                },
+                                {
+                                    property:"width",
+                                    value:"840px"
+                                },
+                                {
+                                    property:"height",
+                                    value:"20px"
+                                }
+                            ]
+                        },
+                        {
+                            name:"thinbox",
+                            face:"Inside",
+                            type:"box",
+                            theme_class:"thintopborder",
+                            layout:[
+                                {
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {
+                                    property:"top",
+                                    value:"1060px"
+                                },
+                                {
+                                    property:"left",
+                                    value:"40px"
+                                },
+                                {
+                                    property:"width",
+                                    value:"760px"
+                                },
+                                {
+                                    property:"height",
+                                    value:"25px"
+                                }
+                            ]
+                        },
+                        {
                             name:"inside_image_1",
                             face:"Inside",
                             type:"image",
@@ -4496,7 +4692,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"230px"
+                                    value:"265px"
                                 },
                                 {
                                     property:"left",
@@ -4504,11 +4700,11 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"243px"
+                                    value:"234px"
                                 },
                                 {
                                     property:"height",
-                                    value:"200px"
+                                    value:"160px"
                                 }
                             ]
                         },
@@ -4516,7 +4712,7 @@ define([],
                             name:"image_caption_1",
                             face:"Inside",
                             type:"html",
-                            theme_class:"caption",
+                            theme_class:"body_1",
                             layout:[
                                 {
                                     property:"position",
@@ -4524,7 +4720,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"440px"
+                                    value:"430px"
                                 },
                                 {
                                     property:"left",
@@ -4532,7 +4728,7 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"243px"
+                                    value:"234px"
                                 },
                                 {
                                     property:"height",
@@ -4552,7 +4748,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"500px"
+                                    value:"480px"
                                 },
                                 {
                                     property:"left",
@@ -4560,11 +4756,11 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"243px"
+                                    value:"234px"
                                 },
                                 {
                                     property:"height",
-                                    value:"200px"
+                                    value:"160px"
                                 }
                             ]
                         },
@@ -4572,7 +4768,7 @@ define([],
                             name:"image_caption_2",
                             face:"Inside",
                             type:"html",
-                            theme_class:"caption",
+                            theme_class:"body_1",
                             layout:[
                                 {
                                     property:"position",
@@ -4580,7 +4776,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"710px"
+                                    value:"645px"
                                 },
                                 {
                                     property:"left",
@@ -4588,7 +4784,7 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"243px"
+                                    value:"234px"
                                 },
                                 {
                                     property:"height",
@@ -4608,7 +4804,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"770px"
+                                    value:"695px"
                                 },
                                 {
                                     property:"left",
@@ -4616,11 +4812,11 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"243px"
+                                    value:"234px"
                                 },
                                 {
                                     property:"height",
-                                    value:"200px"
+                                    value:"160px"
                                 }
                             ]
                         },
@@ -4628,7 +4824,7 @@ define([],
                             name:"image_caption_3",
                             face:"Inside",
                             type:"html",
-                            theme_class:"caption",
+                            theme_class:"body_1",
                             layout:[
                                 {
                                     property:"position",
@@ -4636,7 +4832,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"980px"
+                                    value:"860px"
                                 },
                                 {
                                     property:"left",
@@ -4644,7 +4840,7 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"243px"
+                                    value:"234px"
                                 },
                                 {
                                     property:"height",
@@ -4656,7 +4852,7 @@ define([],
                             name:"inside_headline",
                             face:"Inside",
                             type:"html",
-                            theme_class:"headline",
+                            theme_class:"headline_1",
                             layout:[
                                 {
                                     property:"position",
@@ -4672,19 +4868,19 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"769px"
+                                    value:"760px"
                                 },
                                 {
                                     property:"height",
-                                    value:"160px"
+                                    value:"100px"
                                 }
                             ]
                         },
                         {
-                            name:"inside_body",
+                            name:"inside_subline",
                             face:"Inside",
                             type:"html",
-                            theme_class:"body",
+                            theme_class:"subline_1",
                             layout:[
                                 {
                                     property:"position",
@@ -4692,7 +4888,35 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"230px"
+                                    value:"150px"
+                                },
+                                {
+                                    property:"left",
+                                    value:"40px"
+                                },
+                                {
+                                    property:"width",
+                                    value:"760px"
+                                },
+                                {
+                                    property:"height",
+                                    value:"50px"
+                                }
+                            ]
+                        },
+                        {
+                            name:"inside_body",
+                            face:"Inside",
+                            type:"html",
+                            theme_class:"body_1",
+                            layout:[
+                                {
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {
+                                    property:"top",
+                                    value:"265px"
                                 },
                                 {
                                     property:"left",
@@ -4704,7 +4928,7 @@ define([],
                                 },
                                 {
                                     property:"height",
-                                    value:"790px"
+                                    value:"634px"
                                 }
                             ]
                         },
@@ -4712,7 +4936,7 @@ define([],
                             name:"inside_cta",
                             face:"Inside",
                             type:"html",
-                            theme_class:"inside_cta_block",
+                            theme_class:"cta",
                             layout:[
                                 {
                                     property:"position",
@@ -4720,19 +4944,19 @@ define([],
                                 },
                                 {
                                     property:"bottom",
-                                    value:"60px"
+                                    value:"150px"
                                 },
                                 {
                                     property:"left",
-                                    value:"0"
+                                    value:"40px"
                                 },
                                 {
                                     property:"width",
-                                    value:"849px"
+                                    value:"760px"
                                 },
                                 {
                                     property:"height",
-                                    value:"80px"
+                                    value:"110px"
                                 }
                             ]
                         },
@@ -4740,23 +4964,51 @@ define([],
                             name:"inside_footer",
                             face:"Inside",
                             type:"html",
-                            theme_class:"inside_footer_block",
+                            theme_class:"body_1",
                             layout:[
                                 {
                                     property:"position",
                                     value:"absolute"
                                 },
                                 {
-                                    property:"bottom",
-                                    value:"0"
+                                    property:"top",
+                                    value:"1090px"
                                 },
                                 {
                                     property:"left",
-                                    value:"0"
+                                    value:"40px"
                                 },
                                 {
                                     property:"width",
-                                    value:"849px"
+                                    value:"540px"
+                                },
+                                {
+                                    property:"height",
+                                    value:"60px"
+                                }
+                            ]
+                        },
+                        {
+                            name:"inside_logo",
+                            face:"Inside",
+                            type:"logo",
+                            theme_class:"logo",
+                            layout:[
+                                {
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {
+                                    property:"top",
+                                    value:"1090px"
+                                },
+                                {
+                                    property:"right",
+                                    value:"40px"
+                                },
+                                {
+                                    property:"width",
+                                    value:"120px"
                                 },
                                 {
                                     property:"height",
@@ -4775,7 +5027,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"599px"
+                                    value:"592px"
                                 },
                                 {
                                     property:"left",
@@ -5435,11 +5687,11 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"849px"
+                                    value:"840px"
                                 },
                                 {
                                     property:"height",
-                                    value:"1200px"
+                                    value:"1184px"
                                 }
                             ]
                         },
@@ -5454,7 +5706,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"599px"
+                                    value:"592px"
                                 },
                                 {
                                     property:"left",
@@ -6772,7 +7024,7 @@ define([],
                             styles: [
                                 {
                                     property: 'background-color',
-                                    value: '#FFFFFF'
+                                    value: '#37154D'
                                 }
                             ]
                         }
@@ -6789,6 +7041,28 @@ define([],
                     ],
                     colours: ['#37154D', '#4F8436', '#393939', '#FFFFFF' ],
                     classes: [
+                        {
+                            name: 'complimentarybox',
+                            styles: [
+                                {
+                                    property: 'background-color',
+                                    value: '#4F8436'
+                                }
+                            ]
+                        },
+                        {
+                            name: 'thintopborder',
+                            styles: [
+                                {
+                                    property: 'border-top',
+                                    value: '2px solid'
+                                },
+                                {
+                                    property: 'border-color',
+                                    value: '#4F8436'
+                                }
+                            ]
+                        },
                         {
                             name: 'roundel',
                             font_sizes: ['18px', '19px', '20px', '21px', '22px', '23px', '24px', '25px', '26px', '27px', '28px', '29px', '30px', '31px', '32px', '33px', '34px', '35px', '36px', '37px', '38px', '39px', '40px', '41px', '42px', '43px', '44px', '45px', '46px', '48px', '50px', '52px'],
@@ -7067,6 +7341,28 @@ define([],
                     colours: ['#FFFFFF', '#009EE3', '#30AB62', '#393939' ],
                     classes: [
                         {
+                            name: 'complimentarybox',
+                            styles: [
+                                {
+                                    property: 'background-color',
+                                    value: '#009EE3'
+                                }
+                            ]
+                        },
+                        {
+                            name: 'thintopborder',
+                            styles: [
+                                {
+                                    property: 'border-top',
+                                    value: '2px solid'
+                                },
+                                {
+                                    property: 'border-color',
+                                    value: '#009EE3'
+                                }
+                            ]
+                        },
+                        {
                             name: 'roundel',
                             font_sizes: ['18px', '19px', '20px', '21px', '22px', '23px', '24px', '25px', '26px', '27px', '28px', '29px', '30px', '31px', '32px', '33px', '34px', '35px', '36px', '37px', '38px', '39px', '40px', '41px', '42px', '43px', '44px', '45px', '46px', '48px', '50px', '52px'],
                             vertical_middle: true,
@@ -7163,11 +7459,11 @@ define([],
                         },
                         {
                             name: 'body_1',
-                            font_sizes: ['8px', '9px', '10px', '11px', '12px', '13px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            font_sizes: ['7px', '8px', '9px', '10px', '11px', '12px', '13px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
                             styles: [
                                 {
                                     property: 'color',
-                                    value: '#FFFFFF'
+                                    value: '#393939'
                                 },
                                 {
                                     property: 'font-size',
@@ -7229,7 +7525,7 @@ define([],
                         },
                         {
                             name: 'body_2',
-                            font_sizes: ['8px', '9px', '10px', '11px', '12px', '13px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
+                            font_sizes: ['7px', '8px', '9px', '10px', '11px', '12px', '13px', '14px', '15px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px'],
                             styles: [
                                 {
                                     property: 'color',
@@ -7287,7 +7583,7 @@ define([],
 
             this.userData = {
                 formatID: 3,
-                templateID: 9,
+                templateID: 10,
                 themeID: 3,
                 faces: [],
                 elements: []
