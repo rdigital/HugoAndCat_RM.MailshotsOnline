@@ -493,6 +493,33 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, new { success = success });
         }
 
+        [Authorize]
+        public HttpResponseMessage AttachDistributionListsToCampaign(Guid id,
+            IEnumerable<IDistributionList> distributionLists)
+        {
+            ICampaign originalCampaign;
+            // Make sure user can access campaign
+            var validateResponse = ValidateRequest("AttachDistributionListsToCampaign", id, out originalCampaign);
+            if (validateResponse != null)
+            {
+                return validateResponse;
+            }
+
+            // Confirm mailshot can be updated
+            var canUpdateCampaignResponse = ConfirmCanBeUpdated("AttachDistributionListsToCampaign", originalCampaign);
+            if (canUpdateCampaignResponse != null)
+            {
+                return canUpdateCampaignResponse;
+            }
+
+            originalCampaign.DistributionLists = distributionLists;
+
+            var success = true;
+            originalCampaign.DistributionLists.All(x => success &= _campaignService.AddTestDataToCampaign(originalCampaign));
+
+            return Request.CreateResponse(HttpStatusCode.OK, new { success = success });
+        }
+
         private HttpResponseMessage ValidateCampaign(Campaign campaign, bool isNew)
         {
             // Confirm that the required fields are filled out

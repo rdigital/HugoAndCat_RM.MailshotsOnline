@@ -65,7 +65,12 @@ namespace RM.MailshotsOnline.Web.Controllers
                 return HttpNotFound();
             }
 
-            pageModel.UsersLists = campaign.DistributionLists;
+            var distributionLists = _dataService.GetDistributionListsForUser(currentMember.Id);
+
+            pageModel.UsersLists = distributionLists;
+
+            //pageModel.UsersLists = campaign.DistributionLists;
+            pageModel.Campaign = campaign;
 
             return View("~/Views/Lists.cshtml", pageModel);
         }

@@ -1,13 +1,16 @@
-﻿@inherits Glass.Mapper.Umb.Web.Ui.GlassViewPage<RM.MailshotsOnline.Entities.PageModels.Lists>
+﻿@using RM.MailshotsOnline.Web.Extensions
+@inherits Glass.Mapper.Umb.Web.Ui.GlassViewPage<RM.MailshotsOnline.Entities.PageModels.Lists>
 @{
     Layout = "Master.cshtml";
+
+    var campaignId = Model.Campaign == null ? null : Model.Campaign.CampaignId.ToString();
 }
 
 <script>
-	var createUrl = '/lists/create',
-		backUrl = '/campaigns', // this will be determined by user journey
-		backText = 'Back to campaign',
-		campaignId = '';
+	var createUrl = "@Model.CreatePage.Url()",
+		backUrl = "@Model.BackPage.Url()",
+		backText = "@Model.BackText",
+		campaignId = "@campaignId";
 </script>
 
 <lists-component></lists-component>

@@ -26,9 +26,20 @@ namespace RM.MailshotsOnline.Entities.PageModels
         [UmbracoProperty]
         public string AddNewButtonText { get; set; }
 
+        [UmbracoProperty]
+        public BasePage CreatePage { get; set; }
+
+        [UmbracoProperty]
+        public BasePage BackPage { get; set; }
+
+        [UmbracoProperty]
+        public string BackText { get; set; }
+
         // Service Data
         public IEnumerable<IDistributionList> UsersLists { get; set; }
 
-        public IEnumerable<IDataSearch> RentedLists { get; set; } 
+        public IEnumerable<IDataSearch> RentedLists { get; set; }
+
+        public ICampaign Campaign { get; set; }
     }
 }
