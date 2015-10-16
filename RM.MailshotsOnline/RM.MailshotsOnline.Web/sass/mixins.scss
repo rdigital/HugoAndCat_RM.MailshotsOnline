@@ -40,3 +40,21 @@
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
+
+@mixin shadow($x: 5px, $y: 5px, $blur: 5px, $color: #888) {
+    box-shadow: $x $y $blur $color !important;
+    -moz-box-shadow: $x $y $blur $color !important;
+    -webkit-box-shadow: $x $y $blur $color !important;
+}
+
+@mixin transition($type: background, $speed: .25s) {
+    transition: $type $speed ease-in-out;
+    -moz-transition: $type $speed ease-in-out;
+    -webkit-transition: $type $speed ease-in-out;
+}
+
+@mixin borderradius($radius: 5px) {
+    border-radius: $radius;
+    -moz-border-radius: $radius;
+    -webkit-border-radius: $radius;
+}

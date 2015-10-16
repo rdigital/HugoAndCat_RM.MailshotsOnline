@@ -27,38 +27,41 @@ namespace RM.MailshotsOnline.Data.Services.Reporting
 
         public ITransactionsReport Generate()
         {
-            var invoices =  _invoiceService.GetPaidInvoices(DateTime.Today, DateTime.Today.AddDays(1).AddMilliseconds(-1));
+            var invoices = _invoiceService.GetPaidInvoices(DateTime.Today, DateTime.Today.AddDays(1).AddMilliseconds(-1));
 
             var items = new List<ITransactionsReportEntity>();
 
             foreach (var invoice in invoices)
             {
                 var member = _membershipService.GetMemberById(invoice.Campaign.UserId);
+                var transactionID = !string.IsNullOrEmpty(invoice.PaypalCaptureTransactionId)
+                    ? invoice.PaypalCaptureTransactionId
+                    : invoice.PaypalPaymentId;
 
                 items.Add(new TransactionsReportEntity()
                 {
                     Type = "Order",
-                    PaymentId = invoice.PaypalPaymentId,
+                    PaymentId = transactionID,
                     SaleIdProductSku = invoice.OrderNumber,
-                    PaymentTimeProductName = invoice.CreatedDate.ToString("yyyyMMdd"),
+                    PaymentTimeProductName = invoice.CreatedDate.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'"),
                     UserIdQuantity = invoice.Campaign.UserId.ToString(),
                     EmailAddressUnitPrice = invoice.BillingEmail,
                     OrderSubtotalLineSubtotal = invoice.SubTotal,
                     OrderTaxLineTax = invoice.TotalTax,
                     OrderTotal = invoice.Total.ToString(CultureInfo.InvariantCulture),
                     OrderCurrency = "",
-                    InvoiceAddressTitle = member.Title,
-                    InvoiceAddressFirstName = member.FirstName,
-                    InvoiceAddressLastName = member.LastName,
+                    InvoiceAddressTitle = invoice.BillingAddress.Title,
+                    InvoiceAddressFirstName = invoice.BillingAddress.FirstName,
+                    InvoiceAddressLastName = invoice.BillingAddress.LastName,
                     InvoiceAddressOrganisation = member.OrganisationName,
-                    InvoiceAddressFlatNumber = member.FlatNumber,
-                    InvoiceAddressBuildingNumber = member.BuildingNumber,
-                    InvoiceAddressBuildingName = member.BuildingName,
-                    InvoiceAddressAddress1 = member.Address1,
-                    InvoiceAddressAddress2 = member.Address2,
-                    InvoiceAddressCity = member.City,
-                    InvoiceAddressPostcode = member.Postcode,
-                    InvoiceAddressCountry = member.Country
+                    InvoiceAddressFlatNumber = invoice.BillingAddress.FlatNumber,
+                    InvoiceAddressBuildingNumber = invoice.BillingAddress.BuildingNumber,
+                    InvoiceAddressBuildingName = invoice.BillingAddress.BuildingName,
+                    InvoiceAddressAddress1 = invoice.BillingAddress.Address1,
+                    InvoiceAddressAddress2 = invoice.BillingAddress.Address2,
+                    InvoiceAddressCity = invoice.BillingAddress.City,
+                    InvoiceAddressPostcode = invoice.BillingAddress.Postcode,
+                    InvoiceAddressCountry = invoice.BillingAddress.Country
                 });
 
                 foreach (var lineItem in invoice.LineItems)
@@ -66,9 +69,9 @@ namespace RM.MailshotsOnline.Data.Services.Reporting
                     items.Add(new TransactionsReportEntity()
                     {
                         Type = "LineItems",
-                        PaymentId = invoice.PaypalPaymentId,
+                        PaymentId = transactionID,
                         SaleIdProductSku = lineItem.ProductSku,
-                        PaymentTimeProductName = lineItem.Product.ToString(),
+                        PaymentTimeProductName = string.IsNullOrEmpty(lineItem.SubTitle) ? lineItem.Product.Name : $"{lineItem.Product.Name} ({lineItem.SubTitle})",
                         UserIdQuantity = lineItem.Quantity.ToString(),
                         EmailAddressUnitPrice = lineItem.UnitCost.ToString(CultureInfo.InvariantCulture),
                         OrderSubtotalLineSubtotal = lineItem.SubTotal,

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -44,7 +45,7 @@ namespace RM.MailshotsOnline.Web
             }
         }
 
-        private void SaveImage()
+        private async void SaveImage()
         {
             bool valid = true;
             string errorMessage = string.Empty;
@@ -78,7 +79,7 @@ namespace RM.MailshotsOnline.Web
                     bytes = ms.ToArray();
                 }
 
-                PCL.Models.IMedia media = null;
+                Task<IMedia> media = null;
                 try
                 {
                     media = _imageLibrary.AddImage(bytes, name, _loggedInMember);
@@ -93,7 +94,7 @@ namespace RM.MailshotsOnline.Web
                 {
                     errorMessageParagraph.InnerText = "Error saving image";
                 }
-                var privateImage = media as PrivateLibraryImage;
+                var privateImage = await media as PrivateLibraryImage;
                 success.Visible = true;
                 formArea.Visible = false;
                 imageResult.Value = privateImage.Src;

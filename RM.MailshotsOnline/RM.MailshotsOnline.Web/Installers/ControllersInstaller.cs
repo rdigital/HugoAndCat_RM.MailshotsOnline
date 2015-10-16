@@ -9,6 +9,7 @@ using RM.MailshotsOnline.Data.Services;
 using RM.MailshotsOnline.PCL.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -21,13 +22,11 @@ using HC.RM.Common.PCL.Persistence;
 using Microsoft.Azure;
 using RM.MailshotsOnline.Data.DAL;
 using RM.MailshotsOnline.Data.Services.Reporting;
-using RM.MailshotsOnline.PCL.Models.Reporting;
 using RM.MailshotsOnline.PCL.Services.Reporting;
 using Umbraco.Core;
 using Umbraco.Core.Services;
 using Umbraco.Web;
 using Umbraco.Web.Mvc;
-using Constants = RM.MailshotsOnline.Data.Constants.Constants;
 
 namespace RM.MailshotsOnline.Web.Installers
 {
@@ -61,7 +60,6 @@ namespace RM.MailshotsOnline.Web.Installers
                 Component.For<IEmailService>().ImplementedBy<SmtpService>().LifestyleTransient(),
                 Component.For<ICryptographicService>().ImplementedBy<CryptographicService>().LifestyleTransient(),
                 Component.For<ILogger>().ImplementedBy<Logger>().LifestyleTransient(),
-                Component.For<HC.RM.Common.Azure.Helpers.ILogger>().ImplementedBy<Logger>().Named("OverridingImplementation").IsDefault().LifestyleTransient(),
                 Component.For<ISettingsService>().ImplementedBy<SettingsService>().LifestyleTransient(),
                 Component.For<IReportingService>().ImplementedBy<ReportingService>().LifestyleTransient(),
                 Component.For<IMembershipReportGenerator>().ImplementedBy<MembershipReportGenerator>().LifestyleTransient(),

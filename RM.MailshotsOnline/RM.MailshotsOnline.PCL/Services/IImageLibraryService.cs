@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using RM.MailshotsOnline.PCL.Models;
 
 namespace RM.MailshotsOnline.PCL.Services
@@ -38,7 +39,7 @@ namespace RM.MailshotsOnline.PCL.Services
         /// <param name="name">The name of the image.</param>
         /// <param name="member">The member creating this image. The image will be stored in this member's personal image store.</param>
         /// <returns></returns>
-        IMedia AddImage(byte[] bytes, string name, IMember member);
+        Task<IMedia> AddImage(byte[] bytes, string name, IMember member);
 
         /// <summary>
         /// Gets an image

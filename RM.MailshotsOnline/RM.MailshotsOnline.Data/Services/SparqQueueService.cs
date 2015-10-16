@@ -22,9 +22,9 @@ namespace RM.MailshotsOnline.Data.Services
         private ILogger _log;
         private string _baseUrl;
 
-        public SparqQueueService()
+        public SparqQueueService(ILogger logger)
         {
-            _log = new Logger();
+            _log = logger;
             _baseUrl = string.Format("{0}://{1}:{2}", ConfigHelper.HostedScheme, ConfigHelper.HostedDomain, ConfigHelper.HostedPort);
         }
 
@@ -34,9 +34,9 @@ namespace RM.MailshotsOnline.Data.Services
         /// <param name="mailshot">Mailshot to be printed</param>
         /// <param name="postbackUrl">The URL the service needs to post back to</param>
         /// <returns>True on success</returns>
-        public async Task<bool> SendRenderAndPrintJob(IMailshot mailshot, string postbackUrl)
+        public async Task<bool> SendRenderAndPrintJob(IMailshot mailshot, string postbackUrl, string ftpPostbackUrl)
         {
-            return await SendJob(mailshot, true, postbackUrl);
+            return await SendJob(mailshot, true, postbackUrl, ftpPostbackUrl);
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns>True on success</returns>
         public async Task<bool> SendRenderJob(IMailshot mailshot, string postbackUrl)
         {
-            return await SendJob(mailshot, false, postbackUrl);
+            return await SendJob(mailshot, false, postbackUrl, null);
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace RM.MailshotsOnline.Data.Services
         /// <param name="mailshot">Mailshot to send</param>
         /// <param name="printAfterRender">Set to true to the resulting PDF sent to St. Ive's for printing</param>
         /// <returns>True on success</returns>
-        private async Task<bool> SendJob(IMailshot mailshot, bool printAfterRender, string postbackUrl)
+        private async Task<bool> SendJob(IMailshot mailshot, bool printAfterRender, string postbackUrl, string ftpPostbackUrl)
         {
             var success = true;
             // Generate XML and XSL from Mailshot
@@ -171,8 +171,7 @@ namespace RM.MailshotsOnline.Data.Services
                     await blobService.StoreAsync(Encoding.UTF8.GetBytes(xmlAndXsl.XmlData), string.Format("debug/{0}/{1}/{2:yyyyMMdd-HHmmss}/xmlData.xml", mailshot.UserId, mailshot.MailshotId, saveDate), "text/xml");
                     await blobService.StoreAsync(Encoding.UTF8.GetBytes(xmlAndXsl.XslStylesheet), string.Format("debug/{0}/{1}/{2:yyyyMMdd-HHmmss}/stylesheet.xslt", mailshot.UserId, mailshot.MailshotId, saveDate), "text/xml");
                 }
-
-                var ftpPostbackUrl = printAfterRender ? string.Format("{0}/Umbraco/Api/ProofPdf/PrintPdfReady/{1}", _baseUrl, mailshot.MailshotId) : null;
+                
                 var orderNumber = mailshot.ProofPdfOrderNumber.ToString();
                 success = await SendJob(xmlAndXsl, orderNumber, mailshot.FormatId.ToString(), printAfterRender, postbackUrl, ftpPostbackUrl);
             }

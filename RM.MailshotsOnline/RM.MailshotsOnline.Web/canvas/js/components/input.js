@@ -40,6 +40,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
             this.sizeAdjust = this.sizeAdjust.bind(this);
             this.sizeAdjustDelayed = this.sizeAdjustDelayed.bind(this);
             this.sizeAdjustPreview = this.sizeAdjustPreview.bind(this);
+            this.verticalAlignMiddle = this.verticalAlignMiddle.bind(this);
         }
 
         // extend the element view model
@@ -76,10 +77,8 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
 
             this.getBackgroundColour(e);
 
-            if (target.hasClass('editable')) {
-                this.setFocus();
-                this.getState();
-            }
+            this.setFocus();
+            this.getState();
         };
 
         /**
@@ -163,6 +162,8 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
             this.sizeAdjust();
             setTimeout(this.sizeAdjust, 500);
             setTimeout(this.sizeAdjust, 1000);
+            setTimeout(this.sizeAdjust, 2000);
+            setTimeout(this.sizeAdjust, 4000);
         }
 
         /**
@@ -176,6 +177,18 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
                 container_height = el.closest('.component').height(),
                 margin = (container_height - el_height) / 2;
             this.setStyle('padding-top', margin + 'px');
+        }
+
+        /**
+         * inline version of verical align function, used for previews
+         * does not modify view model
+         */
+        inputViewModel.prototype.verticalAlignMiddleInline = function verticalAlignMiddleInline() {
+            var el = this.element(),
+                el_height = el.height(),
+                container_height = el.closest('.component').height(),
+                margin = (container_height - el_height) / 2;
+            this.element().closest('.editable').css('padding-top', margin + 'px');
         }
 
         inputViewModel.prototype.fitFontSize = function fitFontSize() {
@@ -259,6 +272,9 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
                     while (scrollVisible) {
                         scrollVisible = this.decreaseFontSizeInline();
                     }
+                }
+                if (this.verticalAlign() == 'middle') {
+                    this.verticalAlignMiddleInline();
                 }
             }.bind(this), 100);
         };
