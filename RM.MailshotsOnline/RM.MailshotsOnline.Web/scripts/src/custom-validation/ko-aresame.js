@@ -1,5 +1,5 @@
-define(['knockout', 'jquery'],
-  function(ko, $) {
+define(['knockout'],
+  function(ko) {
 
     /*
      * Ensures a field has the same value as another field (E.g. "Confirm Password" same as "Password"

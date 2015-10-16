@@ -12,14 +12,16 @@ define([
             // create the stages (each part of the form)
             this.stage1 = {};
             this.stage2 = {};
+            this.stage3 = {};
 
+            window.viewModel = this;
 
             this.init = function() {
                 // hide the sections
-                // $('.register-stage').hide();
+                $('.register-stage').hide();
                 this.stage1Init();
-                this.stage1Errors = koValidation.group(this.stage1, {deep: true});
-                this.stage1Errors.showAllMessages(false);
+                this.stage2Init();
+                this.stage3Init();
             };
 
 
@@ -81,91 +83,98 @@ define([
                 });
                 this.stage1.royalMailMailAgreement = ko.observable();
                 this.stage1.thirdPartyMailAgreement = ko.observable();
+
+                this.stage1Errors = koValidation.group(this.stage1, {deep: true});
+                this.stage1Errors.showAllMessages(false);
             };
 
             this.stage2Init = function() {
-                this.stage2.Postcode = ko.observable().extend({ 
+                this.stage2.Postcode = ko.observable().extend({
                     required: {
-                        message: 'Please'
+                        message: 'Please enter a valid postcode'
                     }
                 });
-                this.stage2.Organisation = ko.observable().extend({ 
-                    required: {
-                        message: 'Please'
-                    }
-                });
-                this.stage2.Address1 = ko.observable().extend({ 
-                    required: {
-                        message: 'Please'
-                    }
-                });
-                this.stage2.Address2 = ko.observable().extend({ 
-                    required: {
-                        message: 'Please'
-                    }
-                });
-                this.stage2.Town = ko.observable().extend({ 
-                    required: {
-                        message: 'Please'
-                    }
-                });
-                this.stage2.City = ko.observable().extend({ 
-                    required: {
-                        message: 'Please'
-                    }
-                });
-                this.stage2.Country = ko.observable().extend({ 
-                    required: {
-                        message: 'Please'
-                    }
-                });
-                this.stage2.PhoneWork = ko.observable().extend({ 
-                    required: {
-                        message: 'Please'
-                    }
-                });
-                this.stage2.PhoneMobile = ko.observable().extend({ 
-                    required: {
-                        message: 'Please'
-                    }
-                });
-                this.stage2.Email = ko.observable().extend({ 
-                    required: {
-                        message: 'Please'
-                    }
-                });
-
                 this.stage2Errors = koValidation.group(this.stage2, {deep: true});
                 this.stage2Errors.showAllMessages(false);
             };
 
+            this.stage3Init = function() {
+                this.stage3.OrganisationName = ko.observable().extend({ 
+                    required: {
+                        message: 'Please'
+                    }
+                });
+                this.stage3.JobTitle = ko.observable().extend({ 
+                    required: {
+                        message: 'Please'
+                    }
+                });
+                this.stage3.Address1 = ko.observable().extend({ 
+                    required: {
+                        message: 'Please'
+                    }
+                });
+                this.stage3.Address2 = ko.observable().extend({ 
+                    required: {
+                        message: 'Please'
+                    }
+                });
+                this.stage3.City = ko.observable().extend({ 
+                    required: {
+                        message: 'Please'
+                    }
+                });
+                this.stage3.Country = ko.observable().extend({ 
+                    required: {
+                        message: 'Please'
+                    }
+                });
+                this.stage3.WorkPhoneNumber = ko.observable().extend({ 
+                    required: {
+                        message: 'Please'
+                    }
+                });
+                this.stage3.MobilePhoneNumber = ko.observable().extend({ 
+                    required: {
+                        message: 'Please'
+                    }
+                });
+
+                this.stage3Errors = koValidation.group(this.stage3, {deep: true});
+                this.stage3Errors.showAllMessages(false);
+            };
+
             this.proceedToStage2 = function() {
+                console.log(this.stage1Errors());
                 if (this.stage1Errors().length === 0) {
+                    console.log('proceed to stage 2');
                     $('.register-stage').eq(0).hide();
                     $('.register-stage').eq(1).show();
-
-                    this.stage2Init();
                 }
                 else {
-                    console.log(this.stage1Errors());
                     this.stage1Errors.showAllMessages();
                 }
             };
 
-            this.submit = function() {
-                if (this.stage1Errors().length === 0) {
-                    // alert('Thank you.');
-                }
-                else {
-                    // alert('Please check your submission.');
-                    this.stage1Errors.showAllMessages();
-                }
+            this.proceedToStage3 = function() {
                 if (this.stage2Errors().length === 0) {
-                    // alert('Thank you.');
+                    console.log('proceed to stage 3');
+                    $('.register-stage').eq(1).hide();
+                    $('.register-stage').eq(2).show();
                 }
                 else {
-                    // alert('Please check your submission.');
+                    console.log('Stage 2');
                     this.stage2Errors.showAllMessages();
+                }
+            };
+
+            this.submit = function(data, event) {
+                event.preventDefault();
+                if (this.stage3Errors().length === 0) {
+                    alert('Thank you.');
+                }
+                else {
+                    this.stage3Errors.showAllMessages();
                 }
             };
 
