@@ -52,6 +52,12 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         public string TermsAndConditionsLabelWithLink { get; set; }
 
+        public string KeepYouInformedTitle { get; set; }
+
+        public string KeepYouInformedSectionCopy { get; set; }
+
+        public string NextButtonText { get; set; }
+
         public string PostcodeLabel { get; set; }
 
         public string OrganisationNameLabel { get; set; }
