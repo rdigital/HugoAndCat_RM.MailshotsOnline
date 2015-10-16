@@ -2075,11 +2075,11 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"849px"
+                                    value:"840px"
                                 },
                                 {
                                     property:"height",
-                                    value:"540px"
+                                    value:"572px"
                                 }
                             ]
                         },
@@ -2087,7 +2087,7 @@ define([],
                             name:"box",
                             face:"Inside",
                             type:"box",
-                            theme_class:"topborderbox",
+                            theme_class:"complimentarybox",
                             layout:[
                                 {
                                     property:"position",
@@ -2095,7 +2095,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"540px"
+                                    value:"572px"
                                 },
                                 {
                                     property:"left",
@@ -2103,11 +2103,11 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"849px"
+                                    value:"840px"
                                 },
                                 {
                                     property:"height",
-                                    value:"660px"
+                                    value:"20px"
                                 }
                             ]
                         },
@@ -2115,7 +2115,7 @@ define([],
                             name:"thinbox",
                             face:"Inside",
                             type:"box",
-                            theme_class:"thintopborderbox",
+                            theme_class:"thintopborder",
                             layout:[
                                 {
                                     property:"position",
@@ -2123,7 +2123,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"1090px"
+                                    value:"1060px"
                                 },
                                 {
                                     property:"left",
@@ -2131,11 +2131,11 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"769px"
+                                    value:"760px"
                                 },
                                 {
                                     property:"height",
-                                    value:"100px"
+                                    value:"25px"
                                 }
                             ]
                         },
@@ -2143,7 +2143,7 @@ define([],
                             name:"inside_headline",
                             face:"Inside",
                             type:"html",
-                            theme_class:"headline",
+                            theme_class:"headline_1",
                             layout:[
                                 {
                                     property:"position",
@@ -2159,7 +2159,7 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"769px"
+                                    value:"760px"
                                 },
                                 {
                                     property:"height",
@@ -2171,7 +2171,7 @@ define([],
                             name:"inside_subline",
                             face:"Inside",
                             type:"html",
-                            theme_class:"subline",
+                            theme_class:"subline_1",
                             layout:[
                                 {
                                     property:"position",
@@ -2187,11 +2187,11 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"769px"
+                                    value:"760px"
                                 },
                                 {
                                     property:"height",
-                                    value:"30px"
+                                    value:"50px"
                                 }
                             ]
                         },
@@ -2199,7 +2199,7 @@ define([],
                             name:"inside_body",
                             face:"Inside",
                             type:"html",
-                            theme_class:"body",
+                            theme_class:"body_1",
                             layout:[
                                 {
                                     property:"position",
@@ -2227,7 +2227,7 @@ define([],
                             name:"inside_cta",
                             face:"Inside",
                             type:"html",
-                            theme_class:"inside_cta",
+                            theme_class:"cta",
                             layout:[
                                 {
                                     property:"position",
@@ -2238,8 +2238,8 @@ define([],
                                     value:"790px"
                                 },
                                 {
-                                    property:"left",
-                                    value:"539px"
+                                    property:"right",
+                                    value:"40px"
                                 },
                                 {
                                     property:"width",
@@ -2252,10 +2252,10 @@ define([],
                             ]
                         },
                         {
-                            name:"inside_footer_1",
+                            name:"inside_footer",
                             face:"Inside",
                             type:"html",
-                            theme_class:"inside_footer",
+                            theme_class:"body_1",
                             layout:[
                                 {
                                     property:"position",
@@ -2263,7 +2263,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"1110px"
+                                    value:"1090px"
                                 },
                                 {
                                     property:"left",
@@ -2271,35 +2271,7 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"220px"
-                                },
-                                {
-                                    property:"height",
-                                    value:"60px"
-                                }
-                            ]
-                        },
-                        {
-                            name:"inside_footer_2",
-                            face:"Inside",
-                            type:"html",
-                            theme_class:"inside_footer",
-                            layout:[
-                                {
-                                    property:"position",
-                                    value:"absolute"
-                                },
-                                {
-                                    property:"top",
-                                    value:"1110px"
-                                },
-                                {
-                                    property:"left",
-                                    value:"280px"
-                                },
-                                {
-                                    property:"width",
-                                    value:"220px"
+                                    value:"540px"
                                 },
                                 {
                                     property:"height",
@@ -2319,15 +2291,15 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"1110px"
+                                    value:"1090px"
                                 },
                                 {
-                                    property:"left",
-                                    value:"590px"
+                                    property:"right",
+                                    value:"40px"
                                 },
                                 {
                                     property:"width",
-                                    value:"220px"
+                                    value:"120px"
                                 },
                                 {
                                     property:"height",
@@ -2346,7 +2318,7 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"599px"
+                                    value:"592px"
                                 },
                                 {
                                     property:"left",
@@ -6526,6 +6498,28 @@ define([],
                     	}
                     ],
                     classes: [
+                        {
+                            name: 'complimentarybox',
+                            styles: [
+                                {
+                                    property: 'background-color',
+                                    value: '#A0D0AA'
+                                }
+                            ]
+                        },
+                        {
+                            name: 'thintopborder',
+                            styles: [
+                                {
+                                    property: 'border-top',
+                                    value: '2px solid'
+                                },
+                                {
+                                    property: 'border-color',
+                                    value: '#A0D0AA'
+                                }
+                            ]
+                        },
                         {
                             name: 'roundel',
                             font_sizes: ['18px', '19px', '20px', '21px', '22px', '23px', '24px', '25px', '26px', '27px', '28px', '29px', '30px', '31px', '32px', '33px', '34px', '35px', '36px', '37px', '38px', '39px', '40px', '41px', '42px', '43px', '44px', '45px', '46px', '48px', '50px', '52px'],
