@@ -12,7 +12,8 @@ require([
 		'components/notification',
 		'view-models/register',
 		'view-models/login',
-		'stopbinding'
+		'kostopbinding',
+        'koaresame'
 	],
 	function(
 		ko, 
@@ -29,6 +30,7 @@ require([
 		registerView,
 		loginViewModel
 	) {
+
 
 		// register components
 		ko.components.register('lists-component', listsComponent);

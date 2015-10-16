@@ -13,7 +13,8 @@ require.config(
         koelement: 'custom-bindings/ko-element',
         kofile: 'custom-bindings/ko-file',
         koattrif: 'custom-bindings/ko-attrif',
-        stopbinding: 'custom-bindings/ko-stopBinding',
+        kostopbinding: 'custom-bindings/ko-stopbinding',
+        koaresame: 'custom-validation/ko-aresame',
         templates: "src/templates/"
     }
 });

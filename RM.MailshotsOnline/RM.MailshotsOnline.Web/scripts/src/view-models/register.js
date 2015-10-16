@@ -20,26 +20,31 @@ define([
                 this.stage1Init();
                 this.stage1Errors = koValidation.group(this.stage1, {deep: true});
                 this.stage1Errors.showAllMessages(false);
-            }
+            };
 
 
             this.stage1Init = function() {
+                var _this = this;
+
                 $('.register-stage').eq(0).show();
                 
                 this.stage1.Email = ko.observable().extend({ 
                     required: {
                         message: 'Please enter your email address'
                     },
-                    pattern: {
-                        message: 'Please enter a valid email address',
-                        params: "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
-                    }
+                    email: true
                 });
-                this.stage1.ConfirmEmail = ko.observable().extend({ 
+
+                this.stage1.ConfirmEmail = ko.observable().extend({
                     required: {
-                        message: 'Please re-enter a valid email address'
+                        message: 'Please retype your email address'
+                    },
+                    areSame: { 
+                        params: _this.stage1.Email, 
+                        message: "Confirm password must match password" 
                     }
                 });
+
                 this.stage1.FirstName = ko.observable().extend({ 
                     required: {
                         message: 'Please enter your first name'
@@ -63,6 +68,10 @@ define([
                 this.stage1.ConfirmPassword = ko.observable().extend({ 
                     required: {
                         message: 'Please re-type your password.'
+                    },
+                    areSame: { 
+                        params: _this.stage1.Password, 
+                        message: "Confirm password must match password" 
                     }
                 });
                 this.stage1.royalMailMailAgreement = ko.observable();
@@ -72,7 +81,7 @@ define([
                     //     message: 'Please accept T&C agreement'
                     // }
                 });
-            }
+            };
 
             this.stage2Init = function() {
                 this.stage2.Postcode = ko.observable().extend({ 
@@ -128,7 +137,7 @@ define([
 
                 this.stage2Errors = koValidation.group(this.stage2, {deep: true});
                 this.stage2Errors.showAllMessages(false);
-            }
+            };
 
             this.proceedToStage2 = function() {
                 if (this.stage1Errors().length === 0) {
@@ -145,20 +154,20 @@ define([
 
             this.submit = function() {
                 if (this.stage1Errors().length === 0) {
-                    alert('Thank you.');
+                    // alert('Thank you.');
                 }
                 else {
-                    alert('Please check your submission.');
+                    // alert('Please check your submission.');
                     this.stage1Errors.showAllMessages();
                 }
                 if (this.stage2Errors().length === 0) {
-                    alert('Thank you.');
+                    // alert('Thank you.');
                 }
                 else {
-                    alert('Please check your submission.');
+                    // alert('Please check your submission.');
                     this.stage2Errors.showAllMessages();
                 }
-            }
+            };
 
             this.init();
 

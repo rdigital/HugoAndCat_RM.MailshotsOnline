@@ -30,7 +30,6 @@
                 <div class="input-wrapper">
                     @Html.DropDownListFor(m => m.ViewModel.Title, new SelectList(Model.TitleOptions, "Key", "Value", Model.ViewModel.Title), new { data_bind = "value: stage1.Title" })
                 </div>
-                <p class="validation-msg" data-bind="validationMessage: stage1.Title"></p>
             </div>
 
 
@@ -39,7 +38,6 @@
                 <div class="input-wrapper">
                     @Html.TextBoxFor(m => m.ViewModel.FirstName, new { data_bind = "value: stage1.FirstName" })
                 </div>
-                <p class="validation-msg" data-bind="validationMessage: stage1.FirstName"></p>
             </div>
 
             <div class="form-row">
@@ -47,7 +45,6 @@
                 <div class="input-wrapper">
                     @Html.TextBoxFor(m => m.ViewModel.LastName, new { data_bind = "value: stage1.LastName" })
                 </div>
-                <p class="validation-msg" data-bind="validationMessage: stage1.LastName"></p>
             </div>
 
 
@@ -56,7 +53,6 @@
                 <div class="input-wrapper" >
                     @Html.TextBoxFor(m => m.ViewModel.Email, new { data_bind = "value: stage1.Email" })
                 </div>
-                <p class="validation-msg" data-bind="validationMessage: stage1.Email"></p>
             </div>
 
 
@@ -65,7 +61,6 @@
                 <div class="input-wrapper">
                     @Html.TextBoxFor(m => m.ViewModel.ConfirmEmail, new { data_bind = "value: stage1.ConfirmEmail" })
                 </div>
-                <p class="validation-msg" data-bind="validationMessage: stage1.ConfirmEmail"></p>
             </div>
 
 
@@ -74,7 +69,6 @@
                 <div class="input-wrapper">
                     @Html.PasswordFor(m => m.ViewModel.Password, new { data_bind = "value: stage1.Password" })
                 </div>
-                <p class="validation-msg" data-bind="validationMessage: stage1.Password"></p>
             </div>
 
 
@@ -83,7 +77,6 @@
                 <div class="input-wrapper">
                     @Html.PasswordFor(m => m.ViewModel.ConfirmPassword, new { data_bind = "value: stage1.ConfirmPassword" })
                 </div>
-                <p class="validation-msg" data-bind="validationMessage: stage1.ConfirmPassword"></p>
             </div>
 
 
@@ -138,7 +131,6 @@
                 @* END TODO *@
 
                 @Html.CheckBoxFor(m => m.ViewModel.AgreeToTermsAndConditions, new { data_bind = "value: stage1.AgreeToTermsAndConditions" })
-                <p class="validation-msg" data-bind="validationMessage: stage1.AgreeToTermsAndConditions"></p>
             </div>
 
             <div class="form-row form-row--align-right">
@@ -204,8 +196,6 @@
                 <div class="input-wrapper">
                     @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.OrganisationName)
                 </div>
-
-                <p class="validation-msg"></p>
             </div>
 
             <div class="form-row">
@@ -213,8 +203,6 @@
                 <div class="input-wrapper">
                     @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.JobTitle)
                 </div>
-
-                <p class="validation-msg"></p>
             </div>
 
             <div class="form-row">
@@ -222,8 +210,6 @@
                 <div class="input-wrapper">
                     @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.FlatNumber)
                 </div>
-
-                <p class="validation-msg"></p>
             </div>
 
             <div class="form-row">
@@ -231,8 +217,6 @@
                 <div class="input-wrapper">
                     @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingNumber)
                 </div>
-
-                <p class="validation-msg"></p>
             </div>
 
             <div class="form-row">
@@ -240,8 +224,6 @@
                 <div class="input-wrapper">
                     @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingName)
                 </div>
-
-                <p class="validation-msg"></p>
             </div>
 
             <div class="form-row">
@@ -249,8 +231,6 @@
                 <div class="input-wrapper">
                     @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Address1)
                 </div>
-                
-                <p class="validation-msg"></p>
             </div>
 
             <div class="form-row">
@@ -258,8 +238,6 @@
                 <div class="input-wrapper">
                     @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Address2)
                 </div>
-
-                <p class="validation-msg"></p>
             </div>
 
             <div class="form-row">
@@ -267,16 +245,14 @@
                 <div class="input-wrapper">
                     @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.City)
                 </div>
-                
-                <p class="validation-msg"></p>
+               
             </div>
-            
+
 @*             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode, Model.PostcodeLabel)
                 <div class="input-wrapper">
                     @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode)
-                </div>
-                <p class="validation-msg"></p>
+                </div
             </div>
  *@
             <div class="form-row">
@@ -284,8 +260,6 @@
                 <div class="input-wrapper">
                     @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Country)
                 </div>
-
-                <p class="validation-msg"></p>
             </div>
 
             <div class="form-row">
@@ -293,8 +267,6 @@
                 <div class="input-wrapper">
                     @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber)
                 </div>
-
-                <p class="validation-msg"></p>
             </div>
 
             <div class="form-row">
@@ -302,8 +274,6 @@
                 <div class="input-wrapper">
                     @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.MobilePhoneNumber)
                 </div>
-
-                <p class="validation-msg"></p>
             </div>
 
             <div class="form-row">
