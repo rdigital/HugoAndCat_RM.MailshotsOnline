@@ -10,7 +10,7 @@
 				<input type="checkbox" name="sendtoself" id="sendtoself">
 				<label>send one to myself</label>
 
-				<button type="button" class="btn btn--green btn--icon-right">Add to Campaign<span class="btn-icon icon-next"></span></button>
+				<button data-bind="click: addDataToCampaign" type="button" class="btn btn--green btn--icon-right">Add to Campaign<span class="btn-icon icon-next"></span></button>
 			</div>
 			<div class="batch-tray__list-container scrollable scrollable--dark" data-bind="element: listsContainer, template: {afterRender: initScroll}">
 				<ul class="batch-tray__list">

@@ -6,6 +6,7 @@ define(['jquery', 'knockout', 'perfectScrollbar', 'koelement', 'view-models/stat
         function batchTrayComponentViewModel() {
             var self = this;
 
+            this.campaignId = window.campaignId;
             this.selectedLists = stateViewModel.selectedLists;
             this.listsContainer = ko.observable();
             this.isOpen = ko.observable(false);
@@ -45,6 +46,13 @@ define(['jquery', 'knockout', 'perfectScrollbar', 'koelement', 'view-models/stat
             var pos = this.selectedLists().map(function(e) { return e.DistributionListId; }).indexOf(list.DistributionListId);
             this.selectedLists.splice(pos, 1);
             list.selected(false);
+        };
+
+        // add data to campaign functionality to be added here
+        batchTrayComponentViewModel.prototype.addDataToCampaign = function addDataToCampaign() {
+            console.log('add data to campaign', this.campaignId);
+            // add API call here and redirect back to campaign page on success
+            // campaign ID is stored in this.campaignId
         };
 
         return {

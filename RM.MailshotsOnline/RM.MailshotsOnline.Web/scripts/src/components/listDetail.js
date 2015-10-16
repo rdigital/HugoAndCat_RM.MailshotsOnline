@@ -28,6 +28,9 @@ define(['jquery', 'knockout', 'view-models/state'],
                 }
             }, this);
 
+            this.backUrl = window.backUrl;
+            this.backText = window.backText;
+
             this.toggleSelect = this.toggleSelect.bind(this);
 
             $.get('/Umbraco/API/DistributionList/GetMyListDetails?distributionListId='+ this.listID, function(data) {
@@ -67,7 +70,7 @@ define(['jquery', 'knockout', 'view-models/state'],
                 url: '/Umbraco/Api/DistributionList/DeleteMyList/?DistributionListId='+this.listID,
                 method: "DELETE",
                 success: function() {
-                    window.location = '/lists';
+                    window.location = this.backUrl;
                 },
                 error: function(error) {
                     stateViewModel.showError(true);
@@ -91,7 +94,7 @@ define(['jquery', 'knockout', 'view-models/state'],
 
             $.post('/Umbraco/Api/DistributionList/PostDeleteContactsFromList/', data, function(data) {
                 if (data === null) {
-                    window.location = '/lists';
+                    window.location = this.backUrl;
                 } else {
                     data.Contacts.forEach(function(contact){
                         contact.selected = ko.observable(false);
