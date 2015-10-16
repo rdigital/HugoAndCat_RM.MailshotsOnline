@@ -2,12 +2,12 @@
 @inherits Glass.Mapper.Umb.Web.Ui.GlassViewPage<RM.MailshotsOnline.Entities.PageModels.MyCampaigns>
 @{
     Layout = "Master.cshtml";
-    Html.RequiresJs("~/scripts/loginfunctions.js", 2);
+    <!-- Html.RequiresJs("~/scripts/loginfunctions.js", 2);
     Html.RequiresJs("~/scripts/campaignstest.js", 3);
-    Html.RequiresCss("~/css/fountain.css", 2);
+    Html.RequiresCss("~/css/fountain.css", 2); -->
 }
 
-<div class="content">
+<!-- <div class="content">
     <h1>@Model.Name</h1>
     @Umbraco.RenderMacro("Breadcrumbs")
     <div class="rich-text">
@@ -76,4 +76,5 @@
             <input type="hidden" id="campaignId" />
         </fieldset>
     </div>
-</div>
+</div> -->
+<campaign-list-component></campaign-list-component>

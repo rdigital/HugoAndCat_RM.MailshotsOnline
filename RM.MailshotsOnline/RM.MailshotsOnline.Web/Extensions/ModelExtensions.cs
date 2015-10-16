@@ -210,7 +210,7 @@ namespace RM.MailshotsOnline.Web.Extensions
                         }
                         else
                         {
-                            daysAgoText = string.Format("{0} day ago.", daysOld);
+                            daysAgoText = string.Format("{0} day ago", daysOld);
                         }
                     }
                     result = string.Format(campaignHubPage.DraftStatusDescription, daysAgoText, campaign.CreatedDate.ToString("dd/MM/yyyy"));
@@ -234,7 +234,12 @@ namespace RM.MailshotsOnline.Web.Extensions
                 case PCL.Enums.CampaignStatus.Exception:
                 case PCL.Enums.CampaignStatus.PaymentFailed:
                 case PCL.Enums.CampaignStatus.Refunded:
-                    result = string.Format("{0}<a href=\"{1}\">{2}</a>", campaignHubPage.MoreInformationPrompt, campaignHubPage.MyCampaignsPage.Url(), campaignHubPage.MyCampaignsPageLinkText);
+                    result = string.Format(
+                        "{0} <a href=\"{1}?campaignId={3}\">{2}</a>", 
+                        campaignHubPage.MoreInformationStatusPrompt, 
+                        campaignHubPage.OrderDetailsPage.Url(), 
+                        campaignHubPage.OrderDetailsPageLinkText, 
+                        campaign.CampaignId);
                     break;
             }
 
