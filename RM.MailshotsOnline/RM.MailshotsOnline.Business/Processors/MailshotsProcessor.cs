@@ -242,7 +242,7 @@ namespace RM.MailshotsOnline.Business.Processors
                         }
                         else
                         {
-                            contentElement.Add(imageUrl);
+                            contentElement.Add(imageUrl.Replace(" ", "%20"));
                         }
                     }
 

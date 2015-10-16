@@ -269,6 +269,8 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return CurrentUmbracoPage();
             }
 
+            invoice.PaypalCaptureTransactionId = result.Id;
+
             // Get the Order again and confirm that the payment has worked
             Order updatedOrder = null;
             try

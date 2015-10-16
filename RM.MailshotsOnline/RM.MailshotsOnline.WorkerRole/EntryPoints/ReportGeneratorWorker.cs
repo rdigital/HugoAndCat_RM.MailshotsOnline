@@ -63,8 +63,8 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
                         <ExecutionTag>e927cf76d24da9625608248ce654cfa7</ExecutionTag>
                         <ClientRequestId>3c4b84e2-aee5-43ac-913e-c05c8827ac41</ClientRequestId>
                         <ExpectedExecutionTime>2015-09-10T00:00:00</ExpectedExecutionTime>
-                        <SchedulerJobId>rm-photopost-creditreports</SchedulerJobId>
-                        <SchedulerJobCollectionId>bdhcjobs</SchedulerJobCollectionId>
+                        <SchedulerJobId>rm-msol-membership</SchedulerJobId>
+                        <SchedulerJobCollectionId>rmmsol</SchedulerJobCollectionId>
                         <Region>West Europe</Region>
                         <Message>membership</Message>
                       </StorageQueueMessage>
@@ -99,6 +99,8 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
                         continue;
                     }
 
+                    Logger.Info(GetType().Name, "Run", $"Message: {message}");
+
                     switch (message)
                     {
                         case "membership":
@@ -110,9 +112,9 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
                             {
                                 token = _authTokenService.Create(GetType().Name);
                             }
-                            catch
+                            catch(Exception e)
                             {
-                                Logger.Info(GetType().Name, "Run", "Failed to set auth token before starting report generation.");
+                                Logger.Info(GetType().Name, "Run", "Failed to set auth token before starting report generation. {0} - {1}", e, e.StackTrace);
 
                                 return;
                             }
@@ -126,7 +128,7 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
                                     Token = token.AuthTokenId.ToString()
                                 });
 
-                                var response = 
+                                var response =
                                     SendHttpPost($"{Constants.Apis.ReportsApi}/generatereport", postModel);
 
                                 Logger.Info(GetType().Name, "Run", $"Reports API responded with status {response}");
@@ -170,13 +172,15 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
                 _working = false;
             }
 
-			
-            Logger.Info(GetType().Name, "Run", "Sleeping for " + _queueInterval.ToString());
+
+            Logger.Info(GetType().Name, "Run", "Sleeping for " + _queueInterval);
             Thread.Sleep(_queueInterval);
         }
 
         private HttpStatusCode SendHttpPost(string url, string data = null)
         {
+            Logger.Info(GetType().Name, "SendHtpPost", $"Sending POST to {url}");
+
             var tokenRequest = WebRequest.Create(url);
             tokenRequest.Method = WebRequestMethods.Http.Post;
             tokenRequest.ContentType = "application/json";
