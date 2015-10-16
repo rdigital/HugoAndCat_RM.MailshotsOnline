@@ -6,7 +6,7 @@
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
 @using (Html.BeginUmbracoForm("RegisterForm", "RegisterSurface", null, new Dictionary<string, object> { { "class" , "register__form" } })) {
-        <section class="content-box">
+        <section class="content-box register-stage">
 
             <h2 class="heading01 heading01--line-on-sides"><span class="text">First we need a few details</span></h2>
 
@@ -140,14 +140,14 @@
             </div>
 
             <div class="form-row form-row--align-right">
-                <a href="" class="btn btn--blue btn--next" data-bind="click: $root.proceedToNextStage" title="">Next</a>
+                <a href="" class="btn btn--blue btn--next" data-bind="click: $root.proceedToStage2" title="">Next</a>
             </div>
         </section>
 
 
 
 
-        <section class="content-box">
+        <section class="content-box register-stage">
             <h2 class="heading01 heading01--line-on-sides">
                 <span class="text">About your organisation</span>
             </h2>
@@ -172,7 +172,7 @@
 
 
 
-        <section class="content-box">
+        <section class="content-box register-stage">
 
             <div class="form-row">
                 <div class="required-field">@Html.DisplayFor(m => m.RequiredFieldsLabel)</div>
