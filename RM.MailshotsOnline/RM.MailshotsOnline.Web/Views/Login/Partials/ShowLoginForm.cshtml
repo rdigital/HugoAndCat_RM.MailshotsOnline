@@ -23,12 +23,14 @@
         <div class="input-wrapper">
             @Html.TextBoxFor(m => m.Email, new { data_bind = "value: email" })
         </div>
+        <p class="validation-msg" data-bind="validationMessage: email"></p>
     </div>
     <div class="form-row">
         @Html.LabelFor(m => m.Password, Model.PageModel.PasswordLabel)
         <div class="input-wrapper">
-            @Html.TextBoxFor(m => m.Password, new { data_bind = "value: password" })
+            @Html.PasswordFor(m => m.Password, new { data_bind = "value: password" })
         </div>
+        <p class="validation-msg" data-bind="validationMessage: password"></p>
     </div>
     <div class="form-row password-reset">
         <a href="@passwordResetUrl">@Model.PageModel.PasswordResetCtaText</a>
