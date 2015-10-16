@@ -40,7 +40,10 @@ require([
 		ko.components.register('notification-component', notificationComponent);
 
 
-		koValidation.init({insertMessages: false});
+		koValidation.init({
+			insertMessages: true,
+			errorMessageClass: 'validation-msg'
+		});
 
 
 		// apply bindings

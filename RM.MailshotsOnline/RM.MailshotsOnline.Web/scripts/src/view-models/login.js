@@ -1,6 +1,6 @@
 // viewmodel to handle template data
-define(['knockout', 'koValidation'],
-    function(ko, koValidation) {
+define(['jquery', 'knockout', 'koValidation'],
+    function($, ko, koValidation) {
 
         function loginViewModel() {
             this.email = ko.observable();
@@ -10,7 +10,8 @@ define(['knockout', 'koValidation'],
             this.email.extend({
                 required: {
                     message: 'Please provide an email address'
-                }
+                },
+                email: true
             });
 
             this.password.extend({
@@ -24,7 +25,7 @@ define(['knockout', 'koValidation'],
 
         loginViewModel.prototype.validateAndSubmit = function validateAndSubmit() {
             if (this.errors().length === 0) {
-                console.log('submit the form');
+                return true;
             }
             else {
                 this.errors.showAllMessages();
