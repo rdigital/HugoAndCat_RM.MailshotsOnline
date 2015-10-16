@@ -82,59 +82,36 @@
 
             <hr>
 
-            <h3 class="heading01">We would like to keep you informed</h3>
+            <h3 class="heading01">@Model.KeepYouInformedTitle</h3>
 
-            <p>For full details of how we collect, use, share and protect your information, please refer to our <a href="/privacy-policy" title="Please read our Privacy Policy">Privacy Policy</a></p>
-
-            @* TODO: Mark - please change the opt-in/opt-out checkboxes to the below. *@
+            @Html.Raw(Model.KeepYouInformedSectionCopy)
 
             <div class="form-row form-row--align-left">
                 <div class="input-wrapper">
-                    <input id="royalMailMailAgreement" class="check-box" type="checkbox" value="true" data-bind="value: stage1.royalMailMailAgreement">
+                    @Html.CheckBoxFor(m => m.ViewModel.AgreeToRoyalMailContact, new { data_bind = "value: stage1.royalMailMailAgreement" })
                 </div>
-                <label for="royalMailMailAgreement">I agree to be contacted about Royal Mail products, services, special offers and promotions. This could include post, email, telephone and SMS.</label>
+                <label for="ViewModel_AgreeToRoyalMailContact">@Model.RoyalMailContactOptionsDisclaimer</label>
             </div>
             <div class="form-row form-row--align-left">
                 <div class="input-wrapper">
-                    <input id="thirdPartyMailAgreement" class="check-box custom-checkbox" type="checkbox" value="true" data-bind="value: stage1.thirdPartyMailAgreement">
+                    @Html.CheckBoxFor(m => m.ViewModel.AgreeToThirdPartyContact, new { data_bind = "value: stage1.thirdPartyMailAgreement" })
                 </div>
-                <label for="thirdPartyMailAgreement">I agree to be contacted about about products, services, special offers and promotions by carefully selected third parties. This could include post, email, telephone and SMS.</label>
+                <label for="ViewModel_AgreeToThirdPartyContact">@Model.ThirdPartyContactOptionsDisclaimer</label>
             </div>
-
-            @* ORIGINAL OPT-INs
-            <div>
-                <span for="RoyalMailContactOptions">@Model.RoyalMailContactOptionsDisclaimer</span>
-            </div>
-            <div>
-                <label for="RoyalMailContactOptions">@Model.RoyalMailContactOptionsLabel</label>
-                @Html.EditorFor(m => m.ViewModel.MarketingPreferencesViewModel.RoyalMailMarketingPreferences)
-            </div>
-            <div>
-                <span for="ThirdPartyContactOptionsDisclaimer">@Model.ThirdPartyContactOptionsDisclaimer</span>
-            </div>
-            <div>
-                <label for="ThirdPartyContactOptions">@Model.ThirdPartyContactOptionsLabel</label>
-                @Html.EditorFor(m => m.ViewModel.MarketingPreferencesViewModel.ThirdPartyMarketingPreferences)
-            </div>
-            <div>
-            </div> *@
-
-            @* END TODO *@
-
 
             <hr>
 
             <div class="form-row form-row--align-right">
 
-                @* TODO: Mark - Please add a link to T&Cs in the copy. *@
-                @Html.LabelFor(m => m.ViewModel.AgreeToTermsAndConditions, Model.AgreeToTermsAndConditionsLabel)
-                @* END TODO *@
+                <label for="ViewModel_AgreeToTermsAndConditions">
+                    @Html.Raw(Model.TermsAndConditionsLabelWithLink)
+                </label>
 
                 @Html.CheckBoxFor(m => m.ViewModel.AgreeToTermsAndConditions, new { data_bind = "checked: stage1.AgreeToTermsAndConditions" })
             </div>
 
             <div class="form-row form-row--align-right">
-                <a href="" class="btn btn--blue btn--next" data-bind="click: $root.proceedToStage2" title="">Next</a>
+                <a href="" class="btn btn--blue btn--next" data-bind="click: $root.proceedToStage2" title="">@Model.NextButtonText</a>
             </div>
         </section>
 
