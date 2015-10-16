@@ -27,13 +27,13 @@ namespace RM.MailshotsOnline.Web.App_Start
 
             setupCustomRouting();
 
+            // Set up telemetry
+            TelemetryConfig.SetupTelemetry();
+
+            // Application Insights error handling
+            GlobalFilters.Filters.Add(new AppInsightsHandleErrorAttribute());
             if (Microsoft.WindowsAzure.ServiceRuntime.RoleEnvironment.IsAvailable)
             {
-                // Set up telemetry
-                TelemetryConfig.SetupTelemetry();
-
-                // Application Insights error handling
-                GlobalFilters.Filters.Add(new AppInsightsHandleErrorAttribute());
             }
         }
 
