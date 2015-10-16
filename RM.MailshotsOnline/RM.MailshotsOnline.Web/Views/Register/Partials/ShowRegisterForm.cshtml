@@ -26,22 +26,14 @@
             </div>
 
             <div class="form-row">
-                @Html.LabelFor(m => m.ViewModel.Email, Model.EmailLabel)
-                <div class="input-wrapper" >
-                    @Html.TextBoxFor(m => m.ViewModel.Email, new { data_bind = "value: stage1.Email" })
+                @Html.LabelFor(m => m.ViewModel.Title, Model.TitleLabel)
+                <div class="input-wrapper">
+                    @Html.DropDownListFor(m => m.ViewModel.Title, new SelectList(Model.TitleOptions, "Key", "Value", Model.ViewModel.Title), new { data_bind = "value: stage1.Title" })
                 </div>
-                @Html.ValidationMessageFor(m => m.ViewModel.Email)
-                <p class="validation-msg" data-bind="validationMessage: stage1.Email"></p>
+                @Html.ValidationMessageFor(m => m.ViewModel.Title)
+                <p class="validation-msg" data-bind="validationMessage: stage1.Title"></p>
             </div>
 
-            <div class="form-row">
-                @Html.LabelFor(m => m.ViewModel.ConfirmEmail, Model.ConfirmEmailLabel)
-                <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.ConfirmEmail, new { data_bind = "value: stage1.ConfirmEmail" })
-                </div>
-                @Html.ValidationMessageFor(m => m.ViewModel.ConfirmEmail)
-                <p class="validation-msg" data-bind="validationMessage: stage1.ConfirmEmail"></p>
-            </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.FirstName, Model.FirstNameLabel)
@@ -63,13 +55,24 @@
 
 
             <div class="form-row">
-                @Html.LabelFor(m => m.ViewModel.Title, Model.TitleLabel)
-                <div class="input-wrapper">
-                    @Html.DropDownListFor(m => m.ViewModel.Title, new SelectList(Model.TitleOptions, "Key", "Value", Model.ViewModel.Title), new { data_bind = "value: stage1.Title" })
+                @Html.LabelFor(m => m.ViewModel.Email, Model.EmailLabel)
+                <div class="input-wrapper" >
+                    @Html.TextBoxFor(m => m.ViewModel.Email, new { data_bind = "value: stage1.Email" })
                 </div>
-                @Html.ValidationMessageFor(m => m.ViewModel.Title)
-                <p class="validation-msg" data-bind="validationMessage: stage1.Title"></p>
+                @Html.ValidationMessageFor(m => m.ViewModel.Email)
+                <p class="validation-msg" data-bind="validationMessage: stage1.Email"></p>
             </div>
+
+
+            <div class="form-row">
+                @Html.LabelFor(m => m.ViewModel.ConfirmEmail, Model.ConfirmEmailLabel)
+                <div class="input-wrapper">
+                    @Html.TextBoxFor(m => m.ViewModel.ConfirmEmail, new { data_bind = "value: stage1.ConfirmEmail" })
+                </div>
+                @Html.ValidationMessageFor(m => m.ViewModel.ConfirmEmail)
+                <p class="validation-msg" data-bind="validationMessage: stage1.ConfirmEmail"></p>
+            </div>
+
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.Password, Model.PasswordLabel)
@@ -88,7 +91,6 @@
                 </div>
                 @Html.ValidationMessageFor(m => m.ViewModel.ConfirmPassword)
                 <p class="validation-msg" data-bind="validationMessage: stage1.ConfirmPassword"></p>
-
             </div>
 
 
@@ -98,6 +100,7 @@
 
             <p>For full details of how we collect, use, share and protect your information, please refer to our <a href="/privacy-policy" title="Please read our Privacy Policy">Privacy Policy</a></p>
 
+            @* TODO: Mark - please change the opt-in/opt-out checkboxes to the below. *@
 
             <div class="form-row form-row--align-left">
                 <div class="input-wrapper">
@@ -112,9 +115,12 @@
                 <label for="thirdPartyMailAgreement">I agree to be contacted about about products, services, special offers and promotions by carefully selected third parties. This could include post, email, telephone and SMS.</label>
             </div>
 
+            @* END TODO: Mark - please change the opt-in/opt-out checkboxes to the below. *@
+
+
             <hr>
 
-@* 
+            @* 
             <div>
                 <span for="RoyalMailContactOptions">@Model.RoyalMailContactOptionsDisclaimer</span>
             </div>
@@ -133,7 +139,11 @@
             </div> *@
 
             <div class="form-row form-row--align-right">
+
+                @* TODO: Mark - Please add a link to T&Cs in the copy. *@
                 @Html.LabelFor(m => m.ViewModel.AgreeToTermsAndConditions, Model.AgreeToTermsAndConditionsLabel)
+                @* END TODO: Mark - Please add a link to T&Cs in the copy. *@
+
                 @Html.CheckBoxFor(m => m.ViewModel.AgreeToTermsAndConditions, new { data_bind = "value: stage1.AgreeToTermsAndConditions" })
                 @Html.ValidationMessageFor(m => m.ViewModel.AgreeToTermsAndConditions)
                 <p class="validation-msg" data-bind="validationMessage: stage1.AgreeToTermsAndConditions"></p>

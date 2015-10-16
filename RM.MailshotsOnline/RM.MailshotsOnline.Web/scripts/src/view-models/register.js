@@ -16,7 +16,7 @@ define([
 
             this.init = function(argument) {
                 // hide the sections
-                $('.register-stage').hide();
+                // $('.register-stage').hide();
                 this.stage1Init();
                 this.stage1Errors = koValidation.group(this.stage1, {deep: true});
                 this.stage1Errors.showAllMessages(false);
