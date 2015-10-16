@@ -63,8 +63,8 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
                         <ExecutionTag>e927cf76d24da9625608248ce654cfa7</ExecutionTag>
                         <ClientRequestId>3c4b84e2-aee5-43ac-913e-c05c8827ac41</ClientRequestId>
                         <ExpectedExecutionTime>2015-09-10T00:00:00</ExpectedExecutionTime>
-                        <SchedulerJobId>rm-photopost-creditreports</SchedulerJobId>
-                        <SchedulerJobCollectionId>bdhcjobs</SchedulerJobCollectionId>
+                        <SchedulerJobId>rm-msol-membership</SchedulerJobId>
+                        <SchedulerJobCollectionId>rmmsol</SchedulerJobCollectionId>
                         <Region>West Europe</Region>
                         <Message>membership</Message>
                       </StorageQueueMessage>
@@ -98,6 +98,8 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
 
                         continue;
                     }
+
+                    Logger.Info(GetType().Name, "Run", $"Message: {message}");
 
                     switch (message)
                     {
@@ -171,7 +173,7 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
             }
 
 
-            Logger.Info(GetType().Name, "Run", "Sleeping for " + _queueInterval.ToString());
+            Logger.Info(GetType().Name, "Run", "Sleeping for " + _queueInterval);
             Thread.Sleep(_queueInterval);
         }
 

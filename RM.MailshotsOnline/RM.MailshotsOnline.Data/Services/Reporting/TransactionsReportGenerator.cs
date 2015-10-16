@@ -34,13 +34,16 @@ namespace RM.MailshotsOnline.Data.Services.Reporting
             foreach (var invoice in invoices)
             {
                 var member = _membershipService.GetMemberById(invoice.Campaign.UserId);
+                var transactionID = !string.IsNullOrEmpty(invoice.PaypalCaptureTransactionId)
+                    ? invoice.PaypalCaptureTransactionId
+                    : invoice.PaypalPaymentId;
 
                 items.Add(new TransactionsReportEntity()
                 {
                     Type = "Order",
-                    PaymentId = invoice.PaypalPaymentId,
+                    PaymentId = transactionID,
                     SaleIdProductSku = invoice.OrderNumber,
-                    PaymentTimeProductName = invoice.CreatedDate.ToString("yyyyMMdd"),
+                    PaymentTimeProductName = invoice.CreatedDate.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'"),
                     UserIdQuantity = invoice.Campaign.UserId.ToString(),
                     EmailAddressUnitPrice = invoice.BillingEmail,
                     OrderSubtotalLineSubtotal = invoice.SubTotal,
@@ -66,7 +69,7 @@ namespace RM.MailshotsOnline.Data.Services.Reporting
                     items.Add(new TransactionsReportEntity()
                     {
                         Type = "LineItems",
-                        PaymentId = invoice.PaypalPaymentId,
+                        PaymentId = transactionID,
                         SaleIdProductSku = lineItem.ProductSku,
                         PaymentTimeProductName = string.IsNullOrEmpty(lineItem.SubTitle) ? lineItem.Product.Name : $"{lineItem.Product.Name} ({lineItem.SubTitle})",
                         UserIdQuantity = lineItem.Quantity.ToString(),
