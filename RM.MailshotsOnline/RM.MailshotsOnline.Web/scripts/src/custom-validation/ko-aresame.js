@@ -18,20 +18,8 @@ define(['knockout', 'jquery'],
             return (typeof o === 'function' ? o() : o);
         },
         validator: function (val, otherField) {
-            console.log(val, otherField);
+            // console.log(val, otherField);
             return val === this.getValue(otherField);
-        },
-        message: 'The fields must have the same value'
-    };
-
-    /**
-     * 
-     */
-
-    ko.validation.rules['isChecked'] = {
-        validator: function (val) {
-            console.log(val);
-            return val === 'checked';
         },
         message: 'The fields must have the same value'
     };

@@ -130,7 +130,7 @@
                 @Html.LabelFor(m => m.ViewModel.AgreeToTermsAndConditions, Model.AgreeToTermsAndConditionsLabel)
                 @* END TODO *@
 
-                @Html.CheckBoxFor(m => m.ViewModel.AgreeToTermsAndConditions, new { data_bind = "value: stage1.AgreeToTermsAndConditions" })
+                @Html.CheckBoxFor(m => m.ViewModel.AgreeToTermsAndConditions, new { data_bind = "checked: stage1.AgreeToTermsAndConditions" })
             </div>
 
             <div class="form-row form-row--align-right">

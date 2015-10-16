@@ -14,7 +14,7 @@ define([
             this.stage2 = {};
 
 
-            this.init = function(argument) {
+            this.init = function() {
                 // hide the sections
                 // $('.register-stage').hide();
                 this.stage1Init();
@@ -74,13 +74,13 @@ define([
                         message: "Confirm password must match password" 
                     }
                 });
-                this.stage1.royalMailMailAgreement = ko.observable();
-                this.stage1.thirdPartyMailAgreement = ko.observable();
                 this.stage1.AgreeToTermsAndConditions = ko.observable().extend({
-                    isChecked: {
-                        message: 'Please accept T&C agreement'
+                    required: {
+                        message: 'You must agree to the Terms and Conditions'
                     }
                 });
+                this.stage1.royalMailMailAgreement = ko.observable();
+                this.stage1.thirdPartyMailAgreement = ko.observable();
             };
 
             this.stage2Init = function() {
