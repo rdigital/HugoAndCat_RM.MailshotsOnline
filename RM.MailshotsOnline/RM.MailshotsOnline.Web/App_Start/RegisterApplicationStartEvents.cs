@@ -10,6 +10,7 @@ using RM.MailshotsOnline.Entities.PageModels;
 using RM.MailshotsOnline.Web.Handlers;
 using Umbraco.Core;
 using Umbraco.Web;
+using Umbraco.Web.Models;
 
 namespace RM.MailshotsOnline.Web.App_Start
 {
@@ -55,6 +56,15 @@ namespace RM.MailshotsOnline.Web.App_Start
                                               virtualNodeHandler:
                                                   new DocumentTypeNodeRouteHandler(typeof (ListDetail).Name),
                                               constraints: new {distributionListId = new GuidRouteConstraint()}
+                );
+
+            RouteTable.Routes.MapUmbracoRoute(
+                                              name: "CampaignListDetails",
+                                              url: "campaigns/{campaignId}/add-data",
+                                              defaults: new { Controller = "Lists", Action = "Lists" },
+                                              virtualNodeHandler:
+                                                  new DocumentTypeNodeRouteHandler(typeof(Lists).Name),
+                                              constraints: new { campaignId = new GuidRouteConstraint() }
                 );
         }
     }
