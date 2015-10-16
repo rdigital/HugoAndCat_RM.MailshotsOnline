@@ -1,7 +1,12 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<RM.MailshotsOnline.Entities.PageModels.Register>
+﻿@using ClientDependency.Core.Mvc
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<RM.MailshotsOnline.Entities.PageModels.Register>
 @{
     Layout = "~/Views/Master.cshtml";
+    Html.RequiresJs("http://api.addressnow.co.uk/js/addressnow-2.20.min.js?key=dh39-ak13-hy94-zh26");
+    Html.RequiresCss("http://api.addressnow.co.uk/css/addressnow-2.20.min.css?key=dh39-ak13-hy94-zh26");
 }
+
+@* TODO - Mark - add addressNow Key into config *@
 
 <div class="content">
     <div class="constrain">  

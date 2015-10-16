@@ -11,7 +11,7 @@ define(['knockout', 'jquery'],
      *   vm.password = ko.observable();
      *   vm.confirmPassword = ko.observable();
      * }   
-     * viewModel.confirmPassword.extend( areSame: { params: viewModel.password, message: "Confirm password must match password" });
+     * viewModel.confirmPassword.extend( {areSame: { params: viewModel.password, message: "Confirm password must match password" }});
     */
     ko.validation.rules['areSame'] = {
         getValue: function (o) {
@@ -20,6 +20,18 @@ define(['knockout', 'jquery'],
         validator: function (val, otherField) {
             console.log(val, otherField);
             return val === this.getValue(otherField);
+        },
+        message: 'The fields must have the same value'
+    };
+
+    /**
+     * 
+     */
+
+    ko.validation.rules['isChecked'] = {
+        validator: function (val) {
+            console.log(val);
+            return val === 'checked';
         },
         message: 'The fields must have the same value'
     };

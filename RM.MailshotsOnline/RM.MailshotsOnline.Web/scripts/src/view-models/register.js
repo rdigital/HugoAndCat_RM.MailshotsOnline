@@ -77,9 +77,9 @@ define([
                 this.stage1.royalMailMailAgreement = ko.observable();
                 this.stage1.thirdPartyMailAgreement = ko.observable();
                 this.stage1.AgreeToTermsAndConditions = ko.observable().extend({
-                    // required: {
-                    //     message: 'Please accept T&C agreement'
-                    // }
+                    isChecked: {
+                        message: 'Please accept T&C agreement'
+                    }
                 });
             };
 
