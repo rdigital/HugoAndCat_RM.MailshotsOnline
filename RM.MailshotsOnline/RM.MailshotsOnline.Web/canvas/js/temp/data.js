@@ -27,21 +27,21 @@ define([],
                             height: 592
                         }
                     ]
-                },
+                },*/
                 {
                     id: 4,
                     name: 'A4 Letter',
                     faces: [
                         {
-                            name:'Front',
+                            name:'Letter',
                             side:'front',
-                            width: 851,
-                            height: 1200,
+                            width: 840,
+                            height: 1184,
                             default_face: true
                         }
                     ]
-                },*/
-                {
+                },
+                /*{
                     id: 3,
                     name: 'Self Mailer',
                     faces: [
@@ -65,7 +65,7 @@ define([],
                             height: 1184
                         }
                     ]
-                }
+                }*/
             ]
 
             this.templateData = [
@@ -2050,7 +2050,7 @@ define([],
                 }*/
 
                 // self mailer templates
-                {
+                /*{
                     id:9,
                     format_id:3,
                     name:"Self Mailer Template 1",
@@ -5719,18 +5719,18 @@ define([],
                             ]
                         }
                     ]
-                }
+                }*/
 
                 // letter templates
-                /*{
+                {
                     id:14,
                     format_id:4,
                     name:"Letter Template 1",
                     elements:[
                         {
                             name:"logo",
-                            face:"Front",
-                            type:"image",
+                            face:"Letter",
+                            type:"logo",
                             theme_class:"logo",
                             layout:[
                                 {
@@ -5757,7 +5757,7 @@ define([],
                         },
                         {
                             name: "Postage Info",
-                            face:"Front",
+                            face:"Letter",
                             type:"noprint",
                             theme_class:"noprint",
                             layout:[
@@ -5767,27 +5767,27 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"200px"
+                                    value:"160px"
                                 },
                                 {
                                     property:"left",
-                                    value:"80px"
+                                    value:"40px"
                                 },
                                 {
                                     property:"width",
-                                    value:"550px"
+                                    value:"400px"
                                 },
                                 {
                                     property:"height",
-                                    value:"180px"
+                                    value:"160px"
                                 }
                             ]
                         },
                         {
                             name:"headline",
-                            face:"Front",
+                            face:"Letter",
                             type:"html",
-                            theme_class:"headline",
+                            theme_class:"headline_2",
                             layout:[
                                 {
                                     property:"position",
@@ -5795,27 +5795,27 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"400px"
+                                    value:"340px"
                                 },
                                 {
                                     property:"left",
-                                    value:"80px"
+                                    value:"40px"
                                 },
                                 {
                                     property:"width",
-                                    value:"550px"
+                                    value:"760px"
                                 },
                                 {
                                     property:"height",
-                                    value:"100px"
+                                    value:"80px"
                                 }
                             ]
                         },
                         {
                             name:"body",
-                            face:"Front",
+                            face:"Letter",
                             type:"html",
-                            theme_class:"body",
+                            theme_class:"body_2",
                             layout:[
                                 {
                                     property:"position",
@@ -5823,11 +5823,11 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"520px"
+                                    value:"440px"
                                 },
                                 {
                                     property:"left",
-                                    value:"80px"
+                                    value:"40px"
                                 },
                                 {
                                     property:"width",
@@ -5835,15 +5835,15 @@ define([],
                                 },
                                 {
                                     property:"height",
-                                    value:"550px"
+                                    value:"620px"
                                 }
                             ]
                         },
                         {
                             name:"return_address",
-                            face:"Front",
+                            face:"Letter",
                             type:"html",
-                            theme_class:"return_address",
+                            theme_class:"body_2",
                             layout:[
                                 {
                                     property:"position",
@@ -5868,10 +5868,10 @@ define([],
                             ]
                         },
                         {
-                            name:"footer",
-                            face:"Front",
+                            name:"inside_cta",
+                            face:"Letter",
                             type:"html",
-                            theme_class:"footer_block",
+                            theme_class:"cta",
                             layout:[
                                 {
                                     property:"position",
@@ -5887,11 +5887,11 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"849px"
+                                    value:"840px"
                                 },
                                 {
                                     property:"height",
-                                    value:"60px"
+                                    value:"90px"
                                 }
                             ]
                         },
@@ -5904,8 +5904,8 @@ define([],
                     elements:[
                         {
                             name:"logo",
-                            face:"Front",
-                            type:"image",
+                            face:"Letter",
+                            type:"logo",
                             theme_class:"logo",
                             layout:[
                                 {
@@ -5932,7 +5932,7 @@ define([],
                         },
                         {
                             name: "Postage Info",
-                            face:"Front",
+                            face:"Letter",
                             type:"noprint",
                             theme_class:"noprint",
                             layout:[
@@ -5942,27 +5942,27 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"200px"
+                                    value:"160px"
                                 },
                                 {
                                     property:"left",
-                                    value:"80px"
+                                    value:"40px"
                                 },
                                 {
                                     property:"width",
-                                    value:"550px"
+                                    value:"400px"
                                 },
                                 {
                                     property:"height",
-                                    value:"180px"
+                                    value:"160px"
                                 }
                             ]
                         },
                         {
                             name:"headline",
-                            face:"Front",
+                            face:"Letter",
                             type:"html",
-                            theme_class:"headline",
+                            theme_class:"headline_2",
                             layout:[
                                 {
                                     property:"position",
@@ -5970,27 +5970,27 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"400px"
+                                    value:"340px"
                                 },
                                 {
                                     property:"left",
-                                    value:"80px"
+                                    value:"40px"
                                 },
                                 {
                                     property:"width",
-                                    value:"600px"
+                                    value:"760px"
                                 },
                                 {
                                     property:"height",
-                                    value:"100px"
+                                    value:"80px"
                                 }
                             ]
                         },
                         {
                             name:"body",
-                            face:"Front",
+                            face:"Letter",
                             type:"html",
-                            theme_class:"body",
+                            theme_class:"body_2",
                             layout:[
                                 {
                                     property:"position",
@@ -5998,298 +5998,11 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"520px"
-                                },
-                                {
-                                    property:"left",
-                                    value:"80px"
-                                },
-                                {
-                                    property:"width",
-                                    value:"600px"
-                                },
-                                {
-                                    property:"height",
-                                    value:"360px"
-                                }
-                            ]
-                        },
-                        {
-                            name:"sign_off",
-                            face:"Front",
-                            type:"html",
-                            theme_class:"sign_off",
-                            layout:[
-                                {
-                                    property:"position",
-                                    value:"absolute"
-                                },
-                                {
-                                    property:"top",
-                                    value:"910px"
-                                },
-                                {
-                                    property:"left",
-                                    value:"80px"
-                                },
-                                {
-                                    property:"width",
-                                    value:"150px"
-                                },
-                                {
-                                    property:"height",
-                                    value:"25px"
-                                }
-                            ]
-                        },
-                        {
-                            name:"signature",
-                            face:"Front",
-                            type:"image",
-                            theme_class:"signature",
-                            layout:[
-                                {
-                                    property:"position",
-                                    value:"absolute"
-                                },
-                                {
-                                    property:"top",
-                                    value:"940px"
-                                },
-                                {
-                                    property:"left",
-                                    value:"80px"
-                                },
-                                {
-                                    property:"width",
-                                    value:"200px"
-                                },
-                                {
-                                    property:"height",
-                                    value:"100px"
-                                }
-                            ]
-                        },
-                        {
-                            name:"printed_name",
-                            face:"Front",
-                            type:"html",
-                            theme_class:"printed_name",
-                            layout:[
-                                {
-                                    property:"position",
-                                    value:"absolute"
-                                },
-                                {
-                                    property:"top",
-                                    value:"1045px"
-                                },
-                                {
-                                    property:"left",
-                                    value:"80px"
-                                },
-                                {
-                                    property:"width",
-                                    value:"200px"
-                                },
-                                {
-                                    property:"height",
-                                    value:"40px"
-                                }
-                            ]
-                        },
-                        {
-                            name:"post_script",
-                            face:"Front",
-                            type:"html",
-                            theme_class:"post_script",
-                            layout:[
-                                {
-                                    property:"position",
-                                    value:"absolute"
-                                },
-                                {
-                                    property:"top",
-                                    value:"1100px"
-                                },
-                                {
-                                    property:"left",
-                                    value:"80px"
-                                },
-                                {
-                                    property:"width",
-                                    value:"600px"
-                                },
-                                {
-                                    property:"height",
-                                    value:"30px"
-                                }
-                            ]
-                        },
-                        {
-                            name:"return_address",
-                            face:"Front",
-                            type:"html",
-                            theme_class:"return_address",
-                            layout:[
-                                {
-                                    property:"position",
-                                    value:"absolute"
-                                },
-                                {
-                                    property:"top",
-                                    value:"40px"
-                                },
-                                {
-                                    property:"right",
-                                    value:"40px"
-                                },
-                                {
-                                    property:"width",
-                                    value:"150px"
-                                },
-                                {
-                                    property:"height",
-                                    value:"150px"
-                                }
-                            ]
-                        },
-                        {
-                            name:"footer",
-                            face:"Front",
-                            type:"html",
-                            theme_class:"footer_block",
-                            layout:[
-                                {
-                                    property:"position",
-                                    value:"absolute"
-                                },
-                                {
-                                    property:"bottom",
-                                    value:"0"
-                                },
-                                {
-                                    property:"left",
-                                    value:"0"
-                                },
-                                {
-                                    property:"width",
-                                    value:"849px"
-                                },
-                                {
-                                    property:"height",
-                                    value:"60px"
-                                }
-                            ]
-                        },
-                    ]
-                },
-                {
-                    id:16,
-                    format_id:4,
-                    name:"Letter Template 3",
-                    elements:[
-                        {
-                            name:"logo",
-                            face:"Front",
-                            type:"image",
-                            theme_class:"logo",
-                            layout:[
-                                {
-                                    property:"position",
-                                    value:"absolute"
-                                },
-                                {
-                                    property:"top",
-                                    value:"40px"
+                                    value:"440px"
                                 },
                                 {
                                     property:"left",
                                     value:"40px"
-                                },
-                                {
-                                    property:"width",
-                                    value:"150px"
-                                },
-                                {
-                                    property:"height",
-                                    value:"100px"
-                                }
-                            ]
-                        },
-                        {
-                            name: "Postage Info",
-                            face:"Front",
-                            type:"noprint",
-                            theme_class:"noprint",
-                            layout:[
-                                {
-                                    property:"position",
-                                    value:"absolute"
-                                },
-                                {
-                                    property:"top",
-                                    value:"200px"
-                                },
-                                {
-                                    property:"left",
-                                    value:"80px"
-                                },
-                                {
-                                    property:"width",
-                                    value:"550px"
-                                },
-                                {
-                                    property:"height",
-                                    value:"180px"
-                                }
-                            ]
-                        },
-                        {
-                            name:"headline",
-                            face:"Front",
-                            type:"html",
-                            theme_class:"headline",
-                            layout:[
-                                {
-                                    property:"position",
-                                    value:"absolute"
-                                },
-                                {
-                                    property:"top",
-                                    value:"400px"
-                                },
-                                {
-                                    property:"left",
-                                    value:"80px"
-                                },
-                                {
-                                    property:"width",
-                                    value:"550px"
-                                },
-                                {
-                                    property:"height",
-                                    value:"100px"
-                                }
-                            ]
-                        },
-                        {
-                            name:"body",
-                            face:"Front",
-                            type:"html",
-                            theme_class:"body",
-                            layout:[
-                                {
-                                    property:"position",
-                                    value:"absolute"
-                                },
-                                {
-                                    property:"top",
-                                    value:"520px"
-                                },
-                                {
-                                    property:"left",
-                                    value:"80px"
                                 },
                                 {
                                     property:"width",
@@ -6303,9 +6016,9 @@ define([],
                         },
                         {
                             name:"return_address",
-                            face:"Front",
+                            face:"Letter",
                             type:"html",
-                            theme_class:"return_address",
+                            theme_class:"body_2",
                             layout:[
                                 {
                                     property:"position",
@@ -6330,38 +6043,66 @@ define([],
                             ]
                         },
                         {
-                            name:"cta",
-                            face:"Front",
+                            name:"sign_off",
+                            face:"Letter",
                             type:"html",
-                            theme_class:"cta_block",
+                            theme_class:"body_2",
                             layout:[
                                 {
                                     property:"position",
                                     value:"absolute"
                                 },
                                 {
-                                    property:"bottom",
-                                    value:"60px"
+                                    property:"top",
+                                    value:"990px"
                                 },
                                 {
                                     property:"left",
-                                    value:"0"
+                                    value:"40px"
                                 },
                                 {
                                     property:"width",
-                                    value:"849px"
+                                    value:"550px"
                                 },
                                 {
                                     property:"height",
-                                    value:"120px"
+                                    value:"80px"
                                 }
                             ]
                         },
                         {
-                            name:"footer",
-                            face:"Front",
+                            name:"signature",
+                            face:"Letter",
+                            type:"logo",
+                            theme_class:"logo",
+                            layout:[
+                                {
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {
+                                    property:"top",
+                                    value:"900px"
+                                },
+                                {
+                                    property:"left",
+                                    value:"40px"
+                                },
+                                {
+                                    property:"width",
+                                    value:"300px"
+                                },
+                                {
+                                    property:"height",
+                                    value:"80px"
+                                }
+                            ]
+                        },
+                        {
+                            name:"inside_cta",
+                            face:"Letter",
                             type:"html",
-                            theme_class:"footer_block",
+                            theme_class:"cta",
                             layout:[
                                 {
                                     property:"position",
@@ -6377,25 +6118,25 @@ define([],
                                 },
                                 {
                                     property:"width",
-                                    value:"849px"
+                                    value:"840px"
                                 },
                                 {
                                     property:"height",
-                                    value:"60px"
+                                    value:"90px"
                                 }
                             ]
                         },
                     ]
                 },
                 {
-                    id:17,
+                    id:16,
                     format_id:4,
-                    name:"Letter Template 2",
+                    name:"Letter Template 3",
                     elements:[
                         {
                             name:"logo",
-                            face:"Front",
-                            type:"image",
+                            face:"Letter",
+                            type:"logo",
                             theme_class:"logo",
                             layout:[
                                 {
@@ -6422,7 +6163,7 @@ define([],
                         },
                         {
                             name: "Postage Info",
-                            face:"Front",
+                            face:"Letter",
                             type:"noprint",
                             theme_class:"noprint",
                             layout:[
@@ -6432,11 +6173,67 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"200px"
+                                    value:"160px"
                                 },
                                 {
                                     property:"left",
+                                    value:"40px"
+                                },
+                                {
+                                    property:"width",
+                                    value:"400px"
+                                },
+                                {
+                                    property:"height",
+                                    value:"160px"
+                                }
+                            ]
+                        },
+                        {
+                            name:"headline",
+                            face:"Letter",
+                            type:"html",
+                            theme_class:"headline_2",
+                            layout:[
+                                {
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {
+                                    property:"top",
+                                    value:"340px"
+                                },
+                                {
+                                    property:"left",
+                                    value:"40px"
+                                },
+                                {
+                                    property:"width",
+                                    value:"760px"
+                                },
+                                {
+                                    property:"height",
                                     value:"80px"
+                                }
+                            ]
+                        },
+                        {
+                            name:"body",
+                            face:"Letter",
+                            type:"html",
+                            theme_class:"body_2",
+                            layout:[
+                                {
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {
+                                    property:"top",
+                                    value:"440px"
+                                },
+                                {
+                                    property:"left",
+                                    value:"40px"
                                 },
                                 {
                                     property:"width",
@@ -6444,15 +6241,15 @@ define([],
                                 },
                                 {
                                     property:"height",
-                                    value:"180px"
+                                    value:"710px"
                                 }
                             ]
                         },
                         {
-                            name:"headline",
-                            face:"Front",
+                            name:"return_address",
+                            face:"Letter",
                             type:"html",
-                            theme_class:"headline",
+                            theme_class:"body_2",
                             layout:[
                                 {
                                     property:"position",
@@ -6460,67 +6257,11 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"400px"
+                                    value:"40px"
                                 },
                                 {
-                                    property:"left",
-                                    value:"80px"
-                                },
-                                {
-                                    property:"width",
-                                    value:"600px"
-                                },
-                                {
-                                    property:"height",
-                                    value:"60px"
-                                }
-                            ]
-                        },
-                        {
-                            name:"body",
-                            face:"Front",
-                            type:"html",
-                            theme_class:"body",
-                            layout:[
-                                {
-                                    property:"position",
-                                    value:"absolute"
-                                },
-                                {
-                                    property:"top",
-                                    value:"480px"
-                                },
-                                {
-                                    property:"left",
-                                    value:"80px"
-                                },
-                                {
-                                    property:"width",
-                                    value:"600px"
-                                },
-                                {
-                                    property:"height",
-                                    value:"300px"
-                                }
-                            ]
-                        },
-                        {
-                            name:"sign_off",
-                            face:"Front",
-                            type:"html",
-                            theme_class:"sign_off",
-                            layout:[
-                                {
-                                    property:"position",
-                                    value:"absolute"
-                                },
-                                {
-                                    property:"top",
-                                    value:"800px"
-                                },
-                                {
-                                    property:"left",
-                                    value:"80px"
+                                    property:"right",
+                                    value:"40px"
                                 },
                                 {
                                     property:"width",
@@ -6528,15 +6269,22 @@ define([],
                                 },
                                 {
                                     property:"height",
-                                    value:"25px"
+                                    value:"150px"
                                 }
                             ]
-                        },
+                        }
+                    ]
+                },
+                {
+                    id:17,
+                    format_id:4,
+                    name:"Letter Template 4",
+                    elements:[
                         {
-                            name:"signature",
-                            face:"Front",
-                            type:"image",
-                            theme_class:"signature",
+                            name:"logo",
+                            face:"Letter",
+                            type:"logo",
+                            theme_class:"logo",
                             layout:[
                                 {
                                     property:"position",
@@ -6544,55 +6292,27 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"830px"
-                                },
-                                {
-                                    property:"left",
-                                    value:"80px"
-                                },
-                                {
-                                    property:"width",
-                                    value:"200px"
-                                },
-                                {
-                                    property:"height",
-                                    value:"80px"
-                                }
-                            ]
-                        },
-                        {
-                            name:"printed_name",
-                            face:"Front",
-                            type:"html",
-                            theme_class:"printed_name",
-                            layout:[
-                                {
-                                    property:"position",
-                                    value:"absolute"
-                                },
-                                {
-                                    property:"top",
-                                    value:"915px"
-                                },
-                                {
-                                    property:"left",
-                                    value:"80px"
-                                },
-                                {
-                                    property:"width",
-                                    value:"200px"
-                                },
-                                {
-                                    property:"height",
                                     value:"40px"
+                                },
+                                {
+                                    property:"left",
+                                    value:"40px"
+                                },
+                                {
+                                    property:"width",
+                                    value:"150px"
+                                },
+                                {
+                                    property:"height",
+                                    value:"100px"
                                 }
                             ]
                         },
                         {
-                            name:"post_script",
-                            face:"Front",
-                            type:"html",
-                            theme_class:"post_script",
+                            name: "Postage Info",
+                            face:"Letter",
+                            type:"noprint",
+                            theme_class:"noprint",
                             layout:[
                                 {
                                     property:"position",
@@ -6600,27 +6320,83 @@ define([],
                                 },
                                 {
                                     property:"top",
-                                    value:"970px"
+                                    value:"160px"
                                 },
                                 {
                                     property:"left",
-                                    value:"80px"
+                                    value:"40px"
                                 },
                                 {
                                     property:"width",
-                                    value:"600px"
+                                    value:"400px"
                                 },
                                 {
                                     property:"height",
-                                    value:"30px"
+                                    value:"160px"
+                                }
+                            ]
+                        },
+                        {
+                            name:"headline",
+                            face:"Letter",
+                            type:"html",
+                            theme_class:"headline_2",
+                            layout:[
+                                {
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {
+                                    property:"top",
+                                    value:"340px"
+                                },
+                                {
+                                    property:"left",
+                                    value:"40px"
+                                },
+                                {
+                                    property:"width",
+                                    value:"760px"
+                                },
+                                {
+                                    property:"height",
+                                    value:"80px"
+                                }
+                            ]
+                        },
+                        {
+                            name:"body",
+                            face:"Letter",
+                            type:"html",
+                            theme_class:"body_2",
+                            layout:[
+                                {
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {
+                                    property:"top",
+                                    value:"440px"
+                                },
+                                {
+                                    property:"left",
+                                    value:"40px"
+                                },
+                                {
+                                    property:"width",
+                                    value:"550px"
+                                },
+                                {
+                                    property:"height",
+                                    value:"540px"
                                 }
                             ]
                         },
                         {
                             name:"return_address",
-                            face:"Front",
+                            face:"Letter",
                             type:"html",
-                            theme_class:"return_address",
+                            theme_class:"body_2",
                             layout:[
                                 {
                                     property:"position",
@@ -6645,45 +6421,80 @@ define([],
                             ]
                         },
                         {
-                            name:"cta",
-                            face:"Front",
+                            name:"sign_off",
+                            face:"Letter",
                             type:"html",
-                            theme_class:"cta_block",
+                            theme_class:"body_2",
                             layout:[
                                 {
                                     property:"position",
                                     value:"absolute"
                                 },
                                 {
-                                    property:"bottom",
-                                    value:"60px"
+                                    property:"top",
+                                    value:"1080px"
                                 },
                                 {
                                     property:"left",
-                                    value:"0"
+                                    value:"40px"
                                 },
                                 {
                                     property:"width",
-                                    value:"849px"
+                                    value:"550px"
                                 },
                                 {
                                     property:"height",
-                                    value:"120px"
+                                    value:"80px"
                                 }
                             ]
                         },
                         {
-                            name:"footer",
-                            face:"Front",
-                            type:"html",
-                            theme_class:"footer_block",
+                            name:"signature",
+                            face:"Letter",
+                            type:"logo",
+                            theme_class:"logo",
                             layout:[
                                 {
                                     property:"position",
                                     value:"absolute"
                                 },
                                 {
-                                    property:"bottom",
+                                    property:"top",
+                                    value:"990px"
+                                },
+                                {
+                                    property:"left",
+                                    value:"40px"
+                                },
+                                {
+                                    property:"width",
+                                    value:"300px"
+                                },
+                                {
+                                    property:"height",
+                                    value:"80px"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    id:18,
+                    format_id:4,
+                    name:"Letter Template 5",
+                    elements:[
+                        {
+                            name:"hero",
+                            face:"Letter",
+                            type:"image",
+                            theme_class:"hero",
+                            layout:[
+                                {
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {
+                                    property:"top",
                                     value:"0"
                                 },
                                 {
@@ -6691,17 +6502,45 @@ define([],
                                     value:"0"
                                 },
                                 {
+                                    property:"right",
+                                    value:"0"
+                                },
+                                {
+                                    property:"bottom",
+                                    value:"0"
+                                }
+                            ]
+                        },
+                        {
+                            name: "Postage Info",
+                            face:"Letter",
+                            type:"noprint",
+                            theme_class:"noprint",
+                            layout:[
+                                {
+                                    property:"position",
+                                    value:"absolute"
+                                },
+                                {
+                                    property:"top",
+                                    value:"160px"
+                                },
+                                {
+                                    property:"left",
+                                    value:"40px"
+                                },
+                                {
                                     property:"width",
-                                    value:"849px"
+                                    value:"400px"
                                 },
                                 {
                                     property:"height",
-                                    value:"60px"
+                                    value:"160px"
                                 }
                             ]
                         },
                     ]
-                }*/
+                }
             ]
 
             this.themeData = [
@@ -6709,6 +6548,15 @@ define([],
                     id: 3,
                     name: 'Fashion',
                     faces: [
+                        {
+                            name: 'Letter',
+                            styles: [
+                                {
+                                    property: 'background-color',
+                                    value: '#FFFFFF'
+                                }
+                            ]
+                        },
                     	{
                     		name: 'Front',
                     		styles: [
@@ -7001,6 +6849,15 @@ define([],
                     id: 4,
                     name: 'Trusted / Traditional',
                     faces: [
+                        {
+                            name: 'Letter',
+                            styles: [
+                                {
+                                    property: 'background-color',
+                                    value: '#FFFFFF'
+                                }
+                            ]
+                        },
                     	{
                     		name: 'Front',
                     		styles: [
@@ -7300,6 +7157,15 @@ define([],
                     id: 5,
                     name: 'Approachable',
                     faces: [
+                        {
+                            name: 'Letter',
+                            styles: [
+                                {
+                                    property: 'background-color',
+                                    value: '#FFFFFF'
+                                }
+                            ]
+                        },
                     	{
                     		name: 'Front',
                     		styles: [
