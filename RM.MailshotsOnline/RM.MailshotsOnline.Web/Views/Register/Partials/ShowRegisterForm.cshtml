@@ -90,15 +90,17 @@
 
             <div class="form-row form-row--align-left">
                 <div class="input-wrapper">
-                    <input id="royalMailMailAgreement" class="check-box" type="checkbox" value="true" data-bind="value: stage1.royalMailMailAgreement">
+                    @Html.CheckBoxFor(m => m.ViewModel.AgreeToRoyalMailContact, new { data_bind = "value: stage1.royalMailMailAgreement" })
+                    @*<input id="royalMailMailAgreement" class="check-box" type="checkbox" value="true" data-bind="value: stage1.royalMailMailAgreement">*@
                 </div>
-                <label for="royalMailMailAgreement">I agree to be contacted about Royal Mail products, services, special offers and promotions. This could include post, email, telephone and SMS.</label>
+                <label for="ViewModel_AgreeToRoyalMailContact">I agree to be contacted about Royal Mail products, services, special offers and promotions. This could include post, email, telephone and SMS.</label>
             </div>
             <div class="form-row form-row--align-left">
                 <div class="input-wrapper">
-                    <input id="thirdPartyMailAgreement" class="check-box custom-checkbox" type="checkbox" value="true" data-bind="value: stage1.thirdPartyMailAgreement">
+                    @Html.CheckBoxFor(m => m.ViewModel.AgreeToThirdPartyContact, new { data_bind = "value: stage1.thirdPartyMailAgreement" })
+                    @*<input id="thirdPartyMailAgreement" class="check-box custom-checkbox" type="checkbox" value="true" data-bind="value: stage1.thirdPartyMailAgreement">*@
                 </div>
-                <label for="thirdPartyMailAgreement">I agree to be contacted about about products, services, special offers and promotions by carefully selected third parties. This could include post, email, telephone and SMS.</label>
+                <label for="ViewModel_AgreeToThirdPartyContact">I agree to be contacted about about products, services, special offers and promotions by carefully selected third parties. This could include post, email, telephone and SMS.</label>
             </div>
 
             @* ORIGINAL OPT-INs
@@ -126,9 +128,9 @@
 
             <div class="form-row form-row--align-right">
 
-                @* TODO: Mark - Please add a link to T&Cs in the copy. *@
-                @Html.LabelFor(m => m.ViewModel.AgreeToTermsAndConditions, Model.AgreeToTermsAndConditionsLabel)
-                @* END TODO *@
+                <label for="ViewModel_AgreeToTermsAndConditions">
+                    @Html.Raw(Model.TermsAndConditionsLabelWithLink)
+                </label>
 
                 @Html.CheckBoxFor(m => m.ViewModel.AgreeToTermsAndConditions, new { data_bind = "checked: stage1.AgreeToTermsAndConditions" })
             </div>

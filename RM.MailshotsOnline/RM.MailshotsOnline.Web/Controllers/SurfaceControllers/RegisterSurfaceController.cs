@@ -18,6 +18,7 @@ using System.Web.Security;
 using RM.MailshotsOnline.Data.Services;
 using umbraco;
 using Umbraco.Web.Mvc;
+using RM.MailshotsOnline.Web.Extensions;
 
 namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 {
@@ -46,7 +47,10 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             }
 
             model.TitleOptions = Services.DataTypeService.GetPreValues("Title Dropdown");
+            var termsAndConditionsLink = string.Format("<a href=\"{0}\">{1}</a>", model.TermsAndConditionsPage.Url(), model.TermsAndConditionsLinkText);
+            model.TermsAndConditionsLabelWithLink = string.Format(model.AgreeToTermsAndConditionsLabel, termsAndConditionsLink);
             model.ViewModel = new RegisterViewModel();
+
 
             return PartialView("~/Views/Register/Partials/ShowRegisterForm.cshtml", model);
         }
@@ -137,19 +141,33 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 LastName = model.LastName,
                 IsApproved = false,
                 IsLockedOut = false,
+                //RoyalMailMarketingPreferences = new ContactOptions()
+                //{
+                //    Post = model.MarketingPreferencesViewModel.RoyalMailMarketingPreferences.Post,
+                //    Email = model.MarketingPreferencesViewModel.RoyalMailMarketingPreferences.Email,
+                //    Phone = model.MarketingPreferencesViewModel.RoyalMailMarketingPreferences.Phone,
+                //    SmsAndOther = model.MarketingPreferencesViewModel.RoyalMailMarketingPreferences.SmsAndOther
+                //},
+                //ThirdPartyMarketingPreferences = new ContactOptions()
+                //{
+                //    Post = model.MarketingPreferencesViewModel.ThirdPartyMarketingPreferences.Post,
+                //    Email = model.MarketingPreferencesViewModel.ThirdPartyMarketingPreferences.Email,
+                //    Phone = model.MarketingPreferencesViewModel.ThirdPartyMarketingPreferences.Phone,
+                //    SmsAndOther = model.MarketingPreferencesViewModel.ThirdPartyMarketingPreferences.SmsAndOther
+                //},
                 RoyalMailMarketingPreferences = new ContactOptions()
                 {
-                    Post = model.MarketingPreferencesViewModel.RoyalMailMarketingPreferences.Post,
-                    Email = model.MarketingPreferencesViewModel.RoyalMailMarketingPreferences.Email,
-                    Phone = model.MarketingPreferencesViewModel.RoyalMailMarketingPreferences.Phone,
-                    SmsAndOther = model.MarketingPreferencesViewModel.RoyalMailMarketingPreferences.SmsAndOther
+                    Post = model.AgreeToRoyalMailContact,
+                    Email = model.AgreeToRoyalMailContact,
+                    Phone = model.AgreeToRoyalMailContact,
+                    SmsAndOther = model.AgreeToRoyalMailContact
                 },
                 ThirdPartyMarketingPreferences = new ContactOptions()
                 {
-                    Post = model.MarketingPreferencesViewModel.ThirdPartyMarketingPreferences.Post,
-                    Email = model.MarketingPreferencesViewModel.ThirdPartyMarketingPreferences.Email,
-                    Phone = model.MarketingPreferencesViewModel.ThirdPartyMarketingPreferences.Phone,
-                    SmsAndOther = model.MarketingPreferencesViewModel.ThirdPartyMarketingPreferences.SmsAndOther
+                    Post = model.AgreeToThirdPartyContact,
+                    Email = model.AgreeToThirdPartyContact,
+                    Phone = model.AgreeToThirdPartyContact,
+                    SmsAndOther = model.AgreeToThirdPartyContact
                 },
                 Postcode = model.OrganisationDetailsViewModel.Postcode,
                 OrganisationName = model.OrganisationDetailsViewModel.OrganisationName,
