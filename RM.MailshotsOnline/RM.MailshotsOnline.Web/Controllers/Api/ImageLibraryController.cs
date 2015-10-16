@@ -309,7 +309,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         }
 
         [HttpPost]
-        public HttpResponseMessage UploadImage(ImageUploadViewModel imageUpload)
+        public async Task<HttpResponseMessage> UploadImage(ImageUploadViewModel imageUpload)
         {
             var authResult = Authenticate();
             if (authResult != null)
@@ -351,7 +351,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
             if (bytes != null)
             {
-                return UploadImage(bytes, imageUpload.Name);
+                return await UploadImage(bytes, imageUpload.Name);
             }
             else
             {
@@ -359,11 +359,11 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
         }
 
-        private HttpResponseMessage UploadImage(byte[] bytes, string name)
+        private async Task<HttpResponseMessage> UploadImage(byte[] bytes, string name)
         {
             // todo: check size of bytes[]
 
-            PCL.Models.IMedia media = null;
+            Task<PCL.Models.IMedia> media = null;
             try
             {
                 media = _imageLibrary.AddImage(bytes, name, _loggedInMember);
@@ -379,7 +379,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 return ErrorMessage(HttpStatusCode.InternalServerError, "Unable to save image.");
             }
 
-            return Request.CreateResponse(HttpStatusCode.Created, media);
+            return Request.CreateResponse(HttpStatusCode.Created, await media);
         }
 
         [HttpPost]
