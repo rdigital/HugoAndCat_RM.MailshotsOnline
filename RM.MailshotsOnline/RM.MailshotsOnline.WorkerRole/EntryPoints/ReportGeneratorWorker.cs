@@ -112,9 +112,9 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
                             {
                                 token = _authTokenService.Create(GetType().Name);
                             }
-                            catch
+                            catch(Exception e)
                             {
-                                Logger.Info(GetType().Name, "Run", "Failed to set auth token before starting report generation.");
+                                Logger.Info(GetType().Name, "Run", "Failed to set auth token before starting report generation. {0} - {1}", e, e.StackTrace);
 
                                 return;
                             }
