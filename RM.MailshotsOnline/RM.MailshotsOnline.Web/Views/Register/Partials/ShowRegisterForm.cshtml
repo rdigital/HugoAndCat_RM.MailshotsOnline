@@ -26,29 +26,19 @@
             </div>
 
             <div class="form-row">
-                @Html.LabelFor(m => m.ViewModel.Email, Model.EmailLabel)
-                <div class="input-wrapper" >
-                    @Html.TextBoxFor(m => m.ViewModel.Email, new { data_bind = "value: stage1.Email" })
+                @Html.LabelFor(m => m.ViewModel.Title, Model.TitleLabel)
+                <div class="input-wrapper">
+                    @Html.DropDownListFor(m => m.ViewModel.Title, new SelectList(Model.TitleOptions, "Key", "Value", Model.ViewModel.Title), new { data_bind = "value: stage1.Title" })
                 </div>
-                @Html.ValidationMessageFor(m => m.ViewModel.Email)
-                <p class="validation-msg" data-bind="validationMessage: stage1.Email"></p>
+                <p class="validation-msg" data-bind="validationMessage: stage1.Title"></p>
             </div>
 
-            <div class="form-row">
-                @Html.LabelFor(m => m.ViewModel.ConfirmEmail, Model.ConfirmEmailLabel)
-                <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.ConfirmEmail, new { data_bind = "value: stage1.ConfirmEmail" })
-                </div>
-                @Html.ValidationMessageFor(m => m.ViewModel.ConfirmEmail)
-                <p class="validation-msg" data-bind="validationMessage: stage1.ConfirmEmail"></p>
-            </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.FirstName, Model.FirstNameLabel)
                 <div class="input-wrapper">
                     @Html.TextBoxFor(m => m.ViewModel.FirstName, new { data_bind = "value: stage1.FirstName" })
                 </div>
-                @Html.ValidationMessageFor(m => m.ViewModel.FirstName)
                 <p class="validation-msg" data-bind="validationMessage: stage1.FirstName"></p>
             </div>
 
@@ -57,26 +47,33 @@
                 <div class="input-wrapper">
                     @Html.TextBoxFor(m => m.ViewModel.LastName, new { data_bind = "value: stage1.LastName" })
                 </div>
-                @Html.ValidationMessageFor(m => m.ViewModel.LastName)
                 <p class="validation-msg" data-bind="validationMessage: stage1.LastName"></p>
             </div>
 
 
             <div class="form-row">
-                @Html.LabelFor(m => m.ViewModel.Title, Model.TitleLabel)
-                <div class="input-wrapper">
-                    @Html.DropDownListFor(m => m.ViewModel.Title, new SelectList(Model.TitleOptions, "Key", "Value", Model.ViewModel.Title), new { data_bind = "value: stage1.Title" })
+                @Html.LabelFor(m => m.ViewModel.Email, Model.EmailLabel)
+                <div class="input-wrapper" >
+                    @Html.TextBoxFor(m => m.ViewModel.Email, new { data_bind = "value: stage1.Email" })
                 </div>
-                @Html.ValidationMessageFor(m => m.ViewModel.Title)
-                <p class="validation-msg" data-bind="validationMessage: stage1.Title"></p>
+                <p class="validation-msg" data-bind="validationMessage: stage1.Email"></p>
             </div>
+
+
+            <div class="form-row">
+                @Html.LabelFor(m => m.ViewModel.ConfirmEmail, Model.ConfirmEmailLabel)
+                <div class="input-wrapper">
+                    @Html.TextBoxFor(m => m.ViewModel.ConfirmEmail, new { data_bind = "value: stage1.ConfirmEmail" })
+                </div>
+                <p class="validation-msg" data-bind="validationMessage: stage1.ConfirmEmail"></p>
+            </div>
+
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.Password, Model.PasswordLabel)
                 <div class="input-wrapper">
                     @Html.PasswordFor(m => m.ViewModel.Password, new { data_bind = "value: stage1.Password" })
                 </div>
-                @Html.ValidationMessageFor(m => m.ViewModel.Password)
                 <p class="validation-msg" data-bind="validationMessage: stage1.Password"></p>
             </div>
 
@@ -86,9 +83,7 @@
                 <div class="input-wrapper">
                     @Html.PasswordFor(m => m.ViewModel.ConfirmPassword, new { data_bind = "value: stage1.ConfirmPassword" })
                 </div>
-                @Html.ValidationMessageFor(m => m.ViewModel.ConfirmPassword)
                 <p class="validation-msg" data-bind="validationMessage: stage1.ConfirmPassword"></p>
-
             </div>
 
 
@@ -98,6 +93,7 @@
 
             <p>For full details of how we collect, use, share and protect your information, please refer to our <a href="/privacy-policy" title="Please read our Privacy Policy">Privacy Policy</a></p>
 
+            @* TODO: Mark - please change the opt-in/opt-out checkboxes to the below. *@
 
             <div class="form-row form-row--align-left">
                 <div class="input-wrapper">
@@ -112,9 +108,7 @@
                 <label for="thirdPartyMailAgreement">I agree to be contacted about about products, services, special offers and promotions by carefully selected third parties. This could include post, email, telephone and SMS.</label>
             </div>
 
-            <hr>
-
-@* 
+            @* ORIGINAL OPT-INs
             <div>
                 <span for="RoyalMailContactOptions">@Model.RoyalMailContactOptionsDisclaimer</span>
             </div>
@@ -132,10 +126,18 @@
             <div>
             </div> *@
 
+            @* END TODO *@
+
+
+            <hr>
+
             <div class="form-row form-row--align-right">
+
+                @* TODO: Mark - Please add a link to T&Cs in the copy. *@
                 @Html.LabelFor(m => m.ViewModel.AgreeToTermsAndConditions, Model.AgreeToTermsAndConditionsLabel)
+                @* END TODO *@
+
                 @Html.CheckBoxFor(m => m.ViewModel.AgreeToTermsAndConditions, new { data_bind = "value: stage1.AgreeToTermsAndConditions" })
-                @Html.ValidationMessageFor(m => m.ViewModel.AgreeToTermsAndConditions)
                 <p class="validation-msg" data-bind="validationMessage: stage1.AgreeToTermsAndConditions"></p>
             </div>
 
@@ -196,13 +198,6 @@
 
 
 
-            <div class="form-row">
-                @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode, Model.PostcodeLabel)
-                <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode)
-                </div>
-                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode)</p>
-            </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.OrganisationName, Model.OrganisationNameLabel)
@@ -210,7 +205,7 @@
                     @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.OrganisationName)
                 </div>
 
-                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.OrganisationName)</p>
+                <p class="validation-msg"></p>
             </div>
 
             <div class="form-row">
@@ -219,7 +214,7 @@
                     @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.JobTitle)
                 </div>
 
-                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.JobTitle)</p>
+                <p class="validation-msg"></p>
             </div>
 
             <div class="form-row">
@@ -228,7 +223,7 @@
                     @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.FlatNumber)
                 </div>
 
-                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.FlatNumber)</p>
+                <p class="validation-msg"></p>
             </div>
 
             <div class="form-row">
@@ -237,7 +232,7 @@
                     @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingNumber)
                 </div>
 
-                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingNumber)</p>
+                <p class="validation-msg"></p>
             </div>
 
             <div class="form-row">
@@ -246,7 +241,7 @@
                     @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingName)
                 </div>
 
-                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingName)</p>
+                <p class="validation-msg"></p>
             </div>
 
             <div class="form-row">
@@ -255,7 +250,7 @@
                     @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Address1)
                 </div>
                 
-                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Address1)</p>
+                <p class="validation-msg"></p>
             </div>
 
             <div class="form-row">
@@ -264,7 +259,7 @@
                     @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Address2)
                 </div>
 
-                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Address2)</p>
+                <p class="validation-msg"></p>
             </div>
 
             <div class="form-row">
@@ -273,16 +268,24 @@
                     @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.City)
                 </div>
                 
-                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.City)</p>
+                <p class="validation-msg"></p>
             </div>
-
+            
+@*             <div class="form-row">
+                @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode, Model.PostcodeLabel)
+                <div class="input-wrapper">
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode)
+                </div>
+                <p class="validation-msg"></p>
+            </div>
+ *@
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Country, Model.CountryLabel)
                 <div class="input-wrapper">
                     @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Country)
                 </div>
 
-                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.Country)</p>
+                <p class="validation-msg"></p>
             </div>
 
             <div class="form-row">
@@ -291,7 +294,7 @@
                     @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber)
                 </div>
 
-                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber)</p>
+                <p class="validation-msg"></p>
             </div>
 
             <div class="form-row">
@@ -300,7 +303,7 @@
                     @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.MobilePhoneNumber)
                 </div>
 
-                <p class="validation-msg">@Html.ValidationMessageFor(m => m.ViewModel.OrganisationDetailsViewModel.MobilePhoneNumber)</p>
+                <p class="validation-msg"></p>
             </div>
 
             <div class="form-row">
