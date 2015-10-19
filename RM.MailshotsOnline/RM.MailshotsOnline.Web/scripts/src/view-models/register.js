@@ -18,7 +18,7 @@ define([
 
             this.init = function() {
                 // hide the sections
-                $('.register-stage').hide();
+                // $('.register-stage').hide();
                 this.stage1Init();
                 this.stage2Init();
                 this.stage3Init();
@@ -142,6 +142,8 @@ define([
 
                 this.stage3Errors = koValidation.group(this.stage3, {deep: true});
                 this.stage3Errors.showAllMessages(false);
+
+                window.stage3 = this.stage3;
             };
 
             this.proceedToStage2 = function() {
@@ -172,6 +174,7 @@ define([
                 event.preventDefault();
                 if (this.stage3Errors().length === 0) {
                     alert('Thank you.');
+                    $('form.register__form').submit();
                 }
                 else {
                     this.stage3Errors.showAllMessages();

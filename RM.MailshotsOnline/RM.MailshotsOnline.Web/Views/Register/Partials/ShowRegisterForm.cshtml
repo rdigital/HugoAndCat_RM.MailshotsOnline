@@ -115,9 +115,6 @@
             </div>
         </section>
 
-
-
-
         <section class="content-box register-stage">
             <h2 class="heading01 heading01--line-on-sides">
                 <span class="text">About your organisation</span>
@@ -128,9 +125,9 @@
             </div>
 
             <div class="form-row">
-                <label for="ViewModel_PostCode"><span class="required-field__star">*</span> Postcode:</label>
+                @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode, Model.PostcodeLabel)
                 <div class="input-wrapper">
-                    <input class="text-box single-line" id="ViewModel_PostCode" name="ViewModel.PostCode" data-bind="value: stage2.Postcode" type="text">
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode, new { data_bind = "value: stage2.Postcode" })
                 </div>
             </div>
 
@@ -138,10 +135,6 @@
                 <a href="" class="btn btn--blue btn--next" data-bind="click: $root.proceedToStage3" title="">Find Address</a>
             </div>
         </section>
-
-
-
-
 
         <section class="content-box register-stage">
 
