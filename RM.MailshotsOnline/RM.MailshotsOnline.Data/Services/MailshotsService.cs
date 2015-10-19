@@ -190,19 +190,36 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns></returns>
         public IMailshot SaveMailshot(IMailshot mailshot)
         {
-            if (!string.IsNullOrEmpty(mailshot.ContentText))
+            if (mailshot.MailshotId != Guid.Empty)
+            {
+                if (!string.IsNullOrEmpty(mailshot.ContentText))
+                {
+                    // Save blob
+                    string blobId = mailshot.ContentBlobId;
+                    if (string.IsNullOrEmpty(blobId))
+                    {
+                        blobId = string.Format("{0}/{1}.txt", mailshot.UserId, mailshot.MailshotId);
+                    }
+
+                    mailshot.ContentBlobId = _blobService.Store(Encoding.UTF8.GetBytes(mailshot.ContentText), blobId, "text/plain");
+                }
+            }
+
+            var savedMailshot = PerformSave(mailshot);
+
+            if (mailshot.MailshotId == Guid.Empty && !string.IsNullOrEmpty(mailshot.ContentText))
             {
                 // Save blob
                 string blobId = mailshot.ContentBlobId;
                 if (string.IsNullOrEmpty(blobId))
                 {
-                    blobId = string.Format("{0}/{1}.txt", mailshot.UserId, mailshot.MailshotId);
+                    blobId = string.Format("{0}/{1}.txt", mailshot.UserId, savedMailshot.MailshotId);
                 }
 
-                mailshot.ContentBlobId = _blobService.Store(Encoding.UTF8.GetBytes(mailshot.ContentText), blobId, "text/plain");
+                savedMailshot.ContentBlobId = _blobService.Store(Encoding.UTF8.GetBytes(mailshot.ContentText), blobId, "text/plain");
             }
 
-            return PerformSave(mailshot);
+            return PerformSave(savedMailshot);
         }
 
         private IMailshot PerformSave(IMailshot mailshot)
