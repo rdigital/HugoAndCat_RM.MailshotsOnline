@@ -22,10 +22,10 @@ define(['knockout', 'view_models/data', 'view_models/user', 'view_models/state',
         templateViewModel.prototype.constructor = templateViewModel;
 
         /* TEMP XX DELETE */
-        templateViewModel.prototype.fetch = function fetch() {
+        /*templateViewModel.prototype.fetch = function fetch() {
             //console.log('fetching data from ' + this.fetchURL);
             this.objects(tempData.templateData);
-        };
+        };*/
 
         /**
          * get the elements for a particular face on the selected template

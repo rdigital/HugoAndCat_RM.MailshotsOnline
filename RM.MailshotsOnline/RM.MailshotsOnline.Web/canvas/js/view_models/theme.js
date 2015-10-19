@@ -21,10 +21,10 @@ define(['knockout', 'view_models/data', 'view_models/user', 'temp/data'],
         themeViewModel.prototype.constructor = themeViewModel;
 
         /* TEMP XX DELETE */
-        themeViewModel.prototype.fetch = function fetch() {
+        /*themeViewModel.prototype.fetch = function fetch() {
             //console.log('fetching data from ' + this.fetchURL);
             this.objects(tempData.themeData);
-        };
+        };*/
 
         /**
          * try to get style info from themeData by class name
