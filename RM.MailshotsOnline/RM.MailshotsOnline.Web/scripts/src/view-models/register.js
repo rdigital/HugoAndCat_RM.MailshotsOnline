@@ -2,10 +2,11 @@ define([
         'knockout',
         'jquery',
         'koValidation',
+        'koMapping',
         'select2'
     ],
 
-    function(ko, $, koValidation) {
+    function(ko, $, koValidation, koMapping) {
 
         function registerViewModel() {
 
@@ -13,22 +14,35 @@ define([
             this.stage1 = {};
             this.stage2 = {};
             this.stage3 = {};
+            this.stages = [this.stage1, this.stage2, this.stage3];
+            this.currentStage = ko.observable(this.stages[0]);
+            this.addressNow = {};
 
-            window.viewModel = this;
+            window.RMregister = this.currentStage();
 
+            this.setCurrentStage = function(i) {
+                return this.currentStage() == this.stages[i] ? 'current-stage' : '';
+            };
+    
             this.init = function() {
+                var _this = this;
                 // hide the sections
-                // $('.register-stage').hide();
                 this.stage1Init();
                 this.stage2Init();
                 this.stage3Init();
+
+                // listen for updates to dom from Address now
+                addressNow.listen('populate', function() {
+                    _this.addressNow = arguments;
+                });
+
+
+                $('.register-stage select').select2();
             };
 
 
             this.stage1Init = function() {
                 var _this = this;
-
-                $('.register-stage').eq(0).show();
                 
                 this.stage1.Email = ko.observable().extend({ 
                     required: {
@@ -99,59 +113,59 @@ define([
             };
 
             this.stage3Init = function() {
-                this.stage3.OrganisationName = ko.observable().extend({ 
+                this.stage3 = koMapping.fromJS({
+                                OrganisationName: null,
+                                JobTitle: null,
+                                FlatNumber: null,
+                                BuildingNumber: null,
+                                BuildingName: null,
+                                Address1: null,
+                                Address2: null,
+                                City: null,
+                                Country: null,
+                                WorkPhoneNumber: null,
+                                MobilePhoneNumber: null
+                            });
+
+
+                this.stage3.OrganisationName.extend({ 
                     required: {
-                        message: 'Please'
+                        message: 'Please add your company or organisation name'
                     }
                 });
-                this.stage3.JobTitle = ko.observable().extend({ 
+                this.stage3.JobTitle.extend({ 
                     required: {
-                        message: 'Please'
+                        message: 'Please enter your job title'
                     }
                 });
-                this.stage3.Address1 = ko.observable().extend({ 
+                this.stage3.Address1.extend({ 
                     required: {
-                        message: 'Please'
+                        message: 'Please add the first line of your address'
                     }
                 });
-                this.stage3.Address2 = ko.observable().extend({ 
+                this.stage3.City.extend({ 
                     required: {
-                        message: 'Please'
+                        message: 'Please enter your City'
                     }
                 });
-                this.stage3.City = ko.observable().extend({ 
+                this.stage3.Country.extend({ 
                     required: {
-                        message: 'Please'
+                        message: 'Please enter your country'
                     }
                 });
-                this.stage3.Country = ko.observable().extend({ 
+                this.stage3.WorkPhoneNumber.extend({ 
                     required: {
-                        message: 'Please'
-                    }
-                });
-                this.stage3.WorkPhoneNumber = ko.observable().extend({ 
-                    required: {
-                        message: 'Please'
-                    }
-                });
-                this.stage3.MobilePhoneNumber = ko.observable().extend({ 
-                    required: {
-                        message: 'Please'
+                        message: 'Please enter your work telephone number'
                     }
                 });
 
                 this.stage3Errors = koValidation.group(this.stage3, {deep: true});
                 this.stage3Errors.showAllMessages(false);
-
-                window.stage3 = this.stage3;
             };
 
             this.proceedToStage2 = function() {
-                console.log(this.stage1Errors());
                 if (this.stage1Errors().length === 0) {
-                    console.log('proceed to stage 2');
-                    $('.register-stage').eq(0).hide();
-                    $('.register-stage').eq(1).show();
+                    this.currentStage(this.stages[1]);
                 }
                 else {
                     this.stage1Errors.showAllMessages();
@@ -159,13 +173,20 @@ define([
             };
 
             this.proceedToStage3 = function() {
+                var addressData = this.addressNow[1];
+
+                // Update address observables with data from AddressNow
+                this.stage3.OrganisationName(addressData.Company);
+                this.stage3.Address1(addressData.FormattedLine1);
+                this.stage3.City(addressData.City);
+                this.stage3.Country(addressData.Country);
+
+
                 if (this.stage2Errors().length === 0) {
-                    console.log('proceed to stage 3');
-                    $('.register-stage').eq(1).hide();
-                    $('.register-stage').eq(2).show();
+                    this.stage3Errors.showAllMessages(false);
+                    this.currentStage(this.stages[2]);
                 }
                 else {
-                    console.log('Stage 2');
                     this.stage2Errors.showAllMessages();
                 }
             };
@@ -173,7 +194,6 @@ define([
             this.submit = function(data, event) {
                 event.preventDefault();
                 if (this.stage3Errors().length === 0) {
-                    alert('Thank you.');
                     $('form.register__form').submit();
                 }
                 else {

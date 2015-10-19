@@ -1,9 +1,9 @@
 ﻿@using RM.MailshotsOnline.Web.Extensions
 @model RM.MailshotsOnline.Entities.PageModels.Register
 
-<div>
-    <h2>
-        @Html.DisplayFor(m=>m.ThankYouLabel)
-    </h2>
-    <p><a href="@Model.MyProfilePage.Url()">@Html.DisplayFor(m => m.MyAccountCtaText)</a></p>
+<div class="register__complete">
+    <section class="content-box register-stage">
+            <h2>@Html.DisplayFor(m=>m.ThankYouLabel)</h2>
+            <p><a href="@Model.MyProfilePage.Url()">@Html.DisplayFor(m => m.MyAccountCtaText)</a></p>
+    </section>
 </div>

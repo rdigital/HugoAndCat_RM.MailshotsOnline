@@ -1,6 +1,10 @@
 .register {
 
 }
+.register-stage {
+    display: none;
+}
+.register__complete,
 .register__form {
     width: 653px;
     float: left;
@@ -13,4 +17,11 @@
     padding: 0 20px;
     font-family: $DINRegular;
     margin-top: 10px; 
+}
+
+.register__complete .register-stage,
+.register-stage.current-stage {
+    display: block;
+
+    // ADD Animation effects here.
 }

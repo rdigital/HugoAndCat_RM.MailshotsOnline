@@ -65,155 +65,6 @@ input {
 	}
 }
 
-.btn {
-	@include font-size(18);
-	background-color: transparent;
-	border: none;
-	border-radius: none;
-	box-sizing: border-box;
-	color: $white;
-	cursor: pointer;
-	font-family: $ChevinMedium;
-	margin-bottom: 20px;
-	height: 45px;
-	outline: none;
-	padding: 10px 14px 12px;
-	position: relative;
-	transition: $btn-transition;
-	vertical-align: top;
-	display: inline-block;
-
-	.btn-icon {
-		position: absolute;
-		font-size: 130%;
-	}
-}
-
-.btn--green {
-	background-color: $RM-green;
-	&:hover {
-		background-color: $RM-green-hover;
-	}
-	&[disabled]:hover {
-		background-color: $RM-green;
-	}
-	&.active {
-		background-color: $RM-green-hover;
-	}
-}
-
-.btn--grey {
-	background-color: $text-grey;
-	&:hover {
-		background-color: $mid-grey;
-	}
-	&[disabled]:hover {
-		background-color: $text-grey;
-	}
-	&.active {
-		background-color: $mid-grey;
-	}
-}
-
-.btn--blue {
-	background-color: $RM-blue;
-	&:hover {
-		background-color: $RM-blue-hover;
-	}
-	&[disabled]:hover {
-		background-color: $RM-blue;
-	}
-	&.active {
-		background-color: $RM-blue-hover;
-	}
-}
-
-.btn--white {
-	background-color: $white;
-	border: 1px solid $btn-border;
-	color: $text-grey;
-	-webkit-box-shadow:0px 1px 1px $light-grey;
-	-moz-box-shadow:0px 1px 1px $light-grey;
-	box-shadow:0px 1px 1px $light-grey;	
-	&:hover {
-		background-color: $mid-grey;
-		color: $white;
-	}
-	&[disabled]:hover {
-		background-color: $white;
-	}
-	&.active {
-		background-color: $mid-grey;
-		color: $white;
-	}
-}
-
-.btn--tab {
-	background-color: $white;
-	border-right: 1px solid $btn-border;
-	border-left: none;
-	border-top: 1px solid $btn-border;
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
-	color: $text-grey;
-	margin-bottom: 0;
-
-	&:hover {
-		background-color: $form-field;
-		color: $white;
-	}
-
-	&[disabled]:hover {
-		background-color: $white;
-	}
-
-	.active & {
-		background-color: $mid-grey;
-		border: none;
-		color: $white;
-	}
-}
-
-.btn--no-margin {
-	margin-bottom: 0;
-}
-
-.btn--icon-right {
-	padding-right: 45px;
-
-	.btn-icon {
-		right: 10px;
-	}
-}
-
-.btn--icon {
-	padding: 7px;
-}
-
-.btn--filter {
-	background-color:pink;
-}
-
-.text-btn {
-	@include font-size(14);
-	background: none;
-	border: none;
-	border-radius: 0;
-	color: $white;
-	cursor: pointer;
-	font-family: $DINRegular;
-	outline: none;
-
-	.btn-icon {
-		font-size: 130%;
-		margin-left: 7px;
-		top: 3px;
-	}
-}
-
-.text-btn--dark {
-	color: $text-grey;
-}
 
 select {
 	box-sizing: border-box;
@@ -400,7 +251,7 @@ select {
 	background-color: $text-grey;
 	bottom: calc(100% + 8px);
 	color: $white;
-	left: 90%;
+	left: 100%;
 	padding: 7px 15px 7px 15px;
 	position: absolute;
     width: 200px;
@@ -446,13 +297,14 @@ select {
 	padding-left: 15px;
 }
 
-
+// Form layout
 .form-row {
-	padding: 0 70px;
+	padding: 0 50px;
 	margin-bottom: 20px;
 	display: table;
 	box-sizing: border-box;
 	position: relative;
+    min-height: 40px;
 
 	label {
 	    text-align: right;
@@ -463,6 +315,7 @@ select {
 	}
 	.input-wrapper {
 		margin-left: 20px;
+		min-width: 320px;
 	}
 	.required-field {
 		margin-left: 170px; 
@@ -475,8 +328,21 @@ select {
 
 	.select2,
 	select,
-	input {
+	input[type="text"],
+	input[type="textarea"],
+	input[type="email"],
+	input[type="password"] {
 		width: 100%;
+	}
+
+	.select2,
+	select {
+		width: 152px;
+		min-width: 0;
+	}
+
+	.g-recaptcha {
+		margin-left: 170px;
 	}
 }
 .form-row--align-right {
@@ -507,4 +373,7 @@ select {
 	.input-wrapper {
 		margin-left: 0;
 	}
+}
+.validation-messages {
+	display: none;
 }

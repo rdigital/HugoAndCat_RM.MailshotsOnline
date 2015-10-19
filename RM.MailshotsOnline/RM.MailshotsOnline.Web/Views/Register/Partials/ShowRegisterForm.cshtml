@@ -6,7 +6,8 @@
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
 @using (Html.BeginUmbracoForm("RegisterForm", "RegisterSurface", null, new Dictionary<string, object> { { "class" , "register__form" } })) {
-        <section class="content-box register-stage">
+
+        <section class="content-box register-stage" data-bind="css: setCurrentStage(0)">
 
             <h2 class="heading01 heading01--line-on-sides"><span class="text">First we need a few details</span></h2>
 
@@ -87,13 +88,13 @@
             @Html.Raw(Model.KeepYouInformedSectionCopy)
 
             <div class="form-row form-row--align-left">
-                <div class="input-wrapper">
+                <div>
                     @Html.CheckBoxFor(m => m.ViewModel.AgreeToRoyalMailContact, new { data_bind = "value: stage1.royalMailMailAgreement" })
                 </div>
                 <label for="ViewModel_AgreeToRoyalMailContact">@Model.RoyalMailContactOptionsDisclaimer</label>
             </div>
             <div class="form-row form-row--align-left">
-                <div class="input-wrapper">
+                <div>
                     @Html.CheckBoxFor(m => m.ViewModel.AgreeToThirdPartyContact, new { data_bind = "value: stage1.thirdPartyMailAgreement" })
                 </div>
                 <label for="ViewModel_AgreeToThirdPartyContact">@Model.ThirdPartyContactOptionsDisclaimer</label>
@@ -115,7 +116,7 @@
             </div>
         </section>
 
-        <section class="content-box register-stage">
+        <section class="content-box register-stage" data-bind="css: setCurrentStage(1)">
             <h2 class="heading01 heading01--line-on-sides">
                 <span class="text">About your organisation</span>
             </h2>
@@ -136,7 +137,11 @@
             </div>
         </section>
 
-        <section class="content-box register-stage">
+        <section class="content-box register-stage" data-bind="css: setCurrentStage(2)">
+
+            <h2 class="heading01 heading01--line-on-sides">
+                <span class="text">About your organisation</span>
+            </h2>
 
             <div class="form-row">
                 <div class="required-field">@Html.DisplayFor(m => m.RequiredFieldsLabel)</div>
@@ -181,7 +186,7 @@
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Address1, Model.Address1Label)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Address1, new { data_bind = "value: stage3.Address1, valueUpdate: stage3.Address1" })
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Address1, new { data_bind = "value: stage3.Address1" })
                 </div>
             </div>
 
@@ -197,7 +202,13 @@
                 <div class="input-wrapper">
                     @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.City, new { data_bind = "value: stage3.City" })
                 </div>
-               
+            </div>
+
+            <div class="form-row">
+                @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode, Model.PostcodeLabel)
+                <div class="input-wrapper">
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode, new { data_bind = "value: stage2.Postcode" })
+                </div>
             </div>
 
             <div class="form-row">
@@ -223,7 +234,7 @@
 
             <div class="form-row">
                 @Html.HiddenFor(m => m.ViewModel.IsRecaptchaValidated)
-                <div class="g-recaptcha" data-sitekey="@ConfigurationManager.AppSettings["RecaptchaSiteKey"]"></div>
+                <div class="input-wrapper g-recaptcha" data-sitekey="@ConfigurationManager.AppSettings["RecaptchaSiteKey"]"></div>
             </div>
 
 
