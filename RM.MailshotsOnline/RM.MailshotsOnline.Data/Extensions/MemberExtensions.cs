@@ -5,13 +5,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Net;
-using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
-using umbraco;
 using Umbraco.Core;
-using HC.RM.Common;
-using HC.RM.Common.PCL;
 using RM.MailshotsOnline.Data.Services;
 
 namespace RM.MailshotsOnline.Data.Extensions
@@ -80,7 +75,7 @@ namespace RM.MailshotsOnline.Data.Extensions
                 MobilePhoneNumber = CryptographicService.Decrypt(umbracoMember.GetValue<string>("mobilePhoneNumber"), saltBytes),
                 PasswordResetToken = umbracoMember.GetValue<Guid>("passwordResetToken"),
                 PasswordResetTokenExpiryDate = umbracoMember.GetValue<DateTime>("passwordResetTokenExpiryDate"),
-                Updated = umbracoMember.UpdateDate
+                Updated = umbracoMember.GetValue<DateTime>("detailsLastUpdated")
             };
         }
 
@@ -129,6 +124,7 @@ namespace RM.MailshotsOnline.Data.Extensions
             umbracoMember.SetValue("mobilePhoneNumber", CryptographicService.Encrypt(member.MobilePhoneNumber, member.Salt));
             umbracoMember.SetValue("passwordResetToken", member.PasswordResetToken.ToString());
             umbracoMember.SetValue("passwordResetTokenExpiryDate", member.PasswordResetTokenExpiryDate.ToString());
+            umbracoMember.SetValue("detailsLastUpdated", member.Updated.ToString());
             umbracoMember.Email = CryptographicService.Encrypt(member.EmailAddress, member.EmailSalt);
             umbracoMember.Name = umbracoMember.Email;
 
