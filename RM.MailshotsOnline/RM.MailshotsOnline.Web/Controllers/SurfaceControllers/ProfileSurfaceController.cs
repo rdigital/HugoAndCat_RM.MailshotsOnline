@@ -1,20 +1,14 @@
-﻿using Glass.Mapper.Umb;
-using HC.RM.Common.Azure.Extensions;
-using HC.RM.Common.PCL.Helpers;
+﻿using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.Extensions;
 using RM.MailshotsOnline.Entities.MemberModels;
 using RM.MailshotsOnline.Entities.PageModels.Profile;
 using RM.MailshotsOnline.Entities.ViewModels;
-using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using Umbraco.Web.Models.ContentEditing;
-using Umbraco.Web.Mvc;
 using MarketingPreferences = RM.MailshotsOnline.Entities.PageModels.Profile.MarketingPreferences;
 using UmbracoContext = Umbraco.Web.UmbracoContext;
 
@@ -71,6 +65,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             LoggedInMember.FirstName = model.FirstName;
             LoggedInMember.LastName = model.LastName;
             LoggedInMember.EmailAddress = model.EmailAddress;
+            LoggedInMember.Updated = DateTime.UtcNow;
 
             try
             {
@@ -185,6 +180,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             LoggedInMember.Country = model.Country;
             LoggedInMember.WorkPhoneNumber = model.WorkPhoneNumber;
             LoggedInMember.MobilePhoneNumber = model.MobilePhoneNumber;
+            LoggedInMember.Updated = DateTime.UtcNow;
 
             try
             {
@@ -225,6 +221,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         {
             LoggedInMember.RoyalMailMarketingPreferences = model.RoyalMailMarketingPreferences;
             LoggedInMember.ThirdPartyMarketingPreferences = model.ThirdPartyMarketingPreferences;
+            LoggedInMember.Updated = DateTime.UtcNow;
 
             try
             {

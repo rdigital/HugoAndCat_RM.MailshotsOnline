@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using RM.MailshotsOnline.Entities.DataModels.Reports;
-using RM.MailshotsOnline.PCL.Models.Reporting;
 using RM.MailshotsOnline.PCL.Services.Reporting;
 
 namespace RM.MailshotsOnline.Data.Services.Reporting

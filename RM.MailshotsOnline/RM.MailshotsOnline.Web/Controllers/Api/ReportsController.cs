@@ -5,7 +5,6 @@ using System;
 using System.Collections;
 using System.IO;
 using CsvHelper;
-using CsvHelper.Configuration;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.Constants;
 using RM.MailshotsOnline.Entities.JsonModels;
