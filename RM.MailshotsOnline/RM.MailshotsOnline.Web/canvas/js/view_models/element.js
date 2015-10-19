@@ -140,6 +140,10 @@ define(['knockout', 'view_models/state', 'view_models/theme', 'view_models/user'
             return this.themeViewModel.getFontSizes(this.data.theme_class);
         };
 
+        elementViewModel.prototype.getVerticalMiddle = function getVerticalMiddle() {
+            return this.themeViewModel.getVerticalMiddle(this.data.theme_class);
+        };
+
         /**
          * get available font families for this element from the theme
          * @return {Array} array of name, value pairs for fonts

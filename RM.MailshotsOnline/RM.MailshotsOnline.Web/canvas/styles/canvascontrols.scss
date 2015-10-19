@@ -72,11 +72,11 @@
 }
 
 .no-print {
-    z-index: 100;
+    z-index: 800;
     cursor: not-allowed;
     color: #333;
     background-color: #FFF;
-    border: 2px solid $grey;
+    border: 1px solid $grey;
     display: table;
     text-align: center;
     font-family: PFDin Regular, Arial;

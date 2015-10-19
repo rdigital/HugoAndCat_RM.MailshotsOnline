@@ -21,6 +21,9 @@ define(['knockout', 'view_models/format', 'view_models/theme', 'view_models/user
          */
         themeComponentViewModel.prototype.selectTheme = function selectTheme(theme) {
             userViewModel.resetUserStyles();
+            if (theme.id == userViewModel.objects.themeID()) {
+                userViewModel.objects.themeID(0);
+            }
             userViewModel.objects.themeID(theme.id);
             stateViewModel.toggleThemePicker();
             historyViewModel.pushToHistory();
