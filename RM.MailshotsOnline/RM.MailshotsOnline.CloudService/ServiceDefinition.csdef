@@ -20,7 +20,7 @@
       <Import moduleName="RemoteAccess" />
     </Imports>
   </WorkerRole>
-  <WebRole name="RM.MailshotsOnline.Web" vmsize="Small">
+  <WebRole name="RM.MailshotsOnline.Web" vmsize="Medium">
     <Sites>
       <Site name="Web">
         <Bindings>
@@ -49,12 +49,12 @@
       <Setting name="HostedDomain" />
       <Setting name="HostedScheme" />
       <Setting name="HostedPort" />
-      <Setting name="PublicMediaLibraryId"/>
-      <Setting name="PrivateMediaLibraryId"/>
-      <Setting name="RoyalMailApprovalEmailAddress"/>
-      <Setting name="SaveMailshotInfoForDebug"/>
-      <Setting name="StIvesPrintNotificationAddress"/>
-      <Setting name="MyListsPageId"/>
+      <Setting name="PublicMediaLibraryId" />
+      <Setting name="PrivateMediaLibraryId" />
+      <Setting name="RoyalMailApprovalEmailAddress" />
+      <Setting name="SaveMailshotInfoForDebug" />
+      <Setting name="StIvesPrintNotificationAddress" />
+      <Setting name="MyListsPageId" />
     </ConfigurationSettings>
     <Endpoints>
       <InputEndpoint name="HttpIn" protocol="http" port="80" />
