@@ -33,6 +33,7 @@
 			@include font-size(28);
 			font-family: $ChevinLight;
 			height: 50px;
+			padding: 0 15px;
 			text-align: center;
 			width: 400px;
 		}
@@ -89,6 +90,7 @@
 		left: 0;
 		position: absolute;
 		text-decoration: none;
+		z-index: 4;
 
 		.icon-previous {
 			@include font-size(30);

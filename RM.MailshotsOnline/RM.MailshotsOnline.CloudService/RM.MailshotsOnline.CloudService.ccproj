@@ -12,7 +12,7 @@
     <AssemblyName>RM.MailshotsOnline.CloudService</AssemblyName>
     <StartDevelopmentStorage>True</StartDevelopmentStorage>
     <Name>RM.MailshotsOnline.CloudService</Name>
-    <PackageEnableRemoteDebugger>True</PackageEnableRemoteDebugger>
+    <PackageEnableRemoteDebugger>False</PackageEnableRemoteDebugger>
     <UseWebProjectPorts>False</UseWebProjectPorts>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

@@ -203,6 +203,27 @@ namespace RM.MailshotsOnline.Data.Services
         /// Adds test data to a campaign
         /// </summary>
         /// <param name="campaign">The campaign</param>
+        /// <param name="distributionLists">The distribution lists to add</param>
+        /// <returns>True on success</returns>
+        public bool LinkCampaignToDistributionLists(ICampaign campaign, IEnumerable<IDistributionList> distributionLists)
+        {
+            var success = true;
+            var currentLinks = _context.CampaignDistributionLists.Where(cdl => cdl.CampaignId == campaign.CampaignId);
+            _context.CampaignDistributionLists.RemoveRange(currentLinks);
+
+            foreach (var distList in distributionLists)
+            {
+                _context.CampaignDistributionLists.Add(new CampaignDistributionList() { CampaignId = campaign.CampaignId, DistributionListId = distList.DistributionListId });
+            }
+
+            _context.SaveChanges();
+            return success;
+        }
+
+        /*/// <summary>
+        /// Adds test data to a campaign
+        /// </summary>
+        /// <param name="campaign">The campaign</param>
         /// <returns>True on success</returns>
         public bool AddTestDataToCampaign(ICampaign campaign)
         {
@@ -255,6 +276,6 @@ namespace RM.MailshotsOnline.Data.Services
             }
 
             return dataAdded;
-        }
+        }*/
     }
 }

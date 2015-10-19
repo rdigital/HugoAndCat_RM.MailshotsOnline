@@ -23,6 +23,7 @@ define(['knockout', 'view-models/state'],
             this.resolved = ko.pureComputed(function() {
                 return this.hadInvalid() && !this.hasInvalid();
             }, this);
+            this.listDetailBaseUrl = window.listDetailBaseUrl;
 
             this.edit = this.edit.bind(this);
         }
@@ -51,7 +52,7 @@ define(['knockout', 'view-models/state'],
                 self = this;
 
             $.post('/Umbraco/API/DistributionList/PostFinishList', data, function() {
-                window.location = '/lists/'+ self.currentList.DistributionListId();
+                window.location = self.listDetailBaseUrl + self.currentList.DistributionListId();
             }).error(function(error){
                 stateViewModel.showError(true);
                 stateViewModel.errorMessage(error.responseJSON.error);

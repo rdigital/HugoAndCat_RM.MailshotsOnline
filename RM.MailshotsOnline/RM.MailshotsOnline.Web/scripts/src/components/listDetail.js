@@ -28,6 +28,9 @@ define(['jquery', 'knockout', 'view-models/state'],
                 }
             }, this);
 
+            this.backUrl = window.backUrl;
+            this.backText = window.backText;
+
             this.toggleSelect = this.toggleSelect.bind(this);
 
             $.get('/Umbraco/API/DistributionList/GetMyListDetails?distributionListId='+ this.listID, function(data) {
@@ -43,6 +46,11 @@ define(['jquery', 'knockout', 'view-models/state'],
                 stateViewModel.errorMessage(error.responseJSON.error);
             });
         }
+
+        listDetailComponentViewModel.prototype.submitSearch = function submitSearch(e) {
+            // annoying workaround to allow the search to submit on pressing enter in IE
+            return;
+        };
 
         // toggle the selected state for lists and add/remove from the selectedLists array
         listDetailComponentViewModel.prototype.toggleSelect = function toggleSelect(contact) {
@@ -62,7 +70,7 @@ define(['jquery', 'knockout', 'view-models/state'],
                 url: '/Umbraco/Api/DistributionList/DeleteMyList/?DistributionListId='+this.listID,
                 method: "DELETE",
                 success: function() {
-                    window.location = '/lists';
+                    window.location = this.backUrl;
                 },
                 error: function(error) {
                     stateViewModel.showError(true);
@@ -78,7 +86,6 @@ define(['jquery', 'knockout', 'view-models/state'],
         };
 
         listDetailComponentViewModel.prototype.deleteContacts = function deleteContacts() {
-            console.log('deleteContacts');
             var data = {
                     "DistributionListId": this.listID,
                     "ContactIds": this.selectedContacts()
@@ -87,7 +94,7 @@ define(['jquery', 'knockout', 'view-models/state'],
 
             $.post('/Umbraco/Api/DistributionList/PostDeleteContactsFromList/', data, function(data) {
                 if (data === null) {
-                    window.location = '/lists';
+                    window.location = this.backUrl;
                 } else {
                     data.Contacts.forEach(function(contact){
                         contact.selected = ko.observable(false);

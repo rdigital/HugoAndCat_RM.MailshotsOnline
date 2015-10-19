@@ -6,6 +6,8 @@ define(['jquery', 'knockout', 'perfectScrollbar', 'koelement', 'view-models/stat
         function batchTrayComponentViewModel() {
             var self = this;
 
+            this.campaignId = window.campaignId;
+            this.backUrl = window.backUrl;
             this.selectedLists = stateViewModel.selectedLists;
             this.listsContainer = ko.observable();
             this.isOpen = ko.observable(false);
@@ -25,6 +27,7 @@ define(['jquery', 'knockout', 'perfectScrollbar', 'koelement', 'view-models/stat
 
             this.initScroll = this.initScroll.bind(this);
             this.updateScroll = this.updateScroll.bind(this);
+            this.remove = this.remove.bind(this);
         }
 
         batchTrayComponentViewModel.prototype.expandTray = function expandTray() {
@@ -37,7 +40,46 @@ define(['jquery', 'knockout', 'perfectScrollbar', 'koelement', 'view-models/stat
         };
 
         batchTrayComponentViewModel.prototype.updateScroll = function updateScroll() {
-                this.listsContainer().perfectScrollbar('update');    
+            this.listsContainer().perfectScrollbar('update');    
+        };
+
+        batchTrayComponentViewModel.prototype.remove = function remove(list) {
+            var pos = this.selectedLists().map(function(e) { return e.DistributionListId; }).indexOf(list.DistributionListId);
+            this.selectedLists.splice(pos, 1);
+            list.selected(false);
+        };
+
+        // add data to campaign functionality to be added here
+        batchTrayComponentViewModel.prototype.addDataToCampaign = function addDataToCampaign() {
+            //console.log('add data to campaign', this.campaignId);
+            // add API call here and redirect back to campaign page on success
+            // campaign ID is stored in this.campaignId
+            
+            var distribuitionLists = new Array();
+            this.selectedLists().forEach(function (list) {
+                distribuitionLists.push(list.DistributionListId);
+            });
+
+            //console.log('add the following IDs', distribuitionLists);
+
+            $.ajax({
+                url: '/Umbraco/Api/Campaign/AttachDistributionListsToCampaign/' + this.campaignId,
+                method: 'POST',
+                data: { Ids: distribuitionLists },
+                success: function () {
+                    window.location = window.backUrl;
+                },
+                error: function (error) {
+                    stateViewModel.showError(true);
+                    if (error) {
+                        stateViewModel.errorTitle("Oops!");
+                        stateViewModel.errorMessage(error.responseJSON.error);
+                    } else {
+                        stateViewModel.errorTitle("Oops!");
+                        stateViewModel.errorMessage("Looks like something went wrong, please try again");
+                    }
+                }
+            });
         };
 
         return {

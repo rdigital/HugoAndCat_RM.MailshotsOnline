@@ -7,6 +7,8 @@ using RM.MailshotsOnline.Entities.PageModels;
 using RM.MailshotsOnline.PCL;
 using RM.MailshotsOnline.PCL.Services;
 using Umbraco.Web.Models;
+using RM.MailshotsOnline.Web.Extensions;
+using RM.MailshotsOnline.Web.Helpers;
 
 namespace RM.MailshotsOnline.Web.Controllers
 {
@@ -23,10 +25,28 @@ namespace RM.MailshotsOnline.Web.Controllers
             _membershipService = membershipService;
         }
 
+        //// GET: ListCreate
+        //public override ActionResult Index(RenderModel model)
+        //{
+        //    return Index(model, Guid.Empty);
+        //}
+
         // GET: ListCreate
-        public override ActionResult Index(RenderModel model)
+        public ActionResult Index(RenderModel model, Guid? campaignId)
         {
             var pageModel = GetModel<ListCreate>();
+
+            if (!campaignId.HasValue)
+            {
+                pageModel.BackUrl = pageModel.BackPage.Url();
+                pageModel.ListDetailBaseUrl = pageModel.BackUrl;
+            }
+            else
+            {
+                pageModel.CampaignId = campaignId.ToString();
+                pageModel.BackUrl = SiteUrlHelper.GetUrlForCampaignData(campaignId.Value);
+                pageModel.ListDetailBaseUrl = pageModel.BackUrl + "/";
+            }
 
             string rawListId = Request.QueryString["listId"];
 

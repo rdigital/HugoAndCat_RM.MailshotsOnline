@@ -283,7 +283,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 Log.Error(this.GetType().Name, "Approve", "Unable to fetch updated PayPal order {0} after capture attempt.", invoice.PaypalOrderId);
             }
 
-            if (updatedOrder == null || updatedOrder.State != OrderState.completed)
+            if (updatedOrder == null || !(updatedOrder.State == OrderState.completed || updatedOrder.State == OrderState.captured))
             {
                 invoice.Status = PCL.Enums.InvoiceStatus.Failed;
                 invoice.CancelledDate = DateTime.UtcNow;

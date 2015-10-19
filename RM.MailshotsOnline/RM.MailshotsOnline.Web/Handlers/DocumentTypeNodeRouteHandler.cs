@@ -21,11 +21,13 @@ namespace RM.MailshotsOnline.Web.Handlers
             UmbracoHelper helper = new UmbracoHelper(umbracoContext);
             string templateAlias = GetTemplateAlias(requestContext);
 
-            return helper.TypedContentAtRoot()
+            var result = helper.TypedContentAtRoot()
                 .First()
                 .Descendants()
                 .First(d => d.DocumentTypeAlias.InvariantEquals(_documentTypeAlias)
                          && d.GetTemplateAlias().InvariantEquals(templateAlias));
+
+            return result;
         }
     }
 }

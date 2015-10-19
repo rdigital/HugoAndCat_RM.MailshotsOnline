@@ -7,7 +7,8 @@ define(['knockout', 'view-models/state', 'components/myLists', 'components/batch
         ko.components.register('rent-list-component', rentListComponent);
 
         function listsComponentViewModel() {
-            
+            this.backUrl = ko.observable(window.backUrl);
+            this.backText = ko.observable(window.backText);
         }
 
         return {

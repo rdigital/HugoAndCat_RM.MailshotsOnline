@@ -13,6 +13,8 @@ using RM.MailshotsOnline.PCL.Models;
 using RM.MailshotsOnline.PCL.Services;
 using RM.MailshotsOnline.Web.Models;
 using Umbraco.Web.Models;
+using RM.MailshotsOnline.Web.Helpers;
+using RM.MailshotsOnline.Web.Extensions;
 
 namespace RM.MailshotsOnline.Web.Controllers
 {
@@ -33,7 +35,7 @@ namespace RM.MailshotsOnline.Web.Controllers
         }
 
         // GET: ListDetail
-        public ActionResult Index(RenderModel model, Guid distributionListId)
+        public ActionResult Index(RenderModel model, Guid distributionListId, Guid? campaignId)
         {
             var loggedInMember = _membershipService.GetCurrentMember();
 
@@ -48,6 +50,16 @@ namespace RM.MailshotsOnline.Web.Controllers
             var pageModel = GetModel<ListDetail>();
 
             pageModel.DistributionListId = distributionListId;
+
+            if (campaignId.HasValue)
+            {
+                pageModel.BackUrl = SiteUrlHelper.GetUrlForCampaignData(campaignId.Value);
+                pageModel.CampaignId = campaignId.Value.ToString();
+            }
+            else
+            {
+                pageModel.BackUrl = pageModel.BackPage.Url();
+            }
 
             return View("~/Views/ListDetail.cshtml", pageModel);
         }

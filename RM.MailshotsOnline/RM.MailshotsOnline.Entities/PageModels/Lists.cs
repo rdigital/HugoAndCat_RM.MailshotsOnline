@@ -9,7 +9,7 @@ using RM.MailshotsOnline.PCL.Models;
 
 namespace RM.MailshotsOnline.Entities.PageModels
 {
-    [UmbracoType]
+    [UmbracoType(AutoMap = true)]
     public class Lists : BasePage
     {
         // Content
@@ -26,9 +26,22 @@ namespace RM.MailshotsOnline.Entities.PageModels
         [UmbracoProperty]
         public string AddNewButtonText { get; set; }
 
+        public BasePage CreatePage { get; set; }
+
+        public string CreateLinkUrl { get; set; }
+
+        public BasePage BackPage { get; set; }
+
+        public string BackLinkUrl { get; set; }
+
+        [UmbracoProperty]
+        public string BackText { get; set; }
+
         // Service Data
         public IEnumerable<IDistributionList> UsersLists { get; set; }
 
-        public IEnumerable<IDataSearch> RentedLists { get; set; } 
+        public IEnumerable<IDataSearch> RentedLists { get; set; }
+
+        public ICampaign Campaign { get; set; }
     }
 }

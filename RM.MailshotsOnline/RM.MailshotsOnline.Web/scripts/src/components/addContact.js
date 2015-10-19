@@ -152,10 +152,8 @@ define(['jquery', 'knockout', 'view-models/state', 'view-models/notification', '
                     koMapping.fromJS(result, self.currentList);
                     self.resetContact();
                     self.loading(false);
-                    self.addNewContact(false);
-                    self.showEditModal(false);
                     notificationViewModel.hideWithMessage("Contact added to your list", 'addContact');
-                    // go to finished list view
+                    window.location = '/lists/' + self.currentList.DistributionListId();
                 },
                 error: function(error) {
                     stateViewModel.showError(true);
@@ -192,7 +190,6 @@ define(['jquery', 'knockout', 'view-models/state', 'view-models/notification', '
                 method: "POST",
                 success: function(result) {
                     koMapping.fromJS(result, self.currentList);
-                    console.log(result);
                     if (result.InvalidContactsAdded === 1) {
                         notificationViewModel.hideWithMessage("There was a problem saving this contact.", 'error');
                     } else if (result.DuplicateContactsAdded === 1) {

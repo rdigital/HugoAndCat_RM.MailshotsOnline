@@ -6,7 +6,10 @@
 @section headerScripts
 {
     <script type="text/javascript">
-        var listId = "@Model.DistributionListId";
+        var listId = "@Model.DistributionListId",
+        	backUrl = '@Model.BackUrl', // this is also used to redirect the user when a list is deleted
+        	backText = '@Model.BackLinkText',
+        	campaignId = '@Model.CampaignId';
     </script>
 }
 
