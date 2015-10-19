@@ -6502,12 +6502,12 @@ define([],
                                     value:"0"
                                 },
                                 {
-                                    property:"right",
-                                    value:"0"
+                                    property:"width",
+                                    value:"840px"
                                 },
                                 {
-                                    property:"bottom",
-                                    value:"0"
+                                    property:"height",
+                                    value:"1184"
                                 }
                             ]
                         },

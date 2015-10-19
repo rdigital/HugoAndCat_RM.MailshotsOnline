@@ -142,7 +142,6 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
          * Call to automatically adjust font size downward if the element has overflown
          */
         inputViewModel.prototype.sizeAdjust = function sizeAdjust() {
-            console.log('adjust')
             if (this.getVerticalMiddle()) {
                 this.setStyle('padding-top', '0');
             }
