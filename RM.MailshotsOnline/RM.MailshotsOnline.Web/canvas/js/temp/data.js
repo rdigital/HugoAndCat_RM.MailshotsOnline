@@ -71,7 +71,7 @@ define([],
             this.templateData = [
 
                 // card templates
-                {
+                /*{
                     id:4,
                     format_id:2,
                     name:"Card Template 1",
@@ -2068,10 +2068,10 @@ define([],
                             ]
                         }
                     ]
-                }
+                }*/
 
                 // self mailer templates
-                /*{
+                {
                     id:9,
                     format_id:3,
                     name:"Self Mailer Template 1",
@@ -5740,7 +5740,7 @@ define([],
                             ]
                         }
                     ]
-                }*/
+                }
 
                 // letter templates
                 /*{
@@ -5753,6 +5753,8 @@ define([],
                             face:"Letter",
                             type:"logo",
                             theme_class:"logo",
+                            title: "Company Logo",
+                            message: "<ul><li>Make sure it stands out against the background</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -5809,6 +5811,8 @@ define([],
                             face:"Letter",
                             type:"html",
                             theme_class:"headline_2",
+                            title: "Headline",
+                            message: "<ul><li>Say what the product, service or purpose is, or the problem it solves</li><li>Be clear, bold and keep it short as possible - don’t be too clever</li><li>Try personalising by including the reader’s name</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -5837,6 +5841,8 @@ define([],
                             face:"Letter",
                             type:"html",
                             theme_class:"body_2",
+                            title: "Body",
+                            message: "<ul><li>Use short sentences, simple words and an active tone of voice</li><li>Use paragraph headings, bold and bullet points so it's easily scannable</li><li>Fill with customer-focused benefits and persuasive language</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -5893,6 +5899,8 @@ define([],
                             face:"Letter",
                             type:"html",
                             theme_class:"cta",
+                            title: "Call to Action",
+                            message: "<ul><li>Tell the customer what you would like them to do (e.g. Call now)</li><li>Include your primary contact details for them to get in touch</li></ul>",
                             layout:[
                                 {
                                     property:"position",
