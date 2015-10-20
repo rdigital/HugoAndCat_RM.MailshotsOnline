@@ -1,8 +1,6 @@
 ﻿using System.Configuration;
 using System.IO;
 using System.Reflection;
-using Lucene.Net.Index;
-using Microsoft.Azure;
 
 namespace RM.MailshotsOnline.Data.Constants
 {
