@@ -21,21 +21,20 @@ define([
             window.RMregister = this.currentStage();
 
             this.setCurrentStage = function(i) {
-                return this.currentStage() == this.stages[i] ? 'current-stage' : '';
+                return this.currentStage() === this.stages[i] ? 'current-stage' : '';
             };
     
             this.init = function() {
                 var _this = this;
                 // hide the sections
                 this.stage1Init();
-                this.stage2Init();
+                // this.stage2Init();
                 this.stage3Init();
 
                 // listen for updates to dom from Address now
                 addressNow.listen('populate', function() {
                     _this.addressNow = arguments;
                 });
-
 
                 $('.register-stage select').select2();
             };
@@ -102,16 +101,6 @@ define([
                 this.stage1Errors.showAllMessages(false);
             };
 
-            this.stage2Init = function() {
-                this.stage2.Postcode = ko.observable().extend({
-                    required: {
-                        message: 'Please enter a valid postcode'
-                    }
-                });
-                this.stage2Errors = koValidation.group(this.stage2, {deep: true});
-                this.stage2Errors.showAllMessages(false);
-            };
-
             this.stage3Init = function() {
                 this.stage3 = koMapping.fromJS({
                                 OrganisationName: null,
@@ -163,6 +152,10 @@ define([
                 this.stage3Errors.showAllMessages(false);
             };
 
+            this.proceedToStage1 = function() {
+                this.currentStage(this.stages[0]);
+            };
+
             this.proceedToStage2 = function() {
                 if (this.stage1Errors().length === 0) {
                     this.currentStage(this.stages[1]);
@@ -173,22 +166,18 @@ define([
             };
 
             this.proceedToStage3 = function() {
-                var addressData = this.addressNow[1];
+                var addressData = this.addressNow[1] || false;
 
-                // Update address observables with data from AddressNow
-                this.stage3.OrganisationName(addressData.Company);
-                this.stage3.Address1(addressData.FormattedLine1);
-                this.stage3.City(addressData.City);
-                this.stage3.Country(addressData.Country);
-
-
-                if (this.stage2Errors().length === 0) {
-                    this.stage3Errors.showAllMessages(false);
-                    this.currentStage(this.stages[2]);
+                if (addressData) {
+                    // Update address observables with data from AddressNow
+                    this.stage3.OrganisationName(addressData.Company);
+                    this.stage3.Address1(addressData.FormattedLine1);
+                    this.stage3.City(addressData.City);
+                    this.stage3.Country(addressData.Country);
                 }
-                else {
-                    this.stage2Errors.showAllMessages();
-                }
+
+                this.stage3Errors.showAllMessages(false);
+                this.currentStage(this.stages[2]);
             };
 
             this.submit = function(data, event) {

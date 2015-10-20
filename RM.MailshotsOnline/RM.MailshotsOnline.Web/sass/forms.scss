@@ -11,6 +11,15 @@ input[type="password"] {
 	text-align: left;
 }
 
+input[type="checkbox"] {
+    width: 30px;
+    text-align: left;
+    left: -10px;
+    height: 14px;
+    position: relative;
+    display: inline-block;
+}
+
 input {
 	&:focus::-webkit-input-placeholder {
 		color: transparent;
@@ -19,6 +28,12 @@ input {
 	&:focus::-moz-placeholder {
 		color: transparent;
 	}
+}
+
+
+.validation-error {
+	outline: solid 2px #fdda24;
+	border: solid 1px #fff !important;
 }
 
 :-ms-input-placeholder {
@@ -258,7 +273,6 @@ select {
     top: 5px;
     display: table;
 
-
 	&:after {
 		border-top: 8px solid transparent;
 	    border-left: 0;
@@ -268,6 +282,10 @@ select {
 		left: -5px;
 		position: absolute;
     	top: 10px;
+	}
+
+	.form-row--align-right & {
+		margin-left: 20px;
 	}
 }
 
@@ -304,7 +322,6 @@ select {
 	display: table;
 	box-sizing: border-box;
 	position: relative;
-    min-height: 40px;
 
 	label {
 	    text-align: right;
@@ -343,6 +360,12 @@ select {
 
 	.g-recaptcha {
 		margin-left: 170px;
+	} 
+}
+.form-row--last {
+	margin-bottom: 0 !important;
+	.btn {
+		margin-bottom: 0;
 	}
 }
 .form-row--align-right {
@@ -353,8 +376,14 @@ select {
 
 	label {
 		min-width: 0;
-		width: auto;
+    	width: 100%;
 		text-align: auto;
+	}
+	input[type="checkbox"] {
+		width: 14px;
+		height: 14px;
+		left: auto;
+		right: -10px;
 	}
 }
 .form-row--align-left {

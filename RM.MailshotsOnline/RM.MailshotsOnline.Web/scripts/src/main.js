@@ -44,7 +44,10 @@ require([
 
 		koValidation.init({
 			insertMessages: true,
-			errorMessageClass: 'validation-msg'
+			decorateInputElement: true,
+			decorateElementOnModified: true,
+			errorMessageClass: 'validation-msg',
+			errorElementClass: 'validation-error'
 		});
 
 
