@@ -96,6 +96,10 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         public MarketingPreferencesViewModel ThirdPartyMarketingPreferencesViewModel { get; set; }
 
+        public bool IsStage1Valid { get; set; }
+
+        public bool IsStage3Valid { get; set; }
+
         public RegisterViewModel ViewModel { get; set; }
     }
 }

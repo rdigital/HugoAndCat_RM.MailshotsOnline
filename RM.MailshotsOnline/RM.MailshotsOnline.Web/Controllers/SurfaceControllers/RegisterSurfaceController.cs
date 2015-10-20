@@ -11,6 +11,7 @@ using RM.MailshotsOnline.PCL.Services;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -43,12 +44,16 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return Complete(model);
             }
 
-            model.TitleOptions = Services.DataTypeService.GetPreValuesWithPlaceholder("Title Dropdown", "", "Please choose");
+            //model.TitleOptions = Services.DataTypeService.GetPreValuesWithPlaceholder("Title Dropdown", "", "Please choose");
+            model.TitleOptions = Services.DataTypeService.GetPreValues("Title Dropdown");
 
             var termsAndConditionsLink = string.Format("<a href=\"{0}\">{1}</a>", model.TermsAndConditionsPage.Url(), model.TermsAndConditionsLinkText);
             model.TermsAndConditionsLabelWithLink = string.Format(model.AgreeToTermsAndConditionsLabel, termsAndConditionsLink);
 
             model.ViewModel = new RegisterViewModel();
+
+            model.IsStage1Valid = IsStage1Valid();
+            model.IsStage3Valid = IsStage3Valid();
 
             return PartialView("~/Views/Register/Partials/ShowRegisterForm.cshtml", model);
         }
@@ -100,7 +105,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
                 Members.Login(newMember.Username, model.ViewModel.Password);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.Error(this.GetType().Name, "RegisterForm", "Registration succeeded but couldn't automatically log the new user in: {0}", ex.Message);
             }
@@ -179,6 +184,46 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 WorkPhoneNumber = model.OrganisationDetailsViewModel.WorkPhoneNumber,
                 MobilePhoneNumber = model.OrganisationDetailsViewModel.MobilePhoneNumber
             }, model.Password);
+        }
+
+        private bool IsStage1Valid()
+        {
+            var keysToCheck = new[]
+            {
+                "ViewModel.Email",
+                "ViewModel.ConfirmEmail",
+                "ViewModel.FirstName",
+                "ViewModel.LastName",
+                "ViewModel.Title",
+                "ViewModel.Password",
+                "ViewModel.ConfirmPassword",
+                "ViewModel.AgreeToTermsAndConditions",
+                "PasswordError"
+            };
+
+            return !ViewData.ModelState.Keys.Intersect(keysToCheck).Any();
+        }
+
+        private bool IsStage3Valid()
+        {
+            var keysToCheck = new[]
+            {
+                "ViewModel.OrganisationDetailsViewModel.OrganisationName",
+                "ViewModel.OrganisationDetailsViewModel.JobTitle",
+                "ViewModel.OrganisationDetailsViewModel.FlatNumber",
+                "ViewModel.OrganisationDetailsViewModel.BuildingNumber",
+                "ViewModel.OrganisationDetailsViewModel.BuildingName",
+                "ViewModel.OrganisationDetailsViewModel.Address1",
+                "ViewModel.OrganisationDetailsViewModel.Address2",
+                "ViewModel.OrganisationDetailsViewModel.City",
+                "ViewModel.OrganisationDetailsViewModel.Postcode",
+                "ViewModel.OrganisationDetailsViewModel.Country",
+                "ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber",
+                "ViewModel.OrganisationDetailsViewModel.Country",
+                "ViewModel.IsRecaptchaValidated"
+            };
+
+            return !ViewData.ModelState.Keys.Intersect(keysToCheck).Any();
         }
     }
 }

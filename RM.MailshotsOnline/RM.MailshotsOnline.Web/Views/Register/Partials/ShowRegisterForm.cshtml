@@ -14,7 +14,7 @@
                 <div class="required-field">@Html.DisplayFor(m => m.RequiredFieldsLabel)</div>
             </div>
 
-            @if (!ViewData.ModelState.IsValid)
+            @if (!Model.IsStage1Valid)
             {
                 <div class="form-row validation-messages">
                     @Html.ValidationMessage("ViewModel.Email", new Dictionary<string, object> {{"validation-field-id", "ViewModel_Email"}})
@@ -163,7 +163,7 @@
                 <div class="required-field">@Html.DisplayFor(m => m.RequiredFieldsLabel)</div>
             </div>
 
-            @if (!ViewData.ModelState.IsValid)
+            @if (!Model.IsStage3Valid)
             {
                 <div class="form-row validation-messages">
                     @Html.ValidationMessage("ViewModel.OrganisationDetailsViewModel.OrganisationName", new Dictionary<string, object> {{"validation-field-id", "ViewModel_OrganisationDetailsViewModel_OrganisationName"}})
@@ -282,4 +282,3 @@
         </section>
 
 }
-
