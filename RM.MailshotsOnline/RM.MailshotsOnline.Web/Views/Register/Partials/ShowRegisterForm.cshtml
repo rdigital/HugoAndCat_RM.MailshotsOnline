@@ -1,5 +1,4 @@
 ﻿@using System.Configuration;
-@using System.Web.Mvc;
 
 @model RM.MailshotsOnline.Entities.PageModels.Register
 
@@ -16,14 +15,14 @@
             </div>
 
             <div class="form-row validation-messages">
-                <p>@Html.ValidationMessageFor(m => m.ViewModel.Email)</p>
-                <p>@Html.ValidationMessageFor(m => m.ViewModel.ConfirmEmail)</p>
-                <p>@Html.ValidationMessageFor(m => m.ViewModel.FirstName)</p>
-                <p>@Html.ValidationMessageFor(m => m.ViewModel.LastName)</p>
-                <p>@Html.ValidationMessageFor(m => m.ViewModel.Title)</p>
-                <p>@Html.ValidationMessageFor(m => m.ViewModel.Password)</p>
-                <p>@Html.ValidationMessageFor(m => m.ViewModel.ConfirmPassword)</p>
-                <p>@Html.ValidationMessageFor(m => m.ViewModel.AgreeToTermsAndConditions)</p>
+                <p>@Html.ValidationMessage("ViewModel.Email", new Dictionary<string, object> { { "validation-field-id", "ViewModel.Email" } })</p>
+                <p>@Html.ValidationMessage("ViewModel.ConfirmEmail", new Dictionary<string, object> { { "validation-field-id", "ViewModel.ConfirmEmail" } })</p>
+                <p>@Html.ValidationMessage("ViewModel.FirstName", new Dictionary<string, object> { { "validation-field-id", "ViewModel.FirstName" } })</p>
+                <p>@Html.ValidationMessage("ViewModel.LastName", new Dictionary<string, object> { { "validation-field-id", "ViewModel.LastName" } })</p>
+                <p>@Html.ValidationMessage("ViewModel.Title", new Dictionary<string, object> { { "validation-field-id", "ViewModel.Title" } })</p>
+                <p>@Html.ValidationMessage("ViewModel.Password", new Dictionary<string, object> { { "validation-field-id", "ViewModel.Password" } })</p>
+                <p>@Html.ValidationMessage("ViewModel.ConfirmPassword", new Dictionary<string, object> { { "validation-field-id", "ViewModel.ConfirmPassword" } })</p>
+                <p>@Html.ValidationMessage("ViewModel.AgreeToTermsAndConditions", new Dictionary<string, object> { { "validation-field-id", "ViewModel.AgreeToTermsAndConditions" } })</p>
             </div>
 
             <div class="form-row">
@@ -116,7 +115,7 @@
             </div>
 
             <div class="stage-marker">
-                stage 1 / 3
+                Step 1 / 3
             </div>
 
         </section>
@@ -146,7 +145,7 @@
             </div>
 
             <div class="stage-marker">
-                <a title="Go back a step" data-bind="click: proceedToStage1">Back</a> stage 2 / 3
+                <a title="Go back a step" data-bind="click: proceedToStage1">Back</a> Step 2 / 3
             </div>
 
         </section>
@@ -161,6 +160,21 @@
                 <div class="required-field">@Html.DisplayFor(m => m.RequiredFieldsLabel)</div>
             </div>
 
+            <div class="form-row validation-messages">
+                <p>@Html.ValidationMessage("ViewModel.OrganisationDetailsViewModel.OrganisationName", new Dictionary<string, object> { { "validation-field-id", "ViewModel.OrganisationDetailsViewModel.OrganisationName" } })</p>
+                <p>@Html.ValidationMessage("ViewModel.OrganisationDetailsViewModel.JobTitle", new Dictionary<string, object> { { "validation-field-id", "ViewModel.OrganisationDetailsViewModel.JobTitle" } })</p>
+                <p>@Html.ValidationMessage("ViewModel.OrganisationDetailsViewModel.FlatNumber", new Dictionary<string, object> {{"validation-field-id", "ViewModel.OrganisationDetailsViewModel.FlatNumber" } })</p>
+                <p>@Html.ValidationMessage("ViewModel.OrganisationDetailsViewModel.BuildingNumber", new Dictionary<string, object> {{"validation-field-id", "ViewModel.OrganisationDetailsViewModel.BuildingNumber" } })</p>
+                <p>@Html.ValidationMessage("ViewModel.OrganisationDetailsViewModel.BuildingName", new Dictionary<string, object> {{"validation-field-id", "ViewModel.OrganisationDetailsViewModel.BuildingName" } })</p>
+                <p>@Html.ValidationMessage("ViewModel.OrganisationDetailsViewModel.Address1", new Dictionary<string, object> {{"validation-field-id", "ViewModel.OrganisationDetailsViewModel.Address1" } })</p>
+                <p>@Html.ValidationMessage("ViewModel.OrganisationDetailsViewModel.Address2", new Dictionary<string, object> {{"validation-field-id", "ViewModel.OrganisationDetailsViewModel.Address2" } })</p>
+                <p>@Html.ValidationMessage("ViewModel.OrganisationDetailsViewModel.City", new Dictionary<string, object> {{"validation-field-id", "ViewModel.OrganisationDetailsViewModel.City" } })</p>
+                <p>@Html.ValidationMessage("ViewModel.OrganisationDetailsViewModel.Postcode", new Dictionary<string, object> { { "validation-field-id", "ViewModel.OrganisationDetailsViewModel.Postcode" } })</p>
+                <p>@Html.ValidationMessage("ViewModel.OrganisationDetailsViewModel.Country", new Dictionary<string, object> { { "validation-field-id", "ViewModel.OrganisationDetailsViewModel.Country" } })</p>
+                <p>@Html.ValidationMessage("ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber", new Dictionary<string, object> { { "validation-field-id", "ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber" } })</p>
+                <p>@Html.ValidationMessage("ViewModel.OrganisationDetailsViewModel.Country", new Dictionary<string, object> { { "validation-field-id", "ViewModel.OrganisationDetailsViewModel.MobilePhoneNumber" } })</p>
+                <p>@Html.ValidationMessage("ViewModel.IsRecaptchaValidated", new Dictionary<string, object> {{"validation-field-id", "ViewModel.IsRecaptchaValidated" } })</p>
+            </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.OrganisationName, Model.OrganisationNameLabel)
