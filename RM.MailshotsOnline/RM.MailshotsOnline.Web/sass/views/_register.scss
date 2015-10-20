@@ -1,8 +1,12 @@
-.register {
 
-}
 .register-stage {
-    display: none;
+    opacity: 0;
+    height: 0;
+    padding: 0;
+    margin-bottom: 0;
+    border: 0 none; 
+    border-bottom: 0; 
+    visibility: hidden;
 }
 .register__complete,
 .register__form {
@@ -21,7 +25,14 @@
 
 .register__complete .register-stage,
 .register-stage.current-stage {
-    display: block;
+    opacity: 1;
+    visibility: visible;
+    height: auto;
+    padding: 30px 35px;
+    margin-bottom: 30px;
+    border: 1px solid #dcdcdb;
+    border-bottom: 3px solid #dcdcdb; 
+    transition: height 0s, padding 0s, opacity 0.35s ease-in-out;
 
     // ADD Animation effects here.
 }
