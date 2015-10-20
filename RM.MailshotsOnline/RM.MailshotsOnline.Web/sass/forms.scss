@@ -167,6 +167,7 @@ select {
 
 .select2-container--default .select2-selection--single .select2-selection__rendered {
 	line-height: 40px;
+	padding-left: 15px;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__arrow {
@@ -366,6 +367,8 @@ select {
 	margin-bottom: 0 !important;
 	.btn {
 		margin-bottom: 0;
+		min-width: 150px;
+		text-align: center;
 	}
 }
 .form-row--align-right {
@@ -383,7 +386,7 @@ select {
 		width: 14px;
 		height: 14px;
 		left: auto;
-		right: -10px;
+		right: -4px;
 	}
 }
 .form-row--align-left {

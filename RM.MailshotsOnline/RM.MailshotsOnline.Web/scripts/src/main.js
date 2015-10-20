@@ -11,7 +11,6 @@ require([
 		'components/pagination',
 		'components/error',
 		'components/notification',
-		'view-models/register',
 		'view-models/login',
 		'kostopbinding',
         'koaresame'
@@ -29,7 +28,6 @@ require([
 		paginationComponent, 
 		errorComponent, 
 		notificationComponent,
-		registerView,
 		loginViewModel
 	) {
 
@@ -58,7 +56,9 @@ require([
 		ko.applyBindings();
 
 		if ($('.register').length > 0) {
-			ko.applyBindings(registerView, $('.register')[0]);
+			require(['view-models/register'],function(registerView) {
+				ko.applyBindings(registerView, $('.register')[0]);
+			});
 		}
 
 		if ($('#login').length > 0) {
