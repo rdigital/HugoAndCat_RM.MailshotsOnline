@@ -11,12 +11,9 @@ using RM.MailshotsOnline.PCL.Services;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Web.Mvc;
 using System.Web.Security;
-using RM.MailshotsOnline.Data.Services;
-using umbraco;
 using Umbraco.Web.Mvc;
 using RM.MailshotsOnline.Web.Extensions;
 
@@ -83,8 +80,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             catch (MembershipPasswordException)
             {
                 _logger.Info(this.GetType().Name, "RegisterForm", "Registration attempt with low quality password.");
-                ModelState.AddModelError("PasswordError",
-                    pageModel.PasswordErrorMessage);
+                ModelState.AddModelError("PasswordError", pageModel.PasswordErrorMessage);
 
                 return CurrentUmbracoPage();
             }
