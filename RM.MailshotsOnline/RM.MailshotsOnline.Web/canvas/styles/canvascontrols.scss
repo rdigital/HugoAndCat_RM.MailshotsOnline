@@ -109,6 +109,41 @@
     pointer-events: none;
 }
 
+.image-warning {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	z-index: 999;
+	color: #fdda24;
+	text-shadow: 0px 0px 2px #000, 0px 0px 2px #000, 0px 0px 2px #000, 0px 0px 2px #000;
+	font-size: 25px;
+	cursor: auto;
+	.image-warning-message {
+		display: none;
+		background: $darkest-grey;
+	    width: 150px;
+	    position: absolute;
+	    padding: 7px;
+	    left: 40px;
+	    top: -40px;
+	    color: $lightest-grey;
+	    font-family: Chevin Light, Arial;
+	    text-shadow: none;
+	    font-size: 14px;
+	    line-height: 18px;
+	    .fa {
+	    	position: absolute;
+		    left: -8px;
+		    top: 38px;
+		    font-size: 25px;
+		    color: $darkest-grey;
+	    }
+	}
+	&:hover .image-warning-message {
+		display: block;
+	}
+}
+
 canvas {
 	cursor: pointer;
 	background: transparent;

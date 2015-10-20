@@ -11,6 +11,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
             this.element = ko.observable();
             this.canvas = ko.observable();
             this.imageObj = this.getImageObj();
+            this.imageSmall = ko.observable(false);
             this.subscriptions = [];
             this.fallbackBackground = ko.observable(null);
 
@@ -304,6 +305,7 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
 
             // clear the canvas
             ctx.clearRect(0, 0, canvas_width * this.scaleFactor, canvas_height * this.scaleFactor);
+            this.imageSmall(false);
         }
 
         /**
@@ -333,6 +335,9 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
                             user_scale = (this.imageObj.scale() || 100) / 100,
                             width_offset = (canvas_width - (this.image.width * base_scale * user_scale)) / 2,
                             height_offset = (canvas_height - (this.image.height * base_scale * user_scale)) / 2;
+
+                        // determine whether the image will be low quality at this scale
+                        this.imageSmall((base_scale * user_scale) > (1/this.scaleFactor));
 
                         this.imageObj.img_position.left(width_offset);
                         this.imageObj.img_position.top(height_offset);
@@ -392,6 +397,9 @@ define(['knockout', 'view_models/element', 'view_models/theme', 'view_models/use
                     user_scale = (this.imageObj.scale() || 100) / 100,
                     width = this.image.width * base_scale * user_scale * this.scaleFactor,
                     height = this.image.height * base_scale * user_scale * this.scaleFactor;
+
+                // determine whether the image will be low quality at this scale
+                this.imageSmall((base_scale * user_scale) > (1/this.scaleFactor));
 
                 this.adjusted_width = this.image.width * base_scale * this.scaleFactor;
                 this.adjusted_height = this.image.height * base_scale * this.scaleFactor;

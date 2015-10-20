@@ -246,11 +246,17 @@ body {
     .dynamic-field-nohighlight:before {
         content: attr(data-fallback) !important;
     }
+    .image-warning {
+        display: none !important;
+    }
 }
 .full-preview {
     .canvas-empty {
         background: transparent !important;
         border: none;
+    }
+    .image-warning {
+        display: none !important;
     }
 }
 
