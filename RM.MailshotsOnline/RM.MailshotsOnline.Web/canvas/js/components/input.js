@@ -75,8 +75,6 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
                 $(window).trigger('closeEditPersonalization');
             }
 
-            this.getBackgroundColour(e);
-
             this.setFocus();
             this.getState();
         };
@@ -142,9 +140,9 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
          * Call to automatically adjust font size downward if the element has overflown
          */
         inputViewModel.prototype.sizeAdjust = function sizeAdjust() {
-            if (this.getVerticalMiddle()) {
-                this.setStyle('padding-top', '0');
-            }
+            //if (this.getVerticalMiddle()) {
+                //this.setStyle('padding-top', '0');
+            //}
             var scrollVisible = this.scrollVisible();
             if (scrollVisible) {
                 while (scrollVisible) {

@@ -15,6 +15,7 @@ define(['knockout', 'view_models/state', 'view_models/theme', 'view_models/user'
             this.subscriptions.push(
                 this.isSelected.subscribe(function(selected) {
                     if (selected) {
+                        this.getBackgroundColour();
                         stateViewModel.selectedElement(this);
                     } else if (stateViewModel.selectedElement() == this) {
                         stateViewModel.selectedElement(null);
@@ -97,12 +98,12 @@ define(['knockout', 'view_models/state', 'view_models/theme', 'view_models/user'
             }, this);
         };
 
-        elementViewModel.prototype.getBackgroundColour = function getBackgroundColour(e) {
+        elementViewModel.prototype.getBackgroundColour = function getBackgroundColour() {
             // try to get the required background colour for this input to grey out other inputs
-            var target = $(e.target);
-            var component = $(e.target).closest('.component');
+            var component = this.element().closest('.component'),
+                coords = component[0].getBoundingClientRect();
             component.hide();
-            var behind_el = document.elementFromPoint(e.clientX, e.clientY),
+            var behind_el = document.elementFromPoint(coords.left, coords.top),
                 face = $(behind_el).closest('.face, .colour-box'),
                 bg_colour = face.css('background-color');
             this.fallbackBackground(bg_colour);

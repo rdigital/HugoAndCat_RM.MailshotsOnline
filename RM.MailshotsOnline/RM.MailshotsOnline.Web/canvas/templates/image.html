@@ -1,3 +1,3 @@
-<div class="editable" data-bind="css: {'editable_active': isSelected}, event: { mousedown: select }, template: { afterRender: setup }">
+<div class="editable" data-bind="element: element, css: {'editable_active': isSelected}, event: { mousedown: select }, template: { afterRender: setup }">
 	<canvas data-bind="element: canvas, style: getDimensions(), attr: getScaledDimensions(), css: {'canvas-empty': isEmpty}, event: { mousedown: dragStart, mousemove: dragMove, mouseup: dragEnd, mouseleave: dragEnd}"></canvas>
 </div>
