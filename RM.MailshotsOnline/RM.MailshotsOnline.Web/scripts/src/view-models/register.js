@@ -18,8 +18,6 @@ define([
             this.currentStage = ko.observable(this.stages[0]);
             this.addressNow = {};
 
-            window.RMregister = this.currentStage();
-
             this.setCurrentStage = function(i) {
                 return this.currentStage() === this.stages[i] ? 'current-stage' : '';
             };
@@ -30,6 +28,12 @@ define([
                 this.stage1Init();
                 // this.stage2Init();
                 this.stage3Init();
+
+                // check for server-side validation
+                if ($('.validation-messages').length > 0) {
+                    var parentIndex = $('.validation-messages').first().parents('.register-stage').index();
+                    this.currentStage(this.stages[parentIndex]);
+                }
 
                 // listen for updates to dom from Address now
                 addressNow.listen('populate', function() {

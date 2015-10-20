@@ -44,3 +44,12 @@
     bottom: 30px;
     left: 30px;
 }
+
+.validation-messages {
+    background-color: rgba(255, 220, 220,1);
+    padding: 10px;
+    display: block;
+    border: rgba(285, 20, -40,1) 1px solid;
+    color: rgba(285, 20, -40,1);
+    text-align: center;
+}
