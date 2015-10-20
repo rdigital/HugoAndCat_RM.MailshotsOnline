@@ -29,5 +29,21 @@ namespace RM.MailshotsOnline.Data.Extensions
 
             return d;
         }
+
+        public static IDictionary<string, string> GetPreValuesWithPlaceholder(this IDataTypeService dataTypeService,
+            string preValueName, string placeholderTitle, string placeholderValue)
+        {
+            var d = new Dictionary<string, string>
+            {
+                {placeholderTitle, placeholderValue}
+            };
+
+            foreach (var kp in GetPreValues(dataTypeService, preValueName))
+            {
+                d.Add(kp.Key, kp.Value);
+            }
+
+            return d;
+        }
     }
 }

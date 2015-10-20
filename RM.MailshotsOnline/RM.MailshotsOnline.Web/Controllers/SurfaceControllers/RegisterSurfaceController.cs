@@ -43,11 +43,12 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return Complete(model);
             }
 
-            model.TitleOptions = Services.DataTypeService.GetPreValues("Title Dropdown");
+            model.TitleOptions = Services.DataTypeService.GetPreValuesWithPlaceholder("Title Dropdown", "", "Please choose");
+
             var termsAndConditionsLink = string.Format("<a href=\"{0}\">{1}</a>", model.TermsAndConditionsPage.Url(), model.TermsAndConditionsLinkText);
             model.TermsAndConditionsLabelWithLink = string.Format(model.AgreeToTermsAndConditionsLabel, termsAndConditionsLink);
-            model.ViewModel = new RegisterViewModel();
 
+            model.ViewModel = new RegisterViewModel();
 
             return PartialView("~/Views/Register/Partials/ShowRegisterForm.cshtml", model);
         }

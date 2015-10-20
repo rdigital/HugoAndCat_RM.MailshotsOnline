@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RM.MailshotsOnline.Entities.Attributes;
 using RM.MailshotsOnline.Entities.MemberModels;
+using RM.MailshotsOnline.PCL;
 
 namespace RM.MailshotsOnline.Entities.ViewModels
 {
