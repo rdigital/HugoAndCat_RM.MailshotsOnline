@@ -17,14 +17,14 @@
             @if (!ViewData.ModelState.IsValid)
             {
                 <div class="form-row validation-messages">
-                    <p>@Html.ValidationMessage("ViewModel.Email", new Dictionary<string, object> {{"validation-field-id", "ViewModel_Email"}})</p>
-                    <p>@Html.ValidationMessage("ViewModel.ConfirmEmail", new Dictionary<string, object> {{"validation-field-id", "ViewModel_ConfirmEmail"}})</p>
-                    <p>@Html.ValidationMessage("ViewModel.FirstName", new Dictionary<string, object> {{"validation-field-id", "ViewModel_FirstName"}})</p>
-                    <p>@Html.ValidationMessage("ViewModel.LastName", new Dictionary<string, object> {{"validation-field-id", "ViewModel_LastName"}})</p>
-                    <p>@Html.ValidationMessage("ViewModel.Title", new Dictionary<string, object> {{"validation-field-id", "ViewModel_Title"}})</p>
-                    <p>@Html.ValidationMessage("ViewModel.Password", new Dictionary<string, object> {{"validation-field-id", "ViewModel_Password"}})</p>
-                    <p>@Html.ValidationMessage("ViewModel.ConfirmPassword", new Dictionary<string, object> {{"validation-field-id", "ViewModel_ConfirmPassword"}})</p>
-                    <p>@Html.ValidationMessage("ViewModel.AgreeToTermsAndConditions", new Dictionary<string, object> {{"validation-field-id", "ViewModel_AgreeToTermsAndConditions"}})</p>
+                    @Html.ValidationMessage("ViewModel.Email", new Dictionary<string, object> {{"validation-field-id", "ViewModel_Email"}})
+                    @Html.ValidationMessage("ViewModel.ConfirmEmail", new Dictionary<string, object> {{"validation-field-id", "ViewModel_ConfirmEmail"}})
+                    @Html.ValidationMessage("ViewModel.FirstName", new Dictionary<string, object> {{"validation-field-id", "ViewModel_FirstName"}})
+                    @Html.ValidationMessage("ViewModel.LastName", new Dictionary<string, object> {{"validation-field-id", "ViewModel_LastName"}})
+                    @Html.ValidationMessage("ViewModel.Title", new Dictionary<string, object> {{"validation-field-id", "ViewModel_Title"}})
+                    @Html.ValidationMessage("ViewModel.Password", new Dictionary<string, object> {{"validation-field-id", "ViewModel_Password"}})
+                    @Html.ValidationMessage("ViewModel.ConfirmPassword", new Dictionary<string, object> {{"validation-field-id", "ViewModel_ConfirmPassword"}})
+                    @Html.ValidationMessage("ViewModel.AgreeToTermsAndConditions", new Dictionary<string, object> {{"validation-field-id", "ViewModel_AgreeToTermsAndConditions"}})
                 </div>
             }
 
