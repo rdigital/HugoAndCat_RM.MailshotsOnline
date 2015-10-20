@@ -21,8 +21,8 @@ define(['knockout', 'view_models/data', 'view_models/user', 'view_models/state',
         templateViewModel.prototype = Object.create(dataViewModel.prototype);
         templateViewModel.prototype.constructor = templateViewModel;
 
-        /* TEMP XX DELETE
-        templateViewModel.prototype.fetch = function fetch() {
+        /* TEMP XX DELETE */
+        /*templateViewModel.prototype.fetch = function fetch() {
             //console.log('fetching data from ' + this.fetchURL);
             this.objects(tempData.templateData);
         };*/

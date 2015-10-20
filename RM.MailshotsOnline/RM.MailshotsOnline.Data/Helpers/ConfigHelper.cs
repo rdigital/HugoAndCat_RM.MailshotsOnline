@@ -64,6 +64,54 @@ namespace RM.MailshotsOnline.Data.Helpers
             get { return GetConfigValue("MailshotDefaultContentTypeAlias", "MailshotDefaultContent"); }
         }
 
+        /// <summary>
+        /// The ID of the My Lists page
+        /// </summary>
+        public static int MyListsPageId
+        {
+            get { return GetConfigValue("MyListsPageId", 1283); }
+        }
+
+        /// <summary>
+        /// Content Type Alias for Postal Option items
+        /// </summary>
+        public static string PostalOptionContentTypeAlias
+        {
+            get { return GetConfigValue("PostalOptionContentTypeAlias", "PostageOption"); }
+        }
+
+        /// <summary>
+        /// Content Type Alias for the Private Image items
+        /// </summary>
+        public static string PrivateImageContentTypeAlias
+        {
+            get { return GetConfigValue("PrivateImageContentTypeAlias", "PrivateLibraryImage"); }
+        }
+
+        /// <summary>
+        /// The Blob Storage container name for the Private Media container
+        /// </summary>
+        public static string PrivateMediaBlobStorageContainer
+        {
+            get { return GetConfigValue("PrivateMediaBlobStorageContainer"); }
+        }
+
+        /// <summary>
+        /// Connection string for the Private blob storage container
+        /// </summary>
+        public static string PrivateStorageConnectionString
+        {
+            get { return GetConfigValue("PrivateStorageConnectionString"); }
+        }
+
+        /// <summary>
+        /// Content Type Alias for Public Library Image
+        /// </summary>
+        public static string PublicLibraryImageContentTypeAlias
+        {
+            get { return GetConfigValue("PublicLibraryImageContentTypeAlias", "PublicLibraryImage"); }
+        }
+
         public static string RoyalMailApprovalEmailAddress
         {
             get { return GetConfigValue("RoyalMailApprovalEmailAddress"); }
@@ -125,46 +173,6 @@ namespace RM.MailshotsOnline.Data.Helpers
         public static string SystemEmailAddress
         {
             get { return GetConfigValue("SystemEmailAddress"); }
-        }
-
-        /// <summary>
-        /// Content Type Alias for Postal Option items
-        /// </summary>
-        public static string PostalOptionContentTypeAlias
-        {
-            get { return GetConfigValue("PostalOptionContentTypeAlias", "PostageOption"); }
-        }
-
-        /// <summary>
-        /// Content Type Alias for the Private Image items
-        /// </summary>
-        public static string PrivateImageContentTypeAlias
-        {
-            get { return GetConfigValue("PrivateImageContentTypeAlias", "PrivateLibraryImage"); }
-        }
-
-        /// <summary>
-        /// The Blob Storage container name for the Private Media container
-        /// </summary>
-        public static string PrivateMediaBlobStorageContainer
-        {
-            get { return GetConfigValue("PrivateMediaBlobStorageContainer"); }
-        }
-
-        /// <summary>
-        /// Connection string for the Private blob storage container
-        /// </summary>
-        public static string PrivateStorageConnectionString
-        {
-            get { return GetConfigValue("PrivateStorageConnectionString"); }
-        }
-
-        /// <summary>
-        /// Content Type Alias for Public Library Image
-        /// </summary>
-        public static string PublicLibraryImageContentTypeAlias
-        {
-            get { return GetConfigValue("PublicLibraryImageContentTypeAlias", "PublicLibraryImage"); }
         }
 
         /// <summary>

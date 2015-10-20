@@ -267,7 +267,7 @@ namespace RM.MailshotsOnline.Data.Services
             }
             catch (Exception ex)
             {
-                
+                // log the error.
             }
 
             return success;

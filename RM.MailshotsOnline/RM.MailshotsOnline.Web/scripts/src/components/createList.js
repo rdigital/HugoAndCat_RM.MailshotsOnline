@@ -21,6 +21,8 @@ define([
             this.titleEdit = ko.observable(true);
             this.step = stateViewModel.createListStep;
             this.showEditModal = stateViewModel.showEditModal;
+            this.backUrl = window.backUrl;
+            this.backText = window.backText;
         }
 
         createListComponentViewModel.prototype.editTitle = function editTitle() {

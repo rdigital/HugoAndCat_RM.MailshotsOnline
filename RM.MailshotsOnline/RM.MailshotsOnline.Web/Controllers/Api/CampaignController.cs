@@ -25,6 +25,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         private IPricingService _pricingService;
         private ISettingsService _settingsService;
         private IUmbracoService _umbracoService;
+        private IDataService _dataService;
 
         public CampaignController(
             ICampaignService campaignService, 
@@ -33,6 +34,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             IMembershipService membershipService,
             ISettingsService settingsService,
             IUmbracoService umbracoService, 
+            IDataService dataService,
             ILogger logger)
             : base (membershipService, logger)
         {
@@ -41,6 +43,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             _pricingService = pricingService;
             _settingsService = settingsService;
             _umbracoService = umbracoService;
+            _dataService = dataService;
         }
 
         [Authorize]
@@ -471,7 +474,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
 
-        [Authorize]
+        /*[Authorize]
         public HttpResponseMessage AddTestDataToCampaign(Guid id)
         {
             ICampaign originalCampaign;
@@ -490,6 +493,45 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             }
 
             var success = _campaignService.AddTestDataToCampaign(originalCampaign);
+            return Request.CreateResponse(HttpStatusCode.OK, new { success = success });
+        }*/
+
+        [Authorize]
+        [HttpPost]
+        public HttpResponseMessage AttachDistributionListsToCampaign(Guid id, GuidListModel distributionListIds)
+        {
+            ICampaign originalCampaign;
+            // Make sure user can access campaign
+            var validateResponse = ValidateRequest("AttachDistributionListsToCampaign", id, out originalCampaign);
+            if (validateResponse != null)
+            {
+                return validateResponse;
+            }
+
+            // Confirm mailshot can be updated
+            var canUpdateCampaignResponse = ConfirmCanBeUpdated("AttachDistributionListsToCampaign", originalCampaign);
+            if (canUpdateCampaignResponse != null)
+            {
+                return canUpdateCampaignResponse;
+            }
+
+            var distributionLists = _dataService.GetDistributionLists(dl => distributionListIds.Ids.Contains(dl.DistributionListId));
+            if (distributionLists.Any(dl => dl.UserId != _loggedInMember.Id))
+            {
+                return ErrorMessage(HttpStatusCode.Forbidden, "Some data lists do not belong to the current user");
+            }
+
+            var success = false;
+            try
+            {
+                success = _campaignService.LinkCampaignToDistributionLists(originalCampaign, distributionLists);
+            }
+            catch (Exception ex)
+            {
+                _logger.Exception(this.GetType().Name, "AttachDistributionListsToCampaign", ex);
+                _logger.Error(this.GetType().Name, "AttachDistributionListsToCampaign", "Error saving changes to campaign");
+            }
+
             return Request.CreateResponse(HttpStatusCode.OK, new { success = success });
         }
 

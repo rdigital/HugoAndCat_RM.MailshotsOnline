@@ -27,7 +27,10 @@ namespace HC.RM.Common.PayPal.Models
             }
             this.Links = pplOrder.links.ToHateoasLinks();
             this.State = (OrderState)Enum.Parse(typeof(OrderState), pplOrder.state);
-            this.ReasonCode = (ReasonCode)Enum.Parse(typeof(ReasonCode), pplOrder.reason_code);
+            if (!string.IsNullOrEmpty(pplOrder.reason_code))
+            {
+                this.ReasonCode = (ReasonCode)Enum.Parse(typeof(ReasonCode), pplOrder.reason_code);
+            }
         }
 
         /// <summary>
@@ -55,7 +58,10 @@ namespace HC.RM.Common.PayPal.Models
             };
             result.links = this.Links.ToPplLinks();
             result.state = this.State.ToString();
-            result.reason_code = this.ReasonCode.ToString();
+            if (this.ReasonCode.HasValue)
+            {
+                result.reason_code = this.ReasonCode.Value.ToString();
+            }
 
             return result;
         }
@@ -70,7 +76,8 @@ namespace HC.RM.Common.PayPal.Models
         completed,
         refunded,
         partially_refunded,
-        voided
+        voided,
+        captured
     }
 
     public enum ReasonCode
@@ -86,6 +93,7 @@ namespace HC.RM.Common.PayPal.Models
         payment_review,
         regulatory_review,
         unilateral,
-        verification_required
+        verification_required,
+        order
     }
 }

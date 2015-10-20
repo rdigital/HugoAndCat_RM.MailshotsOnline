@@ -36,7 +36,7 @@ namespace RM.MailshotsOnline.Entities.PageModels
 
         public string PaymentDeclinedStatusTitle { get; set; }
 
-        public string MoreInformationPrompt { get; set; }
+        public string MoreInformationStatusPrompt { get; set; }
 
         public string OrderDetailsPageLinkText { get; set; }
 
@@ -67,6 +67,8 @@ namespace RM.MailshotsOnline.Entities.PageModels
         public string YourDataHeading { get; set; }
 
         public string OurDataHeading { get; set; }
+
+        public BasePage AddDataPage { get; set; }
 
         #endregion
 

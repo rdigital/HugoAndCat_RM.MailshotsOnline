@@ -5,6 +5,13 @@
     Layout = "~/Views/Master.cshtml";
 }
 
+<script>
+    var backUrl = '@Model.BackUrl',
+        backText = '@Model.BackLinkText',
+        campaignId = '@Model.CampaignId',
+        listDetailBaseUrl = '@Model.ListDetailBaseUrl'; // JS redirect to detail view (dataSummary.js line 54)
+</script>
+
 @* <div class="content">
         <h1>@Model.Name</h1>
         Add in the steps here

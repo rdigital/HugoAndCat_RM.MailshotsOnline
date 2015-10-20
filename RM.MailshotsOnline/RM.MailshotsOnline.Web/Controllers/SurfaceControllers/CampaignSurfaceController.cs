@@ -16,6 +16,7 @@ using RM.MailshotsOnline.PCL.Models.MailshotSettings;
 using RM.MailshotsOnline.Entities.JsonModels;
 using Newtonsoft.Json;
 using RM.MailshotsOnline.Entities.DataModels;
+using RM.MailshotsOnline.Web.Helpers;
 
 namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 {
@@ -84,9 +85,8 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return CurrentUmbracoPage();
             }
 
-            _campaignService.AddTestDataToCampaign(campaign);
-
-            return CurrentUmbracoPage();
+            // Redirect the user to the correct URL for adding data to this campaign
+            return Redirect(SiteUrlHelper.GetUrlForCampaignData(campaign.CampaignId));
         }
 
         [ChildActionOnly]

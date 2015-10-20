@@ -5,7 +5,6 @@ using System;
 using System.Collections;
 using System.IO;
 using CsvHelper;
-using CsvHelper.Configuration;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Data.Constants;
 using RM.MailshotsOnline.Entities.JsonModels;
@@ -13,6 +12,7 @@ using RM.MailshotsOnline.PCL.Models.Reporting;
 using RM.MailshotsOnline.PCL.Services;
 using RM.MailshotsOnline.PCL.Services.Reporting;
 using System.Threading.Tasks;
+using HC.RM.Common.Azure;
 
 namespace RM.MailshotsOnline.Web.Controllers.Api
 {
@@ -22,6 +22,9 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         private static IReportingBlobService _blobService;
         private static IReportingSftpService _sftpService;
         private static IAuthTokenService _authTokenService;
+
+        // hacked in logger
+        private static ILogger _log = new Logger();
 
         public ReportsController(ILogger logger, IReportingService reportingService, IReportingBlobService blobService,
             IReportingSftpService sftpService, IAuthTokenService authTokenService)
@@ -40,7 +43,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             {
                 var message = "Method was called with bad parameters";
 
-                _logger.Error(this.GetType().Name, "GenerateReport", message);
+                _log.Error(this.GetType().Name, "GenerateReport", message);
                 return ErrorMessageDebug(HttpStatusCode.NotAcceptable, message);    //todo: change this back to 400
             }
 
@@ -48,7 +51,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             {
                 var message = "Method was called with an invalid token";
 
-                _logger.Error(this.GetType().Name, "GenerateReport", message);
+                _log.Error(this.GetType().Name, "GenerateReport", message);
                 return ErrorMessageDebug(HttpStatusCode.Unauthorized, message); //todo: change this back to 400
             }
 
@@ -102,7 +105,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                     }
                     catch (Exception e)
                     {
-                        _logger.Error(this.GetType().Name, "GenerateReport", "Upload to SFTP server failed!", e);
+                        _log.Error(this.GetType().Name, "GenerateReport", "Upload to SFTP server failed!", e);
                     }
 
                     try
@@ -119,17 +122,17 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                     }
                     catch (Exception e)
                     {
-                        _logger.Error(this.GetType().Name, "GenerateReport", "Upload to blob store failed!", e);
+                        _log.Error(this.GetType().Name, "GenerateReport", "Upload to blob store failed!", e);
                     }
 
-                    _logger.Info(this.GetType().Name, "GenerateReport",
+                    _log.Info(this.GetType().Name, "GenerateReport",
                         $"Report generation complete! SFTP success: {fileTransferSuccess}, blob storage success: {blobStoreageSuccess}");
 
                     return new HttpResponseMessage(HttpStatusCode.OK);
                 }
             }
 
-            _logger.Error(this.GetType().Name, "GenerateReport", "Data was null - exiting");
+            _log.Error(this.GetType().Name, "GenerateReport", "Data was null - exiting");
             return ErrorMessageDebug(HttpStatusCode.InternalServerError, "Data was null - exiting");
         }
     }

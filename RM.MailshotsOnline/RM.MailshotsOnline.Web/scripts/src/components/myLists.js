@@ -9,6 +9,7 @@ define(['jquery', 'knockout', 'view-models/state'],
             this.displayedList = ko.observableArray([]);
             this.totalListCount = ko.observable();
             this.selectedLists = stateViewModel.selectedLists;
+            this.createUrl = ko.observable(window.createUrl);
 
             // binding stuff
             this.toggleSelect = this.toggleSelect.bind(this);

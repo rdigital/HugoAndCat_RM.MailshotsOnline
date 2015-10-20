@@ -81,7 +81,8 @@ namespace RM.MailshotsOnline.PCL.Services
         /// Adds test data to a campaign
         /// </summary>
         /// <param name="campaign">The campaign</param>
+        /// <param name="distributionLists">The distribution lists to add</param>
         /// <returns>True on success</returns>
-        bool AddTestDataToCampaign(ICampaign campaign);
+        bool LinkCampaignToDistributionLists(ICampaign campaign, IEnumerable<IDistributionList> distributionLists);
     }
 }

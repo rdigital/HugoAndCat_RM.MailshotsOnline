@@ -18,7 +18,6 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
             this.isItalic = ko.observable(false);
             this.currentFontSize = ko.observable(1);
             this.fallbackBackground = ko.observable(null);
-            this.verticalAlign = ko.observable(params.verticalAlign);
 
             // if theme override passed in, process it
             this.override_theme = params.override_theme;
@@ -57,6 +56,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
         inputViewModel.prototype.setFocus = function setFocus() {
             if (this.element()) {
                 this.element().focus();
+                this.sizeAdjust();
             }
         };
 
@@ -142,13 +142,16 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
          * Call to automatically adjust font size downward if the element has overflown
          */
         inputViewModel.prototype.sizeAdjust = function sizeAdjust() {
+            if (this.getVerticalMiddle()) {
+                this.setStyle('padding-top', '0');
+            }
             var scrollVisible = this.scrollVisible();
             if (scrollVisible) {
                 while (scrollVisible) {
                     scrollVisible = this.decreaseFontSize();
                 }
             }
-            if (this.verticalAlign() == 'middle') {
+            if (this.getVerticalMiddle()) {
                 this.verticalAlignMiddle();
             }
         };
@@ -160,10 +163,11 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
          */
         inputViewModel.prototype.sizeAdjustDelayed = function sizeAdjustDelayed() {
             this.sizeAdjust();
+            //this.decreaseFontSize();
             setTimeout(this.sizeAdjust, 500);
             setTimeout(this.sizeAdjust, 1000);
             setTimeout(this.sizeAdjust, 2000);
-            setTimeout(this.sizeAdjust, 4000);
+            //setTimeout(this.sizeAdjust, 4000);
         }
 
         /**
@@ -173,10 +177,12 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
          */
         inputViewModel.prototype.verticalAlignMiddle = function verticalAlignMiddle() {
             var el = this.element(),
-                el_height = el.height(),
-                container_height = el.closest('.component').height(),
+                el_height = el.innerHeight(),
+                container_height = el.closest('.component').children().innerHeight(),
                 margin = (container_height - el_height) / 2;
-            this.setStyle('padding-top', margin + 'px');
+            if (el_height) {
+                this.setStyle('padding-top', margin + 'px');
+            }
         }
 
         /**
@@ -185,8 +191,8 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
          */
         inputViewModel.prototype.verticalAlignMiddleInline = function verticalAlignMiddleInline() {
             var el = this.element(),
-                el_height = el.height(),
-                container_height = el.closest('.component').height(),
+                el_height = el.innerHeight(),
+                container_height = el.closest('.component').children().innerHeight(),
                 margin = (container_height - el_height) / 2;
             this.element().closest('.editable').css('padding-top', margin + 'px');
         }
@@ -200,7 +206,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
             while (scrollVisible) {
                 scrollVisible = this.decreaseFontSize();
             }
-            if (this.verticalAlign() == 'middle') {
+            if (this.getVerticalMiddle()) {
                 this.verticalAlignMiddle();
             }
         };
@@ -216,7 +222,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
 
             if (index < font_sizes.length-1) {
                 this.setStyle('font-size', font_sizes[index+1]);
-                if (this.verticalAlign() == 'middle') {
+                if (this.getVerticalMiddle()) {
                     this.verticalAlignMiddle();
                 }
                 return true;
@@ -235,7 +241,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
                 index = font_sizes.indexOf(font_size || 0);
             if (index > 0) {
                 this.setStyle('font-size', font_sizes[index-1]);
-                if (this.verticalAlign() == 'middle') {
+                if (this.getVerticalMiddle()) {
                     this.verticalAlignMiddle();
                 }
                 return this.scrollVisible();
@@ -262,8 +268,8 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
         /**
          * version of sizeAdjustPreview for template / theme previews. Does not effect the underlying user viewmodel
          * instead works directly on the element
-         * Automatically downsizes the font if text has overflown. Small timeout used as it seems the browser needs time after 
-         * render event is triggered to actually fully render the text 
+         * Automatically downsizes the font if text has overflown. Small timeout used as it seems the browser needs time after
+         * render event is triggered to actually fully render the text
          */
         inputViewModel.prototype.sizeAdjustPreview = function sizeAdjustPreview() {
             setTimeout( function() {
@@ -273,7 +279,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
                         scrollVisible = this.decreaseFontSizeInline();
                     }
                 }
-                if (this.verticalAlign() == 'middle') {
+                if (this.getVerticalMiddle()) {
                     this.verticalAlignMiddleInline();
                 }
             }.bind(this), 100);
@@ -299,7 +305,7 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
 
         /**
          * returns a computed which evaluates to a boolean. True if element is overflowing
-         * @return {ko.pureComputed} 
+         * @return {ko.pureComputed}
          */
         inputViewModel.prototype.getScrollVisibleComputed = function getScrollVisibleComputed() {
             return ko.pureComputed(function() {
@@ -314,13 +320,13 @@ define(['knockout', 'jquery', 'koeditable', 'koelement', 'view_models/element', 
                     font_family();
                 }
                 return this.scrollVisible();
-            }, this).extend({throttle: 100});
+            }, this).extend({throttle: 600});
         };
 
         /**
          * returns a computed that only allows setting the value of isSelected to true. This allows us to maintain
          * focus on an element when clicking controls whilst still using knockout's hasFocus binding
-         * @return {ko.pureComputed} 
+         * @return {ko.pureComputed}
          */
         inputViewModel.prototype.getIsSelectedSetOnlyComputed = function getIsSelectedSetOnlyComputed() {
             return ko.pureComputed({

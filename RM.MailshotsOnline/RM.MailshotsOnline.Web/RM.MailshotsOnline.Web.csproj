@@ -214,10 +214,6 @@
       <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.4\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Diagnostics.Instrumentation.Extensions.Intercept, Version=0.17.0.194, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.0.17.0\lib\net45\Microsoft.Diagnostics.Instrumentation.Extensions.Intercept.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
@@ -515,7 +511,14 @@
     <Content Include="css\temp.css" />
     <Content Include="CsvUpload.aspx" />
     <Content Include="default.aspx" />
+    <Content Include="fonts\DIN\parachute_-_pfdintextstd-bold-demo.html" />
+    <Content Include="fonts\DIN\parachute_-_pfdintextstd-bold-webfont.svg" />
+    <Content Include="fonts\DIN\parachute_-_pfdintextstd-italic-demo.html" />
+    <Content Include="fonts\DIN\parachute_-_pfdintextstd-italic-webfont.svg" />
+    <Content Include="fonts\DIN\parachute_-_pfdintextstd-regular-demo.html" />
+    <Content Include="fonts\DIN\parachute_-_pfdintextstd-regular-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\icons\icomoon.svg" />
     <Content Include="Global.asax" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
@@ -586,17 +589,20 @@
     <Content Include="canvas\styles\zoom.scss" />
     <Content Include="scripts\src\components\addContact.js" />
     <Content Include="scripts\src\components\batchTray.js" />
+    <Content Include="scripts\src\components\campaignList.js" />
     <Content Include="scripts\src\components\createList.js" />
     <Content Include="scripts\src\components\dataSummary.js" />
     <Content Include="scripts\src\components\error.js" />
     <Content Include="scripts\src\components\listDetail.js" />
     <Content Include="scripts\src\components\lists.js" />
     <Content Include="scripts\src\components\matchData.js" />
+    <Content Include="scripts\src\components\myImages.js" />
     <Content Include="scripts\src\components\myLists.js" />
     <Content Include="scripts\src\components\notification.js" />
     <Content Include="scripts\src\components\pagination.js" />
     <Content Include="scripts\src\components\rentList.js" />
     <Content Include="scripts\src\components\uploadData.js" />
+    <Content Include="scripts\src\components\uploadImage.js" />
     <Content Include="scripts\src\custom-bindings\ko-attrif.js" />
     <Content Include="scripts\src\custom-bindings\ko-element.js" />
     <Content Include="scripts\src\custom-bindings\ko-file.js" />
@@ -604,17 +610,20 @@
     <Content Include="scripts\src\require_config.js" />
     <Content Include="scripts\src\templates\add-contact.html" />
     <Content Include="scripts\src\templates\batch-tray.html" />
+    <Content Include="scripts\src\templates\campaign-list.html" />
     <Content Include="scripts\src\templates\create-list.html" />
     <Content Include="scripts\src\templates\data-summary.html" />
     <Content Include="scripts\src\templates\error.html" />
     <Content Include="scripts\src\templates\list-detail.html" />
     <Content Include="scripts\src\templates\lists.html" />
     <Content Include="scripts\src\templates\match-data.html" />
+    <Content Include="scripts\src\templates\my-images.html" />
     <Content Include="scripts\src\templates\my-lists.html" />
     <Content Include="scripts\src\templates\notification.html" />
     <Content Include="scripts\src\templates\pagination.html" />
     <Content Include="scripts\src\templates\rent-list.html" />
     <Content Include="scripts\src\templates\upload-data.html" />
+    <Content Include="scripts\src\templates\upload-image.html" />
     <Content Include="scripts\src\vendor\jquery-1.10.2.min.js" />
     <Content Include="scripts\src\vendor\knockout-mapping.js" />
     <Content Include="scripts\src\vendor\knockout-validation.min.js" />
@@ -633,6 +642,73 @@
     <Content Include="AppInsightsAgent\InstallAgent.bat" />
     <Content Include="Views\CampaignHub\Partials\StartDataButton.cshtml" />
     <Content Include="uSync\Template\ListDetailDownload\ListDetailDownload.config" />
+    <Content Include="Views\MyLists.cshtml" />
+    <Content Include="uSync\DocumentType\DataMappingFolder\def.config" />
+    <Content Include="uSync\DocumentType\DataMapping\def.config" />
+    <Content Include="uSync\DocumentType\Basepage\ListCreate\def.config" />
+    <Content Include="fonts\icons\icomoon.eot" />
+    <Content Include="fonts\icons\icomoon.ttf" />
+    <Content Include="fonts\icons\icomoon.woff" />
+    <Content Include="fonts\DIN\parachute_-_pfdintextstd-bold-webfont.eot" />
+    <Content Include="fonts\DIN\parachute_-_pfdintextstd-bold-webfont.ttf" />
+    <Content Include="fonts\DIN\parachute_-_pfdintextstd-bold-webfont.woff" />
+    <Content Include="fonts\DIN\parachute_-_pfdintextstd-bold-webfont.woff2" />
+    <Content Include="fonts\DIN\parachute_-_pfdintextstd-italic-webfont.eot" />
+    <Content Include="fonts\DIN\parachute_-_pfdintextstd-italic-webfont.ttf" />
+    <Content Include="fonts\DIN\parachute_-_pfdintextstd-italic-webfont.woff" />
+    <Content Include="fonts\DIN\parachute_-_pfdintextstd-italic-webfont.woff2" />
+    <Content Include="fonts\DIN\parachute_-_pfdintextstd-regular-webfont.eot" />
+    <Content Include="fonts\DIN\parachute_-_pfdintextstd-regular-webfont.ttf" />
+    <Content Include="fonts\DIN\parachute_-_pfdintextstd-regular-webfont.woff" />
+    <Content Include="fonts\DIN\parachute_-_pfdintextstd-regular-webfont.woff2" />
+    <Content Include="fonts\chevin\2EDB2C_0_0.eot" />
+    <Content Include="fonts\chevin\2EDB2C_0_0.ttf" />
+    <Content Include="fonts\chevin\2EDB2C_0_0.woff" />
+    <Content Include="fonts\chevin\2EDB2C_0_0.woff2" />
+    <Content Include="fonts\chevin\2EDB2C_1_0.eot" />
+    <Content Include="fonts\chevin\2EDB2C_1_0.ttf" />
+    <Content Include="fonts\chevin\2EDB2C_1_0.woff" />
+    <Content Include="fonts\chevin\2EDB2C_1_0.woff2" />
+    <Content Include="fonts\chevin\2EDB2C_2_0.eot" />
+    <Content Include="fonts\chevin\2EDB2C_2_0.ttf" />
+    <Content Include="fonts\chevin\2EDB2C_2_0.woff" />
+    <Content Include="fonts\chevin\2EDB2C_2_0.woff2" />
+    <Content Include="fonts\chevin\2EDB2C_3_0.eot" />
+    <Content Include="fonts\chevin\2EDB2C_3_0.ttf" />
+    <Content Include="fonts\chevin\2EDB2C_3_0.woff" />
+    <Content Include="fonts\chevin\2EDB2C_3_0.woff2" />
+    <Content Include="fonts\chevin\2EDB2C_4_0.eot" />
+    <Content Include="fonts\chevin\2EDB2C_4_0.ttf" />
+    <Content Include="fonts\chevin\2EDB2C_4_0.woff" />
+    <Content Include="fonts\chevin\2EDB2C_4_0.woff2" />
+    <Content Include="fonts\chevin\2EDB2C_5_0.eot" />
+    <Content Include="fonts\chevin\2EDB2C_5_0.ttf" />
+    <Content Include="fonts\chevin\2EDB2C_5_0.woff" />
+    <Content Include="fonts\chevin\2EDB2C_5_0.woff2" />
+    <Content Include="fonts\chevin\2EDB2C_6_0.eot" />
+    <Content Include="fonts\chevin\2EDB2C_6_0.ttf" />
+    <Content Include="fonts\chevin\2EDB2C_6_0.woff" />
+    <Content Include="fonts\chevin\2EDB2C_6_0.woff2" />
+    <Content Include="fonts\chevin\2EDB2C_7_0.eot" />
+    <Content Include="fonts\chevin\2EDB2C_7_0.ttf" />
+    <Content Include="fonts\chevin\2EDB2C_7_0.woff" />
+    <Content Include="fonts\chevin\2EDB2C_7_0.woff2" />
+    <Content Include="fonts\chevin\2EDB2C_8_0.eot" />
+    <Content Include="fonts\chevin\2EDB2C_8_0.ttf" />
+    <Content Include="fonts\chevin\2EDB2C_8_0.woff" />
+    <Content Include="fonts\chevin\2EDB2C_8_0.woff2" />
+    <Content Include="fonts\chevin\2EDB2C_9_0.eot" />
+    <Content Include="fonts\chevin\2EDB2C_9_0.ttf" />
+    <Content Include="fonts\chevin\2EDB2C_9_0.woff" />
+    <Content Include="fonts\chevin\2EDB2C_9_0.woff2" />
+    <Content Include="fonts\chevin\2EDB2C_A_0.eot" />
+    <Content Include="fonts\chevin\2EDB2C_A_0.ttf" />
+    <Content Include="fonts\chevin\2EDB2C_A_0.woff" />
+    <Content Include="fonts\chevin\2EDB2C_A_0.woff2" />
+    <Content Include="fonts\chevin\2EDB2C_B_0.eot" />
+    <Content Include="fonts\chevin\2EDB2C_B_0.ttf" />
+    <Content Include="fonts\chevin\2EDB2C_B_0.woff" />
+    <Content Include="fonts\chevin\2EDB2C_B_0.woff2" />
     <None Include="WaIISHost.exe.config">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -3137,6 +3213,7 @@
     <Compile Include="App_Start\GlassMapperUmbCustom.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Handlers\FilteredDocumentTypeNodeRouteHandler.cs" />
     <Compile Include="Handlers\DocumentTypeNodeRouteHandler.cs" />
     <Compile Include="App_Start\RegisterApplicationStartEvents.cs" />
     <Compile Include="App_Start\RegisterIoCEvents.cs" />
@@ -3212,6 +3289,7 @@
     <Compile Include="Helpers\ControllersHelper.cs" />
     <Compile Include="Helpers\InvoiceHelper.cs" />
     <Compile Include="Helpers\MembershipHelper.cs" />
+    <Compile Include="Helpers\SiteUrlHelper.cs" />
     <Compile Include="Installers\ControllersInstaller.cs" />
     <Compile Include="Models\DistributionContact.cs" />
     <Compile Include="Plumbing\WindsorCompositionRoot.cs" />
@@ -3593,9 +3671,7 @@
     <Content Include="Views\CampaignHub\Partials\EditButton.cshtml" />
     <Content Include="Views\CampaignHub\Partials\DeleteDesignButton.cshtml" />
     <Content Include="Views\ListDetail.cshtml" />
-    <Content Include="Views\ListDetailEmpty.cshtml" />
     <Content Include="Views\Lists.cshtml" />
-    <Content Include="Views\ListsEmpty.cshtml" />
     <Content Include="Views\Dashboard.cshtml" />
     <Content Include="Views\MyImages.cshtml" />
     <Content Include="Views\MyOrders.cshtml" />
@@ -3613,10 +3689,8 @@
     <Content Include="uSync\DocumentType\Basepage\MyImages\def.config" />
     <Content Include="uSync\DocumentType\Basepage\MyOrders\def.config" />
     <Content Include="uSync\Template\CaptureDetails\CaptureDetails.config" />
-    <Content Include="Views\Lists\Lists.cshtml" />
     <Content Include="Views\OrderDetails.cshtml" />
     <Content Include="Views\Lists\Create.cshtml" />
-    <Content Include="Views\ListCreate.cshtml" />
     <Content Include="Views\Lists\Partials\ShowCreateListForm.cshtml" />
     <Content Include="Views\Lists\Partials\ShowConfirmFieldsForm.cshtml" />
     <Content Include="Views\Lists\Partials\ShowSummaryListForm.cshtml" />
