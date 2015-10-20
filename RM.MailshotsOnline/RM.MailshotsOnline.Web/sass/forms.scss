@@ -16,8 +16,6 @@ input[type="checkbox"] {
     text-align: left;
     left: -10px;
     height: 14px;
-    position: relative;
-    display: inline-block;
 }
 
 input {
@@ -355,7 +353,7 @@ select {
 
 	.select2,
 	select {
-		width: 152px;
+		width: 167px;
 		min-width: 0;
 	}
 
@@ -407,5 +405,5 @@ select {
 	}
 }
 .validation-messages {
-	display: none;
+	
 }
