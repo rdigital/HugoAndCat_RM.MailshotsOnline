@@ -1,6 +1,6 @@
-define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/notification', 'view_models/history', 'view_models/state', 'view_models/auth'],
+define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/user', 'view_models/notification', 'view_models/history', 'view_models/state', 'view_models/auth'],
 
-    function(ko, $, kofile, myImagesViewModel, notificationViewModel, historyViewModel, stateViewModel, authViewModel) {
+    function(ko, $, kofile, myImagesViewModel, userViewModel, notificationViewModel, historyViewModel, stateViewModel, authViewModel) {
 
         function imageUploadViewModel(params) {
             this.src = ko.observable();
@@ -43,6 +43,8 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/not
             this.setDeleteImage = this.setDeleteImage.bind(this);
             this.clearDeleteImage = this.clearDeleteImage.bind(this);
 
+            this.elements = userViewModel.objects.elements;
+
             this.fetchLibrary();
         }
 
@@ -65,6 +67,7 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/not
                     },
                     imageSrc = '',
                     post = $.post('/Umbraco/Api/ImageLibrary/UploadImage', data, function(image) {
+                        image.deleting = ko.observable(false);
                         myImagesViewModel.add(image);
                         element.setUrlSrc(image.Src);
                         imageSrc = image.Src;
@@ -234,6 +237,20 @@ define(['knockout', 'jquery', 'kofile', 'view_models/myimages', 'view_models/not
         };
 
         imageUploadViewModel.prototype.setDeleteImage = function setDeleteImage(image) {
+            // this covers images in use on this mailshot before the mailshot is saved
+            var error = false;
+            ko.utils.arrayForEach(this.elements(), function(el) { 
+                if (el.writeSrc) { 
+                    if (image.OriginalUrl == el.writeSrc()) {
+                        error = true;
+                    }
+                }
+            });
+            // this covers images in use on other mailshots
+            if (image.MailshotUses || error) {
+                notificationViewModel.show('This image is currently in use on a campaign. It cannot be deleted.', 'error');
+                return;
+            }
             this.deleteImage(image);
         }
 

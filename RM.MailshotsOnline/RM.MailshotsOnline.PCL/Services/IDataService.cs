@@ -156,5 +156,12 @@ namespace RM.MailshotsOnline.PCL.Services
         /// </summary>
         /// <param name="distributionList">The distribution list.</param>
         void DeleteDistributionList(IDistributionList distributionList);
+
+        /// <summary>
+        /// Checks if a distribution list is assigned to any campaigns
+        /// </summary>
+        /// <param name="distributionList">The distribution list to check</param>
+        /// <returns>True if the list is used, false otherwise</returns>
+        bool DistributionListAssignedToCampaign(IDistributionList distributionList);
     }
 }
