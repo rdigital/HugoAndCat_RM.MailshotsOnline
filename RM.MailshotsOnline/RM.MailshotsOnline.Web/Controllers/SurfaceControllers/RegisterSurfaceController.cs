@@ -52,9 +52,6 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             model.ViewModel = new RegisterViewModel();
 
-            model.IsStage1Valid = IsStage1Valid();
-            model.IsStage3Valid = IsStage3Valid();
-
             return PartialView("~/Views/Register/Partials/ShowRegisterForm.cshtml", model);
         }
 
@@ -201,7 +198,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 "PasswordError"
             };
 
-            return !ViewData.ModelState.Keys.Intersect(keysToCheck).Any();
+            return keysToCheck.Any(x => ModelState.IsValidField(x));
         }
 
         private bool IsStage3Valid()
@@ -223,7 +220,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 "ViewModel.IsRecaptchaValidated"
             };
 
-            return !ViewData.ModelState.Keys.Intersect(keysToCheck).Any();
+            return keysToCheck.Any(x => ModelState.IsValidField(x));
         }
     }
 }

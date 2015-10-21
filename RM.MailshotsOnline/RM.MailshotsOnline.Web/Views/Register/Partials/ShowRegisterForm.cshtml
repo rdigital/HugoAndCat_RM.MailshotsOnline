@@ -2,6 +2,49 @@
 
 @model RM.MailshotsOnline.Entities.PageModels.Register
 
+@{
+    var stage1Keys = new[]
+    {
+        "ViewModel.Email",
+        "ViewModel.ConfirmEmail",
+        "ViewModel.FirstName",
+        "ViewModel.LastName",
+        "ViewModel.Title",
+        "ViewModel.Password",
+        "ViewModel.ConfirmPassword",
+        "ViewModel.AgreeToTermsAndConditions",
+        "PasswordError"
+    };
+
+    var stage3Keys = new[]
+    {
+        "ViewModel.OrganisationDetailsViewModel.OrganisationName",
+        "ViewModel.OrganisationDetailsViewModel.JobTitle",
+        "ViewModel.OrganisationDetailsViewModel.FlatNumber",
+        "ViewModel.OrganisationDetailsViewModel.BuildingNumber",
+        "ViewModel.OrganisationDetailsViewModel.BuildingName",
+        "ViewModel.OrganisationDetailsViewModel.Address1",
+        "ViewModel.OrganisationDetailsViewModel.Address2",
+        "ViewModel.OrganisationDetailsViewModel.City",
+        "ViewModel.OrganisationDetailsViewModel.Postcode",
+        "ViewModel.OrganisationDetailsViewModel.Country",
+        "ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber",
+        "ViewModel.OrganisationDetailsViewModel.Country",
+        "ViewModel.IsRecaptchaValidated"
+    };
+
+    var isStage1Valid = AreKeysValid(stage1Keys);
+    var isStage3Valid = AreKeysValid(stage3Keys);
+}
+
+@functions{
+
+    bool AreKeysValid(string[] keys)
+    {
+        return keys.Any(x => !ViewData.ModelState.IsValidField(x));
+    }
+}
+
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
 @using (Html.BeginUmbracoForm("RegisterForm", "RegisterSurface", null, new Dictionary<string, object> { { "class" , "register__form" } })) {
@@ -14,7 +57,7 @@
                 <div class="required-field">@Html.DisplayFor(m => m.RequiredFieldsLabel)</div>
             </div>
 
-            @if (!Model.IsStage1Valid)
+            @if (!isStage1Valid)
             {
                 <div class="form-row validation-messages">
                     @Html.ValidationMessage("ViewModel.Email", new Dictionary<string, object> {{"validation-field-id", "ViewModel_Email"}})
@@ -163,7 +206,7 @@
                 <div class="required-field">@Html.DisplayFor(m => m.RequiredFieldsLabel)</div>
             </div>
 
-            @if (!Model.IsStage3Valid)
+            @if (!isStage3Valid)
             {
                 <div class="form-row validation-messages">
                     @Html.ValidationMessage("ViewModel.OrganisationDetailsViewModel.OrganisationName", new Dictionary<string, object> {{"validation-field-id", "ViewModel_OrganisationDetailsViewModel_OrganisationName"}})
