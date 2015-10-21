@@ -272,15 +272,17 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             // Send Email to Royal Mail for approval
             var baseUrl = string.Format("{0}://{1}:{2}", ConfigHelper.HostedScheme, ConfigHelper.HostedDomain, ConfigHelper.HostedPort);
             var approvalUrl = string.Format("{0}/moderation?moderationId={1}&action=approve", baseUrl, campaign.ModerationId);
-            var rejectUrl = string.Format("{0}/moderation?moderationId={1}&action=approve", baseUrl, campaign.ModerationId);
+            var rejectUrl = string.Format("{0}/moderation?moderationId={1}&action=reject", baseUrl, campaign.ModerationId);
             var recipients = new List<string>() { ConfigHelper.RoyalMailApprovalEmailAddress };
             var sender = new System.Net.Mail.MailAddress(ConfigHelper.SystemEmailAddress);
+            var owner = _membershipService.GetMemberById(campaign.UserId);
             _emailService.SendEmail(
                 recipients,
                 "A new MailshotsOnline campaign needs approval",
-                $@"<p>Proof PDF: {mailshot.ProofPdfUrl}</p>
-<p>Approve: {approvalUrl}</p>
-<p>Reject: {rejectUrl}</p>",
+                $@"<p>Campaign Name: <strong>{campaign.Name}</strong><br />
+Campaign submitted by: <strong>{owner.EmailAddress}</strong></p>
+<p>You can <strong><a href=""{mailshot.ProofPdfUrl}"">Download the design here.</a></strong></p>
+<p><strong><a href=""{approvalUrl}"">Click here to approve the design</a></strong> or if there are problems, <a href=""{rejectUrl}"">click here to reject it</a>.</p>",
                 System.Net.Mail.MailPriority.Normal,
                 sender
                 );

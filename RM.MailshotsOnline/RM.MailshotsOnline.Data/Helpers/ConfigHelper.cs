@@ -122,6 +122,11 @@ namespace RM.MailshotsOnline.Data.Helpers
             get { return GetConfigValue("SaveMailshotInfoForDebug", false); }
         }
 
+        public static bool SendTestModerationEmails
+        {
+            get { return GetConfigValue("SendTestModerationEmails", false); }
+        }
+
         public static string SettingsFolderContentTypeAlias
         {
             get { return GetConfigValue("SettingsFolderContentTypeAlias", "SettingsFolder"); }
