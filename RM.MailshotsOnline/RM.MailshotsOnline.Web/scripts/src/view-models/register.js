@@ -94,8 +94,8 @@ define([
                         message: 'You must agree to the Terms and Conditions'
                     }
                 });
-                this.stage1.royalMailMailAgreement = ko.observable();
-                this.stage1.thirdPartyMailAgreement = ko.observable();
+                this.stage1.AgreeToRoyalMailContact = ko.observable();
+                this.stage1.AgreeToThirdPartyContact = ko.observable();
 
                 this.stage1Errors = koValidation.group(this.stage1, {deep: true});
                 this.stage1Errors.showAllMessages(false);
