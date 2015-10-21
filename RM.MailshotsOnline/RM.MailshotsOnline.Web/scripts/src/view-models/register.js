@@ -44,10 +44,6 @@ define([
 
             this.stage1Init = function() {
                 var _this = this;
-                $('.register-stage select').select2();
-                // $('.register-stage select').on('change', function() {
-                //     console.log(arguments,$(this).find('option:selected'));
-                // });
                 
                 this.stage1.Title = ko.observable("").extend({ 
                     required: {
@@ -103,6 +99,9 @@ define([
 
                 this.stage1Errors = koValidation.group(this.stage1, {deep: true});
                 this.stage1Errors.showAllMessages(false);
+
+                // Make the selects pretty
+                $('.register-stage select').select2();
             };
 
             this.stage3Init = function() {
