@@ -28,7 +28,7 @@ define([],
                         }
                     ]
                 },*/
-                {
+                /*{
                     id: 4,
                     name: 'A4 Letter',
                     faces: [
@@ -40,8 +40,8 @@ define([],
                             default_face: true
                         }
                     ]
-                },
-                /*{
+                },*/
+                {
                     id: 3,
                     name: 'Self Mailer',
                     faces: [
@@ -65,7 +65,7 @@ define([],
                             height: 1184
                         }
                     ]
-                }*/
+                }
             ]
 
             this.templateData = [
@@ -81,6 +81,8 @@ define([],
                             face:"Front",
                             type:"logo",
                             theme_class:"logo",
+                            title: "Company Logo",
+                            message: "<ul><li>Make sure it stands out against the background</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -109,6 +111,8 @@ define([],
                             face:"Front",
                             type:"image",
                             theme_class:"hero",
+                            title: "Hero Image",
+                            message: "<ul><li>Catch the eye of the reader</li><li>Work in conjunction and support your headline</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -137,6 +141,8 @@ define([],
                             face:"Front",
                             type:"html",
                             theme_class:"headline_1",
+                            title: "Headline",
+                            message: "<ul><li>Say what the product, service or purpose is, or the problem it solves</li><li>Be clear, bold and keep it short as possible - don’t be too clever</li><li>Try personalising by including the reader’s name</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -165,6 +171,8 @@ define([],
                             face:"Front",
                             type:"html",
                             theme_class:"subline_1",
+                            title: "Subline",
+                            message: "<ul><li>Introduce more detail about your product, service or offer</li><li>Further the message of your headline</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -193,6 +201,8 @@ define([],
                             face:"Front",
                             type:"html",
                             theme_class:"cta",
+                            title: "Call to Action",
+                            message: "<ul><li>Tell the customer what you would like them to do (e.g. Call now)</li><li>Include your primary contact details for them to get in touch</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -221,6 +231,8 @@ define([],
                             face:"Front",
                             type:"roundel",
                             theme_class:"roundel",
+                            title: "Highlight",
+                            message: "<ul><li>Highlight an offer (e.g. 20% off, see inside) or an action (e.g. call now)</li><li>Consider adding a time limit (offer ends July) to increase urgency of a response</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -246,14 +258,15 @@ define([],
                                     property:"z-index",
                                     value:"110"
                                 }
-                            ],
-                            message:"Write about an offer here."
+                            ]
                         },
                         {
                             name:"back_logo",
                             face:"Back",
                             type:"logo",
                             theme_class:"logo",
+                            title: "Company Logo",
+                            message: "<ul><li>Make sure it stands out against the background</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -282,6 +295,8 @@ define([],
                             face:"Back",
                             type:"html",
                             theme_class:"headline_2",
+                            title: "Headline",
+                            message: "<ul><li>Continues the communication that your front started</li><li>Lead into main body of text</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -310,6 +325,8 @@ define([],
                             face:"Back",
                             type:"html",
                             theme_class:"body_2",
+                            title: "Body",
+                            message: "<ul><li>Use short sentences, simple words and an active tone of voice</li><li>Use paragraph headings, bold and bullet points so it's easily scannable</li><li>Fill with customer-focused benefits and persuasive language</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -338,6 +355,8 @@ define([],
                             face:"Back",
                             type:"html",
                             theme_class:"cta",
+                            title: "Call to Action",
+                            message: "<ul><li>Tell the customer what you would like them to do (e.g. Call now)</li><li>Include your primary contact details for them to get in touch</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -366,6 +385,8 @@ define([],
                             face:"Back",
                             type:"html",
                             theme_class:"body_2",
+                            title: "Contact Details",
+                            message: "<ul><li>Include the places you would like to be found </li><li>Physical addresses and websites can add a layer of trust</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -2050,7 +2071,7 @@ define([],
                 }*/
 
                 // self mailer templates
-                /*{
+                {
                     id:9,
                     format_id:3,
                     name:"Self Mailer Template 1",
@@ -5719,10 +5740,10 @@ define([],
                             ]
                         }
                     ]
-                }*/
+                }
 
                 // letter templates
-                {
+                /*{
                     id:14,
                     format_id:4,
                     name:"Letter Template 1",
@@ -5732,6 +5753,8 @@ define([],
                             face:"Letter",
                             type:"logo",
                             theme_class:"logo",
+                            title: "Company Logo",
+                            message: "<ul><li>Make sure it stands out against the background</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -5788,6 +5811,8 @@ define([],
                             face:"Letter",
                             type:"html",
                             theme_class:"headline_2",
+                            title: "Headline",
+                            message: "<ul><li>Say what the product, service or purpose is, or the problem it solves</li><li>Be clear, bold and keep it short as possible - don’t be too clever</li><li>Try personalising by including the reader’s name</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -5816,6 +5841,8 @@ define([],
                             face:"Letter",
                             type:"html",
                             theme_class:"body_2",
+                            title: "Body",
+                            message: "<ul><li>Use short sentences, simple words and an active tone of voice</li><li>Use paragraph headings, bold and bullet points so it's easily scannable</li><li>Fill with customer-focused benefits and persuasive language</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -5872,6 +5899,8 @@ define([],
                             face:"Letter",
                             type:"html",
                             theme_class:"cta",
+                            title: "Call to Action",
+                            message: "<ul><li>Tell the customer what you would like them to do (e.g. Call now)</li><li>Include your primary contact details for them to get in touch</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -6540,7 +6569,7 @@ define([],
                             ]
                         },
                     ]
-                }
+                }*/
             ]
 
             this.themeData = [

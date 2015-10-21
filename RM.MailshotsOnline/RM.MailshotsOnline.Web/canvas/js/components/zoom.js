@@ -5,6 +5,7 @@ define(['knockout', 'jquery', 'view_models/state'],
         // ViewModel
         function zoomComponentViewModel() {
             this.zoom = stateViewModel.zoom;
+            this.zoomAvailable = ko.observable(false);
             this.overrideZoom = stateViewModel.overrideZoom;
             this.fitToWidth = stateViewModel.fitToWidth;
             this.scaleElement = stateViewModel.scaleElement;
@@ -61,6 +62,8 @@ define(['knockout', 'jquery', 'view_models/state'],
             var width_factor = (Math.floor((window_width / stateViewModel.viewingFace().width)*16))/16,
                 height_factor = (Math.floor((window_height / stateViewModel.viewingFace().height)*16))/16;
             
+            this.zoomAvailable(width_factor > height_factor);
+
             if (this.fitToWidth()) {
                 this.zoom(width_factor);
             } else {

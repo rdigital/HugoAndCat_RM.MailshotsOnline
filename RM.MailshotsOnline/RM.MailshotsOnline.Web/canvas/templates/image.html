@@ -1,3 +1,8 @@
-<div class="editable" data-bind="css: {'editable_active': isSelected}, event: { mousedown: select }, template: { afterRender: setup }">
+<div class="editable" data-bind="element: element, css: {'editable_active': isSelected}, event: { mousedown: select }, template: { afterRender: setup }">
+	<!-- ko if: imageSmall -->
+	<div class="image-warning icon-alert">
+		<div class="image-warning-message"><i class="fa fa-caret-left"></i>At this zoom level this image may not print well. Try a higher resolution image or reduce the zoom if possible.</div>
+	</div>
+	<!-- /ko -->
 	<canvas data-bind="element: canvas, style: getDimensions(), attr: getScaledDimensions(), css: {'canvas-empty': isEmpty}, event: { mousedown: dragStart, mousemove: dragMove, mouseup: dragEnd, mouseleave: dragEnd}"></canvas>
 </div>

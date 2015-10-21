@@ -10,6 +10,7 @@ define(['knockout', 'view_models/format', 'view_models/theme', 'view_models/user
             this.scale = ko.observable();
             this.ms_scale = ko.observable();
             this.top = ko.observable(0);
+            this.translate = ko.observable('translate(0, 0)');
             this.name_top = ko.observable(0);
             this.container_width = ko.observable(2000);
             this.doScale();
@@ -35,9 +36,17 @@ define(['knockout', 'view_models/format', 'view_models/theme', 'view_models/user
                 height = 200,
                 width = 220,
                 full_width = 280,
-                scale = Math.min((width / el_width), (height / el_height));
+                width_scale = width / el_width,
+                height_scale = height / el_height
+                scale = Math.min(width_scale, height_scale);
             this.scale('scale(' + scale + ')');
             this.ms_scale('scale(' + scale + ', ' + scale + ')');
+
+            if (height_scale < width_scale) {
+                //center align the scaled preview
+                var adjusted_width = height_scale * el_width;
+                this.translate('translate(' + ((width - adjusted_width) / 2) + 'px, 0)');
+            }
 
             var adjusted_height = scale * el_height;
             this.top(((height - adjusted_height) / 2) + 20);
