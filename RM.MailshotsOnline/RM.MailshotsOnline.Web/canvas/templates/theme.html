@@ -4,7 +4,7 @@
 		<!-- ko foreach: themes -->
 		<div class="theme-page">
 			<div class="theme-container" data-bind="click: $parent.selectTheme">
-				<side-component class="side" params="{side: 'front', override_theme: $data, show_default: true}" data-bind="style: {'transform': $parent.scale, '-ms-transform': $parent.ms_scale, 'top': $parent.top() + 'px'}"></side-component>
+				<side-component class="side" params="{side: 'front', override_theme: $data, show_default: true}" data-bind="style: {'transform': $parent.translate() + ' ' +$parent.scale(), '-ms-transform': $parent.translate() + ' ' +$parent.ms_scale(), 'top': $parent.top() + 'px'}"></side-component>
 				<div class="theme-name" data-bind="text: name, style: {top: $parent.name_top() + 'px'}"></div>
 			</div>
 		</div>
