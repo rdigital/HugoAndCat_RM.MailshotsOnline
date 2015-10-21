@@ -83,7 +83,7 @@
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.Title, Model.TitleLabel)
                 <div class="input-wrapper">
-                    @Html.DropDownListFor(m => m.ViewModel.Title, new SelectList(Model.TitleOptions, "Key", "Value", Model.ViewModel.Title), new { data_bind = "value: stage1.Title" })
+                    @Html.DropDownListFor(m => m.ViewModel.Title, new SelectList(Model.TitleOptions, "Key", "Value", Model.ViewModel.Title), new { data_bind = "value: stage1.Title, initializeValue: {value: stage1.Title, serverValidationErrors: serverSideValidationErrors }, select2: { placeholder: 'Select a Title' }" })
                 </div>
             </div>
 
@@ -91,14 +91,14 @@
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.FirstName, Model.FirstNameLabel)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.FirstName, new { data_bind = "value: stage1.FirstName, validationElement: stage1.FirstName" })
+                    @Html.TextBoxFor(m => m.ViewModel.FirstName, new { data_bind = "value: stage1.FirstName, initializeValue: {value: stage1.FirstName, serverValidationErrors: serverSideValidationErrors }" })
                 </div>
             </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.LastName, Model.LastNameLabel)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.LastName, new { data_bind = "value: stage1.LastName" })
+                    @Html.TextBoxFor(m => m.ViewModel.LastName, new { data_bind = "value: stage1.LastName, initializeValue: {value: stage1.LastName, serverValidationErrors: serverSideValidationErrors }" })
                 </div>
             </div>
 
@@ -106,7 +106,7 @@
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.Email, Model.EmailLabel)
                 <div class="input-wrapper" >
-                    @Html.TextBoxFor(m => m.ViewModel.Email, new { data_bind = "value: stage1.Email" })
+                    @Html.TextBoxFor(m => m.ViewModel.Email, new { data_bind = "value: stage1.Email, initializeValue: {value: stage1.Email, serverValidationErrors: serverSideValidationErrors }" })
                 </div>
             </div>
 
@@ -114,7 +114,7 @@
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.ConfirmEmail, Model.ConfirmEmailLabel)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.ConfirmEmail, new { data_bind = "value: stage1.ConfirmEmail" })
+                    @Html.TextBoxFor(m => m.ViewModel.ConfirmEmail, new { data_bind = "value: stage1.ConfirmEmail, initializeValue: {value: stage1.ConfirmEmail, serverValidationErrors: serverSideValidationErrors }" })
                 </div>
             </div>
 
@@ -237,84 +237,84 @@
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.OrganisationName, Model.OrganisationNameLabel)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.OrganisationName, new { data_bind = "value: stage3.OrganisationName" })
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.OrganisationName, new { data_bind = "value: stage3.OrganisationName, initializeValue: { value: stage3.OrganisationName, serverValidationErrors: serverSideValidationErrors }" })
                 </div>
             </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.JobTitle, Model.JobTitleLabel)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.JobTitle, new { data_bind = "value: stage3.JobTitle" })
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.JobTitle, new { data_bind = "value: stage3.JobTitle, initializeValue: { value: stage3.JobTitle, serverValidationErrors: serverSideValidationErrors }" })
                 </div>
             </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.FlatNumber, Model.FlatNumberLabel)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.FlatNumber, new { data_bind = "value: stage3.FlatNumber" })
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.FlatNumber, new { data_bind = "value: stage3.FlatNumber, initializeValue: { value: stage3.FlatNumber, serverValidationErrors: serverSideValidationErrors }" })
                 </div>
             </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingNumber, Model.BuildingNumberLabel)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingNumber, new { data_bind = "value: stage3.BuildingNumber" })
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingNumber, new { data_bind = "value: stage3.BuildingNumber, initializeValue: { value: stage3.BuildingNumber, serverValidationErrors: serverSideValidationErrors }" })
                 </div>
             </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingName, Model.BuildingNameLabel)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingName, new { data_bind = "value: stage3.BuildingName" })
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingName, new { data_bind = "value: stage3.BuildingName, initializeValue: { value: stage3.BuildingName, serverValidationErrors: serverSideValidationErrors }" })
                 </div>
             </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Address1, Model.Address1Label)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Address1, new { data_bind = "value: stage3.Address1" })
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Address1, new { data_bind = "value: stage3.Address1, initializeValue: { value: stage3.Address1, serverValidationErrors: serverSideValidationErrors }" })
                 </div>
             </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Address2, Model.Address2Label)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Address2, new { data_bind = "value: stage3.Address2" })
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Address2, new { data_bind = "value: stage3.Address2, initializeValue: { value: stage3.Address2, serverValidationErrors: serverSideValidationErrors }" })
                 </div>
             </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.City, Model.CityLabel)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.City, new { data_bind = "value: stage3.City" })
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.City, new { data_bind = "value: stage3.City, initializeValue: { value: stage3.City, serverValidationErrors: serverSideValidationErrors }" })
                 </div>
             </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode, Model.PostcodeLabel)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode, new { data_bind = "value: stage2.Postcode" })
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode, new { data_bind = "value: stage3.Postcode, initializeValue: { value: stage3.Postcode, serverValidationErrors: serverSideValidationErrors }" })
                 </div>
             </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Country, Model.CountryLabel)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Country, new { data_bind = "value: stage3.Country" })
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Country, new { data_bind = "value: stage3.Country, initializeValue: { value: stage3.Country, serverValidationErrors: serverSideValidationErrors }" })
                 </div>
             </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber, Model.WorkPhoneNumberLabel)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber, new { data_bind = "value: stage3.WorkPhoneNumber" })
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber, new { data_bind = "value: stage3.WorkPhoneNumber, initializeValue: { value: stage3.WorkPhoneNumber, serverValidationErrors: serverSideValidationErrors }" })
                 </div>
             </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.MobilePhoneNumber, Model.MobilePhoneNumberLabel)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.MobilePhoneNumber, new { data_bind = "value: stage3.MobilePhoneNumber" })
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.MobilePhoneNumber, new { data_bind = "value: stage3.MobilePhoneNumber, initializeValue: { value: stage3.MobilePhoneNumber, serverValidationErrors: serverSideValidationErrors }" })
                 </div>
             </div>
 

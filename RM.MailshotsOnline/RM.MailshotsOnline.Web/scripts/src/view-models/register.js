@@ -3,6 +3,9 @@ define([
         'jquery',
         'koValidation',
         'koMapping',
+        'koaresame',
+        'koselect2',
+        'koinitializevalue',
         'select2'
     ],
 
@@ -17,6 +20,7 @@ define([
             this.stages = [this.stage1, this.stage2, this.stage3];
             this.currentStage = ko.observable(this.stages[0]);
             this.addressNow = {};
+            this.serverSideValidationErrors = false;
 
             this.setCurrentStage = function(i) {
                 return this.currentStage() === this.stages[i] ? 'current-stage' : '';
@@ -24,15 +28,16 @@ define([
     
             this.init = function() {
                 var _this = this;
-                // hide the sections
-                this.stage1Init();
-                this.stage3Init();
 
                 // check for server-side validation
                 if ($('.validation-messages').length > 0) {
+                    this.serverSideValidationErrors = true;
                     var parentIndex = $('.validation-messages').first().parents('.register-stage').index();
                     this.currentStage(this.stages[parentIndex]);
                 }
+
+                this.stage1Init();
+                this.stage3Init();
 
                 // listen for updates to dom from Address now
                 addressNow.listen('populate', function() {
@@ -44,7 +49,7 @@ define([
 
             this.stage1Init = function() {
                 var _this = this;
-                
+                window.stage1 = this.stage1;
                 this.stage1.Title = ko.observable("").extend({ 
                     required: {
                         message: 'Please select a Title'
@@ -99,9 +104,6 @@ define([
 
                 this.stage1Errors = koValidation.group(this.stage1, {deep: true});
                 this.stage1Errors.showAllMessages(false);
-
-                // Make the selects pretty
-                $('.register-stage select').select2();
             };
 
             this.stage3Init = function() {
@@ -115,6 +117,7 @@ define([
                                 Address2: null,
                                 City: null,
                                 Country: null,
+                                Postcode: null,
                                 WorkPhoneNumber: null,
                                 MobilePhoneNumber: null
                             });

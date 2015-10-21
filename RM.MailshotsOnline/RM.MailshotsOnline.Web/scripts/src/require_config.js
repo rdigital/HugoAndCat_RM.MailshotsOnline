@@ -14,6 +14,8 @@ require.config(
         kofile: 'custom-bindings/ko-file',
         koattrif: 'custom-bindings/ko-attrif',
         kostopbinding: 'custom-bindings/ko-stopbinding',
+        koselect2: 'custom-bindings/ko-select2',
+        koinitializevalue: 'custom-bindings/ko-initializevalue',
         koaresame: 'custom-validation/ko-aresame',
         templates: "src/templates/"
     }

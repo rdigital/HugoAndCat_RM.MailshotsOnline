@@ -13,6 +13,7 @@ require([
 		'components/notification',
 		'view-models/login',
 		'kostopbinding',
+		'koselect2',
         'koaresame'
 	],
 	function(
@@ -57,6 +58,7 @@ require([
 
 		if ($('.register').length > 0) {
 			require(['view-models/register'],function(registerView) {
+				console.log('before binding');
 				ko.applyBindings(registerView, $('.register')[0]);
 			});
 		}
