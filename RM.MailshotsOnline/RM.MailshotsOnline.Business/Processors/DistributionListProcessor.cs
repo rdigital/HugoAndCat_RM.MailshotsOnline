@@ -145,6 +145,9 @@ namespace RM.MailshotsOnline.Business.Processors
             var duplicateContacts = new List<T>();
             var errorContacts = new List<T>();
 
+            bool splitAddressField = !(mappings.Contains("FlatId") || mappings.Contains("HouseName") ||
+                                 mappings.Contains("HouseNumber"));
+
             // Build CSV Map
             var contactMap = new DefaultCsvClassMap<T>();
 
@@ -180,6 +183,20 @@ namespace RM.MailshotsOnline.Business.Processors
                             if (contact != null)
                             {
                                 contact.ContactId = Guid.NewGuid();
+
+                                if (splitAddressField)
+                                {
+                                    var splitAddress = contact.Address1.Split(" ".ToCharArray(), 2,
+                                                                              StringSplitOptions.RemoveEmptyEntries);
+
+                                    contact.HouseNumber = splitAddress[0];
+
+                                    if (splitAddress.Length == 2)
+                                    {
+                                        contact.Address1 = splitAddress[1];
+                                    }
+                                }
+
                                 ICollection<ValidationResult> results;
                                 bool isValid = contact.TryValidate(out results);
 
