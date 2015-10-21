@@ -1936,8 +1936,6 @@ define([],
                             face:"Front",
                             type:"image",
                             theme_class:"hero",
-                            title: "Hero Image",
-                            message: "<ul><li>Catch the eye of the reader</li><li>Work in conjunction and support your headline</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -2143,6 +2141,8 @@ define([],
                             face:"Inside",
                             type:"image",
                             theme_class:"hero",
+                            title: "Image",
+                            message: "<ul><li>Help show your product / service in the best possible light</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -2227,6 +2227,8 @@ define([],
                             face:"Inside",
                             type:"html",
                             theme_class:"headline_1",
+                            title: "Headline",
+                            message: "<ul><li>Say what the product, service or purpose is - or the problem it solves</li><li>Be clear, bold and keep it short as possible</li><li>Don't try to be too clever or make the reader think too much</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -2255,6 +2257,8 @@ define([],
                             face:"Inside",
                             type:"html",
                             theme_class:"subline_1",
+                            title: "Subline",
+                            message: "<ul><li>Continue communication that your headline started</li><li>Lead into main body of text</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -2283,6 +2287,8 @@ define([],
                             face:"Inside",
                             type:"html",
                             theme_class:"body_1",
+                            title: "Body",
+                            message: "<ul><li>Use short sentences, simple words and an active tone of voice</li><li>Use paragraph headings, bold and bullet points so it's easily scannable</li><li>Fill with customer benefits and persuasive language</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -2311,6 +2317,8 @@ define([],
                             face:"Inside",
                             type:"html",
                             theme_class:"cta",
+                            title: "Call to Action",
+                            message: "<ul><li>Include your main contact details for them to get in touch</li><li>Remind the customer what you would like them to do (e.g. Call now)</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -2339,6 +2347,8 @@ define([],
                             face:"Inside",
                             type:"html",
                             theme_class:"body_1",
+                            title: "Contact Details",
+                            message: "<ul><li>Include your main contact details for them to get in touch</li><li>Remind the customer what you would like them to do (e.g. Call now)</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -3260,6 +3270,8 @@ define([],
                             face:"Inside",
                             type:"html",
                             theme_class:"headline_1",
+                            title: "Headline",
+                            message: "<ul><li>Say what the product, service or purpose is - or the problem it solves</li><li>Be clear, bold and keep it short as possible</li><li>Don't try to be too clever or make the reader think too much</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -3288,6 +3300,8 @@ define([],
                             face:"Inside",
                             type:"html",
                             theme_class:"subline_1",
+                            title: "Subline",
+                            message: "<ul><li>Continue communication that your headline started</li><li>Lead into main body of text</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -3316,6 +3330,8 @@ define([],
                             face:"Inside",
                             type:"html",
                             theme_class:"body_1",
+                            title: "Body",
+                            message: "<ul><li>Use short sentences, simple words and an active tone of voice</li><li>Use paragraph headings, bold and bullet points so it's easily scannable</li><li>Fill with customer benefits and persuasive language</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -3344,6 +3360,8 @@ define([],
                             face:"Inside",
                             type:"html",
                             theme_class:"cta",
+                            title: "Call to Action",
+                            message: "<ul><li>Include your main contact details for them to get in touch</li><li>Remind the customer what you would like them to do (e.g. Call now)</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -3372,6 +3390,8 @@ define([],
                             face:"Inside",
                             type:"html",
                             theme_class:"body_1",
+                            title: "Contact Details",
+                            message: "<ul><li>Include your main contact details for them to get in touch</li><li>Remind the customer what you would like them to do (e.g. Call now)</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -3957,6 +3977,8 @@ define([],
                             face:"Inside",
                             type:"image",
                             theme_class:"hero",
+                            title: "Image",
+                            message: "<ul><li>Help show your product / service in the best possible light</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -4153,6 +4175,8 @@ define([],
                             face:"Inside",
                             type:"html",
                             theme_class:"headline_1",
+                            title: "Headline",
+                            message: "<ul><li>Say what the product, service or purpose is - or the problem it solves</li><li>Be clear, bold and keep it short as possible</li><li>Don't try to be too clever or make the reader think too much</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -4181,6 +4205,8 @@ define([],
                             face:"Inside",
                             type:"html",
                             theme_class:"body_1",
+                            title: "Body",
+                            message: "<ul><li>Use short sentences, simple words and an active tone of voice</li><li>Use paragraph headings, bold and bullet points so it's easily scannable</li><li>Fill with customer benefits and persuasive language</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -4209,6 +4235,8 @@ define([],
                             face:"Inside",
                             type:"html",
                             theme_class:"cta",
+                            title: "Call to Action",
+                            message: "<ul><li>Include your main contact details for them to get in touch</li><li>Remind the customer what you would like them to do (e.g. Call now)</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -4237,6 +4265,8 @@ define([],
                             face:"Inside",
                             type:"html",
                             theme_class:"body_1",
+                            title: "Contact Details",
+                            message: "<ul><li>Include your main contact details for them to get in touch</li><li>Remind the customer what you would like them to do (e.g. Call now)</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -4990,6 +5020,8 @@ define([],
                             face:"Inside",
                             type:"html",
                             theme_class:"headline_1",
+                            title: "Headline",
+                            message: "<ul><li>Say what the product, service or purpose is - or the problem it solves</li><li>Be clear, bold and keep it short as possible</li><li>Don't try to be too clever or make the reader think too much</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -5018,6 +5050,8 @@ define([],
                             face:"Inside",
                             type:"html",
                             theme_class:"subline_1",
+                            title: "Subline",
+                            message: "<ul><li>Continue communication that your headline started</li><li>Lead into main body of text</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -5046,6 +5080,8 @@ define([],
                             face:"Inside",
                             type:"html",
                             theme_class:"body_1",
+                            title: "Body",
+                            message: "<ul><li>Use short sentences, simple words and an active tone of voice</li><li>Use paragraph headings, bold and bullet points so it's easily scannable</li><li>Fill with customer benefits and persuasive language</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -5074,6 +5110,8 @@ define([],
                             face:"Inside",
                             type:"html",
                             theme_class:"cta",
+                            title: "Call to Action",
+                            message: "<ul><li>Include your main contact details for them to get in touch</li><li>Remind the customer what you would like them to do (e.g. Call now)</li></ul>",
                             layout:[
                                 {
                                     property:"position",
@@ -5102,6 +5140,8 @@ define([],
                             face:"Inside",
                             type:"html",
                             theme_class:"body_1",
+                            title: "Contact Details",
+                            message: "<ul><li>Include your main contact details for them to get in touch</li><li>Remind the customer what you would like them to do (e.g. Call now)</li></ul>",
                             layout:[
                                 {
                                     property:"position",
