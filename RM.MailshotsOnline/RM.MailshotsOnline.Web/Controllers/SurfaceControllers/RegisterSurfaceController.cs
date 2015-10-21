@@ -129,7 +129,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
             var recipients = new List<string>() { model.ViewModel.Email };
             var sender = new System.Net.Mail.MailAddress(ConfigHelper.SystemEmailAddress);
-            _emailService.SendEmail(
+            _emailService.SendEmailAsync(
                 recipients,
                 "Welcome to the Royal Mail Business Portal",
                 pageModel.RegisterCompleteEmail.ToString()
@@ -143,6 +143,8 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
         public ActionResult Complete(Register model)
         {
+            TempData[CompletedFlag] = true;
+
             return PartialView("~/Views/Register/Partials/RegisterComplete.cshtml", model);
         }
 
