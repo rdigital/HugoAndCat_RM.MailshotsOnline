@@ -190,6 +190,7 @@ namespace RM.MailshotsOnline.Data.Services
         /// <returns></returns>
         public IMailshot SaveMailshot(IMailshot mailshot)
         {
+            bool blobSaved = false;
             if (mailshot.MailshotId != Guid.Empty)
             {
                 if (!string.IsNullOrEmpty(mailshot.ContentText))
@@ -202,12 +203,13 @@ namespace RM.MailshotsOnline.Data.Services
                     }
 
                     mailshot.ContentBlobId = _blobService.Store(Encoding.UTF8.GetBytes(mailshot.ContentText), blobId, "text/plain");
+                    blobSaved = true;
                 }
             }
 
             var savedMailshot = PerformSave(mailshot);
 
-            if (mailshot.MailshotId == Guid.Empty && !string.IsNullOrEmpty(mailshot.ContentText))
+            if (!blobSaved && !string.IsNullOrEmpty(mailshot.ContentText))
             {
                 // Save blob
                 string blobId = mailshot.ContentBlobId;
@@ -217,9 +219,10 @@ namespace RM.MailshotsOnline.Data.Services
                 }
 
                 savedMailshot.ContentBlobId = _blobService.Store(Encoding.UTF8.GetBytes(mailshot.ContentText), blobId, "text/plain");
+                _context.SaveChanges();
             }
 
-            return PerformSave(savedMailshot);
+            return savedMailshot;
         }
 
         private IMailshot PerformSave(IMailshot mailshot)
@@ -277,7 +280,11 @@ namespace RM.MailshotsOnline.Data.Services
 
             // Remove the mailshot
             _context.Mailshots.Remove((Mailshot)mailshot);
-            _context.MailshotContents.Remove(contentEntity);
+            if (contentEntity != null)
+            {
+                _context.MailshotContents.Remove(contentEntity);
+            }
+
             _context.SaveChanges();
 
             return true;
