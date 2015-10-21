@@ -95,6 +95,16 @@ namespace RM.MailshotsOnline.Data.Services
             _context.SaveChanges();
         }
 
+        /// <summary>
+        /// Checks if a distribution list is assigned to any campaigns
+        /// </summary>
+        /// <param name="distributionList">The distribution list to check</param>
+        /// <returns>True if the list is used, false otherwise</returns>
+        public bool DistributionListAssignedToCampaign(IDistributionList distributionList)
+        {
+            return _context.CampaignDistributionLists.Any(cdl => cdl.DistributionListId == distributionList.DistributionListId);
+        }
+
         private IDistributionList deleteBlob(IDistributionList distributionList, Enums.DistributionListFileType fileType)
         {
             var updatedList = distributionList;
