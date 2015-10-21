@@ -156,6 +156,22 @@
 		.library-image {
 			height: 180px;
 			padding-bottom: 40px;
+			position: relative;
+			&.library-image_deleting {
+				.library-image_spinner {
+					position: absolute;
+					top: 10px;
+					left: 10px;
+					right: 10px;
+					bottom: 10px;
+					background-image: url(/canvas/images/loading.gif);
+					background-position: 50% 50%;
+					background-repeat: no-repeat;
+				}
+				.library-image-inner {
+					opacity: 0.5;
+				}
+			}
 		}
 		.library-image-delete {
 			float: right;
@@ -165,6 +181,12 @@
 		    height: 23px;
 		    line-height: 24px;
 		    @include borderradius(50%);
+		    //&:hover {
+		    //	color: $blue;
+		    //}
+		    &.library-image-delete_disabled {
+		    	color: $light-grey;
+		    } 
 		}
 	}
 	.library-image {
