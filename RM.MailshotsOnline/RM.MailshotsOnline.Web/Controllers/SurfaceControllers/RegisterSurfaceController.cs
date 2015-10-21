@@ -11,11 +11,13 @@ using RM.MailshotsOnline.PCL.Services;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using System.Web.Security;
 using Umbraco.Web.Mvc;
 using RM.MailshotsOnline.Web.Extensions;
+using Glass.Mapper.Umb;
 
 namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 {
@@ -25,30 +27,45 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         private readonly IEmailService _emailService;
         private readonly ILogger _logger;
         private readonly ICryptographicService _cryptographicService;
+        private readonly IUmbracoService _umbracoService;
         private const string CompletedFlag = "RegistrationComplete";
 
-        public RegisterSurfaceController(IMembershipService membershipService, IEmailService emailService, ILogger logger, ICryptographicService cryptographicService)
+        public RegisterSurfaceController(IMembershipService membershipService, IEmailService emailService, ILogger logger, ICryptographicService cryptographicService, IUmbracoService umbracoService)
         {
             _membershipService = membershipService;
             _emailService = emailService;
             _logger = logger;
             _cryptographicService = cryptographicService;
+            _umbracoService = umbracoService;
         }
 
         [ChildActionOnly]
-        public ActionResult ShowRegisterForm(Register model)
+        public ActionResult ShowRegisterForm(Register model, RegisterViewModel viewModel = null)
         {
+            if (model == null)
+            {
+                model = _umbracoService.CreateType<Register>(_umbracoService.ContentService.GetPublishedVersion(UmbracoContext.PageId.Value), false, false);
+            }
+
             if (TempData[CompletedFlag] != null && (bool)TempData[CompletedFlag])
             {
                 return Complete(model);
             }
 
-            model.TitleOptions = Services.DataTypeService.GetPreValuesWithPlaceholder("Title Dropdown", "", "Please choose");
+            //model.TitleOptions = Services.DataTypeService.GetPreValuesWithPlaceholder("Title Dropdown", "", "Please choose");
+            model.TitleOptions = Services.DataTypeService.GetPreValues("Title Dropdown");
 
             var termsAndConditionsLink = string.Format("<a href=\"{0}\">{1}</a>", model.TermsAndConditionsPage.Url(), model.TermsAndConditionsLinkText);
             model.TermsAndConditionsLabelWithLink = string.Format(model.AgreeToTermsAndConditionsLabel, termsAndConditionsLink);
 
-            model.ViewModel = new RegisterViewModel();
+            if (viewModel != null)
+            {
+                model.ViewModel = viewModel;
+            }
+            else
+            {
+                model.ViewModel = new RegisterViewModel();
+            }
 
             return PartialView("~/Views/Register/Partials/ShowRegisterForm.cshtml", model);
         }
@@ -59,6 +76,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             if (!ModelState.IsValid)
             {
                 return CurrentUmbracoPage();
+                //return ShowRegisterForm(null, model.ViewModel);
             }
 
             dynamic pageModel = Umbraco.Content(UmbracoContext.PageId);
@@ -100,7 +118,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
 
                 Members.Login(newMember.Username, model.ViewModel.Password);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.Error(this.GetType().Name, "RegisterForm", "Registration succeeded but couldn't automatically log the new user in: {0}", ex.Message);
             }

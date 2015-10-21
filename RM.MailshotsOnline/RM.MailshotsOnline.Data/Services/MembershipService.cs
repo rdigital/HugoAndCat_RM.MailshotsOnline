@@ -74,8 +74,8 @@ namespace RM.MailshotsOnline.Data.Services
 
             umbracoMember = umbracoMember.UpdateValues(member);
 
-            _umbracoMemberService.Save(umbracoMember);
             _umbracoMemberService.SavePassword(umbracoMember, password);
+            _umbracoMemberService.Save(umbracoMember);
 
             member.Id = umbracoMember.Id;
 

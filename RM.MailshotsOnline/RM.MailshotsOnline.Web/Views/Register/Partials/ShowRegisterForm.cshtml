@@ -2,6 +2,57 @@
 
 @model RM.MailshotsOnline.Entities.PageModels.Register
 
+@{
+    var stage1Keys = new[]
+    {
+        "ViewModel.Email",
+        "ViewModel.ConfirmEmail",
+        "ViewModel.FirstName",
+        "ViewModel.LastName",
+        "ViewModel.Title",
+        "ViewModel.Password",
+        "ViewModel.ConfirmPassword",
+        "ViewModel.AgreeToTermsAndConditions",
+        "PasswordError"
+    };
+
+    var stage3Keys = new[]
+    {
+        "ViewModel.OrganisationDetailsViewModel.OrganisationName",
+        "ViewModel.OrganisationDetailsViewModel.JobTitle",
+        "ViewModel.OrganisationDetailsViewModel.FlatNumber",
+        "ViewModel.OrganisationDetailsViewModel.BuildingNumber",
+        "ViewModel.OrganisationDetailsViewModel.BuildingName",
+        "ViewModel.OrganisationDetailsViewModel.Address1",
+        "ViewModel.OrganisationDetailsViewModel.Address2",
+        "ViewModel.OrganisationDetailsViewModel.City",
+        "ViewModel.OrganisationDetailsViewModel.Postcode",
+        "ViewModel.OrganisationDetailsViewModel.Country",
+        "ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber",
+        "ViewModel.OrganisationDetailsViewModel.Country",
+        "ViewModel.IsRecaptchaValidated"
+    };
+
+    var isStage1Valid = AreKeysValid(stage1Keys);
+    var isStage3Valid = AreKeysValid(stage3Keys);
+}
+
+@functions{
+
+    bool AreKeysValid(string[] keys)
+    {
+        foreach (var key in keys)
+        {
+            if (!ViewData.ModelState.IsValidField(key))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
+
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
 @using (Html.BeginUmbracoForm("RegisterForm", "RegisterSurface", null, new Dictionary<string, object> { { "class" , "register__form" } })) {
@@ -14,7 +65,7 @@
                 <div class="required-field">@Html.DisplayFor(m => m.RequiredFieldsLabel)</div>
             </div>
 
-            @if (!ViewData.ModelState.IsValid)
+            @if (!isStage1Valid)
             {
                 <div class="form-row validation-messages">
                     @Html.ValidationMessage("ViewModel.Email", new Dictionary<string, object> {{"validation-field-id", "ViewModel_Email"}})
@@ -24,15 +75,15 @@
                     @Html.ValidationMessage("ViewModel.Title", new Dictionary<string, object> {{"validation-field-id", "ViewModel_Title"}})
                     @Html.ValidationMessage("ViewModel.Password", new Dictionary<string, object> {{"validation-field-id", "ViewModel_Password"}})
                     @Html.ValidationMessage("ViewModel.ConfirmPassword", new Dictionary<string, object> {{"validation-field-id", "ViewModel_ConfirmPassword"}})
-                    @Html.ValidationMessage("ViewModel.AgreeToTermsAndConditions", new Dictionary<string, object> {{"validation-field-id", "ViewModel_AgreeToTermsAndConditions"}})
+                    @Html.ValidationMessage("ViewModel.AgreeToTermsAndConditions", new Dictionary<string, object> { { "validation-field-id", "ViewModel_AgreeToTermsAndConditions" } })
+                    @Html.ValidationMessage("PasswordError")
                 </div>
             }
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.Title, Model.TitleLabel)
                 <div class="input-wrapper">
-                    @Html.DropDownListFor(m => m.ViewModel.Title, new SelectList(Model.TitleOptions, "Key", "Value", Model.ViewModel.Title), new 
-                    { data_bind = "value: stage1.Title, select2: { placeholder: 'Select a State' }" })
+                    @Html.DropDownListFor(m => m.ViewModel.Title, new SelectList(Model.TitleOptions, "Key", "Value", Model.ViewModel.Title), new { data_bind = "value: stage1.Title, initializeValue: stage1.Title" })
                 </div>
             </div>
 
@@ -92,13 +143,13 @@
 
             <div class="form-row form-row--align-left">
                 <div>
-                    @Html.CheckBoxFor(m => m.ViewModel.AgreeToRoyalMailContact, new { data_bind = "value: stage1.royalMailMailAgreement, initializeValue: stage1.AgreeToRoyalMailContact" })
+                    @Html.CheckBoxFor(m => m.ViewModel.AgreeToRoyalMailContact, new { data_bind = "checked: stage1.AgreeToRoyalMailContact, initializeValue: stage1.AgreeToRoyalMailContact" })
                 </div>
                 <label for="ViewModel_AgreeToRoyalMailContact">@Model.RoyalMailContactOptionsDisclaimer</label>
             </div>
             <div class="form-row form-row--align-left">
                 <div>
-                    @Html.CheckBoxFor(m => m.ViewModel.AgreeToThirdPartyContact, new { data_bind = "value: stage1.thirdPartyMailAgreement, initializeValue: stage1.AgreeToThirdPartyContact" })
+                    @Html.CheckBoxFor(m => m.ViewModel.AgreeToThirdPartyContact, new { data_bind = "checked: stage1.AgreeToThirdPartyContact, initializeValue: stage1.AgreeToThirdPartyContact" })
                 </div>
                 <label for="ViewModel_AgreeToThirdPartyContact">@Model.ThirdPartyContactOptionsDisclaimer</label>
             </div>
@@ -164,7 +215,7 @@
                 <div class="required-field">@Html.DisplayFor(m => m.RequiredFieldsLabel)</div>
             </div>
 
-            @if (!ViewData.ModelState.IsValid)
+            @if (!isStage3Valid)
             {
                 <div class="form-row validation-messages">
                     @Html.ValidationMessage("ViewModel.OrganisationDetailsViewModel.OrganisationName", new Dictionary<string, object> {{"validation-field-id", "ViewModel_OrganisationDetailsViewModel_OrganisationName"}})
@@ -186,84 +237,84 @@
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.OrganisationName, Model.OrganisationNameLabel)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.OrganisationName, new { data_bind = "value: stage3.OrganisationName, initializeValue: stage3.OrganisationName" })
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.OrganisationName, new { data_bind = "value: stage3.OrganisationName, initializeValue: stage1.OrganisationName" })
                 </div>
             </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.JobTitle, Model.JobTitleLabel)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.JobTitle, new { data_bind = "value: stage3.JobTitle, initializeValue: stage3.OrganisationName" })
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.JobTitle, new { data_bind = "value: stage3.JobTitle, initializeValue: stage1.JobTitle" })
                 </div>
             </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.FlatNumber, Model.FlatNumberLabel)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.FlatNumber, new { data_bind = "value: stage3.FlatNumber, initializeValue: stage3.OrganisationName" })
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.FlatNumber, new { data_bind = "value: stage3.FlatNumber, initializeValue: stage1.FlatNumber" })
                 </div>
             </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingNumber, Model.BuildingNumberLabel)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingNumber, new { data_bind = "value: stage3.BuildingNumber, initializeValue: stage3.OrganisationName" })
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingNumber, new { data_bind = "value: stage3.BuildingNumber, initializeValue: stage1.BuildingNumber" })
                 </div>
             </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingName, Model.BuildingNameLabel)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingName, new { data_bind = "value: stage3.BuildingName, initializeValue: stage3.OrganisationName" })
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.BuildingName, new { data_bind = "value: stage3.BuildingName, initializeValue: stage1.BuildingName" })
                 </div>
             </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Address1, Model.Address1Label)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Address1, new { data_bind = "value: stage3.Address1, initializeValue: stage3.OrganisationName" })
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Address1, new { data_bind = "value: stage3.Address1, initializeValue: stage1.Address1" })
                 </div>
             </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Address2, Model.Address2Label)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Address2, new { data_bind = "value: stage3.Address2, initializeValue: stage3.OrganisationName" })
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Address2, new { data_bind = "value: stage3.Address2, initializeValue: stage1.Address2" })
                 </div>
             </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.City, Model.CityLabel)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.City, new { data_bind = "value: stage3.City, initializeValue: stage3.OrganisationName" })
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.City, new { data_bind = "value: stage3.City, initializeValue: stage1.City" })
                 </div>
             </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode, Model.PostcodeLabel)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode, new { data_bind = "value: stage2.Postcode, initializeValue: stage3.OrganisationName" })
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Postcode, new { data_bind = "value: stage2.Postcode, initializeValue: stage1.Postcode" })
                 </div>
             </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.Country, Model.CountryLabel)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Country, new { data_bind = "value: stage3.Country, initializeValue: stage3.OrganisationName" })
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.Country, new { data_bind = "value: stage3.Country, initializeValue: stage1.Country" })
                 </div>
             </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber, Model.WorkPhoneNumberLabel)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber, new { data_bind = "value: stage3.WorkPhoneNumber, initializeValue: stage3.OrganisationName" })
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber, new { data_bind = "value: stage3.WorkPhoneNumber, initializeValue: stage1.WorkPhoneNumber" })
                 </div>
             </div>
 
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.OrganisationDetailsViewModel.MobilePhoneNumber, Model.MobilePhoneNumberLabel)
                 <div class="input-wrapper">
-                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.MobilePhoneNumber, new { data_bind = "value: stage3.MobilePhoneNumber, initializeValue: stage3.OrganisationName" })
+                    @Html.TextBoxFor(m => m.ViewModel.OrganisationDetailsViewModel.MobilePhoneNumber, new { data_bind = "value: stage3.MobilePhoneNumber, initializeValue: stage1.MobilePhoneNumber" })
                 </div>
             </div>
 
@@ -283,4 +334,3 @@
         </section>
 
 }
-
