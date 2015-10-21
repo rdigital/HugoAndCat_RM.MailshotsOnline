@@ -41,7 +41,15 @@
 
     bool AreKeysValid(string[] keys)
     {
-        return keys.Any(x => !ViewData.ModelState.IsValidField(x));
+        foreach (var key in keys)
+        {
+            if (!ViewData.ModelState.IsValidField(key))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
 
