@@ -83,7 +83,7 @@
             <div class="form-row">
                 @Html.LabelFor(m => m.ViewModel.Title, Model.TitleLabel)
                 <div class="input-wrapper">
-                    @Html.DropDownListFor(m => m.ViewModel.Title, new SelectList(Model.TitleOptions, "Key", "Value", Model.ViewModel.Title), new { data_bind = "value: stage1.Title, initializeValue: stage1.Title" })
+                    @Html.DropDownListFor(m => m.ViewModel.Title, new SelectList(Model.TitleOptions, "Key", "Value", Model.ViewModel.Title), new { data_bind = "value: stage1.Title, initializeValue: stage1.Title, select2: { placeholder: 'Select a Title' }" })
                 </div>
             </div>
 
