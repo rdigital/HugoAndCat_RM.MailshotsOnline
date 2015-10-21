@@ -26,7 +26,6 @@ define([
                 var _this = this;
                 // hide the sections
                 this.stage1Init();
-                // this.stage2Init();
                 this.stage3Init();
 
                 // check for server-side validation
@@ -40,20 +39,27 @@ define([
                     _this.addressNow = arguments;
                 });
 
-                $('.register-stage select').select2();
             };
 
 
             this.stage1Init = function() {
                 var _this = this;
+                $('.register-stage select').select2();
+                // $('.register-stage select').on('change', function() {
+                //     console.log(arguments,$(this).find('option:selected'));
+                // });
                 
+                this.stage1.Title = ko.observable("").extend({ 
+                    required: {
+                        message: 'Please select a Title'
+                    }
+                });
                 this.stage1.Email = ko.observable().extend({ 
                     required: {
                         message: 'Please enter your email address'
                     },
                     email: true
                 });
-
                 this.stage1.ConfirmEmail = ko.observable().extend({
                     required: {
                         message: 'Please retype your email address'
@@ -63,7 +69,6 @@ define([
                         message: "Confirm password must match password" 
                     }
                 });
-
                 this.stage1.FirstName = ko.observable().extend({ 
                     required: {
                         message: 'Please enter your first name'
@@ -72,11 +77,6 @@ define([
                 this.stage1.LastName = ko.observable().extend({ 
                     required: {
                         message: 'Please enter your last name'
-                    }
-                });
-                this.stage1.Title = ko.observable().extend({ 
-                    required: {
-                        message: 'Please select a Title'
                     }
                 });
                 this.stage1.Password = ko.observable().extend({ 
