@@ -198,45 +198,5 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 MobilePhoneNumber = model.OrganisationDetailsViewModel.MobilePhoneNumber
             }, model.Password);
         }
-
-        private bool IsStage1Valid()
-        {
-            var keysToCheck = new[]
-            {
-                "ViewModel.Email",
-                "ViewModel.ConfirmEmail",
-                "ViewModel.FirstName",
-                "ViewModel.LastName",
-                "ViewModel.Title",
-                "ViewModel.Password",
-                "ViewModel.ConfirmPassword",
-                "ViewModel.AgreeToTermsAndConditions",
-                "PasswordError"
-            };
-
-            return keysToCheck.Any(x => ModelState.IsValidField(x));
-        }
-
-        private bool IsStage3Valid()
-        {
-            var keysToCheck = new[]
-            {
-                "ViewModel.OrganisationDetailsViewModel.OrganisationName",
-                "ViewModel.OrganisationDetailsViewModel.JobTitle",
-                "ViewModel.OrganisationDetailsViewModel.FlatNumber",
-                "ViewModel.OrganisationDetailsViewModel.BuildingNumber",
-                "ViewModel.OrganisationDetailsViewModel.BuildingName",
-                "ViewModel.OrganisationDetailsViewModel.Address1",
-                "ViewModel.OrganisationDetailsViewModel.Address2",
-                "ViewModel.OrganisationDetailsViewModel.City",
-                "ViewModel.OrganisationDetailsViewModel.Postcode",
-                "ViewModel.OrganisationDetailsViewModel.Country",
-                "ViewModel.OrganisationDetailsViewModel.WorkPhoneNumber",
-                "ViewModel.OrganisationDetailsViewModel.Country",
-                "ViewModel.IsRecaptchaValidated"
-            };
-
-            return keysToCheck.Any(x => ModelState.IsValidField(x));
-        }
     }
 }
