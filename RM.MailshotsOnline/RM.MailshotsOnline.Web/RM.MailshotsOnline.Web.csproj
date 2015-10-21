@@ -606,6 +606,8 @@
     <Content Include="scripts\src\custom-bindings\ko-attrif.js" />
     <Content Include="scripts\src\custom-bindings\ko-element.js" />
     <Content Include="scripts\src\custom-bindings\ko-file.js" />
+    <Content Include="scripts\src\custom-bindings\ko-stopBinding.js" />
+    <Content Include="scripts\src\custom-validation\ko-aresame.js" />
     <Content Include="scripts\src\main.js" />
     <Content Include="scripts\src\require_config.js" />
     <Content Include="scripts\src\templates\add-contact.html" />
@@ -621,6 +623,7 @@
     <Content Include="scripts\src\templates\my-lists.html" />
     <Content Include="scripts\src\templates\notification.html" />
     <Content Include="scripts\src\templates\pagination.html" />
+    <Content Include="scripts\src\templates\register.html" />
     <Content Include="scripts\src\templates\rent-list.html" />
     <Content Include="scripts\src\templates\upload-data.html" />
     <Content Include="scripts\src\templates\upload-image.html" />
@@ -635,7 +638,9 @@
     <Content Include="scripts\src\vendor\requirejs-domReady.js" />
     <Content Include="scripts\src\vendor\requirejs-text.js" />
     <Content Include="scripts\src\vendor\select2.full.min.js" />
+    <Content Include="scripts\src\view-models\login.js" />
     <Content Include="scripts\src\view-models\notification.js" />
+    <Content Include="scripts\src\view-models\register.js" />
     <Content Include="scripts\src\view-models\state.js" />
     <Content Include="Views\CampaignHub\Partials\StartDataButton.cshtml" />
     <Content Include="AppInsightsAgent\InstallAgent.ps1" />
