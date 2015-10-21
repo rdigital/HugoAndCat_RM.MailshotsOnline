@@ -3,6 +3,9 @@ define([
         'jquery',
         'koValidation',
         'koMapping',
+        'koaresame',
+        'koselect2',
+        'koinitializevalue',
         'select2'
     ],
 
@@ -44,7 +47,7 @@ define([
 
             this.stage1Init = function() {
                 var _this = this;
-                
+                window.stage1 = this.stage1;
                 this.stage1.Title = ko.observable("").extend({ 
                     required: {
                         message: 'Please select a Title'
@@ -99,9 +102,6 @@ define([
 
                 this.stage1Errors = koValidation.group(this.stage1, {deep: true});
                 this.stage1Errors.showAllMessages(false);
-
-                // Make the selects pretty
-                $('.register-stage select').select2();
             };
 
             this.stage3Init = function() {
