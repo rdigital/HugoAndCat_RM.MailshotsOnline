@@ -32,7 +32,7 @@ require([
 		loginViewModel
 	) {
 
-
+		window.ko = ko;
 		// register components
 		ko.components.register('lists-component', listsComponent);
 		ko.components.register('create-list-component', createListComponent);

@@ -36,8 +36,9 @@ define([
                 // check for server-side validation
                 if ($('.validation-messages').length > 0) {
                     this.serverSideValidationErrors = true;
-                    var parentIndex = $('.validation-messages').first().parents('.register-stage').index();
-                    this.currentStage(this.stages[parentIndex]);
+                    // Always go back to start so user can
+                    // enter their password again.
+                    this.currentStage(this.stages[0]);
                 }
 
                 this.stage1Init();

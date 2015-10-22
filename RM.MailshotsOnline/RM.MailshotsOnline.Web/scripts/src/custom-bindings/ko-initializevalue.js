@@ -1,5 +1,5 @@
-define(['knockout', 'jquery'],
-  function(ko, $) {
+define(['knockout'],
+  function(ko) {
     ko.bindingHandlers.initializeValue = {
         init: function(element, valueAccessor) {
             if (valueAccessor().serverValidationErrors === true) {
@@ -8,7 +8,7 @@ define(['knockout', 'jquery'],
         },
         update: function(element, valueAccessor) {
             var value = valueAccessor().value;
-            element.setAttribute('value', ko.utils.unwrapObservable(value))
+            element.setAttribute('value', ko.utils.unwrapObservable(value));
         }
     };
   }

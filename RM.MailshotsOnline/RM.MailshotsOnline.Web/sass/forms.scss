@@ -405,5 +405,10 @@ select {
 	}
 }
 .validation-messages {
-	
+	padding-top: 0.5em;
+}
+.validation-messages span {
+	display: block;
+	text-align: left;
+	margin-bottom: 0.5em;
 }
