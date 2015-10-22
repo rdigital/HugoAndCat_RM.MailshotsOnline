@@ -7,10 +7,22 @@
     <customerdetails>Mark Radford</customerdetails>
     <postage>First Class</postage>
   </metadata>
-  <filenames>
-    <filename>Postcard-2015144700011-00001.pdf</filename>
-    <filename>Postcard-2015144700011-00002.pdf</filename>
-    <filename>Postcard-2015144700011-00003.pdf</filename>
-    <filename>Postcard-2015144700011-00004.pdf</filename>
-  </filenames>
+  <files>
+    <file>
+      <filename>Postcard-2015144700011-00001.pdf</filename>
+      <hash><![CDATA[]]></hash>
+    </file>
+    <file>
+      <filename>Postcard-2015144700011-00002.pdf</filename>
+      <hash><![CDATA[]]></hash>
+    </file>
+    <file>
+      <filename>Postcard-2015144700011-00003.pdf</filename>
+      <hash><![CDATA[]]></hash>
+    </file>
+    <file>
+      <filename>Postcard-2015144700011-00004.pdf</filename>
+      <hash><![CDATA[]]></hash>
+    </file>
+  </files>
 </order>
