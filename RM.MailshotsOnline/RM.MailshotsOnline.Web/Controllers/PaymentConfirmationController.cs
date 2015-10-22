@@ -218,6 +218,24 @@ namespace RM.MailshotsOnline.Web.Controllers
             var postbackUrl = string.Format("{0}/Umbraco/Api/ProofPdf/SendProofForApproval/{1}", baseUrl, campaign.CampaignId);
             _sparqService.SendRenderJob(fullMailshot, postbackUrl);
 
+            //TODO: Remove this
+            // Send Email to Royal Mail for approval
+            if (ConfigHelper.SendTestModerationEmails)
+            {
+                var approvalUrl = string.Format("{0}/moderation?moderationId={1}&action=approve", baseUrl, campaign.ModerationId);
+                var rejectUrl = string.Format("{0}/moderation?moderationId={1}&action=reject", baseUrl, campaign.ModerationId);
+                recipients = new List<string>() { ConfigHelper.RoyalMailApprovalEmailAddress };
+                _emailService.SendEmail(
+                    recipients,
+                    "A new MailshotsOnline campaign needs approval",
+                    $@"<p>Campaign Name: <strong>{campaign.Name}</strong><br />
+Campaign submitted by: <strong>{loggedInMember.EmailAddress}</strong></p>
+<p><strong><a href=""{approvalUrl}"">Click here to approve the design</a></strong> or if there are problems, <a href=""{rejectUrl}"">click here to reject it</a>.</p>",
+                    System.Net.Mail.MailPriority.Normal,
+                    sender
+                    );
+            }
+
             return View("~/Views/PaymentConfirmation.cshtml", pageModel);
         }
 

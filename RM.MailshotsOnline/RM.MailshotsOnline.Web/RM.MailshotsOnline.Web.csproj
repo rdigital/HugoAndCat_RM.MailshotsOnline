@@ -110,20 +110,20 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Glass.Mapper.Umb.CastleWindsor.3.0.4.5\lib\net45\Glass.Mapper.Umb.CastleWindsor.dll</HintPath>
     </Reference>
-    <Reference Include="HC.RM.Common, Version=1.0.13.52, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.1.0.13.52\lib\net45\HC.RM.Common.dll</HintPath>
+    <Reference Include="HC.RM.Common, Version=1.0.13.54, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.1.0.13.54\lib\net45\HC.RM.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HC.RM.Common.Azure, Version=1.0.13.52, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.Azure.1.0.13.52\lib\net45\HC.RM.Common.Azure.dll</HintPath>
+    <Reference Include="HC.RM.Common.Azure, Version=1.0.13.54, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.Azure.1.0.13.54\lib\net45\HC.RM.Common.Azure.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HC.RM.Common.AzureWeb, Version=1.0.13.52, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.AzureWeb.1.0.13.52\lib\net45\HC.RM.Common.AzureWeb.dll</HintPath>
+    <Reference Include="HC.RM.Common.AzureWeb, Version=1.0.13.54, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.AzureWeb.1.0.13.54\lib\net45\HC.RM.Common.AzureWeb.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HC.RM.Common.PCL, Version=1.0.13.52, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HC.RM.Common.PCL.1.0.13.52\lib\portable-net45+win+wpa81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\HC.RM.Common.PCL.dll</HintPath>
+    <Reference Include="HC.RM.Common.PCL, Version=1.0.13.54, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HC.RM.Common.PCL.1.0.13.54\lib\portable-net45+win+wpa81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\HC.RM.Common.PCL.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="HtmlAgilityPack">
@@ -587,6 +587,7 @@
     <Content Include="canvas\styles\iehacks.scss" />
     <Content Include="canvas\styles\slider.scss" />
     <Content Include="canvas\styles\zoom.scss" />
+    <Content Include="scripts\HC.RM.Common.AzureWeb.Forms.js" />
     <Content Include="scripts\src\components\addContact.js" />
     <Content Include="scripts\src\components\batchTray.js" />
     <Content Include="scripts\src\components\campaignList.js" />
@@ -638,8 +639,6 @@
     <Content Include="scripts\src\view-models\notification.js" />
     <Content Include="scripts\src\view-models\state.js" />
     <Content Include="Views\CampaignHub\Partials\StartDataButton.cshtml" />
-    <Content Include="AppInsightsAgent\InstallAgent.ps1" />
-    <Content Include="AppInsightsAgent\InstallAgent.bat" />
     <Content Include="Views\CampaignHub\Partials\StartDataButton.cshtml" />
     <Content Include="uSync\Template\ListDetailDownload\ListDetailDownload.config" />
     <Content Include="Views\MyLists.cshtml" />
@@ -709,6 +708,8 @@
     <Content Include="fonts\chevin\2EDB2C_B_0.ttf" />
     <Content Include="fonts\chevin\2EDB2C_B_0.woff" />
     <Content Include="fonts\chevin\2EDB2C_B_0.woff2" />
+    <Content Include="AppInsightsAgent\InstallAgent.ps1" />
+    <Content Include="AppInsightsAgent\InstallAgent.bat" />
     <None Include="WaIISHost.exe.config">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -718,7 +719,6 @@
     <Content Include="scripts\campaign-hub.js" />
     <Content Include="scripts\campaignstest.js" />
     <Content Include="scripts\editor.js" />
-    <Content Include="scripts\HC.RM.Common.AzureWeb.Forms.js" />
     <Content Include="scripts\imagelibrarytest.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
@@ -3213,12 +3213,12 @@
     <Compile Include="App_Start\GlassMapperUmbCustom.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="App_Start\TelemetryConfig.cs" />
     <Compile Include="Handlers\FilteredDocumentTypeNodeRouteHandler.cs" />
     <Compile Include="Handlers\DocumentTypeNodeRouteHandler.cs" />
     <Compile Include="App_Start\RegisterApplicationStartEvents.cs" />
     <Compile Include="App_Start\RegisterIoCEvents.cs" />
     <Compile Include="App_Start\RegisterStartupEvents.cs" />
-    <Compile Include="App_Start\TelemetryConfig.cs" />
     <Compile Include="App_Start\UmbracoMessageHandler.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Attributes\CacheControlAttribute.cs" />
@@ -3785,10 +3785,10 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.2.8\build\UmbracoCms.props'))" />
     <Error Condition="!Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets'))" />
-    <Error Condition="!Exists('..\packages\HC.RM.Common.Azure.1.0.13.52\build\HC.RM.Common.Azure.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\HC.RM.Common.Azure.1.0.13.52\build\HC.RM.Common.Azure.targets'))" />
+    <Error Condition="!Exists('..\packages\HC.RM.Common.Azure.1.0.13.54\build\HC.RM.Common.Azure.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\HC.RM.Common.Azure.1.0.13.54\build\HC.RM.Common.Azure.targets'))" />
   </Target>
   <Import Project="..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets" Condition="Exists('..\packages\UmbracoCms.7.2.8\build\UmbracoCms.targets')" />
-  <Import Project="..\packages\HC.RM.Common.Azure.1.0.13.52\build\HC.RM.Common.Azure.targets" Condition="Exists('..\packages\HC.RM.Common.Azure.1.0.13.52\build\HC.RM.Common.Azure.targets')" />
+  <Import Project="..\packages\HC.RM.Common.Azure.1.0.13.54\build\HC.RM.Common.Azure.targets" Condition="Exists('..\packages\HC.RM.Common.Azure.1.0.13.54\build\HC.RM.Common.Azure.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

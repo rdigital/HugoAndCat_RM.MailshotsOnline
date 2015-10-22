@@ -20,6 +20,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XML", "XML", "{61BD6155-3F8A-4194-B3D0-A8B420375301}"
 	ProjectSection(SolutionItems) = preProject
 		XML\card.xml = XML\card.xml
+		XML\checkfile.xml = XML\checkfile.xml
 		XML\data.xml = XML\data.xml
 		..\..\RM.PalPics\PalPics App\keys\private key.ppk = ..\..\RM.PalPics\PalPics App\keys\private key.ppk
 	EndProjectSection
