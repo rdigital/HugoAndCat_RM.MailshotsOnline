@@ -37,9 +37,9 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<HttpResponseMessage> GenerateReport(AuthTokenPostModel tokenPostModel)
+        public async Task<HttpResponseMessage> GenerateReport(ReportGenerationParameters parameters)
         {
-            if (string.IsNullOrEmpty(tokenPostModel.Type) || string.IsNullOrEmpty(tokenPostModel.Token))
+            if (string.IsNullOrEmpty(parameters.Type) || string.IsNullOrEmpty(parameters.Token))
             {
                 var message = "Method was called with bad parameters";
 
@@ -47,7 +47,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                 return ErrorMessageDebug(HttpStatusCode.NotAcceptable, message);    //todo: change this back to 400
             }
 
-            if (!_authTokenService.Consume(tokenPostModel.Service, tokenPostModel.Token))
+            if (!_authTokenService.Consume(parameters.Service, parameters.Token))
             {
                 var message = "Method was called with an invalid token";
 
@@ -58,11 +58,11 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             IReport report;
             IEnumerable data;
 
-            switch (tokenPostModel.Type.ToLower())
+            switch (parameters.Type.ToLower())
             {
                 case "membership":
 
-                    report = _reportingService.MembershipReportGenerator.Generate();
+                    report = _reportingService.MembershipReportGenerator.Generate(parameters.start, parameters.end);
                     data = ((IMembershipReport) report).Members;
 
                     break;
@@ -79,6 +79,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                     return ErrorMessageDebug(HttpStatusCode.Ambiguous, "Method was called with an invalid report type"); //todo: change this back to 400
             }
 
+
             if (data != null)
             {
                 using (var m = new MemoryStream())
@@ -89,7 +90,8 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
                     streamWriter.Flush();
                     m.Flush();
 
-                    var filename = report.Name + ".csv";
+                    var prefix = DateTime.UtcNow.ToString("yyyy-MM-ddTHH-mm-ss-") + parameters.start.ToString("yyyy-MM-dd-");
+                    var filename = prefix + report.Name + ".csv";
 
                     bool fileTransferSuccess = false;
                     bool blobStoreageSuccess = false;

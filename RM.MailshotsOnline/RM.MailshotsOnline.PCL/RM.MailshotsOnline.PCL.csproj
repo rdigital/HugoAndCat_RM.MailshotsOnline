@@ -77,6 +77,7 @@
     <Compile Include="Models\Reporting\ITransactionsReport.cs" />
     <Compile Include="Models\Reporting\ITransactionsReportEntity.cs" />
     <Compile Include="Services\IAuthTokenService.cs" />
+    <Compile Include="Services\Reporting\IDateRangeReportGenerator.cs" />
     <Compile Include="Services\Reporting\IReportingBlobService.cs" />
     <Compile Include="Services\Reporting\IReportingBlobStorage.cs" />
     <Compile Include="Services\Reporting\IReportingSftpService.cs" />

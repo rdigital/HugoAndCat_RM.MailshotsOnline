@@ -19,10 +19,10 @@ namespace RM.MailshotsOnline.Data.Services.Reporting
             _membershipService = membershipService;
         }
 
-        public IMembershipReport Generate()
+        public IMembershipReport Generate(DateTime start, DateTime end)
         {
             var members =
-                _membershipService.GetActiveMembers(DateTime.Today, DateTime.Today.AddDays(1).AddMilliseconds(-1))
+                _membershipService.GetActiveMembers(start, end)
                     .Select(x => new MembershipReportEntity()
                     {
                         UserReference = x.Username.ToString(),

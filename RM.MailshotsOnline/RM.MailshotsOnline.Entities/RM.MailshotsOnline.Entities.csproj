@@ -103,7 +103,7 @@
     <Compile Include="DataModels\Reports\Report.cs" />
     <Compile Include="DataModels\SettingsFromCms.cs" />
     <Compile Include="Extensions\MailshotExtensions.cs" />
-    <Compile Include="JsonModels\AuthTokenPostModel.cs" />
+    <Compile Include="JsonModels\ReportGenerationParameters.cs" />
     <Compile Include="JsonModels\CampaignPriceBreakdown.cs" />
     <Compile Include="JsonModels\CampaignSummaryModel.cs" />
     <Compile Include="JsonModels\Media.cs" />

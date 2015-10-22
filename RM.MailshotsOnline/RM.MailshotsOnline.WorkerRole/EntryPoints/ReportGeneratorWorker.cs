@@ -75,10 +75,11 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
 
                     // Grab the Message Element
                     var messageElement = messageDoc.Descendants("Message").SingleOrDefault();
+                    var expectedExecutionTimeElement = messageDoc.Descendants("ExpectedExecutionTime").SingleOrDefault();
 
-                    if (messageElement == null)
+                    if (messageElement == null || expectedExecutionTimeElement == null)
                     {
-                        Logger.Error(GetType().Name, "Run", "Queue message did not contain a Message element: {0}: {1}", queueMsg.Id, queueMsg.AsString);
+                        Logger.Error(GetType().Name, "Run", "Queue message did not contain a message or an expected execution time: {0}: {1}", queueMsg.Id, queueMsg.AsString);
 
                         Queue.DeleteMessage(queueMsg);
                         queueMsg = Queue.GetMessage();
@@ -88,10 +89,30 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
 
                     // Grab the message
                     var message = messageElement.Value.ToLower();
+                    DateTime yesterday;
 
-                    if (string.IsNullOrEmpty(message))
+                    // Grab the expected execution time
+                    var parsed = DateTime.TryParse(expectedExecutionTimeElement.Value, out yesterday);
+
+                    if (parsed)
                     {
-                        Logger.Error(GetType().Name, "Run", "Queue message was parsed successfully but didn't contain a message: {0}: {1}", queueMsg.Id, queueMsg.AsString);
+                        yesterday = yesterday.AddDays(-1);
+                    }
+                    else
+                    {
+                        Logger.Warn(GetType().Name, "Run", "Expected execution time could not be parsed: {0}", expectedExecutionTimeElement.Value);
+                    }
+
+                    if (yesterday == DateTime.MinValue)
+                    {
+                        yesterday = DateTime.Today.AddDays(-1);
+                    }
+
+                    var yesterdayMidnightUtc = new DateTime(yesterday.Year, yesterday.Month, yesterday.Day, 0, 0, 0, DateTimeKind.Utc);
+
+                    if (string.IsNullOrEmpty(message) || !parsed)
+                    {
+                        Logger.Error(GetType().Name, "Run", "Queue message was parsed successfully but didn't contain a message or an expected execition time: {0}: {1}", queueMsg.Id, queueMsg.AsString);
 
                         Queue.DeleteMessage(queueMsg);
                         queueMsg = Queue.GetMessage();
@@ -106,13 +127,12 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
                         case "membership":
                         case "transactions":
 
-
                             IAuthToken token;
                             try
                             {
                                 token = _authTokenService.Create(GetType().Name);
                             }
-                            catch(Exception e)
+                            catch (Exception e)
                             {
                                 Logger.Info(GetType().Name, "Run", "Failed to set auth token before starting report generation. {0} - {1}", e, e.StackTrace);
 
@@ -121,15 +141,16 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
 
                             if (token != null)
                             {
-                                var postModel = JsonConvert.SerializeObject(new AuthTokenPostModel()
+                                var postModel = JsonConvert.SerializeObject(new ReportGenerationParameters()
                                 {
                                     Type = message,
                                     Service = GetType().Name,
-                                    Token = token.AuthTokenId.ToString()
+                                    Token = token.AuthTokenId.ToString(),
+                                    start = yesterdayMidnightUtc,
+                                    end = yesterdayMidnightUtc.AddDays(1)
                                 });
 
-                                var response =
-                                    SendHttpPost($"{Constants.Apis.ReportsApi}/generatereport", postModel);
+                                var response = SendHttpPost($"{Constants.Apis.ReportsApi}/generatereport", postModel);
 
                                 Logger.Info(GetType().Name, "Run", $"Reports API responded with status {response}");
                             }
@@ -171,7 +192,6 @@ namespace RM.MailshotsOnline.WorkerRole.EntryPoints
             {
                 _working = false;
             }
-
 
             Logger.Info(GetType().Name, "Run", "Sleeping for " + _queueInterval);
             Thread.Sleep(_queueInterval);

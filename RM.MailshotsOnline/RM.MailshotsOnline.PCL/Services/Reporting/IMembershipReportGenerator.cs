@@ -2,7 +2,7 @@
 
 namespace RM.MailshotsOnline.PCL.Services.Reporting
 {
-    public interface IMembershipReportGenerator : IReportGenerator<IMembershipReport>
+    public interface IMembershipReportGenerator : IDateRangeReportGenerator<IMembershipReport>
     {
     }
 }
