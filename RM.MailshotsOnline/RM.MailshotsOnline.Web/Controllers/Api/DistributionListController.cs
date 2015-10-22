@@ -461,6 +461,51 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
+        [HttpDelete]
+        public HttpResponseMessage DeleteMultipleLists(GuidListModel list)
+        {
+            var authResult = Authenticate();
+
+            if (authResult != null)
+            {
+                return authResult;
+            }
+
+            if (list == null)
+            {
+                return ErrorMessage(HttpStatusCode.BadRequest, "You must provide a list of IDs.");
+            }
+
+            var successList = new List<Guid>();
+            var failureList = new List<Guid>();
+
+            foreach (Guid listId in list.Ids)
+            {
+                var dataList = _dataService.GetDistributionListForUser(_loggedInMember.Id, listId);
+                if (dataList != null)
+                {
+                    if (!_dataService.DistributionListAssignedToCampaign(dataList))
+                    {
+                        _logger.Info(this.GetType().Name, "DeleteMultipleLists", "Deleting user list: {0}:{1}:{2}", _loggedInMember.Id, listId, dataList.Name);
+                        _dataService.DeleteDistributionList(dataList);
+                        successList.Add(listId);
+                    }
+                    else
+                    {
+                        _logger.Info(this.GetType().Name, "DeleteMultipleLists", "Attempt to delete user list {0} that is in use.", listId);
+                        failureList.Add(listId);
+                    }
+                }
+                else
+                {
+                    _logger.Error(this.GetType().Name, "DeleteMultipleLists", "Unable to find user list with ID {0}.", listId);
+                    failureList.Add(listId);
+                }
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, new { success = successList, failure = failureList });
+        }
+
         [HttpPost]
         public HttpResponseMessage PostAddContactsToList(ModifyListAddContactModel<DistributionContact> model)
         {

@@ -1,6 +1,6 @@
 // viewmodel to handle my images data
-define(['knockout', 'view_models/data', 'view_models/auth'],
-    function(ko, dataViewModel, authViewModel) {
+define(['knockout', 'view_models/data', 'view_models/notification', 'view_models/auth'],
+    function(ko, dataViewModel, notificationViewModel, authViewModel) {
 
         function myImagesViewModel() {
             // this.objects contains the data returned from the server
@@ -29,6 +29,9 @@ define(['knockout', 'view_models/data', 'view_models/auth'],
             }
             $.get('/Umbraco/Api/ImageLibrary/GetMyImages', function(data) {
                 this.loading(false);
+                ko.utils.arrayForEach(data, function(obj) {
+                    obj.deleting = ko.observable(false);
+                });
                 this.objects(data);
             }.bind(this)).fail(function() {
                 console.log('There was an error fetching my images');
@@ -36,7 +39,7 @@ define(['knockout', 'view_models/data', 'view_models/auth'],
         };
 
         myImagesViewModel.prototype.add = function add(image) {
-            this.objects.push(image);
+            this.objects.unshift(image);
         };
 
         myImagesViewModel.prototype.select = function select(image) {
@@ -44,11 +47,18 @@ define(['knockout', 'view_models/data', 'view_models/auth'],
         };
 
         myImagesViewModel.prototype.remove = function remove(image) {
-            this.objects.remove(image);
+            notificationViewModel.show('Deleting image', 'message');
+            if (image.MailshotUses) {
+                notificationViewModel.show('This image is currently in use on a campaign. It cannot be deleted.', 'error');
+                return;
+            }
+            image.deleting(true);
             $.post('/Umbraco/Api/ImageLibrary/ProcessDeleteImage/' + image.ImageId, {}, function(data) {
-                console.log('Image deleted');
+                notificationViewModel.hideWithMessage('Image deleted', 'message');
+                this.objects.remove(image);
             }.bind(this)).fail(function() {
-                console.log('There was an error deleting this image');
+                notificationViewModel.hideWithMessage('Error deleting image', 'error');
+                image.deleting(false);
             });
             return false;
         };

@@ -36,12 +36,20 @@
     <div data-bind="visible: (selectedTab() == 'my_images')">
 		<div class="library my-library" data-bind="css: {'library_loading': myImagesLoading}">
 	    	<!-- ko foreach: myImages() -->
-	    	<div class="library-image" data-bind="click: $parent.selectMyImage, css: {'library-image_selected': $parent.myImage() == $data}">
-	    		<div class="library-image-inner" data-bind="style: {backgroundImage: 'url(' + SmallSrc + '&' + $parent.getRandomInt() + ')'}"></div>
-	    		<div class="library-image-delete" data-bind="click: $parent.setDeleteImage, clickBubble: false">
-	    			<span class="icon-delete"></span>
-	    		</div>
-	    	</div>
+		    	<!-- ko if: deleting-->
+		    	<div class="library-image library-image_deleting">
+		    		<div class="library-image_spinner"></div>
+		    		<div class="library-image-inner" data-bind="style: {backgroundImage: 'url(' + SmallSrc + ')'}"></div>
+		    	</div>
+		    	<!-- /ko -->
+		    	<!-- ko ifnot: deleting -->
+		    	<div class="library-image" data-bind="click: $parent.selectMyImage, css: {'library-image_selected': $parent.myImage() == $data}">
+		    		<div class="library-image-inner" data-bind="style: {backgroundImage: 'url(' + SmallSrc + '&' + $parent.getRandomInt() + ')'}"></div>
+		    		<div class="library-image-delete" data-bind="click: $parent.setDeleteImage, clickBubble: false, css: {'library-image-delete_disabled': MailshotUses}">
+		    			<span class="icon-delete"></span>
+		    		</div>
+		    	</div>
+		    	<!-- /ko -->
 	    	<!-- /ko -->
 	    </div>
 	    <!-- ko if: myImage() -->

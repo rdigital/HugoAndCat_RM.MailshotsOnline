@@ -298,16 +298,17 @@ body {
     @include shadow(1px, 3px, 0, $lightish-grey);
     position: fixed;
     top: 100px;
-    right: 20px;
-    width: 200px;
+    right: 30px;
+    width: 300px;
     min-height: 40px;
     padding: 20px;
-    z-index: 9;
-    transform: translate(250px, 0);
-    -ms-transform: translate(250px, 0);
+    z-index: 2000;
+    transform: translate(330px, 0);
+    -ms-transform: translate(330px, 0);
     background: #fff;
     font-family: PFDin Regular, Arial;
     color: $darkest-grey;
+    border: 1px solid $lightest-grey;
     border-left: 2px solid $green;
     &.notification_error {
         border-left: 2px solid $darkest-grey;
