@@ -16,6 +16,7 @@ require.config(
         kostopbinding: 'custom-bindings/ko-stopbinding',
         koselect2: 'custom-bindings/ko-select2',
         koinitializevalue: 'custom-bindings/ko-initializevalue',
+        koinitializechecked: 'custom-bindings/ko-initializechecked',
         koaresame: 'custom-validation/ko-aresame',
         templates: "src/templates/"
     }

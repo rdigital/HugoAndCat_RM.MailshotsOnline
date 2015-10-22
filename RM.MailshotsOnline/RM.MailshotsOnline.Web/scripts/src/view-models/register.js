@@ -6,6 +6,7 @@ define([
         'koaresame',
         'koselect2',
         'koinitializevalue',
+        'koinitializechecked',
         'select2'
     ],
 
@@ -24,6 +25,9 @@ define([
 
             this.setCurrentStage = function(i) {
                 return this.currentStage() === this.stages[i] ? 'current-stage' : '';
+
+                // For future reference - slide in slide out can be handled like this.
+                // data-bind="css: {'prev': currentStage() > 0, 'next': currentStage() < 0}"
             };
     
             this.init = function() {

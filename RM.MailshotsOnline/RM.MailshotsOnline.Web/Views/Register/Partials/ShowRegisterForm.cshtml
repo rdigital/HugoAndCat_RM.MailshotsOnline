@@ -143,13 +143,13 @@
 
             <div class="form-row form-row--align-left">
                 <div>
-                    @Html.CheckBoxFor(m => m.ViewModel.AgreeToRoyalMailContact, new { data_bind = "checked: stage1.AgreeToRoyalMailContact" })
+                    @Html.CheckBoxFor(m => m.ViewModel.AgreeToRoyalMailContact, new { data_bind = "checked: stage1.AgreeToRoyalMailContact, initializeChecked: {checked: stage1.AgreeToRoyalMailContact, serverValidationErrors: serverSideValidationErrors }" })
                 </div>
                 <label for="ViewModel_AgreeToRoyalMailContact">@Model.RoyalMailContactOptionsDisclaimer</label>
             </div>
             <div class="form-row form-row--align-left">
                 <div>
-                    @Html.CheckBoxFor(m => m.ViewModel.AgreeToThirdPartyContact, new { data_bind = "checked: stage1.AgreeToThirdPartyContact" })
+                    @Html.CheckBoxFor(m => m.ViewModel.AgreeToThirdPartyContact, new { data_bind = "checked: stage1.AgreeToThirdPartyContact, initializeChecked: {checked: stage1.AgreeToThirdPartyContact, serverValidationErrors: serverSideValidationErrors }" })
                 </div>
                 <label for="ViewModel_AgreeToThirdPartyContact">@Model.ThirdPartyContactOptionsDisclaimer</label>
             </div>
