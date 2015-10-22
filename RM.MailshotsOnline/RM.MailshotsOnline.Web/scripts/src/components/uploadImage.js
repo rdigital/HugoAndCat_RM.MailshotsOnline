@@ -36,7 +36,7 @@ define(['knockout', 'view-models/notification'],
                         notificationViewModel.hideWithMessage("Upload complete!");
                         image.deleting = ko.observable(false);
                         this.imageArray.replace(newImage, image);
-                    }.bind(this)).fail(function(error) {
+                    }.bind(this)).fail(function() {
                         notificationViewModel.show("Error uploading image", "error");
                         this.imageArray.remove(newImage);
                     }.bind(this))

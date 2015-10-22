@@ -1,50 +1,61 @@
-define(['jquery', 'knockout', 'view-models/state'],
+define(['jquery', 'knockout', 'koMapping', 'view-models/state'],
 
-    function($, ko, stateViewModel) {
+    function($, ko, koMapping, stateViewModel) {
 
         // ViewModel
         function listDetailComponentViewModel() {
             this.listID = window.listId;
+            stateViewModel.currentList.DistributionListId(this.listID);
             this.count = ko.observable();
             this.contacts = ko.observableArray([]);
             this.displayedList = ko.observableArray([]);
             this.searchTerm = ko.observable();
             this.selectedContacts = ko.observableArray([]);
+            this.showEditModal = stateViewModel.showEditModal;
             this.list = ko.observable();
-
-            this.filteredContacts = ko.pureComputed(function() {
-                var self = this;
-
-                if (!this.searchTerm()) {
-                    return this.contacts();
-                } else {
-                    return ko.utils.arrayFilter(this.contacts(), function(contact) {
-                        for(var i in contact) {
-                            if (contact[i] && !ko.isObservable(contact[i]) && contact[i].toLowerCase().indexOf(self.searchTerm().toLowerCase()) >= 0) {
-                                return true;
-                            }
-                        }
-                    });
-                }
-            }, this);
-
             this.backUrl = window.backUrl;
             this.backText = window.backText;
 
+            // computeds
+            this.filteredContacts = this.getFilterComputed();
+
+            // bound methods
             this.toggleSelect = this.toggleSelect.bind(this);
 
+            this.fetch()
+        }
+
+        listDetailComponentViewModel.prototype.fetch = function fetch() {
             $.get('/Umbraco/API/DistributionList/GetMyListDetails?distributionListId='+ this.listID, function(data) {
+                stateViewModel.currentList.ListName(data.Name);
                 data.Contacts.forEach(function(contact){
-                    contact.selected = ko.observable(false);
+                    contact.selected = false;
                 });
                 this.count(data.List.RecordCount);
                 this.list(data.List);
-                this.contacts(data.Contacts);
+                koMapping.fromJS(data.Contacts, [], this.contacts);
             }.bind(this)).fail(function(error) {
                 stateViewModel.showError(true);
                 stateViewModel.errorTitle('Oops!');
                 stateViewModel.errorMessage(error.responseJSON.error);
             });
+        }
+
+        listDetailComponentViewModel.prototype.getFilterComputed = function getFilterComputed() {
+            return ko.pureComputed(function() {
+                if (!this.searchTerm()) {
+                    return this.contacts();
+                } else {
+                    return ko.utils.arrayFilter(this.contacts(), function(contact) {
+                        for(var i in contact) {
+                            var attr = ko.utils.unwrapObservable(contact[i]);
+                            if (typeof(attr) === 'string' && attr.toLowerCase().indexOf(this.searchTerm().toLowerCase()) >= 0) {
+                                return true;
+                            }
+                        }
+                    }.bind(this));
+                }
+            }, this);
         }
 
         listDetailComponentViewModel.prototype.submitSearch = function submitSearch(e) {
@@ -113,6 +124,11 @@ define(['jquery', 'knockout', 'view-models/state'],
                     stateViewModel.errorMessage("Looks like something went wrong, please try again");
                 }
             });
+        };
+
+        listDetailComponentViewModel.prototype.edit = function edit(data) {
+            stateViewModel.currentContact(data);
+            stateViewModel.showEditModal(true);
         };
 
         return {

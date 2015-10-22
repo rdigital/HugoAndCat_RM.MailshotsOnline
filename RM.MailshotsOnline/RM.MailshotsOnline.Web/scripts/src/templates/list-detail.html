@@ -40,7 +40,11 @@
 			   		<tbody>
 			   			<!-- ko foreach: displayedList -->
 		   				<tr>
-		   					<td><span data-bind="text: FirstName"></span> <span data-bind="text: Surname"></span></td>
+		   					<td>
+		   						<a data-bind="click: $parent.edit">
+		   							<span data-bind="text: FirstName"></span> <span data-bind="text: Surname"></span>
+		   						</a>
+		   					</td>
 		   					<td><span data-bind="text: HouseNumber"></span> <span data-bind="text: Address1"></span>, <span data-bind="text: PostCode"></span></td>
 		   					<td class="select">
 		   						<div class="custom-checkbox-grp">
@@ -60,3 +64,7 @@
 			</div>
 	<!-- /ko -->
 </div>
+
+<!-- ko if: showEditModal -->
+    <add-contact-component></add-contact-component>
+<!-- /ko -->

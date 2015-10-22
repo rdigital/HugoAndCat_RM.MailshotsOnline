@@ -76,6 +76,30 @@
 		}
 	}
 
+	.lists__my-lists__header-bar {
+		@extend %clearfix;
+		border-bottom: 2px solid $shadow-grey;
+		margin: 30px 0 20px;
+
+		h1 {
+			@include font-size(34);
+			float: left;
+		}
+		.create {
+			float: right;
+			font-family: $ChevinMedium;
+			margin-top: 12px;
+			text-decoration: none;
+
+			.icon-add {
+				@include font-size(28);
+				color: $RM-red;
+				margin-left: 10px;
+				vertical-align: middle;
+			}
+		}
+	}
+
 	.lists__my-lists__list {
 		margin-bottom: 30px;
 
@@ -149,6 +173,21 @@
 		}
 	}
 
+	.delete-selected {
+		float: right;
+		font-family: $ChevinMedium;
+		text-decoration: none;
+
+		.icon-delete {
+			@include font-size(30);
+			color: $filter-tab-grey;
+			margin-left: 15px;
+			position: relative;
+			top: -2px;
+			vertical-align: middle
+		}
+	}
+
 	.pagination {
 		margin-bottom: 60px;
 	}
@@ -161,7 +200,7 @@
 	position: fixed;
     top: 0;
     width: 100%;
-    z-index: 2;
+    z-index: 10;
 }
 
 .add-contact-modal__form {

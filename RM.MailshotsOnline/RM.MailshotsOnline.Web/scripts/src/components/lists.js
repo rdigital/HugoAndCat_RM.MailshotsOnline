@@ -13,6 +13,6 @@ define(['knockout', 'view-models/state', 'components/myLists', 'components/batch
 
         return {
             viewModel: listsComponentViewModel,
-            template: { require: 'text!/scripts/src/templates/lists.html' }
+            template: { require: 'text!/scripts/src/templates/' + ((window.manageLists) ? 'manage-lists.html' : 'lists.html') }
         };
 });

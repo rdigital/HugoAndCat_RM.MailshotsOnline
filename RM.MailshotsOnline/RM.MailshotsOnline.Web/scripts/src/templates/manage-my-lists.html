@@ -1,0 +1,46 @@
+<section class="lists__my-lists">
+
+	<div class="lists__my-lists__header-bar">
+		<h1>My Lists (<span data-bind="text: totalListCount"></span>)</h1>
+		<a data-bind="attr: {href: createUrl}" href="" class="create">
+			<span class="link-text">Create a new list</span>
+			<span class="icon-add"></span>
+		</a>
+	</div>
+
+	<ul class="lists__my-lists--lists lists__my-lists__list" data-bind="foreach: displayedList">
+		<li data-bind="css: {selected: selected}">
+			<a href="" class="lists__my-lists__name" data-bind="text: Name, attr: { href: listDetailBaseUrl + DistributionListId}"></a>
+			<span class="lists__my-lists__number">
+				<span class="icon-person"></span>
+				<span class="number" data-bind="text: RecordCount"></span>
+			</span>
+			<div class="custom-checkbox-grp">
+				<label for="listSelect" data-bind="visible: !selected()"></label>
+				<input class="visually-hidden" type="checkbox" name="listSelect" id="listSelect">
+				<span class="custom-checkbox-round icon-tick" aria-label="select list" data-bind="css: {checked: selected}, click: $parent.toggleSelect"></span>
+			</div>
+		</li>
+	</ul>
+
+	<a data-bind="visible: selectedLists().length > 0, click: deleteSelected" href="" class="delete-selected">Delete selected (<span data-bind="text: selectedLists().length"></span>)<span class="icon-delete"></span></a>
+
+	<pagination-component params="data: lists, perPage: 6, displayedList: displayedList"></pagination-component>
+
+</section>
+
+<!-- ko if: deleteLists().length -->
+<!-- ko with: deleteLists -->
+<div class="modal-bg" data-bind="click: $parent.clearDeleteLists">
+</div>
+<div class="modal-container">
+	<div class="modal">
+		<div class="modal-text">Are you sure you want to delete <!-- ko if: $data.length == 1 -->this list<!-- /ko --><!-- ko if: $data.length > 1 -->these <span data-bind="text: $data.length"></span> lists<!-- /ko -->?</div>
+		<div class="modal-buttons">
+		<a class="button button_grey" data-bind="click: $parent.clearDeleteLists">Keep</a>
+		<a class="button" data-bind="click: function() {$parent.remove(); $parent.clearDeleteLists()}">Delete</a>
+		</div>
+	</div>
+</div>
+<!-- /ko -->
+<!-- /ko -->

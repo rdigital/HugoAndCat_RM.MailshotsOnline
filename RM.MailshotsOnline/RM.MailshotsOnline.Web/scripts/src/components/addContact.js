@@ -5,22 +5,17 @@ define(['jquery', 'knockout', 'view-models/state', 'view-models/notification', '
         // ViewModel
         function addContactComponentViewModel() {
             this.showEditModal = stateViewModel.showEditModal;
-            this.contact = stateViewModel.currentContact();
             this.currentList = stateViewModel.currentList;
             this.addNewContact = stateViewModel.addNewContact;
             this.loading = ko.observable(false);
 
-            this.contact.Title = this.contact.Title || ko.observable();
-            this.contact.FirstName = this.contact.FirstName || ko.observable();
-            this.contact.Surname = this.contact.Surname || ko.observable();
-            this.contact.FlatId = this.contact.FlatId || ko.observable();
-            this.contact.HouseName = this.contact.HouseName || ko.observable();
-            this.contact.HouseNumber = this.contact.HouseNumber || ko.observable();
-            this.contact.Address1 = this.contact.Address1 || ko.observable();
-            this.contact.Address2 = this.contact.Address2 || ko.observable();
-            this.contact.Address3 = this.contact.Address3 || ko.observable();
-            this.contact.Address4 = this.contact.Address4 || ko.observable();
-            this.contact.PostCode = this.contact.PostCode || ko.observable();
+            // initialize empty contact
+            this.resetContact();
+
+            // update it with current contact
+            if (stateViewModel.currentContact()) {
+                koMapping.fromJS(koMapping.toJS(stateViewModel.currentContact()), this.contact);
+            }
 
             //validation stuff
             this.contact.FirstName.extend({
@@ -62,16 +57,28 @@ define(['jquery', 'knockout', 'view-models/state', 'view-models/notification', '
 
         addContactComponentViewModel.prototype.resetContact = function resetContact() {
 
-            for(var i in this.contact) {
-                if(ko.isObservable(this.contact[i])) {
-                    this.contact[i]('');
-                } else {
-                    this.contact[i] = ko.observable('');
-                }
-            }
+            var blankContact = {
+                Title: '',
+                FirstName: '',
+                Surname: '',
+                FlatId: '',
+                HouseName: '',
+                HouseNumber: '',
+                Address1: '',
+                Address2: '',
+                Address3: '',
+                Address4: '',
+                PostCode: ''
+            };
 
-            this.errors.showAllMessages(false);
-            
+            if (!this.contact) {
+                this.contact = koMapping.fromJS(blankContact)
+            } else {
+                koMapping.fromJS(blankContact, this.contact)
+            }
+            if (typeof(this.errors) !== 'undefined') {
+                this.errors.showAllMessages(false);
+            }
         };      
 
         addContactComponentViewModel.prototype.isValid = function isValid() {
