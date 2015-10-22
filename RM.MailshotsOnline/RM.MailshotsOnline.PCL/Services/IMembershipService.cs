@@ -52,6 +52,13 @@ namespace RM.MailshotsOnline.PCL.Services
         IMember GetMemberById(int id);
 
         /// <summary>
+        /// Gets a member by their email address. If more than one member is retrieved, an exception is thrown
+        /// </summary>
+        /// <param name="email">The email address</param>
+        /// <returns>The member</returns>
+        IMember GetMemberByEmail(string email);
+
+        /// <summary>
         /// Sets a new password for the given member
         /// </summary>
         /// <param name="member">The member</param>

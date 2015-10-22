@@ -19,7 +19,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
     {
         private const string UpdatedFlag = "MarketingPreferencesUpdated";
 
-        public ProfileSurfaceController(IMembershipService membershipService, ILogger logger) 
+        public ProfileSurfaceController(IMembershipService membershipService, ILogger logger)
             : base(membershipService, logger)
         {
         }
@@ -34,7 +34,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         {
             if (TempData[UpdatedFlag] != null)
             {
-                ViewBag.UpdateSuccess = (bool) TempData[UpdatedFlag];
+                ViewBag.UpdateSuccess = (bool)TempData[UpdatedFlag];
             }
 
             model.TitleOptions = Services.DataTypeService.GetPreValues("Title Dropdown");
@@ -58,6 +58,22 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
             if (!ModelState.IsValid)
             {
                 return CurrentUmbracoPage();
+            }
+
+            model.EmailAddress = model.EmailAddress.ToLower();
+            LoggedInMember.EmailAddress = LoggedInMember.EmailAddress.ToLower();
+
+            if (model.EmailAddress != LoggedInMember.EmailAddress)
+            {
+                var match = MembershipService.GetMemberByEmail(model.EmailAddress);
+
+                if (match != null)
+                {
+                    ModelState.AddModelError("ViewModel.Email",
+                        "That email address is already in use. Please choose another.");
+
+                    return CurrentUmbracoPage();
+                }
             }
 
             var originalEmailAddress = LoggedInMember.EmailAddress;
@@ -91,7 +107,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         {
             if (TempData[UpdatedFlag] != null)
             {
-                ViewBag.UpdateSuccess = (bool) TempData[UpdatedFlag];
+                ViewBag.UpdateSuccess = (bool)TempData[UpdatedFlag];
             }
 
             var viewModel = new PasswordViewModel();
@@ -191,7 +207,7 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                     return CurrentUmbracoPage();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.Error(this.GetType().Name, "EditOrganisationDetails", "Error when updating organisation details for user {0}: {1}", LoggedInMember.Username, ex.Message);
             }
@@ -206,12 +222,12 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
         {
             if (TempData[UpdatedFlag] != null)
             {
-                ViewBag.UpdateSuccess = (bool) TempData[UpdatedFlag];
+                ViewBag.UpdateSuccess = (bool)TempData[UpdatedFlag];
             }
 
-            var viewModel = new MarketingPreferencesViewModel() {PageModel = model};
-            viewModel.ThirdPartyMarketingPreferences = (ContactOptions) model.Member.ThirdPartyMarketingPreferences;
-            viewModel.RoyalMailMarketingPreferences = (ContactOptions) model.Member.RoyalMailMarketingPreferences;
+            var viewModel = new MarketingPreferencesViewModel() { PageModel = model };
+            viewModel.ThirdPartyMarketingPreferences = (ContactOptions)model.Member.ThirdPartyMarketingPreferences;
+            viewModel.RoyalMailMarketingPreferences = (ContactOptions)model.Member.RoyalMailMarketingPreferences;
 
             return PartialView("~/Views/Profile/Partials/EditMarketingPreferences.cshtml", viewModel);
         }

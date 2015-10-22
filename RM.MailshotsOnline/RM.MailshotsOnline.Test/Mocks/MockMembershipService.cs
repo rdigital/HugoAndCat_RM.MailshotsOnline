@@ -40,6 +40,11 @@ namespace RM.MailshotsOnline.Test.Mocks
             };
         }
 
+        public IMember GetMemberByEmail(string email)
+        {
+            throw new NotImplementedException();
+        }
+
         public IMember CreateMember(IMember member, string password)
         {
             throw new NotImplementedException();

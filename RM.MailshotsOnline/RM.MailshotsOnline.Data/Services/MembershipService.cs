@@ -207,6 +207,16 @@ namespace RM.MailshotsOnline.Data.Services
             return member;
         }
 
+        public IMember GetMemberByEmail(string email)
+        {
+            var emailSalt = _cryptographicService.GenerateEmailSalt(email);
+            var encryptedEmail = _cryptographicService.Encrypt(email, emailSalt);
+
+            var member = _umbracoMemberService.GetByEmail(encryptedEmail);
+
+            return member?.ToMemberEntityModel();
+        }
+
         /// <summary>
         /// Sets a new password for the given member
         /// </summary>
