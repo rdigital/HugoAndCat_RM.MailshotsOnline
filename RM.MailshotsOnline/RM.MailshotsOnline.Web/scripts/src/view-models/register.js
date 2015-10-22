@@ -123,7 +123,8 @@ define([
                                 Country: null,
                                 Postcode: null,
                                 WorkPhoneNumber: null,
-                                MobilePhoneNumber: null
+                                MobilePhoneNumber: null,
+                                Recaptcha: null
                             });
 
 
@@ -155,6 +156,11 @@ define([
                 this.stage3.WorkPhoneNumber.extend({ 
                     required: {
                         message: 'Please enter your work telephone number'
+                    }
+                });
+                this.stage3.Recaptcha.extend({ 
+                    required: {
+                        message: 'Please confirm you are not a robot'
                     }
                 });
 
@@ -192,6 +198,14 @@ define([
 
             this.submit = function(data, event) {
                 event.preventDefault();
+
+                // Check whether captcha has been completed.
+                var v = grecaptcha.getResponse();
+                if (v.length > 0) {
+                    this.stage3.Recaptcha('recaptcha valid');
+                }
+
+
                 if (this.stage3Errors().length === 0) {
                     $('form.register__form').submit();
                 }

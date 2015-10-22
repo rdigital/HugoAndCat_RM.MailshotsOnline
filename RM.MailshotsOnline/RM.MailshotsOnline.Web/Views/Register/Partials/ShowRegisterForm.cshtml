@@ -320,7 +320,8 @@
 
             <div class="form-row">
                 @Html.HiddenFor(m => m.ViewModel.IsRecaptchaValidated)
-                <div class="input-wrapper g-recaptcha" data-sitekey="@ConfigurationManager.AppSettings["RecaptchaSiteKey"]"></div>
+                <div class="input-wrapper g-recaptcha" data-sitekey="@ConfigurationManager.AppSettings["RecaptchaSiteKey"]" ></div>
+                <input hidden type="text" data-bind="value: stage3.Recaptcha" />
             </div>
  
             <div class="form-row form-row--align-right form-row--last">
