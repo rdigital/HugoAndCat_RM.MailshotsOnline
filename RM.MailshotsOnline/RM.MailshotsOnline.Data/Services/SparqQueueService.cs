@@ -73,7 +73,7 @@ namespace RM.MailshotsOnline.Data.Services
         /// <param name="renderPostbackUrl">Render postback URL</param>
         /// <param name="ftpPostbackUrl">FTP postback URL</param>
         /// <returns></returns>
-        private async Task<bool> SendJob(IXmlAndXslData data, string orderNumber, string formatId, bool printAfterRender, string renderPostbackUrl, string ftpPostbackUrl)
+        private async Task<bool> SendJob(IXmlAndXslData data, string orderNumber, string formatId, bool printAfterRender, string renderPostbackUrl, string ftpPostbackUrl, string ftpPath = null)
         {
             bool success = true;
 
@@ -83,7 +83,7 @@ namespace RM.MailshotsOnline.Data.Services
             var groupOrder = printAfterRender; // TODO: Confirm that this is correct
 
             var order = new SparqOrder(orderNumber,
-                "",
+                ftpPath,
                 formatId,
                 Encoding.UTF8.GetBytes(data.XmlData),
                 Encoding.UTF8.GetBytes(data.XslStylesheet),
@@ -96,6 +96,7 @@ namespace RM.MailshotsOnline.Data.Services
 
             _log.Info(this.GetType().Name, "SendJob", $@"Sending job with the following parameters:
     Order Number: {orderNumber},
+    FTP path: {ftpPath},
     Base URL: {_baseUrl},
     Postback URL: {renderPostbackUrl},
     FTP postback URL: {ftpPostbackUrl},

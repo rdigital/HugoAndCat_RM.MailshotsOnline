@@ -69,8 +69,22 @@ namespace RM.MailshotsOnline.Business.Processors
                 throw new ArgumentNullException("mailshot");
             }
 
-            // Generate the XSL
+            if (mailshot.Theme == null)
+            {
+                throw new Exception(string.Format("Unable to generate XSL for mailshot {0}.  Mailshot theme data is missing.", mailshot.MailshotId));
+            }
 
+            if (mailshot.Format == null)
+            {
+                throw new Exception(string.Format("Unable to generate XSL for mailshot {0}.  Mailshot format data is missing.", mailshot.MailshotId));
+            }
+
+            if (mailshot.Template == null)
+            {
+                throw new Exception(string.Format("Unable to generate XSL for mailshot {0}.  Mailshot template data is missing.", mailshot.MailshotId));
+            }
+
+            // Generate the XSL
             //TODO: Get this another way?
             var finalXsl = $@"<?xml version=""1.0"" encoding=""utf-8""?>
 <xsl:stylesheet version=""1.0"" xmlns:xsl=""http://www.w3.org/1999/XSL/Transform"" xmlns:fo=""http://www.w3.org/1999/XSL/Format"" xmlns:rx=""http://www.renderx.com/XSL/Extensions"">
