@@ -6,6 +6,7 @@ using System.Linq;
 using CsvHelper;
 using CsvHelper.Configuration;
 using HC.RM.Common;
+using HC.RM.Common.Extensions;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Entities.PageModels.Settings;
 using RM.MailshotsOnline.Entities.ViewModels;
@@ -145,9 +146,6 @@ namespace RM.MailshotsOnline.Business.Processors
             var duplicateContacts = new List<T>();
             var errorContacts = new List<T>();
 
-            bool splitAddressField = !(mappings.Contains("FlatId") || mappings.Contains("HouseName") ||
-                                 mappings.Contains("HouseNumber"));
-
             // Build CSV Map
             var contactMap = new DefaultCsvClassMap<T>();
 
@@ -184,7 +182,7 @@ namespace RM.MailshotsOnline.Business.Processors
                             {
                                 contact.ContactId = Guid.NewGuid();
 
-                                if (splitAddressField)
+                                if (contact.FlatId.IsNullOrEmpty() && contact.HouseName.IsNullOrEmpty() && contact.HouseNumber.IsNullOrEmpty())
                                 {
                                     var splitAddress = contact.Address1.Split(" ".ToCharArray(), 2,
                                                                               StringSplitOptions.RemoveEmptyEntries);
