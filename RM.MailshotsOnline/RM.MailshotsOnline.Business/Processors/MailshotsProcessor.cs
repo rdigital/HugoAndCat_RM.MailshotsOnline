@@ -85,14 +85,6 @@ namespace RM.MailshotsOnline.Business.Processors
     <fo:root>
       <fo:layout-master-set>
         {mailshot.Format.XslData}
-
-        <fo:page-sequence-master master-name=""document"">
-          <fo:repeatable-page-master-alternatives>
-            <fo:conditional-page-master-reference page-position=""any"" odd-or-even=""odd"" master-reference=""FrontMaster"" />
-            <fo:conditional-page-master-reference page-position=""any"" odd-or-even=""even"" master-reference=""BackMaster"" />
-          </fo:repeatable-page-master-alternatives>
-        </fo:page-sequence-master>
-        
       </fo:layout-master-set>
 
       <fo:page-sequence master-reference=""FrontMaster"">

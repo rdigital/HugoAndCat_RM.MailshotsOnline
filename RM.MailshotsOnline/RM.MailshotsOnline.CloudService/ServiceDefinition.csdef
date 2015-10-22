@@ -55,6 +55,7 @@
       <Setting name="SaveMailshotInfoForDebug" />
       <Setting name="StIvesPrintNotificationAddress" />
       <Setting name="MyListsPageId" />
+      <Setting name="SendTestModerationEmails"/>
     </ConfigurationSettings>
     <Endpoints>
       <InputEndpoint name="HttpIn" protocol="http" port="80" />

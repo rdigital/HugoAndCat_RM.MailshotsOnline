@@ -6,6 +6,7 @@ using System.Linq;
 using CsvHelper;
 using CsvHelper.Configuration;
 using HC.RM.Common;
+using HC.RM.Common.Extensions;
 using HC.RM.Common.PCL.Helpers;
 using RM.MailshotsOnline.Entities.PageModels.Settings;
 using RM.MailshotsOnline.Entities.ViewModels;
@@ -180,6 +181,20 @@ namespace RM.MailshotsOnline.Business.Processors
                             if (contact != null)
                             {
                                 contact.ContactId = Guid.NewGuid();
+
+                                if (contact.FlatId.IsNullOrEmpty() && contact.HouseName.IsNullOrEmpty() && contact.HouseNumber.IsNullOrEmpty())
+                                {
+                                    var splitAddress = contact.Address1.Split(" ".ToCharArray(), 2,
+                                                                              StringSplitOptions.RemoveEmptyEntries);
+
+                                    contact.HouseNumber = splitAddress[0];
+
+                                    if (splitAddress.Length == 2)
+                                    {
+                                        contact.Address1 = splitAddress[1];
+                                    }
+                                }
+
                                 ICollection<ValidationResult> results;
                                 bool isValid = contact.TryValidate(out results);
 
