@@ -2,7 +2,7 @@
 
 namespace RM.MailshotsOnline.PCL.Services.Reporting
 {
-    public interface ITransactionsReportGenerator : IReportGenerator<ITransactionsReport>
+    public interface ITransactionsReportGenerator : IDateRangeReportGenerator<ITransactionsReport>
     {
          
     }

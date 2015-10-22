@@ -54,7 +54,7 @@ namespace RM.MailshotsOnline.Data.Services.Reporting
                         Updated = x.Updated.ToString("dd/mm/yyyy hh:mm"),
                     });
 
-            var report = new MembershipReport { CreatedDate = DateTime.UtcNow, Members = members };
+            var report = new MembershipReport { CreatedDate = start, Members = members };
 
             return report;
         }

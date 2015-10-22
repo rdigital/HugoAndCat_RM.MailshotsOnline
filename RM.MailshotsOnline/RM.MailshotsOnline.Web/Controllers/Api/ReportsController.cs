@@ -69,7 +69,7 @@ namespace RM.MailshotsOnline.Web.Controllers.Api
 
                 case "transactions":
 
-                    report = _reportingService.TransactionsReportGenerator.Generate();
+                    report = _reportingService.TransactionsReportGenerator.Generate(parameters.start, parameters.end);
                     data = ((ITransactionsReport)report).Transactions;
 
                     break;

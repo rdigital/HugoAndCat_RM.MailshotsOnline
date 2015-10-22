@@ -25,23 +25,23 @@ namespace RM.MailshotsOnline.Data.Services.Reporting
             _membershipService = membershipService;
         }
 
-        public ITransactionsReport Generate()
+        public ITransactionsReport Generate(DateTime start, DateTime end)
         {
-            var invoices = _invoiceService.GetPaidInvoices(DateTime.Today, DateTime.Today.AddDays(1).AddMilliseconds(-1));
+            var invoices = _invoiceService.GetPaidInvoices(start, end);
 
             var items = new List<ITransactionsReportEntity>();
 
             foreach (var invoice in invoices)
             {
                 var member = _membershipService.GetMemberById(invoice.Campaign.UserId);
-                var transactionID = !string.IsNullOrEmpty(invoice.PaypalCaptureTransactionId)
+                var transactionId = !string.IsNullOrEmpty(invoice.PaypalCaptureTransactionId)
                     ? invoice.PaypalCaptureTransactionId
                     : invoice.PaypalPaymentId;
 
                 items.Add(new TransactionsReportEntity()
                 {
                     Type = "Order",
-                    PaymentId = transactionID,
+                    PaymentId = transactionId,
                     SaleIdProductSku = invoice.OrderNumber,
                     PaymentTimeProductName = invoice.CreatedDate.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'"),
                     UserIdQuantity = invoice.Campaign.UserId.ToString(),
@@ -69,7 +69,7 @@ namespace RM.MailshotsOnline.Data.Services.Reporting
                     items.Add(new TransactionsReportEntity()
                     {
                         Type = "LineItems",
-                        PaymentId = transactionID,
+                        PaymentId = transactionId,
                         SaleIdProductSku = lineItem.ProductSku,
                         PaymentTimeProductName = string.IsNullOrEmpty(lineItem.SubTitle) ? lineItem.Product.Name : $"{lineItem.Product.Name} ({lineItem.SubTitle})",
                         UserIdQuantity = lineItem.Quantity.ToString(),
@@ -81,7 +81,7 @@ namespace RM.MailshotsOnline.Data.Services.Reporting
                 }
             }
 
-            var report = new TransactionsReport() {CreatedDate = DateTime.UtcNow, Transactions = items};
+            var report = new TransactionsReport() {CreatedDate = start, Transactions = items};
 
             return report;
         }
