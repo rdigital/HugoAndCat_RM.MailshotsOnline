@@ -52,8 +52,8 @@ namespace RM.MailshotsOnline.Web.Controllers.SurfaceControllers
                 return Complete(model);
             }
 
-            //model.TitleOptions = Services.DataTypeService.GetPreValuesWithPlaceholder("Title Dropdown", "", "Please choose");
-            model.TitleOptions = Services.DataTypeService.GetPreValues("Title Dropdown");
+            model.TitleOptions = Services.DataTypeService.GetPreValuesWithPlaceholder("Title Dropdown", "", "Please choose");
+            //model.TitleOptions = Services.DataTypeService.GetPreValues("Title Dropdown");
 
             var termsAndConditionsLink = string.Format("<a href=\"{0}\">{1}</a>", model.TermsAndConditionsPage.Url(), model.TermsAndConditionsLinkText);
             model.TermsAndConditionsLabelWithLink = string.Format(model.AgreeToTermsAndConditionsLabel, termsAndConditionsLink);
