@@ -99,7 +99,10 @@ define([
                     }
                 });
                 this.stage1.AgreeToTermsAndConditions = ko.observable().extend({
-                    required: {
+                    validation: {       
+                        validator: function (val) {
+                            return val;
+                        },
                         message: 'You must agree to the Terms and Conditions'
                     }
                 });
